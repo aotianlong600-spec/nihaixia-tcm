@@ -1,0 +1,12 @@
+__pycache__/
+.pytest_cache/
+.venv/
+node_modules/
+data/
+.superpowers/
+*.log
+*.key
+.env
+frontend/dist/
+playwright-report/
+test-results/
