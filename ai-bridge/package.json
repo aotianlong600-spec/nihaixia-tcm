@@ -1,0 +1,9 @@
+{
+  "name": "tcm-ai-bridge",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "engines": { "node": ">=22.19.0" },
+  "scripts": { "build": "node --check bridge.mjs", "test": "node --test test.mjs" },
+  "dependencies": { "@earendil-works/pi-ai": "1.3.0" }
+}
