@@ -5,6 +5,7 @@ export class ApiError extends Error {
 export class ApiClient {
   base: string
   token = ''
+  onUnauthorized?: () => void
   constructor(base = '') { this.base = base }
   async session() {
     const response = await fetch(`${this.base}/api/session`, {credentials:'same-origin'})
@@ -20,6 +21,7 @@ export class ApiClient {
     if (options.body && !(options.body instanceof FormData)) headers.set('Content-Type', 'application/json')
     const response = await fetch(`${this.base}/api${path}`, {...options, headers, credentials:'same-origin'})
     if (!response.ok) {
+      if (response.status === 401 && path !== '/access/login') this.onUnauthorized?.()
       const problem = await response.json().catch(() => ({detail:response.statusText}))
       throw new ApiError(response.status, typeof problem.detail === 'string' ? problem.detail : JSON.stringify(problem.detail))
     }

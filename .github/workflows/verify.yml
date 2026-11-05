@@ -1,0 +1,48 @@
+name: Verify source
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: python -m pip install -r requirements-dev.txt
+      - run: npm ci --ignore-scripts
+        working-directory: ai-bridge
+      - run: npm test
+        working-directory: ai-bridge
+      - run: python -m pytest -q
+      - run: npm ci --ignore-scripts
+        working-directory: frontend
+      - run: npm test
+        working-directory: frontend
+      - run: npm run build
+        working-directory: frontend
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Create disposable CI public CA
+        run: |
+          @'
+          from datetime import datetime, timedelta
+          from pathlib import Path
+          from cryptography import x509
+          from cryptography.hazmat.primitives import hashes, serialization
+          from cryptography.hazmat.primitives.asymmetric import ec
+          from cryptography.x509.oid import NameOID
+          import os
+          key=ec.generate_private_key(ec.SECP256R1())
+          name=x509.Name([x509.NameAttribute(NameOID.COMMON_NAME,'Disposable CI CA')])
+          cert=(x509.CertificateBuilder().subject_name(name).issuer_name(name).public_key(key.public_key()).serial_number(x509.random_serial_number()).not_valid_before(datetime.utcnow()-timedelta(days=1)).not_valid_after(datetime.utcnow()+timedelta(days=1)).add_extension(x509.BasicConstraints(ca=True,path_length=0),critical=True).sign(key,hashes.SHA256()))
+          Path(os.environ['RUNNER_TEMP'],'ci-ca.pem').write_bytes(cert.public_bytes(serialization.Encoding.PEM))
+          '@ | python -
+      - name: Android unit tests and compile (disposable CA, no APK publication)
+        run: ./scripts/build_android.ps1 -CaCertificate "$env:RUNNER_TEMP/ci-ca.pem" -SdkDirectory "$env:ANDROID_HOME" -JavaHome "$env:JAVA_HOME"

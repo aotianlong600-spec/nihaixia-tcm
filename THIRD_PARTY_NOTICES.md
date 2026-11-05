@@ -51,3 +51,5 @@ Frontend runtime dependencies are bundled in frontend/dist. License files found 
 | vue-component-type-helpers | 3.3.14 | MIT | 1 |
 
 Pi AI 1.3.0 is an installed MIT dependency. Aether was an interface reference; its GPL code and agent runtime were not copied into this project. Course originals, user records and credentials are excluded from the source archive. Source-material permission remains a separate requirement.
+
+Android uses platform Activity/WebView APIs (no bundled UI framework), Android Gradle Plugin 8.7.3 and Gradle 8.9. The official Gradle wrapper JAR is included with its SHA256 checked against services.gradle.org; its license is in `licenses/gradle-LICENSE.txt`. JUnit 4.13.2 is a test-only dependency (EPL-1.0); Maven/Google resolve the build dependencies. CI creates a disposable public CA solely for compilation and never publishes that APK. Personal paired APKs and their CA are local deliverables.

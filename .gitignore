@@ -12,6 +12,7 @@ playwright-report/
 test-results/
 
 .agent-workspace/
+.claude-code-orchestrator/
 .mcp.json
 .claude/
 .env.*

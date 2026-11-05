@@ -106,7 +106,7 @@ def test_python_jobs_require_complete_valid_response_and_honor_cancel(tmp_path, 
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     try:
-        with TestClient(create_app(tmp_path), base_url="http://127.0.0.1") as client:
+        with TestClient(create_app(tmp_path), base_url="http://127.0.0.1", client=("127.0.0.1", 50000)) as client:
             csrf = {"X-CSRF-Token": client.get("/api/session").json()["csrf_token"]}
             config = {"base_url": f"http://127.0.0.1:{server.server_port}/v1", "model": "synthetic",
                       "api_key": "fake-protocol-key", "enabled": True, "allow_external": scenario in {"bad_citation", "cancel_during_validation", "stale_during_stream"}, "allow_evidence": False}
@@ -143,7 +143,7 @@ def test_python_jobs_require_complete_valid_response_and_honor_cancel(tmp_path, 
                 assert conn.execute("SELECT COUNT(*) FROM model_calls WHERE status='completed'").fetchone()[0] == (1 if scenario in {"complete", "stale_during_stream"} else 0)
             assert all("PRIVATE-" not in body for body in captured)
         if scenario in {"complete", "stale_during_stream"}:
-            with TestClient(create_app(tmp_path), base_url="http://127.0.0.1") as restarted:
+            with TestClient(create_app(tmp_path), base_url="http://127.0.0.1", client=("127.0.0.1", 50000)) as restarted:
                 restarted.get("/api/session")
                 history = restarted.get(f"/api/model/jobs/{job_id}")
                 assert history.status_code == 200

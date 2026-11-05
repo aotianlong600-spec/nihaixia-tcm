@@ -8,7 +8,7 @@ from fastapi.testclient import TestClient
 def client(tmp_path):
     from app.main import create_app
 
-    with TestClient(create_app(tmp_path), base_url="http://127.0.0.1") as client:
+    with TestClient(create_app(tmp_path), base_url="http://127.0.0.1", client=("127.0.0.1", 50000)) as client:
         yield client
 
 

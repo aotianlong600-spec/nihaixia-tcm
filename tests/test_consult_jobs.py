@@ -51,7 +51,7 @@ def test_personal_ai_request_end_to_end(tmp_path, scenario):
     provider = ThreadingHTTPServer(("127.0.0.1", 0), Provider)
     threading.Thread(target=provider.serve_forever, daemon=True).start()
     try:
-        with TestClient(create_app(tmp_path), base_url="http://127.0.0.1") as client:
+        with TestClient(create_app(tmp_path), base_url="http://127.0.0.1", client=("127.0.0.1", 50000)) as client:
             headers = {"X-CSRF-Token": client.get("/api/session").json()["csrf_token"]}
             response = client.put("/api/model/config", json={"base_url": f"http://127.0.0.1:{provider.server_port}/v1", "model": "synthetic",
                 "api_key": "fake-protocol-key", "enabled": True, "allow_external": True, "allow_evidence": True}, headers=headers)
@@ -90,7 +90,7 @@ def test_personal_ai_request_end_to_end(tmp_path, scenario):
                 assert len(record["messages"]) == 1
                 assert job["text"] == ""
         if expected == "completed":
-            with TestClient(create_app(tmp_path), base_url="http://127.0.0.1") as restarted:
+            with TestClient(create_app(tmp_path), base_url="http://127.0.0.1", client=("127.0.0.1", 50000)) as restarted:
                 restarted.get("/api/session")
                 saved_job = restarted.get(f"/api/model/jobs/{job_id}")
                 assert saved_job.status_code == 200

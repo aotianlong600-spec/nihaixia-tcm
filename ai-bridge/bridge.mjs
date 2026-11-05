@@ -25,7 +25,7 @@ function fail(code, message) {
 }
 
 function validate(value) {
-  const allowed = ['base_url', 'api_key', 'model', 'input', 'system', 'max_output_tokens', 'timeout_ms'];
+  const allowed = ['base_url', 'api_key', 'model', 'input', 'system', 'max_output_tokens', 'timeout_ms', 'auth_mode'];
   if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !allowed.includes(key))) throw Error();
   for (const key of ['base_url', 'api_key', 'model', 'input']) {
     if (typeof value[key] !== 'string' || !value[key].trim()) throw Error();
@@ -37,11 +37,14 @@ function validate(value) {
   const timeoutMs = value.timeout_ms ?? 90000;
   if (!Number.isInteger(maxTokens) || maxTokens < 1 || maxTokens > 4096) throw Error();
   if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 90000) throw Error();
+  if (!['api_key','codex'].includes(value.auth_mode ?? 'api_key')) throw Error();
   const url = new URL(value.base_url);
   if (url.username || url.password || url.search || url.hash || url.hostname.endsWith('.')) throw Error();
   const loopback = url.hostname === 'localhost' || url.hostname === '[::1]' || /^127(?:\.\d{1,3}){3}$/.test(url.hostname);
   if (url.protocol !== 'https:' && !(url.protocol === 'http:' && loopback)) throw Error();
-  return { ...value, base_url: url.href.replace(/\/+$/, ''), maxTokens, timeoutMs };
+  const base = url.href.replace(/\/+$/, '');
+  if (value.auth_mode === 'codex' && base !== 'https://chatgpt.com/backend-api') throw Error();
+  return { ...value, base_url: base, maxTokens, timeoutMs };
 }
 
 async function run(request) {
@@ -50,6 +53,23 @@ async function run(request) {
   catch { fail('invalid_request', 'Invalid model request parameters.'); return; }
   clearTimeout(timer);
   timer = setTimeout(() => fail('timeout', 'Model request deadline exceeded.'), config.timeoutMs);
+  if (config.auth_mode === 'codex') {
+    try {
+      const { runCodex } = await import('./codex.mjs');
+      const result = await runCodex(config, { signal: controller.signal, onDelta: delta => {
+        if (terminal) throw Error();
+        const next = text + delta;
+        const line = frame({type:'delta',text:delta});
+        const reserved = Buffer.byteLength(frame({type:'done',text:next,usage:{},stop_reason:'stop'})) + 512;
+        if (outputBytes + Buffer.byteLength(line) + reserved > OUTPUT_LIMIT) {
+          fail('output_limit','Model response exceeded the size limit.'); throw Error();
+        }
+        text = next; outputBytes += Buffer.byteLength(line); process.stdout.write(line);
+      }});
+      if (!terminal) finish({type:'done',text:result.text,usage:result.usage,stop_reason:'stop'});
+    } catch { if (!terminal) fail('provider_error','Codex request failed or did not complete.'); }
+    return;
+  }
   const endpoint = config.base_url + '/chat/completions';
   let sawDone = false, usageReported = false;
   const transport = async (input, init) => {

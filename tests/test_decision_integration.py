@@ -12,7 +12,7 @@ from app.main import create_app
 
 @pytest.fixture
 def mapped_client(tmp_path):
-    with TestClient(create_app(tmp_path), base_url="http://127.0.0.1") as client:
+    with TestClient(create_app(tmp_path), base_url="http://127.0.0.1", client=("127.0.0.1", 50000)) as client:
         headers = {"X-CSRF-Token": client.get("/api/session").json()["csrf_token"]}
         raw = "工程测试方：测试甲二两。仅测试有出处的输入映射。"
         sha = hashlib.sha256(raw.encode()).hexdigest()

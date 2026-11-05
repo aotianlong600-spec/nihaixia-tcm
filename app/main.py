@@ -4,18 +4,20 @@ import os
 import secrets
 import sqlite3
 import tempfile
+import threading
 from pathlib import Path
 from typing import Any, Literal
 from urllib.parse import urlparse
 from uuid import uuid4
 
 from fastapi import Depends, FastAPI, File, HTTPException, Request, UploadFile
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
-from . import knowledge, library, personal, research, storage
+from . import access, knowledge, library, personal, research, storage
 from .engine import analyze, apply_modifications, check_formula, validate_rule
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -120,7 +122,7 @@ def stored_facts(facts):
     return result
 
 
-def create_app(data_dir: Path | None = None):
+def create_app(data_dir: Path | None = None, *, lan_hosts: list[str] | tuple = ()):
     data_dir = Path(data_dir or os.environ.get("TCM_DATA_DIR", ROOT / "data")).resolve()
     storage.initialize(data_dir)
     with storage.connect(data_dir) as conn:
@@ -131,7 +133,11 @@ def create_app(data_dir: Path | None = None):
     app = FastAPI(title="倪海厦辨证研究工作台", docs_url=None, redoc_url=None, openapi_url=None)
     app.state.data_dir = data_dir
     sessions: dict[str, str] = {}
-    app.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost"])
+    session_lock = threading.Lock()
+    access_gate = access.AccessGate(data_dir)
+    app.state.access_gate = access_gate
+    app.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", *access.lan_hosts(lan_hosts)])
+    public_api = {"/api/status", "/api/session", "/api/access/status", "/api/access/setup", "/api/access/login", "/api/access/logout"}
 
     @app.middleware("http")
     async def local_boundary(request: Request, call_next):
@@ -141,6 +147,11 @@ def create_app(data_dir: Path | None = None):
                 return JSONResponse({"detail": "不允许跨来源访问本地工作台"}, status_code=403)
             if request.headers.get("sec-fetch-site") == "cross-site":
                 return JSONResponse({"detail": "不允许跨站请求"}, status_code=403)
+            if request.url.path not in public_api:
+                try:
+                    authenticated(request)
+                except HTTPException as exc:
+                    return JSONResponse({"detail": exc.detail}, status_code=exc.status_code)
             if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
                 limit = 51 * 1024 * 1024 if request.url.path == "/api/documents" else 2 * 1024 * 1024
                 try:
@@ -160,13 +171,18 @@ def create_app(data_dir: Path | None = None):
             response.headers["Cache-Control"] = "no-store"
         return response
 
-    def authenticated(request: Request):
+    def session_token(request: Request):
         token = request.cookies.get("tcm_session", "")
-        if token not in sessions:
-            raise HTTPException(401, "请从本机工作台建立会话")
-        if request.method not in {"GET", "HEAD"}:
-            if not secrets.compare_digest(request.headers.get("x-csrf-token", ""), sessions[token]):
-                raise HTTPException(403, "写入请求缺少有效的CSRF令牌")
+        csrf = sessions.get(token)
+        if csrf is None:
+            raise HTTPException(401, "请先建立工作台会话")
+        if request.method not in {"GET", "HEAD"} and not secrets.compare_digest(request.headers.get("x-csrf-token", ""), csrf):
+            raise HTTPException(403, "写入请求缺少有效的CSRF令牌")
+        return token
+
+    def authenticated(request: Request):
+        token = session_token(request)
+        access_gate.require(request, token)
         return token
 
     def database():
@@ -184,25 +200,67 @@ def create_app(data_dir: Path | None = None):
     async def invalid_input(request, exc):
         return JSONResponse({"detail": str(exc)}, status_code=400)
 
+    @app.exception_handler(RequestValidationError)
+    async def invalid_fields(request, exc):
+        return JSONResponse({"detail": [{key: error[key] for key in ("loc", "msg", "type") if key in error}
+                                        for error in exc.errors()]}, status_code=422)
+
     @app.exception_handler(sqlite3.IntegrityError)
     async def conflicting_input(request, exc):
         return JSONResponse({"detail": "记录重复或引用关系无效，请核对后重试"}, status_code=409)
 
     @app.get("/api/status")
     def status():
-        return {"status": "ok", "app_id": "nihaixia-clinical-engine", "version": "0.3.0", "mode": "personal"}
+        return {"status": "ok", "app_id": "nihaixia-clinical-engine", "version": "0.4.0", "mode": "personal",
+                "lan_enabled": getattr(app.state, 'lan_enabled', False)}
+
+    def session_response(request, *, rotate=False, grant=False):
+        token = request.cookies.get("tcm_session", "")
+        with session_lock:
+            if rotate:
+                sessions.pop(token, None)
+                access_gate.revoke(token)
+            if token not in sessions:
+                if len(sessions) >= 100:
+                    victim = next((key for key in sessions if not access_gate.authenticated(key)), None)
+                    if victim is None:
+                        raise HTTPException(429, "已有过多设备会话")
+                    sessions.pop(victim)
+                token = secrets.token_urlsafe(32)
+                sessions[token] = secrets.token_urlsafe(32)
+            if grant:
+                access_gate.grant(token)
+            response = JSONResponse({"csrf_token": sessions[token], "mode": "personal", "version": "0.4.0",
+                "access_configured": access_gate.configured,
+                "authenticated": access_gate.authenticated(token) if access_gate.configured else access.loopback(request),
+                "setup_allowed": access.loopback(request) and not access_gate.configured})
+        response.set_cookie("tcm_session", token, httponly=True, samesite="strict", secure=request.url.scheme == "https", path="/")
+        return response
 
     @app.get("/api/session")
     def session(request: Request):
-        token = request.cookies.get("tcm_session")
-        if token not in sessions:
-            if len(sessions) >= 100:
-                sessions.pop(next(iter(sessions)))
-            token = secrets.token_urlsafe(32)
-            sessions[token] = secrets.token_urlsafe(32)
-        response = JSONResponse({"csrf_token": sessions[token], "mode": "personal", "version": "0.3.0"})
-        response.set_cookie("tcm_session", token, httponly=True, samesite="strict", path="/")
-        return response
+        return session_response(request)
+
+    @app.get("/api/access/status")
+    def access_status(request: Request):
+        token = request.cookies.get("tcm_session", "")
+        return {"configured": access_gate.configured, "authenticated": access_gate.authenticated(token) if access_gate.configured else access.loopback(request),
+                "setup_allowed": access.loopback(request) and not access_gate.configured}
+
+    @app.post("/api/access/setup")
+    def access_setup(payload: access.SetupPassword, request: Request, token=Depends(session_token)):
+        access_gate.setup(request, payload.password)
+        return session_response(request, rotate=True, grant=True)
+
+    @app.post("/api/access/login")
+    def access_login(payload: access.Password, request: Request, token=Depends(session_token)):
+        access_gate.login(request, payload.password)
+        return session_response(request, rotate=True, grant=True)
+
+    @app.post("/api/access/logout")
+    def access_logout(request: Request, token=Depends(session_token)):
+        access_gate.revoke(token)
+        return session_response(request, rotate=True)
 
     protected = [Depends(authenticated)]
 

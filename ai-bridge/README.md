@@ -26,8 +26,8 @@ Each input line is limited to 1MiB; total stdout is limited to 128KiB including
 JSON framing and repeated final text. Raw SSE is capped at 2MiB. The parent must
 read stdout promptly and still enforce its own subprocess deadline and validate
 the final clinical explanation. Cancellation cannot guarantee remote billing has
-stopped. No provider discovery, environment/file credential fallback, OAuth,
-Responses API, retries, tool execution, or coding-agent packages are enabled.
+stopped. No environment/file credential fallback, retries, tool execution,
+or coding-agent packages are enabled.
 The dedicated child clears its inherited environment before dynamically loading
 Pi, preventing the underlying SDK's organization/custom-header/logging defaults.
 The launcher must also omit Node startup variables such as `NODE_OPTIONS` and
@@ -35,3 +35,16 @@ The launcher must also omit Node startup variables such as `NODE_OPTIONS` and
 
 Tests launch real Node subprocesses against a local synthetic HTTP SSE server;
 they never contact a model service or use real credentials.
+
+`auth_mode: "codex"` selects a separate, fixed OpenAI Codex Responses text
+transport (`codex.mjs`), using an explicit access token in the private `api_key`
+field. SSE must contain a completed response. No tools, websocket transport,
+redirects or automatic credential lookup are enabled. `--models` returns the
+SDK catalog, not account entitlements.
+
+`oauth.mjs` is a separate PRIVATE Python-to-Node pipe for `login` (browser/device)
+and `refresh`. Its terminal credential frame contains secrets and must never be
+logged or exposed through HTTP. Python stores it with Windows DPAPI. The web UI
+receives only validated authorization links, device codes and status. Login
+cancellation does not replace an existing credential. A synthetic test passing
+does not establish that a real account can authorize or run a selected model.
