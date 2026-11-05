@@ -72,11 +72,14 @@ def create_backup(data_dir: Path, password: str):
             # shortcut: bounded in-memory archives; upgrade to streaming above 512 MiB.
             raise ValueError("此版本备份上限为512MiB")
     manifest = {"format": 1, "files": {name: hashlib.sha256(content).hexdigest() for name, content in files.items()}, "credentials_included": False}
+    manifest_bytes = json.dumps(manifest).encode("utf-8")
+    if sum(len(value) for value in files.values()) + len(manifest_bytes) > MAX_BYTES:
+        raise ValueError("数据库、原件和完整性清单合计超过备份大小上限")
     archive = BytesIO()
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as bundle:
         for name, content in files.items():
             bundle.writestr(name, content)
-        bundle.writestr("manifest.json", json.dumps(manifest))
+        bundle.writestr("manifest.json", manifest_bytes)
     return MAGIC + salt + cipher.encrypt(archive.getvalue())
 
 

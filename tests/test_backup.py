@@ -101,3 +101,15 @@ def test_database_only_backup_checks_size_before_reading_archive(tmp_path, monke
     monkeypatch.setattr(backup, "MAX_BYTES", 64)
     with pytest.raises(ValueError):
         backup.create_backup(data, "test-password-long-enough")
+
+
+def test_backup_size_budget_also_reserves_its_integrity_manifest(tmp_path, monkeypatch):
+    import app.backup as backup
+
+    data = sample_data(tmp_path)
+    with sqlite3.connect(data / "clinical.sqlite3") as conn:
+        conn.execute("DELETE FROM documents")
+    conn.close()
+    monkeypatch.setattr(backup, "MAX_BYTES", (data / "clinical.sqlite3").stat().st_size + 1)
+    with pytest.raises(ValueError):
+        backup.create_backup(data, "test-password-long-enough")
