@@ -49,7 +49,7 @@ def test_model_output_rejects_unknown_citation_and_malformed_json():
             validate_explanation(text, {"e1"})
 
 
-@pytest.mark.parametrize("scenario", ["complete", "interrupted", "cancel", "bad_citation", "cancel_during_validation"])
+@pytest.mark.parametrize("scenario", ["complete", "interrupted", "cancel", "bad_citation", "cancel_during_validation", "stale_during_stream"])
 def test_python_jobs_require_complete_valid_response_and_honor_cancel(tmp_path, scenario, monkeypatch):
     import json
     from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -82,7 +82,7 @@ def test_python_jobs_require_complete_valid_response_and_honor_cancel(tmp_path, 
             self.send_response(200)
             self.send_header("Content-Type", "text/event-stream")
             self.end_headers()
-            answer = '{"summary":"synthetic","questions":[],"evidence_ids":["invented"]}' if scenario == "bad_citation" else '{"summary":"synthetic","questions":[],"evidence_ids":[]}' if scenario == "cancel_during_validation" else "Connection works."
+            answer = '{"summary":"synthetic","questions":[],"evidence_ids":["invented"]}' if scenario == "bad_citation" else '{"summary":"synthetic","questions":[],"evidence_ids":[]}' if scenario in {"cancel_during_validation", "stale_during_stream"} else "Connection works."
             events = [{"id": "test", "object": "chat.completion.chunk", "choices": [{"index": 0, "delta": {"role": "assistant", "content": answer}, "finish_reason": None}]}]
             try:
                 self.wfile.write(("data: " + json.dumps(events[0]) + "\n\n").encode())
@@ -92,6 +92,9 @@ def test_python_jobs_require_complete_valid_response_and_honor_cancel(tmp_path, 
                     return
                 if scenario == "cancel":
                     time.sleep(1)
+                if scenario == "stale_during_stream":
+                    validating.set()
+                    assert release.wait(5)
                 end = {"id": "test", "object": "chat.completion.chunk", "choices": [{"index": 0, "delta": {}, "finish_reason": "stop"}]}
                 self.wfile.write(("data: " + json.dumps(end) + "\n\ndata: [DONE]\n\n").encode())
                 self.wfile.flush()
@@ -106,10 +109,10 @@ def test_python_jobs_require_complete_valid_response_and_honor_cancel(tmp_path, 
         with TestClient(create_app(tmp_path), base_url="http://127.0.0.1") as client:
             csrf = {"X-CSRF-Token": client.get("/api/session").json()["csrf_token"]}
             config = {"base_url": f"http://127.0.0.1:{server.server_port}/v1", "model": "synthetic",
-                      "api_key": "fake-protocol-key", "enabled": True, "allow_external": scenario in {"bad_citation", "cancel_during_validation"}, "allow_evidence": False}
+                      "api_key": "fake-protocol-key", "enabled": True, "allow_external": scenario in {"bad_citation", "cancel_during_validation", "stale_during_stream"}, "allow_evidence": False}
             assert client.put("/api/model/config", json=config, headers=csrf).status_code == 200
             request = {"purpose": "test"}
-            if scenario in {"bad_citation", "cancel_during_validation"}:
+            if scenario in {"bad_citation", "cancel_during_validation", "stale_during_stream"}:
                 patient = client.post("/api/patients", json={"code": "PRIVATE-CODE"}, headers=csrf).json()
                 visit = client.post("/api/visits", json={"patient_id": patient["id"], "chief_complaint": "PRIVATE-CHIEF", "facts": [], "context": {"simulation": True}, "clinician": "PRIVATE-CLINICIAN"}, headers=csrf).json()
                 analysis = client.post(f"/api/visits/{visit['id']}/analyze", json={"expected_revision": 1}, headers=csrf).json()
@@ -119,6 +122,10 @@ def test_python_jobs_require_complete_valid_response_and_honor_cancel(tmp_path, 
             job_id = response.json()["id"]
             if scenario == "cancel_during_validation":
                 assert validating.wait(5)
+            if scenario == "stale_during_stream":
+                assert validating.wait(5)
+                assert client.put(f"/api/visits/{visit['id']}", json={"expected_revision": 1, "chief_complaint": "changed", "facts": [], "context": {"simulation": True}, "clinician": "测试"}, headers=csrf).status_code == 200
+                release.set()
             if scenario in {"cancel", "cancel_during_validation"}:
                 assert client.post(f"/api/model/jobs/{job_id}/cancel", json={}, headers=csrf).status_code == 200
                 release.set()
@@ -128,13 +135,21 @@ def test_python_jobs_require_complete_valid_response_and_honor_cancel(tmp_path, 
                 if result["status"] not in {"queued", "running"}:
                     break
                 time.sleep(0.05)
-            expected = "completed" if scenario == "complete" else "cancelled" if scenario in {"cancel", "cancel_during_validation"} else "failed"
+            expected = "completed" if scenario in {"complete", "stale_during_stream"} else "cancelled" if scenario in {"cancel", "cancel_during_validation"} else "failed"
             assert result["status"] == expected, result
             assert result["validated"] is (scenario == "complete")
             assert "fake-protocol-key" not in json.dumps(result)
             with sqlite3.connect(tmp_path / "clinical.sqlite3") as conn:
-                assert conn.execute("SELECT COUNT(*) FROM model_calls WHERE status='completed'").fetchone()[0] == (1 if scenario == "complete" else 0)
+                assert conn.execute("SELECT COUNT(*) FROM model_calls WHERE status='completed'").fetchone()[0] == (1 if scenario in {"complete", "stale_during_stream"} else 0)
             assert all("PRIVATE-" not in body for body in captured)
+        if scenario in {"complete", "stale_during_stream"}:
+            with TestClient(create_app(tmp_path), base_url="http://127.0.0.1") as restarted:
+                restarted.get("/api/session")
+                history = restarted.get(f"/api/model/jobs/{job_id}")
+                assert history.status_code == 200
+                assert history.json()["validated"] is (scenario == "complete")
+                if scenario == "stale_during_stream":
+                    assert history.json()["stale"] is True
     finally:
         release.set()
         server.shutdown()

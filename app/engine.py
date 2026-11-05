@@ -33,7 +33,7 @@ def _number(value, name):
     if isinstance(value, bool) or not isinstance(value, (str, int, float)):
         raise ValueError(f'{name} must be numeric')
     try:
-        if len(str(value)) > 120:
+        if len(str(value)) > 250:
             raise ValueError(f'{name} is too large')
         number = Decimal(str(value))
         if not number.is_finite() or (number and abs(number.adjusted()) > 100):
@@ -189,7 +189,7 @@ def _context(context):
 def _facts(facts):
     indexed, ignored = {}, []
     for item in _list(facts, 'facts'):
-        fields = {'key', 'state', 'raw', 'source', 'observed_at', 'scope', 'verified', 'value', 'unit'}
+        fields = {'key', 'state', 'raw', 'source', 'observed_at', 'scope', 'verified', 'value', 'unit', 'subject'}
         if not isinstance(item, dict) or set(item) - fields:
             raise ValueError('invalid fact fields')
         _text(item.get('key'), 'fact key')
@@ -199,6 +199,8 @@ def _facts(facts):
             raise ValueError('invalid fact scope')
         if 'source' in item and item['source'] not in ('patient', 'clinician', 'test'):
             raise ValueError('invalid fact source')
+        if item.get('subject', 'patient') not in ('patient', 'family', 'other', 'unknown'):
+            raise ValueError('invalid fact subject')
         if 'observed_at' in item:
             try:
                 _text(item['observed_at'], 'observed_at')
@@ -218,7 +220,7 @@ def _facts(facts):
                     raise ValueError('fact value too long')
             else:
                 raise ValueError('invalid fact value')
-        if not item['verified'] or item.get('scope', 'current') != 'current':
+        if not item['verified'] or item.get('scope', 'current') != 'current' or item.get('subject', 'patient') != 'patient':
             ignored.append(deepcopy(item))
         else:
             indexed.setdefault(item['key'], []).append(item)
@@ -229,7 +231,10 @@ def _evaluate(expr, indexed):
     if 'fact' in expr:
         key = expr['fact']
         sources = indexed.get(key, [])
-        known = [item for item in sources if item['state'] != 'unknown']
+        comparable = sources
+        if key.startswith('dose:') and 'op' in expr:
+            comparable = [item for item in sources if item.get('unit') == expr['unit']]
+        known = [item for item in comparable if item['state'] != 'unknown']
         signatures = {(item['state'], str(item.get('value')), item.get('unit')) for item in known}
         conflict = any(item['state'] == 'conflict' for item in known) or len(signatures) > 1
         value = None
@@ -317,8 +322,9 @@ def analyze(facts: list[dict], rules: list[dict], context: dict | None = None) -
                       'rule_versions': [{'id': rule['id'], 'version': rule['version']} for rule in published]}}
 
 
-def apply_modifications(formula: list[dict], modifications: list[dict], facts: list[dict], base_formula_id: str = '') -> dict:
+def apply_modifications(formula: list[dict], modifications: list[dict], facts: list[dict], base_formula_id: str = '', context: dict | None = None) -> dict:
     _formula(formula)
+    context = _context(context)
     indexed, _ = _facts(facts)
     result = {'formula': deepcopy(formula), 'applied': [], 'conflicts': [], 'pending': []}
     actions = []
@@ -331,7 +337,7 @@ def apply_modifications(formula: list[dict], modifications: list[dict], facts: l
         if not base_formula_id or rule['base_formula_id'] != base_formula_id:
             result['conflicts'].append({'rule_id': rule['id'], 'reason': 'base_formula_version_mismatch'})
             continue
-        candidate = _candidate(rule, indexed, {})
+        candidate = _candidate(rule, indexed, context)
         if candidate['status'] in ('pending', 'conflict'):
             result['pending'].append(candidate)
         elif candidate['status'] == 'matched':
@@ -399,10 +405,16 @@ def _safety_facts(formula, context):
         add('allergy:' + name)
     for name in context.get('medications', []):
         add('medication:' + name)
+    doses = {}
     for item in formula:
         add('drug:' + item['name'])
         add('drug:' + item['name'] + ':' + item['processing'])
-        add('dose:' + item['basis'] + ':' + item['name'] + ':' + item['processing'], value=item['amount'], unit=item['unit'])
+        key = (item['basis'], item['name'], item['processing'], item['unit'])
+        with localcontext() as precision:
+            precision.prec = 250
+            doses[key] = doses.get(key, Decimal(0)) + Decimal(item['amount'])
+    for (basis, name, processing, unit), amount in doses.items():
+        add('dose:' + basis + ':' + name + ':' + processing, value=format(amount, 'f'), unit=unit)
     return _facts(facts)[0]
 
 

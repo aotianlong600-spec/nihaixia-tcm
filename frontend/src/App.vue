@@ -27,7 +27,7 @@ onMounted(connect)
     <main><header class="topbar"><div><small>本地研究空间 / {{tab==='clinic'?'接诊与复诊':tab==='knowledge'?'资料与溯源':tab==='rules'?'规则审核':'系统设置'}}</small><h1>{{tab==='clinic'?'当次事实，逐证比较':tab==='knowledge'?'回到原文，核对证据':tab==='rules'?'让每条规则有据可审':'控制外发，保留恢复能力'}}</h1></div><el-tag type="warning" size="large">工程验证 · 模拟病例</el-tag></header>
       <div class="mode-banner">仅用于工程与合成病例验证。真实规则须经文本、语义及临床三级人工专业审核；规则条件匹配不等于诊断确证。</div>
       <div v-if="error" class="error-box" role="alert">连接失败：{{error}} <el-button size="small" @click="connect">重试</el-button></div>
-      <div class="stats"><span>资料 <b>{{overview.documents ?? '—'}}</b></span><span>物理页 <b>{{overview.pages ?? '—'}}</b></span><span>已发布规则 <b>{{overview.published_rules ?? '—'}}</b></span><span>模拟访次 <b>{{overview.visits ?? '—'}}</b></span><el-button text @click="connect">刷新状态</el-button></div>
+      <div class="stats"><span>资料 <b>{{overview.documents ?? '—'}}</b></span><span>物理页 <b>{{overview.pages ?? '—'}}</b></span><span>临床规则发布 <b>{{overview.clinical_published_rules ?? '—'}}</b></span><span>方证研究条目 <b>{{overview.research_entries ?? '—'}}</b></span><span>模拟访次 <b>{{overview.visits ?? '—'}}</b></span><el-button text @click="connect">刷新状态</el-button></div>
       <KeepAlive><component :is="view" v-if="connected" /></KeepAlive>
       <div v-if="!connected" class="empty panel">请先启动本地 API 服务。工作台不会生成模拟接口结果。</div>
       <footer>所有输出供医师研究核对 · 风险核查的“未命中”只在已覆盖范围内有效</footer>

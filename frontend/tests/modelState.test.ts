@@ -7,4 +7,5 @@ test('partial, cancelled and unvalidated output is preview only, even when text 
   assert.equal(isValidatedModelResult({status:'completed',validated:false}),false)
   assert.equal(isValidatedModelResult({status:'completed'}),false)
   assert.equal(isValidatedModelResult({status:'completed',validated:true}),true)
+  assert.equal(isValidatedModelResult({status:'completed',validated:true,stale:true}),false)
 })

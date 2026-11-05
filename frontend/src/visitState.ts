@@ -2,6 +2,7 @@ export interface Fact {
   key:string; state:'present'|'absent'|'unknown'|'conflict'; verified:boolean;
   raw?:string; source?:'patient'|'clinician'|'test'; scope?:'current'|'history'; observed_at?:string;
   value?:string|number|null; unit?:string
+  subject?:'patient'|'family'|'other'|'unknown'
 }
 export interface VisitDraft {
   id?:string; revision?:number; patient_id:string; previous_visit_id?:string; chief_complaint:string;

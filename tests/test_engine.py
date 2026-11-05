@@ -46,6 +46,12 @@ def test_verified_current_facts_only():
     assert candidate([fact(scope='history')])['status'] == 'pending'
 
 
+def test_family_and_unknown_subject_facts_cannot_become_patient_findings():
+    assert candidate([fact(subject='family')])['status'] == 'pending'
+    assert candidate([fact(subject='unknown')])['status'] == 'pending'
+    assert candidate([fact(subject='patient'), fact(state='absent', subject='family')])['status'] == 'matched'
+
+
 def test_explicit_absent_and_exclusion_stop_match():
     assert candidate([fact(state='absent')])['status'] == 'not_matched'
     assert candidate([fact(), fact('danger')], excluded={'fact': 'danger'})['status'] == 'not_matched'
@@ -275,3 +281,51 @@ def test_audit_metadata_rejects_non_strings(field):
 def test_other_unknown_rule_metadata_still_rejected():
     with pytest.raises(ValueError):
         engine.validate_rule(rule(arbitrary_script='run'))
+
+
+def test_modification_uses_the_same_age_context_as_analysis():
+    adult = modification(scope={'description': 'adults', 'min_age': 18})
+    context = {'age_years': 40}
+    assert engine.analyze([fact()], [adult], context)['candidates'][0]['status'] == 'matched'
+    result = engine.apply_modifications([drug()], [adult], [fact()], 'base@1', context)
+    assert result['formula'] == [drug(), drug('B')]
+    assert result['applied'] and not result['pending']
+    missing_age = engine.apply_modifications([drug()], [adult], [fact()], 'base@1')
+    assert missing_age['pending'] and not missing_age['applied']
+    child = engine.apply_modifications([drug()], [adult], [fact()], 'base@1', {'age_years': 10})
+    assert child['formula'] == [drug()] and not child['applied']
+
+
+@pytest.mark.parametrize('amounts', [('6', '6'), ('6', '7'), ('0.1', '0.2')])
+def test_safety_uses_exact_total_amount_for_identical_drug_dose_groups(amounts):
+    threshold = '0.29' if amounts[0] == '0.1' else '10'
+    safety = rule(kind='safety', required={'fact': 'dose:per_dose:A:raw', 'op': 'gt', 'value': threshold, 'unit': 'g'})
+    formula = [drug(amount=amount) for amount in amounts]
+    before = deepcopy(formula)
+    result = engine.check_formula(formula, {}, [safety])
+    assert result['status'] == 'risk' and result['issues']
+    assert result['coverage'][0]['result']['required']['value'] is True
+    assert formula == before
+
+
+@pytest.mark.parametrize('different', [drug(amount='6', unit='liang'),
+                                      drug(amount='6', processing='prepared'),
+                                      drug(amount='6', basis='per_day')])
+def test_safety_never_sums_distinct_units_processing_or_dose_bases(different):
+    safety = rule(kind='safety', required={'fact': 'dose:per_dose:A:raw', 'op': 'gt', 'value': '10', 'unit': 'g'})
+    result = engine.check_formula([drug(amount='6'), different], {}, [safety])
+    assert result['status'] == 'incomplete' and result['issues'] == []
+
+
+def test_different_unit_does_not_hide_known_covered_dose_risk():
+    safety = rule(kind='safety', required={'fact': 'dose:per_dose:A:raw', 'op': 'gt', 'value': '10', 'unit': 'g'})
+    formula = [drug(amount='6'), drug(amount='6'), drug(amount='1', unit='liang')]
+    result = engine.check_formula(formula, {}, [safety])
+    assert result['status'] == 'risk' and result['issues']
+
+
+def test_safety_aggregation_preserves_valid_high_precision_amounts():
+    safety = rule(kind='safety', required={'fact': 'dose:per_dose:A:raw', 'op': 'gt', 'value': '1', 'unit': 'g'})
+    amount = '9' * 60 + '.' + '9' * 59
+    result = engine.check_formula([drug(amount=amount), drug(amount=amount)], {}, [safety])
+    assert result['status'] == 'risk'

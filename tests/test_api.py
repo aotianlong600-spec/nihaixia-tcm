@@ -167,6 +167,11 @@ def test_changed_source_context_invalidates_prior_rule_review_and_decision(clien
         "quote": "Synthetic statement.", "kind": "synthetic", "reviewer": "测试审核者"}, headers=headers).json()
     payload = rule_payload("source-context-rule")
     payload["rule"].update(synthetic=False, evidence_ids=[evidence["id"]])
+    bad_dose = rule_payload("bad-nested-evidence")
+    bad_dose["rule"].update(synthetic=False, evidence_ids=[evidence["id"]], formula=[{
+        "name": "合成剂量", "processing": "测试", "amount": "1", "unit": "g", "basis": "per_dose", "evidence_ids": ["nonexistent-dose-evidence"]}])
+    assert client.post("/api/rules", json=bad_dose, headers=headers).status_code == 200
+    assert client.post("/api/rules/bad-nested-evidence/review", json={"stage": "text", "reviewer": "测试", "note": "逐味证据必须存在"}, headers=headers).status_code == 409
     assert client.post("/api/rules", json=payload, headers=headers).status_code == 200
     for stage in ["text", "semantic", "clinical"]:
         assert client.post("/api/rules/source-context-rule/review", json={"stage": stage, "reviewer": "测试审核者", "note": "合成流程"}, headers=headers).status_code == 200
@@ -190,3 +195,43 @@ def test_invalid_fact_is_rejected_before_creating_visit(client):
         "context": {"simulation": True}, "clinician": "测试"}, headers=headers)
     assert response.status_code in [400, 422]
     assert client.get("/api/visits").json()["items"] == []
+
+
+def test_nonexistent_nested_dose_evidence_blocks_real_rule_publish(client):
+    headers = login(client)
+    payload = rule_payload("bad-dose-evidence")
+    payload["rule"].update(synthetic=False, evidence_ids=["missing-top"], formula=[{
+        "name": "合成", "processing": "测试", "amount": "1", "unit": "g", "basis": "per_dose", "evidence_ids": ["missing-dose"]}])
+    assert client.post("/api/rules", json=payload, headers=headers).status_code == 200
+    assert client.post("/api/rules/bad-dose-evidence/review", json={"stage": "text", "reviewer": "测试", "note": "缺引用"}, headers=headers).status_code == 409
+
+
+def test_decision_and_visit_edit_have_one_atomic_order(client, monkeypatch):
+    import threading
+    from concurrent.futures import ThreadPoolExecutor
+    import app.main as main
+
+    headers = login(client)
+    visit = create_visit(client, headers)
+    analysis = client.post(f"/api/visits/{visit['id']}/analyze", json={"expected_revision": 1}, headers=headers).json()
+    entered, release = threading.Event(), threading.Event()
+    check = main.check_formula
+
+    def paused(*args, **kwargs):
+        entered.set()
+        assert release.wait(5)
+        return check(*args, **kwargs)
+
+    monkeypatch.setattr(main, "check_formula", paused)
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        decision = pool.submit(client.post, f"/api/analyses/{analysis['id']}/decision", json={"decision": "adopt", "clinician": "测试", "notes": "并发"}, headers=headers)
+        assert entered.wait(5)
+        edit = pool.submit(client.put, f"/api/visits/{visit['id']}", json={"expected_revision": 1, "chief_complaint": "改变", "facts": [], "context": {"simulation": True}, "clinician": "测试"}, headers=headers)
+        try:
+            # A concurrent edit must wait for the checked decision transaction to finish.
+            with pytest.raises(TimeoutError):
+                edit.result(timeout=0.2)
+        finally:
+            release.set()
+        assert decision.result(timeout=5).status_code == 200
+        assert edit.result(timeout=5).status_code == 200

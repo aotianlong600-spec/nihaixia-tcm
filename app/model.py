@@ -39,7 +39,7 @@ def validate_url(url):
 
 def explain_payload(analysis, allow_evidence):
     facts = [{key: fact[key] for key in ("key", "state", "value", "unit", "scope") if key in fact}
-             for fact in analysis["input_snapshot"]["facts"] if fact.get("verified") is True and fact.get("scope", "current") == "current"]
+             for fact in analysis["input_snapshot"]["facts"] if fact.get("verified") is True and fact.get("scope", "current") == "current" and fact.get("subject", "patient") == "patient"]
     candidates = [{key: c[key] for key in ("rule_id", "status") if key in c} for c in analysis["result"].get("candidates", [])]
     evidence = [{"id": e["id"], **({"quote": e["quote"]} if allow_evidence else {})} for e in analysis.get("evidence_snapshot", [])]
     return storage.encode({"task": "解释已有工程分析，禁止新增患者事实、药物或剂量，不得改写条件判断。", "facts": facts,
@@ -117,7 +117,7 @@ def mount_model_routes(app, data_dir, protected, database):
         return public_config()
 
     def public_job(job):
-        return {key: job[key] for key in ("id", "status", "text", "error", "usage", "validated", "validation_scope", "created_at") if key in job}
+        return {key: job[key] for key in ("id", "status", "text", "error", "usage", "validated", "validation_scope", "created_at", "stale", "dependency_warnings", "analysis_id") if key in job}
 
     def run_job(job, cfg, api_key, request_input, allowed_ids):
         process = None
@@ -187,8 +187,11 @@ def mount_model_routes(app, data_dir, protected, database):
                     return
                 finished = {**public_job(job), "text": text, "usage": completed.get("usage", {}), "validated": True,
                             "validation_scope": "仅完成状态、输出结构与引用ID检查；未经医学核实", "status": "completed"}
-                document = {**finished, "purpose": job["purpose"], "result": result, "recipient": cfg["base_url"], "model": cfg["model"]}
                 with closing(storage.connect(data_dir)) as conn, conn:
+                    conn.execute("BEGIN IMMEDIATE")
+                    warnings = storage.analysis_dependency_errors(conn, snapshot_for_job(job, conn)) if job.get("analysis_id") else []
+                    finished.update(stale=bool(warnings), dependency_warnings=warnings, validated=not warnings)
+                    document = {**finished, "purpose": job["purpose"], "result": result, "recipient": cfg["base_url"], "model": cfg["model"]}
                     conn.execute("INSERT INTO model_calls VALUES(?,?,?,?,?,?)", (job["id"], job.get("analysis_id"), job["purpose"], "completed", storage.encode(document), job["created_at"]))
                     storage.audit(conn, "model_completed", job["id"], purpose=job["purpose"])
                 job.update(finished)
@@ -210,6 +213,12 @@ def mount_model_routes(app, data_dir, protected, database):
                     if stream:
                         stream.close()
             job.pop("process", None)
+
+    def snapshot_for_job(job, conn):
+        row = conn.execute("SELECT document FROM analyses WHERE id=?", (job["analysis_id"],)).fetchone()
+        if row is None:
+            raise ValueError("关联分析已不存在")
+        return json.loads(row[0])
 
     @app.post("/api/model/jobs", dependencies=protected)
     def start_job(payload: JobInput, conn=Depends(database)):
@@ -249,10 +258,20 @@ def mount_model_routes(app, data_dir, protected, database):
         return public_job(job)
 
     @app.get("/api/model/jobs/{job_id}", dependencies=protected)
-    def get_job(job_id: str):
-        if job_id not in jobs:
-            raise HTTPException(404, "模型任务不存在或已过期")
-        return public_job(jobs[job_id])
+    def get_job(job_id: str, conn=Depends(database)):
+        if job_id in jobs:
+            job = dict(jobs[job_id])
+        else:
+            row = conn.execute("SELECT * FROM model_calls WHERE id=?", (job_id,)).fetchone()
+            if row is None:
+                raise HTTPException(404, "模型任务不存在")
+            job = {**json.loads(row["document"]), "analysis_id": row["analysis_id"]}
+        if job.get("analysis_id"):
+            warnings = storage.analysis_dependency_errors(conn, snapshot_for_job(job, conn))
+            job.update(stale=bool(warnings), dependency_warnings=warnings)
+            if warnings:
+                job["validated"] = False
+        return public_job(job)
 
     @app.post("/api/model/jobs/{job_id}/cancel", dependencies=protected)
     def cancel_job(job_id: str):

@@ -15,7 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
-from . import knowledge, storage
+from . import knowledge, research, storage
 from .engine import analyze, apply_modifications, check_formula, validate_rule
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,6 +33,7 @@ class Fact(Input):
     source: Literal["patient", "clinician", "test"] = "clinician"
     observed_at: str | None = Field(default=None, max_length=50)
     scope: Literal["current", "history"] = "current"
+    subject: Literal["patient", "family", "other", "unknown"] = "patient"
     value: str | int | float | None = None
     unit: str = Field(default="", max_length=50)
 
@@ -124,6 +125,7 @@ def create_app(data_dir: Path | None = None):
     storage.initialize(data_dir)
     with storage.connect(data_dir) as conn:
         knowledge.init_knowledge(conn, data_dir)
+        research.initialize_research(conn)
     conn.close()
     app = FastAPI(title="倪海厦辨证研究工作台", docs_url=None, redoc_url=None, openapi_url=None)
     app.state.data_dir = data_dir
@@ -187,7 +189,7 @@ def create_app(data_dir: Path | None = None):
 
     @app.get("/api/status")
     def status():
-        return {"status": "ok", "version": "0.1.0", "mode": "simulation"}
+        return {"status": "ok", "app_id": "nihaixia-clinical-engine", "version": "0.1.0", "mode": "simulation"}
 
     @app.get("/api/session")
     def session(request: Request):
@@ -210,11 +212,17 @@ def create_app(data_dir: Path | None = None):
         return {"documents": len(documents), "pages": sum(d["physical_pages"] for d in documents),
                 "patients": conn.execute("SELECT COUNT(*) FROM patients").fetchone()[0],
                 "visits": conn.execute("SELECT COUNT(*) FROM visits").fetchone()[0],
-                "published_rules": sum(r["status"] == "published" for r in rules)}
+                "published_rules": sum(r["status"] == "published" for r in rules),
+                "clinical_published_rules": sum(r["status"] == "published" and not r["synthetic"] for r in rules),
+                "research_entries": conn.execute("SELECT COUNT(*) FROM research_entries").fetchone()[0]}
 
     @app.get("/api/documents", dependencies=protected)
     def documents(conn=Depends(database)):
         return {"items": knowledge.list_documents(conn)}
+
+    @app.get("/api/research", dependencies=protected)
+    def research_entries(conn=Depends(database)):
+        return {"items": research.list_research(conn)}
 
     @app.post("/api/documents", dependencies=protected)
     def upload_document(file: UploadFile = File(...), conn=Depends(database)):
@@ -259,6 +267,7 @@ def create_app(data_dir: Path | None = None):
 
     @app.post("/api/documents/{document_id}/pages/{physical_page}/review", dependencies=protected)
     def page_review(document_id: str, physical_page: int, payload: PageReview, conn=Depends(database)):
+        conn.execute("BEGIN IMMEDIATE")
         result = knowledge.review_page(conn, document_id, physical_page, payload.model_dump())
         storage.audit(conn, "page_review", document_id, page=physical_page, reviewer=payload.reviewer)
         return result
@@ -269,6 +278,7 @@ def create_app(data_dir: Path | None = None):
 
     @app.post("/api/evidence", dependencies=protected)
     def evidence_create(payload: EvidenceInput, conn=Depends(database)):
+        conn.execute("BEGIN IMMEDIATE")
         result = knowledge.create_evidence(conn, payload.model_dump())
         storage.audit(conn, "evidence_create", result["id"], reviewer=payload.reviewer)
         return result
@@ -291,8 +301,14 @@ def create_app(data_dir: Path | None = None):
             return []
         if not rule.get("evidence_ids"):
             raise HTTPException(409, "真实规则缺少已校核证据")
+        evidence_ids = set(rule["evidence_ids"])
+        drugs = list(rule.get("formula", [])) + [action["drug"] for action in rule.get("actions", []) if "drug" in action]
+        for drug in drugs:
+            if not drug.get("evidence_ids"):
+                raise HTTPException(409, "真实方药及加减剂量需要逐项来源依据")
+            evidence_ids.update(drug["evidence_ids"])
         evidence = []
-        for evidence_id in rule["evidence_ids"]:
+        for evidence_id in sorted(evidence_ids):
             item = knowledge.get_evidence(conn, evidence_id)
             if item is None:
                 raise HTTPException(409, "规则证据不存在")
@@ -312,6 +328,7 @@ def create_app(data_dir: Path | None = None):
 
     @app.post("/api/rules", dependencies=protected)
     def rule_create(payload: RuleInput, conn=Depends(database)):
+        conn.execute("BEGIN IMMEDIATE")
         rule = dict(payload.rule)
         rule["status"] = "draft"
         rule = validate_rule(rule)
@@ -323,6 +340,7 @@ def create_app(data_dir: Path | None = None):
 
     @app.post("/api/rules/{rule_id}/review", dependencies=protected)
     def rule_review(rule_id: str, payload: RuleReview, conn=Depends(database)):
+        conn.execute("BEGIN IMMEDIATE")
         row, rule = get_rule(conn, rule_id)
         if rule["status"] != "draft":
             raise HTTPException(409, "只能审核草稿版本")
@@ -336,10 +354,15 @@ def create_app(data_dir: Path | None = None):
 
     @app.post("/api/rules/{rule_id}/publish", dependencies=protected)
     def rule_publish(rule_id: str, payload: Reviewer, conn=Depends(database)):
+        conn.execute("BEGIN IMMEDIATE")
         row, rule = get_rule(conn, rule_id)
         reviews = json.loads(row["reviews"])
         if rule["status"] != "draft" or not all(s in reviews for s in ["text", "semantic", "clinical"]):
             raise HTTPException(409, "发布需要文本、规则语义、临床适用三级审核")
+        if "__clinical_rule_not_defined__" in storage.encode(rule["required"]):
+            raise HTTPException(409, "必要条件尚未由临床医师定义，不能发布研究占位规则")
+        if rule["kind"] == "modification" and not rule.get("actions"):
+            raise HTTPException(409, "加减规则尚无可执行且有据的动作")
         checked_evidence(conn, rule)
         rule.update(status="published", published_at=storage.now(), published_by=payload.reviewer)
         conn.execute("UPDATE rules SET document=? WHERE id=?", (storage.encode(rule), rule_id))
@@ -348,6 +371,7 @@ def create_app(data_dir: Path | None = None):
 
     @app.post("/api/rules/{rule_id}/withdraw", dependencies=protected)
     def rule_withdraw(rule_id: str, payload: Reviewer, conn=Depends(database)):
+        conn.execute("BEGIN IMMEDIATE")
         row, rule = get_rule(conn, rule_id)
         rule.update(status="withdrawn", withdrawn_at=storage.now(), withdrawal_note=payload.note)
         conn.execute("UPDATE rules SET document=? WHERE id=?", (storage.encode(rule), rule_id))
@@ -378,10 +402,20 @@ def create_app(data_dir: Path | None = None):
         visit = visit_record(conn, visit_id)
         analyses = [json.loads(r["document"]) for r in conn.execute("SELECT document FROM analyses WHERE visit_id=? ORDER BY created_at DESC", (visit_id,))]
         for analysis in analyses:
-            analysis["stale"] = analysis["visit_revision"] != visit["revision"]
+            analysis["dependency_warnings"] = storage.analysis_dependency_errors(conn, analysis)
+            analysis["stale"] = bool(analysis["dependency_warnings"])
             analysis["withdrawn_rules"] = [r["id"] for r in analysis["rule_snapshot"] if conn.execute("SELECT document FROM rules WHERE id=?", (r["id"],)).fetchone() and json.loads(conn.execute("SELECT document FROM rules WHERE id=?", (r["id"],)).fetchone()[0])["status"] == "withdrawn"]
         decisions = [json.loads(r["document"]) for r in conn.execute("SELECT d.document FROM decisions d JOIN analyses a ON d.analysis_id=a.id WHERE a.visit_id=? ORDER BY d.created_at DESC", (visit_id,))]
-        return {**visit, "analyses": analyses, "decisions": decisions}
+        supplements = []
+        for row in conn.execute("SELECT m.* FROM model_calls m JOIN analyses a ON m.analysis_id=a.id WHERE a.visit_id=? ORDER BY m.created_at DESC", (visit_id,)):
+            supplement = json.loads(row["document"])
+            supplement["analysis_id"] = row["analysis_id"]
+            dependency = next((a for a in analyses if a["id"] == row["analysis_id"]), None)
+            supplement["stale"] = dependency is None or dependency["stale"]
+            if supplement["stale"]:
+                supplement["validated"] = False
+            supplements.append(supplement)
+        return {**visit, "analyses": analyses, "decisions": decisions, "model_supplements": supplements}
 
     @app.get("/api/visits", dependencies=protected)
     def visits(patient_id: str | None = None, conn=Depends(database)):
@@ -390,6 +424,7 @@ def create_app(data_dir: Path | None = None):
 
     @app.post("/api/visits", dependencies=protected)
     def visit_create(payload: NewVisit, conn=Depends(database)):
+        conn.execute("BEGIN IMMEDIATE")
         if conn.execute("SELECT 1 FROM patients WHERE id=?", (payload.patient_id,)).fetchone() is None:
             raise HTTPException(404, "病例不存在")
         if payload.previous_visit_id and visit_record(conn, payload.previous_visit_id)["patient_id"] != payload.patient_id:
@@ -409,6 +444,7 @@ def create_app(data_dir: Path | None = None):
 
     @app.put("/api/visits/{visit_id}", dependencies=protected)
     def visit_edit(visit_id: str, payload: EditVisit, conn=Depends(database)):
+        conn.execute("BEGIN IMMEDIATE")
         old = visit_record(conn, visit_id)
         if payload.expected_revision != old["revision"]:
             raise HTTPException(409, "访次已被修改，请重新载入")
@@ -426,6 +462,7 @@ def create_app(data_dir: Path | None = None):
 
     @app.post("/api/visits/{visit_id}/analyze", dependencies=protected)
     def visit_analyze(visit_id: str, payload: AnalyzeInput, conn=Depends(database)):
+        conn.execute("BEGIN IMMEDIATE")
         visit = visit_record(conn, visit_id)
         if visit["revision"] != payload.expected_revision:
             raise HTTPException(409, "输入版本已变化，请保存并重新分析")
@@ -446,6 +483,7 @@ def create_app(data_dir: Path | None = None):
                 warnings.append({"rule_id": rule["id"], "reason": exc.detail})
         result = analyze(visit["facts"], eligible, visit["context"])
         result["publication_warnings"] = warnings
+        result["literature_candidates"] = research.compare_literature(visit["facts"], research.list_research(conn))
         result["mode"] = "simulation"
         result["formula"] = []
         if payload.base_rule_id and not result["urgent"]:
@@ -454,7 +492,7 @@ def create_app(data_dir: Path | None = None):
                 raise HTTPException(409, "基础方规则尚未满足或证据失效")
             base = next(r for r in eligible if r["id"] == payload.base_rule_id)
             modifications = [r for r in eligible if r["id"] in payload.modification_ids and r["kind"] == "modification"]
-            result["modifications"] = apply_modifications(base.get("formula", []), modifications, visit["facts"], base.get("formula_id", ""))
+            result["modifications"] = apply_modifications(base.get("formula", []), modifications, visit["facts"], base.get("formula_id", ""), visit["context"])
             result["formula"] = result["modifications"]["formula"]
             result["safety"] = check_formula(result["formula"], visit["context"], [r for r in eligible if r["kind"] == "safety"])
         snapshot = {"id": str(uuid4()), "visit_id": visit_id, "visit_revision": visit["revision"], "created_at": storage.now(), "result": result,
@@ -466,6 +504,7 @@ def create_app(data_dir: Path | None = None):
 
     @app.post("/api/analyses/{analysis_id}/decision", dependencies=protected)
     def analysis_decision(analysis_id: str, payload: DecisionInput, conn=Depends(database)):
+        conn.execute("BEGIN IMMEDIATE")
         row = conn.execute("SELECT * FROM analyses WHERE id=?", (analysis_id,)).fetchone()
         if row is None:
             raise HTTPException(404, "分析不存在")
