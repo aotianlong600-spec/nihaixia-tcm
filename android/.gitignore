@@ -1,0 +1,12 @@
+# Gradle and Android build state (kept on D: via scripts/build_android.ps1)
+.gradle/
+.gradle-user-home/
+.android-user-home/
+local.properties
+**/build/
+captures/
+.idea/
+*.iml
+
+# Generated from the public CA PEM at build time. Never commit cert/key material.
+app/src/main/res/raw/ca_cert.pem
