@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import sqlite3
 import tempfile
+import threading
 import unicodedata
 import uuid
 
@@ -16,6 +17,8 @@ import pypdfium2
 
 
 MAX_PDF_BYTES = 50 * 1024 * 1024
+# PDFium forbids concurrent calls even for different documents.
+PDFIUM_LOCK = threading.RLock()
 _SHA = re.compile(r"[0-9a-f]{64}\Z")
 # shortcut: common clinical variants only; expand from reviewed search failures, not raw text.
 _VARIANTS = str.maketrans(dict(pair.split(":") for pair in (
@@ -55,6 +58,28 @@ def _page_number(physical_page):
     if type(physical_page) is not int:
         raise ValueError("physical_page must be an integer")
     return physical_page
+
+
+def render_page(conn, data_dir, document_id, physical_page):
+    path = document_path(conn, data_dir, document_id)
+    with PDFIUM_LOCK, pypdfium2.PdfDocument(str(path)) as pdf:
+        if type(physical_page) is not int or not 1 <= physical_page <= len(pdf):
+            raise ValueError("PDF物理页不存在")
+        page = pdf[physical_page - 1]
+        try:
+            width, height = page.get_width(), page.get_height()
+            if width <= 0 or height <= 0:
+                raise ValueError("PDF页面尺寸无效")
+            bitmap = page.render(scale=min(1.5, 2000 / width, 2800 / height))
+            try:
+                output = BytesIO()
+                with bitmap.to_pil() as image:
+                    image.save(output, format="PNG")
+                return output.getvalue()
+            finally:
+                bitmap.close()
+        finally:
+            page.close()
 
 
 def _required_text(payload, key, maximum):
@@ -115,7 +140,7 @@ def _pdf_bytes(source):
     if len(content) > MAX_PDF_BYTES:
         raise ValueError("PDF exceeds 50 MiB")
     try:
-        with pypdfium2.PdfDocument(content) as pdf:
+        with PDFIUM_LOCK, pypdfium2.PdfDocument(content) as pdf:
             pages = len(pdf)
     except Exception as exc:
         raise ValueError("unable to read PDF") from exc

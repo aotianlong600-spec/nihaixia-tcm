@@ -159,6 +159,10 @@ def test_changed_source_context_invalidates_prior_rule_review_and_decision(clien
     uploaded = client.post("/api/documents", files={"file": ("synthetic.pdf", pdf_path.read_bytes(), "application/pdf")}, headers=headers)
     assert uploaded.status_code == 200, uploaded.text
     document_id = uploaded.json()["id"]
+    image = client.get(f"/api/documents/{document_id}/pages/1/image")
+    assert image.status_code == 200
+    assert image.content.startswith(b"\x89PNG\r\n\x1a\n")
+    assert client.get(f"/api/documents/{document_id}/pages/0/image").status_code == 404
     review_url = f"/api/documents/{document_id}/pages/1/review"
     original = "Synthetic statement. Original surrounding context."
     review = {"corrected_text": original, "kind": "synthetic", "reviewer": "测试审核者", "printed_page": "1", "note": "合成测试校核"}

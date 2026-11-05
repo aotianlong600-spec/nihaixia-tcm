@@ -10,7 +10,7 @@ from urllib.parse import urlparse
 from uuid import uuid4
 
 from fastapi import Depends, FastAPI, File, HTTPException, Request, UploadFile
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator
 from starlette.middleware.trustedhost import TrustedHostMiddleware
@@ -271,6 +271,12 @@ def create_app(data_dir: Path | None = None):
         result = knowledge.review_page(conn, document_id, physical_page, payload.model_dump())
         storage.audit(conn, "page_review", document_id, page=physical_page, reviewer=payload.reviewer)
         return result
+
+    @app.get("/api/documents/{document_id}/pages/{physical_page}/image", dependencies=protected)
+    def original_page_image(document_id: str, physical_page: int, conn=Depends(database)):
+        if knowledge.get_page(conn, document_id, physical_page) is None:
+            raise HTTPException(404, "文档或物理页不存在")
+        return Response(knowledge.render_page(conn, data_dir, document_id, physical_page), media_type="image/png")
 
     @app.get("/api/evidence", dependencies=protected)
     def evidence_list(conn=Depends(database)):
