@@ -113,3 +113,21 @@ def test_backup_size_budget_also_reserves_its_integrity_manifest(tmp_path, monke
     monkeypatch.setattr(backup, "MAX_BYTES", (data / "clinical.sqlite3").stat().st_size + 1)
     with pytest.raises(ValueError):
         backup.create_backup(data, "test-password-long-enough")
+
+
+def test_mixed_backup_roundtrip_and_missing_text(tmp_path):
+    from app.backup import create_backup, restore_backup
+    data = sample_data(tmp_path)
+    content = b'text original'
+    sha = hashlib.sha256(content).hexdigest()
+    with sqlite3.connect(data / 'clinical.sqlite3') as conn:
+        conn.execute('CREATE TABLE text_sources(id TEXT, format TEXT)')
+        conn.execute('INSERT INTO text_sources VALUES (?,?)',(sha,'txt'))
+    original = data / 'originals' / f'{sha}.txt'
+    with pytest.raises(ValueError): create_backup(data, 'test-password-long-enough')
+    original.write_bytes(content)
+    encrypted = create_backup(data, 'test-password-long-enough')
+    restore_backup(encrypted, 'test-password-long-enough', tmp_path/'restored')
+    assert (tmp_path/'restored'/'originals'/f'{sha}.txt').read_bytes() == content
+    original.write_bytes(b'tampered')
+    with pytest.raises(ValueError): create_backup(data, 'test-password-long-enough')

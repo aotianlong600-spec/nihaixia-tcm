@@ -28,7 +28,13 @@ def _registered_hashes(conn):
         raise ValueError("备份数据库缺少受支持的资料登记结构") from exc
     if any(row[0] != row[1] or not isinstance(row[1], str) or not re.fullmatch(r"[0-9a-f]{64}", row[1]) for row in rows):
         raise ValueError("资料登记哈希无效")
-    return {row[1] for row in rows}
+    registered = {f"originals/{row[1]}.pdf" for row in rows}
+    if conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='text_sources'").fetchone():
+        for sha, fmt in conn.execute("SELECT id,format FROM text_sources"):
+            if not isinstance(sha, str) or not re.fullmatch(r"[0-9a-f]{64}", sha) or fmt not in ("txt", "doc", "docx", "md"):
+                raise ValueError("资料登记哈希或格式无效")
+            registered.add(f"originals/{sha}.{fmt}")
+    return registered
 
 
 def _fernet(password, salt):
@@ -58,8 +64,9 @@ def create_backup(data_dir: Path, password: str):
             files["clinical.sqlite3"] = copy.read_bytes()
     except sqlite3.DatabaseError as exc:
         raise ValueError("数据库无法备份，请先修复或恢复") from exc
-    for sha in registered:
-        original = data_dir / "originals" / f"{sha}.pdf"
+    for name in registered:
+        sha = Path(name).stem
+        original = data_dir / name
         if not original.resolve().is_relative_to(data_dir) or original.is_symlink() or not original.is_file():
             raise ValueError("登记原件缺失或路径无效，不能生成完整备份")
         if original.stat().st_size + sum(len(value) for value in files.values()) > MAX_BYTES:
@@ -67,7 +74,7 @@ def create_backup(data_dir: Path, password: str):
         content = original.read_bytes()
         if hashlib.sha256(content).hexdigest() != sha:
             raise ValueError("登记原件哈希不一致，不能生成完整备份")
-        files[f"originals/{sha}.pdf"] = content
+        files[name] = content
         if sum(len(value) for value in files.values()) > MAX_BYTES:
             # shortcut: bounded in-memory archives; upgrade to streaming above 512 MiB.
             raise ValueError("此版本备份上限为512MiB")
@@ -103,7 +110,7 @@ def restore_backup(encrypted: bytes, password: str, destination: Path):
                 raise ValueError("备份缺少清单或数据库")
             for item in infos:
                 path = PurePosixPath(item.filename)
-                allowed = item.filename in {"manifest.json", "clinical.sqlite3"} or re.fullmatch(r"originals/[0-9a-f]{64}\.pdf", item.filename)
+                allowed = item.filename in {"manifest.json", "clinical.sqlite3"} or re.fullmatch(r"originals/[0-9a-f]{64}\.(?:pdf|txt|doc|docx|md)", item.filename)
                 if not allowed or ".." in path.parts or "\\" in item.filename or path.is_absolute() or (item.external_attr >> 16) & 0o170000 == 0o120000:
                     raise ValueError("备份包含不允许的路径或链接")
             manifest = json.loads(bundle.read("manifest.json"))
@@ -132,8 +139,8 @@ def restore_backup(encrypted: bytes, password: str, destination: Path):
                 if conn.execute("PRAGMA integrity_check").fetchone()[0] != "ok" or conn.execute("PRAGMA foreign_key_check").fetchall():
                     raise ValueError("恢复数据库完整性或引用检查失败")
                 registered = _registered_hashes(conn)
-                expected = {"clinical.sqlite3"} | {f"originals/{sha}.pdf" for sha in registered}
-                if set(files) != expected or any(hashlib.sha256(files[f"originals/{sha}.pdf"]).hexdigest() != sha for sha in registered):
+                expected = {"clinical.sqlite3"} | registered
+                if set(files) != expected or any(hashlib.sha256(files[name]).hexdigest() != Path(name).stem for name in registered):
                     raise ValueError("恢复资料原件缺失、多余或与登记哈希不一致")
         except sqlite3.DatabaseError as exc:
             raise ValueError("恢复数据库无效") from exc

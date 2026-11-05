@@ -15,7 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
-from . import knowledge, research, storage
+from . import knowledge, library, personal, research, storage
 from .engine import analyze, apply_modifications, check_formula, validate_rule
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -124,8 +124,9 @@ def create_app(data_dir: Path | None = None):
     data_dir = Path(data_dir or os.environ.get("TCM_DATA_DIR", ROOT / "data")).resolve()
     storage.initialize(data_dir)
     with storage.connect(data_dir) as conn:
-        knowledge.init_knowledge(conn, data_dir)
+        library.initialize(conn, data_dir)
         research.initialize_research(conn)
+        personal.initialize(conn)
     conn.close()
     app = FastAPI(title="倪海厦辨证研究工作台", docs_url=None, redoc_url=None, openapi_url=None)
     app.state.data_dir = data_dir
@@ -189,7 +190,7 @@ def create_app(data_dir: Path | None = None):
 
     @app.get("/api/status")
     def status():
-        return {"status": "ok", "app_id": "nihaixia-clinical-engine", "version": "0.1.0", "mode": "simulation"}
+        return {"status": "ok", "app_id": "nihaixia-clinical-engine", "version": "0.2.0", "mode": "personal"}
 
     @app.get("/api/session")
     def session(request: Request):
@@ -199,7 +200,7 @@ def create_app(data_dir: Path | None = None):
                 sessions.pop(next(iter(sessions)))
             token = secrets.token_urlsafe(32)
             sessions[token] = secrets.token_urlsafe(32)
-        response = JSONResponse({"csrf_token": sessions[token], "mode": "simulation", "version": "0.1.0"})
+        response = JSONResponse({"csrf_token": sessions[token], "mode": "personal", "version": "0.2.0"})
         response.set_cookie("tcm_session", token, httponly=True, samesite="strict", path="/")
         return response
 
@@ -540,6 +541,7 @@ def create_app(data_dir: Path | None = None):
     from .backup import mount_backup_route
     mount_model_routes(app, data_dir, protected, database)
     mount_backup_route(app, data_dir, protected, database)
+    personal.mount_personal_routes(app, data_dir, protected, database)
 
     dist = ROOT / "frontend" / "dist"
     if dist.is_dir():

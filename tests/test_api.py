@@ -44,7 +44,7 @@ def rule_payload(rule_id="draft-1"):
 
 
 def test_local_session_csrf_and_origin_boundaries(client):
-    assert client.get("/api/status").json()["mode"] == "simulation"
+    assert client.get("/api/status").json()["mode"] == "personal"
     assert client.get("/api/patients").status_code == 401
     assert client.get("/api/session", headers={"Origin": "https://evil.example"}).status_code == 403
     assert client.get("/api/session", headers={"Host": "evil.example"}).status_code == 400
