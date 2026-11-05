@@ -190,7 +190,7 @@ def create_app(data_dir: Path | None = None):
 
     @app.get("/api/status")
     def status():
-        return {"status": "ok", "app_id": "nihaixia-clinical-engine", "version": "0.2.0", "mode": "personal"}
+        return {"status": "ok", "app_id": "nihaixia-clinical-engine", "version": "0.3.0", "mode": "personal"}
 
     @app.get("/api/session")
     def session(request: Request):
@@ -200,7 +200,7 @@ def create_app(data_dir: Path | None = None):
                 sessions.pop(next(iter(sessions)))
             token = secrets.token_urlsafe(32)
             sessions[token] = secrets.token_urlsafe(32)
-        response = JSONResponse({"csrf_token": sessions[token], "mode": "personal", "version": "0.2.0"})
+        response = JSONResponse({"csrf_token": sessions[token], "mode": "personal", "version": "0.3.0"})
         response.set_cookie("tcm_session", token, httponly=True, samesite="strict", path="/")
         return response
 

@@ -20,8 +20,8 @@
 
 ## Tasks
 
-- [ ] 资料核对：work/ni-decision-v3/source-map.json真实锚点，生成首包与逐字段claims；保留剂量差异。
-- [ ] app/decision.py + tests/test_decision.py：先失败测试，再导入定位/引用校验、四态多候选/补问/边回退、不可变版本、差异计算。验证所有上列输入类。
-- [ ] scripts/import_decision.py 与app/personal.py：新增API、context/AI同快照、逐字段映射版本验证；tests/test_personal.py与consult jobs回归。
-- [ ] 真实库导入；完整Python、前端/桥接兼容测试；不可变包备份恢复、独立代码及资料审查。
-- [ ] outputs区分导入/已映射/结构化/可执行/冲突口径，更新说明与源码包。
+- [x] 资料核对：work/ni-decision-v3/source-map.json真实锚点，生成首包与逐字段claims；保留剂量差异。
+- [x] app/decision.py + tests/test_decision.py：先失败测试，再导入定位/引用校验、四态多候选/补问/边回退、不可变版本、差异计算。验证所有上列输入类。
+- [x] scripts/import_decision.py 与app/personal.py：新增API、context/AI同快照、逐字段映射版本验证；tests/test_personal.py与consult jobs回归。
+- [x] 真实库导入；完整Python、前端/桥接兼容测试；不可变包备份恢复、独立代码及资料审查。
+- [x] outputs区分导入/已映射/结构化/可执行/冲突口径，更新说明与源码包。

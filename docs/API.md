@@ -4,9 +4,13 @@
 
 所有接口同源`/api`，JSON UTF-8；列表返回`{"items": [...]}`。错误使用HTTP状态及`detail`。时间ISO8601，物理页1-based。禁止客户端提供本机文件路径。
 
+## 原文映射决策图
+
+当前主契约见 [NI_DECISION_V3.md](NI_DECISION_V3.md)，包括 /api/decision/coverage、packages、evaluate、modifications/preview，及问诊上下文中的冻结图与字段来源。个人版0.2接口保持兼容；下面旧规则审核/发布接口仅保留历史兼容，不约束本流程。
+
 ## 会话
 
-`GET /api/session` 初始化HttpOnly SameSite=Strict会话cookie，返回`{csrf_token,mode:"personal",version:"0.2.0"}`。其他API需cookie；POST/PUT需`X-CSRF-Token`。前端fetch credentials same-origin。`GET /api/status`仅公开版本/运行状态。
+`GET /api/session` 初始化HttpOnly SameSite=Strict会话cookie，返回`{csrf_token,mode:"personal",version:"0.3.0"}`。其他API需cookie；POST/PUT需`X-CSRF-Token`。前端fetch credentials same-origin。`GET /api/status`仅公开版本/运行状态。
 
 ## 规则核心字典
 
