@@ -133,8 +133,8 @@ def _library_digest():
     return hashlib.sha256((ROOT / "app/resources/open_formula_library.json").read_bytes()).hexdigest()
 
 
-def build_context(conn, consultation_id):
-    record = get_record(conn, consultation_id)
+def build_context(conn, consultation_id, record=None):
+    record = get_record(conn, consultation_id) if record is None else record
     facts = facts_from_intake(record["intake"])
     queries = retrieval_queries(record["intake"], record["messages"])
     matches = formula_engine.match_patterns(facts, "", 12)
@@ -196,7 +196,7 @@ CONSULT_SYSTEM = """你是个人自用的倪海厦经方知识库辅助系统。
 
 def prepare_task(conn, consultation_id):
     record = get_record(conn, consultation_id)
-    context = build_context(conn, consultation_id)
+    context = build_context(conn, consultation_id, record)
     history = []
     for message in record["messages"][-12:]:
         content = message["text"]
@@ -295,6 +295,10 @@ def validate_consult_result(text, context):
             raise ValueError("AI候选方未关联到本次读取的经方条目")
         if proposed["name"] != base["name"]:
             raise ValueError("候选方名称与来源身份不一致")
+        original_formula_ref = "formula:" + proposed["formula_id"]
+        if original_formula_ref in allowed:
+            proposed["evidence_ids"] = list(dict.fromkeys(proposed["evidence_ids"] + [original_formula_ref]))
+            all_refs.add(original_formula_ref)
         # Canonical source amounts, never model-invented personal doses.
         proposed["components"] = deepcopy(base["components"])
         result["risks"].extend("来源条目注意（" + base["name"] + "）：" + note for note in base.get("contraindications", []))

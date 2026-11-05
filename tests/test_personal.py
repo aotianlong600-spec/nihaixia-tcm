@@ -96,3 +96,24 @@ def test_colloquial_words_expand_retrieval_without_inventing_patient_findings():
     queries = retrieval_queries(intake, [])
     assert "恶寒" in queries and "畏寒" in queries and "无汗" in queries and "腹胀" in queries
     assert facts_from_intake(intake) == []
+
+
+def test_model_input_and_context_use_the_same_intake_revision(personal_client, monkeypatch):
+    from app import personal, storage
+    from contextlib import closing
+
+    client, csrf = personal_client
+    case = client.post("/api/consultations", json={"intake": {"chief_complaint": "旧输入"}}, headers=csrf).json()
+    build = personal.build_context
+
+    def update_between_reads(conn, key, *args):
+        conn.execute("UPDATE consultations SET intake=?,revision=revision+1 WHERE id=?", (storage.encode({"chief_complaint": "新输入", "symptoms": [], "facts": []}), key))
+        conn.commit()
+        return build(conn, key, *args)
+
+    monkeypatch.setattr(personal, "build_context", update_between_reads)
+    with closing(storage.connect(client.app.state.data_dir)) as conn:
+        frozen, request, system = personal.prepare_task(conn, case["id"])
+        assert json.loads(request)["用户问诊单"] == frozen["intake_snapshot"]
+        assert frozen["input_revision"] == 1
+        assert personal.task_warnings(conn, frozen)

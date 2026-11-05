@@ -22,5 +22,5 @@ if (-not $health) {
     }
     if (-not $health -or $health.app_id -ne 'nihaixia-clinical-engine') { throw 'Service did not become ready.' }
 }
-Write-Output "Workbench ready: $serviceUrl (simulation only)"
+Write-Output "Workbench ready: $serviceUrl (personal assistant)"
 if (-not $NoBrowser) { Start-Process $serviceUrl }
