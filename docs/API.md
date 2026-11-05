@@ -64,3 +64,15 @@ Knowledge函数返回值遵循以上字段。`init_knowledge(conn,data_dir)`创�
 ## 模式与演示数据
 
 始终显示工程验证/模拟病例。预置明确标为synthetic的规则和病例以证明算法（不得假冒已审核医学知识）。真实资料研究卡标draft，只能经人工审核发布；首次创建访次的facts为空，界面有独立“加载合成示例”按钮。状态页显示文档数、物理页数、发布规则数和simulation模式。
+
+## 已实现的补充与校准（2026-11-05）
+
+- Fact增加`subject:patient|family|other|unknown`，默认patient；非本人、既往或未核实事实不参与当前规则及文献对照，不进入模型结构化事实发送。
+- `apply_modifications(formula, modifications, facts, base_formula_id='', context=None)`；API传同一访次context，年龄限定不会在加减阶段丢失。
+- `GET /api/research`返回9条AI视觉整理、待合作医师校勘和临床审核的研究卡。原文症候对照写入分析的`result.literature_candidates`，按来源页序；反证/缺项不是已建立必要条件。没有诊断概率或优先选方排序。
+- `GET /api/documents/{id}/pages/{n}/image`同源鉴权返回该物理页PNG，尺寸不超过2000×2800像素；全部PDFium调用使用同一进程锁。原始页图像不会改变提取文本或校核状态。
+- `GET /api/overview`增加`research_entries`和`clinical_published_rules`，将合成演示与真实规则发布数量分开。
+- 模型job的`stale`和`dependency_warnings`在完成和读取时动态核对；发送前也拒绝已失效分析。重启后GET job可读取持久化的已完成记录；访次/时间线增加`model_supplements`。
+- 检查与写入使用短SQLite写事务序列化；每请求独立连接允许ASGI线程交接。已发布规则的顶层、逐药和动作证据并集均被冻结及检查失效。
+- 备份从数据库快照的登记集读取原件，创建和恢复都核对哈希及完整性，大小口径包括清单；不复制未登记孤儿文件。
+- 研究草稿的`__clinical_rule_not_defined__`必要条件占位项不得发布；没有明确加减动作的加减草稿不得发布。临床署名仍为本地自报，不能作为执业认证或真实诊疗放行。
