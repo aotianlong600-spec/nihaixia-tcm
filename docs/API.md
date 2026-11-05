@@ -1,10 +1,12 @@
-# 工程验证版 API 与数据契约
+# API 与数据契约
+
+个人版 0.2.0 以 [V2 契约](PERSONAL_V2.md) 为准；下文旧接口说明仅用于兼容，不约束个人使用流程。
 
 所有接口同源`/api`，JSON UTF-8；列表返回`{"items": [...]}`。错误使用HTTP状态及`detail`。时间ISO8601，物理页1-based。禁止客户端提供本机文件路径。
 
 ## 会话
 
-`GET /api/session` 初始化HttpOnly SameSite=Strict会话cookie，返回`{csrf_token,mode:"simulation",version:"0.1.0"}`。其他API需cookie；POST/PUT需`X-CSRF-Token`。前端fetch credentials same-origin。`GET /api/status`仅公开版本/运行状态。
+`GET /api/session` 初始化HttpOnly SameSite=Strict会话cookie，返回`{csrf_token,mode:"personal",version:"0.2.0"}`。其他API需cookie；POST/PUT需`X-CSRF-Token`。前端fetch credentials same-origin。`GET /api/status`仅公开版本/运行状态。
 
 ## 规则核心字典
 

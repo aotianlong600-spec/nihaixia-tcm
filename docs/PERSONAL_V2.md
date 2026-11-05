@@ -22,7 +22,7 @@
 
 ### 统一资料库
 
-- `GET /api/library/sources` -> `{items:[{id,title,format,units,pdf_pages,corpus_role,has_ocr,warning}]}`。format为pdf/txt/doc/docx/github；pdf_pages非PDF为null，不能把段落伪称原书页。
+- `GET /api/library/sources` -> `{items:[{id,title,format,units,pdf_pages,corpus_role,has_ocr,warning}]}`。format为pdf/txt/doc/docx/md/github；pdf_pages非PDF为null，不能把段落伪称原书页。
 - `GET /api/library/search?q=&source_id=&limit=30` -> `{items:[{source_id,unit_no,title,format,physical_page?,locator:{kind,start,end},snippet,corpus_role,preview_url,source_url?,warning}]}`。
 - `GET /api/library/sources/{id}/units/{n}` -> `{source_id,unit_no,title,format,locator,corpus_role,raw_text,ocr_text?,corrected_text?,image_url?,original_url?,source_url?,warning}`。PDF保留原件图像；文本显示原始行/段区间。无审批按钮。
 - `GET /api/library/sources/{id}/original` 下载哈希校验原件（Word只下载不执行宏）；GitHub条目跳固定提交来源。
@@ -64,7 +64,7 @@
 
 stage为follow_up/assessment。信息不足先补问，不强制三轮、不强制出方；个人症状不等于唯一疾病。候选方必须来自本次经方/原文上下文；来源剂量可列文献原量，缺失不补写，不把古量直接作个人日量。AI推演与引用内容分别显示。
 
-只给模型发送本次必要症状、用户提供的健康背景、选取书证与经方条目；不发送文件路径、密钥或无关身份。结构/引用合法只表示程序检查通过，不保证医学结论成立。症状或来源变化后结果保留历史并标旧。
+只给模型发送本次必要症状、用户提供的健康背景、选取书证与经方条目；不发送文件路径、密钥或无关身份。结构/引用合法只表示程序检查通过，不保证医学结论成立。目录外药物组成只从独立同名标题下的完整字面清单提取；其他叙述、跨句或版本混合降级为book_reference，清空推测的药味剂量，仍保留书证方名参考。服务器用source_kind标明catalog_record/book_extraction/book_reference。症状或来源变化后结果保留历史并标旧。
 
 ## 实施任务与验证
 

@@ -117,3 +117,92 @@ def test_model_input_and_context_use_the_same_intake_revision(personal_client, m
         assert json.loads(request)["用户问诊单"] == frozen["intake_snapshot"]
         assert frozen["input_revision"] == 1
         assert personal.task_warnings(conn, frozen)
+
+
+def test_book_formula_outside_seed_catalog_can_use_literal_source_but_not_invent_amounts():
+    from app.personal import validate_consult_result
+
+    context = {"formula_candidates": [], "evidence": [{"id": "book1", "text": "调和测试饮：测试甲三钱，测试乙二钱。"}]}
+    payload = empty_result()
+    payload.update(stage="assessment", questions=[], evidence_ids=["book1"], formulas=[{
+        "formula_id": None, "name": "调和测试饮", "reason": "仅验证书证方案通路", "components": [
+            {"name": "测试甲", "source_dose": "三钱", "source_ref": "book1"},
+            {"name": "测试乙", "source_dose": "999克", "source_ref": "book1"}],
+        "modifications": [], "preparation": None, "evidence_ids": ["book1"]}])
+    result = validate_consult_result(json.dumps(payload), context)
+    assert result["formulas"][0]["components"][0]["source_dose"] == "三钱"
+    assert result["formulas"][0]["components"][1]["source_dose"] is None
+    assert result["formulas"][0]["source_kind"] == "book_extraction"
+    payload["formulas"][0]["name"] = "没有来源的幻方"
+    with pytest.raises(ValueError):
+        validate_consult_result(json.dumps(payload), context)
+
+
+def test_named_formula_query_is_not_lost_inside_a_natural_question():
+    from app.personal import retrieval_queries
+
+    assert "滋水疏肝饮" in retrieval_queries({}, [{"role": "user", "text": "请帮我查一下滋水疏肝饮的组成是什么"}])
+    assert "附子" in retrieval_queries({}, [{"role": "user", "text": "想了解附子的药性"}])
+
+
+@pytest.mark.parametrize("source,dose,want", [
+    ("测试甲3.5克，测试乙12克", "35克", None),
+    ("测试甲3.5克，测试乙12克", "3.5克", "3.5克"),
+    ("测试甲三钱，测试乙二钱", "二钱", None),
+    ("测试甲、测试乙各三钱", "三钱", None),
+])
+def test_source_dose_never_loses_decimal_or_borrows_another_herb(source, dose, want):
+    from app.personal import validate_consult_result
+
+    context = {"formula_candidates": [], "evidence": [{"id": "book1", "text": "调和测试饮：" + source}]}
+    payload = empty_result()
+    payload.update(stage="assessment", questions=[], formulas=[{"formula_id": None, "name": "调和测试饮", "components": [
+        {"name": "测试甲", "source_dose": dose}, {"name": "测试乙", "source_dose": None}], "evidence_ids": ["book1"]}])
+    result = validate_consult_result(json.dumps(payload), context)
+    assert result["formulas"][0]["components"][0]["source_dose"] == want
+
+
+@pytest.mark.parametrize("source", [
+    "调和测试饮：测试甲三钱。另方补气汤：测试乙12克。",
+    "调和测试饮：测试甲三钱，另方补气汤：测试乙12克。",
+    "补气汤：测试乙12克。调和测试饮：测试甲三钱。",
+    "加味调和测试饮：测试乙12克。",
+    "调和测试饮：测试甲三钱，补气汤由测试乙12克组成。",
+    "调和测试饮：不含测试乙12克。",
+])
+def test_book_formula_cannot_borrow_components_from_another_formula(source):
+    from app.personal import validate_consult_result
+
+    context = {"formula_candidates": [], "evidence": [{"id": "book1", "text": source}]}
+    payload = empty_result()
+    payload.update(stage="assessment", questions=[], formulas=[{
+        "formula_id": None, "name": "调和测试饮", "components": [
+            {"name": "测试乙", "source_dose": "12克"}], "evidence_ids": ["book1"]}])
+    result = validate_consult_result(json.dumps(payload), context)
+    assert result["formulas"][0]["components"] == []
+    assert result["formulas"][0]["source_kind"] == "book_reference"
+
+
+def test_book_formula_does_not_assemble_multiple_source_versions():
+    from app.personal import validate_consult_result
+
+    context = {"formula_candidates": [], "evidence": [
+        {"id": "book1", "text": "调和测试饮：测试甲三钱。"},
+        {"id": "book2", "text": "调和测试饮：测试乙二钱。"}]}
+    payload = empty_result()
+    payload.update(stage="assessment", questions=[], formulas=[{
+        "name": "调和测试饮", "components": [{"name": "测试甲"}, {"name": "测试乙"}], "evidence_ids": ["book1", "book2"]}])
+    result = validate_consult_result(json.dumps(payload), context)
+    assert result["formulas"][0]["components"] == []
+    assert result["formulas"][0]["source_kind"] == "book_reference"
+
+
+def test_book_formula_without_clear_composition_can_remain_a_reference_only():
+    from app.personal import validate_consult_result
+
+    context = {"formula_candidates": [], "evidence": [{"id": "book1", "text": "此处讨论调和测试饮的沿革，未列药物组成。"}]}
+    payload = empty_result()
+    payload.update(stage="assessment", questions=[], formulas=[{"name": "调和测试饮", "components": [], "evidence_ids": ["book1"]}])
+    result = validate_consult_result(json.dumps(payload), context)
+    assert result["formulas"][0]["components"] == []
+    assert result["formulas"][0]["source_kind"] == "book_reference"

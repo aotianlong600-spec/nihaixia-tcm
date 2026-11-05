@@ -21,3 +21,10 @@ export function shanghaiTime(time:string):string { const d=new Date(time);return
 export function actionLabel(action:string):string { return ({add:'增',remove:'减',replace:'替换',adjust:'调量',adjust_dose:'调量'} as Record<string,string>)[action] || action || '未提供' }
 export function previewComponentLabel(c:any):string { const dose=c.source_dose == null || c.source_dose === '' ? '来源原量未提供' : `${c.source_dose}${c.source_unit || ''}`;return `${c.name || '药名未提供'}${c.processing ? `（${c.processing}）` : ''} · ${dose}` }
 export function previewActionLabel(m:any):string { return `${actionLabel(m.action)} ${m.herb || '药名未提供'}${m.replacement ? ` → ${m.replacement}` : ''}${m.reason ? `：${m.reason}` : ''}` }
+export async function matchConsultation(api:{request:(path:string)=>Promise<any>;post:(path:string,data:any)=>Promise<any>}, id:string, query:string, current:()=>string) {
+  const context=await api.request(`/consultations/${id}/context`)
+  if (!isCurrent(id,current())) return null
+  const response=await api.post('/formulas/match',{facts:context.facts||[],query,limit:8})
+  if (!isCurrent(id,current())) return null
+  return {context,items:response.items}
+}
