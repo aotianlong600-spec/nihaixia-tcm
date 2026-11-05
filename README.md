@@ -40,7 +40,7 @@ python scripts/restore_backup.py 'D:\backup.tcmbak' --destination 'D:\tcm-restor
 
 ## 开发与验证
 
-最近一次测试为后端 176 项、前端 21 项、桥接 9 项通过。前端生产构建完成，但有大于 500 kB 的包体警告。本地测试不代表真实模型服务或医学有效性已经验证。
+最近一次测试为后端 176 项、前端 24 项、桥接 9 项通过。前端生产构建完成，但有大于 500 kB 的包体警告。本地测试不代表真实模型服务或医学有效性已经验证。
 
 ```powershell
 python -m pip install -r requirements-dev.txt

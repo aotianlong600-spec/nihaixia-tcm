@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { api } from './api'
-import { sendConsultation, referencesFor, referenceLink, locatorLabel, roleLabel, shanghaiTime, actionLabel, previewComponentLabel, previewActionLabel, matchConsultation, isCurrent } from './personalState'
+import { referencesFor, referenceLink, locatorLabel, roleLabel, shanghaiTime, actionLabel, previewComponentLabel, previewActionLabel, matchConsultation, savePersonalIntake, createConsultation, sendWithRecord, isCurrent } from './personalState'
 import Settings from './Settings.vue'
 const tab=ref('consult'), error=ref(''), notice=ref(''), overview=ref<any>({}), connected=ref(false)
 const history=ref<any[]>([]), record=ref<any>(null), context=ref<any>({}), draft=ref(''), intake=ref<any>({}), intakeOpen=ref(false), busy=ref(false), job=ref<any>(null)
@@ -11,16 +11,17 @@ const listFields=[['body_locations','部位'],['pain_natures','疼痛性质'],['
 const chips=['发热','怕冷','出汗','头痛','口渴','乏力','腹痛','恶心','咳嗽','失眠']
 let timer:ReturnType<typeof setTimeout>|undefined
 let unitRequest=0
+let navigation=0
 const unitPanel=ref<HTMLElement|null>(null)
 function message(e:unknown){return e instanceof Error?e.message:String(e)}
 async function run(fn:()=>Promise<void>){error.value='';notice.value='';try{await fn()}catch(e){error.value=message(e)}}
 async function refreshHistory(){history.value=(await api.request<any>('/consultations')).items}
 async function loadRecord(id:string){const [r,c]=await Promise.all([api.request<any>(`/consultations/${id}`),api.request<any>(`/consultations/${id}/context`)]);if(!isCurrent(id,record.value?.id))return;record.value=r;context.value=c;intake.value=structuredClone(r.intake||{})}
-async function selectRecord(id:string){if(timer)clearTimeout(timer);job.value=null;record.value={id,messages:[]};context.value={};await loadRecord(id)}
-async function createRecord(){const r=await api.post<any>('/consultations',{});record.value=r;context.value={};intake.value=structuredClone(r.intake||{});job.value=null;await refreshHistory();await loadRecord(r.id)}
-async function saveIntake(){if(!record.value)await createRecord();const id=record.value.id;const payload={...intake.value,age_years:intake.value.age_years === '' ? null : intake.value.age_years};const updated=await api.put<any>(`/consultations/${id}`,{expected_revision:record.value.revision,intake:payload});if(!isCurrent(id,record.value?.id))return;record.value=updated;intakeOpen.value=false;await loadRecord(id);await refreshHistory();notice.value='问诊单已保存。'}
+async function selectRecord(id:string){navigation++;if(timer)clearTimeout(timer);job.value=null;record.value={id,messages:[]};context.value={};await loadRecord(id)}
+async function createRecord(snapshot?:any){const generation=++navigation;const r=await createConsultation(api,snapshot,()=>generation===navigation);if(!r){await refreshHistory();return null}record.value=r;context.value={};intake.value=structuredClone(r.intake||{});job.value=null;await refreshHistory();if(generation!==navigation)return null;await loadRecord(r.id);return generation===navigation?r:null}
+async function saveIntake(){const updated=await savePersonalIntake(api,intake.value,record.value,snapshot=>createRecord(snapshot),()=>record.value);if(!updated)return;const id=updated.id;record.value=updated;intakeOpen.value=false;await loadRecord(id);await refreshHistory();notice.value='问诊单已保存。'}
 async function poll(id:string, consultationId:string){const value=await api.request<any>(`/model/jobs/${id}`);if(!isCurrent(consultationId,record.value?.id))return;job.value=value;if(['queued','running'].includes(value.status))timer=setTimeout(()=>run(()=>poll(id,consultationId)),1000);else {await loadRecord(consultationId);await refreshHistory()}}
-async function send(){if(!draft.value.trim()||busy.value)return;busy.value=true;try{if(!record.value)await createRecord();const id=record.value.id, text=draft.value.trim();let saved=false;try{const j=await sendConsultation({post:async(path,data)=>{const result=await api.post<any>(path,data);if(path.includes('/messages')){saved=true;if(isCurrent(id,record.value?.id))draft.value=''}return result}},id,text);if(!isCurrent(id,record.value?.id))return;job.value=j;await loadRecord(id);await poll(j.id,id)}catch(e){if(saved&&isCurrent(id,record.value?.id))await loadRecord(id);throw e}}finally{busy.value=false}}
+async function send(){if(!draft.value.trim()||busy.value)return;busy.value=true;const text=draft.value.trim();let id=record.value?.id,saved=false;try{const j=await sendWithRecord({post:async(path,data)=>{const result=await api.post<any>(path,data);if(path.includes('/messages')){saved=true;if(isCurrent(id,record.value?.id))draft.value=''}return result}},record.value,async()=>{const r=await createRecord();id=r?.id;return r},text,()=>record.value);if(!j||!isCurrent(id,record.value?.id))return;job.value=j;await loadRecord(id);await poll(j.id,id)}catch(e){if(saved&&isCurrent(id,record.value?.id))await loadRecord(id);throw e}finally{busy.value=false}}
 async function cancel(){if(!job.value)return;await api.post(`/model/jobs/${job.value.id}/cancel`,{});await poll(job.value.id,record.value.id)}
 async function loadSources(){sources.value=(await api.request<any>('/library/sources')).items}
 async function searchLibrary(){const p=new URLSearchParams({q:search.value,limit:'30'});if(sourceId.value)p.set('source_id',sourceId.value);results.value=(await api.request<any>(`/library/search?${p}`)).items}
