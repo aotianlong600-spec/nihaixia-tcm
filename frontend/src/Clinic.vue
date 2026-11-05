@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, onActivated } from 'vue'
 import { api } from './api'
 import { featureLabels } from './literatureState'
-import { loadClinicalReferences } from './clinicalReferences'
+import { loadClinicalReferences, retainRuleSelection } from './clinicalReferences'
 import { blankVisit, canDecide, visitPayload, type VisitDraft } from './visitState'
 const patients=ref<any[]>([]), visits=ref<any[]>([]), rules=ref<any[]>([]), evidence=ref<any[]>([]), timeline=ref<any[]>([])
 const researchEntries=ref<any[]>([])
@@ -35,7 +35,7 @@ function synthetic(){draft.value.facts=[{key:'demo_cold',state:'present',verifie
 async function recordDecision(){if(!decisionAllowed.value)throw Error('当前分析已过期或事实未保存，请重新分析');if(!draft.value.clinician.trim()||!notes.value.trim())throw Error('医生及决定说明不能为空');const payload:any={decision:decision.value,clinician:draft.value.clinician,notes:notes.value};if(decision.value==='modify'){payload.final_formula=JSON.parse(finalFormula.value);if(!Array.isArray(payload.final_formula))throw Error('最终方药必须为Drug数组');}lastDecision.value=await api.post(`/analyses/${analysis.value.id}/decision`,payload);timeline.value=(await api.request(`/patients/${patientId.value}/timeline`)).items;notice.value='医生决定已独立保存；修改方案已由服务端重新核查。'}
 async function showSource(e:any){sourcePage.value=await api.request(`/documents/${e.document_id}/pages/${e.physical_page}`)}
 onMounted(()=>run(refreshPatients))
-onActivated(()=>run(async()=>{researchEntries.value=(await api.request('/research')).items;const refs=await loadClinicalReferences(api);rules.value=refs.rules;evidence.value=refs.evidence}))
+onActivated(()=>run(async()=>{researchEntries.value=(await api.request('/research')).items;const refs=await loadClinicalReferences(api);rules.value=refs.rules;evidence.value=refs.evidence;const next=retainRuleSelection(refs.rules,baseRule.value,modifications.value);baseRule.value=next.baseRule;modifications.value=next.modifications;if(analysis.value?.rule_snapshot?.some((r:any)=>!refs.rules.some((current:any)=>current.id===r.id&&current.status==='published')))analysis.value.stale=true}))
 </script>
 <template><section aria-label="接诊与复诊"><div class="panel case-toolbar"><label>病例代号<select v-model="patientId" :disabled="busy" @change="run(patientChanged)"><option value="">选择病例</option><option v-for="p in patients" :value="p.id" :key="p.id">{{p.code}}</option></select></label><label>新病例代号<input v-model="newCode" :disabled="busy" placeholder="使用代号，勿填身份信息"></label><el-button :loading="busy" @click="run(createPatient)">创建病例</el-button><label>已存访次<select v-model="selectedVisit" :disabled="busy" @change="run(loadVisit)"><option value="">新访次</option><option v-for="v in visits" :key="v.id" :value="v.id">{{displayTime(v.created_at)}} · v{{v.revision}}</option></select></label><el-button :disabled="!patientId||busy" @click="startVisit()">新建初诊</el-button><el-button :disabled="!draft.id||busy" @click="startVisit(draft.id)">新建复诊</el-button></div>
 <el-alert v-if="error" :title="error" type="error" :closable="false"/><el-alert v-if="notice" :title="notice" type="success" :closable="false"/>

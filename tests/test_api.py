@@ -235,3 +235,13 @@ def test_decision_and_visit_edit_have_one_atomic_order(client, monkeypatch):
             release.set()
         assert decision.result(timeout=5).status_code == 200
         assert edit.result(timeout=5).status_code == 200
+
+
+def test_model_does_not_send_analysis_with_withdrawn_rule(client):
+    headers = login(client)
+    visit = create_visit(client, headers)
+    analysis = client.post(f"/api/visits/{visit['id']}/analyze", json={"expected_revision": 1}, headers=headers).json()
+    assert client.post("/api/rules/synthetic-pattern-a-v1/withdraw", json={"reviewer": "测试", "note": "不再使用"}, headers=headers).status_code == 200
+    assert client.put("/api/model/config", json={"base_url": "http://127.0.0.1:9/v1", "model": "synthetic", "enabled": True, "allow_external": True, "allow_evidence": False}, headers=headers).status_code == 200
+    response = client.post("/api/model/jobs", json={"purpose": "explain", "analysis_id": analysis["id"], "allow_send": True}, headers=headers)
+    assert response.status_code == 409

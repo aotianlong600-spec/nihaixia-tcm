@@ -43,6 +43,8 @@ def create_backup(data_dir: Path, password: str):
     salt = os.urandom(16)
     cipher = _fernet(password, salt)
     files = {}
+    if (data_dir / "clinical.sqlite3").stat().st_size > MAX_BYTES:
+        raise ValueError("数据库超过此版本备份大小上限")
     try:
         with tempfile.TemporaryDirectory() as temporary:
             copy = Path(temporary) / "snapshot.sqlite3"
@@ -51,6 +53,8 @@ def create_backup(data_dir: Path, password: str):
                     raise ValueError("数据库完整性检查未通过")
                 source.backup(target)
                 registered = _registered_hashes(target)
+            if copy.stat().st_size > MAX_BYTES:
+                raise ValueError("数据库快照超过此版本备份大小上限")
             files["clinical.sqlite3"] = copy.read_bytes()
     except sqlite3.DatabaseError as exc:
         raise ValueError("数据库无法备份，请先修复或恢复") from exc
@@ -58,6 +62,8 @@ def create_backup(data_dir: Path, password: str):
         original = data_dir / "originals" / f"{sha}.pdf"
         if not original.resolve().is_relative_to(data_dir) or original.is_symlink() or not original.is_file():
             raise ValueError("登记原件缺失或路径无效，不能生成完整备份")
+        if original.stat().st_size + sum(len(value) for value in files.values()) > MAX_BYTES:
+            raise ValueError("登记资料超过此版本备份大小上限")
         content = original.read_bytes()
         if hashlib.sha256(content).hexdigest() != sha:
             raise ValueError("登记原件哈希不一致，不能生成完整备份")

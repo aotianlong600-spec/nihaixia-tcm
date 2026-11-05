@@ -240,6 +240,8 @@ def mount_model_routes(app, data_dir, protected, database):
             if revision != row["visit_revision"]:
                 raise HTTPException(409, "旧分析已过期，不发送旧输入")
             snapshot = json.loads(row["document"])
+            if storage.analysis_dependency_errors(conn, snapshot):
+                raise HTTPException(409, "分析所用访次、规则或证据已改变，请重新分析后再请求模型")
             allowed_ids = {e["id"] for e in snapshot.get("evidence_snapshot", [])}
             request_input = explain_payload(snapshot, cfg["allow_evidence"])
         api_key = read_secret(key_path)

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import { createServer } from 'node:http'
 import { ApiClient } from '../src/api.ts'
-import { loadClinicalReferences } from '../src/clinicalReferences.ts'
+import { loadClinicalReferences, retainRuleSelection } from '../src/clinicalReferences.ts'
 test('clinic reference refresh rereads newly published rules and evidence from the API',async()=>{
  let published=false
  const server=createServer((req,res)=>{
@@ -21,5 +21,14 @@ test('clinic reference refresh rereads newly published rules and evidence from t
   assert.equal(next.rules[0]?.id,'rule-new')
   assert.equal(next.evidence[0]?.quote,'已校核引文')
  }finally{server.close()}
+})
+
+test('withdrawn base and incompatible modifications cannot remain as hidden selections',()=>{
+ const rules=[{id:'base',kind:'pattern',status:'published',formula_id:'f@2'},
+              {id:'mod',kind:'modification',status:'published',base_formula_id:'f@2'},
+              {id:'old-mod',kind:'modification',status:'withdrawn',base_formula_id:'f@2'},
+              {id:'wrong-base-mod',kind:'modification',status:'published',base_formula_id:'other@1'}]
+ assert.deepEqual(retainRuleSelection(rules,'base',['mod','old-mod','wrong-base-mod']),{baseRule:'base',modifications:['mod']})
+ assert.deepEqual(retainRuleSelection(rules,'withdrawn-base',['mod']),{baseRule:'',modifications:[]})
 })
 

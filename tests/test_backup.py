@@ -89,3 +89,15 @@ def test_backup_uses_registered_snapshot_not_unregistered_originals(tmp_path):
     result = restore_backup(create_backup(data, "test-password-long-enough"), "test-password-long-enough", tmp_path / "restored")
     assert result["files"] == 2
     assert not (tmp_path / "restored" / "originals" / ("a" * 64 + ".pdf")).exists()
+
+
+def test_database_only_backup_checks_size_before_reading_archive(tmp_path, monkeypatch):
+    import app.backup as backup
+
+    data = sample_data(tmp_path)
+    with sqlite3.connect(data / "clinical.sqlite3") as conn:
+        conn.execute("DELETE FROM documents")
+    conn.close()
+    monkeypatch.setattr(backup, "MAX_BYTES", 64)
+    with pytest.raises(ValueError):
+        backup.create_backup(data, "test-password-long-enough")
