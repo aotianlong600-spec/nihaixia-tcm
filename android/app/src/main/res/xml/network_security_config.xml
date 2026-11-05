@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Only the CA generated for this PC is trusted. No system, user, or debug trust. -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="@raw/ca_cert" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>
