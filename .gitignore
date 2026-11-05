@@ -10,3 +10,15 @@ data/
 frontend/dist/
 playwright-report/
 test-results/
+
+.agent-workspace/
+.mcp.json
+.claude/
+.env.*
+*.keystore
+*.jks
+*.p12
+*.pfx
+android/local.properties
+android/.gradle/
+android/**/build/
