@@ -13,7 +13,7 @@ async function withSettings(check:(state:ModelSettingsState,requests:{path:strin
   requests.push({path:req.url!,body});res.setHeader('Content-Type','application/json')
   if(req.url==='/api/session')return res.end('{"csrf_token":"synthetic"}')
   if(req.url==='/api/model/codex')return res.end('{"logged_in":true,"login":{"status":"completed","stage":"completed"}}')
-  if(req.url==='/api/model/codex/models')return res.end('{"items":[{"id":"synthetic-codex","name":"合成目录模型"}],"scope":"合成SDK目录"}')
+  if(req.url==='/api/model/codex/models')return res.end('{"items":[{"id":"synthetic-codex","name":"合成目录模型","reasoning_efforts":["low","medium","high","xhigh","max"]}],"scope":"合成SDK目录"}')
   if(req.url==='/api/model/config'){
    if(req.method==='PUT'){
     const {api_key,...saved}=body
@@ -46,7 +46,7 @@ test('selecting Codex loads its catalog without replacing a manual model ID or s
  await withSettings(async(state,requests)=>{
   await state.load();state.config.model='custom-id'
   await state.selectAuthMode('codex')
-  assert.deepEqual(state.models,[{id:'synthetic-codex',name:'合成目录模型'}])
+  assert.deepEqual(state.models,[{id:'synthetic-codex',name:'合成目录模型',reasoning_efforts:['low','medium','high','xhigh','max']}])
   assert.equal(state.catalogNote,'合成SDK目录')
   assert.equal(state.config.model,'custom-id')
   assert.equal(state.config.auth_mode,'codex')
@@ -59,7 +59,7 @@ test('saving a custom Codex ID updates the active snapshot and never sends the A
  await withSettings(async(state,requests)=>{
   await state.load();state.config.auth_mode='codex';state.config.model='custom-codex';state.config.enabled=true
   await state.save('synthetic-api-key')
-  assert.deepEqual(requests.find(r=>r.body)?.body,{auth_mode:'codex',base_url:'',model:'custom-codex',enabled:true,allow_external:false,allow_evidence:false})
+  assert.deepEqual(requests.find(r=>r.body)?.body,{auth_mode:'codex',base_url:'',model:'custom-codex',enabled:true,allow_external:false,allow_evidence:false,reasoning_effort:'auto'})
   assert.equal(state.saved?.model,'custom-codex')
   assert.equal(state.saved?.enabled,true)
   state.config.model='next-draft'
@@ -84,7 +84,7 @@ test('opening a saved Codex configuration loads the SDK catalog automatically',a
   const reopened=new ModelSettingsState(state.client)
   await reopened.load()
   assert.equal(reopened.saved?.model,'saved-custom-id')
-  assert.deepEqual(reopened.models,[{id:'synthetic-codex',name:'合成目录模型'}])
+  assert.deepEqual(reopened.models,[{id:'synthetic-codex',name:'合成目录模型',reasoning_efforts:['low','medium','high','xhigh','max']}])
   assert.equal(reopened.config.model,'saved-custom-id')
  })
 })
@@ -93,7 +93,7 @@ async function withProfiles(check:(state:ModelSettingsState,requests:{method:str
  const requests:{method:string;path:string;body:any}[]=[]
  let active:string|null=initialActive
  const base={auth_mode:'api_key',base_url:'https://example.test',model:'m1',enabled:true,allow_external:false,allow_evidence:false}
- let profiles:any[]=[{id:'p1',name:'配置一',...base,has_key:true},{id:'p2',name:'配置二',...base,model:'m2',has_key:false}]
+ let profiles:any[]=[{id:'p1',name:'配置一',...base,has_key:true},{id:'p2',name:'配置二',...base,model:'m2',reasoning_effort:'low',has_key:false}]
  const publicConfig=(id:string|null)=>id?{...profiles.find(p=>p.id===id),profile_id:id,profile_name:profiles.find(p=>p.id===id)?.name,codex:{logged_in:false}}:{...base,profile_id:null,profile_name:null,has_key:true}
  const server=createServer(async(req,res)=>{
   const chunks:Buffer[]=[];for await(const chunk of req)chunks.push(Buffer.from(chunk))
@@ -194,6 +194,96 @@ test('deleting the active profile leaves no active configuration and clears its 
   const result=await state.deleteProfile('p1')
   assert.equal(result.active_id,null);assert.equal(state.activeId,null);assert.equal(state.saved,null)
   assert.equal(state.editingId,null);assert.equal(state.profiles.length,1)
+ })
+})
+
+test('reasoning effort round-trips through save while old configs default to auto',async()=>{
+ await withSettings(async(state,requests)=>{
+  await state.load()
+  assert.equal(state.config.reasoning_effort,'auto')
+  assert.equal(state.config.enabled,false)
+  assert.equal(state.config.allow_external,false)
+  state.config.model='provider/model';state.config.reasoning_effort='high'
+  await state.save()
+  assert.equal(requests.find(r=>r.body)?.body.reasoning_effort,'high')
+  assert.equal(state.saved?.reasoning_effort,'high')
+  assert.equal(state.config.reasoning_effort,'high')
+ })
+})
+
+test('known Codex models expose only auto plus catalog efforts and preserve valid effort across refresh',async()=>{
+ await withSettings(async(state)=>{
+  await state.load();await state.selectAuthMode('codex')
+  state.config.model='synthetic-codex'
+  assert.deepEqual(state.effortChoices,['auto','low','medium','high','xhigh','max'])
+  state.config.reasoning_effort='high'
+  await state.loadModels()
+  assert.equal(state.config.reasoning_effort,'high')
+  assert.equal(state.effortValid,true)
+ })
+})
+
+test('custom or unknown Codex models limit effort to auto and block invalid saves',async()=>{
+ await withSettings(async(state,requests)=>{
+  await state.load();await state.selectAuthMode('codex')
+  state.config.model='custom-codex';state.modelChanged()
+  assert.deepEqual(state.effortChoices,['auto'])
+  assert.equal(state.effortCapabilityKnown,false)
+  state.config.reasoning_effort='low'
+  assert.equal(state.effortValid,false)
+  const before=requests.filter(r=>r.body).length
+  await assert.rejects(state.save(),/不受当前模型支持/)
+  assert.equal(requests.filter(r=>r.body).length,before)
+ })
+})
+
+test('changing model or auth mode resets only unsupported effort to auto',async()=>{
+ await withSettings(async(state)=>{
+  await state.load();await state.selectAuthMode('codex')
+  state.config.model='synthetic-codex';state.config.reasoning_effort='high'
+  state.modelChanged()
+  assert.equal(state.config.reasoning_effort,'high')
+  state.config.model='custom-codex';state.modelChanged()
+  assert.equal(state.config.reasoning_effort,'auto')
+  await state.selectAuthMode('api_key')
+  assert.deepEqual(state.effortChoices,['auto','none','minimal','low','medium','high','xhigh','max'])
+  state.config.reasoning_effort='max';state.modelChanged()
+  assert.equal(state.config.reasoning_effort,'max')
+  await state.selectAuthMode('codex')
+  assert.equal(state.config.reasoning_effort,'auto')
+ })
+})
+
+test('a whitelisted but unsupported effort is invalid and never silently sent',async()=>{
+ await withSettings(async(state,requests)=>{
+  await state.load();state.config.model='provider/model';state.config.reasoning_effort='turbo'
+  assert.equal(state.effortValid,false)
+  const before=requests.filter(r=>r.body).length
+  await assert.rejects(state.save(),/有效的思考档位/)
+  assert.equal(requests.filter(r=>r.body).length,before)
+ })
+})
+
+test('profile edit and save persist reasoning effort without changing the active snapshot',async()=>{
+ await withProfiles(async(state,requests)=>{
+  await state.load();await state.loadProfiles()
+  assert.equal(state.saved?.reasoning_effort,'auto')
+  state.selectForEdit(state.profiles[0])
+  assert.equal(state.config.reasoning_effort,'auto')
+  state.selectForEdit(state.profiles[1])
+  assert.equal(state.config.reasoning_effort,'low')
+  state.config.reasoning_effort='high'
+  assert.equal(state.saved?.reasoning_effort,'auto')
+  await state.saveProfile()
+  const update=requests.find(r=>r.method==='PUT'&&r.path==='/api/model/profiles/p2')
+  assert.equal(update?.body.reasoning_effort,'high')
+  assert.equal(state.config.reasoning_effort,'high')
+  assert.equal(state.saved?.reasoning_effort,'auto')
+  await state.useProfile('p2')
+  assert.equal(state.saved?.reasoning_effort,'high')
+  assert.equal(state.config.reasoning_effort,'high')
+  state.newDraft()
+  assert.equal(state.config.reasoning_effort,'auto')
  })
 })
 
