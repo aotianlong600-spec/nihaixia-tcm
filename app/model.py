@@ -14,11 +14,10 @@ from fastapi import Depends, HTTPException
 from pydantic import BaseModel, ConfigDict, Field
 
 from . import personal, storage
-from .secrets import read_secret, write_secret
+from .model_profiles import DEFAULT_CONFIG, ProfileStore
 from .model_oauth import CODEX_BASE, LoginInput, OAuthManager
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_CONFIG = {"auth_mode": "api_key", "base_url": "", "model": "", "enabled": False, "allow_external": False, "allow_evidence": False}
 
 
 def validate_url(url):
@@ -76,6 +75,10 @@ class ModelConfig(BaseModel):
     allow_evidence: bool = False
 
 
+class ProfileInput(ModelConfig):
+    name: str = Field(min_length=1, max_length=80)
+
+
 class JobInput(BaseModel):
     model_config = ConfigDict(extra="forbid")
     purpose: str
@@ -85,26 +88,25 @@ class JobInput(BaseModel):
 
 
 def mount_model_routes(app, data_dir, protected, database):
-    config_path = data_dir / "model-config.json"
-    key_path = data_dir / "model-secret.dpapi"
+    profiles = ProfileStore(data_dir, validate_url)
+    app.state.model_profiles = profiles
     oauth = OAuthManager(data_dir)
     app.state.model_oauth = oauth
     jobs = {}
     guard = threading.Lock()
 
-    def config():
-        if not config_path.exists():
-            return dict(DEFAULT_CONFIG)
-        try:
-            value = json.loads(config_path.read_text(encoding="utf-8"))
-            if not isinstance(value, dict): raise ValueError("模型配置格式无效")
-            return {key: value.get(key, default) for key, default in DEFAULT_CONFIG.items()}
-        except (json.JSONDecodeError, OSError) as exc:
-            raise ValueError("模型配置损坏，请重新保存配置") from exc
+    def active_item(snapshot):
+        return next((item for item in snapshot["items"] if item["id"] == snapshot["active_id"]), None)
 
     def public_config():
-        value = config()
-        value["has_key"] = key_path.exists()
+        snapshot = profiles.snapshot()
+        item = active_item(snapshot)
+        if item is None:
+            value = dict(DEFAULT_CONFIG)
+            value.update(profile_id=None, profile_name=None, has_key=False)
+        else:
+            value = {key: item[key] for key in DEFAULT_CONFIG}
+            value.update(profile_id=item["id"], profile_name=item["name"], has_key=profiles.has_key(item["id"]))
         try:
             value["codex"] = oauth.status()
         except ValueError:
@@ -123,13 +125,52 @@ def mount_model_routes(app, data_dir, protected, database):
         result["base_url"] = CODEX_BASE if payload.auth_mode == "codex" else validate_url(payload.base_url)
         if payload.auth_mode == "codex" and payload.api_key:
             raise ValueError("Codex通道使用网页登录，不接收手动API Key")
-        if payload.api_key:
-            write_secret(key_path, payload.api_key)
-        temporary = config_path.with_suffix(".tmp")
-        temporary.write_text(storage.encode(result), encoding="utf-8")
-        os.replace(temporary, config_path)
-        storage.audit(conn, "model_config", "default", recipient=urlparse(result["base_url"]).hostname, auth_mode=result["auth_mode"], allow_external=result["allow_external"], allow_evidence=result["allow_evidence"])
-        return public_config()
+        with guard:
+            snapshot = profiles.snapshot()
+            item = active_item(snapshot)
+            if item is None:
+                saved = profiles.create(result, "默认配置", payload.api_key, activate=True)
+            else:
+                saved = profiles.update(item["id"], result, item["name"], payload.api_key)
+            value = public_config()
+        storage.audit(conn, "model_config", saved["id"], recipient=urlparse(result["base_url"]).hostname, auth_mode=result["auth_mode"], allow_external=result["allow_external"], allow_evidence=result["allow_evidence"])
+        return value
+
+    @app.get("/api/model/profiles", dependencies=protected)
+    def list_profiles():
+        return profiles.list()
+
+    @app.post("/api/model/profiles", dependencies=protected)
+    def create_profile(payload: ProfileInput, conn=Depends(database)):
+        with guard:
+            saved = profiles.create(payload.model_dump(exclude={"api_key", "name"}), payload.name, payload.api_key)
+        storage.audit(conn, "model_profile_create", saved["id"], name=saved["name"], recipient=urlparse(saved["base_url"]).hostname, auth_mode=saved["auth_mode"], allow_external=saved["allow_external"], allow_evidence=saved["allow_evidence"])
+        return saved
+
+    @app.put("/api/model/profiles/{profile_id}", dependencies=protected)
+    def update_profile(profile_id: str, payload: ProfileInput, conn=Depends(database)):
+        with guard:
+            saved = profiles.update(profile_id, payload.model_dump(exclude={"api_key", "name"}), payload.name, payload.api_key)
+        storage.audit(conn, "model_profile_update", saved["id"], name=saved["name"], recipient=urlparse(saved["base_url"]).hostname, auth_mode=saved["auth_mode"], allow_external=saved["allow_external"], allow_evidence=saved["allow_evidence"])
+        return saved
+
+    @app.post("/api/model/profiles/{profile_id}/select", dependencies=protected)
+    def select_profile(profile_id: str, conn=Depends(database)):
+        with guard:
+            profiles.select(profile_id)
+            value = public_config()
+        storage.audit(conn, "model_profile_select", profile_id, profile_id=profile_id)
+        return value
+
+    @app.delete("/api/model/profiles/{profile_id}", dependencies=protected)
+    def delete_profile(profile_id: str, conn=Depends(database)):
+        with guard:
+            result = profiles.delete(profile_id)
+            for job in jobs.values():
+                if job.get("profile_id") == profile_id and job["status"] in {"queued", "running"}:
+                    cancel_job_now(job)
+        storage.audit(conn, "model_profile_delete", profile_id, active_id=result["active_id"])
+        return result
 
     @app.get("/api/model/codex", dependencies=protected)
     def codex_status():
@@ -165,16 +206,24 @@ def mount_model_routes(app, data_dir, protected, database):
     def codex_logout():
         with guard:
             for job in jobs.values():
-                if job.get("auth_mode") == "codex" and job["status"] in ("queued", "running"):
-                    job["cancel_requested"] = True
-                    process = job.get("process")
-                    if process and process.poll() is None:
-                        try:
-                            process.stdin.write('{"type":"cancel"}\n'); process.stdin.flush()
-                        except (OSError, ValueError):
-                            pass
+                if job.get("auth_mode") == "codex" and job["status"] in {"queued", "running"}:
+                    cancel_job_now(job)
             oauth.logout()
         return {"logged_in": False}
+
+    def cancel_job_now(job):
+        job["cancel_requested"] = True
+        process = job.get("process")
+        if process and process.poll() is None:
+            try:
+                process.stdin.write('{"type":"cancel"}\n'); process.stdin.flush()
+            except (OSError, ValueError):
+                pass
+            timer = threading.Timer(2, lambda: process.kill() if process.poll() is None else None)
+            timer.daemon = True
+            timer.start()
+        else:
+            job["status"] = "cancelled"
 
     def public_job(job):
         value = {key: job[key] for key in ("id", "status", "text", "error", "usage", "validated", "validation_scope", "created_at", "stale", "dependency_warnings", "analysis_id", "consultation_id", "result", "evidence") if key in job}
@@ -266,7 +315,8 @@ def mount_model_routes(app, data_dir, protected, database):
                     conn.execute("BEGIN IMMEDIATE")
                     warnings = personal.task_warnings(conn, job["consultation_context"]) if job.get("consultation_context") else storage.analysis_dependency_errors(conn, snapshot_for_job(job, conn)) if job.get("analysis_id") else []
                     finished.update(stale=bool(warnings), dependency_warnings=warnings, validated=not warnings)
-                    document = {**finished, "purpose": job["purpose"], "result": result, "recipient": cfg["base_url"], "model": cfg["model"]}
+                    document = {**finished, "purpose": job["purpose"], "result": result, "recipient": cfg["base_url"], "model": cfg["model"],
+                                "profile_id": job.get("profile_id"), "profile_revision": job.get("profile_revision")}
                     if job["purpose"] == "consult":
                         document.update(consultation_context=job["consultation_context"], raw_response=text)
                         personal.save_assistant_result(conn, job, result, job["consultation_context"])
@@ -302,7 +352,13 @@ def mount_model_routes(app, data_dir, protected, database):
     def start_job(payload: JobInput, conn=Depends(database)):
         if payload.purpose not in {"test", "explain", "consult"}:
             raise HTTPException(400, "不支持的模型任务")
-        cfg = config()
+        registry_snapshot = profiles.snapshot()
+        selected = active_item(registry_snapshot)
+        if selected is None:
+            raise HTTPException(409, "当前未选择模型配置，请先选择或保存配置")
+        profile_id = selected["id"]
+        registry_revision = registry_snapshot["revision"]
+        cfg = {key: selected[key] for key in DEFAULT_CONFIG}
         if cfg["auth_mode"] not in ("api_key", "codex"):
             raise HTTPException(409, "模型通道配置无效")
         if cfg["auth_mode"] == "codex": cfg["base_url"] = CODEX_BASE
@@ -335,7 +391,10 @@ def mount_model_routes(app, data_dir, protected, database):
             allowed_ids = {e["id"] for e in snapshot.get("evidence_snapshot", [])}
             request_input = explain_payload(snapshot, cfg["allow_evidence"])
         with guard:
-            api_key = oauth.access_token() if cfg["auth_mode"] == "codex" else read_secret(key_path)
+            current = profiles.snapshot()
+            if current["revision"] != registry_revision or current["active_id"] != profile_id:
+                raise HTTPException(409, "模型配置已更改，请重新发送")
+            api_key = oauth.access_token() if cfg["auth_mode"] == "codex" else profiles.read_key(profile_id)
             if sum(j["status"] in {"queued", "running"} for j in jobs.values()) >= 2:
                 raise HTTPException(429, "已有两个模型请求运行，请完成或取消后重试")
             if len(jobs) >= 100:
@@ -343,11 +402,12 @@ def mount_model_routes(app, data_dir, protected, database):
                 if old:
                     jobs.pop(old)
             job = {"id": str(uuid4()), "status": "queued", "text": "", "validated": False, "purpose": payload.purpose, "auth_mode": cfg["auth_mode"],
+                   "profile_id": profile_id, "profile_name": selected["name"], "profile_revision": current["revision"],
                    "analysis_id": payload.analysis_id, "created_at": storage.now()}
             if consultation_context is not None:
                 job.update(consultation_id=payload.consultation_id, consultation_context=consultation_context, system=system)
             jobs[job["id"]] = job
-        storage.audit(conn, "model_start", job["id"], purpose=payload.purpose, recipient=cfg["base_url"], auth_mode=cfg["auth_mode"], allow_evidence=cfg["allow_evidence"])
+        storage.audit(conn, "model_start", job["id"], purpose=payload.purpose, profile_id=profile_id, recipient=cfg["base_url"], auth_mode=cfg["auth_mode"], allow_evidence=cfg["allow_evidence"])
         threading.Thread(target=run_job, args=(job, cfg, api_key, request_input, allowed_ids), daemon=True).start()
         return public_job(job)
 
@@ -379,17 +439,5 @@ def mount_model_routes(app, data_dir, protected, database):
                 raise HTTPException(404, "模型任务不存在")
             job = jobs[job_id]
             if job["status"] in {"queued", "running"}:
-                job["cancel_requested"] = True
-                process = job.get("process")
-                if process and process.poll() is None:
-                    try:
-                        process.stdin.write('{"type":"cancel"}\n')
-                        process.stdin.flush()
-                    except (OSError, ValueError):
-                        pass
-                    timer = threading.Timer(2, lambda: process.kill() if process.poll() is None else None)
-                    timer.daemon = True
-                    timer.start()
-                else:
-                    job["status"] = "cancelled"
+                cancel_job_now(job)
             return public_job(job)
