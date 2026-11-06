@@ -1,4 +1,7 @@
+import hashlib
 import json
+import sqlite3
+from copy import deepcopy
 
 import pytest
 from fastapi.testclient import TestClient
@@ -225,3 +228,119 @@ def test_book_formula_without_clear_composition_can_remain_a_reference_only():
     result = validate_consult_result(json.dumps(payload), context)
     assert result["formulas"][0]["components"] == []
     assert result["formulas"][0]["source_kind"] == "book_reference"
+
+
+@pytest.mark.parametrize("fact", [
+    {"key": "头痛", "state": "present", "verified": True, "scope": "history", "subject": "patient", "source": "patient"},
+    {"key": "头痛", "state": "present", "verified": True, "scope": "current", "subject": "other", "source": "patient"},
+    {"key": "头痛", "state": "present", "verified": False, "scope": "current", "subject": "patient", "source": "patient"},
+    {"key": "头痛", "state": "present", "verified": True, "scope": "history", "subject": "family", "source": "patient"},
+])
+def test_non_current_verified_patient_facts_do_not_swallow_current_symptom_chip(fact):
+    from app.personal import facts_from_intake
+
+    facts = facts_from_intake({"symptoms": ["头痛"], "facts": [dict(fact)]})
+    assert len(facts) == 2
+    assert facts[0] == fact
+    assert facts[1] == {"key": "头痛", "state": "present", "verified": True, "scope": "current", "subject": "patient", "source": "patient"}
+
+
+def test_existing_current_present_fact_is_not_duplicated_with_legacy_defaults():
+    from app.personal import facts_from_intake
+
+    fact = {"key": "头痛", "state": "present", "verified": True, "source": "patient"}
+    assert facts_from_intake({"symptoms": ["头痛"], "facts": [dict(fact)]}) == [fact]
+
+
+def test_facts_from_intake_does_not_mutate_input_records():
+    from app.personal import facts_from_intake
+
+    intake = {"symptoms": ["头痛"], "facts": [
+        {"key": "头痛", "state": "absent", "verified": True, "scope": "current", "subject": "patient", "source": "patient"}]}
+    snapshot = deepcopy(intake)
+    facts_from_intake(intake)
+    assert intake == snapshot
+
+
+def _synthetic_rule():
+    return {"id": "r", "version": 1, "title": "合成规则", "kind": "pattern", "status": "published",
+            "synthetic": True, "scope": {"description": "合成测试"}, "required": {"fact": "头痛"},
+            "support": [], "excluded": None, "evidence_ids": [], "formula": [], "actions": [],
+            "description": "合成测试规则"}
+
+
+def test_current_absent_fact_and_positive_chip_become_engine_conflict_and_keep_question():
+    from app import engine
+    from app.personal import facts_from_intake
+
+    facts = facts_from_intake({"symptoms": ["头痛"], "facts": [
+        {"key": "头痛", "state": "absent", "verified": True, "scope": "current", "subject": "patient", "source": "patient"}]})
+    assert [f["state"] for f in facts] == ["absent", "present"]
+    result = engine.analyze(facts, [_synthetic_rule()], {})
+    assert result["candidates"][0]["status"] == "conflict"
+    assert "头痛" in result["questions"]
+
+
+def test_conflict_does_not_lose_original_source_graph_question(tmp_path):
+    from app import decision, library
+    from app.personal import facts_from_intake
+
+    conn = sqlite3.connect(":memory:")
+    library.initialize(conn, tmp_path)
+    decision.initialize(conn)
+    raw, source = "合成来源：头痛", "a" * 64
+    conn.execute("INSERT INTO text_sources VALUES (?,?,?,?,?)", (source, "合成来源", "txt", 1, "utf8"))
+    conn.execute("INSERT INTO source_units (source_id,unit_no,locator,raw_text) VALUES (?,?,?,?)", (source, 1, "{}", raw))
+    conn.execute("INSERT INTO source_catalog VALUES (?,?)", (source, "reference"))
+
+    def claim(key, kind):
+        return {"id": key, "kind": kind, "text": "合成断言", "anchor_ids": ["a"], "inference": "literal",
+                "scope": "合成", "limitations": []}
+
+    anchor = {"id": "a", "source_id": source, "unit_no": 1, "start": 0, "end": len(raw), "quote": raw,
+              "unit_sha256": hashlib.sha256(raw.encode()).hexdigest(), "layer": "reference_author",
+              "attribution": "合成", "version_label": "v1"}
+    package = {"format_version": 1, "id": "p", "version": 1, "title": "合成来源包",
+               "anchors": [anchor], "claims": [claim("必要", "necessary")],
+               "formulas": [], "edges": [], "modifications": [],
+               "nodes": [{"id": "n", "label": "合成节点", "kind": "pattern", "scope": "合成",
+                          "scope_claim_ids": [], "formula_version_id": None,
+                          "conditions": [{"id": "c", "role": "required", "expr": {"fact": "头痛"}, "claim_ids": ["必要"]}],
+                          "questions": [{"key": "头痛", "question": "是否头痛？", "reason": "合成", "claim_ids": ["必要"]}],
+                          "limitations": []}]}
+    decision.import_package(conn, package)
+    facts = facts_from_intake({"symptoms": ["头痛"], "facts": [
+        {"key": "头痛", "state": "absent", "verified": True, "scope": "current", "subject": "patient", "source": "patient"}]})
+    graph = decision.evaluate(conn, facts)
+    assert graph["nodes"][0]["status"] == "conflict"
+    assert [q["key"] for q in graph["questions"]] == ["头痛"]
+
+
+def test_prepare_task_partitions_confirmed_current_and_background_records(personal_client):
+    from app import personal, storage
+    from contextlib import closing
+
+    client, csrf = personal_client
+    intake_facts = [
+        {"key": "当前症", "state": "present", "verified": True, "source": "patient"},
+        {"key": "当前未知", "state": "unknown", "verified": True, "source": "patient"},
+        {"key": "当前矛盾", "state": "conflict", "verified": True, "source": "patient"},
+        {"key": "当前缺失", "state": "absent", "verified": True, "source": "patient"},
+        {"key": "既往症", "state": "present", "verified": True, "scope": "history", "subject": "patient", "source": "patient"},
+        {"key": "家人症", "state": "present", "verified": True, "subject": "family", "source": "patient"},
+        {"key": "未核实", "state": "present", "verified": False, "source": "patient"},
+    ]
+    case = client.post("/api/consultations", json={"intake": {"facts": intake_facts}}, headers=csrf).json()
+    with closing(storage.connect(client.app.state.data_dir)) as conn:
+        context, request, system = personal.prepare_task(conn, case["id"])
+    payload = json.loads(request)
+    assert [f["key"] for f in payload["用户已确认记录项"]] == ["当前症", "当前未知", "当前矛盾", "当前缺失"]
+    assert [f["state"] for f in payload["用户已确认记录项"]] == ["present", "unknown", "conflict", "absent"]
+    background = {f["key"]: f for f in payload["背景与待核对记录项"]}
+    assert list(background) == ["既往症", "家人症", "未核实"]
+    assert background["既往症"]["scope"] == "history"
+    assert background["家人症"]["subject"] == "family"
+    assert background["未核实"]["verified"] is False
+    assert payload["用户问诊单"]["facts"] == intake_facts
+    assert len(context["facts"]) == len(intake_facts)
+    assert "背景与待核对记录项" in system and "不能确立本次患者当前所见" in system
