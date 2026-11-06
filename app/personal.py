@@ -10,7 +10,8 @@ from uuid import uuid4
 
 from fastapi import Depends, HTTPException
 from fastapi.responses import FileResponse
-from pydantic import BaseModel, ConfigDict, Field, ValidationError
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
+from typing import get_origin
 
 from . import decision, decision_support, formula_engine, library, storage
 from .engine import analyze
@@ -28,6 +29,20 @@ RETRIEVAL_ALIASES = {
 
 class Payload(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True, allow_inf_nan=False)
+
+
+class ModelPayload(Payload):
+    """AI output is untrusted prose: ignore unknown keys and treat null lists as empty."""
+    model_config = ConfigDict(extra="ignore", str_strip_whitespace=True, allow_inf_nan=False)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _null_lists_to_empty(cls, value):
+        if isinstance(value, dict):
+            for name, field in cls.model_fields.items():
+                if value.get(name) is None and get_origin(field.annotation) is list:
+                    value[name] = []
+        return value
 
 
 class Intake(Payload):
@@ -234,13 +249,13 @@ def prepare_task(conn, consultation_id):
     return context, encoded, CONSULT_SYSTEM
 
 
-class Question(Payload):
+class Question(ModelPayload):
     key: str = Field(min_length=1, max_length=100)
     question: str = Field(min_length=1, max_length=2000)
     reason: str = Field(default="", max_length=2000)
 
 
-class Syndrome(Payload):
+class Syndrome(ModelPayload):
     name: str = Field(min_length=1, max_length=200)
     six_meridian: str = Field(default="", max_length=200)
     eight_principles: str = Field(default="", max_length=500)
@@ -251,7 +266,7 @@ class Syndrome(Payload):
     evidence_ids: list[str] = Field(default_factory=list, max_length=50)
 
 
-class Component(Payload):
+class Component(ModelPayload):
     name: str = Field(min_length=1, max_length=100)
     processing: str | None = Field(default=None, max_length=300)
     source_dose: str | None = Field(default=None, max_length=300)
@@ -259,7 +274,7 @@ class Component(Payload):
     source_ref: str | None = Field(default=None, max_length=2000)
 
 
-class Modification(Payload):
+class Modification(ModelPayload):
     action: Literal["add", "remove", "replace", "adjust"]
     herb: str = Field(min_length=1, max_length=100)
     replacement: str | None = Field(default=None, max_length=100)
@@ -268,7 +283,7 @@ class Modification(Payload):
     evidence_ids: list[str] = Field(default_factory=list, max_length=50)
 
 
-class FormulaProposal(Payload):
+class FormulaProposal(ModelPayload):
     formula_version_id: str | None = Field(default=None, max_length=200)
     decision_package_id: str | None = Field(default=None, max_length=200)
     decision_package_version: int | None = Field(default=None, ge=1)
@@ -282,7 +297,7 @@ class FormulaProposal(Payload):
     evidence_ids: list[str] = Field(default_factory=list, max_length=50)
 
 
-class ConsultResult(Payload):
+class ConsultResult(ModelPayload):
     stage: Literal["follow_up", "assessment"]
     summary: str = Field(min_length=1, max_length=15000)
     questions: list[Question] = Field(default_factory=list, max_length=10)

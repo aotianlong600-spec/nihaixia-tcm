@@ -40,6 +40,21 @@ def test_model_payload_omits_identity_raw_chief_complaint_and_unapproved_evidenc
     assert "copyrighted-original" in explain_payload(analysis, True)
 
 
+def test_bridge_error_messages_are_actionable_and_never_reflect_provider_values():
+    from app.model import bridge_error_message
+
+    assert "推理参数" in bridge_error_message({"status": 400, "provider_param": "reasoning.effort"})
+    assert "重新登录" in bridge_error_message({"status": 401})
+    assert "模型ID" in bridge_error_message({"status": 404})
+    assert "额度" in bridge_error_message({"status": 429})
+    assert "10分钟" in bridge_error_message({"status": 429, "retry_after": 600})
+    assert "10分钟" not in bridge_error_message({"status": 429, "retry_after": 999999})
+    assert "HTTP 503" in bridge_error_message({"status": 503})
+    assert "未完成" in bridge_error_message({})
+    assert "private-provider-value" not in bridge_error_message(
+        {"status": 400, "provider_param": "private-provider-value", "provider_code": "private-provider-value"})
+
+
 def test_model_output_rejects_unknown_citation_and_malformed_json():
     from app.model import validate_explanation
 

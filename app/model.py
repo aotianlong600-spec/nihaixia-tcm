@@ -47,6 +47,41 @@ def explain_payload(analysis, allow_evidence):
                            "candidates": candidates, "urgent": analysis["result"].get("urgent", False), "evidence": evidence})
 
 
+def bridge_error_message(event):
+    """Map safe bridge diagnostics to actionable text without echoing provider bodies."""
+    status = event.get("status")
+    if isinstance(status, bool) or not isinstance(status, int) or not 100 <= status <= 599:
+        status = None
+    param = event.get("provider_param")
+    code = event.get("code")
+    if status == 400 and param == "reasoning.effort":
+        return "当前Codex模型不接受本次推理参数；请更新模型桥，或改用支持该参数的模型"
+    if status in {401, 403}:
+        return "模型凭证或账号权限被拒绝，请重新登录Codex，或在设置中核对模型权限"
+    if status == 404:
+        return "模型ID不存在或当前账号无权使用，请在模型设置中更换模型"
+    if status == 429 or event.get("provider_type") == "usage_limit_reached":
+        retry = event.get("retry_after")
+        if isinstance(retry, int) and not isinstance(retry, bool) and 1 <= retry <= 86400:
+            return f"Codex账号当前额度或频率受限，请在约{max(1, (retry + 59) // 60)}分钟后重试；登录成功不代表账号仍有可用额度"
+        return "Codex账号当前额度或频率受限，请等待额度恢复后重试；登录成功不代表账号仍有可用额度"
+    if status == 400:
+        return "模型拒绝了本次请求参数，请核对模型ID与接口地址"
+    if code == "timeout":
+        return "模型请求超过本机等待时限，请重试；若持续超时请缩短问诊内容"
+    if code == "output_limit":
+        return "模型输出超过本机大小限制，请缩短问诊内容或减少一次生成的范围"
+    if code == "incomplete":
+        return "模型流式响应未正常结束，请重试；若持续出现请核对账号额度与网络"
+    if code == "unsupported_output":
+        return "模型返回了当前通道不支持的工具调用，请重试或更换模型"
+    if code == "invalid_request":
+        return "本机模型桥拒绝了请求参数，请检查模型配置后重试"
+    if status:
+        return f"模型请求失败（HTTP {status}），请核对地址、权限、限额或网络后重试"
+    return "模型请求未完成，请核对地址、权限、限额或网络后重试"
+
+
 def validate_explanation(text, allowed_ids):
     try:
         result = json.loads(text)
@@ -285,7 +320,10 @@ def mount_model_routes(app, data_dir, protected, database):
                         raise ValueError("模型输出超过大小限制")
                 elif event.get("type") == "error":
                     # Never reflect raw provider error bodies, which can echo sent data or secrets.
-                    raise ValueError("模型请求未完成，请核对地址、权限、限额或网络后重试")
+                    print("model bridge error: " + " ".join(
+                        f"{key}={event.get(key)}" for key in ("code", "status", "invalid_reason", "retry_after", "provider_type", "provider_code", "provider_param")
+                        if event.get(key) is not None), flush=True)
+                    raise ValueError(bridge_error_message(event))
                 elif event.get("type") == "done":
                     if completed is not None or event.get("stop_reason") != "stop":
                         raise ValueError("模型未到达有效完成终态")

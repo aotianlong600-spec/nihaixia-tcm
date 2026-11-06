@@ -20,37 +20,49 @@ function finish(event) {
   process.stdout.write(frame(event), () => process.exit(event.type === 'done' ? 0 : 1));
 }
 
-function fail(code, message) {
-  finish({ type: 'error', code, message });
+function fail(code, message, details = {}) {
+  finish({ type: 'error', code, message, ...details });
+}
+
+function invalid(reason) {
+  const error = Error('Invalid model request parameters.');
+  error.reason = reason;
+  return error;
 }
 
 function validate(value) {
   const allowed = ['base_url', 'api_key', 'model', 'input', 'system', 'max_output_tokens', 'timeout_ms', 'auth_mode'];
-  if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !allowed.includes(key))) throw Error();
+  if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !allowed.includes(key))) throw invalid('shape');
   for (const key of ['base_url', 'api_key', 'model', 'input']) {
-    if (typeof value[key] !== 'string' || !value[key].trim()) throw Error();
+    if (typeof value[key] !== 'string' || !value[key].trim()) throw invalid('missing_' + key);
   }
-  if (value.system !== undefined && typeof value.system !== 'string') throw Error();
-  if (value.api_key.length > 8192 || /[\x00-\x20\x7f]/.test(value.api_key)) throw Error();
-  if (value.model.length > 256 || /[\x00-\x1f\x7f]/.test(value.model)) throw Error();
+  if (value.system !== undefined && typeof value.system !== 'string') throw invalid('system_type');
+  if (value.api_key.length > 8192 || /[\x00-\x20\x7f]/.test(value.api_key)) throw invalid('api_key_chars');
+  if (value.model.length > 256 || /[\x00-\x1f\x7f]/.test(value.model)) throw invalid('model_chars');
   const maxTokens = value.max_output_tokens ?? 2048;
   const timeoutMs = value.timeout_ms ?? 90000;
-  if (!Number.isInteger(maxTokens) || maxTokens < 1 || maxTokens > 4096) throw Error();
-  if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 90000) throw Error();
-  if (!['api_key','codex'].includes(value.auth_mode ?? 'api_key')) throw Error();
-  const url = new URL(value.base_url);
-  if (url.username || url.password || url.search || url.hash || url.hostname.endsWith('.')) throw Error();
+  if (!Number.isInteger(maxTokens) || maxTokens < 1 || maxTokens > 4096) throw invalid('max_output_tokens');
+  if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 90000) throw invalid('timeout_ms');
+  if (!['api_key','codex'].includes(value.auth_mode ?? 'api_key')) throw invalid('auth_mode');
+  let url;
+  try { url = new URL(value.base_url); }
+  catch { throw invalid('base_url_parse'); }
+  if (url.username || url.password || url.search || url.hash || url.hostname.endsWith('.')) throw invalid('base_url_parts');
   const loopback = url.hostname === 'localhost' || url.hostname === '[::1]' || /^127(?:\.\d{1,3}){3}$/.test(url.hostname);
-  if (url.protocol !== 'https:' && !(url.protocol === 'http:' && loopback)) throw Error();
+  if (url.protocol !== 'https:' && !(url.protocol === 'http:' && loopback)) throw invalid('base_url_scheme');
   const base = url.href.replace(/\/+$/, '');
-  if (value.auth_mode === 'codex' && base !== 'https://chatgpt.com/backend-api') throw Error();
+  if (value.auth_mode === 'codex' && base !== 'https://chatgpt.com/backend-api') throw invalid('codex_base');
   return { ...value, base_url: base, maxTokens, timeoutMs };
 }
 
 async function run(request) {
   let config;
   try { config = validate(request); }
-  catch { fail('invalid_request', 'Invalid model request parameters.'); return; }
+  catch (error) {
+    const details = typeof error?.reason === 'string' && /^[a-z0-9_]{1,40}$/.test(error.reason) ? { invalid_reason: error.reason } : {};
+    fail('invalid_request', 'Invalid model request parameters.', details);
+    return;
+  }
   clearTimeout(timer);
   timer = setTimeout(() => fail('timeout', 'Model request deadline exceeded.'), config.timeoutMs);
   if (config.auth_mode === 'codex') {
@@ -67,7 +79,17 @@ async function run(request) {
         text = next; outputBytes += Buffer.byteLength(line); process.stdout.write(line);
       }});
       if (!terminal) finish({type:'done',text:result.text,usage:result.usage,stop_reason:'stop'});
-    } catch { if (!terminal) fail('provider_error','Codex request failed or did not complete.'); }
+    } catch (error) {
+      if (terminal) return;
+      // Forward only machine-safe identifiers; provider messages can echo input or credentials.
+      const details = {};
+      if (Number.isInteger(error?.status) && error.status >= 100 && error.status <= 599) details.status = error.status;
+      if (Number.isInteger(error?.retry_after) && error.retry_after > 0 && error.retry_after <= 86400) details.retry_after = error.retry_after;
+      for (const [source, target] of [['code', 'provider_code'], ['type', 'provider_type'], ['param', 'provider_param']]) {
+        if (typeof error?.[source] === 'string' && /^[A-Za-z0-9_.-]{1,80}$/.test(error[source])) details[target] = error[source];
+      }
+      fail('provider_error', 'Codex request failed or did not complete.', details);
+    }
     return;
   }
   const endpoint = config.base_url + '/chat/completions';
@@ -137,7 +159,8 @@ async function run(request) {
         process.stdout.write(line);
       }
       if (event.type === 'error') {
-        fail('provider_error', status && status !== 200 ? `Model request failed (HTTP ${status}).` : 'Model request failed or ended without a complete response.');
+        const details = Number.isInteger(status) && status >= 100 && status <= 599 ? { status } : {};
+        fail('provider_error', status && status !== 200 ? `Model request failed (HTTP ${status}).` : 'Model request failed or ended without a complete response.', details);
         return;
       }
       if (event.type === 'done') {
@@ -155,7 +178,10 @@ async function run(request) {
     }
     fail('incomplete', 'Model response ended without a terminal result.');
   } catch {
-    if (!terminal) fail('provider_error', status ? `Model request failed (HTTP ${status}).` : 'Model request failed.');
+    if (!terminal) {
+      const details = Number.isInteger(status) && status >= 100 && status <= 599 ? { status } : {};
+      fail('provider_error', status ? `Model request failed (HTTP ${status}).` : 'Model request failed.', details);
+    }
   }
 }
 

@@ -54,6 +54,25 @@ def empty_result():
             "syndromes": [], "formulas": [], "risks": [], "limitations": [], "evidence_ids": []}
 
 
+def test_consult_validation_tolerates_unknown_keys_and_null_lists_from_model():
+    from app.personal import validate_consult_result
+
+    context = {"formula_candidates": [], "evidence": []}
+    payload = empty_result()
+    payload["confidence"] = 0.9
+    payload["questions"] = None
+    payload["syndromes"] = [{"name": "合成证候", "supporting_symptoms": None, "contradictions": None,
+                             "missing_information": None, "evidence_ids": None, "unexpected": "ignored"}]
+    payload["formulas"] = None
+    payload["risks"] = None
+    payload["limitations"] = None
+    payload["evidence_ids"] = None
+    result = validate_consult_result(json.dumps(payload), context)
+    assert result["questions"] == [] and result["formulas"] == []
+    assert result["syndromes"][0]["supporting_symptoms"] == [] and result["syndromes"][0]["evidence_ids"] == []
+    assert "confidence" not in result and "unexpected" not in result["syndromes"][0]
+
+
 def test_consult_validation_rejects_invented_sources_and_preserves_original_dose():
     from app.personal import validate_consult_result
     from app.formula_engine import get_formula
