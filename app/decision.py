@@ -180,12 +180,53 @@ def _latest(packages, package_id=None):
     return list(latest.values())
 
 
+def _questions(nodes, edges):
+    grouped = {}
+    for node in nodes:
+        if node['status'] in ('excluded', 'source_invalid'):
+            continue
+        traces = node['conditions'] + node['case_traces']
+        for question in node['questions']:
+            key = question['key']
+            causes = [c for c in traces if key in c['trace']['conflicts'] or
+                      (c['trace']['value'] is None and key in c['trace']['missing'])]
+            if not causes:
+                continue
+            # Preserve distinct source wording; a shared fact key is not a shared medical claim.
+            item = grouped.setdefault((key, question['question']), {
+                **deepcopy(question), 'package_id': node['package_id'], 'package_version': node['package_version'],
+                'node_ids': [], 'source_bindings': [], 'priority': {
+                    'clarify_conflict': False, 'source_constraint': False, 'differential_refs': [],
+                    'basis': 'source_graph_structure_not_diagnostic_probability'}})
+            if node['id'] not in item['node_ids']:
+                item['node_ids'].append(node['id'])  # Legacy display IDs; bindings carry the qualified identity.
+            item['source_bindings'].append({
+                'package_id': node['package_id'], 'package_version': node['package_version'], 'node_id': node['id'],
+                'node_status': node['status'], 'scope': node['scope'], 'question': question['question'],
+                'reason': question['reason'], 'claim_ids': deepcopy(question['claim_ids']),
+                'condition_refs': [{'id': c['id'], 'role': c.get('role', 'case'), 'claim_ids': deepcopy(c['claim_ids']),
+                                    'state': 'conflict' if key in c['trace']['conflicts'] else 'unknown'} for c in causes]})
+            priority = item['priority']
+            priority['clarify_conflict'] |= any(key in c['trace']['conflicts'] for c in causes)
+            priority['source_constraint'] |= any(c.get('role') in ('required', 'exclude', 'course') for c in causes)
+            for edge in edges:
+                if (edge['relation'] != 'differential' or edge['package_id'] != node['package_id']
+                        or edge['package_version'] != node['package_version'] or node['id'] not in (edge['from'], edge['to'])
+                        or any(edge[k] in ('excluded', 'source_invalid') for k in ('from_status', 'to_status'))):
+                    continue
+                ref = {k: deepcopy(edge[k]) for k in ('package_id', 'package_version', 'id', 'from', 'to', 'claim_ids')}
+                if ref not in priority['differential_refs']:
+                    priority['differential_refs'].append(ref)
+    return sorted(grouped.values(), key=lambda q: (
+        q['priority']['clarify_conflict'], q['priority']['source_constraint'],
+        len(q['priority']['differential_refs']), len(q['source_bindings'])), reverse=True)
+
+
 def evaluate(conn, facts, package_id=None):
     indexed, ignored = engine._facts(facts)
     registry = load_packages(conn)
     packages = _latest(registry, package_id)
     result = dict(packages=packages,nodes=[],edges=[],questions=[],formulas=[],anchors=[],claims=[],ignored_facts=ignored,source_issues=[],safety={'status':'incomplete'},coverage=_coverage(registry),registry_digest=_digest(registry))
-    questions = {}
     for package in packages:
         p = package['snapshot']; issues = _source_issues(conn,p)
         result['source_issues'].extend([dict(package_id=p['id'], **i) for i in issues])
@@ -196,7 +237,6 @@ def evaluate(conn, facts, package_id=None):
             traces = [dict(deepcopy(c), trace=engine._evaluate(c['expr'],indexed)) for c in n['conditions']]
             cases = [dict(deepcopy(c), trace=engine._evaluate(c['expr'],indexed)) for c in n.get('cases', [])]
             conflicts = {x for c in traces + cases for x in c['trace']['conflicts']}
-            missing = {x for c in traces + cases if c['trace']['value'] is None for x in c['trace']['missing']}
             if issues: status = 'source_invalid'
             elif conflicts: status = 'conflict'
             elif any((c['role'] in ('required','course') and c['trace']['value'] is False) or (c['role'] == 'exclude' and c['trace']['value'] is True) for c in traces): status = 'excluded'
@@ -207,14 +247,9 @@ def evaluate(conn, facts, package_id=None):
             else: status = 'pending'
             statuses[n['id']] = status
             result['nodes'].append({**deepcopy(n),'package_id':p['id'],'package_version':p['version'],'status':status,'conditions':traces,'case_traces':cases})
-            if not issues and status != 'excluded':
-                for q in n['questions']:
-                    if q['key'] in missing | conflicts:
-                        if q['key'] not in questions: questions[q['key']] = {**deepcopy(q), 'node_ids': []}
-                        if n['id'] not in questions[q['key']]['node_ids']: questions[q['key']]['node_ids'].append(n['id'])
         for e in p['edges']:
             result['edges'].append({**deepcopy(e),'package_id':p['id'],'package_version':p['version'],'from_status':statuses[e['from']],'to_status':statuses[e['to']], 'retained_parent': e['relation'] == 'refines' and statuses[e['to']] in ('pending','excluded','conflict','clue') and statuses[e['from']] in ('compatible','pending','conflict','clue')})
-    result['questions'] = list(questions.values())
+    result['questions'] = _questions(result['nodes'], result['edges'])
     return result
 
 

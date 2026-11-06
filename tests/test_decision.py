@@ -37,6 +37,58 @@ def test_graph_preserves_or_unknown_conflict_and_ignored_facts(store):
     assert decision.evaluate(conn,[fact('x'),fact('x','absent')])['nodes'][0]['status'] == 'conflict'
 
 
+def test_question_merge_retains_each_package_version_and_claim(store):
+    conn, p = store
+    second = deepcopy(p); second['id'] = 'p2'
+    claim = deepcopy(second['claims'][3]); claim['id'] = 'other-necessary'
+    second['claims'].append(claim)
+    second['nodes'][0]['questions'][0]['claim_ids'] = ['other-necessary']
+    decision.import_package(conn, p); decision.import_package(conn, second)
+    result = decision.evaluate(conn, [])
+    question = next(q for q in result['questions'] if q['key'] == 'x')
+    assert len(result['questions']) == 2
+    assert {(b['package_id'], b['package_version'], b['node_id']) for b in question['source_bindings']} == {('p',1,'n'),('p2',1,'n')}
+    assert [b['claim_ids'] for b in question['source_bindings']] == [['necessary'],['other-necessary']]
+    assert all(b['condition_refs'][0]['id'] == 'c' for b in question['source_bindings'])
+
+
+def test_different_source_question_wording_is_not_silently_replaced(store):
+    conn, p = store
+    second = deepcopy(p); second['id'] = 'p2'
+    second['nodes'][0]['questions'][0]['question'] = 'x in another source context?'
+    decision.import_package(conn, p); decision.import_package(conn, second)
+    questions = decision.evaluate(conn, [])['questions']
+    assert {q['question'] for q in questions if q['key'] == 'x'} == {'x?','x in another source context?'}
+
+
+def test_questions_prioritize_source_constraints_and_explain_conflict_priority(store):
+    conn, p = store
+    p['nodes'][0]['conditions'] = [dict(id='support-x',role='support',expr={'fact':'x'},claim_ids=['support']),dict(id='need-y',role='required',expr={'fact':'y'},claim_ids=['necessary'])]
+    decision.import_package(conn, p)
+    result = decision.evaluate(conn, [])
+    assert [q['key'] for q in result['questions']] == ['y','x']
+    assert result['questions'][0]['priority']['source_constraint'] is True
+    result = decision.evaluate(conn, [fact('x'),fact('x','absent')])
+    assert result['questions'][0]['key'] == 'x'
+    assert result['questions'][0]['priority']['clarify_conflict'] is True
+    assert result['questions'][0]['priority']['basis'] == 'source_graph_structure_not_diagnostic_probability'
+
+
+def test_question_priority_only_uses_live_differentials_from_its_own_version(store):
+    conn, p = store
+    child = deepcopy(p['nodes'][0]); child['id'] = 'child'
+    child['conditions'][0]['expr'] = {'fact':'z'}
+    child['questions'] = [dict(key='z',question='z?',reason='synthetic',claim_ids=['necessary'])]
+    p['nodes'].append(child)
+    p['edges'] = [dict(id='diff',**{'from':'n','to':'child'},relation='differential',claim_ids=['support'],note='synthetic')]
+    decision.import_package(conn,p)
+    q = next(q for q in decision.evaluate(conn,[])['questions'] if q['key']=='x')
+    assert q['priority']['differential_refs'][0]['package_id'] == 'p'
+    assert q['priority']['differential_refs'][0]['package_version'] == 1
+    q = next(q for q in decision.evaluate(conn,[fact('z','absent')])['questions'] if q['key']=='x')
+    assert q['priority']['differential_refs'] == []
+
+
 def test_package_immutable_and_source_tampering_fails_closed(store):
     conn,p = store
     decision.import_package(conn,p)

@@ -57,6 +57,54 @@ def empty_result():
             "syndromes": [], "formulas": [], "risks": [], "limitations": [], "evidence_ids": []}
 
 
+def test_sourced_question_receives_qualified_claims_and_exact_frozen_evidence():
+    from app.personal import validate_consult_result
+
+    question = {'key':'synthetic-sign','question':'Synthetic sign present?','reason':'Synthetic differentiation'}
+    bindings = [{'package_id':'p','package_version':2,'node_id':'n','claim_ids':['c'],
+                 'condition_refs':[{'id':'condition','role':'required','claim_ids':['c'],'state':'unknown'}]}]
+    graph = {'questions':[{**question,'source_bindings':bindings,'priority':{'basis':'source_graph_structure_not_diagnostic_probability'}}],
+             'claims':[{'id':'c','package_id':'p','package_version':2,'anchor_ids':['a']}],
+             'anchors':[{'id':'a','package_id':'p','package_version':2,'layer':'ni_commentary'}],
+             'nodes':[], 'source_issues':[]}
+    context = {'formula_candidates':[], 'decision_graph':graph, 'evidence':[{'id':'decision:p@2:a','text':'Synthetic only'}]}
+    payload = empty_result(); payload['questions'] = [question]
+    result = validate_consult_result(json.dumps(payload), context)
+    q = result['questions'][0]
+    assert q['source_kind'] == 'source_mapped_question'
+    assert q['source_bindings'] == bindings
+    assert q['evidence_ids'] == ['decision:p@2:a']
+    for layer, kind in [('ai_inference','ai_inference'),('open_source_summary','open_source_question')]:
+        graph['anchors'][0]['layer'] = layer
+        q = validate_consult_result(json.dumps(payload), context)['questions'][0]
+        assert q['source_kind'] == kind
+        assert q['source_layers'] == [layer]
+    payload['questions'][0] = {**question,'question':'Different AI wording'}
+    q = validate_consult_result(json.dumps(payload), context)['questions'][0]
+    assert q['source_kind'] == 'ai_inference' and q['evidence_ids'] == []
+
+
+def test_question_cannot_cite_a_source_outside_the_frozen_context():
+    from app.personal import validate_consult_result
+
+    payload = empty_result(); payload['questions'][0]['evidence_ids'] = ['invented-question-source']
+    with pytest.raises(ValueError, match='引用'):
+        validate_consult_result(json.dumps(payload), {'formula_candidates':[], 'evidence':[]})
+
+
+def test_legacy_context_is_retained_but_marked_stale_after_fact_contract_change(personal_client):
+    from app import personal, storage
+    from contextlib import closing
+
+    client, csrf = personal_client
+    case = client.post('/api/consultations', json={}, headers=csrf).json()
+    with closing(storage.connect(client.app.state.data_dir)) as conn:
+        frozen = personal.build_context(conn, case['id'])
+        assert personal.task_warnings(conn, frozen) == []
+        frozen.pop('analysis_revision', None)
+        assert '分析逻辑已更新' in '；'.join(personal.task_warnings(conn, frozen))
+
+
 def test_consult_validation_tolerates_unknown_keys_and_null_lists_from_model():
     from app.personal import validate_consult_result
 

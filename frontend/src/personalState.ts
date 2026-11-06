@@ -20,7 +20,7 @@ export function locatorLabel(item:any):string {
   if (l.kind === 'record') return `条目 ${start}`
   return `${l.kind || '位置'} ${range}`
 }
-export function roleLabel(role:string):string { return ({ni_core:'倪氏资料',reference:'参考医著',open_source_summary:'开源辨证归纳'} as Record<string,string>)[role] || role || '资料' }
+export function roleLabel(role:string):string { return ({ni_core:'倪氏资料',reference:'参考医著',open_source_summary:'开源辨证归纳',source_mapped_question:'原文依据补问',open_source_question:'开源归纳补问',mixed_source_question:'混合来源补问',ai_inference:'AI推演'} as Record<string,string>)[role] || role || '资料' }
 export function shanghaiTime(time:string):string { const d=new Date(time);return Number.isNaN(d.getTime()) ? (time||'') : new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(d) }
 export function actionLabel(action:string):string { return ({add:'增',remove:'减',replace:'替换',adjust:'调量',adjust_dose:'调量'} as Record<string,string>)[action] || action || '未提供' }
 export function previewComponentLabel(c:any):string { const dose=c.source_dose == null || c.source_dose === '' ? '来源原量未提供' : `${c.source_dose}${c.source_unit || ''}`;return `${c.name || '药名未提供'}${c.processing ? `（${c.processing}）` : ''} · ${dose}` }

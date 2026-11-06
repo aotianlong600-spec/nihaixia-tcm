@@ -9,6 +9,39 @@ def evidence_id(package_id, version, anchor_id):
     return f"decision:{package_id}@{version}:{anchor_id}"
 
 
+def bind_question(question, graph):
+    """Bind only the exact current graph question, never a model's claimed source identity."""
+    question['source_kind'] = 'ai_inference'
+    matches = [q for q in graph.get('questions', []) if q['key'] == question['key'] and q['question'] == question['question']]
+    if len(matches) != 1 or not matches[0].get('source_bindings'):
+        return
+    source = matches[0]
+    claims = {(c['package_id'], c['package_version'], c['id']): c for c in graph['claims']}
+    anchors = {(a['package_id'], a['package_version'], a['id']): a for a in graph['anchors']}
+    refs = list(question['evidence_ids'])
+    layers = set()
+    for binding in source['source_bindings']:
+        ids = binding['claim_ids'] + [key for c in binding['condition_refs'] for key in c['claim_ids']]
+        for key in dict.fromkeys(ids):
+            claim = claims.get((binding['package_id'], binding['package_version'], key))
+            if claim is None:
+                raise ValueError('补问的原文断言缺失，未保存为有效答复')
+            for key in claim['anchor_ids']:
+                anchor = anchors.get((binding['package_id'], binding['package_version'], key))
+                if anchor is None:
+                    raise ValueError('补问的来源锚点缺失，未保存为有效答复')
+                layers.add(anchor['layer'])
+                refs.append(evidence_id(binding['package_id'], binding['package_version'], key))
+    if question['reason'] != source['reason']:
+        question['ai_reason'] = question['reason']
+    original = {'classic_clause','ni_commentary','ni_case','compiler_annotation','reference_author'}
+    kind = 'source_mapped_question' if layers and layers <= original else (
+        'ai_inference' if layers == {'ai_inference'} else 'open_source_question' if layers == {'open_source_summary'} else 'mixed_source_question')
+    question.update(reason=source['reason'], source_kind=kind, source_layers=sorted(layers),
+                    source_bindings=deepcopy(source['source_bindings']), priority=deepcopy(source['priority']),
+                    evidence_ids=list(dict.fromkeys(refs)))
+
+
 def consultation_context(conn, facts):
     # shortcut: evaluate installed groups; select relevant groups before expanding beyond this first topic.
     graph = decision.evaluate(conn, facts)
