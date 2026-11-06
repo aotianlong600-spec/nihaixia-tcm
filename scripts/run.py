@@ -1,12 +1,19 @@
 """One process serves local HTTP and explicitly enabled authenticated LAN HTTPS."""
 import argparse
 import asyncio
+import os
 from contextlib import contextmanager
 from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+
+
+def configure_node_path(root=ROOT):
+    runtime = root / '.runtime' / 'node'
+    if (runtime / 'node.exe').is_file():
+        os.environ['PATH'] = str(runtime) + os.pathsep + os.environ.get('PATH', '')
 
 
 async def serve(app, tls):
@@ -38,6 +45,7 @@ def main():
     parser.add_argument('--lan', action='store_true')
     parser.add_argument('--lan-host', action='append', default=[])
     args = parser.parse_args()
+    configure_node_path()
     from app.access import AccessGate
     from app.lan import discover_hosts, ensure_tls
     from app.main import create_app

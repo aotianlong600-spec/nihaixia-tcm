@@ -41,13 +41,13 @@ test('refresh is explicit and does not read ambient credentials',async()=>{
  await assert.rejects(()=>performOAuth({op:'read-global-auth'},{oauth,emit:()=>{},signal:new AbortController().signal}));
 });
 
-for(const transport of ['stub','https']) test(`browser private IPC completes with exit zero (${transport})`,{timeout:15000},async t=>{
+for(const transport of ['stub','https','https-large']) test(`browser private IPC completes with exit zero (${transport})`,{timeout:15000},async t=>{
  let child,exit,timer,reader,httpsServer,certificateDirectory,requests=0;
  const events=[];
  let browserStatus,callbackPort,stderr='';
  try {
   const env=Object.fromEntries(['SYSTEMROOT','WINDIR','PATH','TEMP','TMP'].filter(key=>process.env[key]!==undefined).map(key=>[key,process.env[key]]));
-  if(transport==='https') {
+  if(transport.startsWith('https')) {
    const generated=spawnSync('python',['-c',`
 import json, ipaddress
 from datetime import datetime, timedelta, timezone
@@ -66,7 +66,7 @@ print(json.dumps({'cert':cert.public_bytes(serialization.Encoding.PEM).decode(),
    certificateDirectory=mkdtempSync(join(tmpdir(),'synthetic-oauth-tls-'));
    env.NODE_EXTRA_CA_CERTS=join(certificateDirectory,'ca.pem');
    writeFileSync(env.NODE_EXTRA_CA_CERTS,certificate.cert);
-   const payload=Buffer.from(JSON.stringify({'https://api.openai.com/auth':{chatgpt_account_id:'synthetic-account'}})).toString('base64url');
+   const payload=Buffer.from(JSON.stringify({'https://api.openai.com/auth':{chatgpt_account_id:'synthetic-account'},padding:transport==='https-large'?'x'.repeat(4200):undefined})).toString('base64url');
    httpsServer=createHttpsServer(certificate,(request,response)=>{
     requests++;request.resume();
     response.writeHead(200,{'Content-Type':'application/json'});
@@ -99,14 +99,16 @@ print(json.dumps({'cert':cert.public_bytes(serialization.Encoding.PEM).decode(),
    }
   }
   const result=await exit;
-  t.diagnostic(JSON.stringify({transport,event_types:events.map(event=>event.type),exit_code:result.code,stderr_marker:stderr.includes('Assertion failed')?'native_assertion':stderr?'stderr_present':null}));
+  const credentialBytes=Buffer.byteLength(JSON.stringify(events.at(-1)?.credential??{}));
+  t.diagnostic(JSON.stringify({transport,event_types:events.map(event=>event.type),exit_code:result.code,credential_bytes:credentialBytes,stderr_marker:stderr.includes('Assertion failed')?'native_assertion':stderr?'stderr_present':null}));
   assert.equal(browserStatus,200);
   assert.equal(result.code,0);
   assert.equal(result.signal,null);
   assert.equal(events.at(-1)?.type,'credential');
   assert.equal(events.at(-1)?.credential?.accountId==='synthetic-account',true);
   assert.equal(events.at(-1)?.credential?.refresh==='synthetic-refresh',true);
-  if(transport==='https') assert.equal(requests,1);
+  if(transport.startsWith('https')) assert.equal(requests,1);
+  if(transport==='https-large') assert.equal(credentialBytes>4096 && events.at(-1).credential.access.length<7000,true);
  } finally {
   clearTimeout(timer);reader?.close();child?.stdin.destroy();
   if(child && child.exitCode===null && child.signalCode===null) child.kill();

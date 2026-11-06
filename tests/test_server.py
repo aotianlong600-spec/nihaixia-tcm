@@ -10,6 +10,18 @@ from app.lan import ensure_tls
 from scripts.run import serve
 
 
+def test_private_node_precedes_global_path_only_when_installed(tmp_path,monkeypatch):
+    from scripts.run import configure_node_path
+    import os
+    monkeypatch.setenv('PATH','synthetic-global-path')
+    configure_node_path(tmp_path)
+    assert os.environ['PATH']=='synthetic-global-path'
+    runtime=tmp_path/'.runtime'/'node';runtime.mkdir(parents=True)
+    (runtime/'node.exe').write_bytes(b'synthetic-binary')
+    configure_node_path(tmp_path)
+    assert os.environ['PATH']==str(runtime)+os.pathsep+'synthetic-global-path'
+
+
 def test_local_and_tls_listeners_share_one_app_and_shutdown(tmp_path, monkeypatch):
     app=create_app(tmp_path)
     tls=ensure_tls(tmp_path,['192.168.50.20'])

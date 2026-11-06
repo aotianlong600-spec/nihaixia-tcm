@@ -14,6 +14,7 @@ test-results/
 .agent-workspace/
 .claude-code-orchestrator/
 .cache/
+.runtime/
 .mcp.json
 .claude/
 .env.*
