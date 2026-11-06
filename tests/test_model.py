@@ -124,7 +124,7 @@ def test_python_jobs_require_complete_valid_response_and_honor_cancel(tmp_path, 
         with TestClient(create_app(tmp_path), base_url="http://127.0.0.1", client=("127.0.0.1", 50000)) as client:
             csrf = {"X-CSRF-Token": client.get("/api/session").json()["csrf_token"]}
             config = {"base_url": f"http://127.0.0.1:{server.server_port}/v1", "model": "synthetic",
-                      "api_key": "fake-protocol-key", "enabled": True, "allow_external": scenario in {"bad_citation", "cancel_during_validation", "stale_during_stream"}, "allow_evidence": False}
+                      "api_key": "fake-protocol-key", "reasoning_effort": "high", "enabled": True, "allow_external": scenario in {"bad_citation", "cancel_during_validation", "stale_during_stream"}, "allow_evidence": False}
             assert client.put("/api/model/config", json=config, headers=csrf).status_code == 200
             request = {"purpose": "test"}
             if scenario in {"bad_citation", "cancel_during_validation", "stale_during_stream"}:
@@ -135,6 +135,9 @@ def test_python_jobs_require_complete_valid_response_and_honor_cancel(tmp_path, 
             response = client.post("/api/model/jobs", json=request, headers=csrf)
             assert response.status_code == 200, response.text
             job_id = response.json()["id"]
+            assert response.json()["reasoning_effort"] == "high"
+            if scenario == "complete":
+                assert client.put("/api/model/config", json={**config, "api_key": None, "reasoning_effort": "low"}, headers=csrf).status_code == 200
             if scenario == "cancel_during_validation":
                 assert validating.wait(5)
             if scenario == "stale_during_stream":
@@ -157,11 +160,15 @@ def test_python_jobs_require_complete_valid_response_and_honor_cancel(tmp_path, 
             with sqlite3.connect(tmp_path / "clinical.sqlite3") as conn:
                 assert conn.execute("SELECT COUNT(*) FROM model_calls WHERE status='completed'").fetchone()[0] == (1 if scenario in {"complete", "stale_during_stream"} else 0)
             assert all("PRIVATE-" not in body for body in captured)
+            if scenario != "cancel":
+                assert captured
+            assert all(json.loads(body)["reasoning_effort"] == "high" for body in captured)
         if scenario in {"complete", "stale_during_stream"}:
             with TestClient(create_app(tmp_path), base_url="http://127.0.0.1", client=("127.0.0.1", 50000)) as restarted:
                 restarted.get("/api/session")
                 history = restarted.get(f"/api/model/jobs/{job_id}")
                 assert history.status_code == 200
+                assert history.json()["reasoning_effort"] == "high"
                 assert history.json()["validated"] is (scenario == "complete")
                 if scenario == "stale_during_stream":
                     assert history.json()["stale"] is True

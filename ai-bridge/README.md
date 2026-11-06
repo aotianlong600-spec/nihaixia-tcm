@@ -42,6 +42,13 @@ field. SSE must contain a completed response. No tools, websocket transport,
 redirects or automatic credential lookup are enabled. `--models` returns the
 SDK catalog, not account entitlements.
 
+Optional `reasoning_effort` is `auto` (default), `none`, `minimal`, `low`,
+`medium`, `high`, `xhigh`, or `max`. `auto` omits the override; Codex explicit
+efforts must occur in that model's SDK capability map or fail before a request.
+`--models` entries include `reasoning_efforts`. Custom Codex IDs use `auto` only.
+API-compatible explicit choices send OpenAI `reasoning_effort`; compatibility is
+the caller's responsibility. No provider-specific thinking budgets are guessed.
+
 `oauth.mjs` is a separate PRIVATE Python-to-Node pipe for `login` (browser/device)
 and `refresh`. Its terminal credential frame contains secrets and must never be
 logged or exposed through HTTP. Python stores it with Windows DPAPI. The web UI

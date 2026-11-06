@@ -93,6 +93,30 @@ def _profile(name="合成配置", key="synthetic-key", base_url="https://api.exa
             "enabled": True, "allow_external": False, "allow_evidence": False, "api_key": key}
 
 
+def test_thinking_effort_round_trip_and_old_registry_default(tmp_path):
+    app = create_app(tmp_path)
+    with _client(app) as client:
+        headers = _csrf(client)
+        first = client.post('/api/model/profiles', json={**_profile('甲'), 'reasoning_effort': 'high'}, headers=headers)
+        assert first.status_code == 200
+        first = first.json()
+        second = client.post('/api/model/profiles', json={**_profile('乙'), 'reasoning_effort': 'low'}, headers=headers).json()
+        for profile, effort in [(first, 'high'), (second, 'low')]:
+            assert client.post(f"/api/model/profiles/{profile['id']}/select", headers=headers).json()['reasoning_effort'] == effort
+        path = tmp_path / 'model-profiles.json'
+        registry = json.loads(path.read_text(encoding='utf-8'))
+        for item in registry['items']:
+            item.pop('reasoning_effort')
+        path.write_text(json.dumps(registry), encoding='utf-8')
+        before = path.read_bytes()
+        assert client.get('/api/model/config').json()['reasoning_effort'] == 'auto'
+        assert path.read_bytes() == before  # Reading an old registry must not rewrite user settings.
+        assert client.post('/api/model/profiles', json={**_profile(), 'reasoning_effort':'invented'}, headers=headers).status_code == 422
+        registry['items'][0]['reasoning_effort'] = None
+        path.write_text(json.dumps(registry), encoding='utf-8')
+        assert client.get('/api/model/profiles').status_code == 400
+
+
 def test_lazy_migration_preserves_legacy_settings_and_key(tmp_path):
     app = create_app(tmp_path)
     write_secret(tmp_path / "model-secret.dpapi", "synthetic-legacy-key")
@@ -113,7 +137,7 @@ def test_lazy_migration_preserves_legacy_settings_and_key(tmp_path):
         assert profiles["active_id"] == "legacy"
         assert profiles["items"] == [{"id": "legacy", "name": "原有配置", "auth_mode": "api_key",
             "base_url": "https://legacy.example/v1", "model": "legacy-model", "enabled": True,
-            "allow_external": False, "allow_evidence": True, "has_key": True}]
+            "allow_external": False, "allow_evidence": True, "reasoning_effort": "auto", "has_key": True}]
         assert (tmp_path / "model-config.json").exists()
 
 

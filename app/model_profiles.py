@@ -11,8 +11,9 @@ from fastapi import HTTPException
 from .model_oauth import CODEX_BASE
 from .secrets import read_secret, write_secret
 
-DEFAULT_CONFIG = {"auth_mode": "api_key", "base_url": "", "model": "", "enabled": False, "allow_external": False, "allow_evidence": False}
-PROFILE_FIELDS = ("auth_mode", "base_url", "model", "enabled", "allow_external", "allow_evidence")
+REASONING_EFFORTS = ("auto", "none", "minimal", "low", "medium", "high", "xhigh", "max")
+DEFAULT_CONFIG = {"auth_mode": "api_key", "base_url": "", "model": "", "reasoning_effort": "auto", "enabled": False, "allow_external": False, "allow_evidence": False}
+PROFILE_FIELDS = tuple(DEFAULT_CONFIG)
 MAX_PROFILES = 50
 LEGACY_ID = "legacy"
 LEGACY_NAME = "原有配置"
@@ -49,6 +50,8 @@ class ProfileStore:
         return {"version": 1, "revision": 0, "active_id": None, "items": []}
 
     def _item(self, value):
+        if isinstance(value, dict) and "reasoning_effort" not in value:
+            value = {**value, "reasoning_effort": "auto"}
         required = {"id", "name", *PROFILE_FIELDS}
         if not isinstance(value, dict) or not required <= set(value) or set(value) - required - {"key_ref"}:
             raise ValueError(CORRUPT_CONFIG)
@@ -70,6 +73,8 @@ class ProfileStore:
             except (TypeError, ValueError):
                 raise ValueError(CORRUPT_CONFIG) from None
         if not isinstance(model, str) or len(model) > 200:
+            raise ValueError(CORRUPT_CONFIG)
+        if value["reasoning_effort"] not in REASONING_EFFORTS:
             raise ValueError(CORRUPT_CONFIG)
         for key in ("enabled", "allow_external", "allow_evidence"):
             if not isinstance(value[key], bool):
@@ -189,10 +194,13 @@ class ProfileStore:
         model = fields.get("model", "")
         if not isinstance(model, str) or not model.strip() or len(model) > 200:
             raise ValueError("模型ID不能为空")
+        effort = fields.get("reasoning_effort", "auto")
+        if effort not in REASONING_EFFORTS:
+            raise ValueError("思考档位配置无效")
         for key in ("enabled", "allow_external", "allow_evidence"):
             if not isinstance(fields.get(key, False), bool):
                 raise ValueError("模型配置字段无效")
-        return {"auth_mode": auth_mode, "base_url": base_url, "model": model,
+        return {"auth_mode": auth_mode, "base_url": base_url, "model": model, "reasoning_effort": effort,
                 **{key: fields.get(key, False) for key in ("enabled", "allow_external", "allow_evidence")}}
 
     def _key_ref_path(self, profile_id, key_ref):

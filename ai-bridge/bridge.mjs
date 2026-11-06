@@ -31,7 +31,7 @@ function invalid(reason) {
 }
 
 function validate(value) {
-  const allowed = ['base_url', 'api_key', 'model', 'input', 'system', 'max_output_tokens', 'timeout_ms', 'auth_mode'];
+  const allowed = ['base_url', 'api_key', 'model', 'input', 'system', 'max_output_tokens', 'timeout_ms', 'auth_mode', 'reasoning_effort'];
   if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !allowed.includes(key))) throw invalid('shape');
   for (const key of ['base_url', 'api_key', 'model', 'input']) {
     if (typeof value[key] !== 'string' || !value[key].trim()) throw invalid('missing_' + key);
@@ -44,6 +44,7 @@ function validate(value) {
   if (!Number.isInteger(maxTokens) || maxTokens < 1 || maxTokens > 4096) throw invalid('max_output_tokens');
   if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 90000) throw invalid('timeout_ms');
   if (!['api_key','codex'].includes(value.auth_mode ?? 'api_key')) throw invalid('auth_mode');
+  if (value.reasoning_effort !== undefined && !['auto','none','minimal','low','medium','high','xhigh','max'].includes(value.reasoning_effort)) throw invalid('reasoning_effort');
   let url;
   try { url = new URL(value.base_url); }
   catch { throw invalid('base_url_parse'); }
@@ -88,7 +89,7 @@ async function run(request) {
       for (const [source, target] of [['code', 'provider_code'], ['type', 'provider_type'], ['param', 'provider_param']]) {
         if (typeof error?.[source] === 'string' && /^[A-Za-z0-9_.-]{1,80}$/.test(error[source])) details[target] = error[source];
       }
-      fail('provider_error', 'Codex request failed or did not complete.', details);
+      fail(error?.code === 'unsupported_reasoning' ? 'unsupported_reasoning' : 'provider_error', 'Codex request failed or did not complete.', details);
     }
     return;
   }
@@ -130,10 +131,10 @@ async function run(request) {
   };
   const model = {
     id: config.model, name: config.model, api: 'openai-completions', provider: 'explicit-openai-compatible',
-    baseUrl: config.base_url, reasoning: false, input: ['text'], maxTokens: 4096, contextWindow: 128000,
+    baseUrl: config.base_url, reasoning: Boolean(config.reasoning_effort && config.reasoning_effort !== 'auto'), input: ['text'], maxTokens: 4096, contextWindow: 128000,
     cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
-    compat: { supportsStore: false, supportsDeveloperRole: false, supportsReasoningEffort: false,
-      supportsFinishReason: true, maxTokensField: 'max_tokens' },
+    compat: { supportsStore: false, supportsDeveloperRole: false, supportsReasoningEffort: true,
+      supportsFinishReason: true, maxTokensField: 'max_tokens', thinkingFormat: 'openai' },
   };
   try {
     const { stream } = await import('@earendil-works/pi-ai/api/openai-completions');
@@ -143,6 +144,7 @@ async function run(request) {
       systemPrompt: config.system,
       messages: [{ role: 'user', content: config.input, timestamp: Date.now() }],
     }), { apiKey: config.api_key, fetch: transport, signal: controller.signal,
+      ...(config.reasoning_effort && config.reasoning_effort !== 'auto' ? { reasoningEffort: config.reasoning_effort } : {}),
       maxTokens: config.maxTokens, timeoutMs: config.timeoutMs, maxRetries: 0, cacheRetention: 'none', env: {} });
     for await (const event of events) {
       if (terminal) return;

@@ -55,6 +55,7 @@ test('streams a complete answer, uses only explicit credentials, and exits with 
     assert.equal(req.headers['openai-project'], undefined);
     assert.equal(req.headers['x-environment-header'], undefined);
     assert.equal(body.messages.at(-1).content, 'synthetic input');
+    assert.equal(Object.hasOwn(body,'reasoning_effort'),false);
     res.writeHead(200, { 'Content-Type': 'text/event-stream' });
     res.write(chunk('syn'));
     setTimeout(() => res.end(chunk('thetic', 'stop') + 'data: [DONE]\n\n'), 15);
@@ -66,6 +67,40 @@ test('streams a complete answer, uses only explicit credentials, and exits with 
     assert.equal(events.at(-1).stop_reason, 'stop');
     assert.deepEqual(events.at(-1).usage, {}, 'Missing usage must remain unknown, never fabricated zero');
   });
+});
+
+test('API compatible explicit thinking effort is sent without assuming provider support',async()=>{
+ await fixture((req,res,body)=>{
+  assert.equal(body.reasoning_effort,'high');
+  res.writeHead(200,{'Content-Type':'text/event-stream'});
+  res.end(chunk('synthetic','stop')+'data: [DONE]\n\n');
+ },async(url)=>{
+  const result=await invoke(url,{reasoning_effort:'high'});
+  assert.equal(result.events.at(-1).type,'done');
+ });
+});
+
+test('API compatible none cannot be overridden by an SDK vendor thinking toggle',async()=>{
+ await fixture((req,res,body)=>{
+  assert.equal(body.reasoning_effort,'none');
+  assert.equal(body.thinking,undefined);
+  res.writeHead(200,{'Content-Type':'text/event-stream'});
+  res.end(chunk('synthetic','stop')+'data: [DONE]\n\n');
+ },async(url)=>{
+  // Exercise the SDK's URL-based DeepSeek heuristic without contacting a remote service.
+  const result=await invoke(url+'/deepseek.com',{reasoning_effort:'none'});
+  assert.equal(result.events.at(-1).type,'done');
+ });
+});
+
+test('invalid effort values cannot reach the provider',async()=>{
+ let calls=0;
+ await fixture(()=>{calls++;},async(url)=>{
+  for(const reasoning_effort of [null,false,1,'turbo',{},[]]){
+   assert.equal((await invoke(url,{reasoning_effort})).events.at(-1).code,'invalid_request');
+  }
+ });
+ assert.equal(calls,0);
 });
 
 test('a stream without finish_reason cannot become a successful result', async () => {

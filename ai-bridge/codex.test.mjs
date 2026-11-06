@@ -42,6 +42,35 @@ test('unknown Codex models also avoid inventing an unsupported reasoning effort'
   {signal:new AbortController().signal,onDelta:()=>{},fetchImpl:async(url,init)=>{body=sentBody(init);return new Response(sse(),{headers:{'content-type':'text/event-stream'}})}});
  assert.equal(Object.hasOwn(body,'reasoning'),false);
 });
+test('selected Codex thinking effort reaches the actual wire body',async()=>{
+ for(const effort of ['low','medium','high','xhigh','max']){
+  let body;
+  await runCodex({model:'gpt-6.1-sol',reasoning_effort:effort,api_key:token,input:'Synthetic only',maxTokens:100,timeoutMs:1000},
+   {signal:new AbortController().signal,onDelta:()=>{},fetchImpl:async(url,init)=>{body=sentBody(init);return new Response(sse(),{headers:{'content-type':'text/event-stream'}})}});
+  assert.equal(body.reasoning.effort,effort);
+  assert.equal(Object.hasOwn(body.reasoning,'summary'),false,'Disabling a reasoning display must not send unsupported summary off');
+  assert.equal(body.tool_choice,'none');
+ }
+});
+test('unsupported and unknown Codex thinking levels fail before sending credentials',async()=>{
+ for(const [model,effort] of [['gpt-6.1-sol','none'],['gpt-6.1-sol','minimal'],['unknown-synthetic','high']]){
+  let calls=0;
+  await assert.rejects(()=>runCodex({model,reasoning_effort:effort,api_key:token,input:'test',maxTokens:100,timeoutMs:1000},
+   {signal:new AbortController().signal,onDelta:()=>{},fetchImpl:async()=>{calls++;return new Response(sse())}}),error=>error.code==='unsupported_reasoning');
+  assert.equal(calls,0);
+ }
+});
+test('auto delegates to the model default even when SDK supports an off level',async()=>{
+ let body;
+ await runCodex({model:'gpt-6-sol',reasoning_effort:'auto',api_key:token,input:'test',maxTokens:100,timeoutMs:1000},
+  {signal:new AbortController().signal,onDelta:()=>{},fetchImpl:async(url,init)=>{body=sentBody(init);return new Response(sse(),{headers:{'content-type':'text/event-stream'}})}});
+ assert.equal(Object.hasOwn(body,'reasoning'),false);
+});
+test('provider identifiers cannot carry arbitrary input or credentials',async()=>{
+ await assert.rejects(()=>runCodex({model:'gpt-6.1-sol',api_key:token,input:'test',maxTokens:100,timeoutMs:1000},
+  {signal:new AbortController().signal,onDelta:()=>{},fetchImpl:async()=>new Response(JSON.stringify({error:{code:'syntheticSecret123',type:'syntheticSecret123',param:'syntheticSecret123'}}),{status:400})}),
+  error=>{for(const key of ['code','type','param'])assert.equal(error[key],undefined);return true;});
+});
 test('rate-limit responses expose a bounded retry hint',async()=>{
  await assert.rejects(()=>runCodex({model:'gpt-6.1-sol',api_key:token,input:'Synthetic only',maxTokens:100,timeoutMs:1000},
   {signal:new AbortController().signal,onDelta:()=>{},fetchImpl:async()=>new Response(JSON.stringify({error:{type:'usage_limit_reached'}}),{status:429,headers:{'content-type':'application/json','x-codex-primary-reset-after-seconds':'600'}})}),
