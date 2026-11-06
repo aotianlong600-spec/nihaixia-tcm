@@ -1,12 +1,14 @@
 import net from 'node:net';
 import http from 'node:http';
 import {syncBuiltinESMExports} from 'node:module';
+const manualOnly=process.env.SYNTHETIC_OAUTH_MANUAL==='1';
 
 // Test-only child isolation: neither callback preflight nor HTTP listener uses the real login port.
 function isolateCallback(server,announce) {
  const listen=server.listen;
  server.listen=function(port,...args) {
   if(port===1455) {
+   if(announce && manualOnly) {process.nextTick(()=>this.emit('error',Object.assign(new Error('Synthetic occupied callback'),{code:'EADDRINUSE'})));return this;}
    if(announce) this.once('listening',()=>process.stdout.write(JSON.stringify({type:'callback_port',port:this.address().port})+'\n'));
    port=0;
   }
@@ -29,7 +31,9 @@ if(localTokenUrl) {
 globalThis.fetch=async (target,init)=>{
  const url=new URL(target instanceof Request?target.url:String(target));
  const body=new URLSearchParams(init?.body);
- if(url.href!=='https://auth.openai.com/oauth/token' || init?.method!=='POST' || body.get('code')!=='synthetic-browser-code') throw Error('Unexpected synthetic OAuth request');
+ const allowedCode=body.get('code')==='synthetic-browser-code';
+ const allowedRefresh=body.get('grant_type')==='refresh_token' && body.get('refresh_token')==='synthetic-refresh';
+ if(url.href!=='https://auth.openai.com/oauth/token' || init?.method!=='POST' || (!allowedCode&&!allowedRefresh)) throw Error('Unexpected synthetic OAuth request');
  if(localTokenUrl) return originalFetch(localTokenUrl,{...init,redirect:'manual'});
  const payload=Buffer.from(JSON.stringify({'https://api.openai.com/auth':{chatgpt_account_id:'synthetic-account'}})).toString('base64url');
  return new Response(JSON.stringify({access_token:`eyJhbGciOiJub25lIn0.${payload}.synthetic`,refresh_token:'synthetic-refresh',expires_in:3600}),{status:200,headers:{'Content-Type':'application/json'}});

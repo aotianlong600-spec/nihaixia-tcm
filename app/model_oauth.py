@@ -2,6 +2,7 @@
 from copy import deepcopy
 import json
 import math
+import secrets
 import os
 from pathlib import Path
 import shutil
@@ -9,9 +10,10 @@ import subprocess
 import threading
 import time
 from uuid import uuid4
+from urllib.parse import parse_qs, urlparse
 
 from fastapi import HTTPException
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Literal
 
 from .secrets import read_secret, write_secret
@@ -60,6 +62,11 @@ class LoginInput(BaseModel):
     method: Literal['device', 'browser'] = 'device'
 
 
+class CallbackInput(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    value: str = Field(min_length=1, max_length=4096)
+
+
 class OAuthManager:
     def __init__(self, data_dir):
         self.path = data_dir / 'codex-secret.dpapi'
@@ -87,7 +94,7 @@ class OAuthManager:
                     'expires_at': credential['expires'] / 1000 if credential else None,
                     'requires_refresh': bool(credential and credential['expires'] <= time.time() * 1000 + 60000)}
         with self.state_lock:
-            info['login'] = {key: deepcopy(self.attempt[key]) for key in ('id', 'status', 'method', 'auth_url', 'device_code', 'stage', 'error_code', 'error', 'bridge_exit_code', 'credential_received') if self.attempt and key in self.attempt} if self.attempt else None
+            info['login'] = {key: deepcopy(self.attempt[key]) for key in ('id', 'status', 'method', 'auth_url', 'device_code', 'stage', 'error_code', 'error', 'bridge_exit_code', 'credential_received', 'manual_available', 'manual_required', 'manual_submitted') if self.attempt and key in self.attempt} if self.attempt else None
         return info
 
     def _spawn(self):
@@ -149,7 +156,6 @@ class OAuthManager:
                         if attempt['status'] != 'pending':
                             continue
                         if event['type'] == 'auth_url':
-                            from urllib.parse import urlparse
                             parsed = urlparse(event.get('url', ''))
                             if parsed.scheme != 'https' or parsed.hostname not in ('auth.openai.com', 'chatgpt.com') or parsed.username or parsed.password or parsed.port:
                                 raise ValueError('非预期的授权地址')
@@ -163,6 +169,8 @@ class OAuthManager:
                             attempt['stage'] = 'waiting_authorization'
                         elif event.get('stage') in LOGIN_STAGES:
                             attempt['stage'] = event['stage']
+                        if event['type'] == 'waiting_callback': attempt['manual_available'] = True
+                        if event.get('manual_required') is True: attempt['manual_required'] = True
                 else:
                     raise ValueError('不支持的授权事件')
             error_code = 'bridge_timeout'
@@ -178,12 +186,12 @@ class OAuthManager:
                     error_code = 'credential_storage'
                     self.save_credential(credential)
                     attempt.update(status='completed', stage='completed')
-                    attempt.pop('auth_url', None); attempt.pop('device_code', None)
+                    for key in ('auth_url', 'device_code', 'manual_available', 'manual_required'): attempt.pop(key, None)
         except Exception:
             with self.state_lock:
                 if attempt['status'] == 'pending':
                     attempt.update(status='failed', error_code=error_code, error=LOGIN_ERRORS.get(error_code, LOGIN_ERRORS['oauth_failed']))
-                    attempt.pop('auth_url', None); attempt.pop('device_code', None)
+                    for key in ('auth_url', 'device_code', 'manual_available', 'manual_required'): attempt.pop(key, None)
         finally:
             if timer:
                 timer.cancel()
@@ -209,11 +217,42 @@ class OAuthManager:
                 return {'status': attempt['status']}
             self.generation += 1
             attempt['status'] = 'cancelled'
-            attempt.pop('auth_url', None); attempt.pop('device_code', None)
+            for key in ('auth_url', 'device_code', 'manual_available', 'manual_required'): attempt.pop(key, None)
             process = attempt.get('process')
         if process and process.poll() is None:
             process.kill()
         return {'status': 'cancelled'}
+
+    def submit(self, attempt_id, value):
+        with self.state_lock:
+            attempt = self.attempt
+            if not attempt or attempt['id'] != attempt_id or attempt['status'] != 'pending' or attempt['method'] != 'browser':
+                raise HTTPException(409, '仅能回填当前尚未完成的浏览器授权')
+            if not attempt.get('manual_available') or attempt.get('manual_submitted') or attempt.get('stage', 'waiting_authorization') != 'waiting_authorization':
+                raise HTTPException(409, '回填入口尚未就绪或本次已提交，请等待结果')
+            try:
+                if not isinstance(value, str) or not 1 <= len(value) <= 4096 or any(ord(c) < 32 for c in value): raise ValueError()
+                parsed = urlparse(value.strip())
+                query = parse_qs(parsed.query, keep_blank_values=True)
+                expected = parse_qs(urlparse(attempt.get('auth_url', '')).query).get('state', [''])[0]
+                code, state = query.get('code', []), query.get('state', [])
+                if (parsed.scheme != 'http' or parsed.hostname not in ('localhost', '127.0.0.1', '::1') or parsed.port != 1455
+                    or parsed.path != '/auth/callback' or parsed.username or parsed.password or parsed.fragment
+                    or len(code) != 1 or not code[0] or any(ord(c) <= 32 for c in code[0]) or len(state) != 1 or not state[0] or not expected
+                    or not secrets.compare_digest(state[0], expected)):
+                    raise ValueError()
+            except (ValueError, TypeError):
+                raise ValueError('请粘贴本轮完整的localhost:1455/auth/callback网址；request_id、账号ID或旧会话链接均无效') from None
+            process = attempt.get('process')
+            if not process or process.poll() is not None:
+                raise HTTPException(409, '授权进程已经结束，请重新登录')
+            try:
+                process.stdin.write(json.dumps({'type': 'authorization_input', 'value': value.strip()}) + '\n')
+                process.stdin.flush()
+            except (OSError, ValueError):
+                raise HTTPException(409, '授权进程不可用，请重新登录') from None
+            attempt['manual_submitted'] = True
+        return {'status': 'submitted'}
 
     def logout(self):
         with self.state_lock:

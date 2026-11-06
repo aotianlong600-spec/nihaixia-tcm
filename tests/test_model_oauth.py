@@ -8,6 +8,33 @@ from app.model_oauth import OAuthManager
 CREDENTIAL={'type':'oauth','access':'synthetic-access','refresh':'synthetic-refresh','expires':int(time.time()*1000)+3600000,'accountId':'synthetic'}
 
 
+def test_manual_callback_is_bound_to_pending_browser_state_and_never_public(tmp_path):
+    from fastapi import HTTPException
+    manager=OAuthManager(tmp_path)
+    class Process:
+        stdin=StringIO()
+        def poll(self):return None
+    manager.attempt={'id':'current','status':'pending','method':'browser','manual_available':True,
+        'auth_url':'https://auth.openai.com/oauth/authorize?state=current-state','process':Process()}
+    wrong=['synthetic-request-id',
+        'http://evil.example:1455/auth/callback?code=synthetic-code&state=current-state',
+        'http://localhost:1455/other?code=synthetic-code&state=current-state',
+        'http://localhost:1455/auth/callback?code=synthetic-code&state=old-state',
+        'http://localhost:1455/auth/callback?code=synthetic-code',
+        'http://localhost:1455/auth/callback?code=a&code=b&state=current-state']
+    for value in wrong:
+        with pytest.raises(ValueError):manager.submit('current',value)
+    with pytest.raises(HTTPException):manager.submit('old','http://localhost:1455/auth/callback?code=synthetic-code&state=current-state')
+    value='http://localhost:1455/auth/callback?code=synthetic-code&state=current-state'
+    assert manager.submit('current',value)=={'status':'submitted'}
+    frame=json.loads(manager.attempt['process'].stdin.getvalue())
+    assert frame=={'type':'authorization_input','value':value}
+    assert 'synthetic-code' not in json.dumps(manager.status())
+    with pytest.raises(HTTPException):manager.submit('current',value)
+    manager.attempt['status']='cancelled'
+    with pytest.raises(HTTPException):manager.submit('current',value)
+
+
 @pytest.mark.parametrize('failure',['provider','storage','exit'])
 def test_login_failure_reports_safe_stage_instead_of_losing_the_cause(tmp_path,monkeypatch,failure):
     manager=OAuthManager(tmp_path)

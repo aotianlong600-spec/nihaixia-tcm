@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { performOAuth, validateCredential, publicAuthEvent, safeOAuthFailure, checkBrowserCallback } from './oauth.mjs';
+import { performOAuth, validateCredential, publicAuthEvent, safeOAuthFailure, checkBrowserCallback, fetchOAuth } from './oauth.mjs';
 import {createServer} from 'node:net';
 import {spawn,spawnSync} from 'node:child_process';
 import {createInterface} from 'node:readline';
@@ -11,6 +11,26 @@ import {mkdtempSync,writeFileSync,unlinkSync,rmdirSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 const credential={type:'oauth',access:'synthetic-access',refresh:'synthetic-refresh',expires:Date.now()+100000,accountId:'synthetic'};
+test('transient device polling errors retry, token redemption and HTTP responses do not',{timeout:3000},async()=>{
+ let calls=0,retries=0;
+ const failure=()=>Object.assign(new TypeError('fetch failed'),{cause:{code:'ECONNRESET'}});
+ const signal=new AbortController().signal;
+ const response=await fetchOAuth('https://auth.openai.com/api/accounts/deviceauth/token',{method:'POST'},
+  {signal,onRetry:()=>retries++,fetchImpl:async()=>{if(++calls<2)throw failure();return new Response('{}')}});
+ assert.equal(response.status,200);assert.equal(calls,2);assert.equal(retries,1);
+ calls=0;
+ await assert.rejects(fetchOAuth('https://auth.openai.com/oauth/token',{method:'POST'},
+  {signal,fetchImpl:async()=>{calls++;throw failure()}}));
+ assert.equal(calls,1);
+ calls=0;
+ assert.equal((await fetchOAuth('https://auth.openai.com/api/accounts/deviceauth/token',{},
+  {signal,fetchImpl:async()=>{calls++;return new Response('{}',{status:403})}})).status,403);
+ assert.equal(calls,1);
+ const aborted=new AbortController();aborted.abort();calls=0;
+ await assert.rejects(fetchOAuth('https://auth.openai.com/api/accounts/deviceauth/token',{},
+  {signal:aborted.signal,fetchImpl:async()=>{calls++;throw failure()}}));
+ assert.equal(calls,1);
+});
 test('OAuth failures report only stage/code, never upstream response or credentials',()=>{
  const failure=safeOAuthFailure(new Error('OpenAI Codex token exchange failed (403): synthetic-secret-response'), 'exchanging_token');
  assert.deepEqual(failure,{code:'token_http_403',stage:'exchanging_token'});
@@ -18,10 +38,18 @@ test('OAuth failures report only stage/code, never upstream response or credenti
  assert.deepEqual(safeOAuthFailure(new Error('fetch failed synthetic-secret'), 'exchanging_token'),{code:'token_network',stage:'exchanging_token'});
  assert(!JSON.stringify(failure).includes('synthetic-secret'));
 });
-test('occupied callback port fails before showing an authorization URL',async()=>{
+test('callback occupancy can be detected without touching that listener',async()=>{
  const server=createServer();await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
  try {await assert.rejects(checkBrowserCallback(server.address().port), e=>e.code==='callback_busy');}
  finally {await new Promise(resolve=>server.close(resolve));}
+});
+
+test('manual callback is supplied privately to the SDK prompt',{timeout:500},async()=>{
+ const events=[],value='http://localhost:1455/auth/callback?code=synthetic&state=synthetic';
+ const oauth={login:async i=>{assert.equal(await i.prompt({type:'manual_code',signal:new AbortController().signal}),value);return credential;}};
+ const result=await performOAuth({op:'login',method:'browser'},{oauth,emit:e=>events.push(e),signal:new AbortController().signal,readAuthorizationInput:async()=>value});
+ assert.equal(result.refresh,credential.refresh);
+ assert.deepEqual(events,[{type:'waiting_callback'}]);
 });
 test('only safe authentication events are public',()=>{
  assert.deepEqual(publicAuthEvent({type:'device_code',userCode:'ABCD-1234',verificationUri:'https://auth.openai.com/codex/device',access:'do-not-echo'}),{type:'device_code',userCode:'ABCD-1234',verificationUri:'https://auth.openai.com/codex/device'});
@@ -41,12 +69,13 @@ test('refresh is explicit and does not read ambient credentials',async()=>{
  await assert.rejects(()=>performOAuth({op:'read-global-auth'},{oauth,emit:()=>{},signal:new AbortController().signal}));
 });
 
-for(const transport of ['stub','https','https-large']) test(`browser private IPC completes with exit zero (${transport})`,{timeout:15000},async t=>{
+for(const transport of ['stub','https','https-large','manual','refresh']) test(`private IPC completes with exit zero (${transport})`,{timeout:15000},async t=>{
  let child,exit,timer,reader,httpsServer,certificateDirectory,requests=0;
  const events=[];
  let browserStatus,callbackPort,stderr='';
  try {
   const env=Object.fromEntries(['SYSTEMROOT','WINDIR','PATH','TEMP','TMP'].filter(key=>process.env[key]!==undefined).map(key=>[key,process.env[key]]));
+  if(transport==='manual') env.SYNTHETIC_OAUTH_MANUAL='1';
   if(transport.startsWith('https')) {
    const generated=spawnSync('python',['-c',`
 import json, ipaddress
@@ -80,15 +109,17 @@ print(json.dumps({'cert':cert.public_bytes(serialization.Encoding.PEM).decode(),
   timer=setTimeout(()=>child.kill(),7000);
   reader=createInterface({input:child.stdout});
   child.stderr.setEncoding('utf8');child.stderr.on('data',chunk=>{stderr=(stderr+chunk).slice(0,65536);});
-  child.stdin.write(JSON.stringify({op:'login',method:'browser'})+'\n');
+  child.stdin.write(JSON.stringify(transport==='refresh'?{op:'refresh',credential:{...credential,accountId:'synthetic-account'}}:{op:'login',method:'browser'})+'\n');
+  let authorizationUrl;
   for await(const line of reader) {
    const event=JSON.parse(line);events.push(event);
    if(event.type==='callback_port') callbackPort=event.port;
    if(event.type==='auth_url') {
-    const authorization=new URL(event.url);
+    const authorization=new URL(event.url);authorizationUrl=authorization;
     const callback=new URL(authorization.searchParams.get('redirect_uri'));
     assert.equal(callback.origin,'http://localhost:1455');
     assert.equal(callback.pathname,'/auth/callback');
+    if(transport==='manual')continue;
     assert.equal(Number.isInteger(callbackPort) && callbackPort>0 && callbackPort!==1455,true);
     callback.port=String(callbackPort);
     callback.searchParams.set('state',authorization.searchParams.get('state'));
@@ -97,11 +128,18 @@ print(json.dumps({'cert':cert.public_bytes(serialization.Encoding.PEM).decode(),
      get(callback,response=>{response.resume();response.once('end',()=>resolve(response.statusCode));}).once('error',reject);
     });
    }
+   if(transport==='manual' && event.type==='waiting_callback') {
+    const callback=new URL(authorizationUrl.searchParams.get('redirect_uri'));
+    callback.searchParams.set('state',authorizationUrl.searchParams.get('state'));callback.searchParams.set('code','synthetic-browser-code');
+    child.stdin.write(JSON.stringify({type:'authorization_input',value:callback.href})+'\n');
+   }
   }
   const result=await exit;
   const credentialBytes=Buffer.byteLength(JSON.stringify(events.at(-1)?.credential??{}));
   t.diagnostic(JSON.stringify({transport,event_types:events.map(event=>event.type),exit_code:result.code,credential_bytes:credentialBytes,stderr_marker:stderr.includes('Assertion failed')?'native_assertion':stderr?'stderr_present':null}));
-  assert.equal(browserStatus,200);
+  if(!['manual','refresh'].includes(transport)) assert.equal(browserStatus,200);
+  if(transport==='manual')assert.equal(callbackPort,undefined);
+  if(transport==='refresh')assert.deepEqual(events.map(e=>e.type),['credential']);
   assert.equal(result.code,0);
   assert.equal(result.signal,null);
   assert.equal(events.at(-1)?.type,'credential');

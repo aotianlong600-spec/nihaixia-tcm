@@ -36,6 +36,25 @@ function authUrl(value) {
   return url.href;
 }
 
+export async function fetchOAuth(target, init, {fetchImpl=globalThis.fetch, signal, onRetry}={}) {
+  const url=new URL(target instanceof Request ? target.url : String(target));
+  if(url.protocol!=='https:' || !['auth.openai.com','chatgpt.com'].includes(url.hostname) || url.port || url.username || url.password) throw Error('Unexpected OAuth endpoint');
+  const polling=url.pathname==='/api/accounts/deviceauth/token';
+  for(let attempt=0;;attempt++) {
+    try {return await fetchImpl(target,{...init,redirect:'manual',signal});}
+    catch(error) {
+      if(!polling || attempt>=2 || signal?.aborted || !['ECONNRESET','ETIMEDOUT','UND_ERR_CONNECT_TIMEOUT','UND_ERR_SOCKET','EPIPE'].includes(error?.cause?.code)) throw error;
+      onRetry?.();
+      await new Promise((resolve,reject)=>{
+        const cancel=()=>{clearTimeout(timer);signal?.removeEventListener('abort',cancel);reject(Error('Login cancelled'));};
+        const timer=setTimeout(()=>{signal?.removeEventListener('abort',cancel);resolve();},250*(attempt+1));
+        signal?.addEventListener('abort',cancel,{once:true});
+        if(signal?.aborted)cancel();
+      });
+    }
+  }
+}
+
 export function publicAuthEvent(event) {
   if (event.type === 'auth_url') return { type: 'auth_url', url: authUrl(event.url) };
   if (event.type === 'device_code') {
@@ -45,7 +64,7 @@ export function publicAuthEvent(event) {
   return { type: 'progress', message: '等待OpenAI授权完成' };
 }
 
-export async function performOAuth(request, { oauth, emit, signal }) {
+export async function performOAuth(request, { oauth, emit, signal, readAuthorizationInput }) {
   if (!request || !['login', 'refresh'].includes(request.op)) throw Error('Invalid operation');
   if (request.op === 'refresh') return validateCredential(await oauth.refresh(validateCredential(request.credential), signal));
   if (!['device', 'browser'].includes(request.method)) throw Error('Invalid login method');
@@ -59,6 +78,11 @@ export async function performOAuth(request, { oauth, emit, signal }) {
         return Promise.resolve(choice);
       }
       if (prompt.type !== 'manual_code') return Promise.reject(Error('Unsupported login prompt'));
+      if (readAuthorizationInput) {
+        const pending = readAuthorizationInput(prompt.signal);
+        emit({ type: 'waiting_callback' });
+        return pending;
+      }
       emit({ type: 'waiting_callback' });
       // The SDK races this against its localhost callback. No password is entered in our app.
       return new Promise((resolve, reject) => {
@@ -76,12 +100,20 @@ async function ipcMain() {
   process.env = {};
   if (process.stdout.isTTY) { process.exitCode = 1; return; }
   const controller = new AbortController();
-  let input = '', started = false, finished = false, stage='starting';
+  let input = '', started = false, finished = false, stage='starting', operation='', receiveAuthorizationInput;
   let timer = setTimeout(() => stop('timeout'), 10000);
   const write = event => {
     if (['auth_url','device_code'].includes(event.type)) stage='waiting_authorization';
-    if (!finished) process.stdout.write(JSON.stringify(event) + '\n');
+    if (!finished && operation!=='refresh') process.stdout.write(JSON.stringify(event) + '\n');
   };
+  const readAuthorizationInput = manualSignal => new Promise((resolve,reject)=>{
+    const clear=()=>{receiveAuthorizationInput=undefined;controller.signal.removeEventListener('abort',cancel);manualSignal?.removeEventListener('abort',cancel);};
+    const cancel=()=>{clear();reject(Error('Login cancelled'));};
+    if(controller.signal.aborted || manualSignal?.aborted) return cancel();
+    receiveAuthorizationInput=value=>{clear();resolve(value);};
+    controller.signal.addEventListener('abort',cancel,{once:true});
+    manualSignal?.addEventListener('abort',cancel,{once:true});
+  });
   const end = event => {
     if (finished) return;
     finished = true; clearTimeout(timer); controller.abort(); process.stdin.pause();
@@ -91,9 +123,8 @@ async function ipcMain() {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async (target, init) => {
     const url = new URL(target instanceof Request ? target.url : String(target));
-    if (url.protocol !== 'https:' || !['auth.openai.com', 'chatgpt.com'].includes(url.hostname) || url.port || url.username || url.password) throw Error('Unexpected OAuth endpoint');
     if (url.pathname==='/oauth/token') {stage='exchanging_token';write({type:'progress',stage});}
-    return originalFetch(target, { ...init, redirect: 'manual', signal: controller.signal });
+    return fetchOAuth(target, init, {fetchImpl:originalFetch,signal:controller.signal,onRetry:()=>write({type:'progress',stage})});
   };
   process.stdin.setEncoding('utf8');
   process.stdin.on('data', data => {
@@ -104,14 +135,24 @@ async function ipcMain() {
       const line = input.slice(0, newline); input = input.slice(newline + 1);
       let request;
       try { request = JSON.parse(line); } catch { return stop('invalid_request'); }
-      if (started) { if (request.type === 'cancel') stop('cancelled'); else stop('invalid_request'); return; }
+      if (started) {
+        if (request.type === 'cancel') stop('cancelled');
+        else if (request.type==='authorization_input' && operation==='login' && typeof request.value==='string' && request.value.length<=4096) {
+          receiveAuthorizationInput?.(request.value);
+        } else stop('invalid_request');
+        continue;
+      }
       started = true;
+      operation = request.op;
       clearTimeout(timer); timer = setTimeout(() => stop('timeout'), request.op === 'refresh' ? 30000 : 15 * 60 * 1000);
       void (async () => {
         try {
-          if (request.op==='login' && request.method==='browser') await checkBrowserCallback();
+          if (request.op==='login' && request.method==='browser') {
+            try {await checkBrowserCallback();}
+            catch {write({type:'progress',manual_required:true,stage:'waiting_authorization'});}
+          }
           const { openaiCodexProvider } = await import('@earendil-works/pi-ai/providers/openai-codex');
-          const credential = await performOAuth(request, { oauth: openaiCodexProvider().auth.oauth, emit: write, signal: controller.signal });
+          const credential = await performOAuth(request, { oauth: openaiCodexProvider().auth.oauth, emit: write, signal: controller.signal, readAuthorizationInput });
           stage='validating_credential';write({type:'progress',stage});
           end({ type: 'credential', credential });
         } catch(error) {end({type:'error',...safeOAuthFailure(error,stage)});}
