@@ -211,7 +211,7 @@ def create_app(data_dir: Path | None = None, *, lan_hosts: list[str] | tuple = (
 
     @app.get("/api/status")
     def status():
-        return {"status": "ok", "app_id": "nihaixia-clinical-engine", "version": "0.4.0", "mode": "personal",
+        return {"status": "ok", "app_id": "nihaixia-clinical-engine", "version": "0.4.1", "mode": "personal",
                 "lan_enabled": getattr(app.state, 'lan_enabled', False)}
 
     def session_response(request, *, rotate=False, grant=False):
@@ -230,7 +230,7 @@ def create_app(data_dir: Path | None = None, *, lan_hosts: list[str] | tuple = (
                 sessions[token] = secrets.token_urlsafe(32)
             if grant:
                 access_gate.grant(token)
-            response = JSONResponse({"csrf_token": sessions[token], "mode": "personal", "version": "0.4.0",
+            response = JSONResponse({"csrf_token": sessions[token], "mode": "personal", "version": "0.4.1",
                 "access_configured": access_gate.configured,
                 "authenticated": access_gate.authenticated(token) if access_gate.configured else access.loopback(request),
                 "setup_allowed": access.loopback(request) and not access_gate.configured})

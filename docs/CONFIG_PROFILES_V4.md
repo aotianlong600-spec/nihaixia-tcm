@@ -14,7 +14,7 @@ Profile={id,name,auth_mode,base_url,model,enabled,allow_external,allow_evidence,
 
 ## 保存与迁移
 
-data/model-profiles.json保存version=1、revision、active_id、items，采用锁和唯一临时文件原子替换。首次读取时若有旧model-config.json则导入为id=legacy、name=原有配置，保持所有设置。legacy密钥仍用原model-secret.dpapi，不复制、不解密迁移；其他API密钥放data/model-keys/{uuid}.dpapi。原配置文件保留，不因空列表或删除当前项重新导入。读损坏数据应报错，不静默清空。
+data/model-profiles.json保存version=1、revision、active_id、items，采用锁和唯一临时文件原子替换。首次读取时若有旧model-config.json则导入为id=legacy、name=原有配置，保持所有设置。legacy密钥仍用原model-secret.dpapi，不复制、不解密迁移；其他API密钥放data/model-keys/{profile_id}-{key_ref}.dpapi（私有引用随配置原子提交）。原配置文件保留，不因空列表或删除当前项重新导入。读损坏数据应报错，不静默清空。
 
 Codex配置共用当前一份Codex账号授权（codex-secret.dpapi）；本次不增加多账号管理。删除配置不等于退出共享账号，界面必须说明；“退出Codex授权”仍是独立操作。保留已有凭据和既有备份格式。
 

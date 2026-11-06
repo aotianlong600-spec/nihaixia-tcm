@@ -5,7 +5,7 @@ export interface ModelConfig {
  auth_mode:AuthMode;base_url:string;model:string;enabled:boolean;allow_external:boolean;allow_evidence:boolean;has_key?:boolean;codex?:any;profile_id?:string|null;profile_name?:string|null
 }
 export interface Profile {
- id:string;name:string;auth_mode:AuthMode;base_url:string;model:string;enabled:boolean;allow_external:boolean;allow_evidence:boolean;has_key:boolean
+ id:string;name:string;auth_mode:AuthMode;base_url:string;model:string;enabled:boolean;allow_external:boolean;allow_evidence:boolean;has_key:boolean;key_cleanup_incomplete?:boolean
 }
 const blank=():ModelConfig=>({auth_mode:'api_key',base_url:'',model:'',enabled:false,allow_external:false,allow_evidence:false})
 export class ModelSettingsState {
@@ -49,7 +49,6 @@ export class ModelSettingsState {
  async useProfile(id:string){
   const active=await this.client.post<ModelConfig>(`/model/profiles/${encodeURIComponent(id)}/select`,{})
   this.saved={...active};this.activeId=active.profile_id??id;if(active.codex)this.codex=active.codex
-  if(this.editingId===this.activeId)this.config={...active}
   return active
  }
  async deleteProfile(id:string){

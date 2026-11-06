@@ -15,7 +15,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from . import personal, storage
 from .model_profiles import DEFAULT_CONFIG, ProfileStore
-from .model_oauth import CODEX_BASE, LoginInput, OAuthManager
+from .model_oauth import CODEX_BASE, CallbackInput, LoginInput, OAuthManager
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -133,6 +133,7 @@ def mount_model_routes(app, data_dir, protected, database):
             else:
                 saved = profiles.update(item["id"], result, item["name"], payload.api_key)
             value = public_config()
+            if saved.get('key_cleanup_incomplete'): value['key_cleanup_incomplete'] = True
         storage.audit(conn, "model_config", saved["id"], recipient=urlparse(result["base_url"]).hostname, auth_mode=result["auth_mode"], allow_external=result["allow_external"], allow_evidence=result["allow_evidence"])
         return value
 
@@ -202,6 +203,10 @@ def mount_model_routes(app, data_dir, protected, database):
     def codex_cancel(login_id: str):
         return oauth.cancel(login_id)
 
+    @app.post("/api/model/codex/login/{login_id}/code", dependencies=protected)
+    def codex_callback(login_id: str, payload: CallbackInput):
+        return oauth.submit(login_id, payload.value)
+
     @app.post("/api/model/codex/logout", dependencies=protected)
     def codex_logout():
         with guard:
@@ -226,7 +231,7 @@ def mount_model_routes(app, data_dir, protected, database):
             job["status"] = "cancelled"
 
     def public_job(job):
-        value = {key: job[key] for key in ("id", "status", "text", "error", "usage", "validated", "validation_scope", "created_at", "stale", "dependency_warnings", "analysis_id", "consultation_id", "result", "evidence") if key in job}
+        value = {key: job[key] for key in ("id", "status", "text", "error", "usage", "validated", "validation_scope", "created_at", "stale", "dependency_warnings", "analysis_id", "consultation_id", "result", "evidence", "profile_id", "profile_name", "profile_revision") if key in job}
         if job.get("purpose") == "consult" and job["status"] != "completed":
             value["text"] = ""  # incomplete medical JSON is not a usable response
         return value

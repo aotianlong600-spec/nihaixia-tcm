@@ -51,7 +51,7 @@ def test_local_and_tls_listeners_share_one_app_and_shutdown(tmp_path, monkeypatc
             ports=[s.servers[0].sockets[0].getsockname()[1] for s in servers]
             local=await asyncio.to_thread(status,f'http://127.0.0.1:{ports[0]}')
             phone=await asyncio.to_thread(status,f'https://127.0.0.1:{ports[1]}')
-            assert local==phone and local['version']=='0.4.0'
+            assert local==phone and local['version']=='0.4.1'
             servers[0].should_exit=True
             await asyncio.wait_for(runner,5)
             assert all(s.should_exit for s in servers)

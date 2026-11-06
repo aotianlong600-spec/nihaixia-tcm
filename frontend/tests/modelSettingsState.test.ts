@@ -176,6 +176,18 @@ test('explicit selection activates the profile while preserving a different unsa
  })
 })
 
+test('activating the profile being edited preserves its unsaved credential recipient',async()=>{
+ await withProfiles(async(state)=>{
+  await state.load();await state.loadProfiles();state.selectForEdit(state.profiles[1])
+  state.config.base_url='https://draft-recipient.test/v1';state.config.model='draft-model'
+  await state.useProfile('p2')
+  assert.equal(state.saved?.profile_id,'p2')
+  assert.equal(state.saved?.base_url,'https://example.test')
+  assert.equal(state.config.base_url,'https://draft-recipient.test/v1')
+  assert.equal(state.config.model,'draft-model')
+ })
+})
+
 test('deleting the active profile leaves no active configuration and clears its edit draft',async()=>{
  await withProfiles(async(state)=>{
   await state.load();await state.loadProfiles();state.selectForEdit(state.profiles[0])

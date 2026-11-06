@@ -16,6 +16,7 @@ PROFILE_FIELDS = ("auth_mode", "base_url", "model", "enabled", "allow_external",
 MAX_PROFILES = 50
 LEGACY_ID = "legacy"
 LEGACY_NAME = "原有配置"
+CORRUPT_CONFIG = "模型配置文件损坏，已停止使用。请保留文件并按排障说明恢复。"
 
 
 def _valid_hex32(value):
@@ -50,64 +51,64 @@ class ProfileStore:
     def _item(self, value):
         required = {"id", "name", *PROFILE_FIELDS}
         if not isinstance(value, dict) or not required <= set(value) or set(value) - required - {"key_ref"}:
-            raise ValueError("模型配置档案损坏，请重新保存配置")
+            raise ValueError(CORRUPT_CONFIG)
         if not valid_profile_id(value["id"]):
-            raise ValueError("模型配置档案损坏，请重新保存配置")
+            raise ValueError(CORRUPT_CONFIG)
         name = _name(value["name"])
         auth_mode = value["auth_mode"]
         if auth_mode not in ("api_key", "codex"):
-            raise ValueError("模型配置档案损坏，请重新保存配置")
+            raise ValueError(CORRUPT_CONFIG)
         base_url = value["base_url"]
         model = value["model"]
         if not isinstance(base_url, str) or len(base_url) > 2048:
-            raise ValueError("模型配置档案损坏，请重新保存配置")
+            raise ValueError(CORRUPT_CONFIG)
         if auth_mode == "codex" and base_url != CODEX_BASE:
-            raise ValueError("模型配置档案损坏，请重新保存配置")
+            raise ValueError(CORRUPT_CONFIG)
         if auth_mode == "api_key" and base_url and self.url_validator:
             try:
                 self.url_validator(base_url)
             except (TypeError, ValueError):
-                raise ValueError("模型配置档案损坏，请重新保存配置") from None
+                raise ValueError(CORRUPT_CONFIG) from None
         if not isinstance(model, str) or len(model) > 200:
-            raise ValueError("模型配置档案损坏，请重新保存配置")
+            raise ValueError(CORRUPT_CONFIG)
         for key in ("enabled", "allow_external", "allow_evidence"):
             if not isinstance(value[key], bool):
-                raise ValueError("模型配置档案损坏，请重新保存配置")
+                raise ValueError(CORRUPT_CONFIG)
         item = {"id": value["id"], "name": name, **{key: value[key] for key in PROFILE_FIELDS}}
         key_ref = value.get("key_ref")
         if key_ref is not None:
             if not _valid_hex32(key_ref):
-                raise ValueError("模型配置档案损坏，请重新保存配置")
+                raise ValueError(CORRUPT_CONFIG)
             item["key_ref"] = key_ref
         return item
 
     def _checked(self, value):
         if (not isinstance(value, dict) or set(value) != {"version", "revision", "active_id", "items"}
                 or type(value["version"]) is not int or value["version"] != 1):
-            raise ValueError("模型配置档案损坏，请重新保存配置")
+            raise ValueError(CORRUPT_CONFIG)
         revision = value["revision"]
         if isinstance(revision, bool) or not isinstance(revision, int) or revision < 0:
-            raise ValueError("模型配置档案损坏，请重新保存配置")
+            raise ValueError(CORRUPT_CONFIG)
         items = value["items"]
         if not isinstance(items, list) or len(items) > MAX_PROFILES:
-            raise ValueError("模型配置档案损坏，请重新保存配置")
+            raise ValueError(CORRUPT_CONFIG)
         seen, cleaned = set(), []
         for raw in items:
             item = self._item(raw)
             if item["id"] in seen:
-                raise ValueError("模型配置档案损坏，请重新保存配置")
+                raise ValueError(CORRUPT_CONFIG)
             seen.add(item["id"])
             cleaned.append(item)
         active = value["active_id"]
         if active is not None and (not valid_profile_id(active) or active not in seen):
-            raise ValueError("模型配置档案损坏，请重新保存配置")
+            raise ValueError(CORRUPT_CONFIG)
         return {"version": 1, "revision": revision, "active_id": active, "items": cleaned}
 
     def _read(self):
         try:
             value = json.loads(self.path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError, UnicodeDecodeError) as exc:
-            raise ValueError("模型配置档案损坏，请重新保存配置") from exc
+            raise ValueError(CORRUPT_CONFIG) from exc
         return self._checked(value)
 
     def _write(self, registry):
@@ -129,12 +130,12 @@ class ProfileStore:
         try:
             value = json.loads(self.legacy_config_path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError, UnicodeDecodeError) as exc:
-            raise ValueError("模型配置损坏，请重新保存配置") from exc
+            raise ValueError(CORRUPT_CONFIG) from exc
         if not isinstance(value, dict):
-            raise ValueError("模型配置损坏，请重新保存配置")
+            raise ValueError(CORRUPT_CONFIG)
         auth_mode = value.get("auth_mode", "api_key")
         if auth_mode not in ("api_key", "codex"):
-            raise ValueError("模型配置损坏，请重新保存配置")
+            raise ValueError(CORRUPT_CONFIG)
         item = {"id": LEGACY_ID, "name": LEGACY_NAME,
                 "auth_mode": auth_mode,
                 "base_url": CODEX_BASE if auth_mode == "codex" else value.get("base_url", ""),
@@ -256,8 +257,8 @@ class ProfileStore:
                 self._write(registry)
             except Exception:
                 # Registry did not commit: drop the unreferenced staged blob so no key outlives its item.
-                if staged:
-                    self._discard(staged)
+                if staged and not self._discard(staged):
+                    raise ValueError('配置未保存，暂存的加密密钥文件也未清理，请在本机检查文件权限') from None
                 raise
             return self._public(item)
 
@@ -285,12 +286,11 @@ class ProfileStore:
             try:
                 self._write(registry)
             except Exception:
-                if staged:
-                    self._discard(staged)
+                if staged and not self._discard(staged):
+                    raise ValueError('旧配置与密钥已保留，但暂存的加密密钥文件未清理，请在本机检查文件权限') from None
                 raise
-            if staged and old_path != staged:
-                self._discard(old_path)
-            return self._public(item)
+            incomplete = bool(staged and old_path != staged and not self._discard(old_path))
+            return {**self._public(item), **({'key_cleanup_incomplete': True} if incomplete else {})}
 
     def select(self, profile_id):
         with self.lock:
@@ -312,6 +312,7 @@ class ProfileStore:
             registry = self._write(registry)
             paths = {current_key}
             if profile_id == LEGACY_ID: paths.add(self.legacy_key_path)
+            else: paths.add(self.key_dir / f'{profile_id}.dpapi')
             incomplete = False
             try:
                 owned = list(self.key_dir.glob(f"{profile_id}-*.dpapi"))

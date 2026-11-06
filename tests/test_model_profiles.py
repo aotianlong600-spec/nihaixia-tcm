@@ -54,6 +54,36 @@ def test_changing_credential_recipient_requires_an_explicit_key(tmp_path,change)
         assert app.state.model_profiles.read_key(profile['id'])=='synthetic-key'
 
 
+def test_key_rotation_surfaces_old_blob_cleanup_failure(tmp_path,monkeypatch):
+    app=create_app(tmp_path)
+    with _client(app) as client:
+        headers=_csrf(client)
+        profile=client.post('/api/model/profiles',json=_profile(),headers=headers).json()
+        store=app.state.model_profiles;old=store.key_path(profile['id'])
+        monkeypatch.setattr(store,'_discard',lambda path:False)
+        result=client.put(f"/api/model/profiles/{profile['id']}",json=_profile(key='synthetic-rotated-key'),headers=headers).json()
+        assert result['key_cleanup_incomplete'] is True and old.exists()
+        assert store.read_key(profile['id'])=='synthetic-rotated-key'
+
+
+def test_delete_also_cleans_old_unversioned_profile_key(tmp_path,monkeypatch):
+    app=create_app(tmp_path)
+    with _client(app) as client:
+        headers=_csrf(client);store=app.state.model_profiles
+        profile=client.post('/api/model/profiles',json=_profile(),headers=headers).json()
+        original=store.key_path(profile['id'])
+        fallback=tmp_path/'model-keys'/f"{profile['id']}.dpapi"
+        fallback.write_bytes(original.read_bytes())
+        registry=json.loads(store.path.read_text(encoding='utf-8'))
+        registry['items'][0].pop('key_ref')
+        store.path.write_text(json.dumps(registry),encoding='utf-8')
+        discard=store._discard;monkeypatch.setattr(store,'_discard',lambda path:False)
+        assert client.put(f"/api/model/profiles/{profile['id']}",json=_profile(key='synthetic-new-key'),headers=headers).status_code==200
+        monkeypatch.setattr(store,'_discard',discard)
+        assert client.delete(f"/api/model/profiles/{profile['id']}",headers=headers).status_code==200
+        assert not fallback.exists()
+
+
 def _csrf(client):
     return {"X-CSRF-Token": client.get("/api/session").json()["csrf_token"]}
 
@@ -164,9 +194,12 @@ def test_invalid_profile_ids_are_rejected(tmp_path, bad_id):
     with _client(create_app(tmp_path)) as client:
         headers = _csrf(client)
         created = client.post("/api/model/profiles", json=_profile(), headers=headers).json()
-        assert client.post(f"/api/model/profiles/{bad_id}/select", headers=headers).status_code in {400, 404}
-        assert client.put(f"/api/model/profiles/{bad_id}", json=_profile(), headers=headers).status_code in {400, 404}
-        assert client.delete(f"/api/model/profiles/{bad_id}", headers=headers).status_code in {400, 404}
+        before=(tmp_path/'model-profiles.json').read_bytes()
+        rejected={400,404,405} if '%2f' in bad_id.lower() else {400,404}
+        assert client.post(f"/api/model/profiles/{bad_id}/select", headers=headers).status_code in rejected
+        assert client.put(f"/api/model/profiles/{bad_id}", json=_profile(), headers=headers).status_code in rejected
+        assert client.delete(f"/api/model/profiles/{bad_id}", headers=headers).status_code in rejected
+        assert (tmp_path/'model-profiles.json').read_bytes()==before
         assert (tmp_path / "model-profiles.json").exists()
         assert client.get(f"/api/model/profiles/{created['id']}").status_code in {404, 405}
 

@@ -35,6 +35,21 @@ def test_manual_callback_is_bound_to_pending_browser_state_and_never_public(tmp_
     with pytest.raises(HTTPException):manager.submit('current',value)
 
 
+def test_manual_callback_route_is_protected_and_credential_errors_can_be_cleared(tmp_path):
+    from fastapi.testclient import TestClient
+    from app.main import create_app
+    app=create_app(tmp_path);manager=app.state.model_oauth
+    manager.path.write_bytes(b'synthetic-invalid-dpapi')
+    with TestClient(app,base_url='http://127.0.0.1',client=('127.0.0.1',50000)) as client:
+        assert client.post('/api/model/codex/login/current/code',json={'value':'synthetic'}).status_code==401
+        headers={'X-CSRF-Token':client.get('/api/session').json()['csrf_token']}
+        info=client.get('/api/model/codex')
+        assert info.status_code==200 and info.json()['credential_error']
+        assert client.post('/api/model/codex/logout',json={},headers=headers).status_code==200
+        assert not manager.path.exists()
+        oversized='synthetic-secret-callback-'*200
+        result=client.post('/api/model/codex/login/current/code',json={'value':oversized},headers=headers)
+        assert result.status_code==422 and oversized not in result.text
 @pytest.mark.parametrize('failure',['provider','storage','exit'])
 def test_login_failure_reports_safe_stage_instead_of_losing_the_cause(tmp_path,monkeypatch,failure):
     manager=OAuthManager(tmp_path)

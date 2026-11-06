@@ -89,10 +89,16 @@ class OAuthManager:
 
     def status(self):
         with self.credential_lock:
-            credential = self._read()
+            try:
+                credential = self._read()
+                credential_error = None
+            except (ValueError, OSError, UnicodeError):
+                credential = None
+                credential_error = '本机Codex授权不可用，请在原Windows用户下恢复，或清除后重新登录'
             info = {'logged_in': credential is not None,
                     'expires_at': credential['expires'] / 1000 if credential else None,
                     'requires_refresh': bool(credential and credential['expires'] <= time.time() * 1000 + 60000)}
+            if credential_error: info['credential_error'] = credential_error
         with self.state_lock:
             info['login'] = {key: deepcopy(self.attempt[key]) for key in ('id', 'status', 'method', 'auth_url', 'device_code', 'stage', 'error_code', 'error', 'bridge_exit_code', 'credential_received', 'manual_available', 'manual_required', 'manual_submitted') if self.attempt and key in self.attempt} if self.attempt else None
         return info
