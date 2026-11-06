@@ -8,29 +8,32 @@ from app.model_oauth import OAuthManager
 CREDENTIAL={'type':'oauth','access':'synthetic-access','refresh':'synthetic-refresh','expires':int(time.time()*1000)+3600000,'accountId':'synthetic'}
 
 
-@pytest.mark.parametrize('storage_failure',[False,True])
-def test_login_failure_reports_safe_stage_instead_of_losing_the_cause(tmp_path,monkeypatch,storage_failure):
+@pytest.mark.parametrize('failure',['provider','storage','exit'])
+def test_login_failure_reports_safe_stage_instead_of_losing_the_cause(tmp_path,monkeypatch,failure):
     manager=OAuthManager(tmp_path)
     class Process:
         def __init__(self):
-            self.stdin=StringIO();self.returncode=0 if storage_failure else 1
+            self.stdin=StringIO();self.returncode=0 if failure=='storage' else 1
             events=[{'type':'progress','stage':'exchanging_token'}]
-            events.append({'type':'credential','credential':CREDENTIAL} if storage_failure else
+            events.append({'type':'credential','credential':CREDENTIAL} if failure!='provider' else
                 {'type':'error','code':'token_http_403','stage':'exchanging_token','message':'synthetic-private-server-body'})
             self.stdout=StringIO(''.join(json.dumps(e)+'\n' for e in events))
         def poll(self):return self.returncode
         def wait(self,timeout=None):return self.returncode
         def kill(self):pass
     monkeypatch.setattr(manager,'_spawn',Process)
-    if storage_failure:
+    if failure=='storage':
         def fail(value):raise ValueError('synthetic-private-server-body')
         monkeypatch.setattr(manager,'save_credential',fail)
     attempt={'id':'synthetic','status':'pending','method':'browser','generation':0}
     manager.attempt=attempt;manager._login(attempt)
     result=manager.status();login=result['login']
     assert not result['logged_in'] and login['status']=='failed'
-    assert login['stage']==('saving_credential' if storage_failure else 'exchanging_token')
-    assert login['error_code']==('credential_storage' if storage_failure else 'token_http_403')
+    assert login['stage']=={'storage':'saving_credential','provider':'exchanging_token','exit':'validating_credential'}[failure]
+    assert login['error_code']=={'storage':'credential_storage','provider':'token_http_403','exit':'bridge_exit'}[failure]
+    if failure=='exit':
+        assert login['bridge_exit_code']==1 and login['credential_received'] is True
+        assert not manager.path.exists()
     assert 'synthetic-private' not in json.dumps(result) and 'synthetic-access' not in json.dumps(result)
 
 

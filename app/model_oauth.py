@@ -30,6 +30,9 @@ LOGIN_ERRORS = {
     'credential_storage': '已取得授权，但Windows本机加密保存失败，请在运行服务的原Windows用户下重试。',
     'bridge_unavailable': '无法启动授权桥，请检查Node与模型桥依赖。',
     'bridge_protocol': '授权桥返回的数据不符合约定，本次未保存授权。',
+    'bridge_exit': '授权桥异常退出，本次未保存授权；请保留此状态以便排查。',
+    'credential_missing': '授权桥已结束，但未返回完整凭据，本次未保存授权。',
+    'bridge_timeout': '授权桥未能正常结束，本次未保存授权。',
     'timeout': '授权等待超时，请重新发起登录。',
     'oauth_failed': 'OpenAI授权未完成；可重试、取消或切换设备码／浏览器登录。',
 }
@@ -84,7 +87,7 @@ class OAuthManager:
                     'expires_at': credential['expires'] / 1000 if credential else None,
                     'requires_refresh': bool(credential and credential['expires'] <= time.time() * 1000 + 60000)}
         with self.state_lock:
-            info['login'] = {key: deepcopy(self.attempt[key]) for key in ('id', 'status', 'method', 'auth_url', 'device_code', 'stage', 'error_code', 'error') if self.attempt and key in self.attempt} if self.attempt else None
+            info['login'] = {key: deepcopy(self.attempt[key]) for key in ('id', 'status', 'method', 'auth_url', 'device_code', 'stage', 'error_code', 'error', 'bridge_exit_code', 'credential_received') if self.attempt and key in self.attempt} if self.attempt else None
         return info
 
     def _spawn(self):
@@ -162,8 +165,11 @@ class OAuthManager:
                             attempt['stage'] = event['stage']
                 else:
                     raise ValueError('不支持的授权事件')
-            error_code = 'oauth_failed'
+            error_code = 'bridge_timeout'
             process.wait(timeout=3)
+            with self.state_lock:
+                attempt.update(bridge_exit_code=process.returncode, credential_received=credential is not None)
+            error_code = 'bridge_exit' if process.returncode != 0 else 'credential_missing'
             if process.returncode != 0 or credential is None:
                 raise ValueError('OpenAI授权中断，未保存新登录态')
             with self.credential_lock, self.state_lock:
