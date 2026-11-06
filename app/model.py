@@ -117,12 +117,18 @@ class ProfileInput(ModelConfig):
     name: str = Field(min_length=1, max_length=80)
 
 
+class ProfileUpdate(ProfileInput):
+    expected_profile_revision: int | None = Field(default=None, ge=0, strict=True)
+
+
 class JobInput(BaseModel):
     model_config = ConfigDict(extra="forbid")
     purpose: str
     analysis_id: str | None = None
     consultation_id: str | None = None
     allow_send: bool = False
+    expected_profile_id: str | None = Field(default=None, min_length=1, max_length=32)
+    expected_profile_revision: int | None = Field(default=None, ge=0, strict=True)
 
 
 def mount_model_routes(app, data_dir, protected, database):
@@ -145,6 +151,7 @@ def mount_model_routes(app, data_dir, protected, database):
         else:
             value = {key: item[key] for key in DEFAULT_CONFIG}
             value.update(profile_id=item["id"], profile_name=item["name"], has_key=profiles.has_key(item["id"]))
+        value["profile_revision"] = snapshot["revision"]
         try:
             value["codex"] = oauth.status()
         except ValueError:
@@ -187,9 +194,11 @@ def mount_model_routes(app, data_dir, protected, database):
         return saved
 
     @app.put("/api/model/profiles/{profile_id}", dependencies=protected)
-    def update_profile(profile_id: str, payload: ProfileInput, conn=Depends(database)):
+    def update_profile(profile_id: str, payload: ProfileUpdate, conn=Depends(database)):
         with guard:
-            saved = profiles.update(profile_id, payload.model_dump(exclude={"api_key", "name"}), payload.name, payload.api_key)
+            if payload.expected_profile_revision is not None and payload.expected_profile_revision != profiles.snapshot()["revision"]:
+                raise HTTPException(409, "模型配置已更改，请刷新后重新应用")
+            saved = profiles.update(profile_id, payload.model_dump(exclude={"api_key", "name", "expected_profile_revision"}), payload.name, payload.api_key)
         storage.audit(conn, "model_profile_update", saved["id"], name=saved["name"], recipient=urlparse(saved["base_url"]).hostname, auth_mode=saved["auth_mode"], allow_external=saved["allow_external"], allow_evidence=saved["allow_evidence"])
         return saved
 
@@ -401,6 +410,9 @@ def mount_model_routes(app, data_dir, protected, database):
             raise HTTPException(409, "当前未选择模型配置，请先选择或保存配置")
         profile_id = selected["id"]
         registry_revision = registry_snapshot["revision"]
+        if payload.expected_profile_id is not None or payload.expected_profile_revision is not None:
+            if payload.expected_profile_id != profile_id or payload.expected_profile_revision != registry_revision:
+                raise HTTPException(409, "模型配置已更改，请刷新问诊页的模型配置后重新发送")
         cfg = {key: selected[key] for key in DEFAULT_CONFIG}
         if cfg["auth_mode"] not in ("api_key", "codex"):
             raise HTTPException(409, "模型通道配置无效")

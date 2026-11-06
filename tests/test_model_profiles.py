@@ -117,6 +117,43 @@ def test_thinking_effort_round_trip_and_old_registry_default(tmp_path):
         assert client.get('/api/model/profiles').status_code == 400
 
 
+def test_consultation_selection_must_still_match_before_credentials_are_read(tmp_path, monkeypatch):
+    app = create_app(tmp_path)
+    with _client(app) as client:
+        headers = _csrf(client)
+        profile = client.post('/api/model/profiles', json=_profile(), headers=headers).json()
+        selected = client.post(f"/api/model/profiles/{profile['id']}/select", headers=headers).json()
+        revision = selected['profile_revision']
+        monkeypatch.setattr(app.state.model_profiles, 'read_key', lambda *args: pytest.fail('Stale UI must not retrieve a credential'))
+        assert client.put(f"/api/model/profiles/{profile['id']}", json={**_profile(), 'reasoning_effort':'high'}, headers=headers).status_code == 200
+        stale = {'purpose':'test', 'expected_profile_id':profile['id'], 'expected_profile_revision':revision}
+        response = client.post('/api/model/jobs', json=stale, headers=headers)
+        assert response.status_code == 409
+        assert '配置已更改' in response.json()['detail']
+        current = client.get('/api/model/config').json()
+        assert current['profile_revision'] > revision
+        wrong = {**stale, 'expected_profile_id':'0'*32, 'expected_profile_revision':current['profile_revision']}
+        assert client.post('/api/model/jobs', json=wrong, headers=headers).status_code == 409
+        assert client.post('/api/model/jobs', json={**stale, 'expected_profile_revision':False}, headers=headers).status_code == 422
+
+
+def test_quick_model_update_cannot_restore_stale_sending_consent(tmp_path):
+    with _client(create_app(tmp_path)) as client:
+        headers = _csrf(client)
+        allowed = {**_profile(), 'allow_external':True, 'allow_evidence':True}
+        profile = client.post('/api/model/profiles', json=allowed, headers=headers).json()
+        selected = client.post(f"/api/model/profiles/{profile['id']}/select", headers=headers).json()
+        endpoint = f"/api/model/profiles/{profile['id']}"
+        assert client.put(endpoint, json=_profile(), headers=headers).status_code == 200
+        stale = {**allowed, 'reasoning_effort':'high', 'expected_profile_revision':selected['profile_revision']}
+        assert client.put(endpoint, json=stale, headers=headers).status_code == 409
+        current = client.get('/api/model/config').json()
+        assert current['allow_external'] is False and current['allow_evidence'] is False
+        update = {**_profile(), 'reasoning_effort':'low', 'expected_profile_revision':current['profile_revision']}
+        assert client.put(endpoint, json=update, headers=headers).status_code == 200
+        assert client.get('/api/model/config').json()['reasoning_effort'] == 'low'
+
+
 def test_lazy_migration_preserves_legacy_settings_and_key(tmp_path):
     app = create_app(tmp_path)
     write_secret(tmp_path / "model-secret.dpapi", "synthetic-legacy-key")

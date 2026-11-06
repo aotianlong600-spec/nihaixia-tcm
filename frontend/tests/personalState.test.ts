@@ -3,6 +3,12 @@ import assert from 'node:assert/strict'
 import { sendConsultation, evidenceFor, isCurrent } from '../src/personalState.ts'
 test('message failure never starts a model job', async()=>{const calls:string[]=[]; await assert.rejects(sendConsultation({post:async(path:string)=>{calls.push(path);throw Error('offline')}} as any,'a','hello')); assert.deepEqual(calls,['/consultations/a/messages'])})
 test('message is saved before explicit model job', async()=>{const calls:string[]=[];await sendConsultation({post:async(path:string)=>{calls.push(path);return {id:'j'}}} as any,'a','hello');assert.deepEqual(calls,['/consultations/a/messages','/model/jobs'])})
+
+test('consultation sends the frozen visible model selection after saving the message',async()=>{
+ const selection={profile_id:'shown-profile',profile_revision:7},calls:{path:string;body:any}[]=[]
+ await sendConsultation({post:async(path,body)=>{calls.push({path,body});if(path.includes('/messages'))selection.profile_revision=8;return {id:'j'}}},'a','synthetic',selection)
+ assert.deepEqual(calls[1].body,{purpose:'consult',consultation_id:'a',allow_send:true,expected_profile_id:'shown-profile',expected_profile_revision:7})
+})
 test('evidence only resolves ids in current context',()=>{assert.deepEqual(evidenceFor(['a','missing'],[{id:'a',title:'Book'}]),[{id:'a',title:'Book'}])})
 test('late response cannot overwrite a switched consultation',()=>{assert.equal(isCurrent('one','two'),false);assert.equal(isCurrent('one','one'),true)})
 import { referencesFor, locatorLabel, roleLabel, referenceLink, shanghaiTime, actionLabel } from '../src/personalState.ts'

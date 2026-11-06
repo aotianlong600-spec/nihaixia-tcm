@@ -127,6 +127,9 @@ def test_python_jobs_require_complete_valid_response_and_honor_cancel(tmp_path, 
                       "api_key": "fake-protocol-key", "reasoning_effort": "high", "enabled": True, "allow_external": scenario in {"bad_citation", "cancel_during_validation", "stale_during_stream"}, "allow_evidence": False}
             assert client.put("/api/model/config", json=config, headers=csrf).status_code == 200
             request = {"purpose": "test"}
+            if scenario == "complete":
+                active = client.get('/api/model/config').json()
+                request.update(expected_profile_id=active['profile_id'], expected_profile_revision=active['profile_revision'])
             if scenario in {"bad_citation", "cancel_during_validation", "stale_during_stream"}:
                 patient = client.post("/api/patients", json={"code": "PRIVATE-CODE"}, headers=csrf).json()
                 visit = client.post("/api/visits", json={"patient_id": patient["id"], "chief_complaint": "PRIVATE-CHIEF", "facts": [], "context": {"simulation": True}, "clinician": "PRIVATE-CLINICIAN"}, headers=csrf).json()

@@ -1,6 +1,8 @@
-export async function sendConsultation(api:{post:(path:string,data:any)=>Promise<any>}, id:string, text:string) {
+export interface ModelSelection {profile_id:string;profile_revision:number}
+export async function sendConsultation(api:{post:(path:string,data:any)=>Promise<any>}, id:string, text:string, selection?:ModelSelection) {
+  const expected=selection?{expected_profile_id:selection.profile_id,expected_profile_revision:selection.profile_revision}:{}
   await api.post(`/consultations/${encodeURIComponent(id)}/messages`,{text})
-  return api.post('/model/jobs',{purpose:'consult',consultation_id:id,allow_send:true})
+  return api.post('/model/jobs',{purpose:'consult',consultation_id:id,allow_send:true,...expected})
 }
 export function evidenceFor(ids:string[] = [], evidence:any[] = []) { return evidence.filter(item=>ids.includes(item.id)) }
 export function isCurrent(requested:string, current:string) { return requested === current }
@@ -42,8 +44,9 @@ export async function createConsultation(api:{post:(path:string,data:any)=>Promi
   const record=await api.post('/consultations',intake ? {intake} : {})
   return active() ? record : null
 }
-export async function sendWithRecord(api:{post:(path:string,data:any)=>Promise<any>}, record:any, create:()=>Promise<any>, text:string, current:()=>any) {
+export async function sendWithRecord(api:{post:(path:string,data:any)=>Promise<any>}, record:any, create:()=>Promise<any>, text:string, current:()=>any, selection?:ModelSelection) {
+  const frozen=selection&&{...selection}
   const target=record || await create()
   if (!target || !isCurrent(target.id,current()?.id)) return null
-  return sendConsultation(api,target.id,text)
+  return sendConsultation(api,target.id,text,frozen)
 }
