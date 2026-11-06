@@ -12,7 +12,9 @@ export function locatorLabel(item:any):string {
   const l=item?.locator || {}; const start=l.start ?? item?.physical_page ?? item?.pdf_page; const end=l.end
   if (start == null) return '位置未提供'
   const range=end != null && end !== start ? `${start}–${end}` : `${start}`
-  if ((l.kind === 'pdf_page' || l.kind === 'physical_page') || item?.physical_page != null || item?.pdf_page != null) return `PDF第${start}页`
+  const printed=l.printed_page ?? item?.printed_page
+  const printedLabel=printed == null ? '' : String(printed).trim()
+  if ((l.kind === 'pdf_page' || l.kind === 'physical_page') || item?.physical_page != null || item?.pdf_page != null) return `PDF第${start}页${printedLabel?`（印刷第${printedLabel}页）`:''}`
   if (l.kind === 'line_range') return `原文第${range}行`
   if (l.kind === 'paragraph_range') return `第${range}段`
   if (l.kind === 'record') return `条目 ${start}`

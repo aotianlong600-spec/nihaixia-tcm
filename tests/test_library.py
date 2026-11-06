@@ -58,6 +58,29 @@ def test_context_limits_each_source(tmp_path):
     assert {e['source_id'] for e in evidence}=={'a'*64,'b'*64}
 
 
+def test_pdf_printed_page_is_metadata_not_a_physical_locator(tmp_path):
+    conn = sqlite3.connect(':memory:')
+    library.initialize(conn, tmp_path)
+    sha = 'e' * 64
+    conn.execute('INSERT INTO documents VALUES (?,?,?,?,?,?,?)', (sha, '合成分册', sha, 3, 'unverified', '', 'now'))
+    conn.executemany('''INSERT INTO pages(document_id,physical_page,raw_text,search_text,warning,extraction_method,printed_page)
+        VALUES(?,?,?,?,?,?,?)''', [(sha, 2, '合成检索甲', '合成检索甲', '', 'synthetic', None),
+                                 (sha, 3, '合成检索乙', '合成检索乙', '', 'synthetic', '150')])
+    locator = {'kind': 'physical_page', 'start': 3, 'end': 3, 'printed_page': '150'}
+    unit = library.get_unit(conn, tmp_path, sha, 3)
+    assert unit['locator'] == locator
+    assert unit['unit_no'] == 3 and unit['image_url'].endswith('/pages/3/image')
+    assert library.get_unit(conn, tmp_path, sha, 2)['locator'] == {'kind': 'physical_page', 'start': 2, 'end': 2}
+    hits = library.search(conn, '合成检索')
+    hit = next(item for item in hits if item['unit_no'] == 3)
+    assert hit['physical_page'] == 3 and hit['printed_page'] == '150'
+    assert hit['locator'] == locator
+    assert hit['preview_url'].endswith('/units/3')
+    evidence = library.retrieve_context(conn, ['合成检索乙'])
+    assert evidence[0]['locator'] == locator and evidence[0]['unit_no'] == 3
+    assert conn.execute('SELECT raw_text FROM pages WHERE physical_page=3').fetchone()[0] == '合成检索乙'
+
+
 def test_migrated_search_index_and_real_original_snippet(tmp_path):
     conn = sqlite3.connect(':memory:')
     library.knowledge.init_knowledge(conn, tmp_path)

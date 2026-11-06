@@ -202,11 +202,11 @@ def get_unit(conn, data_dir, source_id, unit_no):
         return None
     common = dict(source_id=source_id, unit_no=unit_no, title=source['title'], format=source['format'], corpus_role=source['corpus_role'])
     if source['format'] == 'pdf':
-        row = conn.execute('SELECT raw_text,ocr_text,corrected_text,warning FROM pages WHERE document_id=? AND physical_page=?', (source_id,unit_no)).fetchone()
+        row = conn.execute('SELECT raw_text,ocr_text,corrected_text,warning,printed_page FROM pages WHERE document_id=? AND physical_page=?', (source_id,unit_no)).fetchone()
         if not row:
             return None
         warning = '；'.join(filter(None, (source['warning'], row[3], 'OCR为本地识别草稿' if row[1] else '')))
-        return dict(**common,locator={'kind':'physical_page','start':unit_no,'end':unit_no},raw_text=row[0],ocr_text=row[1],corrected_text=row[2],image_url=f'/api/documents/{source_id}/pages/{unit_no}/image',warning=warning)
+        return dict(**common,locator={'kind':'physical_page','start':unit_no,'end':unit_no,**({'printed_page':row[4]} if row[4] else {})},raw_text=row[0],ocr_text=row[1],corrected_text=row[2],image_url=f'/api/documents/{source_id}/pages/{unit_no}/image',warning=warning)
     row = conn.execute('SELECT locator,raw_text FROM source_units WHERE source_id=? AND unit_no=?', (source_id, unit_no)).fetchone()
     return dict(**common,locator=json.loads(row[0]),raw_text=row[1],ocr_text=None,corrected_text=None,original_url=f'/api/library/sources/{source_id}/original',warning=source['warning']) if row else None
 
@@ -221,20 +221,21 @@ def _hits(conn, term, source_id=None):
         return []
     rows = conn.execute("""SELECT p.document_id,p.physical_page,d.title,'pdf',
         COALESCE(c.corpus_role,'reference'),p.raw_text,p.ocr_text,p.corrected_text,
-        p.warning,d.warning,p.extraction_method
+        p.warning,d.warning,p.extraction_method,p.printed_page
         FROM pages p JOIN documents d ON d.id=p.document_id
         LEFT JOIN source_catalog c ON c.id=d.id
         WHERE (? IS NULL OR p.document_id=?) AND
         (CASE WHEN p.corrected_text IS NOT NULL OR length(trim(p.raw_text, ?))>0
               THEN p.search_text ELSE COALESCE(p.ocr_search_text,'') END) LIKE ?
         ORDER BY d.created_at,d.id,p.physical_page""", (source_id, source_id, _WHITESPACE, pattern))
-    for sha,number,title,fmt,role,raw,ocr,corrected,page_warning,doc_warning,method in rows:
+    for sha,number,title,fmt,role,raw,ocr,corrected,page_warning,doc_warning,method,printed in rows:
         using_ocr = corrected is None and not raw.strip()
         text = corrected if corrected is not None else (ocr or '' if using_ocr else raw)
         warning = '；'.join(filter(None, (doc_warning, page_warning, 'OCR为本地识别草稿' if using_ocr else '')))
+        printed_info = {'printed_page': printed} if printed else {}
         yield dict(source_id=sha,unit_no=number,title=title,format=fmt,corpus_role=role,
-                   locator={'kind':'physical_page','start':number,'end':number},
-                   physical_page=number,warning=warning,extraction_method=('本地OCR识别草稿' if using_ocr else ('人工订正；原提取方式：' + method if corrected is not None else method)),_text=text)
+                   locator={'kind':'physical_page','start':number,'end':number,**printed_info},
+                   physical_page=number,**printed_info,warning=warning,extraction_method=('本地OCR识别草稿' if using_ocr else ('人工订正；原提取方式：' + method if corrected is not None else method)),_text=text)
     rows = conn.execute("""SELECT u.source_id,u.unit_no,s.title,s.format,COALESCE(c.corpus_role,'reference'),
         u.locator,u.raw_text FROM source_units u JOIN text_sources s ON s.id=u.source_id
         LEFT JOIN source_catalog c ON c.id=s.id WHERE (? IS NULL OR u.source_id=?) AND u.search_text LIKE ?

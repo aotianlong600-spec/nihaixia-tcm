@@ -15,6 +15,14 @@ import { referencesFor, locatorLabel, roleLabel, referenceLink, shanghaiTime, ac
 test('historical evidence takes precedence and github uses source link',()=>{const old=[{id:'x',title:'旧原文',format:'github',source_url:'https://example.org/commit'}];assert.deepEqual(referencesFor(['x'],old,[{id:'x',title:'新原文'}]),old);assert.deepEqual(referenceLink(old[0]),{kind:'external',url:'https://example.org/commit'});assert.deepEqual(referenceLink({format:'pdf',source_id:'s',unit_no:2}),{kind:'unit',source:'s',unit:2})})
 test('locators, source roles and history time are human readable',()=>{assert.equal(locatorLabel({physical_page:3}), 'PDF第3页');assert.equal(locatorLabel({locator:{kind:'line_range',start:2,end:4}}), '原文第2–4行');assert.equal(locatorLabel({locator:{kind:'paragraph_range',start:5,end:5}}), '第5段');assert.equal(locatorLabel({locator:{kind:'record',start:'abc'}}), '条目 abc');assert.equal(roleLabel('ni_core'),'倪氏资料');assert.equal(roleLabel('reference'),'参考医著');assert.match(shanghaiTime('2026-01-01T00:00:00Z'),/08:00/);assert.equal(actionLabel('add'),'增')})
 test('PDF unit locator is shown as a page',()=>{assert.equal(locatorLabel({locator:{kind:'physical_page',start:8,end:8}}),'PDF第8页')})
+
+test('PDF printed page is appended without replacing its physical page',()=>{
+ assert.equal(locatorLabel({locator:{kind:'physical_page',start:3,end:3,printed_page:'150'}}),'PDF第3页（印刷第150页）')
+ assert.equal(locatorLabel({physical_page:3,printed_page:'iv'}),'PDF第3页（印刷第iv页）')
+ assert.equal(locatorLabel({locator:{kind:'physical_page',start:3,end:3,printed_page:''}}),'PDF第3页')
+ assert.equal(locatorLabel({locator:{kind:'physical_page',start:3,end:3,printed_page:null}}),'PDF第3页')
+ assert.equal(locatorLabel({locator:{kind:'line_range',start:3,end:3,printed_page:'150'}}),'原文第3行')
+})
 import { previewComponentLabel, previewActionLabel } from '../src/personalState.ts'
 test('modification preview retains unknown dose and reports unapplied reason',()=>{assert.equal(previewComponentLabel({name:'葛根',source_dose:null,source_unit:null}),'葛根 · 来源原量未提供');assert.equal(previewComponentLabel({name:'桂枝',processing:'去皮',source_dose:'三两',source_unit:null}),'桂枝（去皮） · 三两');assert.equal(previewActionLabel({action:'replace',herb:'芍药',replacement:'干姜',reason:'来源未支持'}),'替换 芍药 → 干姜：来源未支持')})
 import { matchConsultation } from '../src/personalState.ts'
