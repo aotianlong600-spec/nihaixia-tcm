@@ -112,9 +112,8 @@ function Import-PublicCaCertificate {
         throw "The PEM certificate is not valid base64."
     }
 
-    $certificate = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2
+    $certificate = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new([byte[]]$der)
     try {
-        $certificate.Import($der)
         if ($certificate.HasPrivateKey) {
             throw "Refusing to use a certificate that contains a private key."
         }
