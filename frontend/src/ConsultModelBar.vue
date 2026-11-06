@@ -104,7 +104,7 @@ onUnmounted(()=>{disposed=true;requestId++;emit('ready',null)})
    </template>
   </div>
   <p v-else class="hint">尚未保存任何模型配置，请先前往“模型设置”创建配置。</p>
-  <p v-if="editingId&&config.auth_mode==='codex'" class="hint">{{state.effortNote}}</p>
+  <p v-if="editingId" class="hint">{{state.effortNote}}</p>
   <p v-if="pending" class="hint">选择仅作为草稿，点击“应用”后新的模型请求才会使用。</p>
   <p v-if="readinessNote" class="hint">{{readinessNote}} <button type="button" class="text-link" @click="emit('settings')">前往模型设置</button></p>
   <p v-if="error" class="error-box" role="alert">{{error}}</p>

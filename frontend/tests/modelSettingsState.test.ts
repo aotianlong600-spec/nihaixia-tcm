@@ -4,9 +4,9 @@ import {createServer} from 'node:http'
 import {ApiClient} from '../src/api.ts'
 import {ModelSettingsState} from '../src/modelSettingsState.ts'
 
-async function withSettings(check:(state:ModelSettingsState,requests:{path:string;body:any}[])=>Promise<void>){
+async function withSettings(check:(state:ModelSettingsState,requests:{path:string;body:any}[])=>Promise<void>,initial:Record<string,unknown>={}){
  const requests:{path:string;body:any}[]=[]
- let config:any={auth_mode:'api_key',base_url:'https://example.test',model:'',enabled:false,allow_external:false,allow_evidence:false,has_key:true,codex:{logged_in:false}}
+ let config:any={auth_mode:'api_key',base_url:'https://example.test',model:'',enabled:false,allow_external:false,allow_evidence:false,has_key:true,codex:{logged_in:false},...initial}
  const server=createServer(async(req,res)=>{
   const chunks:Buffer[]=[];for await(const chunk of req)chunks.push(Buffer.from(chunk))
   const raw=Buffer.concat(chunks).toString(),body=raw?JSON.parse(raw):undefined
@@ -435,4 +435,29 @@ test('an old profile with omitted effort is clean while a draft effort change is
   assert.equal(state.consultationDirty,false)
   assert.deepEqual(state.consultationSelection,{profile_id:'p1',profile_revision:1})
  })
+})
+
+
+test('official DeepSeek shows only independent native efforts for both current models',async()=>{
+ await withSettings(async(state)=>{
+  await state.load();state.config.base_url='https://api.deepseek.com/v1'
+  for(const model of ['deepseek-flash','deepseek-v4-pro']){
+   state.config.model=model
+   assert.deepEqual(state.effortChoices,['auto','none','low','high','max'])
+  }
+  state.config.base_url='https://api.deepseek.com.other.test/v1'
+  assert.deepEqual(state.effortChoices,['auto','none','minimal','low','medium','high','xhigh','max'])
+ })
+})
+
+test('existing DeepSeek aliases display their effective native effort without rewriting settings',async()=>{
+ for(const [alias,native] of [['minimal','low'],['medium','high'],['xhigh','high']]){
+  await withSettings(async(state,requests)=>{
+   await state.load()
+   assert.equal(state.config.reasoning_effort,native)
+   assert.equal(state.saved?.reasoning_effort,native)
+   assert.equal(state.effortValid,true)
+   assert.equal(requests.some(r=>r.body),false)
+  },{base_url:'https://api.deepseek.com',model:'deepseek-flash',reasoning_effort:alias})
+ }
 })

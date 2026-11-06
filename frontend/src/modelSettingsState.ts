@@ -15,7 +15,16 @@ export interface Profile {
 }
 export interface ConsultationSelection {profile_id:string;profile_revision:number}
 const blank=():ModelConfig=>({auth_mode:'api_key',base_url:'',model:'',enabled:false,allow_external:false,allow_evidence:false,reasoning_effort:'auto'})
-const normalize=(config:ModelConfig):ModelConfig=>({...config,reasoning_effort:config.reasoning_effort??'auto'})
+function isOfficialDeepSeek(config:ModelConfig){
+ if(config.auth_mode!=='api_key'||!['deepseek-flash','deepseek-v4-pro'].includes(config.model))return false
+ try{return new URL(config.base_url).origin==='https://api.deepseek.com'}catch{return false}
+}
+function effectiveEffort(config:ModelConfig){
+ const effort=config.reasoning_effort??'auto'
+ // DeepSeek accepts these aliases but maps them to the same native efforts.
+ return isOfficialDeepSeek(config)?({minimal:'low',medium:'high',xhigh:'high'} as Record<string,string>)[effort]??effort:effort
+}
+const normalize=(config:ModelConfig):ModelConfig=>({...config,reasoning_effort:effectiveEffort(config)})
 export class ModelSettingsState {
  config:ModelConfig=blank()
  saved:ModelConfig|null=null
@@ -29,12 +38,13 @@ export class ModelSettingsState {
  name=''
  client:ApiClient
  constructor(client:ApiClient){this.client=client}
- private supportedEfforts(auth:AuthMode,model:string):string[]{
-  if(auth!=='codex')return [...EFFORT_ALL]
-  const supported=(this.models.find(m=>m.id===model)?.reasoning_efforts||[]).filter(v=>EFFORT_WIRE.includes(v as ReasoningEffort))
+ private supportedEfforts(config:ModelConfig):string[]{
+  if(isOfficialDeepSeek(config))return ['auto','none','low','high','max']
+  if(config.auth_mode!=='codex')return [...EFFORT_ALL]
+  const supported=(this.models.find(m=>m.id===config.model)?.reasoning_efforts||[]).filter(v=>EFFORT_WIRE.includes(v as ReasoningEffort))
   return ['auto',...Array.from(new Set(supported))]
  }
- get effortChoices():string[]{return this.supportedEfforts(this.config.auth_mode,this.config.model)}
+ get effortChoices():string[]{return this.supportedEfforts(this.config)}
  get effortCapabilityKnown(){return this.config.auth_mode!=='codex'||!!this.models.find(m=>m.id===this.config.model&&Array.isArray(m.reasoning_efforts))}
  get effortValid(){return this.effortChoices.includes(this.config.reasoning_effort??'auto')}
  get effortInvalid(){return !this.effortValid}
@@ -42,7 +52,7 @@ export class ModelSettingsState {
   const config=this.saved
   if(!config)return false
   const effort=config.reasoning_effort??'auto'
-  return EFFORT_ALL.includes(effort as ReasoningEffort)&&this.supportedEfforts(config.auth_mode,config.model).includes(effort)
+  return EFFORT_ALL.includes(effort as ReasoningEffort)&&this.supportedEfforts(config).includes(effort)
  }
  get consultationDirty(){
   if(!this.editingId)return false
@@ -63,10 +73,11 @@ export class ModelSettingsState {
   return {profile_id:this.editingId,profile_revision:revision}
  }
  private comparable(value:{auth_mode:AuthMode;base_url:string;model:string;enabled:boolean;allow_external:boolean;allow_evidence:boolean;reasoning_effort?:string}){
-  return {auth_mode:value.auth_mode,base_url:value.auth_mode==='codex'?'':(value.base_url||''),model:value.model||'',enabled:!!value.enabled,allow_external:!!value.allow_external,allow_evidence:!!value.allow_evidence,reasoning_effort:value.reasoning_effort??'auto'}
+  return {auth_mode:value.auth_mode,base_url:value.auth_mode==='codex'?'':(value.base_url||''),model:value.model||'',enabled:!!value.enabled,allow_external:!!value.allow_external,allow_evidence:!!value.allow_evidence,reasoning_effort:effectiveEffort(value)}
  }
  get effortNote(){
-  if(this.config.auth_mode!=='codex')return 'API Key 渠道需服务商支持 OpenAI reasoning_effort 参数；显式档位可能被拒绝，无法验证任意模型是否支持。'
+  if(isOfficialDeepSeek(this.config))return 'DeepSeek有低、高、最大三个独立思考档位，默认是高；关闭为非思考模式。兼容别名不另列档位。'
+  if(this.config.auth_mode!=='codex')return '通用接口档位，仅在服务商明确支持时使用；不确定时选择模型默认。'
   if(!this.effortCapabilityKnown)return '未知或自定义 Codex 模型未声明思考档位能力，仅可使用“自动”（不发送覆盖）。'
   return '仅显示该 Codex 模型目录声明的受支持档位。'
  }
@@ -113,7 +124,7 @@ export class ModelSettingsState {
   this.assertEffort()
   this.applySaved(await this.client.put<ModelConfig>('/model/config',{...this.fields(),...(auth_mode==='api_key'&&key?{api_key:key}:{})}))
  }
- async loadProfiles(){const result=await this.client.request<{items:Profile[];active_id:string|null}>('/model/profiles');this.profiles=result.items;this.activeId=result.active_id;return result}
+ async loadProfiles(){const result=await this.client.request<{items:Profile[];active_id:string|null}>('/model/profiles');this.profiles=result.items.map(p=>({...p,reasoning_effort:effectiveEffort(p)}));this.activeId=result.active_id;return {...result,items:this.profiles}}
  selectForEdit(profile:Profile){this.editingId=profile.id;this.name=profile.name;this.config=normalize({auth_mode:profile.auth_mode,base_url:profile.base_url,model:profile.model,enabled:profile.enabled,allow_external:profile.allow_external,allow_evidence:profile.allow_evidence,reasoning_effort:profile.reasoning_effort,has_key:profile.has_key})}
  newDraft(){this.editingId=null;this.name='';this.config=blank()}
  async saveProfile(key='',expectedRevision?:number){
