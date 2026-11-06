@@ -47,7 +47,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\build_android.ps1 `
 1. 在电脑生成/轮换本机 CA，并用该 CA 签发包含当前局域网 IP 的服务器叶证书；私钥只留在 gitignored 的 `data/` 运行配置中，不能进入 APK 或仓库。
 2. 仅把 **CA 公钥 PEM** 交给 `-CaCertificate` 构建 APK。手机不安装系统根证书，也不开启“信任用户证书”。
 3. 安装 `app-debug.apk`（`adb install -r ...` 或文件管理器；不同包名不覆盖旧项目）。
-4. APK 内只信任该 CA；服务器证书必须由同一 CA 签发、未过期、包含当前 LAN IP 的 SAN。CA 变化或地址变化后需重新构建/安装；同一 CA 下轮换叶证书无需重建。Android 正常执行主机名验证，应用不会忽略证书错误。
+4. APK 内只信任该 CA；服务器证书必须由同一 CA 签发、未过期、包含当前 LAN IP 的 SAN。CA变化后需重新构建/安装；地址变化时，在同一CA下更新叶证书并更改应用地址即可，无需重建。Android正常执行主机名验证，应用不会忽略证书错误。
 
 ## 使用
 

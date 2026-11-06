@@ -24,4 +24,6 @@
 - [x] OAuth Node/Python桥与model路由：login/status/cancel/logout/refresh、固定provider流；合成HTTP/协议回归。
 - [x] Vue登录与通道设置、移动适配，保留临床约束和历史；前端回归。
 - [x] android原生壳、URL/证书安全与D盘构建脚本、真实assembleDebug产物。
-- [ ] 独立review/测试、GitHub公开内容/远端核对、可复现交付；真实认证与手机实机未验则明示。
+- [x] 独立review/测试、GitHub公开内容/远端核对、可复现交付；真实认证与手机实机未验则明示。
+
+验收：代码版本819dd5b的GitHub检查全部通过；后端234、前端25、模型桥15、安卓11项检查通过。真实账号授权、真实模型调用及手机实机仍未验证。按最新选择只运行电脑本机，局域网未开启。
