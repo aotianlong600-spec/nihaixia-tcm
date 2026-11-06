@@ -1,7 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { performOAuth, validateCredential, publicAuthEvent } from './oauth.mjs';
+import { performOAuth, validateCredential, publicAuthEvent, safeOAuthFailure, checkBrowserCallback } from './oauth.mjs';
+import {createServer} from 'node:net';
 const credential={type:'oauth',access:'synthetic-access',refresh:'synthetic-refresh',expires:Date.now()+100000,accountId:'synthetic'};
+test('OAuth failures report only stage/code, never upstream response or credentials',()=>{
+ const failure=safeOAuthFailure(new Error('OpenAI Codex token exchange failed (403): synthetic-secret-response'), 'exchanging_token');
+ assert.deepEqual(failure,{code:'token_http_403',stage:'exchanging_token'});
+ assert.deepEqual(safeOAuthFailure(new Error('Failed to extract accountId from token'), 'exchanging_token'),{code:'account_claims',stage:'exchanging_token'});
+ assert.deepEqual(safeOAuthFailure(new Error('fetch failed synthetic-secret'), 'exchanging_token'),{code:'token_network',stage:'exchanging_token'});
+ assert(!JSON.stringify(failure).includes('synthetic-secret'));
+});
+test('occupied callback port fails before showing an authorization URL',async()=>{
+ const server=createServer();await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+ try {await assert.rejects(checkBrowserCallback(server.address().port), e=>e.code==='callback_busy');}
+ finally {await new Promise(resolve=>server.close(resolve));}
+});
 test('only safe authentication events are public',()=>{
  assert.deepEqual(publicAuthEvent({type:'device_code',userCode:'ABCD-1234',verificationUri:'https://auth.openai.com/codex/device',access:'do-not-echo'}),{type:'device_code',userCode:'ABCD-1234',verificationUri:'https://auth.openai.com/codex/device'});
  assert.throws(()=>publicAuthEvent({type:'auth_url',url:'https://evil.example/callback?access=secret'}));

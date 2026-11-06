@@ -18,6 +18,23 @@ from .secrets import read_secret, write_secret
 
 ROOT = Path(__file__).resolve().parents[1]
 CODEX_BASE = 'https://chatgpt.com/backend-api'
+LOGIN_STAGES = {'starting', 'waiting_authorization', 'exchanging_token', 'validating_credential', 'saving_credential', 'completed'}
+LOGIN_ERRORS = {
+    'callback_busy': '本机1455端口被其他登录程序占用，请改用设备码登录，或完成其他程序的登录后重试。',
+    'callback_unavailable': '无法启动本机授权回调，请改用设备码登录。',
+    'token_network': '已收到授权码，但电脑兑换令牌时网络失败；浏览器成功不代表工作台已经登录。',
+    'oauth_network': '电脑连接OpenAI授权服务失败，请检查网络后重试。',
+    'account_claims': '授权令牌已返回，但当前SDK无法识别账户信息；本次未保存授权。',
+    'token_response': 'OpenAI返回的授权字段不完整，本次未保存授权。',
+    'credential_invalid': '返回的授权凭据格式不受支持，本次未保存授权。',
+    'credential_storage': '已取得授权，但Windows本机加密保存失败，请在运行服务的原Windows用户下重试。',
+    'bridge_unavailable': '无法启动授权桥，请检查Node与模型桥依赖。',
+    'bridge_protocol': '授权桥返回的数据不符合约定，本次未保存授权。',
+    'timeout': '授权等待超时，请重新发起登录。',
+    'oauth_failed': 'OpenAI授权未完成；可重试、取消或切换设备码／浏览器登录。',
+}
+for _status in (400, 401, 403, 404, 408, 409, 429, 500, 502, 503):
+    LOGIN_ERRORS[f'token_http_{_status}'] = f'授权码已收到，但OpenAI令牌兑换返回HTTP {_status}；本次未保存授权，请重试或改用设备码。'
 
 
 def validate_credential(value):
@@ -67,7 +84,7 @@ class OAuthManager:
                     'expires_at': credential['expires'] / 1000 if credential else None,
                     'requires_refresh': bool(credential and credential['expires'] <= time.time() * 1000 + 60000)}
         with self.state_lock:
-            info['login'] = {key: deepcopy(self.attempt[key]) for key in ('id', 'status', 'method', 'auth_url', 'device_code', 'error') if self.attempt and key in self.attempt} if self.attempt else None
+            info['login'] = {key: deepcopy(self.attempt[key]) for key in ('id', 'status', 'method', 'auth_url', 'device_code', 'stage', 'error_code', 'error') if self.attempt and key in self.attempt} if self.attempt else None
         return info
 
     def _spawn(self):
@@ -87,15 +104,16 @@ class OAuthManager:
             if self.attempt and self.attempt['status'] == 'pending':
                 raise HTTPException(409, '已有Codex授权等待完成，请先完成或取消')
             self.generation += 1
-            attempt = {'id': str(uuid4()), 'status': 'pending', 'method': method, 'generation': self.generation}
+            attempt = {'id': str(uuid4()), 'status': 'pending', 'method': method, 'stage': 'starting', 'generation': self.generation}
             self.attempt = attempt
         threading.Thread(target=self._login, args=(attempt,), daemon=True).start()
-        return {'id': attempt['id'], 'status': 'pending', 'method': method}
+        return {'id': attempt['id'], 'status': 'pending', 'method': method, 'stage': 'starting'}
 
     def _login(self, attempt):
         process = None
         timer = None
         credential = None
+        error_code = 'bridge_unavailable'
         try:
             process = self._spawn()
             with self.state_lock:
@@ -107,15 +125,22 @@ class OAuthManager:
             timer = threading.Timer(905, process.kill)
             timer.daemon = True; timer.start()
             for line in process.stdout:
+                error_code = 'bridge_protocol'
                 if len(line.encode()) > 65536:
                     raise ValueError('授权事件超出大小限制')
                 event = json.loads(line)
                 if event.get('type') == 'credential':
                     if credential is not None:
                         raise ValueError('授权终态重复')
+                    error_code = 'credential_invalid'
+                    with self.state_lock:
+                        attempt['stage'] = 'validating_credential'
                     credential = validate_credential(event.get('credential'))
                 elif event.get('type') == 'error':
-                    raise ValueError('OpenAI授权未完成，请核对网络或改用另一种登录方式')
+                    error_code = event.get('code') if event.get('code') in LOGIN_ERRORS else 'oauth_failed'
+                    with self.state_lock:
+                        if event.get('stage') in LOGIN_STAGES: attempt['stage'] = event['stage']
+                    raise ValueError(error_code)
                 elif event.get('type') in ('auth_url', 'device_code', 'progress', 'waiting_callback'):
                     with self.state_lock:
                         if attempt['status'] != 'pending':
@@ -126,25 +151,32 @@ class OAuthManager:
                             if parsed.scheme != 'https' or parsed.hostname not in ('auth.openai.com', 'chatgpt.com') or parsed.username or parsed.password or parsed.port:
                                 raise ValueError('非预期的授权地址')
                             attempt['auth_url'] = event['url']
+                            attempt['stage'] = 'waiting_authorization'
                         elif event['type'] == 'device_code':
                             uri = event.get('verificationUri')
                             if uri != 'https://auth.openai.com/codex/device' or not isinstance(event.get('userCode'), str) or len(event['userCode']) > 64:
                                 raise ValueError('设备码响应无效')
                             attempt['device_code'] = {'url': uri, 'code': event['userCode']}
+                            attempt['stage'] = 'waiting_authorization'
+                        elif event.get('stage') in LOGIN_STAGES:
+                            attempt['stage'] = event['stage']
                 else:
                     raise ValueError('不支持的授权事件')
+            error_code = 'oauth_failed'
             process.wait(timeout=3)
             if process.returncode != 0 or credential is None:
                 raise ValueError('OpenAI授权中断，未保存新登录态')
             with self.credential_lock, self.state_lock:
                 if self.attempt is attempt and attempt['status'] == 'pending' and attempt['generation'] == self.generation:
+                    attempt['stage'] = 'saving_credential'
+                    error_code = 'credential_storage'
                     self.save_credential(credential)
-                    attempt['status'] = 'completed'
+                    attempt.update(status='completed', stage='completed')
                     attempt.pop('auth_url', None); attempt.pop('device_code', None)
         except Exception:
             with self.state_lock:
                 if attempt['status'] == 'pending':
-                    attempt.update(status='failed', error='OpenAI授权未完成；可重试、取消或切换设备码／浏览器登录')
+                    attempt.update(status='failed', error_code=error_code, error=LOGIN_ERRORS.get(error_code, LOGIN_ERRORS['oauth_failed']))
                     attempt.pop('auth_url', None); attempt.pop('device_code', None)
         finally:
             if timer:

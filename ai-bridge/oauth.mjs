@@ -1,5 +1,27 @@
 // Private IPC only: the Python parent encrypts credential frames; never log this pipe.
 import { pathToFileURL } from 'node:url';
+import { createServer } from 'node:net';
+
+export function safeOAuthFailure(error, stage) {
+  if (['callback_busy', 'callback_unavailable'].includes(error?.code)) return {code:error.code, stage};
+  const message=error instanceof Error ? error.message : '';
+  const status=message.match(/token (?:exchange|refresh) failed \((\d{3})\)/)?.[1];
+  if (status) return {code:`token_http_${status}`, stage};
+  if (message.includes('extract accountId')) return {code:'account_claims', stage};
+  if (message.includes('response missing fields')) return {code:'token_response', stage};
+  if (message==='Invalid credential' || message==='Invalid account') return {code:'credential_invalid', stage:'validating_credential'};
+  if (message === 'fetch failed' || ['ETIMEDOUT','ECONNRESET','ENOTFOUND','UND_ERR_CONNECT_TIMEOUT'].includes(error?.cause?.code) || message.startsWith('fetch failed ')) return {code:stage==='exchanging_token'?'token_network':'oauth_network', stage};
+  if (stage==='validating_credential') return {code:'credential_invalid', stage};
+  return {code:'oauth_failed', stage};
+}
+
+export async function checkBrowserCallback(port=1455) {
+  await new Promise((resolve,reject)=>{
+    const server=createServer();
+    server.once('error',error=>reject(Object.assign(new Error('Callback unavailable'),{code:error.code==='EADDRINUSE'?'callback_busy':'callback_unavailable'})));
+    server.listen(port,'127.0.0.1',()=>server.close(resolve));
+  });
+}
 
 export function validateCredential(value) {
   if (!value || value.type !== 'oauth' || !Number.isFinite(value.expires) || value.expires <= 0) throw Error('Invalid credential');
@@ -54,19 +76,23 @@ async function ipcMain() {
   process.env = {};
   if (process.stdout.isTTY) { process.exitCode = 1; return; }
   const controller = new AbortController();
-  let input = '', started = false, finished = false;
+  let input = '', started = false, finished = false, stage='starting';
   let timer = setTimeout(() => stop('timeout'), 10000);
-  const write = event => { if (!finished) process.stdout.write(JSON.stringify(event) + '\n'); };
+  const write = event => {
+    if (['auth_url','device_code'].includes(event.type)) stage='waiting_authorization';
+    if (!finished) process.stdout.write(JSON.stringify(event) + '\n');
+  };
   const end = event => {
     if (finished) return;
     finished = true; clearTimeout(timer); controller.abort(); process.stdin.pause();
     process.stdout.write(JSON.stringify(event) + '\n', () => process.exit(event.type === 'credential' ? 0 : 1));
   };
-  function stop(code) { end({ type: 'error', code, message: 'OpenAI授权未完成，请重试、取消或改用设备码登录' }); }
+  function stop(code) { end({ type: 'error', code, stage }); }
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = (target, init) => {
+  globalThis.fetch = async (target, init) => {
     const url = new URL(target instanceof Request ? target.url : String(target));
     if (url.protocol !== 'https:' || !['auth.openai.com', 'chatgpt.com'].includes(url.hostname) || url.port || url.username || url.password) throw Error('Unexpected OAuth endpoint');
+    if (url.pathname==='/oauth/token') {stage='exchanging_token';write({type:'progress',stage});}
     return originalFetch(target, { ...init, redirect: 'manual', signal: controller.signal });
   };
   process.stdin.setEncoding('utf8');
@@ -83,10 +109,12 @@ async function ipcMain() {
       clearTimeout(timer); timer = setTimeout(() => stop('timeout'), request.op === 'refresh' ? 30000 : 15 * 60 * 1000);
       void (async () => {
         try {
+          if (request.op==='login' && request.method==='browser') await checkBrowserCallback();
           const { openaiCodexProvider } = await import('@earendil-works/pi-ai/providers/openai-codex');
           const credential = await performOAuth(request, { oauth: openaiCodexProvider().auth.oauth, emit: write, signal: controller.signal });
+          stage='validating_credential';write({type:'progress',stage});
           end({ type: 'credential', credential });
-        } catch { stop(controller.signal.aborted ? 'cancelled' : 'oauth_failed'); }
+        } catch(error) {end({type:'error',...safeOAuthFailure(error,stage)});}
       })();
     }
   });
