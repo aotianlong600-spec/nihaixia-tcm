@@ -89,12 +89,17 @@ test('opening a saved Codex configuration loads the SDK catalog automatically',a
  })
 })
 
-async function withProfiles(check:(state:ModelSettingsState,requests:{method:string;path:string;body:any}[])=>Promise<void>,initialActive:string|null='p1'){
+type ProfileFixtureControl={setActive:(id:string|null)=>void;setFailSelect:(value:boolean)=>void}
+async function withProfiles(check:(state:ModelSettingsState,requests:{method:string;path:string;body:any}[],control:ProfileFixtureControl)=>Promise<void>,initialActive:string|null='p1',options:{omitRevision?:boolean}={}){
  const requests:{method:string;path:string;body:any}[]=[]
- let active:string|null=initialActive
- const base={auth_mode:'api_key',base_url:'https://example.test',model:'m1',enabled:true,allow_external:false,allow_evidence:false}
- let profiles:any[]=[{id:'p1',name:'配置一',...base,has_key:true},{id:'p2',name:'配置二',...base,model:'m2',reasoning_effort:'low',has_key:false}]
- const publicConfig=(id:string|null)=>id?{...profiles.find(p=>p.id===id),profile_id:id,profile_name:profiles.find(p=>p.id===id)?.name,codex:{logged_in:false}}:{...base,profile_id:null,profile_name:null,has_key:true}
+ let active:string|null=initialActive, failSelect=false
+ const base={auth_mode:'api_key',base_url:'https://example.test',model:'m1',enabled:true,allow_external:true,allow_evidence:true}
+ let profiles:any[]=[{id:'p1',name:'配置一',...base,has_key:true,revision:1},{id:'p2',name:'配置二',...base,model:'m2',reasoning_effort:'low',has_key:true,revision:2}]
+ const publicConfig=(id:string|null)=>{
+  const result:any=id?(()=>{const {revision,...fields}=profiles.find(p=>p.id===id);return {...fields,profile_id:id,profile_name:fields.name,codex:{logged_in:false},profile_revision:revision}})():{...base,profile_id:null,profile_name:null,has_key:true,codex:{logged_in:false},profile_revision:null}
+  if(options.omitRevision)delete result.profile_revision
+  return result
+ }
  const server=createServer(async(req,res)=>{
   const chunks:Buffer[]=[];for await(const chunk of req)chunks.push(Buffer.from(chunk))
   const raw=Buffer.concat(chunks).toString(),body=raw?JSON.parse(raw):undefined,path=req.url!
@@ -103,12 +108,12 @@ async function withProfiles(check:(state:ModelSettingsState,requests:{method:str
   if(path==='/api/model/config')return res.end(JSON.stringify(publicConfig(active)))
   if(path==='/api/model/profiles'&&req.method==='GET')return res.end(JSON.stringify({items:profiles,active_id:active}))
   if(path==='/api/model/profiles'&&req.method==='POST'){
-   const {api_key,...rest}=body;const saved={id:'p3',...rest,has_key:!!api_key};profiles=[...profiles,saved];return res.end(JSON.stringify(saved))
+   const {api_key,...rest}=body;const saved={id:'p3',...rest,has_key:!!api_key,revision:1};profiles=[...profiles,saved];return res.end(JSON.stringify(saved))
   }
   const one=path.match(/^\/api\/model\/profiles\/([^/]+)$/)
   if(one&&req.method==='PUT'){
    const {api_key,...rest}=body
-   profiles=profiles.map(p=>p.id===one[1]?{...p,...rest,has_key:p.has_key||!!api_key}:p)
+   profiles=profiles.map(p=>p.id===one[1]?{...p,...rest,has_key:p.has_key||!!api_key,revision:(p.revision||0)+1}:p)
    return res.end(JSON.stringify(profiles.find(p=>p.id===one[1])))
   }
   if(one&&req.method==='DELETE'){
@@ -116,13 +121,17 @@ async function withProfiles(check:(state:ModelSettingsState,requests:{method:str
    return res.end(JSON.stringify({deleted_id:one[1],active_id:active}))
   }
   const select=path.match(/^\/api\/model\/profiles\/([^/]+)\/select$/)
-  if(select&&req.method==='POST'){active=select[1];return res.end(JSON.stringify(publicConfig(active)))}
+  if(select&&req.method==='POST'){
+   if(failSelect){res.writeHead(500);return res.end('{"detail":"select failed"}')}
+   active=select[1];return res.end(JSON.stringify(publicConfig(active)))
+  }
   if(path==='/api/model/codex')return res.end('{"logged_in":false,"login":{"id":"login-1","status":"pending","method":"browser","stage":"waiting_authorization","auth_url":"http://localhost:1455/auth/callback"}}')
+  if(path==='/api/model/codex/models')return res.end('{"items":[{"id":"synthetic-codex","name":"合成目录模型","reasoning_efforts":["low","medium","high","xhigh","max"]}],"scope":"合成SDK目录"}')
   if(/^\/api\/model\/codex\/login\/[^/]+\/code$/.test(path))return res.end('{"status":"submitted"}')
   res.writeHead(404);res.end('{"detail":"unexpected test endpoint"}')
  })
  await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve))
- try{const {port}=server.address() as {port:number};await check(new ModelSettingsState(new ApiClient(`http://127.0.0.1:${port}`)),requests)}finally{server.close()}
+ try{const {port}=server.address() as {port:number};const control:ProfileFixtureControl={setActive:id=>{active=id},setFailSelect:value=>{failSelect=value}};await check(new ModelSettingsState(new ApiClient(`http://127.0.0.1:${port}`)),requests,control)}finally{server.close()}
 }
 
 test('profiles keep the edit selection separate from the active configuration',async()=>{
@@ -297,5 +306,133 @@ test('manual callback code is posted to the pending login and never stored in se
   assert.equal(requests.filter(r=>r.path==='/api/model/codex').length,2)
   assert.equal(JSON.stringify(state.config).includes('synthetic'),false)
   assert.equal(JSON.stringify(state.saved).includes('synthetic'),false)
+ })
+})
+
+test('consultation load picks the active profile and requires no write for an unchanged draft',async()=>{
+ await withProfiles(async(state,requests)=>{
+  await state.loadConsultation()
+  assert.equal(state.editingId,'p1')
+  assert.equal(state.activeId,'p1')
+  assert.equal(state.saved?.profile_id,'p1')
+  assert.equal(state.consultationDirty,false)
+  assert.deepEqual(state.consultationSelection,{profile_id:'p1',profile_revision:1})
+  const before=requests.length
+  state.config.model='m1-draft'
+  assert.equal(state.consultationDirty,true)
+  assert.equal(state.consultationSelection,null)
+  assert.equal(requests.length,before)
+ })
+})
+
+test('a profile-only consultation switch selects without rewriting the stored profile',async()=>{
+ await withProfiles(async(state,requests)=>{
+  await state.loadConsultation()
+  state.selectForEdit(state.profiles.find(p=>p.id==='p2')!)
+  assert.equal(state.consultationDirty,false)
+  assert.equal(state.consultationSelection,null)
+  const before=requests.length
+  const selection=await state.applyConsultation()
+  const tail=requests.slice(before)
+  assert.deepEqual(tail.map(r=>`${r.method} ${r.path}`),['POST /api/model/profiles/p2/select','GET /api/model/config','GET /api/model/profiles'])
+  assert.equal(tail.some(r=>r.method==='PUT'),false)
+  assert.deepEqual(selection,{profile_id:'p2',profile_revision:2})
+  assert.equal(state.saved?.model,'m2')
+  assert.equal(state.saved?.profile_revision,2)
+ })
+})
+
+test('applying a changed non-active profile PUTs it, selects it, then reloads the real current snapshot',async()=>{
+ await withProfiles(async(state,requests)=>{
+  await state.loadConsultation()
+  state.selectForEdit(state.profiles.find(p=>p.id==='p2')!)
+  state.config.model='m2-edited'
+  assert.equal(state.consultationDirty,true)
+  const before=requests.length
+  const selection=await state.applyConsultation()
+  const tail=requests.slice(before)
+  assert.deepEqual(tail.map(r=>`${r.method} ${r.path}`),['PUT /api/model/profiles/p2','POST /api/model/profiles/p2/select','GET /api/model/config','GET /api/model/profiles'])
+  assert.equal(tail[0].body.model,'m2-edited')
+  assert.equal('api_key' in tail[0].body,false)
+  assert.equal('has_key' in tail[0].body,false)
+  assert.deepEqual(selection,{profile_id:'p2',profile_revision:3})
+  assert.equal(state.saved?.model,'m2-edited')
+  assert.equal(state.saved?.profile_revision,3)
+  assert.equal(state.consultationDirty,false)
+ })
+})
+
+test('consultation application never sends credentials or changes consent flags',async()=>{
+ await withProfiles(async(state,requests)=>{
+  await state.loadConsultation()
+  state.config.reasoning_effort='high'
+  const before=requests.length
+  await state.applyConsultation()
+  const tail=requests.slice(before)
+  const update=tail.find(r=>r.method==='PUT')!
+  assert.equal(update.body.reasoning_effort,'high')
+  assert.equal(update.body.expected_profile_revision,1)
+  assert.equal('api_key' in update.body,false)
+  assert.equal('has_key' in update.body,false)
+  assert.equal(update.body.allow_external,true)
+  assert.equal(update.body.allow_evidence,true)
+  assert.equal(update.body.base_url,'https://example.test')
+  assert.equal('api_key' in state.config,false)
+  assert.equal('api_key' in state.saved!,false)
+  assert.equal(state.saved?.has_key,true)
+ })
+})
+
+test('failure during consultation selection never yields a ready selection and supports retry',async()=>{
+ await withProfiles(async(state,_requests,control)=>{
+  await state.loadConsultation()
+  state.selectForEdit(state.profiles.find(p=>p.id==='p2')!)
+  state.config.model='m2-edited'
+  control.setFailSelect(true)
+  await assert.rejects(state.applyConsultation(),/select failed/)
+  assert.equal(state.consultationSelection,null)
+  assert.equal(state.activeId,'p1')
+  assert.equal(state.consultationDirty,false)
+  control.setFailSelect(false)
+  const selection=await state.applyConsultation()
+  assert.deepEqual(selection,{profile_id:'p2',profile_revision:3})
+ })
+})
+
+test('a saved configuration without a numeric revision fails closed',async()=>{
+ await withProfiles(async(state)=>{
+  await state.loadConsultation()
+  assert.equal(state.saved?.profile_revision,undefined)
+  assert.equal(state.consultationSelection,null)
+  state.selectForEdit(state.profiles.find(p=>p.id==='p2')!)
+  await state.applyConsultation()
+  assert.equal(state.consultationSelection,null)
+ },'p1',{omitRevision:true})
+})
+
+test('consultation reload observes an active profile changed from model settings',async()=>{
+ await withProfiles(async(state,requests,control)=>{
+  await state.loadConsultation()
+  assert.equal(state.editingId,'p1')
+  control.setActive('p2')
+  await state.loadConsultation()
+  assert.equal(state.activeId,'p2')
+  assert.equal(state.editingId,'p2')
+  assert.equal(state.config.model,'m2')
+  assert.deepEqual(state.consultationSelection,{profile_id:'p2',profile_revision:2})
+ })
+})
+
+test('an old profile with omitted effort is clean while a draft effort change is pending',async()=>{
+ await withProfiles(async(state)=>{
+  await state.loadConsultation()
+  assert.equal(state.config.reasoning_effort,'auto')
+  assert.equal(state.consultationDirty,false)
+  state.config.reasoning_effort='high'
+  assert.equal(state.consultationDirty,true)
+  assert.equal(state.consultationSelection,null)
+  state.config.reasoning_effort='auto'
+  assert.equal(state.consultationDirty,false)
+  assert.deepEqual(state.consultationSelection,{profile_id:'p1',profile_revision:1})
  })
 })
