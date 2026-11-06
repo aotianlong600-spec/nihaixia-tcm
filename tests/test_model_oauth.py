@@ -2,6 +2,7 @@ import json,time
 from io import StringIO
 from pathlib import Path
 import threading
+import pytest
 from app.model_oauth import OAuthManager
 
 CREDENTIAL={'type':'oauth','access':'synthetic-access','refresh':'synthetic-refresh','expires':int(time.time()*1000)+3600000,'accountId':'synthetic'}
@@ -119,3 +120,73 @@ def test_codex_job_passes_only_access_token_to_isolated_bridge(tmp_path,monkeypa
         assert job['status']=='completed',job
         assert 'synthetic-access' not in json.dumps(job)
         assert 'synthetic-refresh' not in json.dumps(client.get('/api/model/codex').json())
+
+
+@pytest.mark.parametrize('held_operation',['access_token','logout'])
+def test_codex_logout_serializes_credential_use_and_job_registration(tmp_path,monkeypatch,held_operation):
+    from concurrent.futures import ThreadPoolExecutor
+    from contextlib import closing
+    from fastapi import HTTPException
+    from app import model,storage
+    from app.main import create_app
+
+    app=create_app(tmp_path)
+    oauth=app.state.model_oauth
+    oauth.save_credential(CREDENTIAL)
+    (tmp_path/'model-config.json').write_text(json.dumps({**model.DEFAULT_CONFIG,'auth_mode':'codex','model':'synthetic'}))
+    bridge=tmp_path/'bridge-root'/'ai-bridge'
+    bridge.mkdir(parents=True);(bridge/'node_modules').mkdir();(bridge/'bridge.mjs').touch()
+    monkeypatch.setattr(model,'ROOT',bridge.parent)
+    def unexpected_process(*args,**kwargs): raise AssertionError('Cancelled jobs must not start a model bridge')
+    monkeypatch.setattr(model.subprocess,'Popen',unexpected_process)
+    routes={r.path:r.endpoint for r in app.routes if hasattr(r,'endpoint')}
+    start_job=routes['/api/model/jobs'];logout=routes['/api/model/codex/logout']
+    cells=dict(zip(start_job.__code__.co_freevars,start_job.__closure__))
+    entered,release,lock_attempted,scheduled=(threading.Event() for _ in range(4))
+    second_thread=[];blocked=[];deferred=[]
+    original_lock=cells['guard'].cell_contents
+    class ObservedLock:
+        def __enter__(self):
+            if second_thread and threading.current_thread() is second_thread[0]:
+                acquired=original_lock.acquire(blocking=False)
+                blocked.append(not acquired);lock_attempted.set()
+                if not acquired: original_lock.acquire()
+            else: original_lock.acquire()
+        def __exit__(self,*args): original_lock.release()
+    monkeypatch.setattr(cells['guard'],'cell_contents',ObservedLock())
+    run_job=cells['run_job'].cell_contents
+    def defer_job(*args): deferred.append(args);scheduled.set()
+    monkeypatch.setattr(cells['run_job'],'cell_contents',defer_job)
+    operation=getattr(oauth,held_operation)
+    def hold_operation():
+        token=operation() if held_operation=='access_token' else None
+        entered.set()
+        assert release.wait(5)
+        return token if held_operation=='access_token' else operation()
+    monkeypatch.setattr(oauth,held_operation,hold_operation)
+    def start():
+        with closing(storage.connect(tmp_path)) as conn,conn:
+            return start_job(model.JobInput(purpose='test'),conn)
+    def second(action):
+        second_thread.append(threading.current_thread())
+        return action()
+    first_action,second_action=(start,logout) if held_operation=='access_token' else (logout,start)
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        first=pool.submit(first_action)
+        try:
+            assert entered.wait(5)
+            following=pool.submit(second,second_action)
+            assert lock_attempted.wait(5)
+            assert blocked==[True]
+        finally:
+            release.set()
+        if held_operation=='access_token':
+            first.result(timeout=5);assert following.result(timeout=5)=={'logged_in':False}
+            assert scheduled.wait(5)
+            run_job(*deferred[0])
+            assert deferred[0][0]['status']=='cancelled'
+        else:
+            assert first.result(timeout=5)=={'logged_in':False}
+            with pytest.raises(HTTPException) as failure: following.result(timeout=5)
+            assert failure.value.status_code==409 and not deferred
+    assert not oauth.status()['logged_in']

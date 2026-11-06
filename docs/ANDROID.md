@@ -91,6 +91,6 @@ android\gradlew.bat -p android testDebugUnitTest
 android\gradlew.bat -p android assembleDebug
 ```
 
-工作者没有命令权限；控制器已实际执行编译、10项JVM单测及assembleDebug，并核对APK内CA公钥。APK安装和真机运行未执行。尚未在真实手机上测试以下内容：自签 CA 配对、Android 各厂商 WebView 差异、软键盘/旋转/返回手势、设备码登录跳转浏览器、blob 下载提示的触发覆盖率、后台恢复后的会话行为。若页面通过非 anchor、非标准方式触发 blob 下载且不经过 `DownloadListener`，可能没有提示；仍不会在手机落盘。
+工作者没有命令权限；控制器已实际执行编译、11项JVM单测及assembleDebug，并核对APK内CA公钥。APK安装和真机运行未执行。尚未在真实手机上测试以下内容：自签 CA 配对、Android 各厂商 WebView 差异、软键盘/旋转/返回手势、设备码登录跳转浏览器、blob 下载提示的触发覆盖率、后台恢复后的会话行为。若页面通过非 anchor、非标准方式触发 blob 下载且不经过 `DownloadListener`，可能没有提示；仍不会在手机落盘。
 
 医学映射与软件通过与否无关；真实模型访问仍需用户授权和联网验证。

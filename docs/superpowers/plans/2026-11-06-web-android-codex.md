@@ -18,10 +18,10 @@
 
 ## Tasks
 
-- [ ] 接入Claude Code治理、GitHub建仓与代码扫描（已建公开仓库；禁止资料入仓）。
-- [ ] app/access.py + tests/test_access.py：先红后绿访问密码、会话、远端边界及两端同库。
-- [ ] app/lan.py + run/start-lan脚本：私CA/证书及双监听、明确用户初始化；TLS回归。
-- [ ] OAuth Node/Python桥与model路由：login/status/cancel/logout/refresh、固定provider流；合成HTTP/协议回归。
-- [ ] Vue登录与通道设置、移动适配，保留临床约束和历史；前端回归。
-- [ ] android原生壳、URL/证书安全与D盘构建脚本、真实assembleDebug产物。
+- [x] 接入Claude Code治理、GitHub建仓与代码扫描（已建公开仓库；禁止资料入仓）。
+- [x] app/access.py + tests/test_access.py：先红后绿访问密码、会话、远端边界及两端同库。
+- [x] app/lan.py + run/start-lan脚本：私CA/证书及双监听、明确用户初始化；TLS回归。
+- [x] OAuth Node/Python桥与model路由：login/status/cancel/logout/refresh、固定provider流；合成HTTP/协议回归。
+- [x] Vue登录与通道设置、移动适配，保留临床约束和历史；前端回归。
+- [x] android原生壳、URL/证书安全与D盘构建脚本、真实assembleDebug产物。
 - [ ] 独立review/测试、GitHub公开内容/远端核对、可复现交付；真实认证与手机实机未验则明示。

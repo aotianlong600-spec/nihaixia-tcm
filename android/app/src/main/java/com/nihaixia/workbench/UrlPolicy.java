@@ -60,7 +60,7 @@ public final class UrlPolicy {
 
     /**
      * True only when {@code candidateUrl} is HTTPS and has exactly the same canonical
-     * host and explicit port as the normalized server root. Paths, queries and fragments
+     * host and effective port as the normalized server root. Paths, queries and fragments
      * are allowed for in-app navigation; user info and ambiguous authorities are not.
      */
     public static boolean isSameOrigin(String normalizedServerRoot, String candidateUrl) {
@@ -85,7 +85,9 @@ public final class UrlPolicy {
                 break;
             }
         }
-        HostAndPort candidate = parseHostAndPort(rest.substring(0, authorityEnd));
+        String authority = rest.substring(0, authorityEnd);
+        // Browsers omit HTTPS's default port during URL serialization.
+        HostAndPort candidate = parseHostAndPort(authority.indexOf(':') < 0 ? authority + ":443" : authority);
         if (candidate == null) {
             return false;
         }

@@ -13,6 +13,7 @@ test-results/
 
 .agent-workspace/
 .claude-code-orchestrator/
+.cache/
 .mcp.json
 .claude/
 .env.*

@@ -121,6 +121,17 @@ public class UrlPolicyTest {
     }
 
     @Test
+    public void httpsDefaultPortMayBeOmittedByBrowserNavigation() {
+        String root = "https://192.168.1.20:443";
+        assertEquals(root, UrlPolicy.normalizeServerRoot(root));
+        assertTrue(UrlPolicy.isSameOrigin(root, "https://192.168.1.20/"));
+        assertTrue(UrlPolicy.isSameOrigin(root, "https://192.168.1.20/app?x=1"));
+        assertFalse(UrlPolicy.isSameOrigin("https://192.168.1.20:8766", "https://192.168.1.20/"));
+        assertFalse(UrlPolicy.isSameOrigin(root, "https://user@192.168.1.20/"));
+        assertNull(UrlPolicy.normalizeServerRoot("https://192.168.1.20"));
+    }
+
+    @Test
     public void sameOriginRequiresExactHttpsSchemeHostAndPort() {
         String root = "https://192.168.1.20:8766";
         assertTrue(UrlPolicy.isSameOrigin(root, "https://192.168.1.20:8766/"));

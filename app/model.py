@@ -173,7 +173,7 @@ def mount_model_routes(app, data_dir, protected, database):
                             process.stdin.write('{"type":"cancel"}\n'); process.stdin.flush()
                         except (OSError, ValueError):
                             pass
-        oauth.logout()
+            oauth.logout()
         return {"logged_in": False}
 
     def public_job(job):
@@ -334,8 +334,8 @@ def mount_model_routes(app, data_dir, protected, database):
                 raise HTTPException(409, "分析所用访次、规则或证据已改变，请重新分析后再请求模型")
             allowed_ids = {e["id"] for e in snapshot.get("evidence_snapshot", [])}
             request_input = explain_payload(snapshot, cfg["allow_evidence"])
-        api_key = oauth.access_token() if cfg["auth_mode"] == "codex" else read_secret(key_path)
         with guard:
+            api_key = oauth.access_token() if cfg["auth_mode"] == "codex" else read_secret(key_path)
             if sum(j["status"] in {"queued", "running"} for j in jobs.values()) >= 2:
                 raise HTTPException(429, "已有两个模型请求运行，请完成或取消后重试")
             if len(jobs) >= 100:
