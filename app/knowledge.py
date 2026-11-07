@@ -84,8 +84,10 @@ def render_page(conn, data_dir, document_id, physical_page):
             page.close()
 
 
-def _required_text(payload, key, maximum):
-    value = payload.get(key)
+def _required_text(payload, key, maximum, *, optional=False):
+    value = payload.get(key, "" if optional else None)
+    if optional and value == "":
+        return ""
     if not isinstance(value, str) or not value.strip() or len(value) > maximum:
         raise ValueError(f"{key} must be nonempty text, at most {maximum} characters")
     return value
@@ -330,8 +332,8 @@ def review_page(conn, document_id, physical_page, payload) -> dict:
         raise ValueError("page does not exist")
     corrected = _required_text(payload, "corrected_text", 200000)
     kind = _required_text(payload, "kind", 100)
-    reviewer = _required_text(payload, "reviewer", 200)
-    note = _required_text(payload, "note", 10000)
+    reviewer = _required_text(payload, "reviewer", 200, optional=True)
+    note = _required_text(payload, "note", 10000, optional=True)
     printed = payload.get("printed_page")
     if printed is not None and (not isinstance(printed, str) or not printed.strip() or len(printed) > 100):
         raise ValueError("printed_page must be nonempty text or null")
@@ -345,15 +347,15 @@ def create_evidence(conn, payload) -> dict:
     if not isinstance(payload, dict):
         raise ValueError("evidence must be an object")
     page = get_page(conn, payload.get("document_id"), payload.get("physical_page"))
-    if page is None or page["review_status"] != "verified":
-        raise ValueError("page must be text-reviewed before evidence creation")
+    if page is None:
+        raise ValueError("page does not exist")
     quote = _required_text(payload, "quote", 50000)
     kind = _required_text(payload, "kind", 100)
-    reviewer = _required_text(payload, "reviewer", 200)
+    reviewer = _required_text(payload, "reviewer", 200, optional=True)
     text = page["corrected_text"] if page["corrected_text"] is not None else page["raw_text"]
     start = text.find(quote)
     if start < 0:
-        raise ValueError("quote is not a contiguous substring of the reviewed page")
+        raise ValueError("quote is not a contiguous substring of the source page")
     printed = payload.get("printed_page", page["printed_page"])
     if printed is not None and (not isinstance(printed, str) or not printed.strip() or len(printed) > 100):
         raise ValueError("printed_page must be nonempty text or null")

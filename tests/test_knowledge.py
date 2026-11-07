@@ -109,11 +109,11 @@ def test_get_page_bounds_and_identifiers(store, tmp_path):
             knowledge.get_page(store[0], document_id, page)
 
 
-def test_evidence_requires_review_and_exact_contiguous_quote(store, tmp_path):
+def test_evidence_accepts_raw_source_without_review_but_requires_exact_quote(store, tmp_path):
     sha, _, _ = imported(store, tmp_path)
     payload = {"document_id": sha, "physical_page": 1, "quote": "桂枝汤主之", "kind": "classic", "reviewer": "审核医师"}
-    with pytest.raises(ValueError):
-        knowledge.create_evidence(store[0], payload)
+    raw = knowledge.create_evidence(store[0], {**payload, "quote": "桂枝湯主之", "reviewer": ""})
+    assert raw["source_type"] == "raw"
     review(store[0], sha)
     for quote in ("编造的引文", "桂枝汤生姜", "", " "):
         with pytest.raises(ValueError):
@@ -129,7 +129,7 @@ def test_evidence_requires_review_and_exact_contiguous_quote(store, tmp_path):
     assert evidence["physical_page"] == 1
     assert evidence["printed_page"] == "I"
     assert knowledge.get_evidence(store[0], evidence["id"]) == evidence
-    assert knowledge.list_evidence(store[0]) == [evidence]
+    assert {item["id"] for item in knowledge.list_evidence(store[0])} == {raw["id"], evidence["id"]}
     assert knowledge.get_evidence(store[0], "missing") is None
     review(store[0], sha, "另一版订正文。")
     assert knowledge.get_evidence(store[0], evidence["id"]) == evidence

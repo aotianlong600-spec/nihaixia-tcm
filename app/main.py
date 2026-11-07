@@ -46,7 +46,7 @@ class Context(Input):
     pregnancy: Literal["yes", "no", "unknown"] = "unknown"
     allergies: list[str] = Field(default_factory=list, max_length=100)
     medications: list[str] = Field(default_factory=list, max_length=100)
-    simulation: Literal[True] = True
+    simulation: StrictBool = True
 
 
 class Patient(Input):
@@ -58,7 +58,7 @@ class VisitFields(Input):
     chief_complaint: str = Field(default="", max_length=10000)
     facts: list[Fact] = Field(default_factory=list, max_length=500)
     context: Context = Field(default_factory=Context)
-    clinician: str = Field(min_length=1, max_length=80)
+    clinician: str = Field(default="", max_length=80)
 
 
 class NewVisit(VisitFields):
@@ -78,12 +78,8 @@ class AnalyzeInput(Input):
 
 
 class Reviewer(Input):
-    reviewer: str = Field(min_length=1, max_length=80)
-    note: str = Field(min_length=1, max_length=4000)
-
-
-class RuleReview(Reviewer):
-    stage: Literal["text", "semantic", "clinical"]
+    reviewer: str = Field(default="", max_length=80)
+    note: str = Field(default="", max_length=4000)
 
 
 class RuleInput(Input):
@@ -101,14 +97,14 @@ class EvidenceInput(Input):
     physical_page: int = Field(ge=1)
     quote: str = Field(min_length=1, max_length=30000)
     kind: str = Field(min_length=1, max_length=80)
-    reviewer: str = Field(min_length=1, max_length=80)
+    reviewer: str = Field(default="", max_length=80)
     printed_page: str | int | None = None
 
 
 class DecisionInput(Input):
     decision: Literal["adopt", "modify", "reject"]
-    clinician: str = Field(min_length=1, max_length=80)
-    notes: str = Field(min_length=1, max_length=10000)
+    clinician: str = Field(default="", max_length=80)
+    notes: str = Field(default="", max_length=10000)
     final_formula: list[dict[str, Any]] | None = Field(default=None, max_length=200)
 
 
@@ -370,7 +366,7 @@ def create_app(data_dir: Path | None = None, *, lan_hosts: list[str] | tuple = (
         if rule.get("synthetic"):
             return []
         if not rule.get("evidence_ids"):
-            raise HTTPException(409, "真实规则缺少已校核证据")
+            raise HTTPException(409, "真实规则缺少原文证据")
         evidence_ids = set(rule["evidence_ids"])
         drugs = list(rule.get("formula", [])) + [action["drug"] for action in rule.get("actions", []) if "drug" in action]
         for drug in drugs:
@@ -383,14 +379,21 @@ def create_app(data_dir: Path | None = None, *, lan_hosts: list[str] | tuple = (
             if item is None:
                 raise HTTPException(409, "规则证据不存在")
             page = knowledge.get_page(conn, item["document_id"], item["physical_page"])
-            if page is None or page["review_status"] != "verified":
-                raise HTTPException(409, "规则引用页尚未完成校核")
+            if page is None:
+                raise HTTPException(409, "规则引用的原文页不存在")
             text = page["corrected_text"] if page["corrected_text"] is not None else page["raw_text"]
             frozen_text = item["corrected_text"] if item["source_type"] == "corrected" else item["raw_text"]
             if item["quote"] not in text or frozen_text != text:
                 raise HTTPException(409, "原文订正后证据已失效，须重新核对规则")
             evidence.append(item)
         return evidence
+
+    def check_rule_activation(conn, rule):
+        if "__clinical_rule_not_defined__" in storage.encode(rule["required"]):
+            raise HTTPException(409, "规则含未定义的必要条件")
+        if rule["kind"] == "modification" and not rule.get("actions"):
+            raise HTTPException(409, "加减规则缺少可执行动作")
+        checked_evidence(conn, rule)
 
     @app.get("/api/rules", dependencies=protected)
     def rules(conn=Depends(database)):
@@ -400,49 +403,33 @@ def create_app(data_dir: Path | None = None, *, lan_hosts: list[str] | tuple = (
     def rule_create(payload: RuleInput, conn=Depends(database)):
         conn.execute("BEGIN IMMEDIATE")
         rule = dict(payload.rule)
-        rule["status"] = "draft"
+        rule.setdefault("status", "published")
         rule = validate_rule(rule)
         if conn.execute("SELECT 1 FROM rules WHERE id=?", (rule["id"],)).fetchone():
-            raise HTTPException(409, "规则id已存在；请为新版本使用新id，禁止覆盖已发布记录")
+            raise HTTPException(409, "规则id已存在；请为新版本使用新id")
+        if rule["status"] == "published":
+            check_rule_activation(conn, rule)
         conn.execute("INSERT INTO rules VALUES(?,?,?,?)", (rule["id"], storage.encode(rule), "{}", storage.now()))
-        storage.audit(conn, "rule_draft", rule["id"])
+        storage.audit(conn, "rule_create", rule["id"], status=rule["status"])
         return {**rule, "reviews": {}}
 
-    @app.post("/api/rules/{rule_id}/review", dependencies=protected)
-    def rule_review(rule_id: str, payload: RuleReview, conn=Depends(database)):
+    @app.post("/api/rules/{rule_id}/activate", dependencies=protected)
+    def rule_activate(rule_id: str, conn=Depends(database)):
         conn.execute("BEGIN IMMEDIATE")
         row, rule = get_rule(conn, rule_id)
         if rule["status"] != "draft":
-            raise HTTPException(409, "只能审核草稿版本")
-        if payload.stage == "text":
-            checked_evidence(conn, rule)
-        reviews = json.loads(row["reviews"])
-        reviews[payload.stage] = {**payload.model_dump(), "at": storage.now(), "identity_verified": False}
-        conn.execute("UPDATE rules SET reviews=? WHERE id=?", (storage.encode(reviews), rule_id))
-        storage.audit(conn, "rule_review", rule_id, stage=payload.stage, reviewer=payload.reviewer)
-        return {**rule, "reviews": reviews}
-
-    @app.post("/api/rules/{rule_id}/publish", dependencies=protected)
-    def rule_publish(rule_id: str, payload: Reviewer, conn=Depends(database)):
-        conn.execute("BEGIN IMMEDIATE")
-        row, rule = get_rule(conn, rule_id)
-        reviews = json.loads(row["reviews"])
-        if rule["status"] != "draft" or not all(s in reviews for s in ["text", "semantic", "clinical"]):
-            raise HTTPException(409, "发布需要文本、规则语义、临床适用三级审核")
-        if "__clinical_rule_not_defined__" in storage.encode(rule["required"]):
-            raise HTTPException(409, "必要条件尚未由临床医师定义，不能发布研究占位规则")
-        if rule["kind"] == "modification" and not rule.get("actions"):
-            raise HTTPException(409, "加减规则尚无可执行且有据的动作")
-        checked_evidence(conn, rule)
-        rule.update(status="published", published_at=storage.now(), published_by=payload.reviewer)
+            raise HTTPException(409, "只能启用草稿版本")
+        check_rule_activation(conn, rule)
+        rule = validate_rule({**rule, "status": "published", "published_at": storage.now()})
         conn.execute("UPDATE rules SET document=? WHERE id=?", (storage.encode(rule), rule_id))
-        storage.audit(conn, "rule_publish_simulation", rule_id, reviewer=payload.reviewer)
-        return {**rule, "reviews": reviews}
+        storage.audit(conn, "rule_activate", rule_id)
+        return {**rule, "reviews": json.loads(row["reviews"])}
 
     @app.post("/api/rules/{rule_id}/withdraw", dependencies=protected)
-    def rule_withdraw(rule_id: str, payload: Reviewer, conn=Depends(database)):
+    def rule_withdraw(rule_id: str, payload: Reviewer | None = None, conn=Depends(database)):
         conn.execute("BEGIN IMMEDIATE")
         row, rule = get_rule(conn, rule_id)
+        payload = payload or Reviewer()
         rule.update(status="withdrawn", withdrawn_at=storage.now(), withdrawal_note=payload.note)
         conn.execute("UPDATE rules SET document=? WHERE id=?", (storage.encode(rule), rule_id))
         storage.audit(conn, "rule_withdraw", rule_id, reviewer=payload.reviewer)
@@ -519,6 +506,8 @@ def create_app(data_dir: Path | None = None, *, lan_hosts: list[str] | tuple = (
         if payload.expected_revision != old["revision"]:
             raise HTTPException(409, "访次已被修改，请重新载入")
         fields = payload.model_dump(exclude={"expected_revision"})
+        if "clinician" not in payload.model_fields_set:
+            fields["clinician"] = old["clinician"]
         fields["context"] = payload.context.model_dump(exclude_none=True)
         fields["facts"] = stored_facts(payload.facts)
         analyze(fields["facts"], [], fields["context"])
@@ -540,7 +529,7 @@ def create_app(data_dir: Path | None = None, *, lan_hosts: list[str] | tuple = (
         selected = set(payload.selected_rule_ids)
         available = {r["id"] for r in all_rules if r["status"] == "published"}
         if (selected | set(payload.modification_ids) | ({payload.base_rule_id} if payload.base_rule_id else set())) - available:
-            raise HTTPException(409, "选定规则未发布或已撤回")
+            raise HTTPException(409, "选定规则未启用或已撤回")
         eligible, evidence, warnings = [], {}, []
         for rule in all_rules:
             if rule["status"] != "published" or (selected and rule["id"] not in selected and rule["kind"] not in {"red_flag", "safety", "modification"}):
