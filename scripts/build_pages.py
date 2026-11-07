@@ -79,7 +79,7 @@ def engine_archive():
 
 
 def service_worker():
-    files = sorted(p for p in DIST.rglob('*') if p.is_file() and p.name != 'sw.js')
+    files = sorted(p for p in DIST.rglob('*') if p.is_file() and p.name != 'sw.js' and not p.name.startswith('.'))
     paths = [p.relative_to(DIST).as_posix() for p in files]
     build = sha256()
     for path, file in zip(paths, files):
