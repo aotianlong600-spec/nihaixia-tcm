@@ -1,5 +1,7 @@
 # Third-party notices
 
+The GitHub Pages build bundles Pyodide 0.29.3, its Python runtime and SQLite module. Their accompanying license is included at `runtime/pyodide/LICENSE` in the published site. The pure Python fastjsonschema 2.21.2 package and its license are included in the browser engine archive. The public formula index keeps its existing source attribution and license.
+
 Frontend runtime dependencies are bundled in frontend/dist. License files found in their installed package directories are preserved in licenses/. Node/Python dependencies are installed separately by their package managers.
 
 | Package | Version | Declared license | Copied license files |

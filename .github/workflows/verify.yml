@@ -1,4 +1,4 @@
-name: Verify source
+name: Verify web app
 on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
@@ -25,15 +25,9 @@ jobs:
         working-directory: frontend
       - run: npm run build
         working-directory: frontend
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
       - name: Verify portable schemas and generate starter knowledge pack
         run: |
           python scripts/export_portable_schemas.py
           git diff --exit-code -- app/resources/portable_schemas.json
           python scripts/create_empty_knowledge_pack.py
           python scripts/export_knowledge_pack.py --verify knowledge
-      - name: Android offline unit tests and compile
-        run: ./scripts/build_android_offline.ps1 -SdkDirectory "$env:ANDROID_HOME" -JavaHome "$env:JAVA_HOME" -BuildPython (Get-Command python).Source

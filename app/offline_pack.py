@@ -328,10 +328,10 @@ def install_pack(pack_dir: Path, data_dir: Path) -> dict:
                         else:
                             try:
                                 os.link(staged, target)
-                            except OSError as exc:
-                                if exc.errno not in {errno.EPERM,errno.EACCES,errno.EXDEV,errno.ENOSYS,getattr(errno,'ENOTSUP',-1)}:
+                            except (AttributeError, OSError) as exc:
+                                if isinstance(exc, OSError) and exc.errno not in {errno.EPERM,errno.EACCES,errno.EXDEV,errno.ENOSYS,getattr(errno,'ENOTSUP',-1)}:
                                     raise
-                                # Android may deny hardlinks; new bytes finish before the DB transaction commits.
+                                # Some runtimes omit hardlinks; bytes finish before the DB transaction commits.
                                 _copy(staged,target,detail)
                             created.append(target)
                     dst.commit()

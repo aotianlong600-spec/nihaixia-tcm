@@ -1,0 +1,16 @@
+{
+  "id": "./",
+  "name": "倪氏经方工作台",
+  "short_name": "倪氏经方",
+  "description": "经方检索、方证匹配和本地问诊记录",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f8f4eb",
+  "theme_color": "#f8f4eb",
+  "icons": [
+    { "src": "icons/workbench-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/workbench-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

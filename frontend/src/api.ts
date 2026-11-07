@@ -13,16 +13,44 @@ export class ApiClient {
   private pending=new Map<string,PendingNative>()
   private surface?:Window
   private nativeSeen=false
-  constructor(base = '') {
+  private readonly browser: boolean
+  private browserWorker?: Worker
+  private browserFailure?: ApiError
+  constructor(base = '', browser = false) {
     this.base = base
-    if(typeof window!=='undefined'&&(typeof window.NihaixiaLocal?.request==='function'||window.location?.origin==='https://appassets.androidplatform.net')){this.nativeSeen=true;this.runtime={platform:'android',standalone:true}}
+    this.browser = browser
+    if(this.browser) this.runtime={platform:'browser',standalone:true}
+    else if(typeof window!=='undefined'&&(typeof window.NihaixiaLocal?.request==='function'||window.location?.origin==='https://appassets.androidplatform.net')){this.nativeSeen=true;this.runtime={platform:'android',standalone:true}}
   }
   private bridge(){
+    if(this.browser){
+      if(this.browserFailure)throw this.browserFailure
+      return this.browserBridge
+    }
     const bridge=typeof window!=='undefined'?window.NihaixiaLocal:undefined
     if(typeof bridge?.request==='function'){this.nativeSeen=true;this.runtime={platform:'android',standalone:true};return bridge}
     if(this.nativeSeen)throw new ApiError(0,'设备本地接口不可用，请重新打开应用')
     return null
   }
+  private failBrowser=()=>{
+    this.browserWorker?.terminate()
+    this.browserWorker=undefined
+    const error=new ApiError(0,'浏览器运行环境无法继续，请重新加载页面')
+    this.browserFailure=error
+    for(const id of this.pending.keys())this.finishNative(id,null,error)
+  }
+  private browserBridge:NativeBridge={request:(id,method,path,body)=>{
+    try{
+      if(!this.browserWorker){
+        const worker=new Worker(new URL('browser-worker.js',document.baseURI),{type:'module'})
+        worker.onmessage=event=>this.receiveLocal(event.data)
+        worker.onerror=this.failBrowser
+        worker.onmessageerror=this.failBrowser
+        this.browserWorker=worker
+      }
+      this.browserWorker.postMessage({id,method,path,body})
+    }catch{this.failBrowser()}
+  }}
   private finishNative(id:string,value:any,error?:ApiError){
     const pending=this.pending.get(id)
     if(!pending)return
@@ -34,8 +62,8 @@ export class ApiClient {
     }
     if(error)pending.reject(error);else pending.resolve(value)
   }
-  private receiveNative=(event:Event)=>{
-    const result=(event as CustomEvent).detail
+  private receiveNative=(event:Event)=>this.receiveLocal((event as CustomEvent).detail)
+  private receiveLocal(result:any){
     if(!result||typeof result.id!=='string'||!this.pending.has(result.id))return
     const invalid=()=>this.finishNative(result.id,null,new ApiError(502,'设备本地响应格式无效'))
     if(!Number.isInteger(result.status)||result.status<100||result.status>599){invalid();return}
@@ -68,7 +96,7 @@ export class ApiClient {
         this.surface.addEventListener('nihaixia-local-response',this.receiveNative)
         this.surface.addEventListener('pagehide',this.closeNative)
       }
-      const timer=setTimeout(()=>this.finishNative(id,null,new ApiError(0,'设备本地请求超时，请重试')),30000)
+      const timer=setTimeout(()=>this.finishNative(id,null,new ApiError(0,this.browser?'浏览器请求超时，请重新加载后检查记录':'设备本地请求超时，请重试')),this.browser?120000:30000)
       this.pending.set(id,{path,resolve,reject,timer})
       // Only the native bridge receives the body; keys never enter URLs or a fetch fallback.
       try{bridge.request(id,method,path,body??'')}catch{this.finishNative(id,null,new ApiError(0,'设备本地请求未能提交，请重试'))}
@@ -78,7 +106,7 @@ export class ApiClient {
     const bridge=this.bridge()
     if(bridge){
       const session=await this.nativeRequest(bridge,'GET','/session')
-      if(!session||session.authenticated!==true||session.platform!=='android'||session.standalone!==true||typeof session.csrf_token!=='string')throw new ApiError(502,'设备本地会话格式无效')
+      if(!session||session.authenticated!==true||session.platform!==this.runtime.platform||session.standalone!==true||typeof session.csrf_token!=='string')throw new ApiError(502,'设备本地会话格式无效')
       this.token=session.csrf_token;return session
     }
     const response = await fetch(`${this.base}/api/session`, {credentials:'same-origin'})
@@ -107,4 +135,4 @@ export class ApiClient {
   post<T = any>(path: string, data: unknown): Promise<T> { return this.request(path,{method:'POST',body:JSON.stringify(data)}) }
   put<T = any>(path: string, data: unknown): Promise<T> { return this.request(path,{method:'PUT',body:JSON.stringify(data)}) }
 }
-export const api = new ApiClient()
+export const api = new ApiClient('',import.meta.env?.VITE_BROWSER_APP==='1')

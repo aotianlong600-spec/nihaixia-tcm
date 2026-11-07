@@ -243,7 +243,8 @@ def test_database_trailing_bytes_cannot_hide_unlisted_content(tmp_path):
     with pytest.raises(ValueError): verify_pack(pack)
 
 
-def test_install_works_when_android_disallows_hardlinks(tmp_path, monkeypatch):
+@pytest.mark.parametrize('missing_link', [False, True])
+def test_install_works_without_hardlinks(tmp_path, monkeypatch, missing_link):
     from app.offline_pack import export_pack, install_pack
     import errno
     import os
@@ -252,7 +253,10 @@ def test_install_works_when_android_disallows_hardlinks(tmp_path, monkeypatch):
     device = runtime(tmp_path)
     def denied(*args, **kwargs):
         raise PermissionError(errno.EPERM,'synthetic Android hardlink denial')
-    monkeypatch.setattr(os,'link',denied)
+    if missing_link:
+        monkeypatch.delattr(os,'link')
+    else:
+        monkeypatch.setattr(os,'link',denied)
     result = install_pack(pack,device)
     assert result['installed_rows'] > 0
     assert (device/'originals'/f'{sha}.txt').read_bytes() == (source/'originals'/f'{sha}.txt').read_bytes()
