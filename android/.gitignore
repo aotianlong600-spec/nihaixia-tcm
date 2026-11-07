@@ -1,12 +1,16 @@
-# Gradle and Android build state (kept on D: via scripts/build_android.ps1)
+# Gradle and Android build state (kept on D: via scripts/build_android_offline.ps1)
 .gradle/
 .gradle-user-home/
 .android-user-home/
+.cache/
 local.properties
 **/build/
 captures/
 .idea/
 *.iml
 
-# Generated from the public CA PEM at build time. Never commit cert/key material.
+# Generated at build time from the repo app allowlist. Never commit copied sources.
+app/src/main/python/
+
+# Legacy CA material from the removed remote-PC container.
 app/src/main/res/raw/ca_cert.pem

@@ -1,0 +1,2 @@
+# Original knowledge bytes and manifest hashes must survive every checkout unchanged.
+knowledge/** -text

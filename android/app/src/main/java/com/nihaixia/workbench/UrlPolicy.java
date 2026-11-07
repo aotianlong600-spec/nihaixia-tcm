@@ -1,188 +1,137 @@
-package com.nihaixia.workbench;
+package com.nihaixia.local;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
- * Validates the only network address this container is allowed to persist or load.
+ * Pure navigation and asset-path policy for the standalone offline container.
  *
- * <p>Policy: an explicit {@code https://} root URL whose host is a canonical, dotted-quad
- * RFC 1918 IPv4 address (10/8, 172.16/12, 192.168/16) and whose explicit port is in
- * 1..65535. Hostnames, localhost, public/reserved addresses, non-canonical IPv4 spellings,
- * user info, paths, queries and fragments are rejected.</p>
+ * <p>The WebView may only navigate inside the bundled {@code appassets} origin. Any other
+ * HTTPS URL is handed to the system browser; {@code javascript:}, {@code file:},
+ * {@code content:}, {@code data:}, {@code blob:} and every other scheme are blocked.
+ * PDF/original paths are validated here so rendering never receives an arbitrary path.</p>
  *
- * <p>This class deliberately has no Android dependency so the policy can be unit tested
- * on the JVM before it is used by the WebView activity.</p>
+ * <p>No Android dependency: these rules are unit tested on the JVM.</p>
  */
 public final class UrlPolicy {
 
-    private static final String SCHEME_PREFIX = "https://";
+    public static final String APP_HOST = "appassets.androidplatform.net";
+    public static final String APP_ORIGIN = "https://" + APP_HOST;
+    public static final String INDEX_URL = APP_ORIGIN + "/index.html";
+    public static final String PDF_PREFIX = "/local/pdf/";
+    public static final String ORIGINAL_PREFIX = "/local/original/";
+
+    private static final Pattern PDF_PATH = Pattern.compile(
+            "^/local/pdf/([0-9a-f]{64})/([0-9]+)\\.png$");
+    private static final Pattern ORIGINAL_PATH = Pattern.compile(
+            "^/local/original/([0-9a-f]{64})$");
 
     private UrlPolicy() {
     }
 
-    /**
-     * Returns the normalized server root ({@code https://a.b.c.d:port}) or {@code null}
-     * when the input is not an allowed private LAN root.
-     */
-    public static String normalizeServerRoot(String input) {
-        if (input == null || input.isEmpty() || hasUnsafeCharacters(input)) {
-            return null;
+    /** True only for the fixed bundled origin, with no user info and no traversal. */
+    public static boolean isAppAssetUrl(String value) {
+        URI uri = parse(value);
+        if (uri == null || !"https".equalsIgnoreCase(uri.getScheme())) {
+            return false;
         }
-        if (!input.startsWith(SCHEME_PREFIX)) {
-            return null;
+        if (uri.getRawUserInfo() != null || uri.getHost() == null
+                || !APP_HOST.equalsIgnoreCase(uri.getHost()) || uri.getPort() != -1) {
+            return false;
         }
-
-        String rest = input.substring(SCHEME_PREFIX.length());
-        if (rest.isEmpty()) {
-            return null;
-        }
-
-        int authorityEnd = rest.length();
-        for (int i = 0; i < rest.length(); i++) {
-            char c = rest.charAt(i);
-            if (c == '/' || c == '?' || c == '#') {
-                authorityEnd = i;
-                break;
-            }
-        }
-
-        String suffix = rest.substring(authorityEnd);
-        // A single trailing slash is tolerated; any path, query or fragment is not.
-        if (!suffix.isEmpty() && !"/".equals(suffix)) {
-            return null;
-        }
-
-        String authority = rest.substring(0, authorityEnd);
-        HostAndPort parsed = parseHostAndPort(authority);
-        if (parsed == null || !isPrivateIpv4(parsed.host)) {
-            return null;
-        }
-        return SCHEME_PREFIX + parsed.host + ":" + parsed.port;
+        return isSafeAssetPath(uri.getPath());
     }
 
-    /**
-     * True only when {@code candidateUrl} is HTTPS and has exactly the same canonical
-     * host and effective port as the normalized server root. Paths, queries and fragments
-     * are allowed for in-app navigation; user info and ambiguous authorities are not.
-     */
-    public static boolean isSameOrigin(String normalizedServerRoot, String candidateUrl) {
-        if (normalizedServerRoot == null || candidateUrl == null) {
+    /** External HTTPS links must be well formed and must never carry user info. */
+    public static boolean isExternalHttps(String value) {
+        URI uri = parse(value);
+        if (uri == null || !"https".equalsIgnoreCase(uri.getScheme())) {
             return false;
         }
-        String expected = normalizeServerRoot(normalizedServerRoot);
-        if (expected == null || !expected.equals(normalizedServerRoot)) {
+        if (uri.getRawUserInfo() != null || uri.getHost() == null
+                || uri.getHost().isEmpty()) {
             return false;
         }
-        if (candidateUrl.isEmpty() || hasUnsafeCharacters(candidateUrl)
-                || !candidateUrl.startsWith(SCHEME_PREFIX)) {
-            return false;
-        }
-
-        String rest = candidateUrl.substring(SCHEME_PREFIX.length());
-        int authorityEnd = rest.length();
-        for (int i = 0; i < rest.length(); i++) {
-            char c = rest.charAt(i);
-            if (c == '/' || c == '?' || c == '#') {
-                authorityEnd = i;
-                break;
-            }
-        }
-        String authority = rest.substring(0, authorityEnd);
-        // Browsers omit HTTPS's default port during URL serialization.
-        HostAndPort candidate = parseHostAndPort(authority.indexOf(':') < 0 ? authority + ":443" : authority);
-        if (candidate == null) {
-            return false;
-        }
-
-        String expectedAuthority = expected.substring(SCHEME_PREFIX.length());
-        HostAndPort root = parseHostAndPort(expectedAuthority);
-        return root != null
-                && root.host.equals(candidate.host)
-                && root.port == candidate.port;
+        return !APP_HOST.equalsIgnoreCase(uri.getHost());
     }
 
-    /** Strict canonical dotted-quad check plus RFC 1918 range membership. */
-    public static boolean isPrivateIpv4(String host) {
-        if (host == null || hasUnsafeCharacters(host)) {
+    /** Returns the lowercase 64-hex original token for a PDF image path, or null. */
+    public static String pdfSha(String path) {
+        Matcher matcher = PDF_PATH.matcher(path == null ? "" : path);
+        if (!matcher.matches() || pdfPage(path) < 1) {
+            return null;
+        }
+        return matcher.group(1);
+    }
+
+    /** Returns the canonical positive physical page number, or -1. */
+    public static int pdfPage(String path) {
+        Matcher matcher = PDF_PATH.matcher(path == null ? "" : path);
+        if (!matcher.matches()) {
+            return -1;
+        }
+        String digits = matcher.group(2);
+        if (digits.isEmpty() || digits.length() > 9
+                || (digits.length() > 1 && digits.charAt(0) == '0')) {
+            return -1;
+        }
+        try {
+            int page = Integer.parseInt(digits);
+            return page >= 1 ? page : -1;
+        } catch (NumberFormatException exception) {
+            return -1;
+        }
+    }
+
+    /** Returns the lowercase 64-hex original token for an original-file link, or null. */
+    public static String originalSha(String path) {
+        Matcher matcher = ORIGINAL_PATH.matcher(path == null ? "" : path);
+        return matcher.matches() ? matcher.group(1) : null;
+    }
+
+    /** True when the URL path stays inside the asset root (no dot segments/backslashes). */
+    public static boolean isSafeAssetPath(String path) {
+        if (path == null || !path.startsWith("/") || path.length() > 2048) {
             return false;
         }
-        String[] parts = host.split("\\.", -1);
-        if (parts.length != 4) {
-            return false;
-        }
-        int[] octets = new int[4];
-        for (int i = 0; i < parts.length; i++) {
-            String part = parts[i];
-            if (part.isEmpty() || part.length() > 3) {
-                return false;
-            }
-            if (part.length() > 1 && part.charAt(0) == '0') {
-                return false; // no octal-looking or zero-padded forms
-            }
-            for (int j = 0; j < part.length(); j++) {
-                char c = part.charAt(j);
-                if (c < '0' || c > '9') {
-                    return false;
-                }
-            }
-            octets[i] = Integer.parseInt(part);
-            if (octets[i] > 255) {
+        for (int i = 0; i < path.length(); i++) {
+            char c = path.charAt(i);
+            if (c == '\\' || c < 0x20 || c == 0x7f) {
                 return false;
             }
         }
-        if (octets[0] == 10) {
-            return true;
-        }
-        if (octets[0] == 172 && octets[1] >= 16 && octets[1] <= 31) {
-            return true;
-        }
-        return octets[0] == 192 && octets[1] == 168;
-    }
-
-    private static HostAndPort parseHostAndPort(String authority) {
-        if (authority == null || authority.isEmpty() || authority.indexOf('@') >= 0) {
-            return null;
-        }
-        int firstColon = authority.indexOf(':');
-        if (firstColon <= 0 || firstColon != authority.lastIndexOf(':')) {
-            return null;
-        }
-        String host = authority.substring(0, firstColon);
-        String portText = authority.substring(firstColon + 1);
-        if (portText.isEmpty() || portText.length() > 5) {
-            return null;
-        }
-        if (portText.length() > 1 && portText.charAt(0) == '0') {
-            return null;
-        }
-        for (int i = 0; i < portText.length(); i++) {
-            char c = portText.charAt(i);
-            if (c < '0' || c > '9') {
-                return null;
+        for (String segment : path.split("/", -1)) {
+            if (".".equals(segment) || "..".equals(segment)) {
+                return false;
             }
         }
-        int port = Integer.parseInt(portText);
-        if (port < 1 || port > 65535) {
-            return null;
-        }
-        return new HostAndPort(host, port);
+        return true;
     }
 
-    private static boolean hasUnsafeCharacters(String value) {
+    /** Lowercase URL scheme without allocating for malformed input. */
+    public static String scheme(String value) {
+        URI uri = parse(value);
+        return uri == null || uri.getScheme() == null
+                ? "" : uri.getScheme().toLowerCase(Locale.ROOT);
+    }
+
+    private static URI parse(String value) {
+        if (value == null || value.isEmpty() || value.length() > 8192) {
+            return null;
+        }
         for (int i = 0; i < value.length(); i++) {
             char c = value.charAt(i);
             if (c <= 0x20 || c == 0x7f || c == '\\') {
-                return true;
+                return null;
             }
         }
-        return false;
-    }
-
-    private static final class HostAndPort {
-        final String host;
-        final int port;
-
-        HostAndPort(String host, int port) {
-            this.host = host;
-            this.port = port;
+        try {
+            return new URI(value);
+        } catch (URISyntaxException exception) {
+            return null;
         }
     }
 }

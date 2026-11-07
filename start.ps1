@@ -1,6 +1,6 @@
-param([string]$DataDirectory = (Join-Path $PSScriptRoot 'data'), [switch]$NoBrowser, [switch]$Lan)
+param([string]$DataDirectory = (Join-Path $PSScriptRoot 'data'), [int]$Port=8767, [switch]$NoBrowser, [switch]$Lan)
 $ErrorActionPreference = 'Stop'
-$serviceUrl = 'http://127.0.0.1:8765'
+$serviceUrl = "http://127.0.0.1:$Port"
 $dataPath = [System.IO.Path]::GetFullPath($DataDirectory)
 New-Item -ItemType Directory -Path $dataPath -Force | Out-Null
 $health = $null
@@ -14,7 +14,11 @@ if (-not $health) {
     if ($LASTEXITCODE -ne 0) { throw 'Dependencies missing. Run setup.cmd first.' }
     if (-not (Test-Path -LiteralPath (Join-Path $PSScriptRoot 'frontend\dist\index.html'))) { throw 'Frontend not built. Run setup.cmd first.' }
     $runScript = Join-Path $PSScriptRoot 'scripts\run.py'
-    $arguments = @('-u', ('"' + $runScript + '"'), '--data-dir', ('"' + $dataPath + '"'))
+    $arguments = @('-u', ('"' + $runScript + '"'), '--data-dir', ('"' + $dataPath + '"'),'--port',"$Port")
+    $knowledgePack = Join-Path $PSScriptRoot 'knowledge'
+    if (Test-Path -LiteralPath (Join-Path $knowledgePack 'manifest.json')) {
+        $arguments += @('--knowledge-pack',('"'+$knowledgePack+'"'))
+    }
     if ($Lan) {
         if (-not (Test-Path -LiteralPath (Join-Path $dataPath 'access.json'))) { throw 'Set an access password on the local Settings page first.' }
         $arguments += '--lan'

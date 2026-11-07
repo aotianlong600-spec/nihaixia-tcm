@@ -4,10 +4,26 @@ from functools import lru_cache
 import json
 from pathlib import Path
 
+_LIBRARY_PATH = Path(__file__).parent / 'resources' / 'open_formula_library.json'
+
+
+def library_path():
+    return _LIBRARY_PATH
+
+
+def set_library_path(path=None):
+    """Activate a verified installed catalog without overwriting bundled resources."""
+    global _LIBRARY_PATH
+    candidate = Path(path).resolve() if path is not None else Path(__file__).parent / 'resources' / 'open_formula_library.json'
+    data = json.loads(candidate.read_text(encoding='utf-8'))
+    if not isinstance(data, dict) or not isinstance(data.get('formulas'), list) or not isinstance(data.get('patterns'), list):
+        raise ValueError('方剂索引结构无效')
+    _LIBRARY_PATH = candidate
+    _library.cache_clear()
 
 @lru_cache(maxsize=1)
 def _library():
-    return json.loads((Path(__file__).parent / 'resources' / 'open_formula_library.json').read_text(encoding='utf-8'))
+    return json.loads(library_path().read_text(encoding='utf-8'))
 
 
 def load_library():

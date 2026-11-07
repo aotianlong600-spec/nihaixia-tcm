@@ -29,20 +29,11 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - name: Create disposable CI public CA
+      - name: Verify portable schemas and generate starter knowledge pack
         run: |
-          @'
-          from datetime import datetime, timedelta
-          from pathlib import Path
-          from cryptography import x509
-          from cryptography.hazmat.primitives import hashes, serialization
-          from cryptography.hazmat.primitives.asymmetric import ec
-          from cryptography.x509.oid import NameOID
-          import os
-          key=ec.generate_private_key(ec.SECP256R1())
-          name=x509.Name([x509.NameAttribute(NameOID.COMMON_NAME,'Disposable CI CA')])
-          cert=(x509.CertificateBuilder().subject_name(name).issuer_name(name).public_key(key.public_key()).serial_number(x509.random_serial_number()).not_valid_before(datetime.utcnow()-timedelta(days=1)).not_valid_after(datetime.utcnow()+timedelta(days=1)).add_extension(x509.BasicConstraints(ca=True,path_length=0),critical=True).sign(key,hashes.SHA256()))
-          Path(os.environ['RUNNER_TEMP'],'ci-ca.pem').write_bytes(cert.public_bytes(serialization.Encoding.PEM))
-          '@ | python -
-      - name: Android unit tests and compile (disposable CA, no APK publication)
-        run: ./scripts/build_android.ps1 -CaCertificate "$env:RUNNER_TEMP/ci-ca.pem" -SdkDirectory "$env:ANDROID_HOME" -JavaHome "$env:JAVA_HOME"
+          python scripts/export_portable_schemas.py
+          git diff --exit-code -- app/resources/portable_schemas.json
+          python scripts/create_empty_knowledge_pack.py
+          python scripts/export_knowledge_pack.py --verify knowledge
+      - name: Android offline unit tests and compile
+        run: ./scripts/build_android_offline.ps1 -SdkDirectory "$env:ANDROID_HOME" -JavaHome "$env:JAVA_HOME" -BuildPython (Get-Command python).Source

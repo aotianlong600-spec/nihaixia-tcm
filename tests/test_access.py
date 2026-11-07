@@ -22,10 +22,10 @@ def test_remote_cannot_read_before_local_setup_and_host_cannot_spoof_peer(tmp_pa
 def test_local_setup_rotates_session_and_shared_clients_need_password(tmp_path):
     app=create_app(tmp_path,lan_hosts=['192.168.50.20'])
     with local_client(app) as pc,remote_client(app) as phone:
-        old=csrf(pc);old_cookie=pc.cookies.get('tcm_session')
+        old=csrf(pc);old_cookie=pc.cookies.get('nihaixia_local_session')
         setup=pc.post('/api/access/setup',json={'password':PASSWORD},headers=old)
         assert setup.status_code==200 and setup.json()['authenticated']
-        assert pc.cookies.get('tcm_session')!=old_cookie
+        assert pc.cookies.get('nihaixia_local_session')!=old_cookie
         assert pc.get('/api/personal/overview').status_code==200
         assert pc.post('/api/consultations',json={},headers=old).status_code==403
         phone_headers=csrf(phone)

@@ -6,10 +6,18 @@ import tempfile
 import threading
 from uuid import uuid4
 
-from fastapi import HTTPException
+from .domain import DomainError as HTTPException
+from .model_urls import CODEX_BASE
 
-from .model_oauth import CODEX_BASE
-from .secrets import read_secret, write_secret
+
+def read_secret(path):
+    from .secrets import read_secret as read
+    return read(path)
+
+
+def write_secret(path, value):
+    from .secrets import write_secret as write
+    return write(path, value)
 
 REASONING_EFFORTS = ("auto", "none", "minimal", "low", "medium", "high", "xhigh", "max")
 DEFAULT_CONFIG = {"auth_mode": "api_key", "base_url": "", "model": "", "reasoning_effort": "auto", "enabled": False, "allow_external": False, "allow_evidence": False}
@@ -36,13 +44,14 @@ def _name(value):
 
 
 class ProfileStore:
-    def __init__(self, data_dir, url_validator=None):
+    def __init__(self, data_dir, url_validator=None, secret_backend=None):
         self.data_dir = Path(data_dir)
         self.path = self.data_dir / "model-profiles.json"
         self.legacy_config_path = self.data_dir / "model-config.json"
         self.legacy_key_path = self.data_dir / "model-secret.dpapi"
         self.key_dir = self.data_dir / "model-keys"
         self.url_validator = url_validator
+        self.secret_backend = secret_backend
         self.lock = threading.RLock()
 
     @staticmethod
@@ -224,7 +233,8 @@ class ProfileStore:
         return self.key_path(profile_id).exists()
 
     def read_key(self, profile_id):
-        return read_secret(self.key_path(profile_id))
+        path = self.key_path(profile_id)
+        return self.secret_backend.read(path) if self.secret_backend else read_secret(path)
 
     @staticmethod
     def _discard(path):
@@ -238,7 +248,10 @@ class ProfileStore:
         key_ref = uuid4().hex
         path = self._key_ref_path(profile_id, key_ref)
         try:
-            write_secret(path, api_key)
+            if self.secret_backend:
+                self.secret_backend.write(path, api_key)
+            else:
+                write_secret(path, api_key)
         except Exception:
             self._discard(path)
             raise

@@ -17,9 +17,9 @@ from pydantic import BaseModel, ConfigDict, Field
 from typing import Literal
 
 from .secrets import read_secret, write_secret
+from .model_urls import CODEX_BASE
 
 ROOT = Path(__file__).resolve().parents[1]
-CODEX_BASE = 'https://chatgpt.com/backend-api'
 LOGIN_STAGES = {'starting', 'waiting_authorization', 'exchanging_token', 'validating_credential', 'saving_credential', 'completed'}
 LOGIN_ERRORS = {
     'callback_busy': '本机1455端口被其他登录程序占用，请改用设备码登录，或完成其他程序的登录后重试。',

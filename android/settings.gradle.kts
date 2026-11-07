@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "nihaixia-workbench-android"
+rootProject.name = "nihaixia-local-android"
 include(":app")

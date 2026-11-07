@@ -12,8 +12,8 @@ import threading
 import unicodedata
 import uuid
 
-import pdfplumber
-import pypdfium2
+# PDF libraries are imported only inside the functions that parse or render
+# originals; the portable core consumes pre-extracted text and stays native-free.
 
 
 MAX_PDF_BYTES = 50 * 1024 * 1024
@@ -61,6 +61,8 @@ def _page_number(physical_page):
 
 
 def render_page(conn, data_dir, document_id, physical_page):
+    import pypdfium2
+
     path = document_path(conn, data_dir, document_id)
     with PDFIUM_LOCK, pypdfium2.PdfDocument(str(path)) as pdf:
         if type(physical_page) is not int or not 1 <= physical_page <= len(pdf):
@@ -133,6 +135,8 @@ def _registered(conn, sha):
 
 
 def _pdf_bytes(source):
+    import pypdfium2
+
     source = Path(source)
     if not source.is_file() or source.stat().st_size > MAX_PDF_BYTES:
         raise ValueError("PDF must be a file no larger than 50 MiB")
@@ -216,6 +220,8 @@ def _store_document(conn, data_dir, content, sha, title, pages, method):
 
 
 def import_pdf(conn, data_dir, source: Path, title: str = "") -> dict:
+    import pdfplumber
+
     if not isinstance(title, str) or len(title) > 500:
         raise ValueError("title must be at most 500 characters")
     content, sha, physical_pages = _pdf_bytes(source)

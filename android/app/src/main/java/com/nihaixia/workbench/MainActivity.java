@@ -1,10 +1,10 @@
-package com.nihaixia.workbench;
+package com.nihaixia.local;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -13,8 +13,6 @@ import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.webkit.ClientCertRequest;
 import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
@@ -23,112 +21,78 @@ import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
-import android.webkit.WebStorage;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.FileProvider;
+import androidx.webkit.WebViewAssetLoader;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
- * Native Android container for the existing Vue workbench served by the PC.
+ * Standalone offline container. The Vue bundle and knowledge pack are bundled in the APK;
+ * all clinical work runs in Chaquopy Python behind the narrow {@link LocalBridge}.
  *
- * <p>Security invariants: only validated private-LAN HTTPS roots are persisted; the custom
- * CA is the only trust anchor (network security config); TLS errors are never ignored;
- * external HTTPS links leave the app for the system browser without transferring cookies;
- * other schemes are rejected; there is no JavaScript bridge, file/content access,
- * cleartext traffic, mixed content, or WebView state/content persistence.</p>
+ * <p>Only {@code https://appassets.androidplatform.net} may navigate inside this WebView.
+ * External HTTPS links open the system browser. JavaScript, file, content, data, blob and
+ * intent navigations are blocked. There is no PC address, LAN CA pin, trust-all handler or
+ * WebView file access.</p>
  */
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements LocalBridge.Dispatcher {
 
-    private static final String PREFS_NAME = "connection";
-    private static final String PREF_SERVER_ROOT = "server_root";
-    private static final String DOWNLOAD_BLOCKED_SCHEME = "nihaixia-blocked-download";
-
-    /**
-     * Blob/data downloads are not reliably reported by DownloadListener. This page-side
-     * guard only translates such clicks into a blocked custom-scheme navigation so the
-     * user gets an explicit "use the PC" message. It is not a native JS bridge.
-     */
-    private static final String DOWNLOAD_GUARD_JS =
-            "(function(){if(window.__nihaixiaDownloadGuard){return;}"
-            + "window.__nihaixiaDownloadGuard=true;"
-            + "document.addEventListener('click',function(e){var t=e.target;"
-            + "if(!t||typeof t.closest!=='function'){return;}"
-            + "var a=t.closest('a');if(!a){return;}"
-            + "var h=a.getAttribute('href')||'';"
-            + "if(a.hasAttribute('download')||h.indexOf('blob:')===0||h.indexOf('data:')===0){"
-            + "e.preventDefault();e.stopPropagation();"
-            + "window.location.href='nihaixia-blocked-download:';}},true);})();";
+    private static final String BRIDGE_NAME = "NihaixiaLocal";
 
     private WebView webView;
-    private ProgressBar progress;
-    private View setupContainer;
-    private View errorContainer;
-    private TextView setupError;
-    private TextView errorTitle;
-    private TextView errorMessage;
-    private EditText addressInput;
+    private View bootstrapContainer;
+    private ProgressBar bootstrapProgress;
+    private TextView bootstrapStatus;
+    private Button bootstrapRetry;
 
-    private SharedPreferences preferences;
-    private String normalizedRoot;
-    private boolean tlsFailureShown;
+    private final ExecutorService worker = Executors.newCachedThreadPool();
+    private final ExecutorService bootstrapExecutor = Executors.newSingleThreadExecutor();
+    private WebViewAssetLoader assetLoader;
+    private volatile boolean ready;
+    private volatile boolean bootstrapping;
+    private File runtimeRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         webView = findViewById(R.id.web_view);
-        progress = findViewById(R.id.progress);
-        setupContainer = findViewById(R.id.setup_container);
-        errorContainer = findViewById(R.id.error_container);
-        setupError = findViewById(R.id.setup_error);
-        errorTitle = findViewById(R.id.error_title);
-        errorMessage = findViewById(R.id.error_message);
-        addressInput = findViewById(R.id.address_input);
+        bootstrapContainer = findViewById(R.id.bootstrap_container);
+        bootstrapProgress = findViewById(R.id.bootstrap_progress);
+        bootstrapStatus = findViewById(R.id.bootstrap_status);
+        bootstrapRetry = findViewById(R.id.bootstrap_retry);
+        bootstrapRetry.setOnClickListener(view -> startBootstrap());
 
         configureWebView();
-
-        Button connectButton = findViewById(R.id.connect_button);
-        connectButton.setOnClickListener(view -> connect());
-        addressInput.setOnEditorActionListener((view, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_GO) {
-                connect();
-                return true;
-            }
-            return false;
-        });
-
-        findViewById(R.id.retry_button).setOnClickListener(view -> retry());
-        findViewById(R.id.change_address_button).setOnClickListener(view -> changeAddress());
-
-        String savedRoot = preferences.getString(PREF_SERVER_ROOT, null);
-        if (savedRoot != null) {
-            String checked = UrlPolicy.normalizeServerRoot(savedRoot);
-            if (checked != null && checked.equals(savedRoot)) {
-                normalizedRoot = checked;
-                showWebView();
-                loadRoot();
-                return;
-            }
-            preferences.edit().remove(PREF_SERVER_ROOT).apply();
-        }
-        showSetup();
+        startBootstrap();
     }
 
+    @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
     private void configureWebView() {
-        // Even debug APKs cannot be inspected through chrome://inspect.
         WebView.setWebContentsDebuggingEnabled(false);
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(false);
-        settings.setUserAgentString(settings.getUserAgentString() + " NihaixiaAndroid/0.4");
         settings.setDatabaseEnabled(false);
         settings.setAllowFileAccess(false);
         settings.setAllowContentAccess(false);
@@ -137,158 +101,224 @@ public class MainActivity extends Activity {
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setLoadsImagesAutomatically(true);
-        settings.setBlockNetworkImage(false);
         settings.setBlockNetworkLoads(false);
         settings.setMediaPlaybackRequiresUserGesture(true);
         settings.setGeolocationEnabled(false);
         settings.setSupportMultipleWindows(true);
-        // All popups are intercepted by onCreateWindow and routed through UrlPolicy;
-        // allowing script-opened windows keeps async device-code login on the system browser.
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setSaveFormData(false);
 
         CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.setAcceptCookie(true);
+        cookieManager.setAcceptCookie(false);
         cookieManager.setAcceptThirdPartyCookies(webView, false);
 
-        webView.setWebViewClient(new WorkbenchWebViewClient());
-        webView.setWebChromeClient(new WorkbenchWebChromeClient());
+        assetLoader = new WebViewAssetLoader.Builder()
+                .setDomain(UrlPolicy.APP_HOST)
+                .addPathHandler(UrlPolicy.PDF_PREFIX, path -> pdfResponse(UrlPolicy.PDF_PREFIX + path))
+                .addPathHandler(UrlPolicy.ORIGINAL_PREFIX, path -> notFoundResponse())
+                .addPathHandler("/", new WebViewAssetLoader.AssetsPathHandler(this))
+                .build();
+
+        webView.addJavascriptInterface(new LocalBridge(this), BRIDGE_NAME);
+        webView.setWebViewClient(new LocalWebViewClient());
+        webView.setWebChromeClient(new LocalWebChromeClient());
         webView.setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition,
                     String mimeType, long contentLength) {
-                showPcDownloadNotice();
+                Toast.makeText(MainActivity.this, R.string.blocked_link_message,
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void connect() {
-        String input = addressInput.getText().toString().trim();
-        String normalized = UrlPolicy.normalizeServerRoot(input);
-        if (normalized == null) {
-            setupError.setText(R.string.setup_invalid);
-            setupError.setVisibility(View.VISIBLE);
-            addressInput.requestFocus();
+    private void startBootstrap() {
+        if (bootstrapping) {
             return;
         }
-
-        setupError.setVisibility(View.GONE);
-        if (normalizedRoot != null && !normalizedRoot.equals(normalized)) {
-            clearBrowsingState();
-        }
-        normalizedRoot = normalized;
-        preferences.edit().putString(PREF_SERVER_ROOT, normalizedRoot).apply();
-        addressInput.setText(normalizedRoot);
-        hideKeyboard();
-
-        showWebView();
-        loadRoot();
-        invalidateOptionsMenu();
-    }
-
-    private void retry() {
-        hideErrorPanel();
-        if (normalizedRoot == null) {
-            showSetup();
-            return;
-        }
-        loadRoot();
-    }
-
-    private void loadRoot() {
-        if (normalizedRoot == null) {
-            showSetup();
-            return;
-        }
-        tlsFailureShown = false;
-        hideErrorPanel();
-        showWebView();
-        progress.setProgress(0);
-        progress.setVisibility(View.VISIBLE);
-        webView.loadUrl(normalizedRoot + "/");
-    }
-
-    private void showWebView() {
-        setupContainer.setVisibility(View.GONE);
-        errorContainer.setVisibility(View.GONE);
-        webView.setVisibility(View.VISIBLE);
-        invalidateOptionsMenu();
-    }
-
-    private void showSetup() {
-        setupError.setVisibility(View.GONE);
-        errorContainer.setVisibility(View.GONE);
+        bootstrapping = true;
+        ready = false;
+        bootstrapProgress.setVisibility(View.VISIBLE);
+        bootstrapStatus.setText(R.string.bootstrap_starting);
+        bootstrapRetry.setVisibility(View.GONE);
+        bootstrapContainer.setVisibility(View.VISIBLE);
         webView.setVisibility(View.GONE);
-        setupContainer.setVisibility(View.VISIBLE);
-        progress.setVisibility(View.GONE);
-        if (normalizedRoot != null) {
-            addressInput.setText(normalizedRoot);
+
+        bootstrapExecutor.execute(() -> {
+            try {
+                PythonBootstrap.initialize(MainActivity.this);
+                runtimeRoot = PythonBootstrap.dataDir(MainActivity.this);
+                ready = true;
+                runOnUiThread(() -> {
+                    bootstrapping = false;
+                    if (isFinishing() || isDestroyed()) {
+                        return;
+                    }
+                    bootstrapContainer.setVisibility(View.GONE);
+                    webView.setVisibility(View.VISIBLE);
+                    webView.loadUrl(UrlPolicy.INDEX_URL);
+                });
+            } catch (Throwable failure) {
+                ready = false;
+                runOnUiThread(() -> {
+                    bootstrapping = false;
+                    if (isFinishing() || isDestroyed()) {
+                        return;
+                    }
+                    bootstrapProgress.setVisibility(View.GONE);
+                    bootstrapStatus.setText(R.string.bootstrap_failed_message);
+                    bootstrapRetry.setVisibility(View.VISIBLE);
+                    bootstrapContainer.setVisibility(View.VISIBLE);
+                    webView.setVisibility(View.GONE);
+                });
+            }
+        });
+    }
+
+    private void loadIndex() {
+        if (ready) {
+            webView.loadUrl(UrlPolicy.INDEX_URL);
         } else {
-            addressInput.setText("");
+            startBootstrap();
         }
-        invalidateOptionsMenu();
     }
 
-    private void changeAddress() {
-        clearBrowsingState();
-        normalizedRoot = null;
-        preferences.edit().remove(PREF_SERVER_ROOT).apply();
-        tlsFailureShown = false;
-        showSetup();
-        addressInput.requestFocus();
+    // ---- LocalBridge.Dispatcher -------------------------------------------------------
+
+    @Override
+    public void dispatch(String id, String method, String path, String body) {
+        if (!BridgePolicy.validId(id)) {
+            return;
+        }
+        if (!ready) {
+            deliverError(id, 503, "本地运行时尚未就绪");
+            return;
+        }
+        final String verb;
+        final String target;
+        final String payload;
+        try {
+            verb = BridgePolicy.normalizeMethod(method);
+            target = BridgePolicy.normalizePath(path);
+            payload = BridgePolicy.normalizeBody(body);
+        } catch (IllegalArgumentException exception) {
+            deliverError(id, 400, "本地请求无效");
+            return;
+        }
+        worker.execute(() -> {
+            try {
+                String raw = PythonBootstrap.requireMobileApi()
+                        .callAttr("dispatch", verb, target, payload).toString();
+                deliverEnvelope(id, raw);
+            } catch (Throwable failure) {
+                deliverError(id, 500, "本地请求失败");
+            }
+        });
     }
 
-    private void clearBrowsingState() {
-        if (webView != null) {
-            webView.stopLoading();
-            webView.clearHistory();
-            webView.clearCache(true);
-            webView.clearFormData();
+    private void deliverEnvelope(String id, String raw) {
+        int status;
+        Object body;
+        String contentType = "";
+        String base64 = "";
+        try {
+            JSONObject envelope = new JSONObject(raw);
+            status = envelope.optInt("status", 500);
+            if (!envelope.has("body")) {
+                body = JSONObject.NULL;
+            } else {
+                body = envelope.get("body");
+            }
+            contentType = envelope.optString("content_type", "");
+            base64 = envelope.optString("base64", "");
+        } catch (JSONException exception) {
+            deliverError(id, 500, "本地响应无效");
+            return;
         }
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.removeAllCookies(null);
-        cookieManager.flush();
-        WebStorage.getInstance().deleteAllData();
+        if (status < 100 || status > 599) {
+            status = 500;
+        }
+        try {
+            JSONObject detail = new JSONObject();
+            detail.put("id", id);
+            detail.put("status", status);
+            detail.put("body", body == null ? JSONObject.NULL : body);
+            if (!contentType.isEmpty()) {
+                detail.put("content_type", contentType);
+            }
+            if (!base64.isEmpty()) {
+                detail.put("base64", base64);
+            }
+            dispatchEvent(detail);
+        } catch (JSONException exception) {
+            deliverError(id, 500, "本地响应无效");
+        }
     }
+
+    private void deliverError(String id, int status, String message) {
+        try {
+            JSONObject body = new JSONObject();
+            body.put("detail", message);
+            JSONObject detail = new JSONObject();
+            detail.put("id", id);
+            detail.put("status", status);
+            detail.put("body", body);
+            dispatchEvent(detail);
+        } catch (JSONException ignored) {
+            // Only fixed ASCII keys are used here.
+        }
+    }
+
+    private void dispatchEvent(JSONObject detail) {
+        final String script = "window.dispatchEvent(new CustomEvent('nihaixia-local-response',"
+                + "{detail:" + detail.toString() + "}));";
+        runOnUiThread(() -> {
+            WebView view = webView;
+            if (view == null) {
+                return;
+            }
+            String current = view.getUrl();
+            if (current == null || !UrlPolicy.isAppAssetUrl(current)) {
+                return;
+            }
+            view.evaluateJavascript(script, null);
+        });
+    }
+
+    // ---- WebView routing --------------------------------------------------------------
 
     private boolean handleNavigation(Uri uri, boolean mainFrame) {
         if (uri == null) {
             return true;
         }
-        String scheme = uri.getScheme();
         String url = uri.toString();
+        String scheme = uri.getScheme() == null ? "" : uri.getScheme().toLowerCase();
 
-        if (DOWNLOAD_BLOCKED_SCHEME.equals(scheme)) {
-            if (mainFrame) {
-                progress.setVisibility(View.GONE);
-                showPcDownloadNotice();
-            }
-            return true;
-        }
-
-        if (!"https".equals(scheme)) {
-            if (mainFrame) {
-                progress.setVisibility(View.GONE);
-                if ("blob".equals(scheme) || "data".equals(scheme)
-                        || "file".equals(scheme) || "content".equals(scheme)) {
-                    showPcDownloadNotice();
-                } else {
-                    showBlockedLinkNotice();
+        if (UrlPolicy.isAppAssetUrl(url)) {
+            String sha = UrlPolicy.originalSha(uri.getPath());
+            if (sha != null) {
+                if (mainFrame) {
+                    openOriginal(sha);
                 }
+                return true;
             }
-            return true;
-        }
-
-        boolean sameOrigin = normalizedRoot != null
-                && UrlPolicy.isSameOrigin(normalizedRoot, url);
-        if (sameOrigin) {
+            if (!UrlPolicy.isSafeAssetPath(uri.getPath())) {
+                showBlocked();
+                return true;
+            }
             return false;
         }
-        if (mainFrame) {
-            progress.setVisibility(View.GONE);
-            openExternalHttps(uri);
+
+        if ("https".equals(scheme) && UrlPolicy.isExternalHttps(url)) {
+            if (mainFrame) {
+                openExternalHttps(uri);
+            }
+            return true;
         }
-        // External subframes are blocked; only the paired workbench origin may be framed.
+
+        if (mainFrame) {
+            showBlocked();
+        }
         return true;
     }
 
@@ -306,18 +336,35 @@ public class MainActivity extends Activity {
                     .setPositiveButton(android.R.string.ok, null)
                     .show();
         }
-        // No cookies, headers, or other app state are copied into the browser Intent.
+        // No cookies, headers or session state are copied into the browser Intent.
     }
 
-    private void showPcDownloadNotice() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.pc_download_title)
-                .setMessage(R.string.pc_download_message)
-                .setPositiveButton(android.R.string.ok, null)
-                .show();
+    private void openOriginal(String sha) {
+        File root = runtimeRoot;
+        if (root == null) {
+            Toast.makeText(this, R.string.original_open_failed, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            File file = OriginalFiles.pdf(root, sha);
+            if (!file.isFile()) {
+                throw new IllegalStateException("original missing");
+            }
+            Uri uri = FileProvider.getUriForFile(
+                    this, getPackageName() + ".fileprovider", file);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(uri, OriginalFiles.mimeType(file));
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (ActivityNotFoundException exception) {
+            Toast.makeText(this, R.string.original_open_failed, Toast.LENGTH_SHORT).show();
+        } catch (Exception exception) {
+            Toast.makeText(this, R.string.original_open_failed, Toast.LENGTH_SHORT).show();
+        }
     }
 
-    private void showBlockedLinkNotice() {
+    private void showBlocked() {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.blocked_link_title)
                 .setMessage(R.string.blocked_link_message)
@@ -325,52 +372,43 @@ public class MainActivity extends Activity {
                 .show();
     }
 
-    private void showNetworkError() {
-        if (tlsFailureShown) {
+    private WebResourceResponse pdfResponse(String path) {
+        File root = runtimeRoot;
+        String sha = UrlPolicy.pdfSha(path);
+        int page = UrlPolicy.pdfPage(path);
+        if (root == null || sha == null || page < 1) {
+            return notFoundResponse();
+        }
+        try {
+            byte[] png = PdfPageRenderer.renderPng(root, sha, page);
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Cache-Control", "no-store");
+            return new WebResourceResponse("image/png", "UTF-8", 200, "OK", headers,
+                    new ByteArrayInputStream(png));
+        } catch (Exception exception) {
+            return notFoundResponse();
+        }
+    }
+
+    private static WebResourceResponse notFoundResponse() {
+        return new WebResourceResponse("text/plain", "UTF-8", 404, "Not Found",
+                Collections.<String, String>emptyMap(),
+                new ByteArrayInputStream(new byte[0]));
+    }
+
+    private static WebResourceResponse blockedResponse() {
+        return new WebResourceResponse("text/plain", "UTF-8", 403, "Blocked",
+                Collections.<String, String>emptyMap(),
+                new ByteArrayInputStream(new byte[0]));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (webView.getVisibility() == View.VISIBLE && webView.canGoBack()) {
+            webView.goBack();
             return;
         }
-        showErrorPanel(getString(R.string.network_error_title),
-                getString(R.string.network_error_message));
-    }
-
-    private void showTlsError() {
-        if (tlsFailureShown) {
-            return;
-        }
-        tlsFailureShown = true;
-        showErrorPanel(getString(R.string.tls_error_title),
-                getString(R.string.tls_error_message));
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.tls_error_title)
-                .setMessage(R.string.tls_error_message)
-                .setPositiveButton(R.string.tls_error_ack, null)
-                .show();
-    }
-
-    private void showErrorPanel(String title, String message) {
-        if (webView != null) {
-            webView.stopLoading();
-        }
-        progress.setVisibility(View.GONE);
-        errorTitle.setText(title);
-        errorMessage.setText(message);
-        errorContainer.setVisibility(View.VISIBLE);
-        errorContainer.bringToFront();
-    }
-
-    private void hideErrorPanel() {
-        errorContainer.setVisibility(View.GONE);
-    }
-
-    private void hideKeyboard() {
-        View focus = getCurrentFocus();
-        if (focus == null) {
-            return;
-        }
-        InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        if (manager != null) {
-            manager.hideSoftInputFromWindow(focus.getWindowToken(), 0);
-        }
+        super.onBackPressed();
     }
 
     @Override
@@ -381,48 +419,20 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        boolean hasServer = normalizedRoot != null;
         MenuItem reload = menu.findItem(R.id.action_reload);
         if (reload != null) {
-            reload.setVisible(hasServer && webView.getVisibility() == View.VISIBLE);
-        }
-        MenuItem change = menu.findItem(R.id.action_change_address);
-        if (change != null) {
-            change.setVisible(hasServer);
+            reload.setVisible(ready && webView.getVisibility() == View.VISIBLE);
         }
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.action_reload) {
-            loadRoot();
-            return true;
-        }
-        if (itemId == R.id.action_change_address) {
-            changeAddress();
+        if (item.getItemId() == R.id.action_reload) {
+            loadIndex();
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (errorContainer.getVisibility() == View.VISIBLE) {
-            hideErrorPanel();
-            if (webView.getVisibility() == View.VISIBLE && webView.canGoBack()) {
-                webView.goBack();
-                return;
-            }
-            super.onBackPressed();
-            return;
-        }
-        if (webView.getVisibility() == View.VISIBLE && webView.canGoBack()) {
-            webView.goBack();
-            return;
-        }
-        super.onBackPressed();
     }
 
     @Override
@@ -443,32 +453,28 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        // The WebView and address field have saveEnabled=false, so page history,
-        // form contents, session data and medical content are never persisted.
+        // The WebView has saveEnabled=false: history, forms and medical content are not
+        // persisted across process death.
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onDestroy() {
+        worker.shutdownNow();
+        bootstrapExecutor.shutdownNow();
         if (webView != null) {
             webView.stopLoading();
             webView.clearHistory();
             webView.clearCache(true);
-        }
-        if (isFinishing()) {
-            CookieManager cookieManager = CookieManager.getInstance();
-            cookieManager.removeAllCookies(null);
-            cookieManager.flush();
-            WebStorage.getInstance().deleteAllData();
-        }
-        if (webView != null) {
             webView.destroy();
             webView = null;
         }
+        CookieManager.getInstance().removeAllCookies(null);
+        CookieManager.getInstance().flush();
         super.onDestroy();
     }
 
-    private final class WorkbenchWebViewClient extends WebViewClient {
+    private final class LocalWebViewClient extends WebViewClient {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -481,51 +487,40 @@ public class MainActivity extends Activity {
         @SuppressWarnings("deprecation")
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (url == null) {
-                return true;
-            }
-            return handleNavigation(Uri.parse(url), true);
+            return handleNavigation(url == null ? null : Uri.parse(url), true);
         }
 
         @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            if (url != null && normalizedRoot != null
-                    && UrlPolicy.isSameOrigin(normalizedRoot, url)) {
-                tlsFailureShown = false;
-                progress.setProgress(0);
-                progress.setVisibility(View.VISIBLE);
+        public WebResourceResponse shouldInterceptRequest(WebView view,
+                WebResourceRequest request) {
+            if (request == null || request.getUrl() == null) {
+                return blockedResponse();
             }
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            progress.setVisibility(View.GONE);
-            if (url != null && normalizedRoot != null
-                    && UrlPolicy.isSameOrigin(normalizedRoot, url)) {
-                view.evaluateJavascript(DOWNLOAD_GUARD_JS, null);
+            String url = request.getUrl().toString();
+            if (UrlPolicy.isAppAssetUrl(url)) {
+                return assetLoader.shouldInterceptRequest(request.getUrl());
             }
+            String scheme = request.getUrl().getScheme();
+            if ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme)
+                    || "file".equalsIgnoreCase(scheme) || "content".equalsIgnoreCase(scheme)
+                    || "ftp".equalsIgnoreCase(scheme)) {
+                return blockedResponse();
+            }
+            return null;
         }
 
         @Override
         public void onReceivedError(WebView view, WebResourceRequest request,
                 WebResourceError error) {
-            if (request != null && request.isForMainFrame()) {
-                showNetworkError();
+            if (request != null && request.isForMainFrame() && ready) {
+                showPageFailure();
             }
-        }
-
-        @SuppressWarnings("deprecation")
-        @Override
-        public void onReceivedError(WebView view, int errorCode, String description,
-                String failingUrl) {
-            showNetworkError();
         }
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            // Never call handler.proceed(); certificate errors must stop the connection.
+            // Never call handler.proceed(); certificate errors stop the connection.
             handler.cancel();
-            showTlsError();
         }
 
         @Override
@@ -536,19 +531,20 @@ public class MainActivity extends Activity {
         @Override
         public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler,
                 String host, String realm) {
-            // The workbench uses its own HTTPS login page, not HTTP Basic auth.
             handler.cancel();
         }
     }
 
-    private final class WorkbenchWebChromeClient extends WebChromeClient {
+    private void showPageFailure() {
+        webView.setVisibility(View.GONE);
+        bootstrapProgress.setVisibility(View.GONE);
+        bootstrapStatus.setText(R.string.page_failed_message);
+        bootstrapRetry.setVisibility(View.VISIBLE);
+        bootstrapContainer.setVisibility(View.VISIBLE);
+        ready = false;
+    }
 
-        @Override
-        public void onProgressChanged(WebView view, int newProgress) {
-            if (progress.getVisibility() == View.VISIBLE) {
-                progress.setProgress(newProgress);
-            }
-        }
+    private final class LocalWebChromeClient extends WebChromeClient {
 
         @Override
         public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture,
@@ -556,9 +552,6 @@ public class MainActivity extends Activity {
             if (resultMsg == null || !(resultMsg.obj instanceof WebView.WebViewTransport)) {
                 return false;
             }
-
-            // target=_blank and window.open(...) are captured in a detached,
-            // network-blocked WebView, then routed through the same policy.
             final WebView popup = new WebView(MainActivity.this);
             popup.setVisibility(View.GONE);
             WebSettings popupSettings = popup.getSettings();
@@ -573,20 +566,21 @@ public class MainActivity extends Activity {
                     popup.stopLoading();
                     popup.destroy();
                 } catch (RuntimeException ignored) {
-                    // The popup may already have been torn down by WebView.
+                    // Already torn down by WebView.
                 }
             };
             popup.setWebViewClient(new WebViewClient() {
                 private void route(WebView popupView, String url) {
-                    if (url == null || url.isEmpty() || "about:blank".equals(url)
-                            || routed[0]) {
+                    if (url == null || url.isEmpty() || "about:blank".equals(url) || routed[0]) {
                         return;
                     }
                     routed[0] = true;
-                    if (UrlPolicy.isSameOrigin(normalizedRoot, url)) {
+                    if (UrlPolicy.isAppAssetUrl(url)) {
                         webView.loadUrl(url);
+                    } else if (UrlPolicy.isExternalHttps(url)) {
+                        openExternalHttps(Uri.parse(url));
                     } else {
-                        handleNavigation(Uri.parse(url), true);
+                        showBlocked();
                     }
                     popupView.postDelayed(destroyPopup, 500);
                 }
@@ -594,9 +588,8 @@ public class MainActivity extends Activity {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView popupView,
                         WebResourceRequest request) {
-                    route(popupView,
-                            request == null || request.getUrl() == null
-                                    ? null : request.getUrl().toString());
+                    route(popupView, request == null || request.getUrl() == null
+                            ? null : request.getUrl().toString());
                     return true;
                 }
 

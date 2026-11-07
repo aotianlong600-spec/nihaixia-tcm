@@ -18,6 +18,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictBool, field_validator
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from . import access, knowledge, library, personal, research, storage
+from .domain import DomainError
 from .engine import analyze, apply_modifications, check_formula, validate_rule
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -172,7 +173,7 @@ def create_app(data_dir: Path | None = None, *, lan_hosts: list[str] | tuple = (
         return response
 
     def session_token(request: Request):
-        token = request.cookies.get("tcm_session", "")
+        token = request.cookies.get("nihaixia_local_session", "")
         csrf = sessions.get(token)
         if csrf is None:
             raise HTTPException(401, "请先建立工作台会话")
@@ -196,6 +197,10 @@ def create_app(data_dir: Path | None = None, *, lan_hosts: list[str] | tuple = (
         finally:
             conn.close()
 
+    @app.exception_handler(DomainError)
+    async def domain_failure(request, exc):
+        return JSONResponse({"detail": exc.detail}, status_code=exc.status_code)
+
     @app.exception_handler(ValueError)
     async def invalid_input(request, exc):
         return JSONResponse({"detail": str(exc)}, status_code=400)
@@ -215,7 +220,7 @@ def create_app(data_dir: Path | None = None, *, lan_hosts: list[str] | tuple = (
                 "lan_enabled": getattr(app.state, 'lan_enabled', False)}
 
     def session_response(request, *, rotate=False, grant=False):
-        token = request.cookies.get("tcm_session", "")
+        token = request.cookies.get("nihaixia_local_session", "")
         with session_lock:
             if rotate:
                 sessions.pop(token, None)
@@ -234,7 +239,7 @@ def create_app(data_dir: Path | None = None, *, lan_hosts: list[str] | tuple = (
                 "access_configured": access_gate.configured,
                 "authenticated": access_gate.authenticated(token) if access_gate.configured else access.loopback(request),
                 "setup_allowed": access.loopback(request) and not access_gate.configured})
-        response.set_cookie("tcm_session", token, httponly=True, samesite="strict", secure=request.url.scheme == "https", path="/")
+        response.set_cookie("nihaixia_local_session", token, httponly=True, samesite="strict", secure=request.url.scheme == "https", path="/")
         return response
 
     @app.get("/api/session")
@@ -243,7 +248,7 @@ def create_app(data_dir: Path | None = None, *, lan_hosts: list[str] | tuple = (
 
     @app.get("/api/access/status")
     def access_status(request: Request):
-        token = request.cookies.get("tcm_session", "")
+        token = request.cookies.get("nihaixia_local_session", "")
         return {"configured": access_gate.configured, "authenticated": access_gate.authenticated(token) if access_gate.configured else access.loopback(request),
                 "setup_allowed": access.loopback(request) and not access_gate.configured}
 

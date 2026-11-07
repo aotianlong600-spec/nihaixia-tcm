@@ -16,7 +16,7 @@ def configure_node_path(root=ROOT):
         os.environ['PATH'] = str(runtime) + os.pathsep + os.environ.get('PATH', '')
 
 
-async def serve(app, tls):
+async def serve(app, tls, port=8765):
     import uvicorn
 
     class Server(uvicorn.Server):
@@ -24,7 +24,7 @@ async def serve(app, tls):
         def capture_signals(self):
             yield  # asyncio.run owns shutdown for both listeners.
 
-    configs = [uvicorn.Config(app, host='127.0.0.1', port=8765, access_log=False, proxy_headers=False)]
+    configs = [uvicorn.Config(app, host='127.0.0.1', port=port, access_log=False, proxy_headers=False)]
     if tls:
         configs.append(uvicorn.Config(app, host='0.0.0.0', port=8766, access_log=False, proxy_headers=False,
                                      ssl_certfile=tls['server_cert'], ssl_keyfile=tls['server_key']))
@@ -42,6 +42,8 @@ async def serve(app, tls):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", type=Path, default=ROOT / "data")
+    parser.add_argument('--knowledge-pack', type=Path)
+    parser.add_argument('--port', type=int, default=8765)
     parser.add_argument('--lan', action='store_true')
     parser.add_argument('--lan-host', action='append', default=[])
     args = parser.parse_args()
@@ -50,6 +52,9 @@ def main():
     from app.lan import discover_hosts, ensure_tls
     from app.main import create_app
     data = args.data_dir.resolve()
+    if args.knowledge_pack:
+        from app.offline_runtime import prepare_runtime
+        prepare_runtime(data,args.knowledge_pack)
     hosts, tls = [], None
     if args.lan:
         if not AccessGate(data).configured:
@@ -62,7 +67,7 @@ def main():
     app = create_app(data, lan_hosts=hosts)
     app.state.lan_enabled = bool(tls)
     try:
-        asyncio.run(serve(app, tls))
+        asyncio.run(serve(app, tls,args.port))
     except KeyboardInterrupt:
         pass
 

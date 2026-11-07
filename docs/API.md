@@ -1,6 +1,6 @@
-# API 与数据契约
+# 历史 API 兼容说明
 
-个人版 0.2.0 以 [V2 契约](PERSONAL_V2.md) 为准；下文旧接口说明仅用于兼容，不约束个人使用流程。
+本页保留旧接口契约，供现有调用方维护。当前工作台参见 [问诊接口](PERSONAL_V2.md)、[辨证决策图](NI_DECISION_V3.md) 和 [安卓本地运行接口](MOBILE_RUNTIME_CONTRACT.md)。
 
 所有接口同源`/api`，JSON UTF-8；列表返回`{"items": [...]}`。错误使用HTTP状态及`detail`。时间ISO8601，物理页1-based。禁止客户端提供本机文件路径。
 
@@ -69,13 +69,13 @@ Knowledge函数返回值遵循以上字段。`init_knowledge(conn,data_dir)`创�
 
 ## 模式与演示数据
 
-始终显示工程验证/模拟病例。预置明确标为synthetic的规则和病例以证明算法（不得假冒已审核医学知识）。真实资料研究卡标draft，只能经人工审核发布；首次创建访次的facts为空，界面有独立“加载合成示例”按钮。状态页显示文档数、物理页数、发布规则数和simulation模式。
+旧接口预置 `synthetic` 演示规则。首次创建访次的 `facts` 为空。旧概览接口返回文档数、物理页数、发布规则数和 `simulation` 状态。
 
 ## 已实现的补充与校准（2026-11-05）
 
 - Fact增加`subject:patient|family|other|unknown`，默认patient；非本人、既往或未核实事实不参与当前规则及文献对照，不进入模型结构化事实发送。
 - `apply_modifications(formula, modifications, facts, base_formula_id='', context=None)`；API传同一访次context，年龄限定不会在加减阶段丢失。
-- `GET /api/research`返回9条AI视觉整理、待合作医师校勘和临床审核的研究卡。原文症候对照写入分析的`result.literature_candidates`，按来源页序；反证/缺项不是已建立必要条件。没有诊断概率或优先选方排序。
+- `GET /api/research` 返回已导入的研究条目。原文症候对照写入分析的 `result.literature_candidates`，按来源页序返回，并分别列出反证和缺项。
 - `GET /api/documents/{id}/pages/{n}/image`同源鉴权返回该物理页PNG，尺寸不超过2000×2800像素；全部PDFium调用使用同一进程锁。原始页图像不会改变提取文本或校核状态。
 - `GET /api/overview`增加`research_entries`和`clinical_published_rules`，将合成演示与真实规则发布数量分开。
 - 模型job的`stale`和`dependency_warnings`在完成和读取时动态核对；发送前也拒绝已失效分析。重启后GET job可读取持久化的已完成记录；访次/时间线增加`model_supplements`。

@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">倪海厦中医工作台</string>
-    <string name="setup_title">连接电脑工作台</string>
-    <string name="setup_intro">请输入电脑在当前局域网中的 HTTPS 地址。只接受 10/8、172.16/12、192.168/16 范围内的私有 IPv4 地址，必须显式写出端口，不能包含路径、查询、片段或账号信息。</string>
-    <string name="address_hint">https://192.168.1.20:8766</string>
-    <string name="connect">连接电脑</string>
-    <string name="setup_invalid">地址无效。请使用形如 https://192.168.1.20:8766 的私有 IPv4 HTTPS 根地址；不要输入 http、localhost、公共地址、路径、查询或账号密码。</string>
-    <string name="setup_help">电脑必须开机并保持运行，手机与电脑须在同一局域网。首次使用请在电脑网页设置访问密码；密码只在网页中输入，本应用不会保存密码、会话令牌或患者资料。下载、备份和查看原件请使用电脑网页。</string>
+    <string name="app_name">倪氏经方·离线</string>
+    <string name="bootstrap_title">正在准备离线资料</string>
+    <string name="bootstrap_starting">正在复制并校验内置知识包，并启动本地辨证引擎……</string>
+    <string name="bootstrap_copying">正在复制内置知识包……</string>
+    <string name="bootstrap_verifying">正在校验内置知识包……</string>
+    <string name="bootstrap_failed_title">离线资料初始化失败</string>
+    <string name="bootstrap_failed_message">无法启动本地知识库。请点击重试；若仍失败，请重新安装应用。原始资料与设备数据不会被上传。</string>
+    <string name="page_failed_message">内置离线页面未能加载。请点击重试；若持续失败，请重新构建或安装应用。</string>
+    <string name="bootstrap_retry">重试</string>
     <string name="retry">重试</string>
-    <string name="change_address">更改地址</string>
-    <string name="network_error_title">无法连接电脑</string>
-    <string name="network_error_message">请确认电脑已开机、后端服务已启动、手机与电脑在同一局域网，并且地址和端口正确。电脑离线时应用不提供旧缓存或离线病历。</string>
-    <string name="tls_error_title">安全连接失败</string>
-    <string name="tls_error_message">无法验证电脑的 HTTPS 证书。请确认电脑证书由配对时生成的 CA 签发、包含当前局域网 IP，且手机时间正确。应用不会忽略证书错误，也不会继续加载。</string>
-    <string name="tls_error_ack">知道了</string>
     <string name="external_browser_opened">已用系统浏览器打开外部链接；应用会话不会转发给浏览器。</string>
     <string name="external_browser_missing">无法打开系统浏览器。请复制链接到浏览器，或改用电脑网页。</string>
     <string name="external_browser_title">外部链接</string>
     <string name="blocked_link_title">已拦截链接</string>
-    <string name="blocked_link_message">应用只加载已配对电脑工作台的 HTTPS 页面，其他协议或不安全链接已拦截。设备码登录会交给系统浏览器。</string>
-    <string name="pc_download_title">请在电脑下载</string>
-    <string name="pc_download_message">为保护病例与原件，本应用不下载、不缓存文件。请在电脑网页完成下载、备份或原件查看。</string>
+    <string name="blocked_link_message">应用只加载内置离线页面；其他协议、外部页面或不受信任的内容已拦截。</string>
+    <string name="original_open_failed">无法打开原件。请确认原件已随知识包安装。</string>
+    <string name="original_open_title">打开原件</string>
     <string name="reload_action">重新加载</string>
-    <string name="change_address_action">更改地址</string>
+    <string name="reload_message">离线页面已重新加载，本地知识库保持不变。</string>
 </resources>

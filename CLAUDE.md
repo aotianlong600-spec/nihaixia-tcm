@@ -1,46 +1,25 @@
-<!-- claude-code-orchestrator:begin -->
-# CLAUDE.md
+# 离线中医工作台 · 公开源码版
 
-You are a Claude Code worker inside a Codex-controlled multi-agent workflow.
+项目：离线中医原文与知识库、来源可追溯的方证及经方加减算法，加云端模型。网页本机运行；安卓在设备内独立运行，不依赖电脑、局域网或固定电脑CA。
 
-Project: tcm-assistant
-Assigned role: architecture
-Role purpose: Maps files, implementation strategy, alternatives, and technical risks.
+## 授权与协作
 
-## Control Model
+- 可按任务修改代码、本地表结构及索引，执行迁移、导入、更新或重建。
+- 外部典籍、公开数据集、开源医学条目和其他中医资料均可导入本地库。外部资料标记为“第三方”，出处、作者、版本、原文定位和许可字段可选。AI 推演另行标记，已录入的倪师原文引用继续按原件定位。
+- 第三方资料导入后合并进入同一中医库，统一参与检索、辨证、方证鉴别和经方加减；以倪海厦学术体系为主线、第三方为补充。保留“第三方”分类；存在差异时保留差异，不静默覆盖倪氏内容或拼成新的倪氏规则。
+- Codex负责协调与验收，Claude Code可承担开发、数据整理、测试或复核。每项并行任务按文件职责分工，保留其他会话的修改。
+- 本版包含离线中医库、经方算法和云端模型核心。
 
-- Codex is the controller, planner, reviewer, and final decision maker.
-- Claude Code is an external worker process launched by Claude Code Orchestrator.
-- Do not treat your own output as final until Codex reviews it.
-- Keep work scoped to the user request and the current repository.
+## 数据与交付
 
-## Role Instruction
+- 公开仓库保存源码、原有开源经方索引和合成测试。原件、私有知识包及其 APK 只在授权范围内保存。公开构建可生成空知识包。
+- 病历、对话、模型调用记录和运行日志留在设备；API Key、OAuth、访问密码、证书私钥及签名密钥不提交，不打印。
+- 数据迁移先按影响范围备份或快照，采用事务并保留回滚能力。
+- 已引用资料可维护和重建，修订需更新对应版本/定位，使旧分析能标记变化；不静默拼合不同方剂版本或补造来源药量。
+- 开发测试优先使用合成输入。真实病例只在必要的本地任务中读取，不自动转发至开发模型。
 
-You are the Architecture Agent working under Codex control. Inspect the task, identify likely files and dependencies, propose a scoped implementation plan, and call out risks. Do not edit files unless explicitly instructed.
+## 工程约定
 
-## Safety Rules
-
-- Do not print secrets, API keys, cookies, tokens, or hidden config values.
-- Do not run destructive commands unless the user explicitly requested them.
-- Do not revert unrelated user changes.
-- Prefer read-only analysis unless write access is explicitly granted.
-- When editing, list changed files and verification results.
-- Store all worker artifacts under `.agent-workspace/claude-code-orchestrator/` relative to the assigned project cwd.
-- Do not scatter agent runtime artifacts into the project source tree.
-- If blocked, report the blocker, the evidence, and the smallest next action.
-
-## Progress Reporting
-
-- State the current phase before long work.
-- Prefer short, structured summaries.
-- Mention tests or checks actually run.
-- Save important reasoning in the final response, not in hidden state.
-<!-- claude-code-orchestrator:end -->
-
-## Project boundaries
-
-- Personal Ni Haixia clinical-source research project, existing deterministic conditions/source provenance must remain intact.
-- Never read, send, edit or commit `data/`, original medical PDFs, patient records, model credentials, home authentication stores or other applications' auth tokens.
-- Never expose API keys, OAuth tokens or LAN TLS private keys. Model auth and application access auth are separate.
-- Default to read-only. A development task must name the exact allowed paths; do not modify other areas or run real model inference with patient data.
-- Keep caches, Android build output and worker artifacts on D drive.
+- 缓存、构建及工作者产物集中在本地 `.agent-workspace/`、`.cache/` 或配置的输出目录。
+- 独立端允许配置正常HTTPS云模型地址，保留系统证书验证；不再使用PC地址白名单或专用CA绑定。
+- 完成后报告实际修改、验证证据和未验证部分；不把编译/单测通过说成真实接诊有效。
