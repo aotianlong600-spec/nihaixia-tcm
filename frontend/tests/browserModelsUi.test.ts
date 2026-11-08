@@ -39,6 +39,7 @@ test('browser app keeps model settings, model selection and AI send controls ava
     instance.component('el-dialog',placeholder)
     const html = await renderToString(instance)
     assert.match(html,/模型与数据/)
+    assert.match(html,/<nav>.*倪氏书库.*<\/nav>/s)
     assert.match(html,/data-model-bar="true"/)
     assert.match(html,/<textarea/)
     assert.match(html,/发送并请求 AI/)
