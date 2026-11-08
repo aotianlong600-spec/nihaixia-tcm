@@ -2,7 +2,7 @@ export class ApiError extends Error {
   status: number
   constructor(status: number, message: string) { super(message); this.status = status }
 }
-interface NativeBridge {request:(id:string,method:string,path:string,body:string)=>void}
+interface NativeBridge {request:(id:string,method:string,path:string,body:string,archive?:ArrayBuffer)=>void}
 declare global {interface Window {NihaixiaLocal?:NativeBridge}}
 type PendingNative={path:string;resolve:(value:any)=>void;reject:(error:ApiError)=>void;timer:ReturnType<typeof setTimeout>}
 export class ApiClient {
@@ -39,7 +39,7 @@ export class ApiClient {
     this.browserFailure=error
     for(const id of this.pending.keys())this.finishNative(id,null,error)
   }
-  private browserBridge:NativeBridge={request:(id,method,path,body)=>{
+  private browserBridge:NativeBridge={request:(id,method,path,body,archive)=>{
     try{
       if(!this.browserWorker){
         const worker=new Worker(new URL('browser-worker.js',document.baseURI),{type:'module'})
@@ -48,7 +48,8 @@ export class ApiClient {
         worker.onmessageerror=this.failBrowser
         this.browserWorker=worker
       }
-      this.browserWorker.postMessage({id,method,path,body})
+      if(archive)this.browserWorker.postMessage({id,method,path,body,archive},[archive])
+      else this.browserWorker.postMessage({id,method,path,body})
     }catch{this.failBrowser()}
   }}
   private finishNative(id:string,value:any,error?:ApiError){
@@ -72,7 +73,10 @@ export class ApiClient {
       const detail=result.body?.detail
       this.finishNative(result.id,null,new ApiError(result.status,typeof detail==='string'?detail:`本地请求失败（${result.status}）`));return
     }
-    if(result.base64!==undefined){
+    if(result.bytes!==undefined){
+      if(!(result.bytes instanceof ArrayBuffer)||result.bytes.byteLength>256*1024*1024||typeof result.content_type!=='string'){invalid();return}
+      this.finishNative(result.id,new Blob([result.bytes],{type:result.content_type}))
+    }else if(result.base64!==undefined){
       if(typeof result.base64!=='string'||result.base64.length>32*1024*1024||
          (result.content_type!==undefined&&typeof result.content_type!=='string')){invalid();return}
       try{
@@ -85,7 +89,7 @@ export class ApiClient {
   dispose(){
     for(const id of this.pending.keys())this.finishNative(id,null,new ApiError(0,'设备本地请求已取消'))
   }
-  private nativeRequest(bridge:NativeBridge,method:string,path:string,body?:BodyInit|null){
+  private nativeRequest(bridge:NativeBridge,method:string,path:string,body?:BodyInit|null,archive?:ArrayBuffer){
     if(!/^\/(?!\/)[^\\\x00-\x20\x7f#]*$/.test(path)||!['GET','HEAD','POST','PUT','PATCH','DELETE'].includes(method))return Promise.reject(new ApiError(400,'设备本地请求格式无效'))
     if(body!=null&&typeof body!=='string')return Promise.reject(new ApiError(400,'设备本地接口只接收JSON文本'))
     if(this.pending.size>=64)return Promise.reject(new ApiError(429,'设备本地请求过多，请稍后重试'))
@@ -96,11 +100,20 @@ export class ApiClient {
         this.surface.addEventListener('nihaixia-local-response',this.receiveNative)
         this.surface.addEventListener('pagehide',this.closeNative)
       }
-      const timer=setTimeout(()=>this.finishNative(id,null,new ApiError(0,this.browser?'浏览器请求超时，请重新加载后检查记录':'设备本地请求超时，请重试')),this.browser?120000:30000)
+      const timer=setTimeout(()=>this.finishNative(id,null,new ApiError(0,this.browser?'浏览器请求超时，请重新加载后检查记录':'设备本地请求超时，请重试')),archive?600000:this.browser?120000:30000)
       this.pending.set(id,{path,resolve,reject,timer})
       // Only the native bridge receives the body; keys never enter URLs or a fetch fallback.
-      try{bridge.request(id,method,path,body??'')}catch{this.finishNative(id,null,new ApiError(0,'设备本地请求未能提交，请重试'))}
+      try{
+        if(archive)bridge.request(id,method,path,body??'',archive)
+        else bridge.request(id,method,path,body??'')
+      }catch{this.finishNative(id,null,new ApiError(0,'设备本地请求未能提交，请重试'))}
     })
+  }
+  async importKnowledge(file:File):Promise<any>{
+    if(!this.browser)throw new ApiError(409,'请在浏览器网页版导入知识包')
+    if(!file.size||file.size>256*1024*1024)throw new ApiError(413,'请选择256MiB以内的知识包ZIP')
+    const archive=await file.arrayBuffer()
+    return this.nativeRequest(this.bridge()!,'POST','/library/import-pack','',archive)
   }
   async session() {
     const bridge=this.bridge()

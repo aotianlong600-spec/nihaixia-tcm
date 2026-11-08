@@ -2,13 +2,17 @@ const base = new URL('./', import.meta.url)
 const dataDirectory = '/workbench/data'
 const databaseFile = dataDirectory + '/clinical.sqlite3'
 // A cached older app must not overwrite the encrypted model snapshot.
-const snapshotKey = 'clinical-models-v2'
+const snapshotKey = 'clinical-library-v3'
+const modelSnapshotKey = 'clinical-models-v2'
 const legacySnapshotKey = 'clinical'
 const encryptionKey = 'encryption-key'
 const encoder = new TextEncoder()
 const decoder = new TextDecoder('utf-8', { fatal: true })
 const activeRequests = new Map()
 const responseLimit = 4 * 1024 * 1024
+const originalPattern = /^originals\/([a-f0-9]{64})\.(pdf|txt|md|doc|docx)$/
+const assetReferences = 'knowledge/browser-assets.json'
+const knowledgePattern = /^knowledge\/(?:active\.json|browser-assets\.json|[a-f0-9]{64}\/(?:manifest\.json|open_formula_library\.json))$/
 
 function openRecords() {
   return new Promise((resolve, reject) => {
@@ -25,6 +29,87 @@ function readRecord(database, key) {
     request.onsuccess = () => resolve(request.result ?? null)
     request.onerror = () => reject(request.error)
   })
+}
+
+async function latestRecord(database) {
+  for (const key of [snapshotKey, modelSnapshotKey, legacySnapshotKey]) {
+    const value = await readRecord(database, key)
+    if (value) return { key, value }
+  }
+  return { key: null, value: null }
+}
+
+function referencedAssets(python) {
+  const path = dataDirectory + '/' + assetReferences
+  if (!python.FS.analyzePath(path).exists) return {}
+  const manifest = JSON.parse(python.FS.readFile(path, { encoding: 'utf8' }))
+  if (manifest.version !== 1 || !manifest.assets || typeof manifest.assets !== 'object' || Array.isArray(manifest.assets)) throw new Error('Invalid original manifest')
+  const assets = Object.entries(manifest.assets)
+  for (const [name, detail] of assets) {
+    const match = originalPattern.exec(name)
+    if (!match || !detail || detail.sha256 !== match[1] || !Number.isSafeInteger(detail.size) || detail.size < 0 || detail.size > 256 * 1024 * 1024) throw new Error('Invalid original reference')
+  }
+  return manifest.assets
+}
+
+function assetParameters(name, iv) {
+  return { name: 'AES-GCM', iv, additionalData: encoder.encode('original:' + base.pathname + ':' + name) }
+}
+
+async function originalDigest(bytes) {
+  const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))
+  return Array.from(digest, value => value.toString(16).padStart(2, '0')).join('')
+}
+
+async function decryptAsset(state, name, detail, stored) {
+  if (!stored || stored.version !== 1 || stored.sha256 !== detail.sha256 || stored.size !== detail.size) throw new Error('Original asset missing')
+  const raw = await crypto.subtle.decrypt(assetParameters(name, stored.iv), state.key, stored.ciphertext)
+  const bytes = new Uint8Array(raw)
+  if (bytes.length !== detail.size || await originalDigest(bytes) !== detail.sha256) throw new Error('Original asset invalid')
+  return bytes
+}
+
+async function stageAsset(state, name, bytes) {
+  const match = originalPattern.exec(name)
+  if (!match || await originalDigest(bytes) !== match[1]) throw new Error('Original identity mismatch')
+  const detail = { sha256: match[1], size: bytes.length }
+  const key = 'original:' + name
+  const stored = await readRecord(state.database, key)
+  if (stored) {
+    await decryptAsset(state, name, detail, stored)
+    return detail
+  }
+  const iv = crypto.getRandomValues(new Uint8Array(12))
+  const ciphertext = await crypto.subtle.encrypt(assetParameters(name, iv), state.key, bytes)
+  await new Promise((resolve, reject) => {
+    const transaction = state.database.transaction('snapshots', 'readwrite')
+    const store = transaction.objectStore('snapshots')
+    const request = store.get(key)
+    request.onsuccess = () => {
+      if (request.result) return
+      try { store.put({ version: 1, ...detail, iv, ciphertext }, key) }
+      catch { transaction.abort() }
+    }
+    transaction.oncomplete = resolve
+    transaction.onabort = () => reject(transaction.error)
+  })
+  return detail
+}
+
+async function restoreAssets(state) {
+  const assets = referencedAssets(state.python)
+  const directory = dataDirectory + '/originals'
+  state.python.FS.mkdirTree(directory)
+  for (const name of state.python.FS.readdir(directory)) {
+    if (name !== '.' && name !== '..' && !Object.hasOwn(assets, 'originals/' + name)) state.python.FS.unlink(directory + '/' + name)
+  }
+  for (const [name, detail] of Object.entries(assets)) {
+    const path = dataDirectory + '/' + name
+    if (state.python.FS.analyzePath(path).exists && state.python.FS.stat(path).size === detail.size) continue
+    const stored = await readRecord(state.database, 'original:' + name)
+    const bytes = await decryptAsset(state, name, detail, stored)
+    state.python.FS.writeFile(path, bytes, { canOwn: true })
+  }
 }
 
 async function getEncryptionKey(database) {
@@ -56,12 +141,18 @@ function captureFiles(python) {
       const relative = directory + '/' + name
       const stat = python.FS.lstat(dataDirectory + '/' + relative)
       if (python.FS.isDir(stat.mode)) collect(relative)
-      else if (python.FS.isFile(stat.mode)) files.push([relative, python.FS.readFile(dataDirectory + '/' + relative)])
+      else if (python.FS.isFile(stat.mode)) {
+        if (relative.startsWith('knowledge/') && !knowledgePattern.test(relative)) throw new Error('Unsupported knowledge resource')
+        files.push([relative, python.FS.readFile(dataDirectory + '/' + relative)])
+      }
       else throw new Error('Unsupported model storage')
     }
   }
-  if (python.FS.analyzePath(dataDirectory + '/models').exists) collect('models')
+  for (const directory of ['models', 'knowledge']) {
+    if (python.FS.analyzePath(dataDirectory + '/' + directory).exists) collect(directory)
+  }
   const header = encoder.encode(JSON.stringify(files.map(([name, bytes]) => [name, bytes.length])))
+  if (header.length > 128 * 1024) throw new Error('Snapshot metadata too large')
   const bytes = new Uint8Array(4 + header.length + files.reduce((total, [, value]) => total + value.length, 0))
   new DataView(bytes.buffer).setUint32(0, header.length)
   bytes.set(header, 4)
@@ -84,7 +175,7 @@ function snapshotFiles(bytes) {
   for (const entry of entries) {
     if (!Array.isArray(entry) || entry.length !== 2) throw new Error('Invalid snapshot file')
     const [name, size] = entry
-    if (typeof name !== 'string' || (name !== 'clinical.sqlite3' && !/^models\/[a-zA-Z0-9_.\/-]+$/.test(name))
+    if (typeof name !== 'string' || (name !== 'clinical.sqlite3' && !/^models\/[a-zA-Z0-9_.\/-]+$/.test(name) && !knowledgePattern.test(name))
         || name.split('/').some(part => part === '..' || part === '.' || !part)
         || files.has(name) || !Number.isSafeInteger(size) || size < 0 || size > bytes.length - position) {
       throw new Error('Invalid snapshot entry')
@@ -108,8 +199,10 @@ function restoreFiles(python, bytes) {
       } else python.FS.unlink(path)
     }
   }
-  const models = dataDirectory + '/models'
-  if (python.FS.analyzePath(models).exists) remove(models)
+  for (const directory of ['models', 'knowledge']) {
+    const path = dataDirectory + '/' + directory
+    if (python.FS.analyzePath(path).exists) remove(path)
+  }
   for (const [name, value] of files) {
     const path = dataDirectory + '/' + name
     python.FS.mkdirTree(path.slice(0, path.lastIndexOf('/')))
@@ -132,7 +225,7 @@ function encryptionParameters(revision, iv) {
 }
 
 async function decodeRecord(state, record) {
-  if (record.version !== 2) {
+  if (record.version !== 2 && record.version !== 3) {
     if (!(record.bytes instanceof Uint8Array) && !(record.bytes instanceof ArrayBuffer)) throw new Error('Invalid legacy record')
     return legacySnapshot(record.bytes)
   }
@@ -155,14 +248,14 @@ async function saveSnapshot(state, bytes) {
       if ((request.result?.revision ?? null) !== state.revision) return
       const write = () => {
         try {
-          store.put({ revision, version: 2, iv, ciphertext }, snapshotKey)
-          if (state.legacyRevision !== null) store.delete(legacySnapshotKey)
+          store.put({ revision, version: 3, iv, ciphertext }, snapshotKey)
+          if (state.legacyKey !== null) store.delete(state.legacyKey)
           saved = true
         } catch { transaction.abort() }
       }
-      if (state.legacyRevision === null) write()
+      if (state.legacyKey === null) write()
       else {
-        const legacy = store.get(legacySnapshotKey)
+        const legacy = store.get(state.legacyKey)
         legacy.onsuccess = () => {
           if ((legacy.result?.revision ?? null) === state.legacyRevision) write()
         }
@@ -206,14 +299,15 @@ async function prepare() {
   python.unpackArchive(archive, 'zip', { extractDir: '/workbench' })
   python.FS.mkdirTree(dataDirectory)
   const state = { python, database, relay, key: await getEncryptionKey(database) }
-  const encryptedRecord = await readRecord(database, snapshotKey)
-  const stored = encryptedRecord ?? await readRecord(database, legacySnapshotKey)
+  const selected = await latestRecord(database)
+  const stored = selected.value
   const bytes = stored ? await decodeRecord(state, stored) : null
   if (bytes) restoreFiles(python, bytes)
+  await restoreAssets(state)
   python.runPython([
     'import sys, json',
     "sys.path.insert(0, '/workbench')",
-    'from app.browser_api import (dispatch, initialize, take_requests, complete_request, fail_request, checkpoint, restore_checkpoint, pending_request_ids)',
+    'from app.browser_api import (dispatch, initialize, take_requests, complete_request, fail_request, checkpoint, restore_checkpoint, pending_request_ids, install_library_archive, original_info, activate_library)',
     "initialize('" + dataDirectory + "', '/workbench/knowledge')",
     'def browser_take_requests():',
     '    return json.dumps(take_requests(), ensure_ascii=False, allow_nan=False)',
@@ -221,6 +315,10 @@ async function prepare() {
     '    return json.dumps(pending_request_ids())',
     'def browser_complete_request(request_id, value):',
     '    complete_request(request_id, json.loads(value))',
+    'def browser_install_library(path):',
+    '    return json.dumps(install_library_archive(path), ensure_ascii=False, allow_nan=False)',
+    'def browser_original_info(source_id):',
+    '    return json.dumps(original_info(source_id), ensure_ascii=False, allow_nan=False)',
   ].join('\n'))
   return Object.assign(state, {
     dispatch: python.globals.get('dispatch'),
@@ -230,10 +328,14 @@ async function prepare() {
     failRequest: python.globals.get('fail_request'),
     checkpoint: python.globals.get('checkpoint'),
     restoreCheckpoint: python.globals.get('restore_checkpoint'),
-    revision: encryptedRecord?.revision ?? null,
-    legacyRevision: encryptedRecord ? null : stored?.revision ?? null,
+    installLibrary: python.globals.get('browser_install_library'),
+    originalInfo: python.globals.get('browser_original_info'),
+    activateLibrary: python.globals.get('activate_library'),
+    revision: selected.key === snapshotKey ? stored.revision : null,
+    legacyKey: selected.key === snapshotKey ? null : selected.key,
+    legacyRevision: selected.key === snapshotKey ? null : stored?.revision ?? null,
     current: bytes,
-    encrypted: encryptedRecord?.version === 2,
+    encrypted: selected.key === snapshotKey && stored?.version === 3,
     initial: stored ? null : captureFiles(python),
   })
 }
@@ -243,16 +345,22 @@ function sameBytes(first, second) {
 }
 
 async function refreshSnapshot(state) {
-  const stored = await readRecord(state.database, snapshotKey)
-  const revision = stored?.revision ?? null
-  if (state.revision === revision) return
+  const selected = await latestRecord(state.database)
+  const stored = selected.value
+  const revision = selected.key === snapshotKey ? stored.revision : null
+  const legacyKey = selected.key === snapshotKey ? null : selected.key
+  const legacyRevision = legacyKey === null ? null : stored?.revision ?? null
+  if (state.revision === revision && state.legacyKey === legacyKey && state.legacyRevision === legacyRevision) return
   const bytes = stored ? await decodeRecord(state, stored) : state.initial
   if (!bytes) throw Object.assign(new Error('浏览器记录存储已重置，请重新打开工作台'), { status: 409 })
   restoreFiles(state.python, bytes)
+  await restoreAssets(state)
+  state.activateLibrary()
   state.current = bytes
   state.revision = revision
-  state.legacyRevision = null
-  state.encrypted = stored?.version === 2
+  state.legacyKey = legacyKey
+  state.legacyRevision = legacyRevision
+  state.encrypted = selected.key === snapshotKey && stored?.version === 3
 }
 
 let runtime
@@ -276,7 +384,7 @@ async function transact(action) {
     const before = captureFiles(state.python)
     const checkpoint = state.checkpoint()
     try {
-      const result = action(state)
+      const result = await action(state)
       const requests = JSON.parse(state.takeRequests())
       const pending = new Set(JSON.parse(state.pendingRequests()))
       const bytes = captureFiles(state.python)
@@ -285,10 +393,12 @@ async function transact(action) {
         if (revision === null) {
           restoreFiles(state.python, before)
           state.restoreCheckpoint(checkpoint)
+          await restoreAssets(state)
           continue
         }
         state.current = bytes
         state.revision = revision
+        state.legacyKey = null
         state.legacyRevision = null
         state.encrypted = true
       }
@@ -304,9 +414,11 @@ async function transact(action) {
         if (pending.has(request.id)) startRequest(state, request)
       }
       return result
-    } catch {
+    } catch (error) {
       restoreFiles(state.python, before)
       state.restoreCheckpoint(checkpoint)
+      await restoreAssets(state)
+      if (error?.status) throw error
       throw Object.assign(new Error('本次修改未保存，请检查浏览器存储空间后重试'), { status: 507 })
     } finally { checkpoint?.destroy?.() }
   }
@@ -389,15 +501,63 @@ function startRequest(state, spec) {
   }, Math.min(Math.max(Number(spec.delay_ms) || 0, 0), 30000))
 }
 
+async function importLibrary(state, archive) {
+  const temporary = '/workbench/browser-import.zip'
+  state.python.FS.writeFile(temporary, new Uint8Array(archive), { canOwn: true })
+  let imported
+  try {
+    try { imported = JSON.parse(state.installLibrary(temporary)) }
+    catch { throw Object.assign(new Error('知识包导入失败，请检查ZIP完整性及引擎版本'), { status: 400 }) }
+  } finally { state.python.FS.unlink(temporary) }
+  if (!Array.isArray(imported.assets)) throw new Error('Invalid imported resources')
+  const assets = referencedAssets(state.python)
+  for (const name of imported.assets) {
+    if (originalPattern.test(name)) {
+      const bytes = state.python.FS.readFile(dataDirectory + '/' + name)
+      assets[name] = await stageAsset(state, name, bytes)
+    } else if (!knowledgePattern.test(name)) throw new Error('Invalid imported path')
+  }
+  state.python.FS.mkdirTree(dataDirectory + '/knowledge')
+  state.python.FS.writeFile(dataDirectory + '/' + assetReferences, JSON.stringify({ version: 1, assets }))
+  return { status: 200, body: imported }
+}
+
+async function readOriginal(state, sourceId) {
+  let info
+  try { info = JSON.parse(state.originalInfo(sourceId)) }
+  catch { throw Object.assign(new Error('原件不存在或尚未完成导入'), { status: 404 }) }
+  const relative = info.path.startsWith(dataDirectory + '/') ? info.path.slice(dataDirectory.length + 1) : info.path
+  if (!originalPattern.test(relative) || info.sha256 !== sourceId || !relative.startsWith('originals/' + sourceId + '.')) throw new Error('Invalid original path')
+  let bytes
+  if (state.python.FS.analyzePath(dataDirectory + '/' + relative).exists) {
+    bytes = state.python.FS.readFile(dataDirectory + '/' + relative)
+  } else {
+    const detail = referencedAssets(state.python)[relative]
+    const stored = await readRecord(state.database, 'original:' + relative)
+    bytes = await decryptAsset(state, relative, detail, stored)
+  }
+  if (await originalDigest(bytes) !== sourceId) throw new Error('Original identity changed')
+  return { status: 200, bytes: bytes.buffer, content_type: info.mime, filename: info.filename }
+}
+
 self.addEventListener('message', ({ data }) => {
   if (typeof data?.id !== 'string') return
-  const { id, method, path, body } = data
+  const { id, method, path, body, archive } = data
   const respond = (status, value) => self.postMessage({ id, status, body: value })
   if (typeof method !== 'string' || typeof path !== 'string' || typeof body !== 'string') {
     respond(400, { detail: '网页请求格式无效' })
     return
   }
-  enqueue(() => transact(state => JSON.parse(state.dispatch(method, path, body))))
-    .then(result => respond(result.status, result.body))
-    .catch(error => respond(error.status ?? 503, { detail: error.status ? error.message : '浏览器存储读取失败，请重新打开工作台' }))
+  const importing = method === 'POST' && path === '/library/import-pack'
+  if (importing && (!(archive instanceof ArrayBuffer) || !archive.byteLength || archive.byteLength > 256 * 1024 * 1024)) {
+    respond(413, { detail: '请选择256MiB以内的知识包ZIP' })
+    return
+  }
+  const original = method === 'GET' && /^\/library\/sources\/([a-f0-9]{64})\/original$/.exec(path)
+  enqueue(() => transact(state => importing ? importLibrary(state, archive) : original ? readOriginal(state, original[1]) : JSON.parse(state.dispatch(method, path, body))))
+    .then(result => {
+      if (result.bytes) self.postMessage({ id, ...result }, [result.bytes])
+      else respond(result.status, result.body)
+    })
+    .catch(error => respond(error?.status ?? 503, { detail: error?.status ? error.message : '浏览器存储读取失败，请重新打开工作台' }))
 })

@@ -27,6 +27,8 @@ MODULES = (
     '__init__', 'browser_api', 'mobile_api', 'consultation_core', 'decision', 'decision_support',
     'domain', 'engine', 'formula_engine', 'knowledge', 'library', 'offline_pack', 'offline_runtime',
     'portable_validation', 'storage', 'browser_models', 'mobile_models', 'model_profiles', 'model_urls',
+    'browser_library', 'browser_excerpts', 'consultation_library', 'library_analysis',
+    'library_evidence', 'library_modifications', 'library_signs',
 )
 
 
@@ -65,6 +67,10 @@ def engine_archive():
             for name in ('open_formula_library.json', 'portable_schemas.json', 'codex_models.json'):
                 path = f'app/resources/{name}'
                 out.write(ROOT / path, path)
+            for stem in ('formula_mentions', 'formula_compositions', 'modifications', 'sign_terms'):
+                for suffix in ('.json', '_manifest.json'):
+                    path = f'library_evidence/{stem}{suffix}'
+                    out.write(ROOT / path, path)
             for name in (*manifest['files'], 'manifest.json'):
                 out.write(pack / name, f'knowledge/{name}')
             package = distribution('fastjsonschema')

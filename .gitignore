@@ -28,3 +28,4 @@ android/**/build/
 
 .drafts/
 /knowledge/
+.test-tmp/

@@ -9,7 +9,9 @@ export function isCurrent(requested:string, current:string) { return requested =
 export function referencesFor(ids:string[] = [], frozen:any[] | null | undefined, current:any[] = []) { return evidenceFor(ids, frozen ?? current) }
 export function referenceLink(e:any):any { return e.format === 'github' ? (e.source_url ? {kind:'external',url:e.source_url} : {kind:'none'}) : (e.source_id != null && e.unit_no != null ? {kind:'unit',source:e.source_id,unit:e.unit_no} : {kind:'none'}) }
 export function locatorLabel(item:any):string {
-  const l=item?.locator || {}; const start=l.start ?? item?.physical_page ?? item?.pdf_page; const end=l.end
+  let l=item?.locator || {}
+  if(typeof l==='string'){if(l.startsWith('physical_page:'))l={kind:'pdf_page',start:Number(l.split(':')[1].split(',')[0]),printed_page:item?.printed_page};else try{l=JSON.parse(l)}catch{return l}}
+  const start=l.start ?? item?.physical_page ?? item?.pdf_page; const end=l.end
   if (start == null) return '位置未提供'
   const range=end != null && end !== start ? `${start}–${end}` : `${start}`
   const printed=l.printed_page ?? item?.printed_page

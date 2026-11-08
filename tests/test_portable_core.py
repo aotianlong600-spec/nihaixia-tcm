@@ -44,7 +44,7 @@ def test_portable_core_imports_without_desktop_or_native_modules():
     builtins.__import__ = guarded
     try:
         core = importlib.import_module("app.consultation_core")
-        assert core.ANALYSIS_REVISION == 2
+        assert core.ANALYSIS_REVISION == 3
         assert "用户已确认记录项" in core.CONSULT_SYSTEM
         assert callable(core.validate_result) and callable(core.prepare_task)
         assert callable(core.book_components) and callable(core.save_assistant_result)

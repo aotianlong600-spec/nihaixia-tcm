@@ -16,6 +16,7 @@ from .consultation_core import ANALYSIS_REVISION
 
 FORMAT = 'nihaixia-knowledge-pack'
 VERSION = 1
+SUPPORTED_ANALYSIS_REVISIONS = {2, 3}
 MAX_MANIFEST_BYTES = 4 * 1024 * 1024
 MAX_FILES = 100000
 FORMULA_SOURCE = Path(__file__).parent / 'resources/open_formula_library.json'
@@ -196,7 +197,7 @@ def verify_pack(pack_dir: Path) -> dict:
         manifest = json.loads(manifest_path.read_text(encoding='utf-8'), object_pairs_hook=_unique_object)
         if (not isinstance(manifest, dict) or set(manifest) != {'format','version','engine_analysis_revision','metadata_policy','files','tables','packages'}
                 or manifest['format'] != FORMAT or type(manifest['version']) is not int or manifest['version'] != VERSION
-                or type(manifest['engine_analysis_revision']) is not int or manifest['engine_analysis_revision'] != ANALYSIS_REVISION
+                or type(manifest['engine_analysis_revision']) is not int or manifest['engine_analysis_revision'] not in SUPPORTED_ANALYSIS_REVISIONS
                 or manifest['metadata_policy'] != METADATA_POLICY):
             raise ValueError('知识包清单格式或引擎版本不兼容')
         files = manifest['files']; counts = manifest['tables']

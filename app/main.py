@@ -594,6 +594,11 @@ def create_app(data_dir: Path | None = None, *, lan_hosts: list[str] | tuple = (
     mount_model_routes(app, data_dir, protected, database)
     mount_backup_route(app, data_dir, protected, database)
     personal.mount_personal_routes(app, data_dir, protected, database)
+    from . import library_analysis, library_evidence, library_modifications, library_signs
+    library_analysis.mount_library_analysis_routes(app, protected)
+    library_evidence.mount_library_evidence_routes(app, protected)
+    library_modifications.mount_library_modification_routes(app, protected)
+    library_signs.mount_library_sign_routes(app, protected)
 
     dist = ROOT / "frontend" / "dist"
     if dist.is_dir():

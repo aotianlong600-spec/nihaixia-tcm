@@ -33,6 +33,7 @@ test('browser app keeps model settings, model selection and AI send controls ava
     './Settings.vue':{default:placeholder},
     './ConsultModelBar.vue':{default:{template:'<div data-model-bar="true"></div>'}},
     './LocalDecision.vue':{default:placeholder},
+    './ConsultationAnalysis.vue':{default:placeholder},
   })
   try {
     const instance = createSSRApp(app)

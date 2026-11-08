@@ -240,6 +240,11 @@ def mount_personal_routes(app, data_dir, protected, database):
         path = library.original_path(conn, data_dir, source_id)
         return FileResponse(path, filename=path.name, content_disposition_type="attachment")
 
+    @app.post("/api/consultations/{consultation_id}/facts/confirm", dependencies=protected)
+    def confirm_fact(consultation_id: str, payload: dict, conn=Depends(database)):
+        from . import consultation_library
+        return consultation_library.confirm_fact(conn, consultation_id, payload.get('term'), payload.get('state'), payload.get('expected_revision'))
+
     @app.get("/api/formulas", dependencies=protected)
     def formulas(q: str = "", limit: int = 30):
         if len(q) > 256 or not 1 <= limit <= 100:
