@@ -270,12 +270,32 @@ def search(conn, query, source_id=None, limit=30):
         raise ValueError('invalid search')
     if source_id is not None:
         knowledge._document_id(source_id)
-    found = []
+    hits = []
+    # Collect enough hits to give every matching source a turn instead of
+    # filling the whole page from the first documents in storage order.
     for hit in _hits(conn,query,source_id):
-        found.append(_public_hit(hit,query))
-        if len(found) >= limit:
+        hits.append(hit)
+        if len(hits) >= max(limit * 20, 500):
             break
-    return found
+    groups, order = {}, []
+    for hit in hits:
+        key = hit['source_id']
+        if key not in groups:
+            groups[key] = []
+            order.append(key)
+        groups[key].append(hit)
+    selected = []
+    while len(selected) < limit:
+        progressed = False
+        for key in order:
+            if groups[key]:
+                selected.append(groups[key].pop(0))
+                progressed = True
+                if len(selected) >= limit:
+                    break
+        if not progressed:
+            break
+    return [_public_hit(hit,query) for hit in selected]
 
 
 def retrieve_context(conn, queries, max_items=12, max_chars=16000):

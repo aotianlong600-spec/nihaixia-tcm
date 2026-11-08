@@ -31,6 +31,10 @@ jobs:
       - uses: actions/configure-pages@v5
         id: pages
       - run: python -m pip install fastjsonschema==2.21.2
+      - name: Fetch complete knowledge pack
+        run: |
+          curl -fL -o knowledge-pack.zip "https://github.com/${{ github.repository }}/releases/download/knowledge-pack-2026-11-09/knowledge-pack.zip"
+          unzip -q knowledge-pack.zip -d knowledge-pack
       - run: npm ci --ignore-scripts
         working-directory: frontend
       - run: npm run build -- --base "$PAGES_BASE_PATH/"
@@ -38,7 +42,7 @@ jobs:
         env:
           VITE_BROWSER_APP: '1'
           PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
-      - run: python scripts/build_pages.py
+      - run: python scripts/build_pages.py --knowledge-pack knowledge-pack
       - uses: actions/upload-pages-artifact@v4
         with:
           path: frontend/dist
