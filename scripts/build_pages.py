@@ -93,12 +93,17 @@ def engine_archive(knowledge_pack=None):
 def service_worker():
     files = sorted(p for p in DIST.rglob('*') if p.is_file() and p.name != 'sw.js' and not p.name.startswith('.'))
     paths = [p.relative_to(DIST).as_posix() for p in files]
+    # The complete knowledge pack is large and cached on first use; including
+    # it in the install list made every app update wait for the whole pack.
+    precache = [path for path in paths if path != 'runtime/engine.zip']
     build = sha256()
     for path, file in zip(paths, files):
         build.update(path.encode())
         build.update(sha256(file.read_bytes()).digest())
     script = (ROOT / 'frontend/pages-sw.js').read_text(encoding='utf-8')
-    content = script.replace('__BUILD_ID__', build.hexdigest()[:16]).replace('__APP_FILES__', json.dumps(paths))
+    content = (script.replace('__BUILD_ID__', build.hexdigest()[:16])
+                     .replace('__APP_FILES__', json.dumps(paths))
+                     .replace('__PRECACHE_FILES__', json.dumps(precache)))
     (DIST / 'sw.js').write_text(content, encoding='utf-8')
 
 
