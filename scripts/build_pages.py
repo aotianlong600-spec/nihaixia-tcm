@@ -26,7 +26,7 @@ ASSETS = {
 MODULES = (
     '__init__', 'browser_api', 'mobile_api', 'consultation_core', 'decision', 'decision_support',
     'domain', 'engine', 'formula_engine', 'knowledge', 'library', 'offline_pack', 'offline_runtime',
-    'portable_validation', 'storage',
+    'portable_validation', 'storage', 'browser_models', 'mobile_models', 'model_profiles', 'model_urls',
 )
 
 
@@ -62,7 +62,7 @@ def engine_archive():
             for module in MODULES:
                 path = f'app/{module}.py'
                 out.write(ROOT / path, path)
-            for name in ('open_formula_library.json', 'portable_schemas.json'):
+            for name in ('open_formula_library.json', 'portable_schemas.json', 'codex_models.json'):
                 path = f'app/resources/{name}'
                 out.write(ROOT / path, path)
             for name in (*manifest['files'], 'manifest.json'):

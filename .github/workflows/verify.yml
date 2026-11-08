@@ -18,6 +18,7 @@ jobs:
         working-directory: ai-bridge
       - run: npm test
         working-directory: ai-bridge
+      - run: node --test relay/worker.test.mjs
       - run: python -m pytest -q
       - run: npm ci --ignore-scripts
         working-directory: frontend

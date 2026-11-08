@@ -532,10 +532,13 @@ class MobileModels:
             if context:
                 job.update(consultation_id=payload['consultation_id'], consultation_context=context)
             self.jobs[job['id']] = job
-        threading.Thread(target=self._run_job, args=(job, deepcopy(cfg), key, account, request_input, system, context, analysis, allowed), daemon=True).start()
+        self._launch_job(job, deepcopy(cfg), key, account, request_input, system, context, analysis, allowed)
         return self._public_job(job)
 
-    def _model_response(self, job, cfg, key, account, request_input, system):
+    def _launch_job(self, *args):
+        threading.Thread(target=self._run_job, args=args, daemon=True).start()
+
+    def _model_request(self, job, cfg, key, account, request_input, system):
         if job['_cancel'].is_set():
             raise ValueError('模型任务已取消')
         codex = cfg['auth_mode'] == 'codex'
@@ -555,7 +558,14 @@ class MobileModels:
                     'max_tokens':4096 if job['purpose']=='consult' else 2048}
             if cfg['reasoning_effort'] != 'auto':
                 body['reasoning_effort'] = cfg['reasoning_effort']
-        response = self._request('POST', endpoint, headers, storage.encode(body), job['id'], 90000)
+        return 'POST', endpoint, headers, storage.encode(body), job['id'], 90000
+
+    def _model_response(self, job, cfg, key, account, request_input, system):
+        response = self._request(*self._model_request(job, cfg, key, account, request_input, system))
+        return self._parse_model_response(job, cfg, response)
+
+    def _parse_model_response(self, job, cfg, response):
+        codex = cfg['auth_mode'] == 'codex'
         if job['_cancel'].is_set():
             raise ValueError('模型任务已取消')
         status = response['status']
@@ -651,37 +661,7 @@ class MobileModels:
                             or refreshed_account != account):
                         raise ValueError('Codex授权已变化，请重新发送')
             text, usage = self._model_response(job, cfg, key, account, request_input, system)
-            result = None
-            if job['purpose'] == 'consult':
-                try:
-                    result = core.validate_result(validate('ConsultResult', json.loads(text)), context)
-                except (TypeError, json.JSONDecodeError):
-                    raise ValueError('模型输出不是完整问诊JSON，本次结果未保存') from None
-            elif job['purpose'] == 'explain':
-                result = json.loads(text)
-                if (not isinstance(result,dict) or set(result)!={'summary','questions','evidence_ids'}
-                        or not isinstance(result['summary'],str) or not 1 <= len(result['summary']) <= 30000
-                        or any(not isinstance(result[k],list) or len(result[k])>100 or any(not isinstance(v,str) or len(v)>2000 for v in result[k]) for k in ('questions','evidence_ids'))
-                        or set(result['evidence_ids']) - allowed):
-                    raise ValueError('模型解释结构或引用不符合本次冻结资料')
-            with self.guard:
-                if job['_cancel'].is_set():
-                    return
-                finished = {**self._public_job(job),'status':'completed','text':text,'usage':usage,'validated':True,
-                            'validation_scope':'仅完成、结构、引用及来源检查，不代表医学有效性','result':result}
-                if context:
-                    finished.update(text=storage.encode(result), evidence=context['evidence'])
-                with closing(storage.connect(self.data_dir)) as conn, conn:
-                    conn.execute('BEGIN IMMEDIATE')
-                    if (context and core.task_warnings(conn, context)) or (analysis and storage.analysis_dependency_errors(conn, analysis)):
-                        raise ValueError('问诊输入或来源已更改，本次结果未保存，请重新分析')
-                    document = {**finished,'purpose':job['purpose'],'model':cfg['model'],'recipient':cfg['base_url']}
-                    if context:
-                        document.update(consultation_context=context,raw_response=text)
-                        core.save_assistant_result(conn, job, result, context)
-                    conn.execute('INSERT INTO model_calls VALUES(?,?,?,?,?,?)',(job['id'],job.get('analysis_id'),job['purpose'],'completed',storage.encode(document),job['created_at']))
-                    storage.audit(conn,'model_completed',job['id'],purpose=job['purpose'])
-                job.update(finished)
+            self._finish_job(job, cfg, text, usage, context, analysis, allowed)
         except Exception as exc:
             with self.guard:
                 job.update(status='cancelled' if job['_cancel'].is_set() else 'failed',validated=False)
@@ -689,6 +669,40 @@ class MobileModels:
                     job['error'] = str(exc)[:500] if isinstance(exc,(ValueError,DomainError)) else '本机模型通道未完成，本次结果未保存'
         finally:
             job['_done'].set()
+
+    def _finish_job(self, job, cfg, text, usage, context, analysis, allowed):
+        from . import consultation_core as core
+        result = None
+        if job['purpose'] == 'consult':
+            try:
+                result = core.validate_result(validate('ConsultResult', json.loads(text)), context)
+            except (TypeError, json.JSONDecodeError):
+                raise ValueError('模型输出不是完整问诊JSON，本次结果未保存') from None
+        elif job['purpose'] == 'explain':
+            result = json.loads(text)
+            if (not isinstance(result,dict) or set(result)!={'summary','questions','evidence_ids'}
+                    or not isinstance(result['summary'],str) or not 1 <= len(result['summary']) <= 30000
+                    or any(not isinstance(result[k],list) or len(result[k])>100 or any(not isinstance(v,str) or len(v)>2000 for v in result[k]) for k in ('questions','evidence_ids'))
+                    or set(result['evidence_ids']) - allowed):
+                raise ValueError('模型解释结构或引用不符合本次冻结资料')
+        with self.guard:
+            if job['_cancel'].is_set():
+                return
+            finished = {**self._public_job(job),'status':'completed','text':text,'usage':usage,'validated':True,
+                        'validation_scope':'仅完成、结构、引用及来源检查，不代表医学有效性','result':result}
+            if context:
+                finished.update(text=storage.encode(result), evidence=context['evidence'])
+            with closing(storage.connect(self.data_dir)) as conn, conn:
+                conn.execute('BEGIN IMMEDIATE')
+                if (context and core.task_warnings(conn, context)) or (analysis and storage.analysis_dependency_errors(conn, analysis)):
+                    raise ValueError('问诊输入或来源已更改，本次结果未保存，请重新分析')
+                document = {**finished,'purpose':job['purpose'],'model':cfg['model'],'recipient':cfg['base_url']}
+                if context:
+                    document.update(consultation_context=context,raw_response=text)
+                    core.save_assistant_result(conn, job, result, context)
+                conn.execute('INSERT INTO model_calls VALUES(?,?,?,?,?,?)',(job['id'],job.get('analysis_id'),job['purpose'],'completed',storage.encode(document),job['created_at']))
+                storage.audit(conn,'model_completed',job['id'],purpose=job['purpose'])
+            job.update(finished)
 
     def _get_job(self, job_id):
         with self.guard:

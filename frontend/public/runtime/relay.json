@@ -1,0 +1,4 @@
+{
+  "url": "https://nihaixia-model-relay-long600.fairykiwi35.chatgpt.site/relay",
+  "providers": ["auth.openai.com", "chatgpt.com", "api.openai.com", "api.deepseek.com", "api.sensenova.cn", "api.siliconflow.cn", "openrouter.ai", "open.bigmodel.cn", "dashscope.aliyuncs.com"]
+}

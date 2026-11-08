@@ -5,7 +5,7 @@ const files = new Set(__APP_FILES__.map(path => new URL(path, scope).href))
 const entry = new URL('index.html', scope).href
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(cacheName).then(cache => cache.addAll([...files])))
+  event.waitUntil(caches.open(cacheName).then(cache => cache.addAll([...files].map(url => new Request(url, { cache: 'reload' })))))
 })
 
 self.addEventListener('activate', event => {
