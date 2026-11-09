@@ -24,6 +24,8 @@ def test_browser_runtime_uses_catalog_and_local_records_with_browser_models(tmp_
         browser_api.initialize(tmp_path / 'records', pack)
         assert request('GET', '/session')['body']['platform'] == 'browser'
         assert request('GET', '/personal/overview')['body']['formula_count'] > 0
+        formulas = request('GET', '/formulas?q=%E7%9F%B3%E8%86%8F&limit=100')['body']['items']
+        assert any('石膏' in [component['name'] for component in formula['components']] for formula in formulas)
         assert request('GET', '/model/config')['status'] == 200
         assert request('POST', '/model/jobs', {'purpose': 'test'})['status'] == 409
         case = request('POST', '/consultations', {'intake': {'symptoms': ['怕冷']}})['body']

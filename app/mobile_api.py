@@ -143,10 +143,7 @@ class LocalRuntime:
             value['original_url'] = f'{ASSET_ORIGIN}/local/original/{sha}'
             return 200, value
         if path == '/formulas' and method == 'GET':
-            term = _normalize(query.get('q', [''])[0])
-            entries = formula_engine.load_library()['formulas']
-            items = [f for f in entries if not term or term in _normalize(f['name'] + ' ' + f.get('syndrome', ''))]
-            return 200, {'items': items[:number('limit', 30)]}
+            return 200, {'items': formula_engine.search_formulas(query.get('q', [''])[0], number('limit', 30))}
         if path == '/formulas/match' and method == 'POST':
             payload = validate('MatchInput', body)
             from .engine import analyze
