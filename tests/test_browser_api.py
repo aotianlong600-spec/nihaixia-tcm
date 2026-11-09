@@ -25,11 +25,17 @@ def test_browser_runtime_uses_catalog_and_local_records_with_browser_models(tmp_
         assert request('GET', '/session')['body']['platform'] == 'browser'
         assert request('GET', '/personal/overview')['body']['formula_count'] > 0
         formulas = request('GET', '/formulas?q=%E7%9F%B3%E8%86%8F&limit=100')['body']['items']
-        assert any('石膏' in [component['name'] for component in formula['components']] for formula in formulas)
+        selected_formula = next(formula for formula in formulas if formula['name'] == '大青龙汤')
+        detail = request('GET', f"/formulas/{selected_formula['id']}")['body']
+        assert '石膏' in [component['name'] for component in detail['components']]
         assert request('GET', '/model/config')['status'] == 200
         assert request('POST', '/model/jobs', {'purpose': 'test'})['status'] == 409
         case = request('POST', '/consultations', {'intake': {'symptoms': ['怕冷']}})['body']
         browser_api.initialize(tmp_path / 'records', pack)
         assert request('GET', f"/consultations/{case['id']}")['body']['intake']['symptoms'] == ['怕冷']
+        formula = request('GET', '/formulas/xiaochaihu_tang')['body']
+        assert 'modification_notes' not in formula
+        assert 'library_modifications' in formula
+        assert 'library_modifications_rejected' in formula
     finally:
         formula_engine.set_library_path(original_catalog)

@@ -7,7 +7,7 @@ import threading
 from urllib.parse import parse_qs, urlsplit
 from uuid import uuid4
 
-from . import consultation_core as core, decision, formula_engine, library, offline_pack, storage
+from . import consultation_core as core, decision, formula_engine, library, library_modifications, offline_pack, storage
 from .domain import DomainError
 from .knowledge import _normalize
 from .portable_validation import validate
@@ -143,7 +143,9 @@ class LocalRuntime:
             value['original_url'] = f'{ASSET_ORIGIN}/local/original/{sha}'
             return 200, value
         if path == '/formulas' and method == 'GET':
-            return 200, {'items': formula_engine.search_formulas(query.get('q', [''])[0], number('limit', 30))}
+            items = formula_engine.search_formulas(query.get('q', [''])[0], number('limit', 30))
+            return 200, {'items': [{key: item.get(key) for key in ('id', 'name', 'syndrome', 'six_meridian')}
+                                   for item in items]}
         if path == '/formulas/match' and method == 'POST':
             payload = validate('MatchInput', body)
             from .engine import analyze
@@ -154,6 +156,11 @@ class LocalRuntime:
             value = formula_engine.get_formula(formula.group(1))
             if value is None:
                 raise DomainError(404, '方剂条目不存在')
+            rules, rejected = library_modifications.verified_for_formula(conn, formula.group(1))
+            value.pop('modification_notes', None)
+            value['library_modifications'] = rules
+            value['library_modifications_rejected'] = rejected
+            value['library_modifications_notice'] = library_modifications.NOTICE
             return 200, value
         if path == '/decision/coverage' and method == 'GET':
             return 200, {**decision.coverage(conn), 'external_catalog_formulas': len(formula_engine.load_library()['formulas']), 'safety': 'incomplete'}

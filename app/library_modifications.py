@@ -1,14 +1,17 @@
 """Read-only classical formula modification rules from the local corpus."""
 from copy import deepcopy
 from functools import lru_cache
+import hashlib
 import json
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "library_evidence"
 FORMAT = "nihaixia-library-modifications"
 VERSION = 1
 NOTICE = "库内原文抽取的加减规则，仅表示原文在某个方后写了该动作；不表示当前患者适用，须回看原件。"
+VERIFIED = "verified_in_current_library"
 
 
 def _read(name: str) -> dict:
@@ -69,6 +72,52 @@ def summary() -> dict:
 
 def for_formula(formula_id: str) -> list[dict]:
     return deepcopy(_index().get(str(formula_id), []))
+
+
+def verify_rule(conn, rule: dict) -> tuple[dict | None, str | None]:
+    source = rule.get("source") or {}
+    page_match = re.fullmatch(r"physical_page:([1-9][0-9]*)", str(source.get("locator", "")))
+    if not page_match or not source.get("document_id") or not source.get("quote"):
+        return None, "invalid_source"
+    page = int(page_match[1])
+    row = conn.execute("""SELECT p.raw_text,p.corrected_text,p.ocr_text,d.title
+        FROM pages p JOIN documents d ON d.id=p.document_id
+        WHERE p.document_id=? AND p.physical_page=?""", (source["document_id"], page)).fetchone()
+    if not row:
+        return None, "source_page_missing"
+    raw, corrected, ocr, title = row
+    using_ocr = corrected is None and not (raw or "").strip()
+    text = corrected if corrected is not None else ((ocr or "") if using_ocr else (raw or ""))
+    if title != source.get("source_title"):
+        return None, "source_title_mismatch"
+    if source["quote"] not in text:
+        return None, "quote_not_on_source_page"
+    if hashlib.sha256(source["quote"].encode("utf-8")).hexdigest() != source.get("quote_sha256"):
+        return None, "quote_hash_mismatch"
+    verified = deepcopy(rule)
+    verified["source"] = {
+        **source,
+        "unit_no": page,
+        "verification": VERIFIED,
+        "verification_method": "quote_on_page_and_sha256",
+    }
+    return verified, None
+
+
+def verified_for_formula(conn, formula_id: str) -> tuple[list[dict], list[dict]]:
+    verified, rejected = [], []
+    for rule in for_formula(formula_id):
+        item, reason = verify_rule(conn, rule)
+        if item is not None:
+            verified.append(item)
+        else:
+            rejected.append({
+                "formula_id": rule.get("formula_id"),
+                "formula_name": rule.get("formula_name"),
+                "condition": rule.get("condition"),
+                "reason": reason,
+            })
+    return verified, rejected
 
 
 def search(query: str = "", formula_id: str = "", limit: int = 60) -> dict:

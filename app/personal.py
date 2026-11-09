@@ -7,7 +7,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
 from typing import get_origin
 
-from . import consultation_core, decision, formula_engine, library, storage
+from . import consultation_core, decision, formula_engine, library, library_modifications, storage
 from .consultation_core import ANALYSIS_REVISION, CONSULT_SYSTEM, RETRIEVAL_ALIASES, ROOT
 from .engine import analyze
 
@@ -247,7 +247,8 @@ def mount_personal_routes(app, data_dir, protected, database):
 
     @app.get("/api/formulas", dependencies=protected)
     def formulas(q: str = "", limit: int = 30):
-        return {"items": formula_engine.search_formulas(q, limit)}
+        return {"items": [{key: item.get(key) for key in ('id', 'name', 'syndrome', 'six_meridian')}
+                          for item in formula_engine.search_formulas(q, limit)]}
 
     @app.post("/api/formulas/match", dependencies=protected)
     def match(payload: MatchInput):
@@ -255,10 +256,15 @@ def mount_personal_routes(app, data_dir, protected, database):
         return {"items": formula_engine.match_patterns(payload.facts, payload.query, payload.limit)}
 
     @app.get("/api/formulas/{formula_id}", dependencies=protected)
-    def formula(formula_id: str):
+    def formula(formula_id: str, conn=Depends(database)):
         result = formula_engine.get_formula(formula_id)
         if result is None:
             raise HTTPException(404, "方剂条目不存在")
+        rules, rejected = library_modifications.verified_for_formula(conn, formula_id)
+        result.pop('modification_notes', None)
+        result['library_modifications'] = rules
+        result['library_modifications_rejected'] = rejected
+        result['library_modifications_notice'] = library_modifications.NOTICE
         return result
 
     @app.get("/api/consultations", dependencies=protected)

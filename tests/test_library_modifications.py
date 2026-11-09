@@ -52,6 +52,33 @@ def test_known_xiaochaihu_rules():
     assert found["items"]
 
 
+def test_rules_are_verified_against_the_current_library_page():
+    formula_id = "xiao_qinglong_tang"
+    rules = library_modifications.for_formula(formula_id)
+    conn = sqlite3.connect(":memory:")
+    conn.execute("CREATE TABLE documents(id TEXT PRIMARY KEY,title TEXT)")
+    conn.execute("CREATE TABLE pages(document_id TEXT,physical_page INTEGER,raw_text TEXT,corrected_text TEXT,ocr_text TEXT)")
+    pages = {}
+    for rule in rules:
+        source = rule["source"]
+        page = int(source["locator"].split(":")[1])
+        conn.execute("INSERT OR IGNORE INTO documents VALUES(?,?)", (source["document_id"], source["source_title"]))
+        pages.setdefault((source["document_id"], page), []).append(source["quote"])
+    for (document_id, page), quotes in pages.items():
+        conn.execute("INSERT INTO pages VALUES(?,?,?,?,?)", (document_id, page, "\n".join(quotes), None, None))
+    verified, rejected = library_modifications.verified_for_formula(conn, formula_id)
+    assert len(verified) == len(rules) and not rejected
+    assert all(rule["source"]["verification"] == library_modifications.VERIFIED for rule in verified)
+    source = rules[0]["source"]
+    page = int(source["locator"].split(":")[1])
+    conn.execute("UPDATE pages SET raw_text='removed' WHERE document_id=? AND physical_page=?", (source["document_id"], page))
+    verified, rejected = library_modifications.verified_for_formula(conn, formula_id)
+    missing_page = sum(rule["source"]["locator"] == source["locator"] for rule in rules)
+    assert len(verified) == len(rules) - missing_page
+    assert len(rejected) == missing_page
+    assert all(item["reason"] == "quote_not_on_source_page" for item in rejected)
+
+
 @pytest.fixture
 def modifications_client(tmp_path):
     from app.main import create_app
