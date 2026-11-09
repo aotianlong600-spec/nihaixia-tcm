@@ -8,7 +8,7 @@ import tempfile
 from . import consultation_core as core, formula_engine, library, offline_pack, storage
 
 
-def prepare_runtime(data_dir, knowledge_dir):
+def prepare_runtime(data_dir, knowledge_dir, *, replace_knowledge=False):
     data = Path(data_dir).resolve()
     data.mkdir(parents=True, exist_ok=True)
     existing_database = (data/'clinical.sqlite3').is_file()
@@ -30,13 +30,13 @@ def prepare_runtime(data_dir, knowledge_dir):
         active = json.loads(marker.read_text(encoding='utf-8'))
     except (OSError, ValueError):
         pass
-    if (existing_database and isinstance(active,dict) and active.get('pack_id')==pack_id
+    if (not replace_knowledge and existing_database and isinstance(active,dict) and active.get('pack_id')==pack_id
             and catalog.is_file() and not catalog.is_symlink()
             and offline_pack._hash(catalog)==manifest['files']['open_formula_library.json']['sha256']):
         result = {'pack_id':pack_id,'installed_rows':0,'tables':manifest['tables'],
                   'formula_library_path':str(catalog),'manifest_path':str(resource/'manifest.json')}
     else:
-        result = offline_pack.install_pack(Path(knowledge_dir),data)
+        result = offline_pack.install_pack(Path(knowledge_dir),data,replace=replace_knowledge)
         marker.parent.mkdir(exist_ok=True)
         handle, name = tempfile.mkstemp(dir=marker.parent,prefix='.active-',suffix='.tmp')
         import os

@@ -281,7 +281,7 @@ def export_pack(source_data_dir: Path, destination: Path) -> dict:
         raise _storage_error(exc)
 
 
-def install_pack(pack_dir: Path, data_dir: Path) -> dict:
+def install_pack(pack_dir: Path, data_dir: Path, *, replace: bool = False) -> dict:
     manifest = verify_pack(pack_dir); pack = _root(pack_dir); data = _root(data_dir)
     runtime = _file(data, 'clinical.sqlite3')
     canonical_manifest = _json_bytes(manifest)
@@ -304,6 +304,10 @@ def install_pack(pack_dir: Path, data_dir: Path) -> dict:
                 dst.execute('PRAGMA foreign_keys=ON'); dst.execute('BEGIN IMMEDIATE')
                 try:
                     _schema(dst)
+                    if replace:
+                        for table in ('research_entries', 'pages', 'source_units', 'documents',
+                                      'text_sources', 'source_catalog', 'decision_packages'):
+                            dst.execute(f'DELETE FROM {table}')
                     installed = 0
                     for table, columns in TABLES.items():
                         where = ' AND '.join(f'{k}=?' for k in KEYS[table])

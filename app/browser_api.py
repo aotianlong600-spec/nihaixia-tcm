@@ -15,11 +15,8 @@ from .offline_runtime import prepare_runtime
 class BrowserRuntime(mobile_api.LocalRuntime):
     def __init__(self, data_dir, knowledge_dir):
         self.data_dir = Path(data_dir).resolve()
-        marker = self.data_dir / 'knowledge/active.json'
-        previous = json.loads(marker.read_text(encoding='utf-8')).get('pack_id') if marker.is_file() else None
-        self.pack = prepare_runtime(self.data_dir, Path(knowledge_dir))
-        if previous:
-            self.pack = browser_library.activate_installed(self.data_dir, previous) or self.pack
+        self.knowledge_dir = Path(knowledge_dir).resolve()
+        self.pack = prepare_runtime(self.data_dir, self.knowledge_dir, replace_knowledge=True)
         self.models = BrowserModels(self.data_dir)
         self.guard = threading.RLock()
 
@@ -93,19 +90,18 @@ def restore_checkpoint(value):
     mobile_api._runtime.pack = value['pack']
 
 
-def install_library_archive(path):
-    runtime = mobile_api._runtime
-    result = browser_library.install_archive(path, runtime.data_dir)
-    runtime.pack = result
-    return result
-
-
 def activate_library():
     runtime = mobile_api._runtime
-    result = browser_library.activate_installed(runtime.data_dir)
-    if result:
-        runtime.pack = result
-    return result
+    marker = runtime.data_dir / 'knowledge/active.json'
+    try:
+        active = json.loads(marker.read_text(encoding='utf-8')).get('pack_id')
+    except (OSError, ValueError, AttributeError):
+        active = None
+    if active != runtime.pack['pack_id']:
+        runtime.pack = prepare_runtime(runtime.data_dir, runtime.knowledge_dir, replace_knowledge=True)
+    else:
+        formula_engine.set_library_path(runtime.pack['formula_library_path'])
+    return runtime.pack
 
 
 def original_info(source_id):

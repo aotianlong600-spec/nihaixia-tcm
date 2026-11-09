@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import sqlite3
 import stat
+from types import SimpleNamespace
 import zipfile
 
 import pytest
@@ -18,12 +19,12 @@ def retain_catalog():
     formula_engine.set_library_path(previous)
 
 
-def corpus(tmp_path):
+def corpus(tmp_path, term='测试症'):
     source = tmp_path / 'source'
-    source.mkdir()
-    content = '合成资料：观察测试症。'.encode()
+    source.mkdir(parents=True)
+    content = f'合成资料：观察{term}。'.encode()
     text_id = hashlib.sha256(content).hexdigest()
-    pdf = b'%PDF-1.7\nsynthetic-test-original'
+    pdf = f'%PDF-1.7\nsynthetic-test-original:{term}'.encode()
     pdf_id = hashlib.sha256(pdf).hexdigest()
     with closing(sqlite3.connect(source / 'clinical.sqlite3')) as conn, conn:
         for sql in offline_pack.SCHEMA.values():
@@ -32,7 +33,7 @@ def corpus(tmp_path):
         conn.execute('INSERT INTO pages(document_id,physical_page,raw_text,search_text,warning,extraction_method) VALUES(?,?,?,?,?,?)',
                      (pdf_id, 1, '合成PDF文字', '合成pdf文字', '', 'synthetic'))
         conn.execute('INSERT INTO text_sources VALUES(?,?,?,?,?)', (text_id, '测试文本', 'txt', 1, 'utf-8'))
-        conn.execute('INSERT INTO source_units VALUES(?,?,?,?,?)', (text_id, 1, '{"kind":"paragraph_range","start":1,"end":1}', content.decode(), '合成资料观察测试症'))
+        conn.execute('INSERT INTO source_units VALUES(?,?,?,?,?)', (text_id, 1, '{"kind":"paragraph_range","start":1,"end":1}', content.decode(), f'合成资料观察{term}'))
         conn.executemany('INSERT INTO source_catalog VALUES(?,?)', [(text_id, 'reference'), (pdf_id, 'reference')])
     (source / 'originals').mkdir()
     (source / 'originals' / f'{text_id}.txt').write_bytes(content)
@@ -54,7 +55,7 @@ def archive(tmp_path, pack, prefix=''):
 def runtime(tmp_path):
     data = tmp_path / 'runtime'
     source = tmp_path / 'empty-source'
-    source.mkdir()
+    source.mkdir(parents=True)
     with closing(sqlite3.connect(source / 'clinical.sqlite3')) as conn, conn:
         for sql in offline_pack.SCHEMA.values():
             conn.execute(sql)
@@ -115,6 +116,45 @@ def test_explicit_pack_reactivates_after_public_runtime_rewrites_the_marker(tmp_
     assert formula_engine.library_path() == Path(result['formula_library_path'])
     with pytest.raises(ValueError):
         browser_library.activate_installed(data, '../escape')
+
+
+def test_bundled_pack_replaces_imported_knowledge_and_keeps_records(tmp_path):
+    imported_pack, _, _ = corpus(tmp_path / 'imported', '旧导入症')
+    data = runtime(tmp_path / 'runtime')
+    browser_library.install_archive(archive(tmp_path / 'imported', imported_pack), data)
+
+    bundled_pack, _, _ = corpus(tmp_path / 'bundled', '内置症')
+    offline_runtime.prepare_runtime(data, bundled_pack, replace_knowledge=True)
+
+    with storage.connect(data) as conn:
+        assert library.search(conn, '旧导入症') == []
+        assert len(library.search(conn, '内置症')) == 1
+        assert conn.execute('SELECT title FROM consultations').fetchone()[0] == '保留合成记录'
+
+
+def test_browser_activation_replaces_stale_imported_marker(tmp_path):
+    from app import browser_api, mobile_api
+
+    imported_pack, _, _ = corpus(tmp_path / 'imported', '旧导入症')
+    data = runtime(tmp_path / 'runtime')
+    browser_library.install_archive(archive(tmp_path / 'imported', imported_pack), data)
+    bundled_pack, _, _ = corpus(tmp_path / 'bundled', '内置症')
+    manifest = offline_pack.verify_pack(bundled_pack)
+    pack_id = hashlib.sha256(offline_pack._json_bytes(manifest)).hexdigest()
+    previous = mobile_api._runtime
+    mobile_api._runtime = SimpleNamespace(
+        data_dir=data,
+        knowledge_dir=bundled_pack,
+        pack={'pack_id': pack_id, 'formula_library_path': str(data / 'bundled-catalog.json')},
+    )
+    try:
+        assert browser_api.activate_library()['pack_id'] == pack_id
+    finally:
+        mobile_api._runtime = previous
+    with storage.connect(data) as conn:
+        assert library.search(conn, '旧导入症') == []
+        assert len(library.search(conn, '内置症')) == 1
+        assert conn.execute('SELECT title FROM consultations').fetchone()[0] == '保留合成记录'
 
 
 def test_browser_units_use_full_text_and_registered_original_links(tmp_path):

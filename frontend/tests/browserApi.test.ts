@@ -45,24 +45,11 @@ test('browser requests use the scoped module worker and reject safely if it fail
     workers[0].onmessage!({data:{id:calls[1].id,status:200,body:{id:'saved-local-record'}}})
     assert.deepEqual(await writing, {id:'saved-local-record'})
 
-    const archive = new File([new Uint8Array([80,75,3,4])], 'knowledge.zip')
-    const importing = client.importKnowledge(archive)
-    let settled = false
-    void importing.then(() => { settled = true }, () => { settled = true })
-    await new Promise(resolve => setImmediate(resolve))
-    assert.equal(calls[2].path, '/library/import-pack')
-    assert.equal(calls[2].body, '')
-    assert.deepEqual(new Uint8Array(calls[2].archive!), new Uint8Array([80,75,3,4]))
-    assert.deepEqual(transfers[2], [calls[2].archive])
-    t.mock.timers.tick(300000)
-    await Promise.resolve()
-    assert.equal(settled, false)
-    workers[0].onmessage!({data:{id:calls[2].id,status:200,body:{installed_rows:3}}})
-    assert.deepEqual(await importing, {installed_rows:3})
+    assert.equal('importKnowledge' in client, false)
 
     const downloading = client.request<Blob>('/library/sources/example/original')
     const bytes = new TextEncoder().encode('original bytes').buffer
-    workers[0].onmessage!({data:{id:calls[3].id,status:200,bytes,content_type:'application/pdf',filename:'example.pdf'}})
+    workers[0].onmessage!({data:{id:calls[2].id,status:200,bytes,content_type:'application/pdf',filename:'example.pdf'}})
     const original = await downloading
     assert.equal(original.type, 'application/pdf')
     assert.equal(await original.text(), 'original bytes')

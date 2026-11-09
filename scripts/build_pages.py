@@ -8,8 +8,6 @@ import sys
 from tempfile import TemporaryDirectory
 from urllib.request import urlopen
 from zipfile import ZIP_DEFLATED, ZipFile
-import sqlite3
-from contextlib import closing
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / 'frontend/dist'
@@ -45,27 +43,17 @@ def download(name, digest):
     target.write_bytes(data)
 
 
-def engine_archive(knowledge_pack=None):
+def engine_archive(knowledge_pack):
     sys.path.insert(0, str(ROOT))
-    from app.offline_pack import SCHEMA, export_pack, verify_pack
+    from app.offline_pack import verify_pack
 
+    if knowledge_pack is None:
+        raise ValueError('A complete knowledge pack is required for the public web app')
     with TemporaryDirectory(prefix='.pages-build-', dir=ROOT) as temporary:
-        if knowledge_pack is None:
-            stage = Path(temporary)
-            source = stage / 'source'
-            source.mkdir()
-            with closing(sqlite3.connect(source / 'clinical.sqlite3')) as db, db:
-                for statement in SCHEMA.values():
-                    db.execute(statement)
-            pack = stage / 'knowledge'
-            manifest = export_pack(source, pack)
-            if any(manifest['tables'].values()):
-                raise ValueError('Public starter pack contains imported records')
-        else:
-            # Private knowledge packages are supplied at build time; they are
-            # never copied into the public source tree.
-            pack = Path(knowledge_pack).resolve()
-            manifest = verify_pack(pack)
+        # Private knowledge packages are supplied at build time; they are never
+        # copied into the public source tree.
+        pack = Path(knowledge_pack).resolve()
+        manifest = verify_pack(pack)
         with ZipFile(DIST / 'runtime/engine.zip', 'w', ZIP_DEFLATED) as out:
             for module in MODULES:
                 path = f'app/{module}.py'
@@ -110,9 +98,8 @@ def service_worker():
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='Package the browser app for GitHub Pages.')
-    parser.add_argument('--knowledge-pack', type=Path, default=None,
-                        help='完整知识包目录（含 manifest.json、knowledge.sqlite3、originals/）。'
-                             '省略时生成空起始包。')
+    parser.add_argument('--knowledge-pack', type=Path, required=True,
+                        help='完整知识包目录（含 manifest.json、knowledge.sqlite3、originals/）。')
     args = parser.parse_args()
     if not (DIST / 'index.html').is_file() or not (DIST / 'browser-worker.js').is_file():
         sys.exit('Build the browser app with VITE_BROWSER_APP=1 before packaging')
