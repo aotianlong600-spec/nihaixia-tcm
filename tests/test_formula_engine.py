@@ -37,6 +37,14 @@ def test_formula_index_searches_name_component_syndrome_and_meridian():
                for formula in engine.search_formulas('太阳', limit=100))
 
 
+def test_formula_modification_notes_keep_their_rule_source():
+    notes = [note for formula in engine.load_library()['formulas']
+             for note in formula.get('modification_notes', [])]
+    assert notes
+    assert all(note.get('source_ref', '').startswith(
+        'https://github.com/jangviktor-web/nihaixia-app/') for note in notes)
+
+
 def test_separate_source_patterns_are_not_merged(monkeypatch):
     library = {'formulas':[{'id':'f','name':'同方','components':[],'source_refs':['formula']}], 'patterns':[{'id':'p1','formula_id':'f','name':'同方','required':[['发热']],'source_refs':['one']}, {'id':'p2','formula_id':'f','name':'同方','required':[['发热']],'source_refs':['two']}], 'source_metadata':{}}
     monkeypatch.setattr(engine, 'load_library', lambda: library)
