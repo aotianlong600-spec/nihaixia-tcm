@@ -306,7 +306,7 @@ def install_pack(pack_dir: Path, data_dir: Path, *, replace: bool = False) -> di
                     _schema(dst)
                     if replace:
                         for table in ('research_entries', 'pages', 'source_units', 'documents',
-                                      'text_sources', 'source_catalog', 'decision_packages'):
+                                      'text_sources', 'source_catalog'):
                             dst.execute(f'DELETE FROM {table}')
                     installed = 0
                     for table, columns in TABLES.items():
@@ -316,6 +316,8 @@ def install_pack(pack_dir: Path, data_dir: Path, *, replace: bool = False) -> di
                             previous = dst.execute(f'SELECT {",".join(columns)} FROM {table} WHERE {where}', tuple(row[i] for i in indexes)).fetchone()
                             if previous is not None:
                                 if any(a != b for column,a,b in zip(columns, previous, row) if not (table == 'pages' and column in REDACTED)):
+                                    if replace and table == 'decision_packages':
+                                        continue
                                     raise ValueError('知识身份内容冲突，整次安装已取消：' + table)
                                 continue
                             dst.execute(f'INSERT INTO {table} ({",".join(columns)}) VALUES ({",".join("?" for _ in columns)})', row)

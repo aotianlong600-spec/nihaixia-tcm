@@ -9,7 +9,7 @@ import zipfile
 
 import pytest
 
-from app import browser_library, formula_engine, library, offline_pack, offline_runtime, storage
+from app import browser_library, decision, formula_engine, library, offline_pack, offline_runtime, storage
 
 
 @pytest.fixture(autouse=True)
@@ -19,7 +19,7 @@ def retain_catalog():
     formula_engine.set_library_path(previous)
 
 
-def corpus(tmp_path, term='测试症'):
+def corpus(tmp_path, term='测试症', package_title=None):
     source = tmp_path / 'source'
     source.mkdir(parents=True)
     content = f'合成资料：观察{term}。'.encode()
@@ -35,6 +35,12 @@ def corpus(tmp_path, term='测试症'):
         conn.execute('INSERT INTO text_sources VALUES(?,?,?,?,?)', (text_id, '测试文本', 'txt', 1, 'utf-8'))
         conn.execute('INSERT INTO source_units VALUES(?,?,?,?,?)', (text_id, 1, '{"kind":"paragraph_range","start":1,"end":1}', content.decode(), f'合成资料观察{term}'))
         conn.executemany('INSERT INTO source_catalog VALUES(?,?)', [(text_id, 'reference'), (pdf_id, 'reference')])
+        if package_title is not None:
+            decision.initialize(conn)
+            decision.import_package(conn, {
+                'format_version': 1, 'id': 'synthetic-package', 'version': 1, 'title': package_title,
+                'anchors': [], 'claims': [], 'formulas': [], 'nodes': [], 'edges': [], 'modifications': [],
+            })
     (source / 'originals').mkdir()
     (source / 'originals' / f'{text_id}.txt').write_bytes(content)
     (source / 'originals' / f'{pdf_id}.pdf').write_bytes(pdf)
@@ -155,6 +161,23 @@ def test_browser_activation_replaces_stale_imported_marker(tmp_path):
         assert library.search(conn, '旧导入症') == []
         assert len(library.search(conn, '内置症')) == 1
         assert conn.execute('SELECT title FROM consultations').fetchone()[0] == '保留合成记录'
+
+
+def test_bundled_pack_preserves_immutable_decision_package_during_replace(tmp_path):
+    imported_pack, _, _ = corpus(tmp_path / 'imported', '旧导入症', package_title='旧决策包')
+    data = runtime(tmp_path / 'runtime')
+    browser_library.install_archive(archive(tmp_path / 'imported', imported_pack), data)
+    with storage.connect(data) as conn:
+        old_digest = conn.execute("SELECT digest FROM decision_packages WHERE id='synthetic-package' AND version=1").fetchone()[0]
+
+    bundled_pack, _, _ = corpus(tmp_path / 'bundled', '内置症', package_title='内置决策包')
+    offline_runtime.prepare_runtime(data, bundled_pack, replace_knowledge=True)
+
+    with storage.connect(data) as conn:
+        assert conn.execute("SELECT digest FROM decision_packages WHERE id='synthetic-package' AND version=1").fetchone()[0] == old_digest
+        assert decision.load_packages(conn)[0]['snapshot']['title'] == '旧决策包'
+        assert library.search(conn, '旧导入症') == []
+        assert len(library.search(conn, '内置症')) == 1
 
 
 def test_browser_units_use_full_text_and_registered_original_links(tmp_path):
