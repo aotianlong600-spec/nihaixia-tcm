@@ -99,6 +99,33 @@ def test_migrated_search_index_and_real_original_snippet(tmp_path):
     assert evidence[0]['extraction_method'] == '本地文本提取'
 
 
+def test_search_snippet_keeps_complete_paragraph_context():
+    paragraphs = [f'第{i}段' + ('上下文' * 25) + '。' for i in range(8)]
+    paragraphs[3] = '桂枝汤主之，脉浮紧，发热无汗。' + ('完整证候' * 20) + '。'
+    text = '\n\n'.join(paragraphs)
+    snippet = library._snippet(text, '桂枝汤')
+    assert paragraphs[3] in snippet
+    assert len(snippet) > 600
+    assert all(part in paragraphs for part in snippet.split('\n\n'))
+
+
+def test_search_snippet_uses_sentence_boundaries_for_long_pages():
+    target = '目标句：桂枝汤主之；脉浮紧。'
+    text = ('开头前文。' + '甲' * 700 + '。' + target
+            + '后续第一句完整。' + '乙' * 700 + '。结尾句。')
+    snippet = library._snippet(text, '桂枝汤')
+    assert target in snippet
+    assert len(snippet) <= library.SNIPPET_MAX_CHARS
+    assert snippet.endswith('。') or snippet.endswith('…')
+
+
+def test_search_snippet_crops_only_an_oversized_sentence():
+    text = '甲' * 1000 + '桂枝汤' + '乙' * 1000
+    snippet = library._snippet(text, '桂枝汤')
+    assert '桂枝汤' in snippet
+    assert len(snippet) <= library.SNIPPET_MAX_CHARS
+
+
 def test_ocr_context_and_corrected_text_precedence(tmp_path):
     conn=sqlite3.connect(':memory:'); library.initialize(conn,tmp_path)
     sha='d'*64

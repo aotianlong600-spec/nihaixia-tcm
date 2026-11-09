@@ -246,6 +246,34 @@ def _hits(conn, term, source_id=None):
                    extraction_method='本地文本提取',_text=raw)
 
 
+SNIPPET_MAX_CHARS = 1800
+_PARAGRAPH_BREAK = re.compile(r'\r?\n[ \t\u3000]*\r?\n')
+_SENTENCE_BREAKS = '。！？!?；;\r\n'
+
+
+def _paragraph_spans(text):
+    spans, start = [], 0
+    for match in _PARAGRAPH_BREAK.finditer(text):
+        if text[start:match.start()].strip():
+            spans.append((start, match.start()))
+        start = match.end()
+    if text[start:].strip():
+        spans.append((start, len(text)))
+    return spans
+
+
+def _sentence_spans(text):
+    spans, start = [], 0
+    for index, char in enumerate(text):
+        if char in _SENTENCE_BREAKS:
+            if text[start:index + 1].strip():
+                spans.append((start, index + 1))
+            start = index + 1
+    if start < len(text) and text[start:].strip():
+        spans.append((start, len(text)))
+    return spans
+
+
 def _snippet(text, term):
     # Map normalized characters to original offsets so returned text stays verbatim.
     normalized, offsets = [], []
@@ -255,7 +283,41 @@ def _snippet(text, term):
         offsets.extend([i] * len(piece))
     index = ''.join(normalized).find(knowledge._normalize(term))
     pos = offsets[index] if index >= 0 else max(0, text.find(term))
-    return text[max(0,pos-40):pos+240]
+    paragraphs = _paragraph_spans(text)
+    if not paragraphs:
+        return ''
+    paragraph_index = next((i for i, (start, end) in enumerate(paragraphs) if start <= pos < end), 0)
+    start, end = paragraphs[paragraph_index]
+    spans, span_index = paragraphs, paragraph_index
+    if end - start > SNIPPET_MAX_CHARS:
+        spans = [(start + left, start + right) for left, right in _sentence_spans(text[start:end])]
+        span_index = next((i for i, (left, right) in enumerate(spans) if left <= pos < right), 0)
+        if not spans:
+            spans, span_index = paragraphs, paragraph_index
+    left, right = spans[span_index]
+    if right - left > SNIPPET_MAX_CHARS:
+        left = max(left, pos - SNIPPET_MAX_CHARS // 3)
+        return text[left:min(right, left + SNIPPET_MAX_CHARS)].strip()
+    before, after = span_index - 1, span_index + 1
+    while before >= 0 or after < len(spans):
+        for candidate in (before, after):
+            if candidate < 0 or candidate >= len(spans):
+                continue
+            candidate_left, candidate_right = spans[candidate]
+            if candidate_right - left <= SNIPPET_MAX_CHARS and right - candidate_left <= SNIPPET_MAX_CHARS:
+                left, right = min(left, candidate_left), max(right, candidate_right)
+                if candidate == before:
+                    before -= 1
+                else:
+                    after += 1
+                break
+            if candidate == before:
+                before = -1
+            else:
+                after = len(spans)
+        else:
+            break
+    return text[left:right].strip()
 
 
 def _public_hit(item, term):
