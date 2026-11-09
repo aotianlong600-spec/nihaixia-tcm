@@ -27,6 +27,16 @@ def test_library_original_dose_and_limit():
     assert engine.match_patterns([], query='桂枝', limit=0) == []
 
 
+def test_formula_index_searches_name_component_syndrome_and_meridian():
+    assert engine.search_formulas('桂枝汤', limit=10)[0]['name'] == '桂枝汤'
+    assert any('石膏' in [c['name'] for c in formula['components']]
+               for formula in engine.search_formulas('石膏', limit=100))
+    assert any('汗出' in formula['syndrome'] or any('汗出' in keyword for keyword in formula['keywords'])
+               for formula in engine.search_formulas('汗出', limit=100))
+    assert any('太阳' in formula['six_meridian']
+               for formula in engine.search_formulas('太阳', limit=100))
+
+
 def test_separate_source_patterns_are_not_merged(monkeypatch):
     library = {'formulas':[{'id':'f','name':'同方','components':[],'source_refs':['formula']}], 'patterns':[{'id':'p1','formula_id':'f','name':'同方','required':[['发热']],'source_refs':['one']}, {'id':'p2','formula_id':'f','name':'同方','required':[['发热']],'source_refs':['two']}], 'source_metadata':{}}
     monkeypatch.setattr(engine, 'load_library', lambda: library)

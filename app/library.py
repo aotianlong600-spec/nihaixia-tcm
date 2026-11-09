@@ -320,9 +320,11 @@ def _snippet(text, term):
     return text[left:right].strip()
 
 
-def _public_hit(item, term):
+def _public_hit(item, term, include_snippet=True):
     item = item.copy()
-    item['snippet'] = _snippet(item.pop('_text'),term)
+    text = item.pop('_text')
+    if include_snippet:
+        item['snippet'] = _snippet(text,term)
     item['preview_url'] = f"/api/library/sources/{item['source_id']}/units/{item['unit_no']}"
     return item
 
@@ -357,7 +359,7 @@ def search(conn, query, source_id=None, limit=30):
                     break
         if not progressed:
             break
-    return [_public_hit(hit,query) for hit in selected]
+    return [_public_hit(hit,query,False) for hit in selected]
 
 
 def retrieve_context(conn, queries, max_items=12, max_chars=16000):

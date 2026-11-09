@@ -34,6 +34,34 @@ def get_formula(formula_id):
     return next((deepcopy(f) for f in _library()['formulas'] if f['id'] == formula_id), None)
 
 
+def search_formulas(query='', limit=30):
+    if not isinstance(query, str) or len(query) > 256 or type(limit) is not int or not 1 <= limit <= 100:
+        raise ValueError('检索词或数量无效')
+    formulas = load_library()['formulas']
+    term = query.strip()
+    if not term:
+        return formulas[:limit]
+    ranked = []
+    for index, formula in enumerate(formulas):
+        name = formula.get('name', '')
+        if term == name:
+            score = 100
+        elif name.startswith(term):
+            score = 80
+        elif term in name:
+            score = 60
+        elif any(term in component.get('name', '') for component in formula.get('components', [])):
+            score = 40
+        elif term in formula.get('six_meridian', ''):
+            score = 30
+        elif term in formula.get('syndrome', '') or any(term in keyword for keyword in formula.get('keywords', [])):
+            score = 20
+        else:
+            continue
+        ranked.append((-score, index, formula))
+    return [formula for _, _, formula in sorted(ranked, key=lambda item: item[:2])[:limit]]
+
+
 def match_patterns(facts, query='', limit=8):
     if not isinstance(limit, int) or isinstance(limit, bool) or limit <= 0:
         return []

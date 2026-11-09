@@ -247,10 +247,7 @@ def mount_personal_routes(app, data_dir, protected, database):
 
     @app.get("/api/formulas", dependencies=protected)
     def formulas(q: str = "", limit: int = 30):
-        if len(q) > 256 or not 1 <= limit <= 100:
-            raise ValueError("检索词或数量无效")
-        data = formula_engine.load_library()["formulas"]
-        return {"items": [f for f in data if not q or q in f["name"] or q in f.get("syndrome", "")][:limit]}
+        return {"items": formula_engine.search_formulas(q, limit)}
 
     @app.post("/api/formulas/match", dependencies=protected)
     def match(payload: MatchInput):

@@ -92,7 +92,7 @@ def test_migrated_search_index_and_real_original_snippet(tmp_path):
     conn.execute('INSERT INTO source_units VALUES (?,?,?,?)',(sha,1,json.dumps({'kind':'line_range','start':1,'end':42}),raw))
     library.initialize(conn,tmp_path)
     result = library.search(conn,'发热')[0]
-    assert '發熱' in result['snippet'] and result['snippet'] in raw
+    assert 'snippet' not in result
     assert result['locator']['end'] == 42
     evidence = library.retrieve_context(conn,['发热'])
     assert evidence[0]['text'] in raw and evidence[0]['warning']
@@ -139,7 +139,7 @@ def test_ocr_context_and_corrected_text_precedence(tmp_path):
     assert evidence[0]['extraction_method'] == '本地OCR识别草稿'
     conn.execute('UPDATE pages SET corrected_text=?,search_text=? WHERE document_id=?',('订正文','订正文',sha))
     assert library.search(conn,'发热') == []
-    assert library.search(conn,'订正文')[0]['snippet'] == '订正文'
+    assert library.retrieve_context(conn,['订正文'])[0]['text'] == '订正文'
 
 
 def test_markdown_original_lines_role_dedup_and_backup(tmp_path):
