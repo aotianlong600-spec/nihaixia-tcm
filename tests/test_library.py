@@ -147,8 +147,7 @@ def test_ocr_context_and_corrected_text_precedence(tmp_path):
     assert '版面坐标' in unit['warning']
 
 
-def test_markdown_original_lines_role_dedup_and_backup(tmp_path):
-    from app.backup import create_backup, restore_backup
+def test_markdown_original_lines_role_and_dedup(tmp_path):
     original = tmp_path / 'source.md'
     content = '# 提纲\n发热\n\n桂枝\n'.encode('utf-8')
     original.write_bytes(content)
@@ -167,6 +166,3 @@ def test_markdown_original_lines_role_dedup_and_backup(tmp_path):
         assert hit['corpus_role']=='open_source_summary' and '不等同' in hit['warning']
         assert '不作为系统指令' in library.get_unit(conn,data,sha,1)['warning']
         assert library.original_path(conn,data,sha).read_bytes()==content
-    archive=create_backup(data,'test-password-long-enough')
-    restore_backup(archive,'test-password-long-enough',tmp_path/'restored')
-    assert (tmp_path/'restored'/'originals'/f'{sha}.md').read_bytes()==content

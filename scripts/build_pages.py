@@ -21,13 +21,7 @@ ASSETS = {
     'sqlite3-1.0.0-cp313-cp313-pyodide_2025_0_wasm32.whl': 'aab7214b987a3803fca283a8221e4b9d3274abc05d0cf506ea1a2ae7e09e3bf0',
     'LICENSE': '1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5',
 }
-MODULES = (
-    '__init__', 'browser_api', 'mobile_api', 'consultation_core', 'decision', 'decision_support',
-    'domain', 'engine', 'formula_engine', 'knowledge', 'library', 'offline_pack', 'offline_runtime',
-    'portable_validation', 'storage', 'browser_models', 'mobile_models', 'model_profiles', 'model_urls',
-    'browser_library', 'browser_excerpts', 'consultation_library', 'library_analysis',
-    'library_evidence', 'library_modifications', 'library_signs',
-)
+MODULES = ('__init__', 'domain', 'knowledge', 'library', 'main', 'portable_validation')
 
 
 def download(name, digest):
@@ -44,27 +38,22 @@ def download(name, digest):
 
 
 def engine_archive(knowledge_pack):
-    sys.path.insert(0, str(ROOT))
-    from app.offline_pack import verify_pack
-
     if knowledge_pack is None:
         raise ValueError('A complete knowledge pack is required for the public web app')
     with TemporaryDirectory(prefix='.pages-build-', dir=ROOT) as temporary:
         # Private knowledge packages are supplied at build time; they are never
         # copied into the public source tree.
         pack = Path(knowledge_pack).resolve()
-        manifest = verify_pack(pack)
+        if not (pack / 'manifest.json').is_file():
+            raise ValueError('Knowledge pack is missing manifest.json')
+        manifest = json.loads((pack / 'manifest.json').read_text(encoding='utf-8'))
         with ZipFile(DIST / 'runtime/engine.zip', 'w', ZIP_DEFLATED) as out:
             for module in MODULES:
                 path = f'app/{module}.py'
                 out.write(ROOT / path, path)
-            for name in ('open_formula_library.json', 'portable_schemas.json', 'codex_models.json'):
+            for name in ('open_formula_library.json',):
                 path = f'app/resources/{name}'
                 out.write(ROOT / path, path)
-            for stem in ('formula_mentions', 'formula_compositions', 'modifications', 'sign_terms'):
-                for suffix in ('.json', '_manifest.json'):
-                    path = f'library_evidence/{stem}{suffix}'
-                    out.write(ROOT / path, path)
             for name in (*manifest['files'], 'manifest.json'):
                 out.write(pack / name, f'knowledge/{name}')
             package = distribution('fastjsonschema')

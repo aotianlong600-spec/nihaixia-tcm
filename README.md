@@ -1,80 +1,74 @@
-# 倪氏中医工作台 · 网页 App
+# 经方原文库 · 数据底座
 
-网页 App 提供经方检索、方证线索匹配、本地问诊记录和云端模型。本机工作台支持自备原文库、来源图规则和经方加减。本轮更新网页版，安卓暂停更新。
+本仓库是一个**只读的知识库底座**：原文库、开源方剂索引、检索与溯源读取接口。
 
-## 公网网页版
+它不是诊疗应用，也不做辨证。**算法层与应用层已移除**，重构依据见 [docs/LAYERS.md](docs/LAYERS.md)。
 
-[打开网页 App](https://aotianlong600-spec.github.io/nihaixia-tcm/)。它在浏览器运行共享 Python 核心，内置 314 条开源方剂索引，将问诊记录保存在当前浏览器。首次联网准备资源后可离线检索和匹配，可从浏览器菜单安装到桌面或主屏幕。
+## 本仓库包含
 
-在“模型与数据”配置 API Key，或通过 Codex 设备码登录，再选择配置、模型和思考档位。API Key、授权令牌及记录在当前浏览器加密保存。清除网站数据会删除这些内容。常见服务通过本项目的无状态模型转发服务请求，自定义接口可以直连，需要提供方允许当前站点跨域访问。转发实现见 `relay/worker.mjs`，服务地址在 `frontend/public/runtime/relay.json`。
+| 路径 | 内容 |
+|---|---|
+| `app/knowledge.py` | 原文库：PDF 导入、物理页与印刷页、文字检索、页面渲染、人工校订与证据表 |
+| `app/library.py` | 统一来源目录：来源清单、单元读取、跨来源检索 |
+| `app/main.py` | 只读 FastAPI 接口，仅 GET |
+| `app/domain.py` | 传输无关的领域异常 |
+| `app/resources/open_formula_library.json` | 开源方剂索引：**314 首方、315 条证型规则** |
+| `app/resources/来源说明.md` | 索引的来源与授权说明 |
+| `tests/` | 数据层与接口测试（51 个用例） |
 
-## 书库与问诊分析
+## 本仓库不包含
 
-网页内置完整知识库：19 个来源、3342 个物理页、307 个文本单元、314 首方，以及 274 首方的 3763 条原文引文、200 个组成版本、129 条体征词和 21 条加减原句。首次打开网页时自动下载并装入浏览器，无需手动导入；之后由浏览器缓存，可离线检索、阅读完整原文并打开 PDF/DOC/TXT 原件。
+- 方证匹配、症状聚类、经方加减推演等**算法层**
+- 问诊单、病例、就诊记录、会话等**应用层数据与接口**
+- 云端模型接入、OAuth、模型转发服务（原 `ai-bridge/`、`relay/`）
+- 知识包打包与导出工具（知识包改为外部 release 资源）
 
-资料包作为公开 release 资源随站点发布，构建时下载并打进 `runtime/engine.zip`，不进入源码树。网页版不提供用户导入入口；资料更新由维护者发布新的 release 资源并重新部署站点。
+## 快速开始
 
-问诊单保存后，主对话显示当前事实、原文命中、待核对信息、反证、组成版本和加减线索。文字检索词可经用户点选核对为当前存在或否认，既往、他人和未知信息单独处理。云模型请求使用同次冻结的书证和来源图。
+1. 安装 Python 3.11，双击 `setup.cmd`（创建 `.venv` 并安装依赖）。
+2. 双击 `启动离线网页.cmd`。
+3. 打开 <http://127.0.0.1:8767/api/status>，或直接读接口：
 
-现有确定性来源包包含 5 个方剂版本、6 个节点，支持按条件核对与组成差异预览。新增提取的 21 条加减原句作为有出处的候选线索展示，后续按原文逐项补齐完整条件和动作。
+```
+GET /api/status
+GET /api/overview
+GET /api/formulas?q=桂枝&limit=20
+GET /api/formulas/guizhi_tang
+GET /api/sources
+GET /api/documents
+GET /api/documents/{document_id}/pages/{physical_page}
+GET /api/documents/{document_id}/pages/{physical_page}/image
+GET /api/sources/{source_id}/units/{unit_no}
+GET /api/search?q=发热&limit=20
+```
 
-## 本机工作台
-
-1. 首次使用时安装 Python 3.11，运行 `setup.cmd`。项目会准备自己的 Node 运行时。
-2. 双击“启动离线网页.cmd”，打开 [本机工作台](http://127.0.0.1:8767)。默认可查开源经方索引，病例保存在本机 `data/`。使用自备知识包时，在启动前将它放入 `knowledge/`。
-3. 在支持安装网页应用的浏览器中，选择地址栏或浏览器菜单里的“安装应用”或“将此站点作为应用安装”。之后可从桌面或开始菜单打开工作台。
-4. 需要 AI 时，在“模型与数据”配置兼容 API 地址和密钥，或通过 Codex 设备码授权。启用外发后可在问诊页选择模型、思考档位并发送。
-
-本机工作台的病例、书库和规则计算由本机 Python 服务提供，安装后也需要运行启动脚本。云模型支持 OpenAI 兼容 Chat Completions 和 Codex 文本通道，可配置 HTTPS 地址及模型 ID。
+交互式文档在同一服务的 `/api/docs`。全部接口只接受 GET；写请求返回 405。完整说明见 [docs/API.md](docs/API.md)。
 
 ## 数据
 
-本仓库随源码提供原有开源经方索引 `app/resources/open_formula_library.json`。浏览器版和本机工作台分别保存记录。本机 `knowledge/` 用于存放本地生成或自备的知识包。
+- 方剂索引随源码分发：`app/resources/open_formula_library.json`，来源标注见 `app/resources/来源说明.md`。
+- 原文库本体（来源 PDF/DOC/TXT 与物理页）不进入源码树。运行后落在 `data/`，由 `knowledge.sqlite3` 与 `originals/` 组成。
+- 同一份原文的原件、字节哈希、物理页与印刷页跨端保持一致；有疑问的页带 `warning`，人工校订后 `review_status` 变为 `verified`。
 
-启动时会把知识事务性装入本机 SQLite，并独立保存记录。重复启动保留用户本地数据库修订。
-
-同一知识包的原件、字节哈希、物理页、印刷页和原文锚点跨端保持一致。查阅原件和执行来源图规则需要包内包含相应资料。源量与个人日剂量分开呈现。
-
-问诊调用云端时发送本次问诊单、最近最多12条对话、候选及图谱、选取书证文字。不会自动上传整份PDF文件；自由文本尚无自动脱敏保证。
-
-## 数据库维护
-
-可直接编辑、迁移、更新、建索引或重建本地数据库。修订内容时同步维护版本、引用和完整性清单。
-
-允许引入外部数据，包括其他典籍、公开数据集、开源项目医学条目及中医参考资料，不限于当前已选书目。外部资料只需标记“第三方”，不强制逐条填写出处、作者、版本、原文定位或许可字段，已有元数据可保留。第三方数据可用于检索、知识整理和算法建设，不冒称倪师观点；AI推演单独标记。既有倪师原文溯源保留，仅标“第三方”的条目不能据此逐条回查原文。
-
-第三方资料导入后合并进入同一中医库，统一参与检索、辨证、方证鉴别和经方加减；以倪海厦学术体系为主线、第三方为补充。保留“第三方”分类；存在差异时保留差异，不静默覆盖倪氏内容或拼成新的倪氏规则。
+## 验证
 
 ```powershell
-python scripts/export_knowledge_pack.py --data-dir data --destination knowledge-new
-python scripts/export_knowledge_pack.py --verify knowledge-new
+python -m pip install -r requirements-dev.txt
+python -m pytest -q
 ```
 
-导出目录须为新目录，避免半成品覆盖现有包。校验通过后可将新包放入 `knowledge/` 供本机使用。
+`.github/workflows/verify.yml` 在 Windows 上跑同一套用例。
 
-## 构建安卓
+## 遗留目录（本仓库不再维护）
 
-本轮暂停安卓更新。原构建方法保留供后续开发使用，运行说明见 [安卓文档](docs/ANDROID.md)。
+| 路径 | 状态 |
+|---|---|
+| `frontend/` | 原网页 App。它调用的问诊、决策、模型接口已随算法层删除，页面只剩静态壳，`.github/workflows/web-app.yml` 的发布链路也不再产出可用站点 |
+| `android/` | 原离线端。依赖已删除的知识包导出脚本，当前不可构建 |
+| `docs/legacy/` | 旧版设计文档：决策 V3、推理工作流、配置档位、OAuth 排错、多端说明等 |
 
-<details>
-<summary>查看原安卓构建命令</summary>
+这三处保留原样以便回溯；要用就按新边界重写，而不是就地修补。
 
-需要 JDK 17、Android SDK 35、Python 3.11。先将自备知识包放入 `knowledge/`，或运行下列第一条命令生成空包。空包带开源经方索引，语料和来源图均为空。已有自备包时跳过生成命令。
+## 重构记录
 
-```powershell
-python scripts/create_empty_knowledge_pack.py
-python scripts/export_portable_schemas.py
-cd frontend
-npm ci --ignore-scripts
-npm run build
-cd ..
-./scripts/build_android_offline.ps1 -JavaHome <JDK17目录> -SdkDirectory D:/android -BuildPython <Python3.11路径> -OutputDirectory <输出目录>
-```
-
-</details>
-
-## 验证与范围
-
-公开 CI 运行 Python、前端和模型桥测试，校验空知识包与数据契约，并构建网页。药物风险库和全书语义映射仍在完善。
-
-本版交付离线核心。旧电脑中心版说明归档在 `docs/legacy/`。
+删除算法层与应用层，仓库回到数据底座。逐条清单与判定依据见 [docs/LAYERS.md](docs/LAYERS.md)。
