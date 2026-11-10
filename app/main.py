@@ -1,8 +1,7 @@
-"""只读知识库 API：检索原文、读取页面、查询方剂索引。
+"""知识库 API：检索与读取对所有人开放，数据导入需要写入令牌。
 
-本仓库是数据底座：原文库、方剂索引、检索与溯源读取。
+本仓库是数据底座：原文库、方剂索引、检索与溯源读取，外加受令牌保护的导入。
 辨证算法、方证匹配、问诊记录、模型接入不在本服务内，也不在本仓库内。
-所有接口只接受 GET，不存在写入路径。
 """
 from contextlib import contextmanager
 import json
@@ -16,7 +15,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 
-from app import knowledge, library
+from app import ingest, knowledge, library
 from app.domain import DomainError
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -40,6 +39,14 @@ def _summary(formula: dict) -> dict:
     return {key: formula.get(key) for key in ("id", "name", "syndrome", "six_meridian", "source_refs")}
 
 
+def connect(data: Path) -> sqlite3.Connection:
+    conn = sqlite3.connect(data / "knowledge.sqlite3", timeout=15, check_same_thread=False)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA foreign_keys=ON")
+    conn.execute("PRAGMA busy_timeout=15000")
+    return conn
+
+
 def create_app(data_dir: Path | None = None) -> FastAPI:
     data = Path(data_dir or os.environ.get("TCM_DATA_DIR", ROOT / "data")).resolve()
     data.mkdir(parents=True, exist_ok=True)
@@ -49,21 +56,31 @@ def create_app(data_dir: Path | None = None) -> FastAPI:
 
     @contextmanager
     def session():
-        conn = sqlite3.connect(data / "knowledge.sqlite3", timeout=15, check_same_thread=False)
-        conn.row_factory = sqlite3.Row
+        conn = connect(data)
         try:
-            conn.execute("PRAGMA foreign_keys=ON")
             yield conn
         finally:
             conn.close()
 
     with session() as conn:
         library.initialize(conn, data)
+    app.state.write_token_path = ingest.ensure_token(data)
 
     @app.middleware("http")
-    async def readonly_boundary(request, call_next):
-        if request.url.path.startswith("/api") and request.method not in {"GET", "HEAD"}:
-            return JSONResponse({"detail": "本服务只提供只读查询"}, status_code=405)
+    async def write_boundary(request, call_next):
+        if request.url.path.startswith("/api"):
+            if request.method not in {"GET", "HEAD", "POST"}:
+                return JSONResponse({"detail": "只支持 GET 读取与 POST 导入"}, status_code=405)
+            if request.method == "POST":
+                if not ingest.token_matches(data, request.headers.get(ingest.HEADER, "")):
+                    return JSONResponse({"detail": "导入需要 X-Write-Token，令牌见 data/write_token.txt"},
+                                        status_code=401)
+                try:
+                    length = int(request.headers.get("content-length", "0"))
+                except ValueError:
+                    length = 0
+                if length > ingest.MAX_ARCHIVE:
+                    return JSONResponse({"detail": "请求超过大小限制"}, status_code=413)
         response = await call_next(request)
         for name, value in SECURITY_HEADERS.items():
             response.headers[name] = value
@@ -90,7 +107,8 @@ def create_app(data_dir: Path | None = None) -> FastAPI:
 
     @app.get("/api/status")
     def status():
-        return {"status": "ok", "app_id": "tcm-knowledge-core", "version": "1.0.0", "read_only": True}
+        return {"status": "ok", "app_id": "tcm-knowledge-core", "version": "1.1.0",
+                "reads_open": True, "writes_require_token": True}
 
     @app.get("/api/overview")
     def overview():
@@ -167,6 +185,8 @@ def create_app(data_dir: Path | None = None) -> FastAPI:
             if entry.get("id") == formula_id:
                 return entry
         raise HTTPException(404, "方剂不存在")
+
+    ingest.mount(app, data, connect)
 
     dist = ROOT / "frontend" / "dist"
     if dist.is_dir():

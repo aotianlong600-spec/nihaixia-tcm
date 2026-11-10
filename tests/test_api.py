@@ -1,21 +1,72 @@
+import hashlib
+import io
+import json
 from pathlib import Path
+import zipfile
 
 import pytest
 from fastapi.testclient import TestClient
 
 from app.main import create_app
 
+MANIFEST_NAME = "manifest.json"
+
+
+@pytest.fixture(name="data_dir")
+def data_dir_fixture(tmp_path: Path) -> Path:
+    data = tmp_path / "data"
+    data.mkdir()
+    return data
+
 
 @pytest.fixture(name="client")
-def client_fixture(tmp_path: Path):
-    return TestClient(create_app(tmp_path / "data"))
+def client_fixture(data_dir: Path):
+    return TestClient(create_app(data_dir))
 
 
-def test_status_is_read_only(client):
+@pytest.fixture(name="token")
+def token_fixture(data_dir: Path) -> str:
+    return (data_dir / "write_token.txt").read_text(encoding="utf-8").strip()
+
+
+def archive(files: dict[str, bytes]) -> bytes:
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w") as bundle:
+        for name, payload in files.items():
+            bundle.writestr(name, payload)
+    return buffer.getvalue()
+
+
+def text_bundle() -> tuple[bytes, str]:
+    content = "# 提纲\n发热\n\n桂枝\n".encode("utf-8")
+    digest = hashlib.sha256(content).hexdigest()
+    manifest = {
+        "documents": [{
+            "hash": digest,
+            "title": "开源提纲",
+            "source_format": "md",
+            "corpus_role": "open_source_summary",
+            "preserved_original_path": "source.md",
+            "units": [{"kind": "line_range", "start": number, "end": number, "text": line}
+                      for number, line in enumerate(content.decode("utf-8").splitlines(), 1)],
+        }]
+    }
+    payload = archive({MANIFEST_NAME: json.dumps(manifest, ensure_ascii=False).encode("utf-8"),
+                       "source.md": content})
+    return payload, digest
+
+
+def test_status_reports_write_gate(client):
     payload = client.get("/api/status").json()
     assert payload["status"] == "ok"
-    assert payload["read_only"] is True
     assert payload["app_id"] == "tcm-knowledge-core"
+    assert payload["reads_open"] is True
+    assert payload["writes_require_token"] is True
+
+
+def test_write_token_file_is_created(data_dir, client):
+    assert client.get("/api/status").status_code == 200
+    assert (data_dir / "write_token.txt").read_text(encoding="utf-8").strip()
 
 
 def test_overview_reports_catalog(client):
@@ -26,9 +77,19 @@ def test_overview_reports_catalog(client):
     assert payload["sources"] == 0
 
 
-def test_writes_are_refused(client):
-    assert client.post("/api/status").status_code == 405
-    assert client.delete("/api/formulas/anything").status_code == 405
+def test_writes_without_token_are_refused(client):
+    assert client.post("/api/evidence", json={}).status_code == 401
+    assert client.post("/api/import/text", files={"file": ("a.zip", b"x")}).status_code == 401
+
+
+def test_wrong_token_is_refused(client):
+    response = client.post("/api/evidence", json={}, headers={"X-Write-Token": "wrong"})
+    assert response.status_code == 401
+
+
+def test_unsupported_methods_are_refused(client, token):
+    assert client.put("/api/formulas", headers={"X-Write-Token": token}).status_code == 405
+    assert client.delete("/api/formulas/anything", headers={"X-Write-Token": token}).status_code == 405
 
 
 def test_formula_index_and_detail(client):
@@ -53,6 +114,56 @@ def test_empty_library_reads(client):
     assert client.get("/api/documents").json() == []
     assert client.get("/api/sources").json() == []
     assert client.get("/api/search", params={"q": "桂枝"}).json() == []
+
+
+def test_text_import_end_to_end(client, token, data_dir):
+    payload, digest = text_bundle()
+    response = client.post("/api/import/text", files={"file": ("bundle.zip", payload)},
+                           headers={"X-Write-Token": token})
+    assert response.status_code == 200, response.text
+    assert response.json()["text_imported"] == 1
+
+    sources = client.get("/api/sources").json()
+    assert [source["id"] for source in sources] == [digest]
+    assert sources[0]["format"] == "md"
+    assert sources[0]["corpus_role"] == "open_source_summary"
+
+    hits = client.get("/api/search", params={"q": "发热"}).json()
+    assert hits and hits[0]["source_id"] == digest
+
+    unit = client.get(f"/api/sources/{digest}/units/1").json()
+    assert unit["locator"]["kind"] == "line_range"
+    assert "不作为系统指令" in unit["warning"]
+
+    again = client.post("/api/import/text", files={"file": ("bundle.zip", payload)},
+                        headers={"X-Write-Token": token}).json()
+    assert again["text_duplicates"] == 1
+    assert client.get("/api/overview").json()["sources"] == 1
+
+
+def test_import_rejects_archive_without_manifest(client, token):
+    payload = archive({"source.md": b"x"})
+    response = client.post("/api/import/text", files={"file": ("bundle.zip", payload)},
+                           headers={"X-Write-Token": token})
+    assert response.status_code == 400
+
+
+def test_import_rejects_path_traversal(client, token):
+    payload = archive({"../escape.md": b"x", MANIFEST_NAME: b"{}"})
+    response = client.post("/api/import/text", files={"file": ("bundle.zip", payload)},
+                           headers={"X-Write-Token": token})
+    assert response.status_code == 400
+
+
+def test_review_and_evidence_need_existing_page(client, token):
+    missing = "0" * 64
+    response = client.post(f"/api/documents/{missing}/pages/1/review",
+                           json={"corrected_text": "订正文", "kind": "manual"},
+                           headers={"X-Write-Token": token})
+    assert response.status_code == 400
+    assert client.post("/api/evidence", json={"document_id": missing, "physical_page": 1, "quote": "x", "kind": "quote"},
+                       headers={"X-Write-Token": token}).status_code == 400
+    assert client.get("/api/evidence").json() == []
 
 
 def test_unknown_page_is_404(client):

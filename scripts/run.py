@@ -20,7 +20,9 @@ def main():
     args = parser.parse_args()
     from app.main import create_app
 
-    serve(create_app(args.data_dir.resolve()), args.port)
+    app = create_app(args.data_dir.resolve())
+    print(f"读取接口开放；导入需要 X-Write-Token，令牌文件: {app.state.write_token_path}", flush=True)
+    serve(app, args.port)
 
 
 if __name__ == "__main__":

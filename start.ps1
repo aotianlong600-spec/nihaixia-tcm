@@ -21,5 +21,6 @@ if (-not $health) {
     }
     if (-not $health -or $health.app_id -ne 'tcm-knowledge-core') { throw 'Service did not become ready.' }
 }
-Write-Output "只读知识库服务: $serviceUrl/api/status"
+Write-Output "知识库服务: $serviceUrl/api/status"
+Write-Output "导入令牌: $dataPath\write_token.txt（导入请求需带 X-Write-Token）"
 if (-not $NoBrowser) { Start-Process $serviceUrl }
