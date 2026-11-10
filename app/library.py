@@ -202,11 +202,15 @@ def get_unit(conn, data_dir, source_id, unit_no):
         return None
     common = dict(source_id=source_id, unit_no=unit_no, title=source['title'], format=source['format'], corpus_role=source['corpus_role'])
     if source['format'] == 'pdf':
-        row = conn.execute('SELECT raw_text,ocr_text,corrected_text,warning,printed_page FROM pages WHERE document_id=? AND physical_page=?', (source_id,unit_no)).fetchone()
+        row = conn.execute('SELECT raw_text,ocr_text,corrected_text,warning,printed_page,review_status FROM pages WHERE document_id=? AND physical_page=?', (source_id,unit_no)).fetchone()
         if not row:
             return None
-        warning = '；'.join(filter(None, (source['warning'], row[3], 'OCR为本地识别草稿' if row[1] else '')))
-        return dict(**common,locator={'kind':'physical_page','start':unit_no,'end':unit_no,**({'printed_page':row[4]} if row[4] else {})},raw_text=row[0],ocr_text=row[1],corrected_text=row[2],image_url=f'/api/documents/{source_id}/pages/{unit_no}/image',warning=warning)
+        displayed = row[2] if row[2] is not None else row[0]
+        layout_note = '' if row[2] is None or '阅读顺序已按版面坐标重建' in row[3] else (
+            '已显示人工校订文字' if row[5] == 'verified' else '阅读顺序已按版面坐标重建，未逐字医学校订'
+        )
+        warning = '；'.join(filter(None, (source['warning'], row[3], layout_note, 'OCR为本地识别草稿' if row[1] else '')))
+        return dict(**common,locator={'kind':'physical_page','start':unit_no,'end':unit_no,**({'printed_page':row[4]} if row[4] else {})},raw_text=displayed,original_text=row[0],ocr_text=row[1],corrected_text=None,review_status=row[5],image_url=f'/api/documents/{source_id}/pages/{unit_no}/image',warning=warning)
     row = conn.execute('SELECT locator,raw_text FROM source_units WHERE source_id=? AND unit_no=?', (source_id, unit_no)).fetchone()
     return dict(**common,locator=json.loads(row[0]),raw_text=row[1],ocr_text=None,corrected_text=None,original_url=f'/api/library/sources/{source_id}/original',warning=source['warning']) if row else None
 

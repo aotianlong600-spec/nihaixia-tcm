@@ -202,6 +202,37 @@ def _warning(title, number, text, page):
     return "；".join(warnings)
 
 
+def _vertical_sidebar(page):
+    """Detect stacked vertical text that PDF extractors mix into body lines."""
+    columns = {}
+    for char in page.chars:
+        if not char.get("text", "").strip() or char["x0"] >= page.width * 0.14:
+            continue
+        key = round(char["x0"], 0)
+        columns.setdefault(key, []).append(char["top"])
+    return any(len(tops) >= 4 and max(tops) - min(tops) >= 20 for tops in columns.values())
+
+
+def extract_pdf_page_text(page, *, force_layout=False):
+    """Extract one page in visual reading order without changing medical wording."""
+    options = {"layout": True, "x_tolerance": 2, "y_tolerance": 3}
+    full = page.extract_text(**options) or ""
+    if not force_layout and not _vertical_sidebar(page):
+        return full
+    text = page.crop((
+        page.width * 0.14, page.height * 0.063,
+        page.width * 0.98, page.height * 0.93,
+    )).extract_text(**options) or ""
+    if len(_normalize(text)) < len(_normalize(full)) * 0.8:
+        return full
+    lines, compact = text.replace("\r", "").split("\n"), []
+    for line in lines:
+        line = line.rstrip()
+        if line or (compact and compact[-1]):
+            compact.append(line)
+    return "\n".join(compact).strip()
+
+
 def _store_document(conn, data_dir, content, sha, title, pages, method):
     if _registered(conn, sha):
         document_path(conn, data_dir, sha)
@@ -237,7 +268,7 @@ def import_pdf(conn, data_dir, source: Path, title: str = "") -> dict:
                 raise ValueError("PDF page count mismatch")
             for number, page in enumerate(pdf.pages, 1):
                 try:
-                    text = page.extract_text(layout=True, x_tolerance=2, y_tolerance=3) or ""
+                    text = extract_pdf_page_text(page)
                     pages.append({"physical_page": number, "text": text})
                 except Exception:
                     pages.append({"physical_page": number, "text": "", "extraction_error": True})
@@ -352,8 +383,15 @@ def create_evidence(conn, payload) -> dict:
     quote = _required_text(payload, "quote", 50000)
     kind = _required_text(payload, "kind", 100)
     reviewer = _required_text(payload, "reviewer", 200, optional=True)
-    text = page["corrected_text"] if page["corrected_text"] is not None else page["raw_text"]
-    start = text.find(quote)
+    corrected = page["corrected_text"]
+    candidates = ((("corrected", corrected),) if corrected is not None and corrected != page["raw_text"] else ()) + (
+        ("raw", page["raw_text"]),
+    )
+    source_type, text, start = next(
+        ((source_type, text, text.find(quote)) for source_type, text in candidates
+         if text is not None and quote in text),
+        (None, None, -1),
+    )
     if start < 0:
         raise ValueError("quote is not a contiguous substring of the source page")
     printed = payload.get("printed_page", page["printed_page"])
@@ -362,7 +400,7 @@ def create_evidence(conn, payload) -> dict:
     evidence_id = uuid.uuid4().hex
     conn.execute("INSERT INTO evidence VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (
         evidence_id, page["document_id"], page["document_id"], page["physical_page"], quote, kind, reviewer, printed,
-        start, start + len(quote), "raw" if text == page["raw_text"] else "corrected", page["raw_text"],
+        start, start + len(quote), source_type, page["raw_text"],
         page["corrected_text"], page["extraction_method"], _now(),
     ))
     return get_evidence(conn, evidence_id)

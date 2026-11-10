@@ -86,11 +86,10 @@ def verify_rule(conn, rule: dict) -> tuple[dict | None, str | None]:
     if not row:
         return None, "source_page_missing"
     raw, corrected, ocr, title = row
-    using_ocr = corrected is None and not (raw or "").strip()
-    text = corrected if corrected is not None else ((ocr or "") if using_ocr else (raw or ""))
     if title != source.get("source_title"):
         return None, "source_title_mismatch"
-    if source["quote"] not in text:
+    candidates = (corrected, raw, ocr)
+    if not any(text is not None and source["quote"] in text for text in candidates):
         return None, "quote_not_on_source_page"
     if hashlib.sha256(source["quote"].encode("utf-8")).hexdigest() != source.get("quote_sha256"):
         return None, "quote_hash_mismatch"

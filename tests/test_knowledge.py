@@ -232,6 +232,51 @@ def test_new_pdf_import_marks_image_only_pages_pending(store, tmp_path):
     assert "图像" in page["warning"]
 
 
+def test_vertical_sidebar_uses_coordinate_crop_and_falls_back_when_text_is_lost():
+    class Crop:
+        def __init__(self, text):
+            self.text = text
+
+        def extract_text(self, **kwargs):
+            return self.text
+
+    class Page:
+        width = height = 100
+        chars = [
+            {"text": "侧", "x0": 5, "top": 80},
+            {"text": "批", "x0": 5, "top": 70},
+            {"text": "旁", "x0": 5, "top": 60},
+            {"text": "注", "x0": 5, "top": 50},
+        ]
+
+        def __init__(self, crop):
+            self.crop_text = crop
+
+        def extract_text(self, **kwargs):
+            return "侧批旁注正文第一行正文第二行正文第三行正文第四行"
+
+        def crop(self, bounds):
+            return Crop(self.crop_text)
+
+    body = "正文第一行\n正文第二行\n正文第三行\n正文第四行"
+    assert knowledge.extract_pdf_page_text(Page(body)) == body
+    assert knowledge.extract_pdf_page_text(Page("短")) == "侧批旁注正文第一行正文第二行正文第三行正文第四行"
+
+
+def test_evidence_can_still_quote_raw_text_when_layout_text_exists(store, tmp_path):
+    sha, _, _ = imported(store, tmp_path)
+    store[0].execute("UPDATE pages SET corrected_text='重排正文' WHERE document_id=?", (sha,))
+    item = knowledge.create_evidence(store[0], {
+        "document_id": sha,
+        "physical_page": 1,
+        "quote": "桂枝湯主之",
+        "kind": "classic",
+        "reviewer": "",
+    })
+    assert item["source_type"] == "raw"
+    assert item["quote"] == "桂枝湯主之"
+
+
 def test_pdf_path_rejects_unregistered_ids_and_tampering(store, tmp_path):
     sha, _, _ = imported(store, tmp_path)
     for bad in ("../../outside.pdf", "a" * 64):

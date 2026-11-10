@@ -381,7 +381,7 @@ def create_app(data_dir: Path | None = None, *, lan_hosts: list[str] | tuple = (
             page = knowledge.get_page(conn, item["document_id"], item["physical_page"])
             if page is None:
                 raise HTTPException(409, "规则引用的原文页不存在")
-            text = page["corrected_text"] if page["corrected_text"] is not None else page["raw_text"]
+            text = page["corrected_text"] if item["source_type"] == "corrected" else page["raw_text"]
             frozen_text = item["corrected_text"] if item["source_type"] == "corrected" else item["raw_text"]
             if item["quote"] not in text or frozen_text != text:
                 raise HTTPException(409, "原文订正后证据已失效，须重新核对规则")

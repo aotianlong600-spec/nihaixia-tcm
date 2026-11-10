@@ -161,11 +161,10 @@ def verify_composition(conn, version: dict) -> tuple[dict | None, str | None]:
     if not row:
         return None, "source_page_missing"
     raw, corrected, ocr, title = row
-    using_ocr = corrected is None and not (raw or "").strip()
-    text = corrected if corrected is not None else ((ocr or "") if using_ocr else (raw or ""))
     if title != version.get("source_title"):
         return None, "source_title_mismatch"
-    if version["block"] not in text:
+    candidates = (corrected, raw, ocr)
+    if not any(text is not None and version["block"] in text for text in candidates):
         return None, "block_not_on_source_page"
     if hashlib.sha256(version["block"].encode("utf-8")).hexdigest() != version.get("block_sha256"):
         return None, "block_hash_mismatch"

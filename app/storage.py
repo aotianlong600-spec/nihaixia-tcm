@@ -86,7 +86,7 @@ def analysis_dependency_errors(conn, snapshot):
     for evidence in snapshot.get("evidence_snapshot", []):
         page = get_page(conn, evidence["document_id"], evidence["physical_page"])
         frozen = evidence["corrected_text"] if evidence["source_type"] == "corrected" else evidence["raw_text"]
-        current = None if page is None else page["corrected_text"] if page["corrected_text"] is not None else page["raw_text"]
+        current = None if page is None else page["corrected_text"] if evidence["source_type"] == "corrected" else page["raw_text"]
         if page is None or page["review_status"] != "verified" or frozen != current:
             errors.append("证据页内容或校核状态已改变：" + evidence["id"])
     return errors

@@ -140,6 +140,11 @@ def test_ocr_context_and_corrected_text_precedence(tmp_path):
     conn.execute('UPDATE pages SET corrected_text=?,search_text=? WHERE document_id=?',('订正文','订正文',sha))
     assert library.search(conn,'发热') == []
     assert library.retrieve_context(conn,['订正文'])[0]['text'] == '订正文'
+    unit = library.get_unit(conn,tmp_path,sha,1)
+    assert unit['raw_text'] == '订正文'
+    assert unit['original_text'] == ''
+    assert unit['corrected_text'] is None
+    assert '版面坐标' in unit['warning']
 
 
 def test_markdown_original_lines_role_dedup_and_backup(tmp_path):

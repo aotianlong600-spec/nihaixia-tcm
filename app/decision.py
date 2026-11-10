@@ -39,7 +39,7 @@ def _source_issues(conn, package):
     for a in package['anchors']:
         try:
             unit = library.get_unit(conn, None, a['source_id'], a['unit_no'])
-            raw = unit and unit.get('raw_text')
+            raw = unit and (unit.get('original_text') if unit.get('original_text') is not None else unit.get('raw_text'))
             if not isinstance(raw, str) or _hash(raw) != a['unit_sha256'] or raw[a['start']:a['end']] != a['quote'] or a['end'] > len(raw):
                 issues.append({'anchor_id': a['id'], 'reason': '原始单元或锚点不匹配'})
         except (ValueError, KeyError, TypeError):
