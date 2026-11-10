@@ -17,10 +17,9 @@
     "formulas_in_both_books": 39,
     "source_defects": 21,
     "unique_herbs_std": 233,
-    "unique_herbs_raw": 237,
-    "composition_text_removed_chars": 4677
+    "unique_herbs_raw": 237
   },
-  "notice": "方剂数据来自《伤寒论辑义》（日·丹波元简，1801，公有领域）与《金匮要略》注释本。公开版仅保留公有领域来源的原文片段；现代注本的原文已移除，仅保留结构化组成（药名/剂量/炮制）。剂量为汉代原量，未做单位换算，不可直接作为临床用量。",
+  "notice": "方剂数据来自《伤寒论辑义》（日·丹波元简，1801，公有领域）与倪海厦《金匮要略》注释本。composition_text 为原文片段，用于组成核对。剂量为汉代原量，未做单位换算，不可直接作为临床用量。",
   "formulas": {
     "枳实栀子汤": {
       "name": "枳实栀子汤",
@@ -79,7 +78,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 73043,
-          "composition_text": "",
+          "composition_text": "菊花四十分 白术 防风各十分 桔梗八分 \r\n黄芩五分 细辛 干姜 人参 \r\n茯苓 当归 川芎 牡蛎 \r\n矾石 桂枝各三分",
           "declared_count": 14,
           "source_defect": null,
           "components": [
@@ -197,8 +196,7 @@
             }
           ],
           "component_count": 14,
-          "dosed_component_count": 14,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 14
         }
       ],
       "component_count": 14
@@ -268,7 +266,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 43770,
-          "composition_text": "",
+          "composition_text": "白术二两 \r\n附子一枚，炮，去\r\n皮 \r\n甘草二两炙 生姜一两半 \r\n大枣六枚",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -314,8 +312,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -331,7 +328,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 98708,
-          "composition_text": "",
+          "composition_text": "薯蓣三十分 人参七分 白术六分 茯苓五分 \r\n甘草二十八分 当归十分 干地黄十分 芍药六分 \r\n芎藭六分 麦门冬六分 阿胶七分 干姜三分 \r\n大枣百枚为膏 桔梗五分 杏仁六分 桂枝十分 \n\n\n\n\n防风六分 神曲十分 豆黄卷十分 柴胡五分 \r\n白蔹二分",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -513,8 +510,7 @@
             }
           ],
           "component_count": 22,
-          "dosed_component_count": 21,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 21
         }
       ],
       "component_count": 22
@@ -530,7 +526,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 323510,
-          "composition_text": "",
+          "composition_text": "吴茱萸三两 当归 芎藭 芍药 \r\n人参 桂枝 阿胶 丹皮 \r\n生姜 甘草各二两 半夏半升 麦门冬一升",
           "declared_count": 12,
           "source_defect": null,
           "components": [
@@ -632,8 +628,7 @@
             }
           ],
           "component_count": 12,
-          "dosed_component_count": 12,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 12
         }
       ],
       "component_count": 12
@@ -649,7 +644,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 324720,
-          "composition_text": "",
+          "composition_text": "土瓜根 芍药 桂枝 蟅虫各三分",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -687,8 +682,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -704,7 +698,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 325613,
-          "composition_text": "",
+          "composition_text": "大黄四两 甘遂 阿胶各二两",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -734,8 +728,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -751,7 +744,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 265252,
-          "composition_text": "",
+          "composition_text": "半夏 麻黄各等分",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -773,8 +766,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -905,7 +897,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 330754,
-          "composition_text": "",
+          "composition_text": "竹叶二把 石膏一升 半夏半升 人参三两 \r\n甘草二两 粳米半斤 麦门冬一升",
           "declared_count": 7,
           "source_defect": null,
           "components": [
@@ -967,8 +959,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 7,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 7
         }
       ],
       "component_count": 7
@@ -1038,7 +1029,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 281250,
-          "composition_text": "",
+          "composition_text": "橘皮四两 生姜半斤",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -1060,8 +1051,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -1077,7 +1067,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 133162,
-          "composition_text": "",
+          "composition_text": "栝蒌实一枚，捣 薤白三两 半夏半升 白酒一斗",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -1115,8 +1105,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 4
@@ -1186,7 +1175,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 299238,
-          "composition_text": "",
+          "composition_text": "鸡矢白",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -1200,8 +1189,7 @@
             }
           ],
           "component_count": 1,
-          "dosed_component_count": 0,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 0
         }
       ],
       "component_count": 1
@@ -1411,7 +1399,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 199003,
-          "composition_text": "",
+          "composition_text": "茯苓四两 甘草 干姜 细辛各三两 \r\n五味子半斤",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -1457,8 +1445,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -1511,7 +1498,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 289963,
-          "composition_text": "",
+          "composition_text": "附子一枚，生用 \r\n干姜三两，强人可\r\n四两 \r\n甘草二两，炙",
           "declared_count": 3,
           "source_defect": "原文声明3味，解析4味（已解析：附子、干姜、强人可、甘草）",
           "components": [
@@ -1549,8 +1536,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 3
@@ -1566,7 +1552,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 320833,
-          "composition_text": "",
+          "composition_text": "半夏一升 厚朴三两 茯苓四两 生姜五两 \r\n苏叶二两",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -1612,8 +1598,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -1658,7 +1643,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 289596,
-          "composition_text": "",
+          "composition_text": "栀子十四枚，擘 香豉四合，绵裹",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -1680,8 +1665,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -1697,7 +1681,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 231116,
-          "composition_text": "",
+          "composition_text": "甘草二两 麻黄四两",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -1719,8 +1703,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -1766,7 +1749,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 317523,
-          "composition_text": "",
+          "composition_text": "桂枝三两，去皮 芍药三两 甘草二两，炙 生姜三两，切 \r\n大枣十二枚，劈 牡桂四两",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -1828,8 +1811,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 6,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 6
         }
       ],
       "component_count": 7
@@ -1845,7 +1827,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 192324,
-          "composition_text": "",
+          "composition_text": "半夏一升，一本五\r\n钱 \r\n生姜半斤，一本四\r\n钱",
           "declared_count": 2,
           "source_defect": "原文声明2味，解析4味（已解析：半夏、一本五钱、生姜、一本四钱）",
           "components": [
@@ -1883,8 +1865,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 4
@@ -1961,7 +1942,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 57380,
-          "composition_text": "",
+          "composition_text": "甘草四两，炙 黄芩三两 人参 干姜各三两 \n\n\n\n\n半夏半升 黄连一两 大枣十二枚",
           "declared_count": 7,
           "source_defect": null,
           "components": [
@@ -2023,8 +2004,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 7,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 7
         }
       ],
       "component_count": 6
@@ -2040,7 +2020,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 265870,
-          "composition_text": "",
+          "composition_text": "柏叶 干姜各三两 艾三把",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -2070,8 +2050,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -2087,7 +2066,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 144157,
-          "composition_text": "",
+          "composition_text": "附子一枚，炮 半夏 粳米各半升 甘草一两 \r\n大枣十枚",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -2133,8 +2112,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -2212,7 +2190,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 100512,
-          "composition_text": "",
+          "composition_text": "大黄十分，蒸 黄芩二两 甘草三两 桃仁一升 \r\n杏仁一升 芍药四两 干地黄十两 \r\n干漆一两，烧令烟\r\n尽 \r\n虻虫一升去翅足，\r\n熬 \r\n水蛭百枚，熬 蛴螬百枚，熬 \r\n蟅虫半升，熬",
           "declared_count": 12,
           "source_defect": "原文声明12味，解析15味（已解析：大黄、蒸、黄芩、甘草、桃仁、杏仁、芍药、干地黄、干漆、令烟尽、虻虫、去翅足、水蛭、蛴螬、蟅虫）",
           "components": [
@@ -2338,8 +2316,7 @@
             }
           ],
           "component_count": 15,
-          "dosed_component_count": 12,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 12
         }
       ],
       "component_count": 15
@@ -2355,7 +2332,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 54929,
-          "composition_text": "",
+          "composition_text": "百合七枚，擘 \r\n滑石三两，碎，绵\r\n裹 \r\n代赭石如弹丸大一\r\n枚，碎，绵裹",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -2385,8 +2362,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 3
@@ -2402,7 +2378,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 67388,
-          "composition_text": "",
+          "composition_text": "柴胡八两 人参 黄芩 甘草各三两 \r\n栝蒌根四两 生姜二两 大枣十二枚",
           "declared_count": 7,
           "source_defect": null,
           "components": [
@@ -2464,8 +2440,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 7,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 7
         }
       ],
       "component_count": 7
@@ -2481,7 +2456,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 63295,
-          "composition_text": "",
+          "composition_text": "鳖甲十二分，炙 \r\n乌扇三分，烧。即\r\n射干 \r\n黄芩三分 柴胡六分 \r\n鼠妇三分，熬 干姜 大黄 桂枝 \r\n石苇去毛 厚朴 紫葳即凌霄 半夏 \r\n阿胶各三分 芍药 牡丹去心 蟅虫各五分 \r\n葶苈 人参各一分 瞿麦二分 蜂窠四分，炙 \r\n赤硝十二分 蜣螂六分，熬 \r\n桃仁二分，去皮尖，\r\n研",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -2663,8 +2638,7 @@
             }
           ],
           "component_count": 22,
-          "dosed_component_count": 21,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 21
         }
       ],
       "component_count": 22
@@ -2757,7 +2731,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 187181,
-          "composition_text": "",
+          "composition_text": "麻黄去节 芍药 干姜 甘草炙 \r\n细辛 桂枝各三两 五味子 半夏各半升",
           "declared_count": 8,
           "source_defect": null,
           "components": [
@@ -2827,8 +2801,7 @@
             }
           ],
           "component_count": 8,
-          "dosed_component_count": 8,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 8
         }
       ],
       "component_count": 8
@@ -3093,7 +3066,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 302444,
-          "composition_text": "",
+          "composition_text": "乌梅三百个 细辛六两 干姜十两 黄连一斤 \r\n当归 川椒各四两 附子 桂枝 \r\n人参 黄柏各六两",
           "declared_count": 10,
           "source_defect": null,
           "components": [
@@ -3179,8 +3152,7 @@
             }
           ],
           "component_count": 10,
-          "dosed_component_count": 10,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 10
         }
       ],
       "component_count": 10
@@ -3257,7 +3229,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 93054,
-          "composition_text": "",
+          "composition_text": "桂枝三两 甘草二两 芍药六两 大枣十二枚 \r\n生姜三两 饴糖一升",
           "declared_count": 6,
           "source_defect": null,
           "components": [
@@ -3311,8 +3283,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 6,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 6
         }
       ],
       "component_count": 6
@@ -3381,7 +3352,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 213437,
-          "composition_text": "",
+          "composition_text": "猪苓去皮 茯苓 阿胶 滑石 \r\n泽泻各一两",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -3427,8 +3398,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -3444,7 +3414,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 143701,
-          "composition_text": "",
+          "composition_text": "厚朴半斤 甘草 大黄各三两 大枣十枚 \r\n枳实五枚 桂枝二两 生姜五两",
           "declared_count": 7,
           "source_defect": null,
           "components": [
@@ -3506,8 +3476,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 7,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 7
         }
       ],
       "component_count": 7
@@ -3601,7 +3570,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 310994,
-          "composition_text": "",
+          "composition_text": "葵子一升 茯苓三两",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -3623,8 +3592,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -3787,7 +3755,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 277873,
-          "composition_text": "",
+          "composition_text": "柴胡半斤 半夏半斤 黄芩 人参 \r\n甘草 生姜各三两 大枣十二枚",
           "declared_count": 7,
           "source_defect": null,
           "components": [
@@ -3849,8 +3817,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 7,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 7
         }
       ],
       "component_count": 7
@@ -3866,7 +3833,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 182999,
-          "composition_text": "",
+          "composition_text": "甘遂大者三枚 \r\n半夏十二枚以水一\r\n升煮取半升去滓 \r\n芍药五枚 甘草如指大一枚",
           "declared_count": 4,
           "source_defect": "原文声明4味，解析7味（已解析：甘遂大者、半夏、以水一、升煮取、去滓、芍药、甘草如指大）",
           "components": [
@@ -3928,8 +3895,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 7
@@ -3991,7 +3957,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 237095,
-          "composition_text": "",
+          "composition_text": "桂枝 芍药各三两 甘草 黄耆各二两 \r\n生姜三两 大枣十二枚",
           "declared_count": 6,
           "source_defect": null,
           "components": [
@@ -4045,8 +4011,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 6,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 6
         }
       ],
       "component_count": 6
@@ -4062,7 +4027,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 3447,
-          "composition_text": "",
+          "composition_text": "甘草二两，炙 \r\n干姜三两，强人可\r\n四两 \r\n附子大者一枚,生\r\n去皮,破八片 \r\n猪胆汁半合",
           "declared_count": 4,
           "source_defect": "原文声明4味，解析6味（已解析：甘草、干姜、强人可、附子大者、生、猪胆汁）",
           "components": [
@@ -4116,8 +4081,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 6
@@ -4303,7 +4267,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 131645,
-          "composition_text": "",
+          "composition_text": "栝蒌实一枚，捣 薤白半斤 白酒七升",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -4333,8 +4297,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -4350,7 +4313,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 121276,
-          "composition_text": "",
+          "composition_text": "麻黄六两 石膏半斤 生姜三两 大枣十五枚 \r\n甘草二两 半夏半升",
           "declared_count": 6,
           "source_defect": null,
           "components": [
@@ -4404,8 +4367,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 6,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 6
         }
       ],
       "component_count": 6
@@ -4512,7 +4474,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 125174,
-          "composition_text": "",
+          "composition_text": "桂枝五两 芍药 生姜各二两 甘草二两，炙 \n\n\n\n\n大枣十二枚",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -4558,8 +4520,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -4575,7 +4536,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 316241,
-          "composition_text": "",
+          "composition_text": "大黄一两 桃仁三十个 \r\n蟅虫二十枚，去足，\r\n熬，按此即地鳖虫",
           "declared_count": 3,
           "source_defect": "原文声明3味，解析4味（已解析：大黄、桃仁、蟅虫、去足按此即地鳖虫）",
           "components": [
@@ -4613,8 +4574,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 4
@@ -4746,7 +4706,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 161262,
-          "composition_text": "",
+          "composition_text": "旋覆花三两，即金\r\n沸草 \r\n葱十四茎 \r\n新绛（今之茜草） 新绛\r\n少许",
           "declared_count": 3,
           "source_defect": "原文声明3味，解析4味（已解析：旋覆花、即金沸草、葱、新绛）",
           "components": [
@@ -4784,8 +4744,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 4
@@ -4839,7 +4798,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 279632,
-          "composition_text": "",
+          "composition_text": "麻黄三两 杏仁五十枚 大枣十二枚 甘草 \r\n石膏 文蛤各五两 生姜三两",
           "declared_count": 7,
           "source_defect": null,
           "components": [
@@ -4901,8 +4860,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 7,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 7
         }
       ],
       "component_count": 7
@@ -5036,7 +4994,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 235076,
-          "composition_text": "",
+          "composition_text": "黄耆五两 芍药 桂枝各三两",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -5066,8 +5024,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -5083,7 +5040,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 79066,
-          "composition_text": "",
+          "composition_text": "桂枝四两 芍药三两 甘草 麻黄 \r\n附子各二两 炮白术 知母 防风各四两 \r\n生姜五两",
           "declared_count": 9,
           "source_defect": null,
           "components": [
@@ -5161,8 +5118,7 @@
             }
           ],
           "component_count": 9,
-          "dosed_component_count": 9,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 9
         }
       ],
       "component_count": 9
@@ -5264,7 +5220,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 91294,
-          "composition_text": "",
+          "composition_text": "天雄三两，炮 白术八两 桂枝六两 龙骨三两",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -5302,8 +5258,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -5319,7 +5274,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 328780,
-          "composition_text": "",
+          "composition_text": "猪膏半斤 乱髪如鸡子大三枚",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -5341,8 +5296,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -5358,7 +5312,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 290150,
-          "composition_text": "",
+          "composition_text": "紫参半斤 甘草三两",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -5380,8 +5334,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -5561,7 +5514,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 210607,
-          "composition_text": "",
+          "composition_text": "滑石 乱髪烧 白鱼各二分",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -5591,8 +5544,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -5608,7 +5560,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 311588,
-          "composition_text": "",
+          "composition_text": "当归 黄芩 芍药 芎藭各一斤 \r\n白术半斤",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -5654,8 +5606,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -5671,7 +5622,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 318704,
-          "composition_text": "",
+          "composition_text": "生竹茹 石膏各二分 桂枝 白薇各一分 \r\n甘草七分",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -5717,8 +5668,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -5734,7 +5684,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 281478,
-          "composition_text": "",
+          "composition_text": "橘皮二斤 竹茹二升 大枣三十枚 生姜半斤 \r\n甘草二两 人参三两",
           "declared_count": 6,
           "source_defect": null,
           "components": [
@@ -5788,8 +5738,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 6,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 6
         }
       ],
       "component_count": 6
@@ -5805,7 +5754,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 188421,
-          "composition_text": "",
+          "composition_text": "木防己 桂枝各三两 人参四两 \r\n石膏如鸡子大十二\r\n枚。一本十二枚",
           "declared_count": 4,
           "source_defect": "原文声明4味，解析6味（已解析：木防己、桂枝、人参、石膏、十二枚。、一本）",
           "components": [
@@ -5859,8 +5808,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 6
@@ -6000,7 +5948,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 180947,
-          "composition_text": "",
+          "composition_text": "茯苓 桂枝 白术各三两 甘草二两",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -6038,8 +5986,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -6084,7 +6031,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 110622,
-          "composition_text": "",
+          "composition_text": "甘草四两，炙 干姜二两，炮",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -6106,8 +6053,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -6123,7 +6069,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 200415,
-          "composition_text": "",
+          "composition_text": "茯苓四两 甘草 干姜 细辛各三两 \r\n五味子 半夏 杏仁各半升",
           "declared_count": 7,
           "source_defect": null,
           "components": [
@@ -6185,8 +6131,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 7,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 7
         }
       ],
       "component_count": 7
@@ -6255,7 +6200,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 229951,
-          "composition_text": "",
+          "composition_text": "麻黄六两 石膏半斤 生姜三两 甘草二两 \r\n大枣十二枚",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -6301,8 +6246,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -6372,7 +6316,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 56551,
-          "composition_text": "",
+          "composition_text": "百合一两，炙 滑石三两",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -6394,8 +6338,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -6411,7 +6354,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 113548,
-          "composition_text": "",
+          "composition_text": "皂荚八两，刮去皮\r\n酥炙",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -6425,8 +6368,7 @@
             }
           ],
           "component_count": 1,
-          "dosed_component_count": 1,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 1
         }
       ],
       "component_count": 1
@@ -6442,7 +6384,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 301102,
-          "composition_text": "",
+          "composition_text": "甘草二两 白粉二两，即铅粉 白蜜四两",
           "declared_count": 3,
           "source_defect": "原文声明3味，解析4味（已解析：甘草、白粉、即铅粉、白蜜）",
           "components": [
@@ -6480,8 +6422,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 4
@@ -6559,7 +6500,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 296957,
-          "composition_text": "",
+          "composition_text": "枳实十六枚 芍药六分 桔梗二分",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -6589,8 +6530,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -6730,7 +6670,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 304528,
-          "composition_text": "",
+          "composition_text": "桂枝 茯苓 牡丹 桃仁去皮尖，熬 \r\n芍药各等分",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -6776,8 +6716,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -6793,7 +6732,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 40027,
-          "composition_text": "",
+          "composition_text": "麻黄三两，去节 桂技二两 甘草一两 白术四两 \r\n杏仁七十个，去皮\r\n尖",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -6839,8 +6778,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -6990,7 +6928,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 233251,
-          "composition_text": "",
+          "composition_text": "麻黄三两 附子一枚 甘草二两",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -7020,8 +6958,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -7037,7 +6974,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 71540,
-          "composition_text": "",
+          "composition_text": "防己 甘草各一分 桂枝 防风各三分",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -7075,8 +7012,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -7092,7 +7028,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 65992,
-          "composition_text": "",
+          "composition_text": "蜀漆洗去腥 云母烧二日夜 龙骨各等分",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -7122,8 +7058,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -7139,7 +7074,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 280542,
-          "composition_text": "",
+          "composition_text": "半夏半升 生姜汁一升",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -7161,8 +7096,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -7178,7 +7112,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 252529,
-          "composition_text": "",
+          "composition_text": "栀子十四枚 大黄三两 枳实五枚 豆豉一升",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -7216,8 +7150,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -7233,7 +7166,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 311853,
-          "composition_text": "",
+          "composition_text": "白术 川芎 蜀椒去汗 牡蛎各三分",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -7271,8 +7204,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -7342,7 +7274,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 114659,
-          "composition_text": "",
+          "composition_text": "厚朴五两 麻黄四两 石膏如鸡子大 杏仁半升 \r\n半夏半升 干姜 细辛各二两 小麦一升 \r\n五味子半升",
           "declared_count": 9,
           "source_defect": null,
           "components": [
@@ -7420,8 +7352,7 @@
             }
           ],
           "component_count": 9,
-          "dosed_component_count": 9,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 9
         }
       ],
       "component_count": 9
@@ -7437,7 +7368,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 135234,
-          "composition_text": "",
+          "composition_text": "橘皮一斤 枳实三两 生姜半斤",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -7467,8 +7398,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -7484,7 +7414,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 40928,
-          "composition_text": "",
+          "composition_text": "麻黄半两 杏仁十个，去皮尖 薏苡半两 甘草一两，炙",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -7522,8 +7452,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -7585,7 +7514,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 278156,
-          "composition_text": "",
+          "composition_text": "半夏二升 人参三两 白蜜一升",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -7615,8 +7544,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -7701,7 +7629,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 145601,
-          "composition_text": "",
+          "composition_text": "柴胡半斤 黄芩 芍药各三两 半夏半升 \r\n枳实四枚 大黄二两 大枣十二枚 生姜五两",
           "declared_count": 8,
           "source_defect": null,
           "components": [
@@ -7771,8 +7699,7 @@
             }
           ],
           "component_count": 8,
-          "dosed_component_count": 8,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 8
         }
       ],
       "component_count": 7
@@ -7788,7 +7715,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 133609,
-          "composition_text": "",
+          "composition_text": "人参 甘草 干姜 白术各三两",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -7826,8 +7753,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -7843,7 +7769,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 239304,
-          "composition_text": "",
+          "composition_text": "枳实七枚 白术二两",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -7865,8 +7791,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -7976,7 +7901,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 329543,
-          "composition_text": "",
+          "composition_text": "裩",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -7990,8 +7915,7 @@
             }
           ],
           "component_count": 1,
-          "dosed_component_count": 0,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 0
         }
       ],
       "component_count": 1
@@ -8007,7 +7931,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 55279,
-          "composition_text": "",
+          "composition_text": "百合七枚，擘 鸡子黄一枚",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -8029,8 +7953,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -8084,7 +8007,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 279965,
-          "composition_text": "",
+          "composition_text": "半夏 干姜各等分",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -8106,8 +8029,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -8263,7 +8185,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 297178,
-          "composition_text": "",
+          "composition_text": "甘草二两桔梗二两生姜一两大枣十枚",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -8301,8 +8223,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -8425,7 +8346,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 154712,
-          "composition_text": "",
+          "composition_text": "瓜蒂一分，熬黄 赤小豆二分，煮",
           "declared_count": 2,
           "source_defect": "原文声明2味，解析4味（已解析：瓜蒂、黄、赤小豆、煮）",
           "components": [
@@ -8463,8 +8384,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -8501,7 +8421,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 207098,
-          "composition_text": "",
+          "composition_text": "文蛤五两",
           "declared_count": 1,
           "source_defect": null,
           "components": [
@@ -8515,8 +8435,7 @@
             }
           ],
           "component_count": 1,
-          "dosed_component_count": 1,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 1
         }
       ],
       "component_count": 1
@@ -8623,7 +8542,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 185327,
-          "composition_text": "",
+          "composition_text": "芫花熬 甘遂 大戟各等分",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -8653,8 +8572,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -8670,7 +8588,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 117794,
-          "composition_text": "",
+          "composition_text": "葶苈熬令黄色，捣\r\n丸如弹子大 \r\n大枣十二枚",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -8700,8 +8618,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 1,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 1
         }
       ],
       "component_count": 3
@@ -8747,7 +8664,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 315773,
-          "composition_text": "",
+          "composition_text": "枳实烧令黑，勿太\r\n过 \r\n芍药各等分",
           "declared_count": 2,
           "source_defect": "原文声明2味，解析3味（已解析：枳实、令黑勿太过、芍药）",
           "components": [
@@ -8777,8 +8694,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -8794,7 +8710,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 230413,
-          "composition_text": "",
+          "composition_text": "防己 黄耆 桂枝各三两 茯苓六两 \r\n甘草二两",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -8840,8 +8756,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -8857,7 +8772,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 146326,
-          "composition_text": "",
+          "composition_text": "蜀椒二合，炒去汗 干姜一两 人参二两",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -8887,8 +8802,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -8949,7 +8863,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 2578,
-          "composition_text": "",
+          "composition_text": "人参 甘草 白术 干姜各三两",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -8987,8 +8901,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -9236,7 +9149,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 82868,
-          "composition_text": "",
+          "composition_text": "矾石二两",
           "declared_count": 1,
           "source_defect": null,
           "components": [
@@ -9250,8 +9163,7 @@
             }
           ],
           "component_count": 1,
-          "dosed_component_count": 1,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 1
         }
       ],
       "component_count": 1
@@ -9267,7 +9179,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 318114,
-          "composition_text": "",
+          "composition_text": "竹叶一把 葛根三两 防风 桔梗 \r\n桂枝 人参 甘草各一两 附子一枚，炮 \r\n生姜五两 大枣十五枚",
           "declared_count": 10,
           "source_defect": null,
           "components": [
@@ -9353,8 +9265,7 @@
             }
           ],
           "component_count": 10,
-          "dosed_component_count": 10,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 10
         }
       ],
       "component_count": 10
@@ -9370,7 +9281,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 84056,
-          "composition_text": "",
+          "composition_text": "黄耆三两 芍药三两 桂枝三两 生姜六两 \r\n大枣十二枚",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -9416,8 +9327,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -9486,7 +9396,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 50036,
-          "composition_text": "",
+          "composition_text": "知母六两 生石膏一斤，碎 甘草二两，炙 粳米六合 \r\n人参三两",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -9532,8 +9442,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -9549,7 +9458,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 267754,
-          "composition_text": "",
+          "composition_text": "甘草 干地黄 白术 附子各三两，炮 \r\n阿胶三两 黄芩三两 灶中黄土半斤",
           "declared_count": 7,
           "source_defect": null,
           "components": [
@@ -9611,8 +9520,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 7,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 7
         }
       ],
       "component_count": 7
@@ -9722,7 +9630,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 319354,
-          "composition_text": "",
+          "composition_text": "白头翁 甘草 阿胶各二两 秦皮 \r\n黄连 柏皮各三两",
           "declared_count": 6,
           "source_defect": null,
           "components": [
@@ -9776,8 +9684,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 6,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 6
         }
       ],
       "component_count": 6
@@ -9793,7 +9700,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 308960,
-          "composition_text": "",
+          "composition_text": "当归 芎藭各三两 芍药一斤 茯苓 \r\n白术各四两 泽泻半斤",
           "declared_count": 6,
           "source_defect": null,
           "components": [
@@ -9847,8 +9754,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 6,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 6
         }
       ],
       "component_count": 6
@@ -9864,7 +9770,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 321473,
-          "composition_text": "",
+          "composition_text": "甘草三两 小麦一升 大枣十枚",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -9894,8 +9800,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -9948,7 +9853,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 277536,
-          "composition_text": "",
+          "composition_text": "附子一枚，生用 干姜一两半 甘草二两炙",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -9978,8 +9883,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -9995,7 +9899,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 292962,
-          "composition_text": "",
+          "composition_text": "大黄四两 牡丹一两 桃仁五十个 冬瓜仁半升 \r\n芒硝三合",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -10041,8 +9945,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -10111,7 +10014,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 194314,
-          "composition_text": "",
+          "composition_text": "泽泻一两六铢 猪苓 茯苓 白术各十八铢 \r\n桂枝半两",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -10157,8 +10060,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -10174,7 +10076,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 253736,
-          "composition_text": "",
+          "composition_text": "茵陈蒿十分，末 五苓散五分",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -10204,8 +10106,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 3
@@ -10221,7 +10122,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 279130,
-          "composition_text": "",
+          "composition_text": "茯苓半斤 泽泻四两 甘草 桂枝各二两 \r\n白术三两 生姜四两",
           "declared_count": 6,
           "source_defect": null,
           "components": [
@@ -10275,8 +10176,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 6,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 6
         }
       ],
       "component_count": 6
@@ -10338,7 +10238,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 254049,
-          "composition_text": "",
+          "composition_text": "大黄 黄柏 硝石各四两 栀子十五枚",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -10376,8 +10276,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -10393,7 +10292,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 53382,
-          "composition_text": "",
+          "composition_text": "百合七枚，擘 生地黄汁一升",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -10415,8 +10314,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -10432,7 +10330,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 238293,
-          "composition_text": "",
+          "composition_text": "桂枝 生姜各三两 细辛 甘草 \r\n麻黄各二两 附子一枚，炮 大枣十二枚",
           "declared_count": 7,
           "source_defect": null,
           "components": [
@@ -10494,8 +10392,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 7,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 7
         }
       ],
       "component_count": 7
@@ -10511,7 +10408,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 60530,
-          "composition_text": "",
+          "composition_text": "鳖甲手指大一片，\r\n炙 \r\n雄黄半两，研 升麻 当归 \r\n甘草各二两 蜀椒炒去汗，一两",
           "declared_count": 6,
           "source_defect": "原文声明6味，解析7味（已解析：鳖甲手指大、雄黄、升麻、当归、甘草、蜀椒、一两）",
           "components": [
@@ -10573,8 +10470,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 7
@@ -10651,7 +10547,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 166996,
-          "composition_text": "",
+          "composition_text": "麻仁二升 芍药半斤 大黄一斤去皮 枳实半斤 \r\n厚朴一尺去皮 \r\n杏仁一升去皮尖熬\r\n别做脂",
           "declared_count": 6,
           "source_defect": null,
           "components": [
@@ -10705,8 +10601,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 6,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 6
         }
       ],
       "component_count": 6
@@ -10784,7 +10679,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 136979,
-          "composition_text": "",
+          "composition_text": "薏苡仁十五两 大附子十枚，炮",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -10806,8 +10701,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -10823,7 +10717,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 151829,
-          "composition_text": "",
+          "composition_text": "乌头五枚",
           "declared_count": 1,
           "source_defect": null,
           "components": [
@@ -10837,8 +10731,7 @@
             }
           ],
           "component_count": 1,
-          "dosed_component_count": 1,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 1
         }
       ],
       "component_count": 1
@@ -10854,7 +10747,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 294291,
-          "composition_text": "",
+          "composition_text": "薏苡仁十分 附子二分 败酱五分",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -10884,8 +10777,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -10901,7 +10793,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 251990,
-          "composition_text": "",
+          "composition_text": "硝石熬黄 矾石烧，等分",
           "declared_count": 2,
           "source_defect": "原文声明2味，解析1味（已解析：硝石黄矾石等分）",
           "components": [
@@ -10915,8 +10807,7 @@
             }
           ],
           "component_count": 1,
-          "dosed_component_count": 0,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 0
         }
       ],
       "component_count": 1
@@ -10932,7 +10823,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 194103,
-          "composition_text": "",
+          "composition_text": "半夏一升 生姜半升 茯苓四两",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -10962,8 +10853,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -11164,7 +11054,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 30981,
-          "composition_text": "",
+          "composition_text": "葛根四两 麻黄三两，去节 桂枝 甘草炙 \r\n芍药各二两 生姜三两 大枣十二枚",
           "declared_count": 7,
           "source_defect": null,
           "components": [
@@ -11226,8 +11116,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 7,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 7
         }
       ],
       "component_count": 7
@@ -11288,7 +11177,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 326357,
-          "composition_text": "",
+          "composition_text": "水蛭 虻虫各三十个，熬 桃仁三十个 大黄三两，酒浸",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -11326,8 +11215,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -11343,7 +11231,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 29595,
-          "composition_text": "",
+          "composition_text": "栝蒌根二两 桂枝三两 芍药三两 甘草二两 \r\n生姜三两 大枣十二枚",
           "declared_count": 6,
           "source_defect": null,
           "components": [
@@ -11397,8 +11285,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 6,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 6
         }
       ],
       "component_count": 6
@@ -11414,7 +11301,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 328219,
-          "composition_text": "",
+          "composition_text": "蛇床子",
           "declared_count": 1,
           "source_defect": null,
           "components": [
@@ -11428,8 +11315,7 @@
             }
           ],
           "component_count": 1,
-          "dosed_component_count": 0,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 0
         }
       ],
       "component_count": 1
@@ -11445,7 +11331,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 138295,
-          "composition_text": "",
+          "composition_text": "乌头一分，炮 蜀椒 干姜各一两 附子半两 \r\n赤石脂一两",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -11491,8 +11377,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -11808,7 +11693,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 114770,
-          "composition_text": "",
+          "composition_text": "半夏半升 紫参一本作紫菀 生姜 白前各五两 \r\n甘草 黄芩 人参 桂枝各三两 \r\n泽漆三升以东流水\r\n五斗煮取一斗五升",
           "declared_count": 9,
           "source_defect": "原文声明9味，解析11味（已解析：半夏、紫参、一本作紫菀生姜、白前、甘草、黄芩、人参、桂枝、泽漆、以东流水、五斗煮取一斗）",
           "components": [
@@ -11902,8 +11787,7 @@
             }
           ],
           "component_count": 11,
-          "dosed_component_count": 10,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 10
         }
       ],
       "component_count": 11
@@ -11919,7 +11803,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 290435,
-          "composition_text": "",
+          "composition_text": "诃黎勒十枚，煨",
           "declared_count": 1,
           "source_defect": null,
           "components": [
@@ -11933,8 +11817,7 @@
             }
           ],
           "component_count": 1,
-          "dosed_component_count": 1,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 1
         }
       ],
       "component_count": 1
@@ -11950,7 +11833,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 74290,
-          "composition_text": "",
+          "composition_text": "大附子一枚 盐等分",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -11972,8 +11855,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -12035,7 +11917,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 81564,
-          "composition_text": "",
+          "composition_text": "麻黄 芍药 黄耆 甘草炙，各三两 \r\n乌头五枚 咀以蜜 呚\r\n二升，煎去一升即\r\n出乌头",
           "declared_count": 5,
           "source_defect": "原文声明5味，解析9味（已解析：麻黄、芍药、黄耆、甘草、乌头、咀以蜜、呚、煎去、即出乌头）",
           "components": [
@@ -12113,8 +11995,7 @@
             }
           ],
           "component_count": 9,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 9
@@ -12199,7 +12080,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 275512,
-          "composition_text": "",
+          "composition_text": "半夏洗半升 黄芩 干姜 人参 \n\n\n\n\n甘草各三两，炙 黄连一两 大枣十二枚",
           "declared_count": 7,
           "source_defect": null,
           "components": [
@@ -12261,8 +12142,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 7,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 7
         }
       ],
       "component_count": 7
@@ -12278,7 +12158,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 269883,
-          "composition_text": "",
+          "composition_text": "大黄二两 黄连 黄芩各一两",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -12308,8 +12188,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -12325,7 +12204,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 87877,
-          "composition_text": "",
+          "composition_text": "桂枝 芍药 生姜各三两 甘草二两 \r\n大枣十二枚 龙骨 牡蛎各三两",
           "declared_count": 7,
           "source_defect": null,
           "components": [
@@ -12387,8 +12266,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 7,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 7
         }
       ],
       "component_count": 7
@@ -12425,7 +12303,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 123678,
-          "composition_text": "",
+          "composition_text": "甘草",
           "declared_count": 1,
           "source_defect": null,
           "components": [
@@ -12439,8 +12317,7 @@
             }
           ],
           "component_count": 1,
-          "dosed_component_count": 0,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 0
         }
       ],
       "component_count": 1
@@ -12501,7 +12378,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 289354,
-          "composition_text": "",
+          "composition_text": "白头翁二两 黄连 黄柏 秦皮各三两",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -12539,8 +12416,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -12556,7 +12432,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 328500,
-          "composition_text": "",
+          "composition_text": "狼牙三两",
           "declared_count": 1,
           "source_defect": null,
           "components": [
@@ -12570,8 +12446,7 @@
             }
           ],
           "component_count": 1,
-          "dosed_component_count": 1,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 1
         }
       ],
       "component_count": 1
@@ -12587,7 +12462,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 137966,
-          "composition_text": "",
+          "composition_text": "桂枝 生姜各三两 枳实五两",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -12617,8 +12492,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -12634,7 +12508,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 209236,
-          "composition_text": "",
+          "composition_text": "薯蓣三两 茯苓三两 栝蒌根二两 附子一枚，炮 \n\n\n\n\n瞿麦一两",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -12680,8 +12554,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -12697,7 +12570,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 99477,
-          "composition_text": "",
+          "composition_text": "酸枣仁二升 甘草一两 知母 茯苓各二两 \n\n\n\n\n芎藭一两",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -12743,8 +12616,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -12814,7 +12686,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 188496,
-          "composition_text": "",
+          "composition_text": "木防己 桂枝各三两 茯苓四两 人参四两 \r\n芒硝三合",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -12860,8 +12732,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -12877,7 +12748,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 296228,
-          "composition_text": "",
+          "composition_text": "王不留行十分，八\r\n月八日采 \r\n蒴藋细叶十分，七\r\n月七日采 \r\n桑东南根白皮十\r\n分，三月三日采 \r\n甘草十八分 \r\n黄芩二分 川椒三分 厚朴二分 干姜二分 \r\n芍药二分",
           "declared_count": 9,
           "source_defect": "原文声明9味，解析10味（已解析：王不留行、八月八日采、蒴藋细叶、七月七日采桑东南根白皮十分三月三日采、甘草、黄芩、川椒、厚朴、干姜、芍药）",
           "components": [
@@ -12963,8 +12834,7 @@
             }
           ],
           "component_count": 10,
-          "dosed_component_count": 8,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 8
         }
       ],
       "component_count": 10
@@ -12980,7 +12850,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 42187,
-          "composition_text": "",
+          "composition_text": "防己一两 甘草半两，炙 白术七钱半 黄耆一两一分",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -13018,8 +12888,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -13080,7 +12949,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 274436,
-          "composition_text": "",
+          "composition_text": "吴茱萸一升 人参三两 生姜六两 大枣十二枚",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -13118,8 +12987,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -13135,7 +13003,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 58889,
-          "composition_text": "",
+          "composition_text": "赤小豆三升，浸令\r\n芽出，曝干 \r\n当归十两",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -13157,8 +13025,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -13174,7 +13041,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 277145,
-          "composition_text": "",
+          "composition_text": "猪苓 茯苓 白术各等分",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -13204,8 +13071,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -13221,7 +13087,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 309586,
-          "composition_text": "",
+          "composition_text": "干姜 人参各一两 半夏二两",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -13251,8 +13117,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -13390,7 +13255,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 150610,
-          "composition_text": "",
+          "composition_text": "当归三两 生姜五两 羊肉一斤",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -13420,8 +13285,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -13483,7 +13347,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 121407,
-          "composition_text": "",
+          "composition_text": "麻黄 芍药 桂枝 细辛 \r\n干姜 甘草各三两 五味子 半夏各半升 \r\n石膏二两",
           "declared_count": 9,
           "source_defect": null,
           "components": [
@@ -13561,8 +13425,7 @@
             }
           ],
           "component_count": 9,
-          "dosed_component_count": 9,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 9
         }
       ],
       "component_count": 9
@@ -13578,7 +13441,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 168632,
-          "composition_text": "",
+          "composition_text": "甘草 白术各二两 干姜 茯苓各四两",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -13616,8 +13479,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -13678,7 +13540,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 125495,
-          "composition_text": "",
+          "composition_text": "茯苓半斤 甘草二两 大枣十五枚 桂枝四两",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -13716,8 +13578,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -13786,7 +13647,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 43673,
-          "composition_text": "",
+          "composition_text": "桂枝四两 \r\n附子三枚，炮，去\r\n皮，破八片 \r\n生姜三两，切 甘草二两，炙 \n\n\n\n\n大枣十二枚，擘",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -13832,8 +13693,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -13903,7 +13763,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 192751,
-          "composition_text": "",
+          "composition_text": "防己 椒目 葶苈 大黄各一两",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -13941,8 +13801,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -14028,7 +13887,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 67276,
-          "composition_text": "",
+          "composition_text": "牡蛎四两 麻黄四两，去节 甘草二两 蜀漆三两",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -14066,8 +13925,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -14153,7 +14011,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 67511,
-          "composition_text": "",
+          "composition_text": "柴胡半斤 桂枝三两，去皮 干姜二两 栝蒌根四两 \r\n黄芩三两 牡蛎三两，熬 甘草三两，炙",
           "declared_count": 7,
           "source_defect": null,
           "components": [
@@ -14215,8 +14073,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 7,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 7
         }
       ],
       "component_count": 7
@@ -14426,7 +14283,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 210560,
-          "composition_text": "",
+          "composition_text": "蒲灰半分 滑石三分",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -14448,8 +14305,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -14465,7 +14321,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 123743,
-          "composition_text": "",
+          "composition_text": "桂枝三两 生姜三两 甘草二两 大枣十枚 \r\n皂荚一枚，去皮，\r\n子炙焦",
           "declared_count": 5,
           "source_defect": "原文声明5味，解析6味（已解析：桂枝、生姜、甘草、大枣、皂荚、子焦）",
           "components": [
@@ -14519,8 +14375,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 6
@@ -14582,7 +14437,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 65553,
-          "composition_text": "",
+          "composition_text": "知母六两 石膏一斤 甘草二两，炙 粳米二合 \n\n\n\n\n桂枝三两",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -14628,8 +14483,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -14645,7 +14499,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 144875,
-          "composition_text": "",
+          "composition_text": "厚朴八两 大黄四两 枳实五枚",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -14675,8 +14529,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -14692,7 +14545,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 190677,
-          "composition_text": "",
+          "composition_text": "泽泻五两 白术二两",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -14714,8 +14567,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -14793,7 +14645,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 210661,
-          "composition_text": "",
+          "composition_text": "茯苓半斤 白术三两 戎盐弹丸一枚",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -14823,8 +14675,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -14840,7 +14691,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 201243,
-          "composition_text": "",
+          "composition_text": "茯苓四两 甘草二两 干姜 细辛各三两 \r\n五味子 半夏 杏仁各半升 大黄三两",
           "declared_count": 8,
           "source_defect": null,
           "components": [
@@ -14910,8 +14761,7 @@
             }
           ],
           "component_count": 8,
-          "dosed_component_count": 8,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 8
         }
       ],
       "component_count": 8
@@ -14927,7 +14777,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 50475,
-          "composition_text": "",
+          "composition_text": "瓜蒂二十个",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -14941,8 +14791,7 @@
             }
           ],
           "component_count": 1,
-          "dosed_component_count": 1,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 1
         }
       ],
       "component_count": 1
@@ -15003,7 +14852,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 32816,
-          "composition_text": "",
+          "composition_text": "大黄四两，酒洗 \r\n厚朴半斤，炙，去\r\n皮 \r\n枳实五枚，炙 芒硝三合",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -15041,8 +14890,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -15095,7 +14943,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 288200,
-          "composition_text": "",
+          "composition_text": "大黄四两 枳实三枚 厚朴三两，炙",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -15125,8 +14973,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -15142,7 +14989,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 299575,
-          "composition_text": "",
+          "composition_text": "蜘蛛十四枚，熬 桂枝半两",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -15164,8 +15011,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -15267,7 +15113,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 73759,
-          "composition_text": "",
+          "composition_text": "大黄 干姜 龙骨各四两 桂枝三两 \r\n甘草 牡蛎各二两 寒水石 滑石 \r\n赤石脂 白石脂 紫石英 石膏各六两",
           "declared_count": 12,
           "source_defect": null,
           "components": [
@@ -15369,8 +15215,7 @@
             }
           ],
           "component_count": 12,
-          "dosed_component_count": 12,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 12
         }
       ],
       "component_count": 12
@@ -15386,7 +15231,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 191245,
-          "composition_text": "",
+          "composition_text": "厚朴一尺 大黄六两 枳实四枚",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -15416,8 +15261,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -15433,7 +15277,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 116673,
-          "composition_text": "",
+          "composition_text": "麦门冬七升 半夏一升 人参 甘草各二两 \r\n粳米三合 大枣十二枚",
           "declared_count": 6,
           "source_defect": null,
           "components": [
@@ -15487,8 +15331,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 6,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 6
         }
       ],
       "component_count": 6
@@ -15542,7 +15385,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 309615,
-          "composition_text": "",
+          "composition_text": "干姜 人参各一两 半夏二两",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -15572,8 +15415,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -15658,7 +15500,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 187067,
-          "composition_text": "",
+          "composition_text": "麻黄六两 桂枝 甘草各二两 生姜三两 \r\n杏仁四十个 大枣十二枚 石膏如鸡子大一枚",
           "declared_count": 7,
           "source_defect": null,
           "components": [
@@ -15720,8 +15562,7 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 7,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 7
         }
       ],
       "component_count": 7
@@ -15782,7 +15623,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 46945,
-          "composition_text": "",
+          "composition_text": "甘草二两，炙 \r\n附子二枚，炮，去\r\n皮 \r\n白术二两 桂枝四两",
           "declared_count": 4,
           "source_defect": null,
           "components": [
@@ -15820,8 +15661,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 4,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 4
         }
       ],
       "component_count": 4
@@ -15874,7 +15714,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 288753,
-          "composition_text": "",
+          "composition_text": "赤石脂一升一半全\r\n用一半研末 \r\n干姜二两 粳米一升",
           "declared_count": 3,
           "source_defect": "原文声明3味，解析4味（已解析：赤石脂、一半全用一半末、干姜、粳米）",
           "components": [
@@ -15912,8 +15752,7 @@
             }
           ],
           "component_count": 4,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -15958,7 +15797,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 117941,
-          "composition_text": "",
+          "composition_text": "桔梗一两 甘草二两",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -15980,8 +15819,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -15997,7 +15835,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 54422,
-          "composition_text": "",
+          "composition_text": "百合七枚，擘 知母三两",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -16019,8 +15857,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -16036,7 +15873,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 310289,
-          "composition_text": "",
+          "composition_text": "当归 贝母 苦参各四两",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -16066,8 +15903,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -16083,7 +15919,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 326917,
-          "composition_text": "",
+          "composition_text": "矾石三分，烧 杏仁一分",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -16105,8 +15941,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -16168,7 +16003,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 147736,
-          "composition_text": "",
+          "composition_text": "大黄三两 附子三枚 细辛三两",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -16198,8 +16033,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -16215,7 +16049,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 135162,
-          "composition_text": "",
+          "composition_text": "茯苓三两 杏仁五十个 甘草一两",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -16245,8 +16079,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -16262,7 +16095,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 199870,
-          "composition_text": "",
+          "composition_text": "茯苓四两 甘草二两 细辛二两 干姜二两 \r\n半夏半斤 五味子半斤",
           "declared_count": 6,
           "source_defect": null,
           "components": [
@@ -16316,8 +16149,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 6,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 6
         }
       ],
       "component_count": 6
@@ -16402,7 +16234,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 330354,
-          "composition_text": "",
+          "composition_text": "牡蛎 泽泻 蜀漆洗去腥 海藻洗去咸 \r\n栝蒌根 商陆根 葶苈子以上各等分",
           "declared_count": 7,
           "source_defect": "原文声明7味，解析6味（已解析：牡蛎、泽泻、蜀漆、海藻、去咸栝蒌根商陆根、葶苈子以上）",
           "components": [
@@ -16456,8 +16288,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 6,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 6
         }
       ],
       "component_count": 7
@@ -16473,7 +16304,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 329857,
-          "composition_text": "",
+          "composition_text": "枳实三枚，炙 栀子十四枚 香豉一升，绵裹",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -16503,8 +16334,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -16520,7 +16350,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 124568,
-          "composition_text": "",
+          "composition_text": "甘草 芎藭 当归 黄芩 \r\n芍药各二两 半夏 生姜各四两 生葛五两 \r\n甘李根白皮一升",
           "declared_count": 9,
           "source_defect": null,
           "components": [
@@ -16598,8 +16428,7 @@
             }
           ],
           "component_count": 9,
-          "dosed_component_count": 9,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 9
         }
       ],
       "component_count": 9
@@ -16615,7 +16444,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 133514,
-          "composition_text": "",
+          "composition_text": "枳实四枚 薤白半斤 桂枝一两 厚朴四两 \n\n\n\n\n栝蒌实一枚捣",
           "declared_count": 5,
           "source_defect": null,
           "components": [
@@ -16661,8 +16490,7 @@
             }
           ],
           "component_count": 5,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 5
@@ -16678,7 +16506,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 278889,
-          "composition_text": "",
+          "composition_text": "大黄二两 甘草一两",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -16700,8 +16528,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -16754,7 +16581,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 250093,
-          "composition_text": "",
+          "composition_text": "茵陈蒿六两 栀子十四枚 大黄二两",
           "declared_count": 3,
           "source_defect": null,
           "components": [
@@ -16784,8 +16611,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 3,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 3
         }
       ],
       "component_count": 3
@@ -16801,7 +16627,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 327891,
-          "composition_text": "",
+          "composition_text": "干地黄八两 山药 山茱萸各四两 泽泻 \r\n丹皮 茯苓各三两 桂枝一两 附子一枚炮",
           "declared_count": 8,
           "source_defect": null,
           "components": [
@@ -16871,8 +16697,7 @@
             }
           ],
           "component_count": 8,
-          "dosed_component_count": 8,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 8
         }
       ],
       "component_count": 8
@@ -16888,7 +16713,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 111809,
-          "composition_text": "",
+          "composition_text": "射干三两 麻黄 生姜各四两 细辛 \r\n紫菀 款冬花各三两 大枣七枚 半夏半升 \r\n五味子半升",
           "declared_count": 9,
           "source_defect": null,
           "components": [
@@ -16966,8 +16791,7 @@
             }
           ],
           "component_count": 9,
-          "dosed_component_count": 9,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 9
         }
       ],
       "component_count": 9
@@ -17044,7 +16868,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 276496,
-          "composition_text": "",
+          "composition_text": "黄芩 生姜各三两 甘草二两 芍药一两 \r\n半夏半升 大枣十二枚",
           "declared_count": 6,
           "source_defect": null,
           "components": [
@@ -17098,8 +16922,7 @@
             }
           ],
           "component_count": 6,
-          "dosed_component_count": 6,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 6
         }
       ],
       "component_count": 6
@@ -17115,7 +16938,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 252965,
-          "composition_text": "",
+          "composition_text": "猪膏半斤 乱髪如鸡子大三枚",
           "declared_count": 2,
           "source_defect": null,
           "components": [
@@ -17137,8 +16960,7 @@
             }
           ],
           "component_count": 2,
-          "dosed_component_count": 2,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 2
         }
       ],
       "component_count": 2
@@ -17154,7 +16976,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 56169,
-          "composition_text": "",
+          "composition_text": "栝蒌根 牡蛎熬，等分",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -17184,8 +17006,7 @@
             }
           ],
           "component_count": 3,
-          "dosed_component_count": 0,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 0
         }
       ],
       "component_count": 3
@@ -17247,7 +17068,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 95887,
-          "composition_text": "",
+          "composition_text": "干地黄八两 山药 山茱萸各四两 泽泻 \r\n丹皮 茯苓各三两 桂枝一两 附子一枚，炮",
           "declared_count": 8,
           "source_defect": null,
           "components": [
@@ -17317,8 +17138,7 @@
             }
           ],
           "component_count": 8,
-          "dosed_component_count": 8,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 8
         }
       ],
       "component_count": 8
@@ -17465,7 +17285,7 @@
           "source": "金匮要略注释版",
           "document": "倪海厦注释·金匮要略",
           "char_offset": 2272,
-          "composition_text": "",
+          "composition_text": "甘草二两，炙 干姜一两半 附子一枚，生用去\r\n皮，破八片 \r\n人参一两 \r\n四逆汤内加人参一两，余依四逆汤服法（上三味，呚咀，微火煮取一升二合，去滓，分\r\n温再服。强人可大附子一枚，干姜三两。）",
           "declared_count": null,
           "source_defect": null,
           "components": [
@@ -17527,11 +17347,11 @@
             }
           ],
           "component_count": 7,
-          "dosed_component_count": 5,
-          "composition_text_removed": "原文来自有版权的现代注本，公开版不收录；如需核对请自备原件"
+          "dosed_component_count": 5
         }
       ],
       "component_count": 4
     }
-  }
+  },
+  "attribution": "《伤寒论辑义》为公有领域文献（1801年刊行）。倪海厦《人纪》系列讲义的著作权归倪海厦及汉唐中医所有，本仓库收录其方剂组成片段用于学术研究，未获权利人明示授权。如权利人认为不妥，请联系仓库所有者删除。"
 }
