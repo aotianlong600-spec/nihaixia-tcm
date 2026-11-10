@@ -92,3 +92,5 @@ python -m pytest -q
 ## 重构记录
 
 删除算法层与应用层，仓库回到数据底座。逐条清单与判定依据见 [docs/LAYERS.md](docs/LAYERS.md)。
+
+另按所有者决定删除方剂索引里的 `six_meridian`（六经归经）字段：629 行、49 种写法、90 条规则与方剂归经冲突、检索从未支持。重构前不再提供六经维度，详见 [docs/DATA.md](docs/DATA.md)。

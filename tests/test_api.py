@@ -177,6 +177,18 @@ def test_search_requires_query(client):
     assert client.get("/api/search", params={"q": ""}).status_code == 422
 
 
+def test_six_meridian_field_is_gone(client):
+    """六经标签已按决定删除，等重构后再按 new schema 回来。"""
+    catalog = json.loads((Path(__file__).resolve().parents[1] / "app" / "resources"
+                          / "open_formula_library.json").read_text(encoding="utf-8"))
+    assert all("six_meridian" not in formula for formula in catalog["formulas"])
+    assert all("six_meridian" not in pattern for pattern in catalog["patterns"])
+    listing = client.get("/api/formulas").json()
+    assert all("six_meridian" not in item for item in listing["items"])
+    detail = client.get(f"/api/formulas/{listing['items'][0]['id']}").json()
+    assert "six_meridian" not in detail
+
+
 def test_security_headers(client):
     headers = client.get("/api/status").headers
     assert headers["X-Content-Type-Options"] == "nosniff"

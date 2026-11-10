@@ -36,7 +36,7 @@ def catalog() -> dict:
 
 
 def _summary(formula: dict) -> dict:
-    return {key: formula.get(key) for key in ("id", "name", "syndrome", "six_meridian", "source_refs")}
+    return {key: formula.get(key) for key in ("id", "name", "syndrome", "source_refs")}
 
 
 def connect(data: Path) -> sqlite3.Connection:

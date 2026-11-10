@@ -10,7 +10,7 @@
 
 ## 方剂索引
 
-`GET /api/formulas?q=&limit=` → `{"total":314,"items":[{"id","name","syndrome","six_meridian","source_refs"}]}`
+`GET /api/formulas?q=&limit=` → `{"total":314,"items":[{"id","name","syndrome","source_refs"}]}`
 
 `q` 匹配方名、证型描述与组成药名；`limit` 默认 50，最大 500。
 
