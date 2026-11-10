@@ -7,7 +7,7 @@ import threading
 from urllib.parse import parse_qs, urlsplit
 from uuid import uuid4
 
-from . import consultation_core as core, decision, formula_engine, library, library_modifications, offline_pack, storage
+from . import consultation_core as core, decision, formula_engine, library, library_evidence, library_modifications, offline_pack, storage
 from .domain import DomainError
 from .knowledge import _normalize
 from .portable_validation import validate
@@ -153,13 +153,18 @@ class LocalRuntime:
             return 200, {'items': formula_engine.match_patterns(payload['facts'], payload['query'], payload['limit'])}
         formula = re.fullmatch(r'/formulas/([^/]+)', path)
         if formula and method == 'GET':
-            value = formula_engine.get_formula(formula.group(1))
-            if value is None:
+            source = formula_engine.get_formula(formula.group(1))
+            if source is None:
                 raise DomainError(404, '方剂条目不存在')
-            rules, rejected = library_modifications.verified_for_formula(conn, formula.group(1))
-            value.pop('modification_notes', None)
+            formula_id = formula.group(1)
+            compositions, rejected_compositions = library_evidence.verified_compositions_for_formula(conn, formula_id)
+            rules, rejected_rules = library_modifications.verified_for_formula(conn, formula_id)
+            value = {key: source.get(key) for key in ('id', 'name', 'syndrome', 'six_meridian')}
+            value['library_compositions'] = compositions
+            value['library_compositions_rejected'] = rejected_compositions
+            value['library_compositions_notice'] = library_evidence.composition_notice()
             value['library_modifications'] = rules
-            value['library_modifications_rejected'] = rejected
+            value['library_modifications_rejected'] = rejected_rules
             value['library_modifications_notice'] = library_modifications.NOTICE
             return 200, value
         if path == '/decision/coverage' and method == 'GET':

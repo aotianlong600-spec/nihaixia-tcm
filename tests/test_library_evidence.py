@@ -106,6 +106,21 @@ def test_formula_lookup_and_search():
     assert library_evidence.search("不存在的词")["items"] == []
 
 
+def test_composition_is_verified_against_the_current_library_page():
+    version = library_evidence.get_formula("guizhi_tang")["compositions"][0]
+    conn = sqlite3.connect(":memory:")
+    conn.execute("CREATE TABLE documents(id TEXT PRIMARY KEY,title TEXT)")
+    conn.execute("CREATE TABLE pages(document_id TEXT,physical_page INTEGER,raw_text TEXT,corrected_text TEXT,ocr_text TEXT)")
+    conn.execute("INSERT INTO documents VALUES(?,?)", (version["source_id"], version["source_title"]))
+    conn.execute("INSERT INTO pages VALUES(?,?,?,?,?)", (version["source_id"], version["unit_no"], version["block"], None, None))
+    verified, rejected = library_evidence.verified_compositions_for_formula(conn, "guizhi_tang")
+    assert len(verified) == 1 and not rejected
+    assert verified[0]["verification"] == library_evidence.VERIFIED
+    conn.execute("UPDATE pages SET raw_text='removed'")
+    verified, rejected = library_evidence.verified_compositions_for_formula(conn, "guizhi_tang")
+    assert verified == [] and rejected[0]["reason"] == "block_not_on_source_page"
+
+
 @pytest.fixture
 def library_client(tmp_path):
     from app.main import create_app

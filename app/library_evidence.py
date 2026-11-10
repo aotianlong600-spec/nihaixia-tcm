@@ -6,8 +6,10 @@ page or text unit and keeps its locator and SHA256.
 """
 from copy import deepcopy
 from functools import lru_cache
+import hashlib
 import json
 from pathlib import Path
+import re
 
 from . import formula_engine, library_modifications
 
@@ -17,6 +19,7 @@ FORMAT = "nihaixia-library-formula-evidence"
 COMPOSITION_FORMAT = "nihaixia-library-formula-compositions"
 VERSION = 1
 NOTICE = "库内原文检索证据，不表示该方适用于当前患者；引用可能受 OCR 质量影响，须回看原件。"
+VERIFIED = "verified_in_current_library"
 
 
 def _read(name: str) -> dict:
@@ -143,6 +146,54 @@ def get_formula(formula_id: str) -> dict | None:
         "notice": NOTICE,
     }
     return result
+
+
+def verify_composition(conn, version: dict) -> tuple[dict | None, str | None]:
+    page = version.get("unit_no")
+    locator = re.fullmatch(r"physical_page:([1-9][0-9]*)", str(version.get("locator", "")))
+    if type(page) is not int and locator:
+        page = int(locator[1])
+    if type(page) is not int or not version.get("source_id") or not version.get("block"):
+        return None, "invalid_source"
+    row = conn.execute("""SELECT p.raw_text,p.corrected_text,p.ocr_text,d.title
+        FROM pages p JOIN documents d ON d.id=p.document_id
+        WHERE p.document_id=? AND p.physical_page=?""", (version["source_id"], page)).fetchone()
+    if not row:
+        return None, "source_page_missing"
+    raw, corrected, ocr, title = row
+    using_ocr = corrected is None and not (raw or "").strip()
+    text = corrected if corrected is not None else ((ocr or "") if using_ocr else (raw or ""))
+    if title != version.get("source_title"):
+        return None, "source_title_mismatch"
+    if version["block"] not in text:
+        return None, "block_not_on_source_page"
+    if hashlib.sha256(version["block"].encode("utf-8")).hexdigest() != version.get("block_sha256"):
+        return None, "block_hash_mismatch"
+    verified = deepcopy(version)
+    verified["unit_no"] = page
+    verified["verification"] = VERIFIED
+    verified["verification_method"] = "block_on_page_and_sha256"
+    return verified, None
+
+
+def verified_compositions_for_formula(conn, formula_id: str) -> tuple[list[dict], list[dict]]:
+    versions = deepcopy((_composition_index().get(str(formula_id)) or {}).get("versions") or [])
+    verified, rejected = [], []
+    for version in versions:
+        item, reason = verify_composition(conn, version)
+        if item is not None:
+            verified.append(item)
+        else:
+            rejected.append({
+                "formula_id": formula_id,
+                "locator": version.get("locator"),
+                "reason": reason,
+            })
+    return verified, rejected
+
+
+def composition_notice() -> str:
+    return str(_compositions().get("notice") or NOTICE)
 
 
 def search(query: str = "", limit: int = 30) -> dict:
