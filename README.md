@@ -13,16 +13,16 @@
 | `app/main.py` | FastAPI 接口：读取开放，写入走令牌中间件 |
 | `app/ingest.py` | 数据导入与校订：PDF、文本清单、审校清单、OCR、引证 |
 | `app/domain.py` | 传输无关的领域异常 |
-| `app/resources/open_formula_library.json` | 开源方剂索引：**314 首方、315 条证型规则** |
-| `app/resources/来源说明.md` | 索引的来源与授权说明 |
-| `tests/` | 数据层与接口测试（58 个用例） |
+| `app/resources/open_formula_library.json` | 空方剂索引接口：**0 首方、0 条证型记录** |
+| `app/resources/来源说明.md` | 本次清空范围与重新导入边界 |
+| `tests/` | 空库契约、合成索引、数据导入与读取接口测试 |
 
 ## 本仓库不包含
 
 - 方证匹配、症状聚类、经方加减推演等**算法层**
 - 问诊单、病例、就诊记录、会话等**应用层数据与接口**
 - 云端模型接入、OAuth、模型转发服务（原 `ai-bridge/`、`relay/`）
-- 知识包打包与导出工具（知识包改为外部 release 资源）
+- 旧医学数据、方剂组成数据与随站点分发的完整知识包
 
 ## 快速开始
 
@@ -66,8 +66,10 @@ curl -H "X-Write-Token: $(cat data/write_token.txt)" -F "file=@bundle.zip" http:
 
 ## 数据
 
-- 方剂索引随源码分发：`app/resources/open_formula_library.json`，来源标注见 `app/resources/来源说明.md`。
+- 2026-11-14 清空旧医学索引；`app/resources/open_formula_library.json` 只保留合法空结构，`library/` 中的旧方剂组成数据已删除。新安装不自带方剂或证型记录；空库时读取返回空结果、详情返回 404。
 - 原文库本体（来源 PDF/DOC/TXT 与物理页）不进入源码树。运行后落在 `data/`，由 `knowledge.sqlite3` 与 `originals/` 组成，通过导入接口写入。
+- 此次只清理旧仓库中的医学数据，不删除本机原始资料、病历、模型配置或浏览器中的资料，也不改动独立的 `tcm-study-brain-v2` 项目。已有本机资料不会因更新源码自动清空。
+- 后续资料按需重新导入；不自动下载、恢复或重新发布旧知识包。清理当前树不重写历史提交。
 - 同一份原文的原件、字节哈希、物理页与印刷页跨端保持一致；有疑问的页带 `warning`，人工校订后 `review_status` 变为 `verified`。
 
 ## 验证
@@ -83,7 +85,7 @@ python -m pytest -q
 
 | 路径 | 状态 |
 |---|---|
-| `frontend/` | 原网页 App。它调用的问诊、决策、模型接口已随算法层删除，页面只剩静态壳，`.github/workflows/web-app.yml` 的发布链路也不再产出可用站点 |
+| `frontend/` | 原网页 App。它调用的问诊、决策、模型接口已随算法层删除，页面只剩静态壳；旧网页自动发布入口已移除，不再打包旧知识数据 |
 | `android/` | 原离线端。依赖已删除的知识包导出脚本，当前不可构建 |
 | `docs/legacy/` | 旧版设计文档：决策 V3、推理工作流、配置档位、OAuth 排错、多端说明等 |
 
@@ -93,4 +95,4 @@ python -m pytest -q
 
 删除算法层与应用层，仓库回到数据底座。逐条清单与判定依据见 [docs/LAYERS.md](docs/LAYERS.md)。
 
-另按所有者决定删除方剂索引里的 `six_meridian`（六经归经）字段：629 行、49 种写法、90 条规则与方剂归经冲突、检索从未支持。重构前不再提供六经维度，详见 [docs/DATA.md](docs/DATA.md)。
+此前还删除过方剂索引里的 `six_meridian`（六经归经）字段。2026-11-14 进一步清空旧医学数据，当前目录为 0 方、0 证型；详见 [清空记录](docs/RESET_2026-11-14.md) 与 [空库契约](docs/DATA.md)。
