@@ -31,6 +31,17 @@ def _openai_endpoint(base_url: str, suffix: str) -> str:
     return f"{clean}{suffix}"
 
 
+def _codex_endpoint(base_url: str) -> str:
+    clean = (base_url or "https://chatgpt.com/backend-api").strip().rstrip("/")
+    if clean.endswith("/codex/responses"):
+        return clean
+    if clean.endswith("/codex"):
+        return f"{clean}/responses"
+    if "/backend-api" in clean:
+        return f"{clean}/codex/responses"
+    return f"{clean}/backend-api/codex/responses"
+
+
 def _anthropic_messages_url(base_url: str) -> str:
     clean = base_url.rstrip("/")
     if clean.endswith("/messages"):
@@ -45,7 +56,7 @@ def _ollama_tags_url(base_url: str) -> str:
     return f"{parsed.scheme}://{parsed.netloc}/api/tags"
 
 
-def _friendly_http_error(status: int, body_text: str) -> str:
+def _friendly_http_error(status: int, body_text: str, protocol: str = "") -> str:
     detail = ""
     try:
         parsed = json.loads(body_text)
@@ -70,12 +81,16 @@ def _friendly_http_error(status: int, body_text: str) -> str:
             "（提示：请切换到支持视觉的模型如 gpt-4o / gpt-4.1 / gemini-2.5-flash / claude-sonnet-4 / qwen-vl，或改用手动点选四诊标签）"
         )
     if status == 401:
+        if protocol == "codex_oauth":
+            return f"Codex 登录凭证已失效或权限不足 (HTTP 401)：请重新使用设备码或浏览器登录 OpenAI Codex。{detail}".strip()
         return f"认证失败 (HTTP 401)：请检查 API Key 是否有效或有余额。{detail}".strip()
     if status == 403:
         return f"权限或区域受限 (HTTP 403)：{detail}".strip()
     if status == 404:
         return f"接口或模型不存在 (HTTP 404)：请检查 Base URL 与模型名称。{detail}".strip()
     if status == 429:
+        if protocol == "codex_oauth":
+            return f"Codex 订阅当前模型额度或频率受限 (HTTP 429)：请稍候再试或切换为 gpt-5.3-codex / gpt-5.1-codex-mini。{detail}".strip()
         return f"请求频率或额度受限 (HTTP 429)：{detail}".strip()
     return f"上游模型返回错误 (HTTP {status})：{detail}".strip()
 
@@ -131,6 +146,8 @@ async def _iter_sse_json(response: httpx.Response) -> AsyncIterator[dict[str, An
             try:
                 parsed = json.loads(payload_str)
                 if isinstance(parsed, dict):
+                    if event_name and "__event__" not in parsed:
+                        parsed["__event__"] = event_name
                     yield parsed
             except json.JSONDecodeError:
                 pass
@@ -398,8 +415,116 @@ def _parse_gemini_chunk(chunk: dict[str, Any]) -> list[dict[str, Any]]:
     return events
 
 
+def _prepare_codex_oauth(
+    cfg: dict[str, Any],
+    system_prompt: str,
+    messages: list[dict[str, Any]],
+    stream: bool,
+) -> dict[str, Any]:
+    _, effort, _ = _resolve_effort_and_budget(cfg, "codex_oauth")
+    headers = {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": f"Bearer {cfg.get('api_key', '')}",
+        "OpenAI-Beta": "responses=experimental",
+        "originator": "nihaixia-tcm",
+    }
+    account_id = str(cfg.get("codex_account_id") or "").strip()
+    if account_id:
+        headers["ChatGPT-Account-Id"] = account_id
+
+    input_items: list[dict[str, Any]] = []
+    for msg in messages:
+        role = "assistant" if msg.get("role") == "assistant" else "user"
+        text = str(msg.get("content") or "")
+        imgs = normalize_image_inputs(msg.get("images")) if role == "user" else []
+        if role == "assistant":
+            input_items.append({
+                "role": "assistant",
+                "content": [{"type": "output_text", "text": text}],
+            })
+        else:
+            parts: list[dict[str, Any]] = [{"type": "input_text", "text": text}]
+            for img in imgs:
+                parts.append({"type": "input_image", "image_url": img["data_url"]})
+            input_items.append({"role": "user", "content": parts})
+
+    body: dict[str, Any] = {
+        "model": cfg["model"],
+        "store": False,
+        "stream": True,
+        "instructions": system_prompt or "",
+        "input": input_items,
+        "tools": [],
+        "tool_choice": "none",
+    }
+    if effort != "auto":
+        body["reasoning"] = {"effort": effort}
+    return {
+        "url": _codex_endpoint(cfg["base_url"]),
+        "headers": headers,
+        "json": body,
+    }
+
+
+def _extract_codex_output_text(resp_obj: dict[str, Any]) -> str:
+    texts: list[str] = []
+    for item in resp_obj.get("output") or []:
+        if not isinstance(item, dict):
+            continue
+        for part in item.get("content") or []:
+            if isinstance(part, dict) and part.get("type") in {"output_text", "text"} and part.get("text"):
+                texts.append(str(part["text"]))
+    return "".join(texts)
+
+
+def _parse_codex_oauth_chunk(chunk: dict[str, Any]) -> list[dict[str, Any]]:
+    events: list[dict[str, Any]] = []
+    if "__full_json__" in chunk:
+        full = chunk["__full_json__"]
+        text = _extract_codex_output_text(full)
+        if text:
+            events.append({"type": "delta", "text": text})
+        if full.get("usage"):
+            events.append({"type": "usage", "usage": full["usage"]})
+        return events
+
+    ev_type = str(chunk.get("type") or chunk.get("__event__") or "").strip()
+    if ev_type in {"error", "response.failed"} or (chunk.get("error") and not ev_type):
+        err = chunk.get("error") or (chunk.get("response") or {}).get("error") or chunk
+        msg = err.get("message") if isinstance(err, dict) else str(err)
+        raise LLMClientError(f"Codex 流中断：{msg}")
+    if ev_type == "response.incomplete":
+        details = (chunk.get("response") or {}).get("incomplete_details") or {}
+        reason = details.get("reason") or "incomplete"
+        raise LLMClientError(f"Codex 输出未完成：{reason}")
+
+    if ev_type in {"response.reasoning_summary_text.delta", "response.reasoning_text.delta", "response.reasoning.delta"}:
+        delta = chunk.get("delta") or chunk.get("text") or ""
+        if delta:
+            events.append({"type": "reasoning", "text": str(delta)})
+        return events
+
+    if ev_type == "response.output_text.delta":
+        delta = chunk.get("delta") or ""
+        if delta:
+            events.append({"type": "delta", "text": str(delta)})
+        return events
+
+    if ev_type in {"response.completed", "response.done"}:
+        resp_obj = chunk.get("response") if isinstance(chunk.get("response"), dict) else chunk
+        fallback_text = _extract_codex_output_text(resp_obj)
+        if fallback_text:
+            events.append({"type": "__fallback_delta__", "text": fallback_text})
+        usage = resp_obj.get("usage") or chunk.get("usage")
+        if usage:
+            events.append({"type": "usage", "usage": usage})
+    return events
+
+
 _PROTOCOL_ADAPTERS = {
     "openai_compat": (_prepare_openai, _parse_openai_chunk),
+    "codex_oauth": (_prepare_codex_oauth, _parse_codex_oauth_chunk),
     "anthropic": (_prepare_anthropic, _parse_anthropic_chunk),
     "gemini": (_prepare_gemini, _parse_gemini_chunk),
 }
@@ -420,6 +545,8 @@ async def stream_chat(
         raise LLMClientError("请先填写模型 Base URL")
     if not cfg.get("model"):
         raise LLMClientError("请先选择或填写模型名称")
+    if protocol == "codex_oauth" and not cfg.get("api_key"):
+        raise LLMClientError("当前未登录 OpenAI Codex（请先在模型设置中使用设备码或浏览器登录）")
     if cfg.get("requires_key", True) and not cfg.get("api_key"):
         raise LLMClientError("当前模型未配置 API Key")
 
@@ -432,9 +559,17 @@ async def stream_chat(
             async with http.stream("POST", req["url"], headers=req["headers"], json=req["json"]) as resp:
                 if resp.status_code >= 400:
                     err_body = await _read_error_text(resp)
-                    raise LLMClientError(_friendly_http_error(resp.status_code, err_body))
+                    raise LLMClientError(_friendly_http_error(resp.status_code, err_body, protocol=protocol))
+                saw_delta = False
                 async for chunk in _iter_sse_json(resp):
                     for ev in parse_fn(chunk):
+                        if ev.get("type") == "__fallback_delta__":
+                            if not saw_delta and ev.get("text"):
+                                saw_delta = True
+                                yield {"type": "delta", "text": str(ev["text"])}
+                            continue
+                        if ev.get("type") == "delta" and ev.get("text"):
+                            saw_delta = True
                         yield ev
         except httpx.TimeoutException as exc:
             raise LLMClientError(f"请求模型超时（>{cfg.get('timeout_sec', 120)}s），请检查网络或调大超时。") from exc
@@ -482,7 +617,7 @@ async def list_models(cfg: dict[str, Any], *, client: httpx.AsyncClient | None =
     base_url = (cfg.get("base_url") or "").strip().rstrip("/")
     if not base_url:
         return {"models": suggested, "source": "preset"}
-    if protocol == "anthropic":
+    if protocol in {"anthropic", "codex_oauth"}:
         return {"models": suggested, "source": "preset"}
 
     owns_client = client is None

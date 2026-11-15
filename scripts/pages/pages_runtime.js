@@ -3,9 +3,22 @@
   window.__TCM_BUILD_VERSION__ = "__BUILD_ID__";
 
   const CONFIG_STORAGE_KEY = "ni_ai_static_config_v1";
+  const CODEX_STORAGE_KEY = "ni_ai_static_codex_oauth_v1";
   const PATIENTS_STORAGE_KEY = "ni_ai_static_patients_v1";
   const SESSIONS_STORAGE_KEY = "ni_ai_static_sessions_v1";
   const SEEDED_STORAGE_KEY = "ni_ai_static_seeded_v1";
+
+  const MAX_PROFILES = 24;
+  const CODEX_CLIENT_ID = "app_EMoamEEZ73f0CkXaXp7hrann";
+  const CODEX_AUTHORIZE_URL = "https://auth.openai.com/oauth/authorize";
+  const CODEX_TOKEN_URL = "https://auth.openai.com/oauth/token";
+  const CODEX_DEVICE_CODE_URL = "https://auth.openai.com/api/accounts/deviceauth/usercode";
+  const CODEX_DEVICE_POLL_URL = "https://auth.openai.com/api/accounts/deviceauth/token";
+  const CODEX_DEVICE_URI = "https://auth.openai.com/codex/device";
+  const CODEX_DEVICE_REDIRECT = "https://auth.openai.com/deviceauth/callback";
+  const CODEX_BROWSER_REDIRECT = "http://localhost:1455/auth/callback";
+  const CODEX_SCOPE = "openid profile email offline_access";
+  const CODEX_REFRESH_BUFFER_MS = 60000;
 
   const PLACEHOLDER_SVG =
     "data:image/svg+xml;utf8," +
@@ -224,14 +237,112 @@
     return presetsPromise;
   }
 
-  // ── Browser-Local BYOK AI Configuration (localStorage) ──────────────────
-  function loadStoredRawConfig(meta) {
-    const base = { ...(meta.defaults || {}) };
+  // ── Browser-Local Multi-Profile BYOK & Codex OAuth Store ────────────────
+  function sanitizeProfileId(rawId, fallback = "") {
+    const cleaned = String(rawId || "")
+      .trim()
+      .replace(/[^a-zA-Z0-9_-]+/g, "")
+      .slice(0, 48);
+    if (cleaned && cleaned.toLowerCase() !== "new") return cleaned;
+    return fallback || makeId("prof");
+  }
+
+  function sanitizeProfileName(rawName) {
+    return String(rawName || "")
+      .trim()
+      .replace(/\s+/g, " ")
+      .slice(0, 48);
+  }
+
+  function autoProfileName(cfg, meta) {
+    const provId = String(cfg?.provider || "custom").trim().toLowerCase();
+    const preset = (meta?.presets || []).find((p) => p.id === provId) || {};
+    const label = String(preset.label || provId).split("（")[0].trim();
+    const model = String(cfg?.model || "").trim();
+    return model ? `${label} · ${model}` : label;
+  }
+
+  function defaultProfileConfig(meta) {
+    return {
+      provider: "deepseek",
+      protocol: "openai_compat",
+      base_url: "https://api.deepseek.com/v1",
+      model: "deepseek-chat",
+      api_key: "",
+      relay_url: "",
+      persona_style: "master_balanced",
+      reasoning_effort: "auto",
+      temperature: 0.45,
+      max_tokens: 0,
+      timeout_sec: 120,
+      ...(meta?.defaults || {}),
+    };
+  }
+
+  function coerceStoredProfile(raw, meta, fallbackId = "default") {
+    const base = defaultProfileConfig(meta);
+    const obj = raw && typeof raw === "object" && !Array.isArray(raw) ? raw : {};
+    const pid = sanitizeProfileId(obj.profile_id, fallbackId);
+    let norm;
+    try {
+      norm = normalizeClientConfig(obj, base, meta);
+    } catch (_err) {
+      norm = { ...base };
+    }
+    const name = sanitizeProfileName(obj.profile_name) || autoProfileName(norm, meta);
+    const updatedAt = Number(obj.updated_at || 0);
+    return {
+      profile_id: pid,
+      profile_name: name,
+      ...norm,
+      updated_at: Number.isFinite(updatedAt) ? updatedAt : 0,
+    };
+  }
+
+  function loadStore(meta) {
     const raw = localStorage.getItem(CONFIG_STORAGE_KEY);
-    if (!raw) return base;
-    const loaded = safeParseJson(raw, {});
-    if (typeof loaded !== "object" || Array.isArray(loaded)) return base;
-    return { ...base, ...loaded };
+    if (!raw) {
+      const def = coerceStoredProfile({}, meta, "default");
+      return { version: 2, active_profile_id: def.profile_id, profiles: [def] };
+    }
+    const loaded = safeParseJson(raw, null);
+    if (!loaded || typeof loaded !== "object" || Array.isArray(loaded)) {
+      const def = coerceStoredProfile({}, meta, "default");
+      return { version: 2, active_profile_id: def.profile_id, profiles: [def] };
+    }
+    if (Array.isArray(loaded.profiles) && loaded.profiles.length) {
+      const profiles = [];
+      const seen = new Set();
+      loaded.profiles.slice(0, MAX_PROFILES).forEach((item, idx) => {
+        const prof = coerceStoredProfile(item, meta, `prof_${idx + 1}`);
+        if (seen.has(prof.profile_id)) {
+          prof.profile_id = `prof_${idx + 1}_${seen.size + 1}`;
+        }
+        seen.add(prof.profile_id);
+        profiles.push(prof);
+      });
+      if (!profiles.length) {
+        profiles.push(coerceStoredProfile({}, meta, "default"));
+      }
+      let activeId = String(loaded.active_profile_id || "").trim();
+      if (!profiles.some((p) => p.profile_id === activeId)) {
+        activeId = profiles[0].profile_id;
+      }
+      return { version: 2, active_profile_id: activeId, profiles };
+    }
+    // Legacy v1 flat config migration
+    const migrated = coerceStoredProfile(loaded, meta, "default");
+    return { version: 2, active_profile_id: migrated.profile_id, profiles: [migrated] };
+  }
+
+  function writeStore(store) {
+    localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(store));
+  }
+
+  function activeProfileFromStore(store, profileId = null) {
+    const target = String(profileId || store.active_profile_id || "").trim();
+    const found = (store.profiles || []).find((p) => p.profile_id === target);
+    return found ? { ...found } : { ...store.profiles[0] };
   }
 
   function normalizeClientConfig(payload, existing, meta) {
@@ -246,39 +357,47 @@
     if (!preset) {
       throw new Error(`不支持的提供商: ${providerId}`);
     }
+    const sameProvider = providerId === String(existing.provider || "").trim().toLowerCase();
 
-    const protocol = String(payload?.protocol || preset.protocol || "openai_compat")
+    const protocol = String(
+      payload?.protocol || (sameProvider && existing.protocol ? existing.protocol : preset.protocol || "openai_compat")
+    )
       .trim()
       .toLowerCase();
-    if (!["openai_compat", "gemini", "anthropic"].includes(protocol)) {
+    if (!["openai_compat", "codex_oauth", "gemini", "anthropic"].includes(protocol)) {
       throw new Error(`不支持的协议类型: ${protocol}`);
     }
 
     let rawUrl = payload?.base_url;
     if (rawUrl == null) {
-      rawUrl =
-        providerId === existing.provider && existing.base_url
-          ? existing.base_url
-          : preset.base_url || "";
+      rawUrl = sameProvider && existing.base_url ? existing.base_url : preset.base_url || "";
     }
     const baseUrl = validateBaseUrl(
       rawUrl,
       providerId === "custom" && !String(rawUrl || "").trim()
     );
 
+    let rawRelay = payload?.relay_url;
+    if (rawRelay == null) {
+      rawRelay = existing.relay_url || "";
+    }
+    const relayUrl = validateBaseUrl(rawRelay, true);
+
     const model = String(
       payload?.model != null
         ? payload.model
-        : providerId === existing.provider && existing.model
+        : sameProvider && existing.model
         ? existing.model
         : preset.default_model || ""
     ).trim();
 
-    let apiKey = String(existing.api_key || "").trim();
+    let apiKey = "";
     if (payload?.clear_api_key) {
       apiKey = "";
     } else if (typeof payload?.api_key === "string" && payload.api_key.trim()) {
       apiKey = payload.api_key.trim();
+    } else if (sameProvider) {
+      apiKey = String(existing.api_key || "").trim();
     }
 
     let style = String(payload?.persona_style || existing.persona_style || "master_balanced").trim();
@@ -301,6 +420,7 @@
       base_url: baseUrl,
       model,
       api_key: apiKey,
+      relay_url: relayUrl,
       persona_style: style,
       reasoning_effort: effort,
       temperature: clampNum(payload?.temperature, existing.temperature ?? 0.45, 0.0, 1.5, false),
@@ -309,49 +429,661 @@
     };
   }
 
-  function toPublicConfig(resolved, meta) {
+  // ── Browser-Local Codex OAuth Manager (with Optional Relay URL) ─────────
+  const staticCodexLoginState = {
+    status: "idle", // idle | pending | error | cancelled
+    method: "",
+    verification_uri: "",
+    user_code: "",
+    auth_url: "",
+    verifier: "",
+    state: "",
+    device_auth_id: "",
+    interval_sec: 5,
+    next_poll_at: 0,
+    expires_at: 0,
+    relay_url: "",
+    error: "",
+  };
+
+  function resetStaticCodexLoginState(status = "idle", error = "") {
+    staticCodexLoginState.status = status;
+    staticCodexLoginState.method = "";
+    staticCodexLoginState.verification_uri = "";
+    staticCodexLoginState.user_code = "";
+    staticCodexLoginState.auth_url = "";
+    staticCodexLoginState.verifier = "";
+    staticCodexLoginState.state = "";
+    staticCodexLoginState.device_auth_id = "";
+    staticCodexLoginState.interval_sec = 5;
+    staticCodexLoginState.next_poll_at = 0;
+    staticCodexLoginState.expires_at = 0;
+    staticCodexLoginState.error = error || "";
+  }
+
+  function decodeJwtClaims(token) {
+    try {
+      const parts = String(token || "").split(".");
+      if (parts.length !== 3) return {};
+      const b64 = parts[1].replaceAll("-", "+").replaceAll("_", "/");
+      const pad = b64 + "=".repeat((4 - (b64.length % 4)) % 4);
+      const bytes = Uint8Array.from(atob(pad), (c) => c.charCodeAt(0));
+      const text = new TextDecoder("utf-8").decode(bytes);
+      const parsed = JSON.parse(text);
+      return parsed && typeof parsed === "object" ? parsed : {};
+    } catch (_err) {
+      return {};
+    }
+  }
+
+  function extractCodexMeta(tokens) {
+    const idClaims = decodeJwtClaims(tokens?.id_token || "");
+    const accClaims = decodeJwtClaims(tokens?.access_token || "");
+    const authNs = idClaims["https://api.openai.com/auth"] || accClaims["https://api.openai.com/auth"] || {};
+    const profNs = idClaims["https://api.openai.com/profile"] || accClaims["https://api.openai.com/profile"] || {};
+    let accountId = "";
+    if (authNs && typeof authNs === "object") {
+      accountId = String(authNs.chatgpt_account_id || "");
+    }
+    if (!accountId && tokens?.id_token && idClaims.chatgpt_account_id) {
+      accountId = String(idClaims.chatgpt_account_id);
+    }
+    if (!accountId && Array.isArray(idClaims.organizations) && idClaims.organizations[0]?.id) {
+      accountId = String(idClaims.organizations[0].id);
+    }
+    const planType = String(
+      (authNs && typeof authNs === "object" ? authNs.chatgpt_plan_type : "") || idClaims.chatgpt_plan_type || ""
+    );
+    const email = String(
+      idClaims.email || profNs.email || accClaims.email || ""
+    );
+    return { account_id: accountId, plan_type: planType, email };
+  }
+
+  function maskCodexLabel(accountId, email = "") {
+    const mail = String(email || "").trim();
+    if (mail.includes("@")) {
+      const [local, domain] = mail.split("@", 2);
+      const prefix = local.length > 2 ? local.slice(0, 2) : local.slice(0, 1);
+      return `${prefix}***@${domain}`;
+    }
+    return maskApiKey(accountId);
+  }
+
+  function readCodexCred() {
+    const raw = localStorage.getItem(CODEX_STORAGE_KEY);
+    if (!raw) return null;
+    const obj = safeParseJson(raw, null);
+    if (!obj || typeof obj !== "object") return null;
+    const access = String(obj.access || "").trim();
+    const refresh = String(obj.refresh || "").trim();
+    const expires = Number(obj.expires || 0);
+    if (!access || !refresh || !Number.isFinite(expires) || expires <= 0) return null;
+    return {
+      type: "oauth",
+      access,
+      refresh,
+      expires: Math.round(expires),
+      account_id: String(obj.account_id || "").trim(),
+      plan_type: String(obj.plan_type || "").trim(),
+      email: String(obj.email || "").trim(),
+      updated_at: Number(obj.updated_at || 0),
+    };
+  }
+
+  function writeCodexCredFromTokens(tokens, fallbackRefresh = "", fallbackMeta = null) {
+    const access = String(tokens?.access_token || "").trim();
+    const refresh = String(tokens?.refresh_token || fallbackRefresh || "").trim();
+    if (!access || !refresh) {
+      throw new Error("OpenAI OAuth 未返回完整凭证，请重新登录");
+    }
+    const expiresIn = Math.max(60, Number(tokens?.expires_in || 3600) || 3600);
+    const metaInfo = extractCodexMeta(tokens);
+    const cred = {
+      type: "oauth",
+      access,
+      refresh,
+      expires: Date.now() + expiresIn * 1000,
+      account_id: metaInfo.account_id || fallbackMeta?.account_id || "",
+      plan_type: metaInfo.plan_type || fallbackMeta?.plan_type || "",
+      email: metaInfo.email || fallbackMeta?.email || "",
+      updated_at: Math.floor(Date.now() / 1000),
+    };
+    localStorage.setItem(CODEX_STORAGE_KEY, JSON.stringify(cred));
+    return cred;
+  }
+
+  function getStaticCodexStatus() {
+    const cred = readCodexCred();
+    const now = Date.now();
+    let login = null;
+    if (staticCodexLoginState.status && staticCodexLoginState.status !== "idle") {
+      if (
+        staticCodexLoginState.status === "pending" &&
+        staticCodexLoginState.expires_at > 0 &&
+        now > staticCodexLoginState.expires_at
+      ) {
+        staticCodexLoginState.status = "error";
+        staticCodexLoginState.error = "设备码已超时，请重新点击登录";
+      }
+      login = {
+        status: staticCodexLoginState.status,
+        method: staticCodexLoginState.method,
+        verification_uri: staticCodexLoginState.verification_uri,
+        user_code: staticCodexLoginState.user_code,
+        auth_url: staticCodexLoginState.auth_url,
+        interval_sec: staticCodexLoginState.interval_sec,
+        expires_at: staticCodexLoginState.expires_at,
+        error: staticCodexLoginState.error,
+      };
+    }
+    return {
+      logged_in: Boolean(cred),
+      account_masked: cred ? maskCodexLabel(cred.account_id, cred.email) || "ChatGPT 已登录" : "",
+      plan_type: cred?.plan_type || "",
+      expires_at: cred?.expires || 0,
+      requires_refresh: cred ? cred.expires <= now + CODEX_REFRESH_BUFFER_MS : false,
+      login,
+    };
+  }
+
+  function codexCorsGuidance(stageLabel) {
+    return (
+      `纯静态网页版受浏览器跨域(CORS)限制，${stageLabel}无法直接访问 OpenAI 官方接口。` +
+      `请二选一：(1) 启动本地 Python 服务版（http://127.0.0.1:8767/）点击一键登录与直连；` +
+      `或 (2) 在设置弹窗底部「可选：Codex CORS 中继地址」填入自建 Cloudflare Worker（见仓库 scripts/codex_relay_worker.mjs）。`
+    );
+  }
+
+  async function relayAwareFetch(targetUrl, init = {}, relayUrl = "") {
+    const cleanRelay = String(relayUrl || "").trim().replace(/\/+$/, "");
+    if (!cleanRelay) {
+      return await nativeFetch(targetUrl, init);
+    }
+    const headersObj = {};
+    if (init.headers instanceof Headers) {
+      init.headers.forEach((v, k) => {
+        headersObj[k] = v;
+      });
+    } else if (init.headers && typeof init.headers === "object") {
+      Object.assign(headersObj, init.headers);
+    }
+    let bodyPayload = init.body;
+    if (typeof bodyPayload === "string" && headersObj["Content-Type"]?.includes("application/json")) {
+      const parsed = safeParseJson(bodyPayload, null);
+      if (parsed && typeof parsed === "object") bodyPayload = parsed;
+    }
+    return await nativeFetch(cleanRelay, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        url: targetUrl,
+        method: init.method || "GET",
+        headers: headersObj,
+        body: bodyPayload,
+      }),
+      signal: init.signal,
+    });
+  }
+
+  function b64UrlEncode(bytes) {
+    let bin = "";
+    for (let i = 0; i < bytes.length; i += 1) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/, "");
+  }
+
+  async function generatePkcePair() {
+    const rawVerifier = new Uint8Array(48);
+    crypto.getRandomValues(rawVerifier);
+    const verifier = b64UrlEncode(rawVerifier);
+    const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier));
+    const challenge = b64UrlEncode(new Uint8Array(digest));
+    const rawState = new Uint8Array(16);
+    crypto.getRandomValues(rawState);
+    const state = b64UrlEncode(rawState);
+    return { verifier, challenge, state };
+  }
+
+  async function exchangeCodexCode(code, redirectUri, verifier, relayUrl = "") {
+    const body = new URLSearchParams({
+      grant_type: "authorization_code",
+      code: String(code || ""),
+      redirect_uri: redirectUri,
+      client_id: CODEX_CLIENT_ID,
+      code_verifier: String(verifier || ""),
+    }).toString();
+    let resp;
+    try {
+      resp = await relayAwareFetch(
+        CODEX_TOKEN_URL,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
+          body,
+        },
+        relayUrl
+      );
+    } catch (_err) {
+      throw new Error(codexCorsGuidance("换取 Codex Token 时"));
+    }
+    const text = await resp.text().catch(() => "");
+    if (!resp.ok) {
+      throw new Error(`换取 Codex Token 失败 (HTTP ${resp.status})：${text.slice(0, 180)}`);
+    }
+    const tokens = safeParseJson(text, null);
+    if (!tokens || typeof tokens !== "object") {
+      throw new Error("OpenAI Token 接口返回非 JSON 格式");
+    }
+    return writeCodexCredFromTokens(tokens);
+  }
+
+  async function startStaticCodexLogin(method = "device", relayUrl = "") {
+    const mode = String(method || "device").trim().toLowerCase();
+    staticCodexLoginState.relay_url = String(relayUrl || "").trim();
+    if (mode === "device") {
+      let resp;
+      try {
+        resp = await relayAwareFetch(
+          CODEX_DEVICE_CODE_URL,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({ client_id: CODEX_CLIENT_ID }),
+          },
+          staticCodexLoginState.relay_url
+        );
+      } catch (_err) {
+        const msg = codexCorsGuidance("申请设备码时");
+        resetStaticCodexLoginState("error", msg);
+        throw new Error(msg);
+      }
+      const text = await resp.text().catch(() => "");
+      if (!resp.ok) {
+        const msg = `申请 Codex 设备码失败 (HTTP ${resp.status})：${text.slice(0, 180)}`;
+        resetStaticCodexLoginState("error", msg);
+        throw new Error(msg);
+      }
+      const data = safeParseJson(text, {}) || {};
+      const deviceAuthId = String(data.device_auth_id || "").trim();
+      const userCode = String(data.user_code || data.usercode || "").trim();
+      const interval = Math.max(2, Number(data.interval || 5) || 5);
+      if (!deviceAuthId || !userCode) {
+        const msg = "OpenAI 设备码接口返回缺少 user_code";
+        resetStaticCodexLoginState("error", msg);
+        throw new Error(msg);
+      }
+      Object.assign(staticCodexLoginState, {
+        status: "pending",
+        method: "device",
+        verification_uri: CODEX_DEVICE_URI,
+        user_code: userCode,
+        auth_url: CODEX_DEVICE_URI,
+        verifier: "",
+        state: "",
+        device_auth_id: deviceAuthId,
+        interval_sec: interval,
+        next_poll_at: Date.now() + interval * 1000,
+        expires_at: Date.now() + 15 * 60 * 1000,
+        error: "",
+      });
+      return getStaticCodexStatus();
+    }
+
+    if (mode === "browser") {
+      const pkce = await generatePkcePair();
+      const params = new URLSearchParams({
+        response_type: "code",
+        client_id: CODEX_CLIENT_ID,
+        redirect_uri: CODEX_BROWSER_REDIRECT,
+        scope: CODEX_SCOPE,
+        code_challenge: pkce.challenge,
+        code_challenge_method: "S256",
+        id_token_add_organizations: "true",
+        codex_cli_simplified_flow: "true",
+        state: pkce.state,
+        originator: "nihaixia-tcm",
+      });
+      Object.assign(staticCodexLoginState, {
+        status: "pending",
+        method: "browser",
+        verification_uri: "",
+        user_code: "",
+        auth_url: `${CODEX_AUTHORIZE_URL}?${params.toString()}`,
+        verifier: pkce.verifier,
+        state: pkce.state,
+        device_auth_id: "",
+        interval_sec: 5,
+        next_poll_at: 0,
+        expires_at: Date.now() + 10 * 60 * 1000,
+        error: "",
+      });
+      return getStaticCodexStatus();
+    }
+
+    throw new Error(`不支持的 Codex 登录方式: ${mode}`);
+  }
+
+  async function pollStaticCodexDeviceOnce(relayUrl = "") {
+    if (staticCodexLoginState.status !== "pending" || staticCodexLoginState.method !== "device") {
+      return;
+    }
+    const now = Date.now();
+    if (now > staticCodexLoginState.expires_at) {
+      staticCodexLoginState.status = "error";
+      staticCodexLoginState.error = "设备码已超时，请重新点击「设备码登录」";
+      return;
+    }
+    if (now < staticCodexLoginState.next_poll_at) return;
+    staticCodexLoginState.next_poll_at = now + staticCodexLoginState.interval_sec * 1000;
+    const effectiveRelay = relayUrl || staticCodexLoginState.relay_url || "";
+    try {
+      const resp = await relayAwareFetch(
+        CODEX_DEVICE_POLL_URL,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            device_auth_id: staticCodexLoginState.device_auth_id,
+            user_code: staticCodexLoginState.user_code,
+          }),
+        },
+        effectiveRelay
+      );
+      if (resp.status === 403 || resp.status === 404 || resp.status === 400) return;
+      if (!resp.ok) {
+        const errText = await resp.text().catch(() => "");
+        staticCodexLoginState.status = "error";
+        staticCodexLoginState.error = `设备码轮询失败 (HTTP ${resp.status})：${errText.slice(0, 120)}`;
+        return;
+      }
+      const data = await resp.json();
+      const authCode = String(data.authorization_code || "").trim();
+      const verifier = String(data.code_verifier || "").trim();
+      if (!authCode || !verifier) return;
+      await exchangeCodexCode(authCode, CODEX_DEVICE_REDIRECT, verifier, effectiveRelay);
+      resetStaticCodexLoginState("idle", "");
+    } catch (err) {
+      staticCodexLoginState.status = "error";
+      staticCodexLoginState.error = String(err?.message || err);
+    }
+  }
+
+  async function submitStaticCodexCallback(rawValue, relayUrl = "") {
+    if (staticCodexLoginState.status !== "pending" || staticCodexLoginState.method !== "browser" || !staticCodexLoginState.verifier) {
+      throw new Error("请先点击「浏览器 OAuth 登录」后再粘贴回调链接");
+    }
+    let parsed;
+    try {
+      const trimmed = String(rawValue || "").trim();
+      parsed = trimmed.startsWith("http://") || trimmed.startsWith("https://")
+        ? new URL(trimmed)
+        : new URL(`http://localhost/?${trimmed.replace(/^\?/, "")}`);
+    } catch (_err) {
+      throw new Error("回调链接格式无效");
+    }
+    const errParam = parsed.searchParams.get("error");
+    if (errParam) {
+      const desc = parsed.searchParams.get("error_description") || errParam;
+      throw new Error(`OpenAI 授权失败：${desc}`);
+    }
+    const code = parsed.searchParams.get("code") || "";
+    const state = parsed.searchParams.get("state") || "";
+    if (!code) throw new Error("回调链接中缺少 code 参数，请确认复制完整地址栏链接");
+    if (state !== staticCodexLoginState.state) {
+      throw new Error("OAuth state 校验不匹配，请重新发起浏览器登录");
+    }
+    const effectiveRelay = relayUrl || staticCodexLoginState.relay_url || "";
+    await exchangeCodexCode(code, CODEX_BROWSER_REDIRECT, staticCodexLoginState.verifier, effectiveRelay);
+    resetStaticCodexLoginState("idle", "");
+    return getStaticCodexStatus();
+  }
+
+  function cancelStaticCodexLogin() {
+    resetStaticCodexLoginState("cancelled", "");
+    return getStaticCodexStatus();
+  }
+
+  function logoutStaticCodex() {
+    localStorage.removeItem(CODEX_STORAGE_KEY);
+    resetStaticCodexLoginState("idle", "");
+    return getStaticCodexStatus();
+  }
+
+  async function ensureFreshStaticCodexConfig(cfg) {
+    if (!cfg || cfg.protocol !== "codex_oauth") return cfg;
+    const cred = readCodexCred();
+    if (!cred) {
+      throw new Error("当前未登录 OpenAI Codex（请先在模型设置中登录 ChatGPT 账号）");
+    }
+    if (cred.expires > Date.now() + CODEX_REFRESH_BUFFER_MS) {
+      return {
+        ...cfg,
+        api_key: cred.access,
+        codex_account_id: cred.account_id,
+        key_source: "codex_oauth",
+        ready: Boolean(cfg.base_url && cfg.model && cred.access),
+      };
+    }
+    let resp;
+    try {
+      resp = await relayAwareFetch(
+        CODEX_TOKEN_URL,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
+          body: new URLSearchParams({
+            grant_type: "refresh_token",
+            refresh_token: cred.refresh,
+            client_id: CODEX_CLIENT_ID,
+          }).toString(),
+        },
+        cfg.relay_url || ""
+      );
+    } catch (_err) {
+      throw new Error(codexCorsGuidance("刷新 Codex Token 时"));
+    }
+    const text = await resp.text().catch(() => "");
+    if (!resp.ok) {
+      throw new Error(`Codex Token 已过期且刷新失败 (HTTP ${resp.status})，请重新登录 OpenAI Codex`);
+    }
+    const tokens = safeParseJson(text, null);
+    if (!tokens || typeof tokens !== "object") {
+      throw new Error("刷新 Codex Token 返回格式异常，请重新登录");
+    }
+    const refreshed = writeCodexCredFromTokens(tokens, cred.refresh, cred);
+    return {
+      ...cfg,
+      api_key: refreshed.access,
+      codex_account_id: refreshed.account_id,
+      key_source: "codex_oauth",
+      ready: Boolean(cfg.base_url && cfg.model && refreshed.access),
+    };
+  }
+
+  function resolveProfileRuntime(profile, meta, codexCred = null) {
+    const base = { ...defaultProfileConfig(meta), ...(profile || {}) };
     const presetMap = new Map((meta.presets || []).map((p) => [p.id, p]));
-    const preset = presetMap.get(resolved.provider) || {};
+    const preset = presetMap.get(base.provider) || {};
     const requiresKey = preset.requires_key !== false;
-    const secret = String(resolved.api_key || "").trim();
-    const ready = Boolean(resolved.base_url && resolved.model && (secret || !requiresKey));
-    const { api_key: _secret, ...rest } = resolved;
+    const requiresOauth = Boolean(preset.requires_oauth) || base.protocol === "codex_oauth";
+
+    let effectiveKey = "";
+    let keySource = "none";
+    let codexAccountId = "";
+    let codexExpiresAt = 0;
+    let ready = false;
+    if (base.protocol === "codex_oauth") {
+      if (codexCred?.access) {
+        effectiveKey = codexCred.access;
+        keySource = "codex_oauth";
+        codexAccountId = codexCred.account_id || "";
+        codexExpiresAt = codexCred.expires || 0;
+      }
+      ready = Boolean(base.base_url && base.model && codexCred?.refresh);
+    } else {
+      effectiveKey = String(base.api_key || "").trim();
+      keySource = effectiveKey ? "browser" : "none";
+      ready = Boolean(base.base_url && base.model && (effectiveKey || !requiresKey));
+    }
+
+    return {
+      profile_id: String(profile?.profile_id || "default"),
+      profile_name: String(profile?.profile_name || autoProfileName(base, meta)),
+      ...base,
+      api_key: effectiveKey,
+      key_source: keySource,
+      requires_key: requiresKey,
+      requires_oauth: requiresOauth,
+      has_oauth: Boolean(codexCred),
+      codex_account_id: codexAccountId,
+      codex_expires_at: codexExpiresAt,
+      ready,
+    };
+  }
+
+  function toPublicProfile(profile, meta, codexCred, isActive) {
+    const runtime = resolveProfileRuntime(profile, meta, codexCred);
+    const { api_key: secret, ...rest } = runtime;
     return {
       ...rest,
-      key_source: secret ? "browser" : "none",
-      requires_key: requiresKey,
-      ready,
       has_api_key: Boolean(secret),
-      api_key_masked: maskApiKey(secret),
+      api_key_masked: runtime.protocol === "codex_oauth" ? "" : maskApiKey(secret),
+      reasoning_profile: resolveReasoningProfile(runtime.provider, runtime.protocol, runtime.model, meta.reasoning_rules),
+      is_active: isActive,
+      updated_at: Number(profile.updated_at || 0),
+    };
+  }
+
+  function toPublicConfig(meta) {
+    const store = loadStore(meta);
+    const activeId = store.active_profile_id;
+    const codexCred = readCodexCred();
+    const publicProfiles = store.profiles.map((prof) =>
+      toPublicProfile(prof, meta, codexCred, prof.profile_id === activeId)
+    );
+    const activePublic = publicProfiles.find((p) => p.is_active) || publicProfiles[0];
+    return {
+      ...activePublic,
+      active_profile_id: activeId,
+      profiles: publicProfiles,
+      codex_auth: getStaticCodexStatus(),
       presets: meta.presets || [],
       styles: meta.styles || [],
       reasoning_tiers: meta.reasoning_tiers || [],
       reasoning_rules: meta.reasoning_rules || [],
-      reasoning_profile: resolveReasoningProfile(resolved.provider, resolved.protocol, resolved.model, meta.reasoning_rules),
     };
   }
 
   function toRuntimeConfig(meta, override = null) {
-    const saved = loadStoredRawConfig(meta);
-    const merged = override ? normalizeClientConfig(override, saved, meta) : saved;
-    const presetMap = new Map((meta.presets || []).map((p) => [p.id, p]));
-    const preset = presetMap.get(merged.provider) || {};
-    const requiresKey = preset.requires_key !== false;
-    const secret = String(merged.api_key || "").trim();
-    const ready = Boolean(merged.base_url && merged.model && (secret || !requiresKey));
-    return {
-      ...merged,
-      api_key: secret,
-      key_source: secret ? "browser" : "none",
-      requires_key: requiresKey,
-      ready,
+    const store = loadStore(meta);
+    const reqPid = String(override?.profile_id || "").trim();
+    const saved = activeProfileFromStore(store, reqPid || null);
+    const codexCred = readCodexCred();
+    if (!override) return resolveProfileRuntime(saved, meta, codexCred);
+    const normalized = normalizeClientConfig(override, saved, meta);
+    const merged = {
+      ...saved,
+      ...normalized,
+      profile_name: sanitizeProfileName(override.profile_name) || saved.profile_name,
     };
+    return resolveProfileRuntime(merged, meta, codexCred);
+  }
+
+  function saveProfileStore(payload, meta) {
+    const store = loadStore(meta);
+    const profiles = [...store.profiles];
+    const saveAsNew = Boolean(payload?.save_as_new);
+    const requestedId = String(payload?.profile_id || "").trim();
+
+    let existingIdx = -1;
+    if (!saveAsNew && requestedId) {
+      existingIdx = profiles.findIndex((p) => p.profile_id === requestedId);
+    } else if (!saveAsNew) {
+      existingIdx = profiles.findIndex((p) => p.profile_id === store.active_profile_id);
+    }
+
+    const creatingNew = saveAsNew || (Boolean(requestedId) && existingIdx < 0);
+    if (creatingNew && profiles.length >= MAX_PROFILES) {
+      throw new Error(`最多可保存 ${MAX_PROFILES} 组模型配置，请先删除闲置配置`);
+    }
+
+    let baseProfile;
+    let targetId;
+    if (existingIdx >= 0) {
+      baseProfile = { ...profiles[existingIdx] };
+      targetId = baseProfile.profile_id;
+    } else {
+      baseProfile = activeProfileFromStore(store);
+      const idSet = new Set(profiles.map((p) => p.profile_id));
+      let cand = sanitizeProfileId(saveAsNew ? "" : requestedId);
+      while (idSet.has(cand)) cand = makeId("prof");
+      targetId = cand;
+    }
+
+    const normalized = normalizeClientConfig(payload || {}, baseProfile, meta);
+    const explicitName = payload?.profile_name != null ? sanitizeProfileName(payload.profile_name) : "";
+    const prevAuto = autoProfileName(baseProfile, meta);
+    const existingName = sanitizeProfileName(baseProfile.profile_name);
+    let profileName;
+    if (explicitName) {
+      profileName = explicitName;
+    } else if (!creatingNew && existingName && existingName !== prevAuto) {
+      profileName = existingName;
+    } else {
+      profileName = autoProfileName(normalized, meta);
+    }
+
+    const entry = {
+      profile_id: targetId,
+      profile_name: profileName,
+      ...normalized,
+      updated_at: Math.floor(Date.now() / 1000),
+    };
+    if (existingIdx >= 0) profiles[existingIdx] = entry;
+    else profiles.push(entry);
+
+    writeStore({ version: 2, active_profile_id: targetId, profiles });
+    return toPublicConfig(meta);
+  }
+
+  function selectProfileStore(profileId, meta) {
+    const target = String(profileId || "").trim();
+    const store = loadStore(meta);
+    if (!store.profiles.some((p) => p.profile_id === target)) {
+      throw new Error("未找到指定的模型配置");
+    }
+    store.active_profile_id = target;
+    writeStore(store);
+    return toPublicConfig(meta);
+  }
+
+  function deleteProfileStore(profileId, meta) {
+    const target = String(profileId || "").trim();
+    const store = loadStore(meta);
+    if (store.profiles.length <= 1) {
+      throw new Error("至少保留一组模型配置");
+    }
+    const remaining = store.profiles.filter((p) => p.profile_id !== target);
+    if (remaining.length === store.profiles.length) {
+      throw new Error("未找到要删除的模型配置");
+    }
+    const nextActive = store.active_profile_id === target ? remaining[0].profile_id : store.active_profile_id;
+    writeStore({ version: 2, active_profile_id: nextActive, profiles: remaining });
+    return toPublicConfig(meta);
   }
 
   // ── Direct Browser LLM Client (BYOK CORS + Zero-Key Fallback) ───────────
   function openaiEndpoint(baseUrl, suffix) {
     const clean = String(baseUrl || "").replace(/\/+$/, "");
     return clean.endsWith(suffix) ? clean : `${clean}${suffix}`;
+  }
+
+  function codexEndpoint(baseUrl) {
+    const clean = String(baseUrl || "https://chatgpt.com/backend-api").trim().replace(/\/+$/, "");
+    if (clean.endsWith("/codex/responses")) return clean;
+    if (clean.endsWith("/codex")) return `${clean}/responses`;
+    if (clean.includes("/backend-api")) return `${clean}/codex/responses`;
+    return `${clean}/backend-api/codex/responses`;
   }
 
   function anthropicMessagesUrl(baseUrl) {
@@ -366,7 +1098,7 @@
     return `${u.protocol}//${u.host}/api/tags`;
   }
 
-  function friendlyHttpError(status, bodyText) {
+  function friendlyHttpError(status, bodyText, protocol = "") {
     let detail = "";
     try {
       const parsed = JSON.parse(bodyText);
@@ -389,10 +1121,20 @@
         `（提示：请切换到支持视觉的模型如 gpt-4o / gpt-4.1 / gemini-2.5-flash / claude-sonnet-4 / qwen-vl，或改用手动点选四诊标签）`
       );
     }
-    if (status === 401) return `认证失败 (HTTP 401)：请检查 API Key 是否有效或有余额。${detail}`.trim();
+    if (status === 401) {
+      if (protocol === "codex_oauth") {
+        return `Codex 登录凭证已失效或权限不足 (HTTP 401)：请重新登录 OpenAI Codex。${detail}`.trim();
+      }
+      return `认证失败 (HTTP 401)：请检查 API Key 是否有效或有余额。${detail}`.trim();
+    }
     if (status === 403) return `权限或区域受限 (HTTP 403)：${detail}`.trim();
     if (status === 404) return `接口或模型不存在 (HTTP 404)：请检查 Base URL 与模型名称。${detail}`.trim();
-    if (status === 429) return `请求频率或额度受限 (HTTP 429)：${detail}`.trim();
+    if (status === 429) {
+      if (protocol === "codex_oauth") {
+        return `Codex 订阅当前模型额度或频率受限 (HTTP 429)：请稍候再试或切换模型。${detail}`.trim();
+      }
+      return `请求频率或额度受限 (HTTP 429)：${detail}`.trim();
+    }
     return `上游模型返回错误 (HTTP ${status})：${detail}`.trim();
   }
 
@@ -445,6 +1187,47 @@
     const effort = normalizeReasoningEffort(cfg.reasoning_effort, "auto", cfg.provider, protocol, cfg.model, rules);
     const rawMax = Math.max(0, Math.trunc(Number(cfg.max_tokens || 0) || 0));
 
+    if (protocol === "codex_oauth") {
+      const headers = {
+        "Content-Type": "application/json",
+        Accept: "text/event-stream",
+        Authorization: `Bearer ${cfg.api_key || ""}`,
+        "OpenAI-Beta": "responses=experimental",
+        originator: "nihaixia-tcm",
+      };
+      if (cfg.codex_account_id) {
+        headers["ChatGPT-Account-Id"] = String(cfg.codex_account_id);
+      }
+      const inputItems = messages.map((m) => {
+        const isAssistant = m.role === "assistant";
+        const text = String(m.content || "");
+        if (isAssistant) {
+          return { role: "assistant", content: [{ type: "output_text", text }] };
+        }
+        const parts = [{ type: "input_text", text }];
+        for (const img of Array.isArray(m.images) ? m.images : []) {
+          parts.push({ type: "input_image", image_url: img.data_url });
+        }
+        return { role: "user", content: parts };
+      });
+      const body = {
+        model: cfg.model,
+        store: false,
+        stream: true,
+        instructions: systemPrompt || "",
+        input: inputItems,
+        tools: [],
+        tool_choice: "none",
+      };
+      if (effort !== "auto") {
+        body.reasoning = { effort };
+      }
+      return {
+        url: codexEndpoint(cfg.base_url),
+        headers,
+        body,
+      };
+    }
     if (protocol === "gemini") {
       const action = stream ? "streamGenerateContent?alt=sse" : "generateContent";
       const genCfg = { temperature: cfg.temperature ?? 0.45 };
@@ -551,6 +1334,56 @@
   function parseUpstreamEvents(protocol, chunk, eventName = "") {
     const events = [];
     if (!chunk || typeof chunk !== "object") return events;
+    if (protocol === "codex_oauth") {
+      const extractText = (respObj) => {
+        const texts = [];
+        for (const item of respObj?.output || []) {
+          for (const part of item?.content || []) {
+            if ((part?.type === "output_text" || part?.type === "text") && part?.text) {
+              texts.push(String(part.text));
+            }
+          }
+        }
+        return texts.join("");
+      };
+      if (chunk.__full) {
+        const text = extractText(chunk);
+        if (text) events.push({ type: "delta", text });
+        if (chunk.usage) events.push({ type: "usage", usage: chunk.usage });
+        return events;
+      }
+      const evType = String(chunk.type || eventName || "").trim();
+      if (evType === "error" || evType === "response.failed" || (chunk.error && !evType)) {
+        const err = chunk.error || chunk?.response?.error || chunk;
+        const msg = err?.message || JSON.stringify(err);
+        throw new Error(`Codex 流中断：${msg}`);
+      }
+      if (evType === "response.incomplete") {
+        const reason = chunk?.response?.incomplete_details?.reason || "incomplete";
+        throw new Error(`Codex 输出未完成：${reason}`);
+      }
+      if (
+        evType === "response.reasoning_summary_text.delta" ||
+        evType === "response.reasoning_text.delta" ||
+        evType === "response.reasoning.delta"
+      ) {
+        const delta = chunk.delta || chunk.text || "";
+        if (delta) events.push({ type: "reasoning", text: String(delta) });
+        return events;
+      }
+      if (evType === "response.output_text.delta") {
+        if (chunk.delta) events.push({ type: "delta", text: String(chunk.delta) });
+        return events;
+      }
+      if (evType === "response.completed" || evType === "response.done") {
+        const respObj = chunk.response && typeof chunk.response === "object" ? chunk.response : chunk;
+        const fb = extractText(respObj);
+        if (fb) events.push({ type: "__fallback_delta__", text: fb });
+        const usage = respObj?.usage || chunk.usage;
+        if (usage) events.push({ type: "usage", usage });
+      }
+      return events;
+    }
     if (protocol === "gemini") {
       if (chunk.error) {
         throw new Error(`Gemini 错误：${chunk.error.message || JSON.stringify(chunk.error)}`);
@@ -614,22 +1447,50 @@
   }
 
   async function* iterUpstreamEvents(cfg, systemPrompt, messages, signal, meta = null) {
-    const req = prepareUpstreamRequest(cfg, systemPrompt, messages, true, meta);
-    const resp = await nativeFetch(req.url, {
-      method: "POST",
-      headers: req.headers,
-      body: JSON.stringify(req.body),
-      signal,
-    });
+    const liveCfg = await ensureFreshStaticCodexConfig(cfg);
+    const req = prepareUpstreamRequest(liveCfg, systemPrompt, messages, true, meta);
+    let resp;
+    try {
+      resp = await relayAwareFetch(
+        req.url,
+        {
+          method: "POST",
+          headers: req.headers,
+          body: JSON.stringify(req.body),
+          signal,
+        },
+        liveCfg.relay_url || ""
+      );
+    } catch (err) {
+      if (err?.name === "AbortError") throw err;
+      if (liveCfg.protocol === "codex_oauth") {
+        throw new Error(codexCorsGuidance("请求 Codex 订阅接口时"));
+      }
+      throw new Error(`无法从浏览器直连模型接口：${err?.message || "CORS 或网络受限"}`);
+    }
     if (!resp.ok) {
       const errText = await resp.text().catch(() => "");
-      throw new Error(friendlyHttpError(resp.status, errText));
+      throw new Error(friendlyHttpError(resp.status, errText, liveCfg.protocol));
     }
     const ctype = (resp.headers.get("content-type") || "").toLowerCase();
+    let sawDelta = false;
+    const filterEmit = function* (evs) {
+      for (const ev of evs) {
+        if (ev.type === "__fallback_delta__") {
+          if (!sawDelta && ev.text) {
+            sawDelta = true;
+            yield { type: "delta", text: ev.text };
+          }
+          continue;
+        }
+        if (ev.type === "delta" && ev.text) sawDelta = true;
+        yield ev;
+      }
+    };
     if (ctype.includes("application/json") && !ctype.includes("text/event-stream")) {
       const full = await resp.json();
       if (full && typeof full === "object") full.__full = true;
-      for (const ev of parseUpstreamEvents(cfg.protocol, full)) yield ev;
+      for (const ev of filterEmit(parseUpstreamEvents(liveCfg.protocol, full))) yield ev;
       return;
     }
     const reader = resp.body.getReader();
@@ -650,7 +1511,7 @@
       if (!payloadStr || payloadStr === "[DONE]") return [];
       const parsed = safeParseJson(payloadStr, null);
       if (!parsed || typeof parsed !== "object") return [];
-      return parseUpstreamEvents(cfg.protocol, parsed, evName);
+      return parseUpstreamEvents(liveCfg.protocol, parsed, evName);
     };
 
     while (true) {
@@ -662,7 +1523,7 @@
         const line = buf.slice(0, nlIdx).replace(/\r$/, "");
         buf = buf.slice(nlIdx + 1);
         if (!line) {
-          for (const ev of flushEvent()) yield ev;
+          for (const ev of filterEmit(flushEvent())) yield ev;
           continue;
         }
         if (line.startsWith("event:")) {
@@ -676,14 +1537,14 @@
       const line = buf.replace(/\r$/, "");
       if (line.startsWith("data:")) dataLines.push(line.slice(5).replace(/^ /, ""));
     }
-    for (const ev of flushEvent()) yield ev;
+    for (const ev of filterEmit(flushEvent())) yield ev;
   }
 
   async function runDirectModels(cfg, meta) {
     const preset = (meta.presets || []).find((p) => p.id === cfg.provider) || {};
     const suggested = Array.isArray(preset.suggested_models) ? [...preset.suggested_models] : [];
     const baseUrl = String(cfg.base_url || "").trim().replace(/\/+$/, "");
-    if (!baseUrl || cfg.protocol === "anthropic") {
+    if (!baseUrl || cfg.protocol === "anthropic" || cfg.protocol === "codex_oauth") {
       return { models: suggested, source: "preset" };
     }
     try {
@@ -725,10 +1586,34 @@
   async function runDirectTest(cfg, meta = null) {
     if (!cfg.base_url) throw new Error("请先填写模型 Base URL");
     if (!cfg.model) throw new Error("请先选择或填写模型名称");
-    if (cfg.requires_key && !cfg.api_key) throw new Error("当前模型未配置 API Key");
+    if (cfg.protocol !== "codex_oauth" && cfg.requires_key && !cfg.api_key) {
+      throw new Error("当前模型未配置 API Key");
+    }
 
+    const liveCfg = await ensureFreshStaticCodexConfig(cfg);
     const started = performance.now();
-    const probeCfg = { ...cfg, max_tokens: 256, temperature: 0.0, reasoning_effort: "auto" };
+    const probeCfg = { ...liveCfg, max_tokens: 256, temperature: 0.0, reasoning_effort: "auto" };
+
+    if (probeCfg.protocol === "codex_oauth") {
+      const deltas = [];
+      for await (const ev of iterUpstreamEvents(
+        probeCfg,
+        "你是连通性测试助手。请只回复“已连通”三个字。",
+        [{ role: "user", content: "测试连通" }],
+        undefined,
+        meta
+      )) {
+        if (ev.type === "delta" && ev.text) deltas.push(ev.text);
+      }
+      return {
+        ok: true,
+        provider: probeCfg.provider,
+        model: probeCfg.model,
+        latency_ms: Math.round(performance.now() - started),
+        reply_preview: deltas.join("").trim().slice(0, 80),
+      };
+    }
+
     const req = prepareUpstreamRequest(
       probeCfg,
       "你是连通性测试助手。请只回复“已连通”三个字。",
@@ -738,24 +1623,28 @@
     );
     let resp;
     try {
-      resp = await nativeFetch(req.url, {
-        method: "POST",
-        headers: req.headers,
-        body: JSON.stringify(req.body),
-      });
+      resp = await relayAwareFetch(
+        req.url,
+        {
+          method: "POST",
+          headers: req.headers,
+          body: JSON.stringify(req.body),
+        },
+        probeCfg.relay_url || ""
+      );
     } catch (_err) {
       const hint =
-        cfg.provider === "ollama"
+        probeCfg.provider === "ollama"
           ? "Ollama 默认需设置 OLLAMA_ORIGINS=* 允许网页端直连，或使用本地 Python 服务版"
           : "浏览器端直连受网络或目标网关 CORS 策略限制，您仍可直接切回零 Key 离线推演";
       throw new Error(`无法从浏览器直连模型接口：${hint}。`);
     }
     if (!resp.ok) {
-      throw new Error(friendlyHttpError(resp.status, await resp.text().catch(() => "")));
+      throw new Error(friendlyHttpError(resp.status, await resp.text().catch(() => ""), probeCfg.protocol));
     }
     const full = await resp.json();
     full.__full = true;
-    const events = parseUpstreamEvents(cfg.protocol, full);
+    const events = parseUpstreamEvents(probeCfg.protocol, full);
     const preview = events
       .filter((e) => e.type === "delta")
       .map((e) => e.text)
@@ -764,8 +1653,8 @@
       .slice(0, 80);
     return {
       ok: true,
-      provider: cfg.provider,
-      model: cfg.model,
+      provider: probeCfg.provider,
+      model: probeCfg.model,
       latency_ms: Math.round(performance.now() - started),
       reply_preview: preview,
     };
@@ -1083,18 +1972,72 @@
     const meta = await getPresetsAndStyles();
 
     if (apiPath === "/api/ai/config" && method === "GET") {
-      return jsonResponse(toPublicConfig(toRuntimeConfig(meta), meta));
+      return jsonResponse(toPublicConfig(meta));
     }
 
     if (apiPath === "/api/ai/config" && method === "POST") {
       try {
-        const existing = loadStoredRawConfig(meta);
-        const next = normalizeClientConfig(body || {}, existing, meta);
-        localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(next));
-        return jsonResponse(toPublicConfig(toRuntimeConfig(meta), meta));
+        return jsonResponse(saveProfileStore(body || {}, meta));
       } catch (err) {
         return jsonResponse({ detail: String(err?.message || err) }, 400);
       }
+    }
+
+    if (apiPath === "/api/ai/profiles/select" && method === "POST") {
+      try {
+        return jsonResponse(selectProfileStore(body?.profile_id, meta));
+      } catch (err) {
+        return jsonResponse({ detail: String(err?.message || err) }, 400);
+      }
+    }
+
+    if (apiPath === "/api/ai/profiles/delete" && method === "POST") {
+      try {
+        return jsonResponse(deleteProfileStore(body?.profile_id, meta));
+      } catch (err) {
+        return jsonResponse({ detail: String(err?.message || err) }, 400);
+      }
+    }
+
+    if (apiPath === "/api/ai/codex/status" && method === "GET") {
+      const active = activeProfileFromStore(loadStore(meta));
+      await pollStaticCodexDeviceOnce(active?.relay_url || "");
+      return jsonResponse({
+        ...getStaticCodexStatus(),
+        config: toPublicConfig(meta),
+      });
+    }
+
+    if (apiPath === "/api/ai/codex/login" && method === "POST") {
+      try {
+        const active = activeProfileFromStore(loadStore(meta));
+        const relayUrl = String(body?.relay_url || active?.relay_url || "").trim();
+        const status = await startStaticCodexLogin(body?.method || "device", relayUrl);
+        return jsonResponse({ ...status, config: toPublicConfig(meta) });
+      } catch (err) {
+        return jsonResponse({ detail: String(err?.message || err) }, 400);
+      }
+    }
+
+    if (apiPath === "/api/ai/codex/callback" && method === "POST") {
+      try {
+        const active = activeProfileFromStore(loadStore(meta));
+        const relayUrl = String(body?.relay_url || active?.relay_url || "").trim();
+        const status = await submitStaticCodexCallback(body?.callback_url || "", relayUrl);
+        return jsonResponse({ ...status, config: toPublicConfig(meta) });
+      } catch (err) {
+        return jsonResponse({ detail: String(err?.message || err) }, 400);
+      }
+    }
+
+    if (apiPath === "/api/ai/codex/cancel" && method === "POST") {
+      const status = cancelStaticCodexLogin();
+      return jsonResponse({ ...status, config: toPublicConfig(meta) });
+    }
+
+    if (apiPath === "/api/ai/codex/logout" && method === "POST") {
+      const status = logoutStaticCodex();
+      return jsonResponse({ ...status, config: toPublicConfig(meta) });
     }
 
     if (apiPath === "/api/ai/models" && method === "POST") {
@@ -1116,15 +2059,20 @@
     }
 
     if (apiPath === "/api/ai/vision-intake" && method === "POST") {
-      const cfg = toRuntimeConfig(meta, body?.config_override || null);
+      let cfg = toRuntimeConfig(meta, body?.config_override || null);
       if (!cfg.ready) {
         return jsonResponse(
           {
             detail:
-              "识图功能需要先在「模型设置」中配置支持视觉的大模型与 API Key（如 GPT-4o / Gemini / Claude / Qwen-VL / DeepSeek 多模态版）；免 Key 离线模式请直接点选上方四诊标签。",
+              "识图功能需要先在「模型设置」中配置支持视觉的大模型与 API Key（或登录 OpenAI Codex 订阅账号）；免 Key 离线模式请直接点选上方四诊标签。",
           },
           400
         );
+      }
+      try {
+        cfg = await ensureFreshStaticCodexConfig(cfg);
+      } catch (err) {
+        return jsonResponse({ detail: String(err?.message || err) }, 400);
       }
       const prep = await callWorker("/api/ai/vision-prepare", "POST", body || {});
       if ((prep.status || 200) >= 400) return jsonResponse(prep.body, prep.status);
@@ -1135,6 +2083,27 @@
         reasoning_effort: "auto",
         max_tokens: cfg.max_tokens > 0 ? Math.max(2048, cfg.max_tokens) : 0,
       };
+      if (visionCfg.protocol === "codex_oauth") {
+        try {
+          const textParts = [];
+          for await (const ev of iterUpstreamEvents(
+            visionCfg,
+            system_prompt,
+            [{ role: "user", content: user_text, images }],
+            signal,
+            meta
+          )) {
+            if (ev.type === "delta" && ev.text) textParts.push(ev.text);
+          }
+          const parsed = await callWorker("/api/ai/vision-parse", "POST", {
+            text: textParts.join(""),
+            image_count: images.length,
+          });
+          return jsonResponse({ ...parsed.body, provider: cfg.provider, model: cfg.model }, parsed.status || 200);
+        } catch (err) {
+          return jsonResponse({ detail: String(err?.message || err) }, 400);
+        }
+      }
       const req = prepareUpstreamRequest(
         visionCfg,
         system_prompt,
@@ -1144,12 +2113,16 @@
       );
       let resp;
       try {
-        resp = await nativeFetch(req.url, {
-          method: "POST",
-          headers: req.headers,
-          body: JSON.stringify(req.body),
-          signal,
-        });
+        resp = await relayAwareFetch(
+          req.url,
+          {
+            method: "POST",
+            headers: req.headers,
+            body: JSON.stringify(req.body),
+            signal,
+          },
+          visionCfg.relay_url || ""
+        );
       } catch (_err) {
         return jsonResponse(
           { detail: "浏览器端直连识图接口受跨域(CORS)或网络限制，请改用本地 Python 服务版或手动点选四诊标签。" },
@@ -1157,7 +2130,7 @@
         );
       }
       if (!resp.ok) {
-        return jsonResponse({ detail: friendlyHttpError(resp.status, await resp.text().catch(() => "")) }, 400);
+        return jsonResponse({ detail: friendlyHttpError(resp.status, await resp.text().catch(() => ""), visionCfg.protocol) }, 400);
       }
       const full = await resp.json();
       full.__full = true;

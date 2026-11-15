@@ -736,7 +736,383 @@ def test_multimodal_vision_intake_routes_and_ui_hooks(client: TestClient, monkey
     # Frontend HTML hook assertions
     root = Path(__file__).resolve().parents[1]
     html = (root / "web" / "index.html").read_text(encoding="utf-8")
-    for hook in ("ai-cfg-reasoning", "ai-effort-select", "ai-upload-image-btn", "ai-ocr-extract-btn", 'min="0"', 'value="0"'):
+    for hook in (
+        "ai-cfg-reasoning",
+        "ai-effort-select",
+        "ai-upload-image-btn",
+        "ai-ocr-extract-btn",
+        "ai-profile-select",
+        "ai-model-select",
+        "ai-cfg-profile-select",
+        "ai-cfg-save-as-btn",
+        "ai-cfg-codex-box",
+        "ai-cfg-codex-device-btn",
+        "ai-cfg-codex-browser-btn",
+        "codex_oauth",
+        'min="0"',
+        'value="0"',
+    ):
         assert hook in html, f"missing HTML hook: {hook}"
+
+
+def _make_fake_jwt(claims: dict[str, Any]) -> str:
+    import base64
+
+    def _b64(obj: dict[str, Any]) -> str:
+        raw = json.dumps(obj, separators=(",", ":")).encode("utf-8")
+        return base64.urlsafe_b64encode(raw).decode("ascii").rstrip("=")
+
+    return f"{_b64({'alg': 'none', 'typ': 'JWT'})}.{_b64(claims)}.sig"
+
+
+def test_config_store_multi_profiles_migration_and_key_isolation(data_dir: Path):
+    # Legacy v1 flat settings auto-migrates cleanly on read
+    legacy_path = data_dir / config_store.CONFIG_FILENAME
+    legacy_path.write_text(
+        json.dumps(
+            {
+                "provider": "deepseek",
+                "protocol": "openai_compat",
+                "base_url": "https://api.deepseek.com/v1",
+                "model": "deepseek-chat",
+                "api_key": "sk-legacy-11112222",
+                "persona_style": "master_balanced",
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    pub = config_store.get_public_config(data_dir)
+    assert pub["active_profile_id"] == "default"
+    assert len(pub["profiles"]) == 1
+    assert pub["profiles"][0]["has_api_key"] is True
+    assert "sk-legacy-11112222" not in json.dumps(pub, ensure_ascii=False)
+
+    # Save a second independent Gemini profile without inheriting DeepSeek's key
+    pub2 = config_store.save_config(
+        data_dir,
+        {
+            "save_as_new": True,
+            "profile_name": "Gemini 识图",
+            "provider": "gemini",
+            "protocol": "gemini",
+            "base_url": "https://generativelanguage.googleapis.com/v1beta",
+            "model": "gemini-2.5-flash",
+            "api_key": "AIza-gemini-99990000",
+        },
+    )
+    assert len(pub2["profiles"]) == 2
+    assert pub2["provider"] == "gemini"
+    assert pub2["profile_name"] == "Gemini 识图"
+    assert "AIza-gemini-99990000" not in json.dumps(pub2, ensure_ascii=False)
+    assert "sk-legacy-11112222" not in json.dumps(pub2, ensure_ascii=False)
+
+    # Switching back to legacy profile restores its independent DeepSeek key
+    switched = config_store.select_profile(data_dir, "default")
+    assert switched["provider"] == "deepseek"
+    rt = config_store.resolve_runtime_config(data_dir)
+    assert rt["api_key"] == "sk-legacy-11112222"
+
+    # Switching provider within the same profile isolates old provider's key
+    iso = config_store.save_config(
+        data_dir,
+        {
+            "save_as_new": True,
+            "provider": "openai",
+            "model": "gpt-4.1-mini",
+        },
+    )
+    assert iso["has_api_key"] is False
+    assert config_store.resolve_runtime_config(data_dir)["api_key"] == ""
+
+    # Delete newly created OpenAI profile cleanly, refuse deleting last profile
+    after_del = config_store.delete_profile(data_dir, iso["active_profile_id"])
+    assert len(after_del["profiles"]) == 2
+    after_del2 = config_store.delete_profile(data_dir, pub2["active_profile_id"])
+    assert len(after_del2["profiles"]) == 1
+    with pytest.raises(ValueError):
+        config_store.delete_profile(data_dir, "default")
+
+
+def test_codex_oauth_flows_refresh_and_api_routes(data_dir: Path, client: TestClient, monkeypatch):
+    from urllib.parse import parse_qs, urlparse
+    from ai import codex_oauth
+    from app.static_dispatch import dispatch_request
+
+    access_jwt_1 = _make_fake_jwt(
+        {
+            "https://api.openai.com/auth": {
+                "chatgpt_account_id": "acc_1234567890abcdef",
+                "chatgpt_plan_type": "plus",
+            },
+            "email": "nihaixia@example.com",
+        }
+    )
+    access_jwt_2 = _make_fake_jwt(
+        {
+            "https://api.openai.com/auth": {
+                "chatgpt_account_id": "acc_1234567890abcdef",
+                "chatgpt_plan_type": "plus",
+            },
+            "email": "nihaixia@example.com",
+        }
+    )
+    assert access_jwt_1 == access_jwt_2
+    # Distinguish token payload slightly for refresh check
+    access_jwt_refreshed = _make_fake_jwt(
+        {
+            "https://api.openai.com/auth": {
+                "chatgpt_account_id": "acc_1234567890abcdef",
+                "chatgpt_plan_type": "pro",
+            },
+            "email": "nihaixia@example.com",
+            "jti": "refresh_2",
+        }
+    )
+    id_jwt = _make_fake_jwt(
+        {
+            "https://api.openai.com/auth": {
+                "chatgpt_account_id": "acc_1234567890abcdef",
+                "chatgpt_plan_type": "plus",
+            },
+            "email": "nihaixia@example.com",
+        }
+    )
+
+    seen_grants: list[str] = []
+
+    def oauth_handler(req: httpx.Request) -> httpx.Response:
+        if req.url.path == "/api/accounts/deviceauth/usercode":
+            return httpx.Response(
+                200,
+                json={"device_auth_id": "dev_001", "user_code": "TCM-9988", "interval": 1},
+            )
+        if req.url.path == "/api/accounts/deviceauth/token":
+            return httpx.Response(404, json={"error": "authorization_pending"})
+        if req.url.path == "/oauth/token":
+            body_params = parse_qs(req.content.decode("utf-8"))
+            grant = (body_params.get("grant_type") or [""])[0]
+            seen_grants.append(grant)
+            if grant == "authorization_code":
+                return httpx.Response(
+                    200,
+                    json={
+                        "access_token": access_jwt_1,
+                        "refresh_token": "rt_initial_secret",
+                        "id_token": id_jwt,
+                        "expires_in": 3600,
+                    },
+                )
+            if grant == "refresh_token":
+                return httpx.Response(
+                    200,
+                    json={
+                        "access_token": access_jwt_refreshed,
+                        "refresh_token": "rt_rotated_secret",
+                        "id_token": id_jwt,
+                        "expires_in": 3600,
+                    },
+                )
+        return httpx.Response(404, json={"error": "unexpected"})
+
+    # Prevent real background device poll & localhost:1455 port binding side effects during tests
+    monkeypatch.setattr("ai.codex_oauth._build_client", lambda timeout=25.0: _mock_async_client(oauth_handler))
+    monkeypatch.setattr("ai.codex_oauth._start_local_callback_listener", lambda mgr, attempt, loop: False)
+
+    async def _run() -> None:
+        dev_status = await codex_oauth.start_login(data_dir, method="device", client=_mock_async_client(oauth_handler))
+        assert dev_status["login"]["method"] == "device"
+        assert dev_status["login"]["user_code"] == "TCM-9988"
+        canceled = codex_oauth.cancel_login(data_dir)
+        assert canceled["login"] is None or canceled["login"]["status"] == "cancelled"
+
+        # Browser PKCE flow -> extract state from auth_url and complete callback exchange
+        br_status = await codex_oauth.start_login(data_dir, method="browser", client=_mock_async_client(oauth_handler))
+        auth_url = br_status["login"]["auth_url"]
+        state = parse_qs(urlparse(auth_url).query)["state"][0]
+
+        done_status = await codex_oauth.submit_callback_url(
+            data_dir,
+            f"http://localhost:1455/auth/callback?code=auth_code_xyz&state={state}",
+            client=_mock_async_client(oauth_handler),
+        )
+        assert done_status["logged_in"] is True
+        assert done_status["account_masked"] == "ni***@example.com"
+        assert "rt_initial_secret" not in json.dumps(done_status, ensure_ascii=False)
+        assert "authorization_code" in seen_grants
+
+        # Force near-expiry and confirm ensure_fresh_runtime_config rotates token cleanly
+        cred_path = codex_oauth.credential_path(data_dir)
+        raw_cred = json.loads(cred_path.read_text(encoding="utf-8"))
+        raw_cred["expires"] = 1000  # long past expiry
+        cred_path.write_text(json.dumps(raw_cred), encoding="utf-8")
+
+        config_store.save_config(
+            data_dir,
+            {
+                "save_as_new": True,
+                "provider": "codex",
+                "protocol": "codex_oauth",
+                "base_url": "https://chatgpt.com/backend-api",
+                "model": "gpt-5.3-codex",
+            },
+        )
+        rt = config_store.resolve_runtime_config(data_dir)
+        assert rt["ready"] is True
+        refreshed = await codex_oauth.ensure_fresh_runtime_config(
+            data_dir,
+            rt,
+            client=_mock_async_client(oauth_handler),
+        )
+        assert "refresh_token" in seen_grants
+        assert refreshed["api_key"] == access_jwt_refreshed
+        assert refreshed["codex_account_id"] == "acc_1234567890abcdef"
+
+    asyncio.run(_run())
+
+    # FastAPI routes for profiles CRUD + codex login/callback/cancel/logout + CSRF check
+    save_new_res = client.post(
+        "/api/ai/config",
+        json={
+            "save_as_new": True,
+            "profile_name": "测试快速切换配置",
+            "provider": "openai",
+            "protocol": "openai_compat",
+            "base_url": "https://api.openai.com/v1",
+            "model": "gpt-4.1-mini",
+            "api_key": "sk-profile-switch-8888",
+        },
+    )
+    assert save_new_res.status_code == 200
+    new_pid = save_new_res.json()["active_profile_id"]
+    assert save_new_res.json()["profile_name"] == "测试快速切换配置"
+    assert "sk-profile-switch-8888" not in json.dumps(save_new_res.json(), ensure_ascii=False)
+
+    sel_ok = client.post("/api/ai/profiles/select", json={"profile_id": "default"})
+    assert sel_ok.status_code == 200
+    assert sel_ok.json()["active_profile_id"] == "default"
+
+    del_ok = client.post("/api/ai/profiles/delete", json={"profile_id": new_pid})
+    assert del_ok.status_code == 200
+    assert all(p["profile_id"] != new_pid for p in del_ok.json()["profiles"])
+
+    status_res = client.get("/api/ai/codex/status")
+    assert status_res.status_code == 200
+    assert status_res.json()["logged_in"] is True
+
+    login_br = client.post("/api/ai/codex/login", json={"method": "browser"})
+    assert login_br.status_code == 200
+    br_state = parse_qs(urlparse(login_br.json()["login"]["auth_url"]).query)["state"][0]
+    cb_ok = client.post(
+        "/api/ai/codex/callback",
+        json={"callback_url": f"http://localhost:1455/auth/callback?code=route_code&state={br_state}"},
+    )
+    assert cb_ok.status_code == 200
+    assert cb_ok.json()["logged_in"] is True
+
+    cancel_res = client.post("/api/ai/codex/cancel")
+    assert cancel_res.status_code == 200
+
+    sel_bad = client.post("/api/ai/profiles/select", json={"profile_id": "missing_id"})
+    assert sel_bad.status_code == 400
+
+    csrf_bad = client.post(
+        "/api/ai/profiles/select",
+        headers={"Origin": "https://evil.example", "Host": "127.0.0.1:8000"},
+        json={"profile_id": "default"},
+    )
+    assert csrf_bad.status_code == 403
+
+    csrf_codex = client.post(
+        "/api/ai/codex/logout",
+        headers={"Origin": "https://evil.example", "Host": "127.0.0.1:8000"},
+    )
+    assert csrf_codex.status_code == 403
+
+    out_res = client.post("/api/ai/codex/logout")
+    assert out_res.status_code == 200
+    assert out_res.json()["logged_in"] is False
+
+    # Static dispatcher exposes codex preset cleanly
+    presets = json.loads(dispatch_request("/api/ai/presets-and-styles", "POST", "{}")).get("body", {}).get("presets", [])
+    codex_preset = next((p for p in presets if p["id"] == "codex"), None)
+    assert codex_preset is not None
+    assert codex_preset["protocol"] == "codex_oauth"
+    assert codex_preset["requires_oauth"] is True
+    assert codex_preset["requires_key"] is False
+
+
+def test_llm_client_codex_oauth_responses_streaming_and_errors():
+    seen_req: dict[str, Any] = {}
+    sse_bytes = (
+        'event: response.reasoning_summary_text.delta\n'
+        'data: {"type":"response.reasoning_summary_text.delta","delta":"先辨太阳表虚"}\n\n'
+        'event: response.output_text.delta\n'
+        'data: {"type":"response.output_text.delta","delta":"宜桂枝汤"}\n\n'
+        'event: response.completed\n'
+        'data: {"type":"response.completed","response":{"usage":{"total_tokens":88},"output":[{"content":[{"type":"output_text","text":"宜桂枝汤"}]}]}}\n\n'
+    ).encode("utf-8")
+
+    def handler(req: httpx.Request) -> httpx.Response:
+        seen_req["url"] = str(req.url)
+        seen_req["headers"] = dict(req.headers)
+        seen_req["body"] = json.loads(req.content.decode("utf-8"))
+        return httpx.Response(200, headers={"content-type": "text/event-stream"}, content=sse_bytes)
+
+    cfg = {
+        "provider": "codex",
+        "protocol": "codex_oauth",
+        "base_url": "https://chatgpt.com/backend-api",
+        "model": "gpt-5.3-codex",
+        "api_key": "oauth-access-token",
+        "codex_account_id": "acc_9999",
+        "requires_key": False,
+        "reasoning_effort": "high",
+        "temperature": 0.45,
+        "max_tokens": 2048,
+    }
+    res = asyncio.run(
+        llm_client.complete_chat(
+            cfg,
+            "sys prompt",
+            [{"role": "user", "content": "发热有汗恶风"}],
+            client=_mock_async_client(handler),
+        )
+    )
+    assert seen_req["url"] == "https://chatgpt.com/backend-api/codex/responses"
+    assert seen_req["headers"]["chatgpt-account-id"] == "acc_9999"
+    assert seen_req["headers"]["openai-beta"] == "responses=experimental"
+    assert "temperature" not in seen_req["body"]
+    assert "max_tokens" not in seen_req["body"]
+    assert seen_req["body"]["reasoning"] == {"effort": "high"}
+    # No duplication between delta event and response.completed full output
+    assert res["text"] == "宜桂枝汤"
+    assert res["reasoning"] == "先辨太阳表虚"
+    assert res["usage"]["total_tokens"] == 88
+
+    # Fallback extraction still recovers output text if no deltas streamed
+    no_delta_sse = (
+        'event: response.completed\n'
+        'data: {"type":"response.completed","response":{"output":[{"content":[{"type":"output_text","text":"单次完结文本"}]}]}}\n\n'
+    ).encode("utf-8")
+    res_fb = asyncio.run(
+        llm_client.complete_chat(
+            cfg,
+            "sys prompt",
+            [{"role": "user", "content": "发热"}],
+            client=_mock_async_client(lambda req: httpx.Response(200, headers={"content-type": "text/event-stream"}, content=no_delta_sse)),
+        )
+    )
+    assert res_fb["text"] == "单次完结文本"
+
+    # Preset models lookup succeeds without upstream network call
+    models = asyncio.run(llm_client.list_models(cfg, client=_mock_async_client(handler)))
+    assert "gpt-5.3-codex" in models["models"]
+    assert models["source"] == "preset"
+
+    # Friendly 401 guidance
+    err_401 = llm_client._friendly_http_error(401, '{"error":{"message":"invalid token"}}', protocol="codex_oauth")
+    assert "Codex" in err_401
+
 
 

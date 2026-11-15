@@ -14,7 +14,7 @@ from fastapi.responses import FileResponse, JSONResponse, Response, StreamingRes
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from ai import config_store, grounded_study, llm_client, ni_consult, ni_persona
+from ai import codex_oauth, config_store, grounded_study, llm_client, ni_consult, ni_persona
 from app import (
     acupuncture_catalog,
     acupuncture_diagnose,
@@ -41,17 +41,33 @@ _LOOPBACK_HOSTS = {"127.0.0.1", "localhost", "::1", "testserver"}
 
 
 class AIConfigPayload(BaseModel):
+    profile_id: str | None = None
+    profile_name: str | None = None
+    save_as_new: bool = False
     provider: str | None = None
     protocol: str | None = None
     base_url: str | None = None
     model: str | None = None
     api_key: str | None = None
+    relay_url: str | None = None
     clear_api_key: bool = False
     persona_style: str | None = None
     reasoning_effort: str | None = None
     temperature: float | None = None
     max_tokens: int | None = None
     timeout_sec: int | None = None
+
+
+class AIProfileIdPayload(BaseModel):
+    profile_id: str = Field(..., min_length=1, max_length=64)
+
+
+class CodexLoginPayload(BaseModel):
+    method: str = Field(default="device", max_length=24)
+
+
+class CodexCallbackPayload(BaseModel):
+    callback_url: str = Field(..., min_length=4, max_length=4000)
 
 
 class ChatMessageItem(BaseModel):
@@ -760,20 +776,92 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
         return hantang_catalog.match_clinical_context(q=q, limit=limit)
 
     # ── Ni Shi Streaming AI Routes (Pure Python, No Node ai-bridge) ─────
-    @app.get("/api/ai/config")
-    def api_ai_config():
+    def _public_ai_payload() -> dict[str, Any]:
         return {
             **config_store.get_public_config(data),
+            "codex_auth": codex_oauth.get_public_status(data),
             "styles": ni_persona.list_persona_styles(),
         }
+
+    @app.get("/api/ai/config")
+    def api_ai_config():
+        return _public_ai_payload()
 
     @app.post("/api/ai/config")
     def api_ai_save_config(request: Request, payload: AIConfigPayload):
         _assert_ai_origin(request)
-        saved = config_store.save_config(data, payload.model_dump(exclude_none=True))
+        try:
+            config_store.save_config(data, payload.model_dump(exclude_none=True))
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+        return _public_ai_payload()
+
+    @app.post("/api/ai/profiles/select")
+    def api_ai_select_profile(request: Request, payload: AIProfileIdPayload):
+        _assert_ai_origin(request)
+        try:
+            config_store.select_profile(data, payload.profile_id)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+        return _public_ai_payload()
+
+    @app.post("/api/ai/profiles/delete")
+    def api_ai_delete_profile(request: Request, payload: AIProfileIdPayload):
+        _assert_ai_origin(request)
+        try:
+            config_store.delete_profile(data, payload.profile_id)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+        return _public_ai_payload()
+
+    @app.get("/api/ai/codex/status")
+    def api_ai_codex_status():
         return {
-            **saved,
-            "styles": ni_persona.list_persona_styles(),
+            **codex_oauth.get_public_status(data),
+            "config": _public_ai_payload(),
+        }
+
+    @app.post("/api/ai/codex/login")
+    async def api_ai_codex_login(request: Request, payload: CodexLoginPayload | None = None):
+        _assert_ai_origin(request)
+        method = payload.method if payload else "device"
+        try:
+            status = await codex_oauth.start_login(data, method=method)
+        except codex_oauth.CodexOAuthError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+        return {
+            **status,
+            "config": _public_ai_payload(),
+        }
+
+    @app.post("/api/ai/codex/callback")
+    async def api_ai_codex_callback(request: Request, payload: CodexCallbackPayload):
+        _assert_ai_origin(request)
+        try:
+            status = await codex_oauth.submit_callback_url(data, payload.callback_url)
+        except codex_oauth.CodexOAuthError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+        return {
+            **status,
+            "config": _public_ai_payload(),
+        }
+
+    @app.post("/api/ai/codex/cancel")
+    def api_ai_codex_cancel(request: Request):
+        _assert_ai_origin(request)
+        status = codex_oauth.cancel_login(data)
+        return {
+            **status,
+            "config": _public_ai_payload(),
+        }
+
+    @app.post("/api/ai/codex/logout")
+    def api_ai_codex_logout(request: Request):
+        _assert_ai_origin(request)
+        status = codex_oauth.logout(data)
+        return {
+            **status,
+            "config": _public_ai_payload(),
         }
 
     @app.post("/api/ai/models")
@@ -792,8 +880,9 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
         override = payload.model_dump(exclude_none=True) if payload else None
         cfg = config_store.resolve_runtime_config(data, override)
         try:
+            cfg = await codex_oauth.ensure_fresh_runtime_config(data, cfg)
             return await llm_client.test_connection(cfg)
-        except llm_client.LLMClientError as exc:
+        except (llm_client.LLMClientError, codex_oauth.CodexOAuthError) as exc:
             raise HTTPException(status_code=400, detail=str(exc))
 
     @app.post("/api/ai/packet")
@@ -822,11 +911,12 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
         if not cfg.get("ready"):
             raise HTTPException(
                 status_code=400,
-                detail="识图功能需要先在「模型设置」中配置支持视觉的大模型与 API Key（如 GPT-4o / Gemini / Claude / Qwen-VL / DeepSeek 多模态版）；免 Key 离线模式请直接点选上方四诊标签。",
+                detail="识图功能需要先在「模型设置」中配置支持视觉的大模型与 API Key（或登录 OpenAI Codex 订阅账号）；免 Key 离线模式请直接点选上方四诊标签。",
             )
         try:
+            cfg = await codex_oauth.ensure_fresh_runtime_config(data, cfg)
             return await llm_client.vision_extract_intake(cfg, payload.images, hint=payload.hint)
-        except llm_client.LLMClientError as exc:
+        except (llm_client.LLMClientError, codex_oauth.CodexOAuthError) as exc:
             raise HTTPException(status_code=400, detail=str(exc))
 
     @app.post("/api/ai/chat")
@@ -861,8 +951,9 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
             }
 
         try:
+            cfg = await codex_oauth.ensure_fresh_runtime_config(data, cfg)
             res = await llm_client.complete_chat(cfg, sys_prompt, messages)
-        except llm_client.LLMClientError as exc:
+        except (llm_client.LLMClientError, codex_oauth.CodexOAuthError) as exc:
             raise HTTPException(status_code=502, detail=str(exc))
 
         return {
@@ -923,7 +1014,8 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
             reasoning_parts: list[str] = []
             usage: dict[str, Any] = {}
             try:
-                async for ev in llm_client.stream_chat(cfg, sys_prompt, messages):
+                live_cfg = await codex_oauth.ensure_fresh_runtime_config(data, cfg)
+                async for ev in llm_client.stream_chat(live_cfg, sys_prompt, messages):
                     if ev["type"] == "reasoning":
                         reasoning_parts.append(ev["text"])
                         yield _sse_frame("reasoning", {"text": ev["text"]})
@@ -932,7 +1024,7 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
                         yield _sse_frame("delta", {"text": ev["text"]})
                     elif ev["type"] == "usage":
                         usage = ev["usage"]
-            except llm_client.LLMClientError as exc:
+            except (llm_client.LLMClientError, codex_oauth.CodexOAuthError) as exc:
                 fallback = ni_consult.build_offline_ni_reply(packet, style=style)
                 yield _sse_frame("error", {"detail": str(exc), "fallback_text": fallback})
                 yield _sse_frame(

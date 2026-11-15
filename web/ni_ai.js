@@ -6,6 +6,7 @@
 
   const STORAGE_PATIENT_KEY = "ni_ai_active_patient_id";
   const STORAGE_SESSION_KEY = "ni_ai_active_session_id";
+  const STORAGE_MODEL_CACHE_KEY = "ni_ai_cached_models_v1";
 
   const PRESET_CASES = [
     {
@@ -177,10 +178,41 @@
     latestPacket: null,
     selectedPacketTurnId: null,
 
+    modalDraftNew: false,
+    codexPollTimer: null,
+    codexPollingPending: false,
     abortController: null,
   };
 
   const MAX_PENDING_IMAGES = 3;
+
+  function loadModelCacheMap() {
+    try {
+      const raw = localStorage.getItem(STORAGE_MODEL_CACHE_KEY);
+      const parsed = raw ? JSON.parse(raw) : {};
+      return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function getCachedModelsForProfile(profileId, provider) {
+    const map = loadModelCacheMap();
+    const key = `${profileId || "default"}::${provider || ""}`;
+    return Array.isArray(map[key]) ? map[key] : [];
+  }
+
+  function saveCachedModelsForProfile(profileId, provider, models) {
+    if (!Array.isArray(models) || !models.length) return;
+    try {
+      const map = loadModelCacheMap();
+      const key = `${profileId || "default"}::${provider || ""}`;
+      map[key] = Array.from(new Set(models.map((m) => String(m || "").trim()).filter(Boolean))).slice(0, 120);
+      localStorage.setItem(STORAGE_MODEL_CACHE_KEY, JSON.stringify(map));
+    } catch {
+      // ignore storage quota errors
+    }
+  }
 
   function evaluateReasoningProfile(provider, protocol, model) {
     const cfg = niState.config || {};
@@ -401,6 +433,40 @@
     return niState.latestPacket || null;
   }
 
+  function renderHomepageProfileAndModelSelects(cfg) {
+    if (!cfg) return;
+    const profSel = $("#ai-profile-select");
+    const profiles = Array.isArray(cfg.profiles) && cfg.profiles.length
+      ? cfg.profiles
+      : [cfg];
+    if (profSel) {
+      profSel.innerHTML = profiles
+        .map((p) => {
+          const mark = p.ready ? "● " : "○ ";
+          const label = `${mark}${p.profile_name || p.model || p.provider}`;
+          return `<option value="${escapeHtml(p.profile_id || "default")}">${escapeHtml(label)}</option>`;
+        })
+        .join("");
+      profSel.value = cfg.active_profile_id || cfg.profile_id || profiles[0]?.profile_id || "default";
+    }
+
+    const modSel = $("#ai-model-select");
+    if (modSel) {
+      const preset = (cfg.presets || []).find((p) => p.id === cfg.provider);
+      const cached = getCachedModelsForProfile(cfg.active_profile_id || cfg.profile_id, cfg.provider);
+      const merged = [];
+      for (const m of [cfg.model, ...(preset?.suggested_models || []), ...cached]) {
+        const clean = String(m || "").trim();
+        if (clean && !merged.includes(clean)) merged.push(clean);
+      }
+      if (!merged.length) merged.push(cfg.model || "deepseek-chat");
+      modSel.innerHTML = merged
+        .map((m) => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`)
+        .join("");
+      modSel.value = cfg.model || merged[0];
+    }
+  }
+
   function updateStatusHeader() {
     const pill = $("#ai-status-pill");
     const hdrBadge = $("#ai-header-badge");
@@ -408,7 +474,7 @@
     if (!cfg) return;
 
     const preset = (cfg.presets || []).find((p) => p.id === cfg.provider);
-    const providerLabel = preset?.label || cfg.provider;
+    const providerLabel = (preset?.label || cfg.provider || "").split("（")[0];
     let label = "";
     let modeClass = "offline";
 
@@ -418,6 +484,9 @@
     } else if (cfg.ready) {
       label = `在线推演 · ${providerLabel} (${cfg.model})`;
       modeClass = "ready";
+    } else if (cfg.protocol === "codex_oauth" || cfg.provider === "codex") {
+      label = "Codex 未登录 · 免 Key 离线就绪（点模型设置登录）";
+      modeClass = "offline";
     } else {
       label = "免 Key 离线出方就绪（可点右侧配置大模型）";
       modeClass = "offline";
@@ -430,6 +499,7 @@
     if (hdrBadge) {
       hdrBadge.textContent = cfg.ready && !niState.offlineOnly ? `AI: ${cfg.model}` : "AI: 离线直出就绪";
     }
+    renderHomepageProfileAndModelSelects(cfg);
     const synced = syncReasoningSelect(
       $("#ai-effort-select"),
       null,
@@ -1633,17 +1703,171 @@
     showNotice(`${cit.book_title} (${cit.unit_label})：${String(cit.quote || "").slice(0, 80)}`);
   }
 
-  // ── Configuration Modal ───────────────────────────────────────────────
-  function populateModalFromConfig(cfg) {
+  // ── Configuration Modal & Codex OAuth Panel ───────────────────────────
+  function stopCodexPolling() {
+    if (niState.codexPollTimer) {
+      window.clearTimeout(niState.codexPollTimer);
+      niState.codexPollTimer = null;
+    }
+    niState.codexPollingPending = false;
+  }
+
+  function scheduleCodexPolling() {
+    if (niState.codexPollTimer) window.clearTimeout(niState.codexPollTimer);
+    const modal = $("#ai-config-modal");
+    if (!modal || modal.classList.contains("hidden")) {
+      stopCodexPolling();
+      return;
+    }
+    niState.codexPollTimer = window.setTimeout(async () => {
+      try {
+        const res = await apiJson("/api/ai/codex/status");
+        if (res.config) {
+          niState.config = res.config;
+          updateStatusHeader();
+        }
+        renderCodexAuthPanel(res);
+        if (res.logged_in && (!res.login || res.login.status !== "pending")) {
+          if (niState.codexPollingPending) {
+            showNotice(`OpenAI Codex 登录成功：${res.account_masked || "ChatGPT 已连接"}`);
+            const out = $("#ai-cfg-test-result");
+            if (out) {
+              out.className = "ai-cfg-result is-ok";
+              out.textContent = `Codex 已完成授权（${res.account_masked || "ChatGPT 订阅"}），可点击下方「保存配置」或「测试连通」。`;
+            }
+          }
+          stopCodexPolling();
+          return;
+        }
+        if (res.login?.status === "pending") {
+          scheduleCodexPolling();
+        } else {
+          stopCodexPolling();
+        }
+      } catch {
+        stopCodexPolling();
+      }
+    }, 1600);
+  }
+
+  function renderCodexAuthPanel(codexAuth) {
+    const statusEl = $("#ai-cfg-codex-status");
+    const logoutBtn = $("#ai-cfg-codex-logout-btn");
+    const cancelBtn = $("#ai-cfg-codex-cancel-btn");
+    const pendingEl = $("#ai-cfg-codex-pending");
+    const cbWrap = $("#ai-cfg-codex-callback-wrap");
+    if (!statusEl) return;
+
+    const auth = codexAuth || {};
+    if (auth.logged_in) {
+      const plan = auth.plan_type ? `（${auth.plan_type} 订阅）` : "";
+      const expMs = auth.expires_at ? (auth.expires_at > 1e12 ? auth.expires_at : auth.expires_at * 1000) : 0;
+      const expStr = expMs ? ` · 有效期至 ${new Date(expMs).toLocaleString()}` : "";
+      statusEl.textContent = `已登录：${auth.account_masked || "ChatGPT 账号"}${plan}${expStr}`;
+      statusEl.className = "ai-form-note is-codex-ok";
+    } else {
+      statusEl.textContent = "尚未登录 ChatGPT / OpenAI Codex 账号（无需手动填写 API Key）";
+      statusEl.className = "ai-form-note";
+    }
+    if (logoutBtn) logoutBtn.classList.toggle("hidden", !auth.logged_in);
+
+    const login = auth.login || null;
+    const isPending = login?.status === "pending";
+    niState.codexPollingPending = isPending;
+    if (cancelBtn) cancelBtn.classList.toggle("hidden", !isPending);
+
+    if (pendingEl) {
+      if (isPending && login.method === "device") {
+        const verifyUrl = login.verification_uri || login.auth_url || "https://auth.openai.com/codex/device";
+        pendingEl.classList.remove("hidden");
+        pendingEl.innerHTML =
+          `<div class="ai-codex-code-row">` +
+          `<span>一次性设备码：</span>` +
+          `<code class="ai-codex-user-code">${escapeHtml(login.user_code || "")}</code>` +
+          `<button type="button" class="ai-mini-btn" data-copy-codex-code="${escapeHtml(login.user_code || "")}">复制</button>` +
+          `</div>` +
+          `<div class="ai-codex-link-row">请打开 <a href="${escapeHtml(verifyUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(verifyUrl)}</a> 并输入设备码，授权完成后此处将自动识别…</div>`;
+      } else if (isPending && login.method === "browser") {
+        pendingEl.classList.remove("hidden");
+        pendingEl.innerHTML =
+          `<div class="ai-codex-link-row">若未自动弹出授权页，请点击：<a href="${escapeHtml(login.auth_url || "#")}" target="_blank" rel="noopener noreferrer">打开 OpenAI 官方登录页 ↗</a></div>`;
+      } else if ((login?.status === "error" || login?.status === "failed") && login.error) {
+        pendingEl.classList.remove("hidden");
+        pendingEl.innerHTML = `<div class="ai-codex-err-msg">${escapeHtml(login.error)}</div>`;
+      } else {
+        pendingEl.classList.add("hidden");
+        pendingEl.innerHTML = "";
+      }
+    }
+
+    if (cbWrap) {
+      cbWrap.classList.toggle("hidden", !(isPending && login?.method === "browser"));
+    }
+
+    if (isPending) {
+      scheduleCodexPolling();
+    } else {
+      stopCodexPolling();
+    }
+  }
+
+  function syncModalAuthVisibility() {
+    const prov = $("#ai-cfg-provider")?.value || "deepseek";
+    const proto = $("#ai-cfg-protocol")?.value || "openai_compat";
+    const isCodex = proto === "codex_oauth" || prov === "codex";
+    const relayVal = $("#ai-cfg-relay-url")?.value?.trim() || "";
+    $("#ai-cfg-key-row")?.classList.toggle("hidden", isCodex);
+    $("#ai-cfg-codex-box")?.classList.toggle("hidden", !isCodex);
+    $("#ai-cfg-relay-row")?.classList.toggle("hidden", !(isCodex && (window.__TCM_STATIC_WEB__ || relayVal)));
+
+    const envNote = $("#ai-cfg-codex-env-note");
+    if (envNote) {
+      envNote.textContent = window.__TCM_STATIC_WEB__
+        ? "提示：GitHub Pages 纯静态网页直连 auth.openai.com / chatgpt.com 会受浏览器 CORS 限制，建议在本地服务版（127.0.0.1:8767）一键登录使用，或填写下方自建 CORS 中继地址。"
+        : "本地 Python 服务版已直连 auth.openai.com 与 localhost:1455 回调监听，支持设备码或浏览器一键登录，凭证仅加密/限权存本地 data/codex_oauth.json。";
+    }
+  }
+
+  function renderModalProfileSelect(cfg) {
+    const sel = $("#ai-cfg-profile-select");
+    const delBtn = $("#ai-cfg-del-profile-btn");
+    const profiles = Array.isArray(cfg?.profiles) ? cfg.profiles : [];
+    if (sel) {
+      const opts = profiles.map((p) => {
+        const mark = p.ready ? "● " : "○ ";
+        return `<option value="${escapeHtml(p.profile_id)}">${escapeHtml(`${mark}${p.profile_name || p.model}`)}</option>`;
+      });
+      opts.push(`<option value="__new__">+ 准备新建配置组...</option>`);
+      sel.innerHTML = opts.join("");
+      sel.value = niState.modalDraftNew
+        ? "__new__"
+        : (cfg?.active_profile_id || cfg?.profile_id || profiles[0]?.profile_id || "default");
+    }
+    if (delBtn) {
+      delBtn.disabled = niState.modalDraftNew || profiles.length <= 1;
+    }
+  }
+
+  function populateModalFromConfig(cfg, { isNewDraft = false } = {}) {
     if (!cfg) return;
+    niState.modalDraftNew = Boolean(isNewDraft);
+    renderModalProfileSelect(cfg);
+    if ($("#ai-cfg-profile-name")) {
+      $("#ai-cfg-profile-name").value = isNewDraft ? "" : (cfg.profile_name || "");
+    }
     if ($("#ai-cfg-provider")) $("#ai-cfg-provider").value = cfg.provider || "deepseek";
     if ($("#ai-cfg-protocol")) $("#ai-cfg-protocol").value = cfg.protocol || "openai_compat";
     if ($("#ai-cfg-url")) $("#ai-cfg-url").value = cfg.base_url || "";
+    if ($("#ai-cfg-relay-url")) $("#ai-cfg-relay-url").value = cfg.relay_url || "";
     if ($("#ai-cfg-model")) $("#ai-cfg-model").value = cfg.model || "";
     const keyInput = $("#ai-cfg-key");
     if (keyInput) {
       keyInput.value = "";
-      keyInput.placeholder = cfg.has_api_key ? `已保存密钥（${cfg.api_key_masked}），留空保留原密钥` : "输入 API Key（本地 Ollama 可留空）";
+      keyInput.placeholder = isNewDraft
+        ? "输入新配置的 API Key（本地 Ollama 可留空）"
+        : cfg.has_api_key
+        ? `已保存密钥（${cfg.api_key_masked}），留空保留原密钥`
+        : "输入 API Key（本地 Ollama 可留空）";
     }
     if ($("#ai-cfg-clear-key")) $("#ai-cfg-clear-key").checked = false;
     if ($("#ai-cfg-style")) $("#ai-cfg-style").value = cfg.persona_style || "master_balanced";
@@ -1652,13 +1876,16 @@
     if ($("#ai-cfg-timeout")) $("#ai-cfg-timeout").value = String(cfg.timeout_sec ?? 120);
     const keyHint = $("#ai-cfg-key-hint");
     if (keyHint) {
-      keyHint.textContent =
-        cfg.key_source === "env"
-          ? `当前通过环境变量自动识别密钥（${cfg.api_key_masked}）`
-          : cfg.key_source === "saved"
-          ? `当前使用本地 data/ai_settings.json 密钥（${cfg.api_key_masked}）`
-          : "尚未设置 API Key（不配也可免 Key 离线出方）";
+      keyHint.textContent = isNewDraft
+        ? "新建配置将独立保存密钥与模型参数，不覆盖其他已存配置"
+        : cfg.key_source === "env"
+        ? `当前通过环境变量自动识别密钥（${cfg.api_key_masked}）`
+        : cfg.key_source === "saved" || cfg.key_source === "browser"
+        ? `当前配置已独立保存密钥（${cfg.api_key_masked}）`
+        : "当前配置尚未设置 API Key（不配也可免 Key 离线出方）";
     }
+    syncModalAuthVisibility();
+    renderCodexAuthPanel(cfg.codex_auth);
     refreshSuggestedModelsList(cfg.provider, cfg.model);
     syncModalReasoningSelect(cfg.reasoning_effort || niState.reasoningEffort || "auto");
   }
@@ -1673,14 +1900,19 @@
 
   function refreshSuggestedModelsList(providerId, currentModel = "") {
     const preset = (niState.config?.presets || []).find((p) => p.id === providerId);
-    const models = [...(preset?.suggested_models || [])];
-    if (currentModel && !models.includes(currentModel)) models.unshift(currentModel);
+    const pid = $("#ai-cfg-profile-select")?.value;
+    const cached = pid && pid !== "__new__" ? getCachedModelsForProfile(pid, providerId) : [];
+    const models = [];
+    for (const m of [...(preset?.suggested_models || []), ...cached, currentModel]) {
+      const clean = String(m || "").trim();
+      if (clean && !models.includes(clean)) models.push(clean);
+    }
     if ($("#ai-cfg-model-options")) {
       $("#ai-cfg-model-options").innerHTML = models.map((m) => `<option value="${escapeHtml(m)}"></option>`).join("");
     }
     if ($("#ai-cfg-model-pills")) {
       $("#ai-cfg-model-pills").innerHTML = models
-        .slice(0, 6)
+        .slice(0, 12)
         .map((m) => `<button type="button" class="ai-chip ${m === currentModel ? "active" : ""}" data-ai-pick-model="${escapeHtml(m)}">${escapeHtml(m)}</button>`)
         .join("");
     }
@@ -1690,17 +1922,22 @@
     syncModalReasoningSelect();
   }
 
-  function collectModalPayload() {
+  function collectModalPayload({ saveAsNew = false } = {}) {
     const rawTemp = $("#ai-cfg-temp")?.value;
     const rawTokens = $("#ai-cfg-tokens")?.value;
     const rawTimeout = $("#ai-cfg-timeout")?.value;
     const parsedTemp = rawTemp === "" || rawTemp === undefined ? 0.45 : Number(rawTemp);
     const parsedTokens = rawTokens === "" || rawTokens === undefined ? 0 : Math.trunc(Number(rawTokens));
     const parsedTimeout = rawTimeout === "" || rawTimeout === undefined ? 120 : Math.trunc(Number(rawTimeout));
+    const selPid = $("#ai-cfg-profile-select")?.value || "";
+    const creatingNew = Boolean(saveAsNew || niState.modalDraftNew || selPid === "__new__");
     const payload = {
+      save_as_new: creatingNew,
+      profile_name: $("#ai-cfg-profile-name")?.value?.trim() || "",
       provider: $("#ai-cfg-provider")?.value || "deepseek",
       protocol: $("#ai-cfg-protocol")?.value || "openai_compat",
       base_url: $("#ai-cfg-url")?.value?.trim() || "",
+      relay_url: $("#ai-cfg-relay-url")?.value?.trim() || "",
       model: $("#ai-cfg-model")?.value?.trim() || "",
       persona_style: $("#ai-cfg-style")?.value || "master_balanced",
       reasoning_effort: $("#ai-cfg-reasoning")?.value || "auto",
@@ -1708,6 +1945,9 @@
       max_tokens: Number.isFinite(parsedTokens) ? Math.max(0, Math.min(128000, parsedTokens)) : 0,
       timeout_sec: Number.isFinite(parsedTimeout) ? parsedTimeout : 120,
     };
+    if (!creatingNew && selPid) {
+      payload.profile_id = selPid;
+    }
     const typedKey = $("#ai-cfg-key")?.value?.trim() || "";
     if (typedKey) payload.api_key = typedKey;
     if ($("#ai-cfg-clear-key")?.checked) payload.clear_api_key = true;
@@ -1725,9 +1965,19 @@
     }
     modal.classList.remove("hidden");
     modal.setAttribute("aria-hidden", "false");
+    apiJson("/api/ai/codex/status")
+      .then((res) => {
+        if (res.config) {
+          niState.config = res.config;
+          updateStatusHeader();
+        }
+        renderCodexAuthPanel(res);
+      })
+      .catch(() => {});
   }
 
   function closeConfigModal() {
+    stopCodexPolling();
     const modal = $("#ai-config-modal");
     if (!modal) return;
     modal.classList.add("hidden");
@@ -2026,6 +2276,45 @@
       if (niState.abortController) niState.abortController.abort();
     });
 
+    $("#ai-profile-select")?.addEventListener("change", async (e) => {
+      const nextId = e.target.value;
+      if (!nextId) return;
+      try {
+        const saved = await apiJson("/api/ai/profiles/select", {
+          method: "POST",
+          body: JSON.stringify({ profile_id: nextId }),
+        });
+        niState.config = saved;
+        niState.style = saved.persona_style || niState.style;
+        niState.reasoningEffort = saved.reasoning_effort || "auto";
+        if ($("#ai-style-select")) $("#ai-style-select").value = niState.style;
+        updateStatusHeader();
+        showNotice(`已切换配置：${saved.profile_name || saved.model}`);
+      } catch (err) {
+        showNotice(err.message);
+        updateStatusHeader();
+      }
+    });
+
+    $("#ai-model-select")?.addEventListener("change", async (e) => {
+      const nextModel = e.target.value;
+      if (!nextModel) return;
+      try {
+        const pid = niState.config?.active_profile_id || niState.config?.profile_id || "default";
+        const saved = await apiJson("/api/ai/config", {
+          method: "POST",
+          body: JSON.stringify({ profile_id: pid, model: nextModel }),
+        });
+        niState.config = saved;
+        niState.reasoningEffort = saved.reasoning_effort || "auto";
+        updateStatusHeader();
+        showNotice(`已切换并保存模型：${saved.model}`);
+      } catch (err) {
+        showNotice(err.message);
+        updateStatusHeader();
+      }
+    });
+
     $("#ai-style-select")?.addEventListener("change", (e) => {
       niState.style = e.target.value;
     });
@@ -2124,6 +2413,67 @@
       if (e.target.id === "ai-config-modal") closeConfigModal();
     });
 
+    $("#ai-cfg-profile-select")?.addEventListener("change", async (e) => {
+      const pid = e.target.value;
+      if (pid === "__new__") {
+        populateModalFromConfig(niState.config, { isNewDraft: true });
+        return;
+      }
+      try {
+        const saved = await apiJson("/api/ai/profiles/select", {
+          method: "POST",
+          body: JSON.stringify({ profile_id: pid }),
+        });
+        niState.config = saved;
+        niState.style = saved.persona_style || niState.style;
+        niState.reasoningEffort = saved.reasoning_effort || "auto";
+        if ($("#ai-style-select")) $("#ai-style-select").value = niState.style;
+        updateStatusHeader();
+        populateModalFromConfig(saved);
+      } catch (err) {
+        showNotice(err.message);
+      }
+    });
+
+    $("#ai-cfg-new-profile-btn")?.addEventListener("click", () => {
+      populateModalFromConfig(niState.config, { isNewDraft: true });
+      const out = $("#ai-cfg-test-result");
+      if (out) {
+        out.className = "ai-cfg-result";
+        out.textContent = "已进入「新建配置」模式：选好服务商、填好密钥与模型后点「保存配置」即可独立存为新配置。";
+      }
+      $("#ai-cfg-profile-name")?.focus();
+    });
+
+    $("#ai-cfg-del-profile-btn")?.addEventListener("click", async () => {
+      const pid = $("#ai-cfg-profile-select")?.value;
+      if (!pid || pid === "__new__") return;
+      const prof = (niState.config?.profiles || []).find((p) => p.profile_id === pid);
+      if (!window.confirm(`确定删除已保存的模型配置「${prof?.profile_name || pid}」吗？`)) return;
+      const out = $("#ai-cfg-test-result");
+      try {
+        const saved = await apiJson("/api/ai/profiles/delete", {
+          method: "POST",
+          body: JSON.stringify({ profile_id: pid }),
+        });
+        niState.config = saved;
+        niState.style = saved.persona_style || niState.style;
+        niState.reasoningEffort = saved.reasoning_effort || "auto";
+        if ($("#ai-style-select")) $("#ai-style-select").value = niState.style;
+        updateStatusHeader();
+        populateModalFromConfig(saved);
+        if (out) {
+          out.className = "ai-cfg-result is-ok";
+          out.textContent = "已删除该配置组";
+        }
+      } catch (err) {
+        if (out) {
+          out.className = "ai-cfg-result is-err";
+          out.textContent = `删除失败：${err.message}`;
+        }
+      }
+    });
+
     $("#ai-cfg-provider")?.addEventListener("change", (e) => {
       const pid = e.target.value;
       const preset = (niState.config?.presets || []).find((p) => p.id === pid);
@@ -2131,13 +2481,18 @@
         if ($("#ai-cfg-protocol")) $("#ai-cfg-protocol").value = preset.protocol || "openai_compat";
         if ($("#ai-cfg-url")) $("#ai-cfg-url").value = preset.base_url || "";
         if ($("#ai-cfg-model")) $("#ai-cfg-model").value = preset.default_model || "";
+        syncModalAuthVisibility();
         refreshSuggestedModelsList(pid, preset.default_model || "");
       } else {
+        syncModalAuthVisibility();
         syncModalReasoningSelect();
       }
     });
 
-    $("#ai-cfg-protocol")?.addEventListener("change", () => syncModalReasoningSelect());
+    $("#ai-cfg-protocol")?.addEventListener("change", () => {
+      syncModalAuthVisibility();
+      syncModalReasoningSelect();
+    });
     $("#ai-cfg-model")?.addEventListener("input", () => syncModalReasoningSelect());
     $("#ai-cfg-model")?.addEventListener("change", () => syncModalReasoningSelect());
 
@@ -2148,16 +2503,150 @@
       refreshSuggestedModelsList($("#ai-cfg-provider")?.value || "", btn.dataset.aiPickModel);
     });
 
+    $("#ai-cfg-codex-device-btn")?.addEventListener("click", async () => {
+      const out = $("#ai-cfg-test-result");
+      const btn = $("#ai-cfg-codex-device-btn");
+      try {
+        if (btn) btn.disabled = true;
+        const res = await apiJson("/api/ai/codex/login", {
+          method: "POST",
+          body: JSON.stringify({
+            method: "device",
+            relay_url: $("#ai-cfg-relay-url")?.value?.trim() || "",
+          }),
+        });
+        if (res.config) {
+          niState.config = res.config;
+          updateStatusHeader();
+        }
+        renderCodexAuthPanel(res);
+      } catch (err) {
+        if (out) {
+          out.className = "ai-cfg-result is-err";
+          out.textContent = err.message;
+        }
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    });
+
+    $("#ai-cfg-codex-browser-btn")?.addEventListener("click", async () => {
+      const out = $("#ai-cfg-test-result");
+      const btn = $("#ai-cfg-codex-browser-btn");
+      try {
+        if (btn) btn.disabled = true;
+        const res = await apiJson("/api/ai/codex/login", {
+          method: "POST",
+          body: JSON.stringify({
+            method: "browser",
+            relay_url: $("#ai-cfg-relay-url")?.value?.trim() || "",
+          }),
+        });
+        if (res.config) {
+          niState.config = res.config;
+          updateStatusHeader();
+        }
+        renderCodexAuthPanel(res);
+        if (res.login?.auth_url) {
+          window.open(res.login.auth_url, "_blank", "noopener,noreferrer");
+        }
+      } catch (err) {
+        if (out) {
+          out.className = "ai-cfg-result is-err";
+          out.textContent = err.message;
+        }
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    });
+
+    $("#ai-cfg-codex-callback-btn")?.addEventListener("click", async () => {
+      const out = $("#ai-cfg-test-result");
+      const btn = $("#ai-cfg-codex-callback-btn");
+      const rawUrl = $("#ai-cfg-codex-callback-input")?.value?.trim() || "";
+      if (!rawUrl) {
+        showNotice("请先粘贴授权完成后的回调 URL");
+        return;
+      }
+      try {
+        if (btn) btn.disabled = true;
+        const res = await apiJson("/api/ai/codex/callback", {
+          method: "POST",
+          body: JSON.stringify({
+            callback_url: rawUrl,
+            relay_url: $("#ai-cfg-relay-url")?.value?.trim() || "",
+          }),
+        });
+        if (res.config) {
+          niState.config = res.config;
+          updateStatusHeader();
+        }
+        if ($("#ai-cfg-codex-callback-input")) $("#ai-cfg-codex-callback-input").value = "";
+        renderCodexAuthPanel(res);
+        if (out) {
+          out.className = "ai-cfg-result is-ok";
+          out.textContent = `OpenAI Codex 登录成功：${res.account_masked || "ChatGPT 已连接"}`;
+        }
+      } catch (err) {
+        if (out) {
+          out.className = "ai-cfg-result is-err";
+          out.textContent = err.message;
+        }
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    });
+
+    $("#ai-cfg-codex-cancel-btn")?.addEventListener("click", async () => {
+      try {
+        const res = await apiJson("/api/ai/codex/cancel", { method: "POST" });
+        if (res.config) niState.config = res.config;
+        renderCodexAuthPanel(res);
+      } catch (err) {
+        showNotice(err.message);
+      }
+    });
+
+    $("#ai-cfg-codex-logout-btn")?.addEventListener("click", async () => {
+      try {
+        const res = await apiJson("/api/ai/codex/logout", { method: "POST" });
+        if (res.config) {
+          niState.config = res.config;
+          updateStatusHeader();
+        }
+        renderCodexAuthPanel(res);
+        showNotice("已退出 OpenAI Codex 登录");
+      } catch (err) {
+        showNotice(err.message);
+      }
+    });
+
+    $("#ai-cfg-codex-pending")?.addEventListener("click", async (e) => {
+      const copyBtn = e.target.closest("[data-copy-codex-code]");
+      if (!copyBtn) return;
+      const code = copyBtn.dataset.copyCodexCode || "";
+      if (!code) return;
+      try {
+        await navigator.clipboard.writeText(code);
+        showNotice(`已复制设备码：${code}`);
+      } catch {
+        showNotice(`请手动复制设备码：${code}`);
+      }
+    });
+
     $("#ai-cfg-fetch-models")?.addEventListener("click", async () => {
       const out = $("#ai-cfg-test-result");
       const btn = $("#ai-cfg-fetch-models");
       try {
         if (btn) btn.disabled = true;
+        const payload = collectModalPayload();
         const res = await apiJson("/api/ai/models", {
           method: "POST",
-          body: JSON.stringify(collectModalPayload()),
+          body: JSON.stringify(payload),
         });
         const models = res.models || [];
+        const activePid = payload.profile_id || niState.config?.active_profile_id || "default";
+        saveCachedModelsForProfile(activePid, payload.provider, models);
         if ($("#ai-cfg-model-options")) $("#ai-cfg-model-options").innerHTML = models.map((m) => `<option value="${escapeHtml(m)}"></option>`).join("");
         if ($("#ai-cfg-model-pills")) {
           $("#ai-cfg-model-pills").innerHTML = models
@@ -2168,6 +2657,7 @@
         if (models.length && $("#ai-cfg-model") && !$("#ai-cfg-model").value.trim()) {
           $("#ai-cfg-model").value = models[0];
         }
+        renderHomepageProfileAndModelSelects(niState.config);
         if (out) {
           out.className = "ai-cfg-result is-ok";
           out.textContent = `已获取到 ${models.length} 个模型（来源：${res.source === "live" ? "接口实时拉取" : "内置预设"}）`;
@@ -2209,27 +2699,31 @@
       }
     });
 
-    $("#ai-cfg-save-btn")?.addEventListener("click", async () => {
+    const saveFromModal = async (saveAsNew = false) => {
       const out = $("#ai-cfg-test-result");
       try {
         const saved = await apiJson("/api/ai/config", {
           method: "POST",
-          body: JSON.stringify(collectModalPayload()),
+          body: JSON.stringify(collectModalPayload({ saveAsNew })),
         });
         niState.config = saved;
+        niState.modalDraftNew = false;
         niState.style = saved.persona_style || niState.style;
         niState.reasoningEffort = saved.reasoning_effort || "auto";
         if ($("#ai-style-select")) $("#ai-style-select").value = niState.style;
         updateStatusHeader();
         closeConfigModal();
-        showNotice("AI 模型配置已保存");
+        showNotice(saveAsNew ? `已另存为新配置：${saved.profile_name || saved.model}` : `已保存配置：${saved.profile_name || saved.model}`);
       } catch (err) {
         if (out) {
           out.className = "ai-cfg-result is-err";
           out.textContent = `保存失败：${err.message}`;
         }
       }
-    });
+    };
+
+    $("#ai-cfg-save-btn")?.addEventListener("click", () => saveFromModal(false));
+    $("#ai-cfg-save-as-btn")?.addEventListener("click", () => saveFromModal(true));
 
     // Cross-tab "请倪师精讲 ↗" buttons open a dedicated new consultation for current patient cleanly
     document.addEventListener("click", (e) => {

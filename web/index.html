@@ -47,6 +47,18 @@
           </div>
           <div class="ai-topbar-right">
             <span id="ai-status-pill" class="ai-status-pill is-offline">正在检测模型配置...</span>
+            <label class="filter-box ai-profile-box" title="在主页直接切换已保存的模型配置组">
+              <span>已存配置</span>
+              <select id="ai-profile-select">
+                <option value="default">默认配置</option>
+              </select>
+            </label>
+            <label class="filter-box ai-model-quick-box" title="在主页快速切换当前配置下的模型并自动保存">
+              <span>当前模型</span>
+              <select id="ai-model-select">
+                <option value="deepseek-chat">deepseek-chat</option>
+              </select>
+            </label>
             <label class="filter-box ai-style-box">
               <span>倪师风格</span>
               <select id="ai-style-select">
@@ -684,12 +696,29 @@
         <div class="ai-modal-head">
           <div>
             <h2 id="ai-modal-title">倪师 AI 大模型对接配置</h2>
-            <small>配置保存于本地 <code>data/ai_settings.json</code>，密钥绝不回传前端明文；支持云端与本地 Ollama。</small>
+            <small>可保存多组配置并在主页一键切换；本地服务版存 <code>data/ai_settings.json</code>，网页版存当前浏览器。</small>
           </div>
           <button id="ai-close-config-btn" class="quiet-button" type="button">关闭 ×</button>
         </div>
 
         <div class="ai-modal-body">
+          <div class="ai-profile-manager">
+            <div class="ai-profile-manager-row">
+              <div class="ai-form-row">
+                <label for="ai-cfg-profile-select">已保存配置组（主页可直接切换）</label>
+                <div class="ai-profile-select-wrap">
+                  <select id="ai-cfg-profile-select"></select>
+                  <button id="ai-cfg-new-profile-btn" class="ai-mini-btn" type="button">+ 新建</button>
+                  <button id="ai-cfg-del-profile-btn" class="ai-mini-btn is-danger" type="button">删除</button>
+                </div>
+              </div>
+              <div class="ai-form-row">
+                <label for="ai-cfg-profile-name">配置名称（可选，便于主页辨识）</label>
+                <input id="ai-cfg-profile-name" type="text" maxlength="48" placeholder="留空自动生成，如 DeepSeek / Codex / Gemini 识图" />
+              </div>
+            </div>
+          </div>
+
           <div class="ai-form-row">
             <label for="ai-cfg-provider">服务商预设</label>
             <select id="ai-cfg-provider"></select>
@@ -701,6 +730,7 @@
               <label for="ai-cfg-protocol">接口协议</label>
               <select id="ai-cfg-protocol">
                 <option value="openai_compat">OpenAI 兼容 (/chat/completions)</option>
+                <option value="codex_oauth">OpenAI Codex (ChatGPT OAuth 登录)</option>
                 <option value="gemini">Google Gemini 原生</option>
                 <option value="anthropic">Anthropic Claude 原生</option>
               </select>
@@ -716,7 +746,7 @@
             <input id="ai-cfg-url" type="url" placeholder="https://api.deepseek.com/v1 或 http://127.0.0.1:11434/v1" />
           </div>
 
-          <div class="ai-form-row">
+          <div id="ai-cfg-key-row" class="ai-form-row">
             <label for="ai-cfg-key">API Key</label>
             <input id="ai-cfg-key" type="password" autocomplete="off" placeholder="输入 API Key（留空保持已存密钥不变）" />
             <div class="ai-key-meta">
@@ -725,12 +755,41 @@
             </div>
           </div>
 
+          <div id="ai-cfg-codex-box" class="ai-codex-box hidden">
+            <div class="ai-codex-head">
+              <div>
+                <strong>OpenAI Codex 订阅账号登录</strong>
+                <div id="ai-cfg-codex-status" class="ai-form-note">尚未登录 ChatGPT / Codex 账号</div>
+              </div>
+              <button id="ai-cfg-codex-logout-btn" class="ai-mini-btn is-danger hidden" type="button">退出登录</button>
+            </div>
+            <div class="ai-codex-actions">
+              <button id="ai-cfg-codex-device-btn" class="primary-btn ai-codex-btn" type="button">设备码登录（推荐）</button>
+              <button id="ai-cfg-codex-browser-btn" class="dossier-button ai-codex-btn" type="button">浏览器 OAuth 登录</button>
+              <button id="ai-cfg-codex-cancel-btn" class="quiet-button ai-codex-btn hidden" type="button">取消等待</button>
+            </div>
+            <div id="ai-cfg-codex-pending" class="ai-codex-pending hidden"></div>
+            <div id="ai-cfg-codex-callback-wrap" class="ai-codex-callback hidden">
+              <label for="ai-cfg-codex-callback-input">授权后若未自动完成，请把浏览器跳转后的完整地址栏链接（http://localhost:1455/...）粘贴到此处：</label>
+              <div class="ai-codex-callback-row">
+                <input id="ai-cfg-codex-callback-input" type="url" placeholder="http://localhost:1455/auth/callback?code=...&state=..." />
+                <button id="ai-cfg-codex-callback-btn" class="dossier-button" type="button">提交回调链接</button>
+              </div>
+            </div>
+            <small id="ai-cfg-codex-env-note" class="ai-form-note"></small>
+          </div>
+
+          <div id="ai-cfg-relay-row" class="ai-form-row hidden">
+            <label for="ai-cfg-relay-url">可选：Codex CORS 中继地址（仅纯静态网页端需要）</label>
+            <input id="ai-cfg-relay-url" type="url" placeholder="本地服务版留空即可；静态网页可填自建 Worker（见 scripts/codex_relay_worker.mjs）" />
+          </div>
+
           <div class="ai-form-row">
             <div class="ai-model-head">
               <label for="ai-cfg-model">模型名称</label>
               <button id="ai-cfg-fetch-models" class="ai-mini-btn" type="button">获取模型列表</button>
             </div>
-            <input id="ai-cfg-model" type="text" list="ai-cfg-model-options" placeholder="如：deepseek-chat / gemini-2.5-flash / qwen2.5:14b" />
+            <input id="ai-cfg-model" type="text" list="ai-cfg-model-options" placeholder="如：deepseek-chat / gpt-5.3-codex / gemini-2.5-flash" />
             <datalist id="ai-cfg-model-options"></datalist>
             <div id="ai-cfg-model-pills" class="ai-chip-row"></div>
           </div>
@@ -761,6 +820,7 @@
 
         <div class="ai-modal-foot">
           <button id="ai-cfg-test-btn" class="dossier-button" type="button">测试连通</button>
+          <button id="ai-cfg-save-as-btn" class="dossier-button" type="button">另存为新配置</button>
           <button id="ai-cfg-save-btn" class="primary-btn" type="button">保存配置</button>
         </div>
       </div>
