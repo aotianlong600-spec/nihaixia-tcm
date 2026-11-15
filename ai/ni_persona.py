@@ -1,7 +1,10 @@
 """Optimized Ni Haixia ('倪师角色') persona & grounded prompting for TCM Study Brain."""
 from __future__ import annotations
 
+import base64
+import binascii
 import json
+import re
 from typing import Any
 
 
@@ -149,13 +152,183 @@ def format_grounded_context(packet: dict[str, Any], *, max_refs: int = 8) -> str
     return "\n\n".join(sections)
 
 
+_ALLOWED_IMAGE_MIMES = {"image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif"}
+_MAX_IMAGE_COUNT = 3
+_MAX_IMAGE_BYTES = 4 * 1024 * 1024
+_DATA_URL_RE = re.compile(r"^data:(image/[a-z0-9.+-]+);base64,([A-Za-z0-9+/=\s]+)$", re.IGNORECASE)
+
+
+def normalize_image_inputs(images: list[Any] | None, *, max_count: int = _MAX_IMAGE_COUNT) -> list[dict[str, str]]:
+    """Validate and normalize up to max_count compressed image data URLs (PNG/JPEG/WebP/GIF)."""
+    cleaned: list[dict[str, str]] = []
+    for idx, item in enumerate(images or []):
+        if len(cleaned) >= max_count:
+            break
+        raw_url = item.get("data_url") if isinstance(item, dict) else item
+        raw_name = item.get("name") if isinstance(item, dict) else f"病例图 {idx + 1}"
+        text = str(raw_url or "").strip()
+        if not text:
+            continue
+        m = _DATA_URL_RE.match(text)
+        if not m:
+            continue
+        mime = m.group(1).lower()
+        if mime not in _ALLOWED_IMAGE_MIMES:
+            continue
+        if mime == "image/jpg":
+            mime = "image/jpeg"
+        b64 = re.sub(r"\s+", "", m.group(2))
+        if not b64:
+            continue
+        try:
+            decoded = base64.b64decode(b64, validate=True)
+        except (binascii.Error, ValueError):
+            continue
+        if not decoded or len(decoded) > _MAX_IMAGE_BYTES:
+            continue
+        safe_name = str(raw_name or f"病例图 {len(cleaned) + 1}").strip()[:80]
+        cleaned.append(
+            {
+                "name": safe_name,
+                "mime_type": mime,
+                "b64": b64,
+                "data_url": f"data:{mime};base64,{b64}",
+            }
+        )
+    return cleaned
+
+
+def build_vision_intake_prompt(hint: str = "") -> tuple[str, str]:
+    """Return (system_prompt, user_prompt) to extract structured TCM four-diagnosis findings from images."""
+    sys_prompt = (
+        "你是专业的中医问诊病历与四诊图片结构化助手。"
+        "请仔细识读用户上传的问诊表、病历单、化验单、处方照片或舌象照片，只提取图片中真实可见的信息，严禁臆造。\n"
+        "请严格仅输出一个 JSON 对象（不要包含额外前后缀说明），字段 schema 如下：\n"
+        "{\n"
+        '  "chief_complaint": "用简短一句概括主诉与核心症状（适合直接填入问诊输入框）",\n'
+        '  "symptoms": ["尽量精炼的症状词条，如：发热、恶寒、恶风、有汗、无汗、往来寒热、口苦、咽干、胸胁苦满、胃脘胀满、食欲不振、大便干、下利清谷、口渴喜冷饮、身冷、脚冷、失眠、头晕目眩、心悸"],\n'
+        '  "negations": ["明确写明的否定项，如：不恶寒、无大便干结、无发热"],\n'
+        '  "pulses": ["脉象词，如：浮、沉、紧、缓、弦、滑、数、迟、细、微弱、结代"],\n'
+        '  "tongues": ["舌象/唇象，如：舌淡红苔薄白、舌质红、舌红少苔、舌暗有瘀点、舌淡胖齿痕、舌苔白滑、苔黄腻、唇干"],\n'
+        '  "abdomen": ["腹诊所见，如：胸腹动悸、心下痞硬、腹痛喜按"],\n'
+        '  "eye": ["眼诊或小儿指纹所见"],\n'
+        '  "tender": ["压痛点，如：关元穴压痛"],\n'
+        '  "medical_notes": {\n'
+        '    "present": "起病时间、诱因、加重缓解规律等现病史",\n'
+        '    "past": "既往史、正在服用的西药（降压/降糖/抗凝等）",\n'
+        '    "allergy": "过敏史、经期或妊娠说明",\n'
+        '    "exam": "辅助检查结果、二便睡眠概括"\n'
+        "  },\n"
+        '  "raw_text": "逐条摘录图片中的关键文字或客观所见（如实写明不清楚/遮挡处）",\n'
+        '  "warnings": ["如有反光/白平衡偏色（特别是舌象照片）或字迹模糊，在此简短提示人工复核"]\n'
+        "}"
+    )
+    user_hint = (hint or "").strip()
+    user_text = "请识别以上图片中的中医四诊信息、主诉症状、否定排除项与病历补充，严格返回 JSON。"
+    if user_hint:
+        user_text += f"\n用户补充说明：{user_hint[:400]}"
+    return sys_prompt, user_text
+
+
+def _dedupe_str_list(items: Any, *, max_items: int = 16, max_len: int = 36) -> list[str]:
+    if isinstance(items, str):
+        items = [s for s in re.split(r"[,，、;；\n]+", items) if s.strip()]
+    if not isinstance(items, list):
+        return []
+    out: list[str] = []
+    seen: set[str] = set()
+    for x in items:
+        s = str(x or "").strip()[:max_len]
+        if not s or s in seen:
+            continue
+        seen.add(s)
+        out.append(s)
+        if len(out) >= max_items:
+            break
+    return out
+
+
+def parse_vision_intake_response(raw_reply: str, *, image_count: int = 1) -> dict[str, Any]:
+    """Extract normalized intake JSON object from multimodal model output with plain-text fallback."""
+    text = str(raw_reply or "").strip()
+    parsed: dict[str, Any] | None = None
+
+    fenced = re.search(r"```(?:json)?\s*(\{[\s\S]*?\})\s*```", text, flags=re.IGNORECASE)
+    candidates = [fenced.group(1)] if fenced else []
+    start = text.find("{")
+    end = text.rfind("}")
+    if start >= 0 and end > start:
+        candidates.append(text[start : end + 1])
+
+    for cand in candidates:
+        try:
+            obj = json.loads(cand)
+            if isinstance(obj, dict):
+                parsed = obj
+                break
+        except json.JSONDecodeError:
+            continue
+
+    if not parsed:
+        clean_plain = text[:800].strip()
+        return {
+            "symptoms": [],
+            "negations": [],
+            "pulses": [],
+            "tongues": [],
+            "abdomen": [],
+            "eye": [],
+            "tender": [],
+            "medical_notes": {"present": clean_plain[:240], "past": "", "allergy": "", "exam": ""},
+            "chief_complaint": clean_plain[:180],
+            "raw_text": clean_plain,
+            "warnings": ["模型未返回标准 JSON，已将识读全文填入主诉/病历补充，请核对后补充标签。"],
+            "image_count": image_count,
+        }
+
+    notes_raw = parsed.get("medical_notes") if isinstance(parsed.get("medical_notes"), dict) else {}
+    medical_notes = {
+        "present": str(notes_raw.get("present") or "").strip()[:240],
+        "past": str(notes_raw.get("past") or "").strip()[:240],
+        "allergy": str(notes_raw.get("allergy") or "").strip()[:200],
+        "exam": str(notes_raw.get("exam") or "").strip()[:240],
+    }
+    symptoms = _dedupe_str_list(parsed.get("symptoms"))
+    negations = _dedupe_str_list(parsed.get("negations"))
+    pulses = _dedupe_str_list(parsed.get("pulses"))
+    tongues = _dedupe_str_list(parsed.get("tongues"))
+    abdomen = _dedupe_str_list(parsed.get("abdomen"))
+    eye = _dedupe_str_list(parsed.get("eye"))
+    tender = _dedupe_str_list(parsed.get("tender"))
+    chief = str(parsed.get("chief_complaint") or "").strip()[:260]
+    raw_text = str(parsed.get("raw_text") or "").strip()[:1000]
+    warnings = _dedupe_str_list(parsed.get("warnings"), max_items=6, max_len=120)
+    if not chief and symptoms:
+        chief = " ".join(symptoms[:6])
+    return {
+        "symptoms": symptoms,
+        "negations": negations,
+        "pulses": pulses,
+        "tongues": tongues,
+        "abdomen": abdomen,
+        "eye": eye,
+        "tender": tender,
+        "medical_notes": medical_notes,
+        "chief_complaint": chief,
+        "raw_text": raw_text,
+        "warnings": warnings,
+        "image_count": image_count,
+    }
+
+
 def build_chat_messages(
     user_query: str,
     packet: dict[str, Any],
     history: list[dict[str, str]] | None = None,
-) -> list[dict[str, str]]:
+    images: list[Any] | None = None,
+) -> list[dict[str, Any]]:
     """Build bounded conversation history plus fresh grounded context for the latest turn."""
-    messages: list[dict[str, str]] = []
+    messages: list[dict[str, Any]] = []
     for item in (history or [])[-8:]:
         role = item.get("role", "")
         content = str(item.get("content") or "").strip()
@@ -168,5 +341,9 @@ def build_chat_messages(
         f"{grounded_block}\n\n"
         f"---\n【用户本次提问 / 病情描述】\n{user_query.strip()}"
     )
-    messages.append({"role": "user", "content": turn_prompt})
+    user_msg: dict[str, Any] = {"role": "user", "content": turn_prompt}
+    norm_imgs = normalize_image_inputs(images)
+    if norm_imgs:
+        user_msg["images"] = norm_imgs
+    messages.append(user_msg)
     return messages

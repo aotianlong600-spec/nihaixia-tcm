@@ -48,6 +48,7 @@ class AIConfigPayload(BaseModel):
     api_key: str | None = None
     clear_api_key: bool = False
     persona_style: str | None = None
+    reasoning_effort: str | None = None
     temperature: float | None = None
     max_tokens: int | None = None
     timeout_sec: int | None = None
@@ -63,9 +64,17 @@ class AIChatRequest(BaseModel):
     pulse: str = Field(default="", max_length=240)
     tongue: str = Field(default="", max_length=240)
     style: str = Field(default="master_balanced", max_length=48)
+    reasoning_effort: str | None = Field(default=None, max_length=24)
     offline: bool = False
     history: list[ChatMessageItem] = Field(default_factory=list)
+    images: list[dict[str, Any]] = Field(default_factory=list, max_length=3)
     entity_focus: dict[str, Any] | None = None
+    config_override: AIConfigPayload | None = None
+
+
+class AIVisionIntakeRequest(BaseModel):
+    images: list[dict[str, Any]] = Field(..., min_length=1, max_length=3)
+    hint: str = Field(default="", max_length=400)
     config_override: AIConfigPayload | None = None
 
 
@@ -799,11 +808,31 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
                 sqlite_conn=conn,
             )
 
-    @app.post("/api/ai/chat")
-    async def api_ai_chat(request: Request, payload: AIChatRequest):
+    def _resolve_chat_cfg(payload: AIChatRequest) -> dict[str, Any]:
+        override = payload.config_override.model_dump(exclude_none=True) if payload.config_override else {}
+        if payload.reasoning_effort:
+            override["reasoning_effort"] = payload.reasoning_effort
+        return config_store.resolve_runtime_config(data, override or None)
+
+    @app.post("/api/ai/vision-intake")
+    async def api_ai_vision_intake(request: Request, payload: AIVisionIntakeRequest):
         _assert_ai_origin(request)
         override = payload.config_override.model_dump(exclude_none=True) if payload.config_override else None
         cfg = config_store.resolve_runtime_config(data, override)
+        if not cfg.get("ready"):
+            raise HTTPException(
+                status_code=400,
+                detail="识图功能需要先在「模型设置」中配置支持视觉的大模型与 API Key（如 GPT-4o / Gemini / Claude / Qwen-VL / DeepSeek 多模态版）；免 Key 离线模式请直接点选上方四诊标签。",
+            )
+        try:
+            return await llm_client.vision_extract_intake(cfg, payload.images, hint=payload.hint)
+        except llm_client.LLMClientError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+
+    @app.post("/api/ai/chat")
+    async def api_ai_chat(request: Request, payload: AIChatRequest):
+        _assert_ai_origin(request)
+        cfg = _resolve_chat_cfg(payload)
         style = payload.style or cfg.get("persona_style", "master_balanced")
         with closing(connect(data)) as conn:
             packet, sys_prompt, messages = ni_consult.prepare_llm_request(
@@ -813,6 +842,7 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
                 style=style,
                 history=[m.model_dump() for m in payload.history],
                 entity_focus=payload.entity_focus,
+                images=payload.images,
                 sqlite_conn=conn,
             )
 
@@ -850,8 +880,7 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
     @app.post("/api/ai/chat/stream")
     async def api_ai_chat_stream(request: Request, payload: AIChatRequest):
         _assert_ai_origin(request)
-        override = payload.config_override.model_dump(exclude_none=True) if payload.config_override else None
-        cfg = config_store.resolve_runtime_config(data, override)
+        cfg = _resolve_chat_cfg(payload)
         style = payload.style or cfg.get("persona_style", "master_balanced")
         with closing(connect(data)) as conn:
             packet, sys_prompt, messages = ni_consult.prepare_llm_request(
@@ -861,6 +890,7 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
                 style=style,
                 history=[m.model_dump() for m in payload.history],
                 entity_focus=payload.entity_focus,
+                images=payload.images,
                 sqlite_conn=conn,
             )
 

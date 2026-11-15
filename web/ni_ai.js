@@ -155,6 +155,7 @@
     booted: false,
     config: null,
     style: "master_balanced",
+    reasoningEffort: "auto",
     offlineOnly: false,
     activeDim: "symptoms",
     evTab: "rx",
@@ -168,6 +169,9 @@
     activeSessionId: null,
 
     intake: emptyIntake(),
+    pendingImages: [],
+    visionBusy: false,
+    visionFeedback: null,
     pinnedEntity: null,
     turns: [],
     latestPacket: null,
@@ -175,6 +179,70 @@
 
     abortController: null,
   };
+
+  const MAX_PENDING_IMAGES = 3;
+
+  function evaluateReasoningProfile(provider, protocol, model) {
+    const cfg = niState.config || {};
+    const rules = Array.isArray(cfg.reasoning_rules) ? cfg.reasoning_rules : [];
+    const prov = String(provider || cfg.provider || "").trim().toLowerCase();
+    const proto = String(protocol || cfg.protocol || "openai_compat").trim().toLowerCase();
+    const mod = String(model || "").trim().toLowerCase();
+    for (const rule of rules) {
+      if (Array.isArray(rule.protocols) && rule.protocols.length && !rule.protocols.includes(proto)) continue;
+      try {
+        const exclRx = rule.exclude_regex ? new RegExp(rule.exclude_regex, "i") : null;
+        if (exclRx && mod && exclRx.test(mod)) continue;
+        const modRx = rule.model_regex ? new RegExp(rule.model_regex, "i") : null;
+        const provList = Array.isArray(rule.providers) ? rule.providers : [];
+        if (rule.match_either_provider_or_model) {
+          if (!(provList.includes(prov) || (modRx && mod && modRx.test(mod)))) continue;
+        } else {
+          if (provList.length && !provList.includes(prov)) continue;
+          if (modRx && !(mod && modRx.test(mod))) continue;
+        }
+        return {
+          id: rule.id,
+          efforts: Array.isArray(rule.efforts) && rule.efforts.length ? rule.efforts : ["auto"],
+          supports_reasoning: Boolean(rule.supports_reasoning),
+          protocol_mode: rule.protocol_mode || "openai_reasoning",
+          hint: rule.hint || "",
+        };
+      } catch {
+        continue;
+      }
+    }
+    return cfg.reasoning_profile || {
+      id: "generic",
+      efforts: ["auto", "none", "minimal", "low", "medium", "high", "xhigh"],
+      supports_reasoning: true,
+      protocol_mode: "openai_reasoning",
+      hint: "选「自动」按模型默认；选具体档位将透传对应思考参数。",
+    };
+  }
+
+  function getReasoningTierLabel(effortId) {
+    const tiers = niState.config?.reasoning_tiers || [];
+    const hit = tiers.find((t) => t.id === effortId);
+    return hit ? hit.label : effortId;
+  }
+
+  function syncReasoningSelect(selectEl, hintEl, provider, protocol, model, desiredValue) {
+    const profile = evaluateReasoningProfile(provider, protocol, model);
+    const efforts = profile.efforts || ["auto"];
+    if (selectEl) {
+      selectEl.innerHTML = efforts
+        .map((id) => `<option value="${escapeHtml(id)}">${escapeHtml(getReasoningTierLabel(id))}</option>`)
+        .join("");
+      const nextVal = efforts.includes(desiredValue) ? desiredValue : "auto";
+      selectEl.value = nextVal;
+      selectEl.disabled = efforts.length <= 1;
+    }
+    if (hintEl) {
+      hintEl.textContent = profile.hint || "";
+    }
+    return { profile, selected: efforts.includes(desiredValue) ? desiredValue : "auto" };
+  }
 
   function escapeHtml(text) {
     return String(text ?? "")
@@ -362,6 +430,20 @@
     if (hdrBadge) {
       hdrBadge.textContent = cfg.ready && !niState.offlineOnly ? `AI: ${cfg.model}` : "AI: 离线直出就绪";
     }
+    const synced = syncReasoningSelect(
+      $("#ai-effort-select"),
+      null,
+      cfg.provider,
+      cfg.protocol,
+      cfg.model,
+      niState.reasoningEffort || cfg.reasoning_effort || "auto"
+    );
+    niState.reasoningEffort = synced.selected;
+    if ($("#ai-effort-select") && (niState.offlineOnly || !synced.profile.supports_reasoning)) {
+      $("#ai-effort-select").title = niState.offlineOnly
+        ? "离线直出模式下不调用大模型"
+        : synced.profile.hint || "当前模型无需调整思考档位";
+    }
   }
 
   function setMobilePane(pane) {
@@ -488,6 +570,8 @@
     else localStorage.removeItem(STORAGE_SESSION_KEY);
 
     niState.intake = cloneIntake(ses?.intake);
+    niState.pendingImages = [];
+    niState.visionFeedback = null;
     niState.pinnedEntity = ses?.pinned_entity || null;
     niState.turns = Array.isArray(ses?.turns) ? ses.turns : [];
     niState.latestPacket = ses?.latest_packet || null;
@@ -502,6 +586,7 @@
     renderDimSelector();
     renderSelectedBoard();
     renderPinnedEntity();
+    renderVisionStrip();
     renderConversation();
   }
 
@@ -604,6 +689,7 @@
             provider: t.provider,
             model: t.model,
             cited: t.cited,
+            imagesMeta: Array.isArray(t.imagesMeta) ? t.imagesMeta : undefined,
             error: t.error,
           })),
           latest_packet: currentPacket(),
@@ -1018,6 +1104,7 @@
             t.pulse ? `脉：${t.pulse}` : "",
             t.tongue ? `舌：${t.tongue}` : "",
             t.pinnedEntity ? `精讲：${t.pinnedEntity.name}` : "",
+            Array.isArray(t.imagesMeta) && t.imagesMeta.length ? `附图：${t.imagesMeta.map((x) => x.name).join("、")}` : "",
           ].filter(Boolean);
           return `
             <article class="ai-turn is-user" data-turn-id="${escapeHtml(t.id)}">
@@ -1145,6 +1232,209 @@
     }
   }
 
+  function renderVisionStrip() {
+    const listEl = $("#ai-image-preview-list");
+    const extractBtn = $("#ai-ocr-extract-btn");
+    const clearBtn = $("#ai-vision-clear-btn");
+    const hintEl = $("#ai-vision-hint");
+    const fbEl = $("#ai-vision-feedback");
+    const imgs = niState.pendingImages || [];
+
+    if (listEl) {
+      if (!imgs.length) {
+        listEl.classList.add("hidden");
+        listEl.innerHTML = "";
+      } else {
+        listEl.classList.remove("hidden");
+        listEl.innerHTML = imgs
+          .map(
+            (img) => `
+            <div class="ai-img-thumb">
+              <img src="${escapeHtml(img.data_url)}" alt="${escapeHtml(img.name)}" />
+              <div class="ai-img-thumb-meta">
+                <span>${escapeHtml(img.name)}</span>
+                <small>${img.sizeKb} KB</small>
+              </div>
+              <button type="button" class="ai-img-rm" data-ai-rm-img="${escapeHtml(img.id)}" title="移除此图片">×</button>
+            </div>`
+          )
+          .join("");
+      }
+    }
+    if (extractBtn) {
+      extractBtn.classList.toggle("hidden", !imgs.length);
+      extractBtn.disabled = niState.visionBusy;
+      extractBtn.textContent = niState.visionBusy ? "正在识图读取四诊..." : "✨ 识图填入四诊";
+    }
+    if (clearBtn) {
+      clearBtn.classList.toggle("hidden", !imgs.length);
+      clearBtn.disabled = niState.visionBusy;
+    }
+    if (hintEl) {
+      hintEl.classList.toggle("hidden", imgs.length > 0);
+    }
+    if (fbEl) {
+      if (!niState.visionFeedback) {
+        fbEl.classList.add("hidden");
+        fbEl.innerHTML = "";
+      } else {
+        fbEl.className = `ai-vision-feedback ${niState.visionFeedback.kind === "err" ? "is-err" : "is-ok"}`;
+        fbEl.textContent = niState.visionFeedback.text;
+      }
+    }
+  }
+
+  async function compressImageFile(file) {
+    if (!file || !String(file.type || "").startsWith("image/")) {
+      throw new Error("请选择 JPG / PNG / WebP / GIF 格式的图片");
+    }
+    if (file.size > 20 * 1024 * 1024) {
+      throw new Error(`图片「${file.name || "未命名"}」超过 20MB，请裁剪后再上传`);
+    }
+    const rawDataUrl = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result || ""));
+      reader.onerror = () => reject(new Error("读取图片失败"));
+      reader.readAsDataURL(file);
+    });
+    const imgObj = await new Promise((resolve, reject) => {
+      const im = new Image();
+      im.onload = () => resolve(im);
+      im.onerror = () => reject(new Error("图片解码失败，请更换常用 JPG / PNG 图片"));
+      im.src = rawDataUrl;
+    });
+    const w = imgObj.naturalWidth || imgObj.width || 1;
+    const h = imgObj.naturalHeight || imgObj.height || 1;
+    const maxSide = 1400;
+    const scale = Math.min(1, maxSide / Math.max(w, h));
+    const dstW = Math.max(1, Math.round(w * scale));
+    const dstH = Math.max(1, Math.round(h * scale));
+
+    const canvas = document.createElement("canvas");
+    canvas.width = dstW;
+    canvas.height = dstH;
+    const ctx = canvas.getContext("2d", { alpha: false });
+    if (!ctx) throw new Error("浏览器画布压缩初始化失败");
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, dstW, dstH);
+    ctx.drawImage(imgObj, 0, 0, dstW, dstH);
+
+    let mimeType = "image/jpeg";
+    let dataUrl = canvas.toDataURL("image/jpeg", 0.84);
+    if (file.type === "image/png" && rawDataUrl.length < 480 * 1024 && scale === 1) {
+      mimeType = "image/png";
+      dataUrl = rawDataUrl;
+    }
+    const approxBytes = Math.round((dataUrl.length * 3) / 4);
+    return {
+      id: `img-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      name: String(file.name || "粘贴图片").slice(0, 48),
+      mime_type: mimeType,
+      data_url: dataUrl,
+      sizeKb: Math.max(1, Math.round(approxBytes / 1024)),
+    };
+  }
+
+  async function addImageFiles(files) {
+    if (!files.length) return;
+    niState.visionFeedback = null;
+    for (const file of files) {
+      if ((niState.pendingImages || []).length >= MAX_PENDING_IMAGES) {
+        showNotice(`每次最多附带 ${MAX_PENDING_IMAGES} 张图片`);
+        break;
+      }
+      try {
+        const compressed = await compressImageFile(file);
+        niState.pendingImages.push(compressed);
+      } catch (err) {
+        niState.visionFeedback = { kind: "err", text: err.message || "图片处理失败" };
+      }
+    }
+    renderVisionStrip();
+  }
+
+  function mergeExtractedIntake(extracted) {
+    if (!extracted || typeof extracted !== "object") return 0;
+    let addedCount = 0;
+    const catKeys = ["symptoms", "negations", "pulses", "tongues", "abdomen", "eye", "tender"];
+    for (const cat of catKeys) {
+      const targetArr = niState.intake[cat];
+      const incoming = Array.isArray(extracted[cat]) ? extracted[cat] : [];
+      for (const rawItem of incoming) {
+        const val = String(rawItem || "").trim();
+        if (val && !targetArr.includes(val)) {
+          targetArr.push(val);
+          addedCount += 1;
+        }
+      }
+    }
+    const mNotes = extracted.medical_notes || {};
+    for (const k of ["present", "past", "allergy", "exam"]) {
+      const incoming = String(mNotes[k] || "").trim();
+      if (!incoming) continue;
+      const cur = String(niState.intake.notes[k] || "").trim();
+      if (!cur) {
+        niState.intake.notes[k] = incoming;
+        addedCount += 1;
+      } else if (!cur.includes(incoming)) {
+        niState.intake.notes[k] = `${cur}；${incoming}`.slice(0, 260);
+        addedCount += 1;
+      }
+    }
+    const queryEl = $("#ai-query-input");
+    const chief = String(extracted.chief_complaint || "").trim();
+    if (queryEl && chief) {
+      const curQ = queryEl.value.trim();
+      if (!curQ) queryEl.value = chief;
+      else if (!curQ.includes(chief)) queryEl.value = `${curQ} ${chief}`;
+      niState.intake.query = queryEl.value.trim();
+    }
+    return addedCount;
+  }
+
+  async function extractIntakeFromImages() {
+    if (niState.visionBusy) return;
+    if (!niState.pendingImages.length) {
+      showNotice("请先上传或粘贴病例/问诊表图片");
+      return;
+    }
+    if (niState.offlineOnly || !niState.config?.ready) {
+      niState.visionFeedback = {
+        kind: "err",
+        text: "识图填入四诊需要开启在线多模态模型（请关闭「离线直出」并在模型设置中选用支持看图的模型，如 GPT-4o / Gemini / Claude / Qwen-VL / DeepSeek 多模态版）。",
+      };
+      renderVisionStrip();
+      return;
+    }
+    niState.visionBusy = true;
+    niState.visionFeedback = null;
+    renderVisionStrip();
+    try {
+      const res = await apiJson("/api/ai/vision-intake", {
+        method: "POST",
+        body: JSON.stringify({
+          images: niState.pendingImages.map((img) => ({ name: img.name, data_url: img.data_url })),
+          hint: $("#ai-query-input")?.value?.trim() || "",
+        }),
+      });
+      const added = mergeExtractedIntake(res);
+      renderDimSelector();
+      renderSelectedBoard();
+      const warnText = Array.isArray(res.warnings) && res.warnings.length ? ` 提示：${res.warnings.join("；")}` : "";
+      const summaryPreview = res.chief_complaint || res.raw_text || "已完成图像读取";
+      niState.visionFeedback = {
+        kind: "ok",
+        text: `已识图写入 ${added} 项四诊信息（模型：${res.model || niState.config?.model || ""}）。摘要：${String(summaryPreview).slice(0, 90)}。请核对上方四诊标签后点击「倪师辩证出方」。${warnText}`,
+      };
+      showNotice(`识图完成：已写入 ${added} 项四诊与主诉`);
+    } catch (err) {
+      niState.visionFeedback = { kind: "err", text: err.message || "识图失败，请核对模型是否支持视觉输入" };
+    } finally {
+      niState.visionBusy = false;
+      renderVisionStrip();
+    }
+  }
+
   async function submitConsultation(customQuery = null) {
     if (niState.abortController) {
       showNotice("当前推演正在进行中，可点击停止后再发下一问");
@@ -1157,11 +1447,15 @@
       niState.intake.query = typedText;
     }
 
+    const attachedImgs = customQuery === null ? [...(niState.pendingImages || [])] : [];
     const isFollowUp = customQuery !== null || (niState.turns.length > 0 && Boolean(typedText));
-    const query = isFollowUp ? typedText : buildCompositeQuery(typedText);
+    let query = isFollowUp ? typedText : buildCompositeQuery(typedText);
+    if (!query && attachedImgs.length) {
+      query = "请识读所附病例/问诊表图片中的四诊信息，并给出倪师经方辨证与参考处方。";
+    }
 
     if (!query) {
-      showNotice("请点选上方四诊标签或输入症状主诉");
+      showNotice("请点选上方四诊标签、上传病历图片或输入症状主诉");
       inputEl?.focus();
       return;
     }
@@ -1183,6 +1477,7 @@
       pulse,
       tongue,
       pinnedEntity: pinned,
+      imagesMeta: attachedImgs.length ? attachedImgs.map((x) => ({ name: x.name })) : undefined,
     };
     const asstTurn = {
       id: `a-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
@@ -1203,6 +1498,11 @@
     if (customQuery === null && inputEl) {
       inputEl.value = "";
     }
+    if (attachedImgs.length) {
+      niState.pendingImages = [];
+      niState.visionFeedback = null;
+      renderVisionStrip();
+    }
 
     renderConversation();
     const ac = new AbortController();
@@ -1219,8 +1519,10 @@
           pulse,
           tongue,
           style: niState.style,
+          reasoning_effort: niState.reasoningEffort,
           offline: niState.offlineOnly,
           history,
+          images: attachedImgs.map((x) => ({ name: x.name, data_url: x.data_url })),
           entity_focus: pinned
             ? {
                 kind: pinned.kind,
@@ -1346,8 +1648,8 @@
     if ($("#ai-cfg-clear-key")) $("#ai-cfg-clear-key").checked = false;
     if ($("#ai-cfg-style")) $("#ai-cfg-style").value = cfg.persona_style || "master_balanced";
     if ($("#ai-cfg-temp")) $("#ai-cfg-temp").value = String(cfg.temperature ?? 0.45);
-    if ($("#ai-cfg-tokens")) $("#ai-cfg-tokens").value = String(cfg.max_tokens ?? 2400);
-    if ($("#ai-cfg-timeout")) $("#ai-cfg-timeout").value = String(cfg.timeout_sec ?? 90);
+    if ($("#ai-cfg-tokens")) $("#ai-cfg-tokens").value = String(cfg.max_tokens ?? 0);
+    if ($("#ai-cfg-timeout")) $("#ai-cfg-timeout").value = String(cfg.timeout_sec ?? 120);
     const keyHint = $("#ai-cfg-key-hint");
     if (keyHint) {
       keyHint.textContent =
@@ -1358,6 +1660,15 @@
           : "尚未设置 API Key（不配也可免 Key 离线出方）";
     }
     refreshSuggestedModelsList(cfg.provider, cfg.model);
+    syncModalReasoningSelect(cfg.reasoning_effort || niState.reasoningEffort || "auto");
+  }
+
+  function syncModalReasoningSelect(desiredValue = null) {
+    const prov = $("#ai-cfg-provider")?.value || "deepseek";
+    const proto = $("#ai-cfg-protocol")?.value || "openai_compat";
+    const model = $("#ai-cfg-model")?.value || "";
+    const cur = desiredValue || $("#ai-cfg-reasoning")?.value || niState.config?.reasoning_effort || "auto";
+    syncReasoningSelect($("#ai-cfg-reasoning"), $("#ai-cfg-reasoning-hint"), prov, proto, model, cur);
   }
 
   function refreshSuggestedModelsList(providerId, currentModel = "") {
@@ -1376,18 +1687,26 @@
     if ($("#ai-cfg-provider-note")) {
       $("#ai-cfg-provider-note").textContent = preset?.note || "";
     }
+    syncModalReasoningSelect();
   }
 
   function collectModalPayload() {
+    const rawTemp = $("#ai-cfg-temp")?.value;
+    const rawTokens = $("#ai-cfg-tokens")?.value;
+    const rawTimeout = $("#ai-cfg-timeout")?.value;
+    const parsedTemp = rawTemp === "" || rawTemp === undefined ? 0.45 : Number(rawTemp);
+    const parsedTokens = rawTokens === "" || rawTokens === undefined ? 0 : Math.trunc(Number(rawTokens));
+    const parsedTimeout = rawTimeout === "" || rawTimeout === undefined ? 120 : Math.trunc(Number(rawTimeout));
     const payload = {
       provider: $("#ai-cfg-provider")?.value || "deepseek",
       protocol: $("#ai-cfg-protocol")?.value || "openai_compat",
       base_url: $("#ai-cfg-url")?.value?.trim() || "",
       model: $("#ai-cfg-model")?.value?.trim() || "",
       persona_style: $("#ai-cfg-style")?.value || "master_balanced",
-      temperature: Number($("#ai-cfg-temp")?.value || 0.45),
-      max_tokens: Number($("#ai-cfg-tokens")?.value || 2400),
-      timeout_sec: Number($("#ai-cfg-timeout")?.value || 90),
+      reasoning_effort: $("#ai-cfg-reasoning")?.value || "auto",
+      temperature: Number.isFinite(parsedTemp) ? parsedTemp : 0.45,
+      max_tokens: Number.isFinite(parsedTokens) ? Math.max(0, Math.min(128000, parsedTokens)) : 0,
+      timeout_sec: Number.isFinite(parsedTimeout) ? parsedTimeout : 120,
     };
     const typedKey = $("#ai-cfg-key")?.value?.trim() || "";
     if (typedKey) payload.api_key = typedKey;
@@ -1419,6 +1738,7 @@
     const cfg = await apiJson("/api/ai/config");
     niState.config = cfg;
     niState.style = cfg.persona_style || "master_balanced";
+    niState.reasoningEffort = cfg.reasoning_effort || "auto";
 
     const styleSel = $("#ai-style-select");
     if (styleSel && cfg.styles?.length) {
@@ -1598,10 +1918,44 @@
 
     $("#ai-clear-intake-btn")?.addEventListener("click", () => {
       niState.intake = emptyIntake();
+      niState.pendingImages = [];
+      niState.visionFeedback = null;
       if ($("#ai-query-input")) $("#ai-query-input").value = "";
       renderDimSelector();
       renderSelectedBoard();
+      renderVisionStrip();
     });
+
+    $("#ai-upload-image-btn")?.addEventListener("click", () => $("#ai-image-input")?.click());
+    $("#ai-image-input")?.addEventListener("change", (e) => {
+      const files = Array.from(e.target.files || []);
+      e.target.value = "";
+      addImageFiles(files);
+    });
+    $("#ai-query-input")?.addEventListener("paste", (e) => {
+      const items = Array.from(e.clipboardData?.items || []);
+      const imgFiles = items
+        .filter((it) => it.kind === "file" && String(it.type || "").startsWith("image/"))
+        .map((it) => it.getAsFile())
+        .filter(Boolean);
+      if (!imgFiles.length) return;
+      e.preventDefault();
+      addImageFiles(imgFiles);
+    });
+    $("#ai-image-preview-list")?.addEventListener("click", (e) => {
+      const rmBtn = e.target.closest("[data-ai-rm-img]");
+      if (!rmBtn) return;
+      const rmId = rmBtn.dataset.aiRmImg;
+      niState.pendingImages = (niState.pendingImages || []).filter((x) => x.id !== rmId);
+      if (!niState.pendingImages.length) niState.visionFeedback = null;
+      renderVisionStrip();
+    });
+    $("#ai-vision-clear-btn")?.addEventListener("click", () => {
+      niState.pendingImages = [];
+      niState.visionFeedback = null;
+      renderVisionStrip();
+    });
+    $("#ai-ocr-extract-btn")?.addEventListener("click", extractIntakeFromImages);
 
     $("#ai-dim-body")?.addEventListener("click", (e) => {
       const presetBtn = e.target.closest("[data-ai-preset]");
@@ -1674,6 +2028,22 @@
 
     $("#ai-style-select")?.addEventListener("change", (e) => {
       niState.style = e.target.value;
+    });
+
+    $("#ai-effort-select")?.addEventListener("change", (e) => {
+      const nextEffort = e.target.value || "auto";
+      niState.reasoningEffort = nextEffort;
+      if (niState.config) niState.config.reasoning_effort = nextEffort;
+      apiJson("/api/ai/config", {
+        method: "POST",
+        body: JSON.stringify({ reasoning_effort: nextEffort }),
+      })
+        .then((saved) => {
+          niState.config = saved;
+          niState.reasoningEffort = saved.reasoning_effort || nextEffort;
+          updateStatusHeader();
+        })
+        .catch(() => {});
     });
 
     $("#ai-offline-toggle")?.addEventListener("change", (e) => {
@@ -1762,8 +2132,14 @@
         if ($("#ai-cfg-url")) $("#ai-cfg-url").value = preset.base_url || "";
         if ($("#ai-cfg-model")) $("#ai-cfg-model").value = preset.default_model || "";
         refreshSuggestedModelsList(pid, preset.default_model || "");
+      } else {
+        syncModalReasoningSelect();
       }
     });
+
+    $("#ai-cfg-protocol")?.addEventListener("change", () => syncModalReasoningSelect());
+    $("#ai-cfg-model")?.addEventListener("input", () => syncModalReasoningSelect());
+    $("#ai-cfg-model")?.addEventListener("change", () => syncModalReasoningSelect());
 
     $("#ai-cfg-model-pills")?.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-ai-pick-model]");
@@ -1842,10 +2218,11 @@
         });
         niState.config = saved;
         niState.style = saved.persona_style || niState.style;
+        niState.reasoningEffort = saved.reasoning_effort || "auto";
         if ($("#ai-style-select")) $("#ai-style-select").value = niState.style;
         updateStatusHeader();
         closeConfigModal();
-        showNotice("AI 模型配置已保存至本地 data/ai_settings.json");
+        showNotice("AI 模型配置已保存");
       } catch (err) {
         if (out) {
           out.className = "ai-cfg-result is-err";
@@ -1877,6 +2254,7 @@
     renderDimSelector();
     renderSelectedBoard();
     renderPinnedEntity();
+    renderVisionStrip();
     renderConversation();
 
     try {

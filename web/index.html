@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>倪氏经方 · AI 辩证论治与中医学习大脑</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/style.css?v=ni-ai-v3">
+    <link rel="stylesheet" href="/style.css?v=ni-ai-v4">
   </head>
   <body>
     <header class="app-header">
@@ -53,6 +53,12 @@
                 <option value="master_balanced">倪师亲授·处方实战版（推荐）</option>
                 <option value="colloquial_lecture">原汁课堂·口述版</option>
                 <option value="academic_strict">严谨考据·五层溯源版</option>
+              </select>
+            </label>
+            <label class="filter-box ai-effort-box" title="根据当前所选模型自动匹配可用思考/推理档位">
+              <span>思考强度</span>
+              <select id="ai-effort-select">
+                <option value="auto">自动（模型默认）</option>
               </select>
             </label>
             <label class="ai-offline-check" title="勾选后不走外部大模型，瞬间由中医大脑实证规则直接输出经方处方">
@@ -149,6 +155,18 @@
 
               <div id="ai-selected-board" class="ai-selected-board"></div>
               <div id="ai-pinned-box" class="ai-pinned-box hidden"></div>
+
+              <div id="ai-vision-strip" class="ai-vision-strip">
+                <div class="ai-vision-toolbar">
+                  <input id="ai-image-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif" multiple hidden />
+                  <button id="ai-upload-image-btn" class="ai-mini-btn" type="button" title="上传病例照片、问诊表或舌象照片（也支持在下方输入框直接 Ctrl+V 粘贴图片）">📷 上传病例/问诊表</button>
+                  <button id="ai-ocr-extract-btn" class="ai-mini-btn is-accent hidden" type="button">✨ 识图填入四诊</button>
+                  <button id="ai-vision-clear-btn" class="ai-mini-btn hidden" type="button">清空图片</button>
+                  <span id="ai-vision-hint" class="ai-vision-hint">支持选图/截图粘贴 Ctrl+V（最多 3 张，自动压缩，仅实时发送不存库）</span>
+                </div>
+                <div id="ai-image-preview-list" class="ai-image-preview-list hidden"></div>
+                <div id="ai-vision-feedback" class="ai-vision-feedback hidden"></div>
+              </div>
 
               <div class="ai-compose-bar">
                 <textarea id="ai-query-input" class="ai-query-textarea" rows="2" placeholder="输入症状、寒热汗渴、二便、西药史或继续追问（Enter 发送 / Shift+Enter 换行）"></textarea>
@@ -717,18 +735,24 @@
             <div id="ai-cfg-model-pills" class="ai-chip-row"></div>
           </div>
 
+          <div class="ai-form-row">
+            <label for="ai-cfg-reasoning">思考 / 推理强度 (Reasoning Effort)</label>
+            <select id="ai-cfg-reasoning"></select>
+            <small id="ai-cfg-reasoning-hint" class="ai-form-note"></small>
+          </div>
+
           <div class="ai-form-grid three">
             <div class="ai-form-row">
               <label for="ai-cfg-temp">Temperature</label>
               <input id="ai-cfg-temp" type="number" min="0" max="1.5" step="0.05" value="0.45" />
             </div>
             <div class="ai-form-row">
-              <label for="ai-cfg-tokens">Max Tokens</label>
-              <input id="ai-cfg-tokens" type="number" min="256" max="16384" step="100" value="2400" />
+              <label for="ai-cfg-tokens">Max Tokens (0=不限制)</label>
+              <input id="ai-cfg-tokens" type="number" min="0" max="128000" step="256" value="0" />
             </div>
             <div class="ai-form-row">
               <label for="ai-cfg-timeout">超时 (秒)</label>
-              <input id="ai-cfg-timeout" type="number" min="10" max="300" step="5" value="90" />
+              <input id="ai-cfg-timeout" type="number" min="10" max="300" step="5" value="120" />
             </div>
           </div>
 

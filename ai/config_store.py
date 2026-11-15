@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
+import re
 import tempfile
 from typing import Any
 from urllib.parse import urlparse
@@ -81,6 +82,154 @@ PROVIDER_PRESETS: dict[str, dict[str, Any]] = {
 PROTOCOLS = {"openai_compat", "gemini", "anthropic"}
 PERSONA_STYLES = {"master_balanced", "colloquial_lecture", "academic_strict"}
 CONFIG_FILENAME = "ai_settings.json"
+MAX_TOKENS_MIN = 256
+MAX_TOKENS_CAP = 128000
+
+VALID_REASONING_EFFORTS = ("auto", "none", "minimal", "low", "medium", "high", "xhigh")
+
+REASONING_TIER_LIST: list[dict[str, str]] = [
+    {"id": "auto", "label": "自动（模型默认）"},
+    {"id": "none", "label": "关闭思考 / 直出 (none)"},
+    {"id": "minimal", "label": "极轻思考 (minimal)"},
+    {"id": "low", "label": "轻度思考 (low)"},
+    {"id": "medium", "label": "均衡思考 (medium)"},
+    {"id": "high", "label": "深度思考 (high)"},
+    {"id": "xhigh", "label": "极限深度 (xhigh / max)"},
+]
+
+REASONING_MODEL_RULES: list[dict[str, Any]] = [
+    {
+        "id": "openai_non_reasoning",
+        "protocols": ["openai_compat"],
+        "model_regex": r"(?:^|/|\b)(?:gpt-4o|gpt-4\.1|gpt-4-turbo|gpt-3\.5|chatgpt-4o)",
+        "exclude_regex": r"(?:codex|reasoner|thinking)",
+        "efforts": ["auto"],
+        "supports_reasoning": False,
+        "protocol_mode": "none",
+        "hint": "GPT-4o / 4.1 等非推理模型不支持思考档位，保持「自动」避免上游报错。",
+    },
+    {
+        "id": "openai_codex_and_o3",
+        "protocols": ["openai_compat"],
+        "model_regex": r"(?:codex|(?:^|/|\b)(?:gpt-6|o3|o4-mini)(?:$|[-_.]))",
+        "efforts": ["auto", "low", "medium", "high", "xhigh"],
+        "supports_reasoning": True,
+        "protocol_mode": "openai_reasoning",
+        "hint": "Codex / o3 / o4-mini 支持 low / medium / high / xhigh，不支持关闭(none)。",
+    },
+    {
+        "id": "openai_o1",
+        "protocols": ["openai_compat"],
+        "model_regex": r"(?:^|/|\b)o1(?:$|[-_.])",
+        "efforts": ["auto", "low", "medium", "high"],
+        "supports_reasoning": True,
+        "protocol_mode": "openai_reasoning",
+        "hint": "o1 系列支持 low / medium / high 思考强度（不支持 none 或 xhigh）。",
+    },
+    {
+        "id": "openai_gpt5_1",
+        "protocols": ["openai_compat"],
+        "model_regex": r"(?:^|/|\b)gpt-5\.1(?:$|[-_.])",
+        "exclude_regex": r"codex",
+        "efforts": ["auto", "none", "low", "medium", "high"],
+        "supports_reasoning": True,
+        "protocol_mode": "openai_reasoning",
+        "hint": "GPT-5.1 支持 none / low / medium / high 思考强度。",
+    },
+    {
+        "id": "openai_gpt5_2plus",
+        "protocols": ["openai_compat"],
+        "model_regex": r"(?:^|/|\b)gpt-5\.[2-9]",
+        "exclude_regex": r"codex",
+        "efforts": ["auto", "none", "low", "medium", "high", "xhigh"],
+        "supports_reasoning": True,
+        "protocol_mode": "openai_reasoning",
+        "hint": "GPT-5.2+ 支持 none / low / medium / high / xhigh 全档位推理控制。",
+    },
+    {
+        "id": "openai_gpt5_base",
+        "protocols": ["openai_compat"],
+        "model_regex": r"(?:^|/|\b)gpt-5(?:$|[-_.])",
+        "exclude_regex": r"(?:5\.|codex)",
+        "efforts": ["auto", "minimal", "low", "medium", "high"],
+        "supports_reasoning": True,
+        "protocol_mode": "openai_reasoning",
+        "hint": "GPT-5 初代支持 minimal / low / medium / high，不支持 none 或 xhigh。",
+    },
+    {
+        "id": "deepseek_models",
+        "protocols": ["openai_compat"],
+        "providers": ["deepseek"],
+        "model_regex": r"deepseek",
+        "match_either_provider_or_model": True,
+        "efforts": ["auto", "none", "low", "medium", "high", "xhigh"],
+        "supports_reasoning": True,
+        "protocol_mode": "deepseek",
+        "hint": "DeepSeek 支持关闭(none)或分级 thinking + reasoning_effort（xhigh 对应官方 max）。",
+    },
+    {
+        "id": "gemini_non_thinking",
+        "protocols": ["gemini"],
+        "model_regex": r"gemini-(?:1\.|2\.0)",
+        "exclude_regex": r"thinking",
+        "efforts": ["auto"],
+        "supports_reasoning": False,
+        "protocol_mode": "none",
+        "hint": "Gemini 2.0 / 1.5 系列默认直接输出，无独立思考档位。",
+    },
+    {
+        "id": "gemini_3plus",
+        "protocols": ["gemini"],
+        "model_regex": r"gemini-(?:[3-9]|\d{2})",
+        "efforts": ["auto", "minimal", "low", "medium", "high"],
+        "supports_reasoning": True,
+        "protocol_mode": "gemini_level",
+        "hint": "Gemini 3+ 原生使用 thinkingLevel（MINIMAL/LOW/MEDIUM/HIGH），不与 thinkingBudget 混传。",
+    },
+    {
+        "id": "gemini_25_pro",
+        "protocols": ["gemini"],
+        "model_regex": r"gemini-2\.5-pro",
+        "efforts": ["auto", "low", "medium", "high", "xhigh"],
+        "supports_reasoning": True,
+        "protocol_mode": "gemini_budget",
+        "hint": "Gemini 2.5 Pro 强制启用思考，支持 low–xhigh thinkingBudget（不可选 none）。",
+    },
+    {
+        "id": "gemini_budget_default",
+        "protocols": ["gemini"],
+        "efforts": ["auto", "none", "low", "medium", "high", "xhigh"],
+        "supports_reasoning": True,
+        "protocol_mode": "gemini_budget",
+        "hint": "Gemini 2.5 Flash/Lite 支持关闭(0)或分级 thinkingBudget。",
+    },
+    {
+        "id": "anthropic_non_thinking",
+        "protocols": ["anthropic"],
+        "model_regex": r"claude-(?:3-haiku|3-opus|3-sonnet|3-5-|3\.5-)",
+        "exclude_regex": r"(?:3-7|sonnet-4|opus-4|haiku-4|claude-4)",
+        "efforts": ["auto"],
+        "supports_reasoning": False,
+        "protocol_mode": "none",
+        "hint": "早期 Claude 3 / 3.5 系列不支持扩展思考参数。",
+    },
+    {
+        "id": "anthropic_thinking_default",
+        "protocols": ["anthropic"],
+        "efforts": ["auto", "none", "low", "medium", "high", "xhigh"],
+        "supports_reasoning": True,
+        "protocol_mode": "anthropic_thinking",
+        "hint": "Claude 3.7 / 4+ 扩展思考开启时将自动确保 max_tokens > budget_tokens 并省略 temperature。",
+    },
+    {
+        "id": "openai_compat_fallback",
+        "protocols": ["openai_compat"],
+        "efforts": ["auto", "none", "minimal", "low", "medium", "high", "xhigh"],
+        "supports_reasoning": True,
+        "protocol_mode": "openai_reasoning",
+        "hint": "通用 OpenAI 兼容网关：选「自动」按模型默认；选具体档位将透传 reasoning_effort。",
+    },
+]
 
 
 def mask_api_key(secret: str) -> str:
@@ -120,6 +269,70 @@ def _clamp_int(value: Any, default: int, lo: int, hi: int) -> int:
     return max(lo, min(hi, num))
 
 
+def _normalize_max_tokens(value: Any, default: int) -> int:
+    """Normalize Max Tokens: 0/negative means unlimited (provider default)."""
+    if value is None or value == "":
+        return default
+    try:
+        num = int(float(value))
+    except (TypeError, ValueError):
+        return default
+    if num <= 0:
+        return 0
+    return max(MAX_TOKENS_MIN, min(MAX_TOKENS_CAP, num))
+
+
+def resolve_reasoning_profile(provider: str, protocol: str, model: str) -> dict[str, Any]:
+    """Return capability metadata and allowed thinking/reasoning tiers for a model."""
+    prov = (provider or "").strip().lower()
+    proto = (protocol or "openai_compat").strip().lower()
+    mod = (model or "").strip().lower()
+    for rule in REASONING_MODEL_RULES:
+        if rule.get("protocols") and proto not in rule["protocols"]:
+            continue
+        mod_rx = rule.get("model_regex") or ""
+        excl_rx = rule.get("exclude_regex") or ""
+        prov_list = rule.get("providers") or []
+        if excl_rx and mod and re.search(excl_rx, mod, flags=re.IGNORECASE):
+            continue
+        if rule.get("match_either_provider_or_model"):
+            matched = (prov in prov_list) or bool(mod_rx and mod and re.search(mod_rx, mod, flags=re.IGNORECASE))
+            if not matched:
+                continue
+        else:
+            if prov_list and prov not in prov_list:
+                continue
+            if mod_rx and not (mod and re.search(mod_rx, mod, flags=re.IGNORECASE)):
+                continue
+        return {
+            "id": rule["id"],
+            "efforts": list(rule["efforts"]),
+            "supports_reasoning": bool(rule["supports_reasoning"]),
+            "protocol_mode": rule["protocol_mode"],
+            "hint": rule["hint"],
+        }
+    return {
+        "id": "generic",
+        "efforts": ["auto", "none", "minimal", "low", "medium", "high", "xhigh"],
+        "supports_reasoning": True,
+        "protocol_mode": "openai_reasoning",
+        "hint": "选「自动」按模型默认；选具体档位将透传对应思考参数。",
+    }
+
+
+def normalize_reasoning_effort(value: Any, default: str, provider: str, protocol: str, model: str) -> str:
+    """Coerce reasoning_effort value (including aliases) against model capabilities."""
+    raw = str(value if value is not None else default or "auto").strip().lower()
+    if raw == "max":
+        raw = "xhigh"
+    if raw not in VALID_REASONING_EFFORTS:
+        raw = "auto"
+    profile = resolve_reasoning_profile(provider, protocol, model)
+    if raw not in profile["efforts"]:
+        return "auto"
+    return raw
+
+
 def _default_config() -> dict[str, Any]:
     preset = PROVIDER_PRESETS["deepseek"]
     return {
@@ -129,8 +342,9 @@ def _default_config() -> dict[str, Any]:
         "model": preset["default_model"],
         "api_key": "",
         "persona_style": "master_balanced",
+        "reasoning_effort": "auto",
         "temperature": 0.45,
-        "max_tokens": 4096,
+        "max_tokens": 0,
         "timeout_sec": 120,
     }
 
@@ -196,6 +410,14 @@ def normalize_config(payload: dict[str, Any], existing: dict[str, Any] | None = 
     if style not in PERSONA_STYLES:
         style = "master_balanced"
 
+    effort = normalize_reasoning_effort(
+        payload.get("reasoning_effort"),
+        str(base.get("reasoning_effort") or "auto"),
+        provider_id,
+        protocol,
+        model,
+    )
+
     return {
         "provider": provider_id,
         "protocol": protocol,
@@ -203,8 +425,9 @@ def normalize_config(payload: dict[str, Any], existing: dict[str, Any] | None = 
         "model": model,
         "api_key": api_key,
         "persona_style": style,
+        "reasoning_effort": effort,
         "temperature": round(_clamp_float(payload.get("temperature"), base["temperature"], 0.0, 1.5), 2),
-        "max_tokens": _clamp_int(payload.get("max_tokens"), base["max_tokens"], 256, 16384),
+        "max_tokens": _normalize_max_tokens(payload.get("max_tokens"), int(base.get("max_tokens", 0))),
         "timeout_sec": _clamp_int(payload.get("timeout_sec"), base["timeout_sec"], 10, 300),
     }
 
@@ -252,9 +475,13 @@ def resolve_runtime_config(data_dir: Path, override: dict[str, Any] | None = Non
 def get_public_config(data_dir: Path) -> dict[str, Any]:
     resolved = resolve_runtime_config(data_dir)
     secret = resolved.pop("api_key", "")
+    profile = resolve_reasoning_profile(resolved["provider"], resolved["protocol"], resolved["model"])
     return {
         **resolved,
         "has_api_key": bool(secret),
         "api_key_masked": mask_api_key(secret),
         "presets": list(PROVIDER_PRESETS.values()),
+        "reasoning_tiers": REASONING_TIER_LIST,
+        "reasoning_rules": REASONING_MODEL_RULES,
+        "reasoning_profile": profile,
     }

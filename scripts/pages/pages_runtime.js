@@ -95,6 +95,54 @@
     return asInt ? Math.round(clamped) : Math.round(clamped * 100) / 100;
   }
 
+  function normalizeMaxTokens(value, fallback) {
+    if (value === undefined || value === null || value === "") return fallback;
+    const num = Math.trunc(Number(value));
+    if (!Number.isFinite(num)) return fallback;
+    if (num <= 0) return 0;
+    return Math.max(256, Math.min(128000, num));
+  }
+
+  function resolveReasoningProfile(provider, protocol, model, rules) {
+    const prov = String(provider || "").trim().toLowerCase();
+    const proto = String(protocol || "openai_compat").trim().toLowerCase();
+    const mod = String(model || "").trim().toLowerCase();
+    for (const rule of rules || []) {
+      if (Array.isArray(rule.protocols) && rule.protocols.length && !rule.protocols.includes(proto)) continue;
+      const exclRx = rule.exclude_regex ? new RegExp(rule.exclude_regex, "i") : null;
+      if (exclRx && mod && exclRx.test(mod)) continue;
+      const modRx = rule.model_regex ? new RegExp(rule.model_regex, "i") : null;
+      const provList = Array.isArray(rule.providers) ? rule.providers : [];
+      if (rule.match_either_provider_or_model) {
+        if (!(provList.includes(prov) || (modRx && mod && modRx.test(mod)))) continue;
+      } else {
+        if (provList.length && !provList.includes(prov)) continue;
+        if (modRx && !(mod && modRx.test(mod))) continue;
+      }
+      return {
+        id: rule.id,
+        efforts: Array.isArray(rule.efforts) ? [...rule.efforts] : ["auto"],
+        supports_reasoning: Boolean(rule.supports_reasoning),
+        protocol_mode: rule.protocol_mode || "openai_reasoning",
+        hint: rule.hint || "",
+      };
+    }
+    return {
+      id: "generic",
+      efforts: ["auto", "none", "minimal", "low", "medium", "high", "xhigh"],
+      supports_reasoning: true,
+      protocol_mode: "openai_reasoning",
+      hint: "选「自动」按模型默认；选具体档位将透传对应思考参数。",
+    };
+  }
+
+  function normalizeReasoningEffort(value, fallback, provider, protocol, model, rules) {
+    let raw = String(value ?? fallback ?? "auto").trim().toLowerCase();
+    if (raw === "max") raw = "xhigh";
+    const profile = resolveReasoningProfile(provider, protocol, model, rules);
+    return profile.efforts.includes(raw) ? raw : "auto";
+  }
+
   // ── Pyodide Worker Bridge ────────────────────────────────────────────────
   const nativeFetch = window.fetch.bind(window);
   let reqSeq = 0;
@@ -238,6 +286,15 @@
       style = "master_balanced";
     }
 
+    const effort = normalizeReasoningEffort(
+      payload?.reasoning_effort,
+      existing.reasoning_effort || "auto",
+      providerId,
+      protocol,
+      model,
+      meta.reasoning_rules
+    );
+
     return {
       provider: providerId,
       protocol,
@@ -245,8 +302,9 @@
       model,
       api_key: apiKey,
       persona_style: style,
+      reasoning_effort: effort,
       temperature: clampNum(payload?.temperature, existing.temperature ?? 0.45, 0.0, 1.5, false),
-      max_tokens: clampNum(payload?.max_tokens, existing.max_tokens ?? 4096, 256, 16384, true),
+      max_tokens: normalizeMaxTokens(payload?.max_tokens, existing.max_tokens ?? 0),
       timeout_sec: clampNum(payload?.timeout_sec, existing.timeout_sec ?? 120, 10, 300, true),
     };
   }
@@ -267,6 +325,9 @@
       api_key_masked: maskApiKey(secret),
       presets: meta.presets || [],
       styles: meta.styles || [],
+      reasoning_tiers: meta.reasoning_tiers || [],
+      reasoning_rules: meta.reasoning_rules || [],
+      reasoning_profile: resolveReasoningProfile(resolved.provider, resolved.protocol, resolved.model, meta.reasoning_rules),
     };
   }
 
@@ -321,6 +382,13 @@
         `（提示：OpenCode Go 仅限编程代理工具使用；请改用 DeepSeek、OpenAI 兼容网关、Gemini、Claude、OpenCode Zen 通用按量接口，或关闭 Key 使用本地免 Key 推演）`
       );
     }
+    const lowerAll = `${detail} ${bodyText || ""}`.toLowerCase();
+    if (["image_url", "does not support image", "unknown variant", "multimodal", "vision"].some((k) => lowerAll.includes(k))) {
+      return (
+        `当前所选模型或网关不支持图片识别 (HTTP ${status})：${detail}。` +
+        `（提示：请切换到支持视觉的模型如 gpt-4o / gpt-4.1 / gemini-2.5-flash / claude-sonnet-4 / qwen-vl，或改用手动点选四诊标签）`
+      );
+    }
     if (status === 401) return `认证失败 (HTTP 401)：请检查 API Key 是否有效或有余额。${detail}`.trim();
     if (status === 403) return `权限或区域受限 (HTTP 403)：${detail}`.trim();
     if (status === 404) return `接口或模型不存在 (HTTP 404)：请检查 Base URL 与模型名称。${detail}`.trim();
@@ -328,10 +396,67 @@
     return `上游模型返回错误 (HTTP ${status})：${detail}`.trim();
   }
 
-  function prepareUpstreamRequest(cfg, systemPrompt, messages, stream) {
+  const OPENAI_FIXED_TEMP_PROFILES = new Set([
+    "openai_codex_and_o3",
+    "openai_o1",
+    "openai_gpt5_base",
+    "openai_gpt5_1",
+    "openai_gpt5_2plus",
+  ]);
+  const GEMINI_LEVEL_MAP = { minimal: "MINIMAL", low: "LOW", medium: "MEDIUM", high: "HIGH" };
+  const GEMINI_BUDGET_MAP = { none: 0, low: 1024, medium: 4096, high: 8192, xhigh: 24576 };
+  const ANTHROPIC_BUDGET_MAP = { low: 2048, medium: 6144, high: 12288, xhigh: 24576 };
+
+  function buildOpenAiContent(m) {
+    const text = String(m.content || "");
+    const imgs = Array.isArray(m.images) ? m.images : [];
+    if (!imgs.length) return text;
+    return [
+      { type: "text", text },
+      ...imgs.map((img) => ({ type: "image_url", image_url: { url: img.data_url } })),
+    ];
+  }
+
+  function buildAnthropicContent(m) {
+    const text = String(m.content || "");
+    const imgs = Array.isArray(m.images) ? m.images : [];
+    if (!imgs.length) return text;
+    return [
+      ...imgs.map((img) => ({
+        type: "image",
+        source: { type: "base64", media_type: img.mime_type, data: img.b64 },
+      })),
+      { type: "text", text },
+    ];
+  }
+
+  function buildGeminiParts(m) {
+    const parts = [{ text: String(m.content || "") }];
+    for (const img of Array.isArray(m.images) ? m.images : []) {
+      parts.push({ inlineData: { mimeType: img.mime_type, data: img.b64 } });
+    }
+    return parts;
+  }
+
+  function prepareUpstreamRequest(cfg, systemPrompt, messages, stream, meta = null) {
     const protocol = cfg.protocol || "openai_compat";
+    const rules = meta?.reasoning_rules || [];
+    const profile = resolveReasoningProfile(cfg.provider, protocol, cfg.model, rules);
+    const effort = normalizeReasoningEffort(cfg.reasoning_effort, "auto", cfg.provider, protocol, cfg.model, rules);
+    const rawMax = Math.max(0, Math.trunc(Number(cfg.max_tokens || 0) || 0));
+
     if (protocol === "gemini") {
       const action = stream ? "streamGenerateContent?alt=sse" : "generateContent";
+      const genCfg = { temperature: cfg.temperature ?? 0.45 };
+      if (rawMax > 0) genCfg.maxOutputTokens = rawMax;
+      if (effort !== "auto") {
+        if (profile.protocol_mode === "gemini_level" && GEMINI_LEVEL_MAP[effort]) {
+          genCfg.thinkingConfig = { includeThoughts: true, thinkingLevel: GEMINI_LEVEL_MAP[effort] };
+        } else if (profile.protocol_mode === "gemini_budget" && GEMINI_BUDGET_MAP[effort] !== undefined) {
+          const budget = GEMINI_BUDGET_MAP[effort];
+          genCfg.thinkingConfig = { includeThoughts: budget !== 0, thinkingBudget: budget };
+        }
+      }
       return {
         url: `${String(cfg.base_url).replace(/\/+$/, "")}/models/${encodeURIComponent(cfg.model)}:${action}`,
         headers: {
@@ -342,16 +467,40 @@
           systemInstruction: { parts: [{ text: systemPrompt }] },
           contents: messages.map((m) => ({
             role: m.role === "assistant" ? "model" : "user",
-            parts: [{ text: m.content }],
+            parts: buildGeminiParts(m),
           })),
-          generationConfig: {
-            temperature: cfg.temperature ?? 0.45,
-            maxOutputTokens: cfg.max_tokens ?? 4096,
-          },
+          generationConfig: genCfg,
         },
       };
     }
     if (protocol === "anthropic") {
+      let thinkingCfg = null;
+      if (effort !== "auto" && profile.protocol_mode === "anthropic_thinking") {
+        if (effort === "none") thinkingCfg = { type: "disabled" };
+        else if (ANTHROPIC_BUDGET_MAP[effort]) {
+          thinkingCfg = { type: "enabled", budget_tokens: ANTHROPIC_BUDGET_MAP[effort] };
+        }
+      }
+      const thinkingOn = Boolean(thinkingCfg && thinkingCfg.type === "enabled");
+      let effectiveMax;
+      if (thinkingOn) {
+        effectiveMax = rawMax <= 0 ? Math.max(16384, thinkingCfg.budget_tokens + 4096) : Math.max(rawMax, thinkingCfg.budget_tokens + 1024);
+      } else {
+        const cap = profile.id === "anthropic_non_thinking" ? 8192 : 16384;
+        effectiveMax = rawMax <= 0 ? cap : rawMax;
+      }
+      const body = {
+        model: cfg.model,
+        system: systemPrompt,
+        messages: messages.map((m) => ({
+          role: m.role === "assistant" ? "assistant" : "user",
+          content: buildAnthropicContent(m),
+        })),
+        max_tokens: effectiveMax,
+        stream: Boolean(stream),
+      };
+      if (thinkingCfg) body.thinking = thinkingCfg;
+      if (!thinkingOn) body.temperature = cfg.temperature ?? 0.45;
       return {
         url: anthropicMessagesUrl(cfg.base_url),
         headers: {
@@ -360,33 +509,42 @@
           "anthropic-version": "2023-06-01",
           "anthropic-dangerous-direct-browser-access": "true",
         },
-        body: {
-          model: cfg.model,
-          system: systemPrompt,
-          messages: messages.map((m) => ({
-            role: m.role === "assistant" ? "assistant" : "user",
-            content: m.content,
-          })),
-          max_tokens: cfg.max_tokens ?? 4096,
-          temperature: cfg.temperature ?? 0.45,
-          stream: Boolean(stream),
-        },
+        body,
       };
     }
     const headers = { "Content-Type": "application/json" };
     if (cfg.api_key) {
       headers.Authorization = `Bearer ${cfg.api_key}`;
     }
+    const body = {
+      model: cfg.model,
+      messages: [
+        { role: "system", content: systemPrompt },
+        ...messages.map((m) => ({ role: m.role, content: buildOpenAiContent(m) })),
+      ],
+      stream: Boolean(stream),
+    };
+    const skipTemp =
+      OPENAI_FIXED_TEMP_PROFILES.has(profile.id) &&
+      !((profile.id === "openai_gpt5_1" || profile.id === "openai_gpt5_2plus") && effort === "none");
+    if (!skipTemp) body.temperature = cfg.temperature ?? 0.45;
+    if (rawMax > 0) body.max_tokens = rawMax;
+    if (effort !== "auto") {
+      if (profile.protocol_mode === "deepseek") {
+        if (effort === "none") {
+          body.thinking = { type: "disabled" };
+        } else {
+          body.thinking = { type: "enabled" };
+          body.reasoning_effort = effort === "xhigh" ? "max" : effort;
+        }
+      } else if (profile.protocol_mode === "openai_reasoning") {
+        body.reasoning_effort = effort;
+      }
+    }
     return {
       url: openaiEndpoint(cfg.base_url, "/chat/completions"),
       headers,
-      body: {
-        model: cfg.model,
-        messages: [{ role: "system", content: systemPrompt }, ...messages],
-        stream: Boolean(stream),
-        temperature: cfg.temperature ?? 0.45,
-        max_tokens: cfg.max_tokens ?? 4096,
-      },
+      body,
     };
   }
 
@@ -455,8 +613,8 @@
     return events;
   }
 
-  async function* iterUpstreamEvents(cfg, systemPrompt, messages, signal) {
-    const req = prepareUpstreamRequest(cfg, systemPrompt, messages, true);
+  async function* iterUpstreamEvents(cfg, systemPrompt, messages, signal, meta = null) {
+    const req = prepareUpstreamRequest(cfg, systemPrompt, messages, true, meta);
     const resp = await nativeFetch(req.url, {
       method: "POST",
       headers: req.headers,
@@ -564,18 +722,19 @@
     }
   }
 
-  async function runDirectTest(cfg) {
+  async function runDirectTest(cfg, meta = null) {
     if (!cfg.base_url) throw new Error("请先填写模型 Base URL");
     if (!cfg.model) throw new Error("请先选择或填写模型名称");
     if (cfg.requires_key && !cfg.api_key) throw new Error("当前模型未配置 API Key");
 
     const started = performance.now();
-    const probeCfg = { ...cfg, max_tokens: 32, temperature: 0.0 };
+    const probeCfg = { ...cfg, max_tokens: 256, temperature: 0.0, reasoning_effort: "auto" };
     const req = prepareUpstreamRequest(
       probeCfg,
       "你是连通性测试助手。请只回复“已连通”三个字。",
       [{ role: "user", content: "测试连通" }],
-      false
+      false,
+      meta
     );
     let resp;
     try {
@@ -950,14 +1109,70 @@
     if (apiPath === "/api/ai/test" && method === "POST") {
       try {
         const cfg = toRuntimeConfig(meta, body && Object.keys(body).length ? body : null);
-        return jsonResponse(await runDirectTest(cfg));
+        return jsonResponse(await runDirectTest(cfg, meta));
       } catch (err) {
         return jsonResponse({ detail: String(err?.message || err) }, 400);
       }
     }
 
-    if (apiPath === "/api/ai/chat/stream" && method === "POST") {
+    if (apiPath === "/api/ai/vision-intake" && method === "POST") {
       const cfg = toRuntimeConfig(meta, body?.config_override || null);
+      if (!cfg.ready) {
+        return jsonResponse(
+          {
+            detail:
+              "识图功能需要先在「模型设置」中配置支持视觉的大模型与 API Key（如 GPT-4o / Gemini / Claude / Qwen-VL / DeepSeek 多模态版）；免 Key 离线模式请直接点选上方四诊标签。",
+          },
+          400
+        );
+      }
+      const prep = await callWorker("/api/ai/vision-prepare", "POST", body || {});
+      if ((prep.status || 200) >= 400) return jsonResponse(prep.body, prep.status);
+      const { system_prompt, user_text, images } = prep.body;
+      const visionCfg = {
+        ...cfg,
+        temperature: 0.1,
+        reasoning_effort: "auto",
+        max_tokens: cfg.max_tokens > 0 ? Math.max(2048, cfg.max_tokens) : 0,
+      };
+      const req = prepareUpstreamRequest(
+        visionCfg,
+        system_prompt,
+        [{ role: "user", content: user_text, images }],
+        false,
+        meta
+      );
+      let resp;
+      try {
+        resp = await nativeFetch(req.url, {
+          method: "POST",
+          headers: req.headers,
+          body: JSON.stringify(req.body),
+          signal,
+        });
+      } catch (_err) {
+        return jsonResponse(
+          { detail: "浏览器端直连识图接口受跨域(CORS)或网络限制，请改用本地 Python 服务版或手动点选四诊标签。" },
+          400
+        );
+      }
+      if (!resp.ok) {
+        return jsonResponse({ detail: friendlyHttpError(resp.status, await resp.text().catch(() => "")) }, 400);
+      }
+      const full = await resp.json();
+      full.__full = true;
+      const text = parseUpstreamEvents(cfg.protocol, full)
+        .filter((e) => e.type === "delta")
+        .map((e) => e.text)
+        .join("");
+      const parsed = await callWorker("/api/ai/vision-parse", "POST", { text, image_count: images.length });
+      return jsonResponse({ ...parsed.body, provider: cfg.provider, model: cfg.model }, parsed.status || 200);
+    }
+
+    if (apiPath === "/api/ai/chat/stream" && method === "POST") {
+      const cfgOverride = body?.config_override ? { ...body.config_override } : {};
+      if (body?.reasoning_effort) cfgOverride.reasoning_effort = body.reasoning_effort;
+      const cfg = toRuntimeConfig(meta, Object.keys(cfgOverride).length ? cfgOverride : null);
       const style = String(body?.style || cfg.persona_style || "master_balanced");
       const prepRes = await callWorker("/api/ai/prepare-prompt", "POST", { ...body, style });
       if ((prepRes.status || 200) >= 400) {
@@ -1011,7 +1226,7 @@
             let reasoningParts = [];
             let usage = {};
             try {
-              for await (const ev of iterUpstreamEvents(cfg, system_prompt, messages, signal)) {
+              for await (const ev of iterUpstreamEvents(cfg, system_prompt, messages, signal, meta)) {
                 if (ev.type === "reasoning") {
                   reasoningParts.push(ev.text);
                   sendFrame(controller, "reasoning", { text: ev.text });

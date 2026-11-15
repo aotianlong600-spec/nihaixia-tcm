@@ -459,6 +459,8 @@ def dispatch_post_ai(path: str, payload: dict[str, Any]) -> tuple[int, Any]:
             "presets": list(config_store.PROVIDER_PRESETS.values()),
             "styles": ni_persona.list_persona_styles(),
             "defaults": config_store._default_config(),
+            "reasoning_tiers": config_store.REASONING_TIER_LIST,
+            "reasoning_rules": config_store.REASONING_MODEL_RULES,
         }
 
     if path == "/api/ai/packet":
@@ -480,6 +482,7 @@ def dispatch_post_ai(path: str, payload: dict[str, Any]) -> tuple[int, Any]:
             style=style,
             history=payload.get("history") if isinstance(payload.get("history"), list) else None,
             entity_focus=payload.get("entity_focus") if isinstance(payload.get("entity_focus"), dict) else None,
+            images=payload.get("images") if isinstance(payload.get("images"), list) else None,
             sqlite_conn=None,
         )
         return 200, {
@@ -488,6 +491,20 @@ def dispatch_post_ai(path: str, payload: dict[str, Any]) -> tuple[int, Any]:
             "messages": messages,
             "offline_reply": ni_consult.build_offline_ni_reply(pkt, style=style),
         }
+
+    if path == "/api/ai/vision-prepare":
+        imgs = ni_persona.normalize_image_inputs(payload.get("images") if isinstance(payload.get("images"), list) else None)
+        if not imgs:
+            return 400, {"detail": "请先选择或粘贴至少 1 张有效的 JPG / PNG / WebP 图片（单张 ≤ 4MB）。"}
+        sys_prompt, user_text = ni_persona.build_vision_intake_prompt(str(payload.get("hint") or ""))
+        return 200, {"system_prompt": sys_prompt, "user_text": user_text, "images": imgs}
+
+    if path == "/api/ai/vision-parse":
+        parsed = ni_persona.parse_vision_intake_response(
+            str(payload.get("text") or ""),
+            image_count=int(payload.get("image_count") or 1),
+        )
+        return 200, parsed
 
     if path == "/api/ai/chat":
         style = str(payload.get("style") or "master_balanced")

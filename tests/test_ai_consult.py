@@ -561,3 +561,182 @@ def test_mobile_responsive_hooks_and_pages_builder_helpers():
     assert "OpenCode Go" in opencode_msg
     assert "x-opencode-session" in opencode_msg
 
+
+def test_unlimited_max_tokens_and_model_aware_reasoning_profiles(data_dir: Path):
+    pub_default = config_store.get_public_config(data_dir)
+    assert pub_default["max_tokens"] == 0
+    assert pub_default["reasoning_effort"] == "auto"
+    assert isinstance(pub_default["reasoning_tiers"], list) and pub_default["reasoning_tiers"]
+    assert isinstance(pub_default["reasoning_rules"], list) and pub_default["reasoning_rules"]
+
+    # Negative / 0 -> unlimited (0); positive clamps within [256, 128000]
+    s_neg = config_store.save_config(data_dir, {"max_tokens": -100})
+    assert s_neg["max_tokens"] == 0
+    s_low = config_store.save_config(data_dir, {"max_tokens": 50})
+    assert s_low["max_tokens"] == 256
+    s_high = config_store.save_config(data_dir, {"max_tokens": 999999})
+    assert s_high["max_tokens"] == 128000
+
+    # Non-reasoning model (gpt-4.1) rejects reasoning tiers -> coerces cleanly to auto & omits param
+    s_non = config_store.save_config(
+        data_dir,
+        {"provider": "openai", "protocol": "openai_compat", "model": "gpt-4.1", "reasoning_effort": "high", "max_tokens": 0},
+    )
+    assert s_non["reasoning_effort"] == "auto"
+    assert s_non["reasoning_profile"]["efforts"] == ["auto"]
+    req_41 = llm_client._prepare_openai({**s_non, "api_key": "k"}, "sys", [{"role": "user", "content": "hi"}], stream=True)
+    assert "max_tokens" not in req_41["json"]
+    assert "reasoning_effort" not in req_41["json"]
+    assert req_41["json"]["temperature"] == 0.45
+
+    # Codex rejects none and omits temperature
+    s_codex = config_store.save_config(
+        data_dir,
+        {"provider": "openai", "protocol": "openai_compat", "model": "gpt-5.2-codex", "reasoning_effort": "none"},
+    )
+    assert s_codex["reasoning_effort"] == "auto"
+    s_codex_hi = config_store.save_config(data_dir, {"reasoning_effort": "xhigh"})
+    assert s_codex_hi["reasoning_effort"] == "xhigh"
+    req_codex = llm_client._prepare_openai({**s_codex_hi, "api_key": "k"}, "sys", [{"role": "user", "content": "hi"}], stream=True)
+    assert req_codex["json"]["reasoning_effort"] == "xhigh"
+    assert "temperature" not in req_codex["json"]
+
+    # DeepSeek none vs xhigh->max
+    ds_none = llm_client._prepare_openai(
+        {"provider": "deepseek", "protocol": "openai_compat", "base_url": "https://api.deepseek.com/v1", "model": "deepseek-chat", "reasoning_effort": "none", "max_tokens": 0},
+        "sys",
+        [{"role": "user", "content": "hi"}],
+        stream=True,
+    )
+    assert ds_none["json"]["thinking"] == {"type": "disabled"}
+    assert "reasoning_effort" not in ds_none["json"]
+    assert "max_tokens" not in ds_none["json"]
+
+    ds_max = llm_client._prepare_openai(
+        {"provider": "deepseek", "protocol": "openai_compat", "base_url": "https://api.deepseek.com/v1", "model": "deepseek-reasoner", "reasoning_effort": "xhigh", "max_tokens": 0},
+        "sys",
+        [{"role": "user", "content": "hi"}],
+        stream=True,
+    )
+    assert ds_max["json"]["thinking"] == {"type": "enabled"}
+    assert ds_max["json"]["reasoning_effort"] == "max"
+
+    # Gemini 2.5 Pro vs 3 Pro (never mixes thinkingBudget and thinkingLevel)
+    assert "none" not in config_store.resolve_reasoning_profile("gemini", "gemini", "gemini-2.5-pro")["efforts"]
+    gem_25 = llm_client._prepare_gemini(
+        {"provider": "gemini", "protocol": "gemini", "base_url": "https://generativelanguage.googleapis.com/v1beta", "model": "gemini-2.5-flash", "reasoning_effort": "none", "max_tokens": 0},
+        "sys",
+        [{"role": "user", "content": "hi"}],
+        stream=False,
+    )
+    assert "maxOutputTokens" not in gem_25["json"]["generationConfig"]
+    assert gem_25["json"]["generationConfig"]["thinkingConfig"] == {"includeThoughts": False, "thinkingBudget": 0}
+    assert "thinkingLevel" not in gem_25["json"]["generationConfig"]["thinkingConfig"]
+
+    gem_3 = llm_client._prepare_gemini(
+        {"provider": "gemini", "protocol": "gemini", "base_url": "https://generativelanguage.googleapis.com/v1beta", "model": "gemini-3-pro", "reasoning_effort": "high", "max_tokens": 0},
+        "sys",
+        [{"role": "user", "content": "hi"}],
+        stream=False,
+    )
+    assert gem_3["json"]["generationConfig"]["thinkingConfig"] == {"includeThoughts": True, "thinkingLevel": "HIGH"}
+    assert "thinkingBudget" not in gem_3["json"]["generationConfig"]["thinkingConfig"]
+
+    # Anthropic unlimited + thinking ensures max_tokens > budget_tokens and omits temperature
+    anth_req = llm_client._prepare_anthropic(
+        {"provider": "anthropic", "protocol": "anthropic", "base_url": "https://api.anthropic.com", "model": "claude-sonnet-4-20250514", "reasoning_effort": "high", "max_tokens": 0},
+        "sys",
+        [{"role": "user", "content": "hi"}],
+        stream=True,
+    )
+    assert anth_req["json"]["thinking"] == {"type": "enabled", "budget_tokens": 12288}
+    assert anth_req["json"]["max_tokens"] > 12288
+    assert "temperature" not in anth_req["json"]
+
+
+def test_multimodal_vision_intake_routes_and_ui_hooks(client: TestClient, monkeypatch):
+    import base64
+    from app.static_dispatch import dispatch_request
+    from scripts import build_pages
+
+    png_b64 = base64.b64encode(build_pages._render_fallback_png(4)).decode("ascii")
+    img_payload = [{"name": "问诊表.png", "data_url": f"data:image/png;base64,{png_b64}"}]
+
+    # Unconfigured returns actionable 400
+    unconf = client.post("/api/ai/vision-intake", json={"images": img_payload})
+    assert unconf.status_code == 400
+    assert "视觉" in unconf.json()["detail"]
+
+    # CSRF check
+    bad_orig = client.post(
+        "/api/ai/vision-intake",
+        headers={"Origin": "https://evil.example", "Host": "127.0.0.1:8000"},
+        json={"images": img_payload},
+    )
+    assert bad_orig.status_code == 403
+
+    # Configure mock live key and verify protocol builders include multimodal parts
+    client.post(
+        "/api/ai/config",
+        json={"provider": "openai", "protocol": "openai_compat", "base_url": "https://api.openai.com/v1", "model": "gpt-4o", "api_key": "sk-vision-ok"},
+    )
+    vision_msg = [{"role": "user", "content": "读取图片", "images": ni_persona.normalize_image_inputs(img_payload)}]
+    oa_body = llm_client._prepare_openai(
+        {"provider": "openai", "base_url": "https://api.openai.com/v1", "model": "gpt-4o"},
+        "sys",
+        vision_msg,
+        False,
+    )["json"]
+    assert isinstance(oa_body["messages"][1]["content"], list)
+    assert oa_body["messages"][1]["content"][1]["type"] == "image_url"
+
+    gem_body = llm_client._prepare_gemini({"provider": "gemini", "base_url": "https://x", "model": "gemini-2.5-flash"}, "sys", vision_msg, False)["json"]
+    assert gem_body["contents"][0]["parts"][1]["inlineData"]["mimeType"] == "image/png"
+
+    anth_body = llm_client._prepare_anthropic({"provider": "anthropic", "base_url": "https://api.anthropic.com", "model": "claude-sonnet-4-20250514"}, "sys", vision_msg, False)["json"]
+    assert anth_body["messages"][0]["content"][0]["type"] == "image"
+
+    # Mock vision completion JSON extraction
+    async def fake_complete(_cfg, _sys, _msgs, client=None):
+        return {
+            "text": '```json\n{"chief_complaint":"往来寒热 口苦咽干","symptoms":["往来寒热","口苦"],"negations":["不恶寒"],"pulses":["弦"],"tongues":["舌淡红苔薄白"],"medical_notes":{"present":"受凉3天"},"warnings":["光线偏暗注意复核"]}\n```',
+            "reasoning": "",
+            "usage": {"total_tokens": 55},
+        }
+
+    monkeypatch.setattr("ai.llm_client.complete_chat", fake_complete)
+    ok_res = client.post("/api/ai/vision-intake", json={"images": img_payload, "hint": "手写病历"})
+    assert ok_res.status_code == 200
+    body = ok_res.json()
+    assert "往来寒热" in body["symptoms"]
+    assert "不恶寒" in body["negations"]
+    assert "弦" in body["pulses"]
+    assert body["medical_notes"]["present"] == "受凉3天"
+
+    # Static Pyodide dispatcher rejects invalid SVG data URI and normalizes valid PNG
+    bad_svg = json.loads(
+        dispatch_request(
+            "/api/ai/vision-prepare",
+            "POST",
+            json.dumps({"images": [{"data_url": "data:image/svg+xml;base64,PHN2Zy8+"}]}),
+        )
+    )
+    assert bad_svg["status"] == 400
+    good_prep = json.loads(dispatch_request("/api/ai/vision-prepare", "POST", json.dumps({"images": img_payload})))
+    assert good_prep["status"] == 200 and len(good_prep["body"]["images"]) == 1
+
+    presets_meta = json.loads(dispatch_request("/api/ai/presets-and-styles", "POST", "{}")).get("body", {})
+    assert presets_meta["defaults"]["max_tokens"] == 0
+    assert presets_meta.get("reasoning_rules")
+
+    # Friendly error on non-vision model rejection
+    vis_err = llm_client._friendly_http_error(400, '{"error":{"message":"unknown variant image_url"}}')
+    assert "图片识别" in vis_err
+
+    # Frontend HTML hook assertions
+    root = Path(__file__).resolve().parents[1]
+    html = (root / "web" / "index.html").read_text(encoding="utf-8")
+    for hook in ("ai-cfg-reasoning", "ai-effort-select", "ai-upload-image-btn", "ai-ocr-extract-btn", 'min="0"', 'value="0"'):
+        assert hook in html, f"missing HTML hook: {hook}"
+
+

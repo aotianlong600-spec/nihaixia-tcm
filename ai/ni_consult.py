@@ -490,8 +490,9 @@ def prepare_llm_request(
     style: str = "master_balanced",
     history: list[dict[str, str]] | None = None,
     entity_focus: dict[str, Any] | None = None,
+    images: list[Any] | None = None,
     sqlite_conn: sqlite3.Connection | None = None,
-) -> tuple[dict[str, Any], str, list[dict[str, str]]]:
+) -> tuple[dict[str, Any], str, list[dict[str, Any]]]:
     """Build packet, system prompt, and messages tuple for streaming LLM execution."""
     packet = build_clinical_context(
         query,
@@ -501,7 +502,7 @@ def prepare_llm_request(
         sqlite_conn=sqlite_conn,
     )
     system_prompt = build_system_prompt(style)
-    messages = build_chat_messages(query, packet, history=history)
+    messages = build_chat_messages(query, packet, history=history, images=images)
     return packet, system_prompt, messages
 
 
