@@ -1,0 +1,6495 @@
+{
+  "version": "hantang-milestone1-v1",
+  "formula_count": 91,
+  "missing_numbers": [
+    55,
+    56,
+    57,
+    58,
+    75,
+    76,
+    86,
+    91,
+    94
+  ],
+  "source_books": [
+    {
+      "book_id": "ni-hantang-formulas-pdf",
+      "title": "《倪海夏-汉唐中医方剂讲解》"
+    },
+    {
+      "book_id": "ni-hantang-articles-cases-pdf",
+      "title": "《倪海厦汉唐中医经典文章医案集》"
+    },
+    {
+      "book_id": "ni-hantang-clinic-notes-pdf",
+      "title": "《倪海厦传统中医跟诊过程》"
+    }
+  ],
+  "epistemic_notice": "⚠️ 原书《汉唐百方》多数方剂仅公开部分核心药味（附……等），旨在阐明病机与取象立法；研习时严禁把局部示例当作完整成方直接抄方套用。且严正区隔「倪海厦原论」「紫极讲者按语」与「临床一线跟诊实录」。",
+  "categories": [
+    {
+      "id": "gynecology",
+      "title": "第一章 · 妇科乳经胎产症瘕门",
+      "short": "妇科乳经",
+      "count": 7
+    },
+    {
+      "id": "cardiovascular",
+      "title": "第二章 · 心胸胸痹脉管血压门",
+      "short": "心胸脉管",
+      "count": 10
+    },
+    {
+      "id": "oncology_detox",
+      "title": "第三章 · 肿瘤癌瘤积聚排毒外科门",
+      "short": "癌瘤外科",
+      "count": 10
+    },
+    {
+      "id": "spleen_metabolic",
+      "title": "第四章 · 脾胃消渴便秘痔瘘代谢门",
+      "short": "脾胃消渴",
+      "count": 10
+    },
+    {
+      "id": "liver_kidney_andrology",
+      "title": "第五章 · 肝胆泌尿结石男科补肾门",
+      "short": "肝肾男科",
+      "count": 20
+    },
+    {
+      "id": "lung_sensory_skin_bi",
+      "title": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "short": "肺窍皮痹",
+      "count": 28
+    },
+    {
+      "id": "shen_emotion",
+      "title": "第七章 · 神志情志安神心法门",
+      "short": "神志安神",
+      "count": 6
+    }
+  ],
+  "formulas": [
+    {
+      "id": "hantang:ht-01",
+      "num": 1,
+      "ht_number": "HT-1",
+      "name": "白带丸",
+      "full_title": "HT-1 白带丸",
+      "category_id": "gynecology",
+      "category": "第一章 · 妇科乳经胎产症瘕门",
+      "category_short": "妇科乳经",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "女子赤白带下过多（白为寒湿、赤需防少腹血瘀或胞宫积瘤）、经前乳胀、经中小腹坠痛、经后腰脊酸痛。",
+        "pathogenesis": "仅肝（主收缩调畅）、心（推动奶水下行小肠化经血）二经入胞宫；心阳或下焦温化不足，多余精微渗出成白带，瘀阻成赤带。",
+        "partial_herbs": "柴胡、半夏、白术、泽泻、附子……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "三餐饭前 20 粒（须候完全清净且月经前后无异物流出方可停药）。",
+        "contraindications": "忌经期生冷水果及寒凉止带药。"
+      },
+      "ziji_note": {
+        "commentary": "紫极讲者明批温病派「血证禁桂枝」之谬，指出妇科带下血瘀必赖桂枝温升肝木、通心阳；须白术泽泻守脾祛湿、柴胡半夏疏肝与附子温下并举。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:理中丸",
+            "name": "理中丸"
+          },
+          {
+            "id": "jinkui:桂枝茯苓丸",
+            "name": "桂枝茯苓丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:sp06:三阴交",
+            "name": "三阴交"
+          },
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "白带",
+        "赤带",
+        "带下",
+        "经前乳胀",
+        "痛经",
+        "胞宫寒湿"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 5,
+        "end_page": 9,
+        "q": "HT-1 白带丸"
+      }
+    },
+    {
+      "id": "hantang:ht-02",
+      "num": 2,
+      "ht_number": "HT-2",
+      "name": "退乳丸",
+      "full_title": "HT-2 退乳丸",
+      "category_id": "gynecology",
+      "category": "第一章 · 妇科乳经胎产症瘕门",
+      "category_short": "妇科乳经",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "产后断奶、停经回乳、预防乳房硬块、经期防奶水逆流致 SLE / 血癌 / 肺癌 / 乳癌，以及更年期退乳期调控。",
+        "pathogenesis": "奶水即月经源头（心火周期下推乳房营养入胞宫小肠化赤）；若逆流入心为 SLE、入肺为肺癌、入督脉为血癌、留乳成乳癌、入淋巴/肝为淋巴/肝癌。",
+        "partial_herbs": "行经退乳专方（原书未公开单味组成，以助余乳化消下行二便排出为法）",
+        "is_partial_disclosure": true,
+        "dosage_method": "断奶期服用；未停经女子预防逆流或乳房硬块期间遇到行经时，仅于月经来潮期间早晚各 30 粒。",
+        "contraindications": "绝经期严禁合成雌激素（HRT），严禁对乳房硬块行穿刺切片活检。"
+      },
+      "ziji_note": {
+        "commentary": "绝经乃天癸竭正常退藏，重在维持大便与下焦通畅，令无用余乳顺道由大便排出，勿强催经留貌。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:小柴胡汤",
+            "name": "小柴胡汤"
+          },
+          {
+            "id": "jinkui:桂枝茯苓丸",
+            "name": "桂枝茯苓丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren14:巨阙",
+            "name": "巨阙"
+          },
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "退奶",
+        "断奶",
+        "乳癌预防",
+        "红斑狼疮",
+        "SLE",
+        "奶水逆流",
+        "更年期"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 9,
+        "end_page": 14,
+        "q": "HT-2 退乳丸"
+      }
+    },
+    {
+      "id": "hantang:ht-03",
+      "num": 3,
+      "ht_number": "HT-3",
+      "name": "记忆力减退",
+      "full_title": "HT-3 记忆力减退",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "老人记忆减退痴呆、少年伤精健忘、外伤及西药伤脑髓致注意力记忆衰弱。",
+        "pathogenesis": "肾藏精循督脉第十四椎（命门）上注髓海为记性，心任物为主；保精筑基为体、通滞引髓为用。",
+        "partial_herbs": "杜仲、补骨脂、鹿茸、没药、核桃肉……等（师《世载医方》补髓丹/青娥意）",
+        "is_partial_disclosure": true,
+        "dosage_method": "中餐后与睡前各 30 颗。",
+        "contraindications": "不节房劳手淫耗精则补不敷泄。"
+      },
+      "ziji_note": {
+        "commentary": "筑基须先守住精气（炼精化气）；纯寒纯热皆非，重在补髓兼具没药通滞。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:肾气丸",
+            "name": "肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:du04:命门",
+            "name": "命门"
+          },
+          {
+            "id": "acupoint:du20:百会",
+            "name": "百会"
+          },
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "记忆力减退",
+        "老年痴呆",
+        "髓海",
+        "命门"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 14,
+        "end_page": 19,
+        "q": "HT-3 记忆力减退"
+      }
+    },
+    {
+      "id": "hantang:ht-04",
+      "num": 4,
+      "ht_number": "HT-4",
+      "name": "皮肤过敏（胎毒/风疹）",
+      "full_title": "HT-4 皮肤过敏（胎毒/风疹）",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "食海鲜食物过敏红疹剧痒、尘粉风疹喷嚏，及解小儿遗留胎毒。",
+        "pathogenesis": "幼年胎毒未彻（或外感误用退烧药冰伏）滞留小肠兼挑食引发；皮肤承担人体约 20% 呼吸，用桂麻各半法开泄。",
+        "partial_herbs": "桂枝麻黄各半汤意透表解肌毒（原方含开散透表药）",
+        "is_partial_disclosure": true,
+        "dosage_method": "大人早晚饭前 30 粒，小孩 20 粒。",
+        "contraindications": "小儿水痘/麻疹高烧严禁西医退烧冰伏，当以葛根汤透发三焦膜原胎毒。"
+      },
+      "ziji_note": {
+        "commentary": "阐明「体（内藏毒根） vs 用（海鲜尘风导火索）」，示麻疹透毒葛根汤讲者比例：葛根4·麻黄3·桂枝2·甘草2 加姜枣。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:桂枝麻黄各半汤",
+            "name": "桂枝麻黄各半汤"
+          },
+          {
+            "id": "jinkui:葛根汤",
+            "name": "葛根汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:li11:曲池",
+            "name": "曲池"
+          },
+          {
+            "id": "acupoint:li04:合谷",
+            "name": "合谷"
+          },
+          {
+            "id": "acupoint:sp10:血海",
+            "name": "血海"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "皮肤过敏",
+        "海鲜过敏",
+        "风疹",
+        "胎毒",
+        "小儿水痘"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 19,
+        "end_page": 22,
+        "q": "HT-4 皮肤过敏"
+      }
+    },
+    {
+      "id": "hantang:ht-05",
+      "num": 5,
+      "ht_number": "HT-5",
+      "name": "通乳丸",
+      "full_title": "HT-5 通乳丸",
+      "category_id": "gynecology",
+      "category": "第一章 · 妇科乳经胎产症瘕门",
+      "category_short": "妇科乳经",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "产后乳汁不足、月经量少过稀、无恶性癌变之良性乳房硬块或纤维囊肿。",
+        "pathogenesis": "疏通乳房络道与少阳枢机，令脾胃精微畅通乳腺或按月化经。",
+        "partial_herbs": "穿山甲、王不留行、附子、生姜、柴胡、黄芩、桂枝、半夏……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "无月经期间三餐饭后 15 粒（月经少过稀于经前 5 日服）；月经一来立刻停服 HT-5，改服 HT-2 退乳丸。",
+        "contraindications": "【绝对生死红线】白血病（血癌）、系统性红斑狼疮（SLE）、淋巴癌、脑癌、肝癌、肺癌患者绝对禁用！催生新乳反助癌邪攻脏。"
+      },
+      "ziji_note": {
+        "commentary": "讲者以术后溃疡黑坏案证「不喂脓不生新肉（黄芪 30-45g 配穿山甲）」，并传本门「逍遥汤去薄荷换桂枝」升肝阳法。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:小柴胡汤",
+            "name": "小柴胡汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:sp06:三阴交",
+            "name": "三阴交"
+          },
+          {
+            "id": "acupoint:ren17:膻中",
+            "name": "膻中"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "通乳",
+        "乳少",
+        "乳房硬块",
+        "经少",
+        "乳腺增生",
+        "穿山甲"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 22,
+        "end_page": 26,
+        "q": "HT-5 通乳丸"
+      }
+    },
+    {
+      "id": "hantang:ht-06",
+      "num": 6,
+      "ht_number": "HT-6",
+      "name": "手抖兼心颤憟",
+      "full_title": "HT-6 手抖兼心颤憟",
+      "category_id": "cardiovascular",
+      "category": "第二章 · 心胸胸痹脉管血压门",
+      "category_short": "心胸脉管",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "略一劳作即双手震颤、心悸惊惕（九种心痛之一，区别于受惊双腿发软属肾恐）。",
+        "pathogenesis": "心宫失守兼心包、三焦湿热痰饮阻滞，切忌强投辛热刺激君火。",
+        "partial_herbs": "半夏、桂枝、黄连、白术……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "一般三餐饭后 15–20 粒（视体格大小调整）。",
+        "contraindications": "【高危戒律】切忌胸包痰热未清直投大剂附子、干姜强迫心脏。"
+      },
+      "ziji_note": {
+        "commentary": "严斥庸医把误用姜附致心悸喘促面赤脱汗粉饰为「排病反应」实乃逼入心衰！当参桂枝甘草汤、栝蒌薤白类、理中汤及小儿胖痰可用小柴胡加减。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:栝蒌薤白半夏汤",
+            "name": "栝蒌薤白半夏汤"
+          },
+          {
+            "id": "jinkui:理中丸",
+            "name": "理中丸"
+          },
+          {
+            "id": "jinkui:小柴胡汤",
+            "name": "小柴胡汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren14:巨阙",
+            "name": "巨阙"
+          },
+          {
+            "id": "acupoint:pc06:内关",
+            "name": "内关"
+          },
+          {
+            "id": "acupoint:ht07:神门",
+            "name": "神门"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "手抖",
+        "心颤",
+        "心悸",
+        "帕金森鉴别",
+        "痰热阻心",
+        "心衰红线"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 26,
+        "end_page": 30,
+        "q": "HT-6 手抖兼心颤憟"
+      }
+    },
+    {
+      "id": "hantang:ht-07",
+      "num": 7,
+      "ht_number": "HT-7",
+      "name": "胃痈及胃出血（胃癌/恶性淋巴）",
+      "full_title": "HT-7 胃痈及胃出血（胃癌/恶性淋巴）",
+      "category_id": "oncology_detox",
+      "category": "第三章 · 肿瘤癌瘤积聚排毒外科门",
+      "category_short": "癌瘤外科",
+      "safety_level": "practitioner_only",
+      "ni_original": {
+        "indications": "胃脘痛极、吐脓血黑便、胃癌、恶性淋巴瘤胃痈溃腐症。",
+        "pathogenesis": "营卫（血与淋巴/水）循环瘀积腐热成痈，「血无止法」必温通活血、畅导二便令恶腐血自肠尽出。",
+        "partial_herbs": "源自《金匮》《伤寒》少阴胃痈吐血古方（出于防盗版与师承护惜，未公开方药明细）",
+        "is_partial_disclosure": true,
+        "dosage_method": "由一线经方家按脉症权衡煎服或丸散。",
+        "contraindications": "【严厉铁律】严禁冰敷或西药止血药强止（寒凝锁毒速亡）；胃已大部分切除或经多次化疗者不适用；疑医、擅挑药、中西混服者不治。"
+      },
+      "ziji_note": {
+        "commentary": "对比 49 岁胃癌两周愈与 35 岁切胃四次化疗后吐粪亡案例，警示中土通道既断则难回天。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:黄土汤",
+            "name": "黄土汤"
+          },
+          {
+            "id": "jinkui:泻心汤",
+            "name": "泻心汤"
+          },
+          {
+            "id": "jinkui:理中丸",
+            "name": "理中丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren12:中脘",
+            "name": "中脘"
+          },
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "胃出血",
+        "胃癌",
+        "淋巴瘤",
+        "血无止法",
+        "胃切除禁忌"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 30,
+        "end_page": 38,
+        "q": "HT-7 胃痈及胃出血"
+      }
+    },
+    {
+      "id": "hantang:ht-08",
+      "num": 8,
+      "ht_number": "HT-8",
+      "name": "子宫症痼",
+      "full_title": "HT-8 子宫症痼",
+      "category_id": "gynecology",
+      "category": "第一章 · 妇科乳经胎产症瘕门",
+      "category_short": "妇科乳经",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "痛经、子宫肌瘤、卵巢囊肿、少腹胞宫瘀块，兼论多发性骨髓瘤同源瘀阻。",
+        "pathogenesis": "二大成因：一为经期感冒误汗或服西药退烧致「热入血室」；二为嗜冷饮/露膝/抗生素寒遏小肠与胞宫致血凝成症。",
+        "partial_herbs": "桂枝、炮姜、茯苓、丹皮、白芍、桃仁……等（本金匮桂枝茯苓丸化裁，极少用附子免燥血）",
+        "is_partial_disclosure": true,
+        "dosage_method": "痛经：经前三日三餐饭前 20 粒至经尽，连服两月；肌瘤：不论经否，三餐饭前 30 粒，约 3 个月渐缩。",
+        "contraindications": "经期外感绝对禁用麻黄等发汗剂及避孕药调经，经期感冒唯可用小柴胡汤。"
+      },
+      "ziji_note": {
+        "commentary": "倡导「真中西医结合」：先用中药软化缩小肌瘤、改善胞宫内环境，审慎避免盲目一刀切除子宫致余乳失出路。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:桂枝茯苓丸",
+            "name": "桂枝茯苓丸"
+          },
+          {
+            "id": "jinkui:小柴胡汤",
+            "name": "小柴胡汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:sp06:三阴交",
+            "name": "三阴交"
+          },
+          {
+            "id": "acupoint:lv14:期门",
+            "name": "期门"
+          },
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "痛经",
+        "子宫肌瘤",
+        "卵巢囊肿",
+        "热入血室",
+        "经期感冒",
+        "桂枝茯苓丸"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 38,
+        "end_page": 42,
+        "q": "HT-8 子宫症痼"
+      }
+    },
+    {
+      "id": "hantang:ht-09",
+      "num": 9,
+      "ht_number": "HT-9",
+      "name": "血箭痔丸",
+      "full_title": "HT-9 血箭痔丸",
+      "category_id": "spleen_metabolic",
+      "category": "第四章 · 脾胃消渴便秘痔瘘代谢门",
+      "category_short": "脾胃消渴",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "肛门内痔漏管，特征为「大便前无痛喷溅大量鲜红动脉血」，无疼痛瘙痒。",
+        "pathogenesis": "小肠湿热下注兼中气下陷、重力坐久直肠韧带松弛；对照「远血」黄土汤（温脾摄血）与赤豆当归散（清热瘀毒）。",
+        "partial_herbs": "百草霜、栀子花、槐花（原误作櫆花）、地榆……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭前 25 粒，严重时加至 40 粒。",
+        "contraindications": "反对西医平躺分娩扯裂直肠韧带，倡传统蹲位分娩防产后痔瘘脱肛。"
+      },
+      "ziji_note": {
+        "commentary": "治痔本在「升提气机、去湿消瘀」，止血生肌为其标，兼辨近血远血（黄土汤 vs 赤豆当归散）。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:赤豆当归散",
+            "name": "赤豆当归散"
+          },
+          {
+            "id": "jinkui:黄土汤",
+            "name": "黄土汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:du20:百会",
+            "name": "百会"
+          },
+          {
+            "id": "acupoint:bl57:承山",
+            "name": "承山"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "内痔",
+        "便前喷血",
+        "无痛便血",
+        "近血",
+        "产后防痔"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 42,
+        "end_page": 46,
+        "q": "HT-9 血箭痔丸"
+      }
+    },
+    {
+      "id": "hantang:ht-10",
+      "num": 10,
+      "ht_number": "HT-10",
+      "name": "大禹丸（肝癌末期腹水）",
+      "full_title": "HT-10 大禹丸（肝癌末期腹水）",
+      "category_id": "oncology_detox",
+      "category": "第三章 · 肿瘤癌瘤积聚排毒外科门",
+      "category_short": "癌瘤外科",
+      "safety_level": "practitioner_only",
+      "ni_original": {
+        "indications": "肝硬化/肝癌末期腹大如鼓、脐突青筋蛛网、但坐不得卧、二便不通、周身暗黄黑。",
+        "pathogenesis": "里水实饮壅塞中焦与胸腹，利尿剂全失效，唯有一丝元气尚存时果断峻逐水饮出二便。",
+        "partial_herbs": "师《伤寒》十枣汤（甘遂、大戟、芫花）为骨干，同步配伍小建中汤五味护胃",
+        "is_partial_disclosure": true,
+        "dosage_method": "务必【冷冻保存】；早 7 点服 30 粒，若 5 小时后水未大下再追服 30 粒，不拘饭前后。",
+        "contraindications": "水退后不可久攻；若中气大败、神昏已脱不可妄投。"
+      },
+      "ziji_note": {
+        "commentary": "特论乙肝「大三阳优于小三阳」（正邪尚有交争），戒酒熬夜房事三年，逍遥去薄荷易桂枝加车前；并提峻毒药当代须严慎法度。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:十枣汤",
+            "name": "十枣汤"
+          },
+          {
+            "id": "jinkui:小建中汤",
+            "name": "小建中汤"
+          },
+          {
+            "id": "jinkui:甘遂半夏汤",
+            "name": "甘遂半夏汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren09:水分",
+            "name": "水分"
+          },
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "肝癌腹水",
+        "十枣汤",
+        "但坐不得卧",
+        "冻藏",
+        "肝硬化",
+        "乙肝"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 46,
+        "end_page": 50,
+        "q": "HT-10 大禹丸"
+      }
+    },
+    {
+      "id": "hantang:ht-11",
+      "num": 11,
+      "ht_number": "HT-11",
+      "name": "抵挡丸",
+      "full_title": "HT-11 抵挡丸",
+      "category_id": "oncology_detox",
+      "category": "第三章 · 肿瘤癌瘤积聚排毒外科门",
+      "category_short": "癌瘤外科",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "《伤寒》太阳蓄血症：少腹硬满、小便自利（别于蓄水）、发狂健忘、大便色黑；女子胞宫干血、膀胱外伤瘀血、肝血痨。",
+        "pathogenesis": "热瘀久血结聚于少腹膀胱与胞宫。",
+        "partial_herbs": "热带破血树胶树脂类替代难觅之真金边水蛭与牛棚虻虫，宗抵当汤变丸",
+        "is_partial_disclosure": true,
+        "dosage_method": "服至黑便转正常黄、少腹硬满消散即停。",
+        "contraindications": "虚劳干血、肝硬化蜘蛛痣者严禁纯破，须配山药芡实参芪守「三分攻、七分补」；重申经期感冒唯用小柴胡。"
+      },
+      "ziji_note": {
+        "commentary": "辨别蓄血小便自利 vs 蓄水小便不利，提示临床虚劳兼瘀不可独攻。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:抵当汤",
+            "name": "抵当汤"
+          },
+          {
+            "id": "jinkui:小柴胡汤",
+            "name": "小柴胡汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:sp10:血海",
+            "name": "血海"
+          },
+          {
+            "id": "acupoint:sp06:三阴交",
+            "name": "三阴交"
+          },
+          {
+            "id": "acupoint:lv14:期门",
+            "name": "期门"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "少腹硬满",
+        "小便自利",
+        "太阳蓄血",
+        "发狂",
+        "黑便",
+        "肝血痨"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 50,
+        "end_page": 54,
+        "q": "HT-11 抵挡丸"
+      }
+    },
+    {
+      "id": "hantang:ht-12",
+      "num": 12,
+      "ht_number": "HT-12",
+      "name": "脱肛丸",
+      "full_title": "HT-12 脱肛丸",
+      "category_id": "spleen_metabolic",
+      "category": "第四章 · 脾胃消渴便秘痔瘘代谢门",
+      "category_short": "脾胃消渴",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "直肠脱垂（脱肛）及妇人子宫脱垂（阴挺）。",
+        "pathogenesis": "中气大虚下陷不能升提固定下焦脏器；凡脱肛者必先有痔。",
+        "partial_herbs": "以补中益气汤为基座升举宗气",
+        "is_partial_disclosure": true,
+        "dosage_method": "按补中升提常法饭前调服至肛挺收复。",
+        "contraindications": "有实质瘀核或热毒溃烂时，单靠苦涩收敛无法治本。"
+      },
+      "ziji_note": {
+        "commentary": "临证常去过于升散之柴胡易桂枝配玄参；兼瘀块合桂枝茯苓丸，兼热毒脓水合四妙勇安汤；亦可灸百会配五倍子熏洗外收。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:桂枝茯苓丸",
+            "name": "桂枝茯苓丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:du20:百会",
+            "name": "百会"
+          },
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          },
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "脱肛",
+        "子宫脱垂",
+        "阴挺",
+        "中气下陷",
+        "百会灸"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 54,
+        "end_page": 55,
+        "q": "HT-12 脱肛丸"
+      }
+    },
+    {
+      "id": "hantang:ht-13",
+      "num": 13,
+      "ht_number": "HT-13",
+      "name": "淋痛·小便刺痛",
+      "full_title": "HT-13 淋痛·小便刺痛",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "急性尿道炎、淋病、小便灼热刺痛、尿道口红肿、排尿不畅白浊。",
+        "pathogenesis": "相火外泄而湿热下结膀胱尿道（见鼻头色黄即提示小便不利），别于太阳蓄血之小便自利（HT-11）。",
+        "partial_herbs": "清热利水通淋消导方（参照五苓散、猪苓汤、八正散分虚实清利）",
+        "is_partial_disclosure": true,
+        "dosage_method": "按尿痛程度清导至尿道炎浊尽除，可代易过敏抗生素。",
+        "contraindications": "严禁辛辣食物防助相火泄漏！"
+      },
+      "ziji_note": {
+        "commentary": "分五淋（气、石、膏、劳、热淋）：其体多虚损，其用为相火外泄湿热结下；阴虚不利用猪苓，气水用五苓，热痛用八正。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:猪苓汤",
+            "name": "猪苓汤"
+          },
+          {
+            "id": "jinkui:五苓散",
+            "name": "五苓散"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren03:中极",
+            "name": "中极"
+          },
+          {
+            "id": "acupoint:sp09:阴陵泉",
+            "name": "阴陵泉"
+          },
+          {
+            "id": "acupoint:sp06:三阴交",
+            "name": "三阴交"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "尿道炎",
+        "淋病",
+        "小便刺痛",
+        "鼻头黄",
+        "禁辛辣"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 55,
+        "end_page": 56,
+        "q": "HT-13 淋痛·小便刺痛"
+      }
+    },
+    {
+      "id": "hantang:ht-14",
+      "num": 14,
+      "ht_number": "HT-14",
+      "name": "胆石症",
+      "full_title": "HT-14 胆石症",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "胆结石、慢性胆囊炎、右胁压痛、子时（23:00-1:00）易醒、胆石穴与背部 T10 下压痛。",
+        "pathogenesis": "小肠热力不足蒸化水气及心脏舒缩吸力减弱，致胆汁滞留胆囊钙化生石。",
+        "partial_herbs": "疏肝利胆调畅心肠气化排石方（无副作用，可伴调胆石所致血压偏高）",
+        "is_partial_disclosure": true,
+        "dosage_method": "长期调服促小石排泄或防大石再聚。",
+        "contraindications": "严忌动物内脏肥腻；极力劝阻胆囊切除手术，切胆必酿更难治之「肝结石」（见 HT-84）！"
+      },
+      "ziji_note": {
+        "commentary": "四逆散合温脾实脾（理中/桂枝法）曾一年消息肉并胆石；切忌见胆红素略高无黄疸倦怠而狂投大苦寒。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:大柴胡汤",
+            "name": "大柴胡汤"
+          },
+          {
+            "id": "shanghan:四逆散",
+            "name": "四逆散"
+          },
+          {
+            "id": "jinkui:小柴胡汤",
+            "name": "小柴胡汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:gb34:阳陵泉",
+            "name": "阳陵泉"
+          },
+          {
+            "id": "acupoint:lv14:期门",
+            "name": "期门"
+          },
+          {
+            "id": "acupoint:lv03:太冲",
+            "name": "太冲"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "胆结石",
+        "子时醒",
+        "右胁痛",
+        "胆石穴",
+        "禁切胆"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 56,
+        "end_page": 59,
+        "q": "HT-14 胆石症"
+      }
+    },
+    {
+      "id": "hantang:ht-15",
+      "num": 15,
+      "ht_number": "HT-15",
+      "name": "真寒假热·厥四逆（白血病）",
+      "full_title": "HT-15 真寒假热·厥四逆（白血病）",
+      "category_id": "oncology_detox",
+      "category": "第三章 · 肿瘤癌瘤积聚排毒外科门",
+      "category_short": "癌瘤外科",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "急性/慢性白血病（血癌）：白细胞暴升红细胞崩跌、身热反厥冷、第6/7椎压痛或幼年误退烧伤骨髓。",
+        "pathogenesis": "灶锅油火喻：小肠为锅、命门火为火、脾津为油；阳（动力/白细胞）外浮抗邪而阴（营养/红细胞）枯竭，属真寒假热；四大诱因含抗生素闭邪、伤精、辐射毒、乳汁逆入督脉骨髓。",
+        "partial_herbs": "桂枝、白芍、附子、天花粉、当归、熟地、丹皮、桃仁、麦冬……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "轻症三餐饭前 20 粒，重症 30 粒；连服两周未转好需面诊。",
+        "contraindications": "严禁盲目输血与化疗（死血阻塞肝脏加速衰竭）；白血病绝对禁用 HT-5。"
+      },
+      "ziji_note": {
+        "commentary": "按四诱因分治（表闭用麻附细/麻黄汤透髓，伤精调阴阳，化毒通气水，乳逆引经下行）；解面部「五色外溢」脏败警号。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:麻黄附子细辛汤",
+            "name": "麻黄附子细辛汤"
+          },
+          {
+            "id": "jinkui:四逆汤",
+            "name": "四逆汤"
+          },
+          {
+            "id": "shanghan:当归四逆汤",
+            "name": "当归四逆汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:du10:灵台",
+            "name": "灵台"
+          },
+          {
+            "id": "acupoint:du14:大椎",
+            "name": "大椎"
+          },
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "白血病",
+        "血癌",
+        "第6椎压痛",
+        "真寒假热",
+        "退烧药伤髓"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 59,
+        "end_page": 68,
+        "q": "HT-15 真寒假热·厥四逆"
+      }
+    },
+    {
+      "id": "hantang:ht-16",
+      "num": 16,
+      "ht_number": "HT-16",
+      "name": "皮肤干痒癣",
+      "full_title": "HT-16 皮肤干痒癣",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "四肢关节皮肤粗糙干硬结块、牛皮癣、鱼鳞癣（常见夏天大汗则轻、冬干加重）。",
+        "pathogenesis": "肺主皮毛，全赖小肠热力蒸腾大肠水分上肺润肤；兼有【外干必有内湿（脾湿不升）】反治枢机。",
+        "partial_herbs": "当归、生地、蝉蜕、荆芥、知母、木通……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "慢性顽疾调理需耐心连服数月至一年渐润。",
+        "contraindications": "严斥长期外涂类固醇药膏封闭毛孔（毒闭肌表久必生皮肤癌）；切勿见到干燥一味蛮润而不理脾湿。"
+      },
+      "ziji_note": {
+        "commentary": "讲者破天荒揭秘【外干必内湿】：皮肤如鱼鳞干裂常源于脾土湿困津不上达，单投「茯苓散」运脾化湿则表干自润！",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:理中丸",
+            "name": "理中丸"
+          },
+          {
+            "id": "jinkui:五苓散",
+            "name": "五苓散"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:li11:曲池",
+            "name": "曲池"
+          },
+          {
+            "id": "acupoint:sp10:血海",
+            "name": "血海"
+          },
+          {
+            "id": "acupoint:bl20:脾俞",
+            "name": "脾俞"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "干癣",
+        "牛皮癣",
+        "鱼鳞病",
+        "外干必内湿",
+        "茯苓散",
+        "忌类固醇"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 68,
+        "end_page": 72,
+        "q": "HT-16 皮肤干痒癣"
+      }
+    },
+    {
+      "id": "hantang:ht-17",
+      "num": 17,
+      "ht_number": "HT-17",
+      "name": "湿疹脓疮",
+      "full_title": "HT-17 湿疹脓疮",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "皮肤渗出粘稠黄脓水、水疱湿疹、久溃湿烂（局部或全身）。",
+        "pathogenesis": "六步法则（强肾助 HT-48、调小肠火、导水走肠、白术薏仁渗湿、银花连翘解毒、发汗开毛孔）；兼含【外湿必内燥】反治秘诀。",
+        "partial_herbs": "连翘、银花、白术、薏苡仁、荆芥、防风……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "一般人三餐饭前 20 粒，最好配合 HT-48 金匮肾气丸同服；顽湿难急，须耐心守疗。",
+        "contraindications": "忌见湿水渗流即全投苦寒燥湿，反闭大肠肺胃内燥迫液外奔！"
+      },
+      "ziji_note": {
+        "commentary": "亲历衡山急重流脓水疱湿疹案，重投凉血润燥【生地黄 100g 至 250g】兼护脾阳，两日水收！慢顽湿则常需一两年功夫。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:越婢汤",
+            "name": "越婢汤"
+          },
+          {
+            "id": "shanghan:麻黄汤",
+            "name": "麻黄汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:li11:曲池",
+            "name": "曲池"
+          },
+          {
+            "id": "acupoint:sp09:阴陵泉",
+            "name": "阴陵泉"
+          },
+          {
+            "id": "acupoint:sp10:血海",
+            "name": "血海"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "湿疹",
+        "流黄水",
+        "脓疮",
+        "外湿必内燥",
+        "重剂生地"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 72,
+        "end_page": 77,
+        "q": "HT-17 湿疹脓疮"
+      }
+    },
+    {
+      "id": "hantang:ht-18",
+      "num": 18,
+      "ht_number": "HT-18",
+      "name": "腰蛇·胸蛇·颈蛇（带状疱疹）",
+      "full_title": "HT-18 腰蛇·胸蛇·颈蛇（带状疱疹）",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "external_toxic",
+      "ni_original": {
+        "indications": "带状疱疹（顺带脉或经络起粉红水疱连串蔓延、刺痛灼热）。",
+        "pathogenesis": "痰毒循经络窜发，忌缠绕周身合围。",
+        "partial_herbs": "外用青黛……等（配合内服活血通络祛痰药及针灸约 5 日）",
+        "is_partial_disclosure": true,
+        "dosage_method": "外用青黛药粉日涂 2 次。",
+        "contraindications": "【绝对禁内服】不可吞咽！若不慎误服，多饮冷水即解；警告疱疹绕身「长对头」合圈者极危！"
+      },
+      "ziji_note": {
+        "commentary": "内治宜活血通络祛其痰毒，配合临床针灸往往五日可愈。",
+        "linked_classical_formulas": [],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:sj06:支沟",
+            "name": "支沟"
+          },
+          {
+            "id": "acupoint:gb34:阳陵泉",
+            "name": "阳陵泉"
+          },
+          {
+            "id": "acupoint:bl40:委中",
+            "name": "委中"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "带状疱疹",
+        "蛇缠腰",
+        "青黛外用",
+        "禁内服"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 77,
+        "end_page": 78,
+        "q": "HT-18 腰蛇·胸蛇·颈蛇"
+      }
+    },
+    {
+      "id": "hantang:ht-19",
+      "num": 19,
+      "ht_number": "HT-19",
+      "name": "情绪焦虑（归脾虚怯）",
+      "full_title": "HT-19 情绪焦虑（归脾虚怯）",
+      "category_id": "shen_emotion",
+      "category": "第七章 · 神志情志安神心法门",
+      "category_short": "神志安神",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "情绪焦虑胆怯、内向厌光、喜居暗室、喜饮温热、神疲乏力、少儿倦怠无斗志。",
+        "pathogenesis": "心脾气血两虚，神无所依、意不守中，区别于心肾不交之额热足冷烦躁（HT-70）。",
+        "partial_herbs": "人参、黄芪、白术、茯神、甘草、木香、当归、远志、枣仁、龙眼肉……等（归脾丸底方加减）",
+        "is_partial_disclosure": true,
+        "dosage_method": "按益气养血补脾安神常规调服至气色振作、疲倦全除。",
+        "contraindications": "莫把内向虚怯误投镇静剂压制心脾。"
+      },
+      "ziji_note": {
+        "commentary": "点出方配精妙：人参守内圈补中土，黄芪走外圈实肺卫表；亦可参照小建中及肾气升降微调。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:小建中汤",
+            "name": "小建中汤"
+          },
+          {
+            "id": "jinkui:甘麦大枣汤",
+            "name": "甘麦大枣汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ht07:神门",
+            "name": "神门"
+          },
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          },
+          {
+            "id": "acupoint:bl15:心俞",
+            "name": "心俞"
+          },
+          {
+            "id": "acupoint:bl20:脾俞",
+            "name": "脾俞"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "焦虑",
+        "胆怯",
+        "喜居暗室",
+        "归脾丸",
+        "心脾两虚"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 78,
+        "end_page": 79,
+        "q": "HT-19 情绪焦虑"
+      }
+    },
+    {
+      "id": "hantang:ht-20",
+      "num": 20,
+      "ht_number": "HT-20",
+      "name": "四肢无力（筋痿腿重）",
+      "full_title": "HT-20 四肢无力（筋痿腿重）",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "青壮或五十岁后两腿沉重无力、行步艰难、伴小腹如球感。",
+        "pathogenesis": "脾主肌肉、肺气压脾精营养下行四肢、小肠热量回流不足致双腿失养（多由过用类固醇耗竭肾精）。",
+        "partial_herbs": "当归、熟地、白芍、牛膝、知母……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "长期护精温运调养下焦与脾肌肉，配合戒盐燥糖酸。",
+        "contraindications": "严斥西医激素类固醇强提肾精生力（透支真精速折阳寿），及盲吃钙片引发肾石。"
+      },
+      "ziji_note": {
+        "commentary": "肌肉无力伴骨松核心不在「钙缺」，在血液偏酸与肾脾阳气不化；用牛膝引精下行兼护真阴。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:芍药甘草附子汤",
+            "name": "芍药甘草附子汤"
+          },
+          {
+            "id": "jinkui:肾气丸",
+            "name": "肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          },
+          {
+            "id": "acupoint:gb34:阳陵泉",
+            "name": "阳陵泉"
+          },
+          {
+            "id": "acupoint:sp06:三阴交",
+            "name": "三阴交"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "双腿无力",
+        "肌痿",
+        "类固醇危害",
+        "牛膝",
+        "脾主四肢"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 79,
+        "end_page": 83,
+        "q": "HT-20 四肢无力"
+      }
+    },
+    {
+      "id": "hantang:ht-21",
+      "num": 21,
+      "ht_number": "HT-21",
+      "name": "补阳还五丸",
+      "full_title": "HT-21 补阳还五丸",
+      "category_id": "cardiovascular",
+      "category": "第二章 · 心胸胸痹脉管血压门",
+      "category_short": "心胸脉管",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "中风后遗症：偏瘫、半身不遂、流涎、小便失禁、肢体麻木沉废。",
+        "pathogenesis": "气大虚不能帅血穿行微络致脑髓脉道瘀阻（天然谷药气味可通脑微络）。",
+        "partial_herbs": "黄耆、当归、川芎、赤芍、桃仁、红花、地龙（化裁自《医林改错》补阳还五汤）",
+        "is_partial_disclosure": true,
+        "dosage_method": "服至中风后遗症消退即停。",
+        "contraindications": "气虚重证须重用黄芪（五倍于当归）帅血，勿单投峻烈破血药。"
+      },
+      "ziji_note": {
+        "commentary": "传自用中风先兆方「桃红益气汤」，详辨药色体用：赤芍丹皮红花偏泄、白芍白术偏守；丹皮化未成形气瘀，桃仁破已成形血积。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:芍药甘草附子汤",
+            "name": "芍药甘草附子汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:du20:百会",
+            "name": "百会"
+          },
+          {
+            "id": "acupoint:li04:合谷",
+            "name": "合谷"
+          },
+          {
+            "id": "acupoint:li11:曲池",
+            "name": "曲池"
+          },
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "中风",
+        "偏瘫",
+        "流涎",
+        "尿失禁",
+        "补阳还五",
+        "地龙"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 83,
+        "end_page": 85,
+        "q": "HT-21 补阳还五丸"
+      }
+    },
+    {
+      "id": "hantang:ht-22",
+      "num": 22,
+      "ht_number": "HT-22",
+      "name": "奔豚汤",
+      "full_title": "HT-22 奔豚汤",
+      "category_id": "cardiovascular",
+      "category": "第二章 · 心胸胸痹脉管血压门",
+      "category_short": "心胸脉管",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "脐周或右下腹筑筑跳动，突受惊吓后觉一股浊气沿腹冲胸入心、心跳如奔、恐慌胸闷欲死。",
+        "pathogenesis": "大肠宿便浊气郁积（多见便秘），复受惊恐引动肝木水寒逆冲心胸。",
+        "partial_herbs": "葛根、黄芩、半夏、李根白皮、当归、白芍、甘草、生姜、川芎（师《金匮》奔豚法）",
+        "is_partial_disclosure": true,
+        "dosage_method": "按《金匮》三奔豚方证候随证调服至冲悸平息。",
+        "contraindications": "不可径用大寒猛泻伤脾，宜调肝平冲降逆。"
+      },
+      "ziji_note": {
+        "commentary": "精辨《金匮》三奔豚方（桂枝加桂、奔豚汤、苓桂甘枣汤），揭「苓桂甘枣汤特意用茯苓而不用白术」以免惊动脐下水气之微机；冲脑狂乱用桃核承气。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:奔豚汤",
+            "name": "奔豚汤"
+          },
+          {
+            "id": "jinkui:桂枝加桂汤",
+            "name": "桂枝加桂汤"
+          },
+          {
+            "id": "jinkui:茯苓桂枝甘草大枣汤",
+            "name": "茯苓桂枝甘草大枣汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:pc06:内关",
+            "name": "内关"
+          },
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          },
+          {
+            "id": "acupoint:lv03:太冲",
+            "name": "太冲"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "奔豚",
+        "气上冲胸",
+        "惊悸",
+        "脐下悸",
+        "恐慌"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 85,
+        "end_page": 87,
+        "q": "HT-22 奔豚汤"
+      }
+    },
+    {
+      "id": "hantang:ht-23",
+      "num": 23,
+      "ht_number": "HT-23",
+      "name": "肝阳上亢·肾阳不足（高血压）",
+      "full_title": "HT-23 肝阳上亢·肾阳不足（高血压）",
+      "category_id": "cardiovascular",
+      "category": "第二章 · 心胸胸痹脉管血压门",
+      "category_short": "心胸脉管",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "高血压及预防中风：伴手指/足趾外前三指麻、双足冷、颈项强痛难眠、胫前麻木。",
+        "pathogenesis": "三真因：胆石胆炎、肾石阻水、血管外水饮停积压迫迫使心脏加压；利尿药反抽干细胞间液致脑血管干脆爆裂。",
+        "partial_herbs": "桔梗、五味子、桃仁、丹皮……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "配合修补下焦气化与畅通水道调服，留意中风四大时间窗先兆。",
+        "contraindications": "反对长期单纯西式利尿剂脱水致脑动脉脆裂中风；把握 6 个月黄金期（颈强+指麻+足冷=3月窗；胫前麻=2周急警）。"
+      },
+      "ziji_note": {
+        "commentary": "从体用与细胞内外渗透压剖析血管壁燥润平衡，必兼平肝阳、化水湿、逐瘀、固肾气。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:五苓散",
+            "name": "五苓散"
+          },
+          {
+            "id": "jinkui:肾气丸",
+            "name": "肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:du16:风府",
+            "name": "风府"
+          },
+          {
+            "id": "acupoint:lv03:太冲",
+            "name": "太冲"
+          },
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "高血压",
+        "中风先兆",
+        "手指麻木",
+        "颈项强",
+        "小腿胫前麻"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 87,
+        "end_page": 96,
+        "q": "HT-23 肝阳上亢·肾阳不足"
+      }
+    },
+    {
+      "id": "hantang:ht-24",
+      "num": 24,
+      "ht_number": "HT-24",
+      "name": "降血糖（上中下三消渴）",
+      "full_title": "HT-24 降血糖（上中下三消渴）",
+      "category_id": "spleen_metabolic",
+      "category": "第四章 · 脾胃消渴便秘痔瘘代谢门",
+      "category_short": "脾胃消渴",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "糖尿病（多饮口渴、多食易饥、小便频多或浊甜）。",
+        "pathogenesis": "脾胰与心脏热量协调失序（需肾水与肝木相生）；胰岛素反压糖水下沉双足诱发青光眼失明、中风、心衰、足坏疽。",
+        "partial_herbs": "山茱萸、生地、石膏、天花粉、枳实、瓜蒌实……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "轻症早晚餐后 20 粒，重症三餐后 25–30 粒+；血糖正常后仍须巩固 1 个月。",
+        "contraindications": "【铁律】晚餐后至睡前严禁宵夜！切忌仅依血糖机数字恐吓，亦忌盲投大剂四逆/理中助燥渴或单投六味地黄致浮肿。"
+      },
+      "ziji_note": {
+        "commentary": "精分「两层脾功能」：现代消渴多为肠胃过盛而细胞葡萄糖阳化气无力，乱用大热四逆反助消，当推桂附八味肾气丸。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:八味肾气丸",
+            "name": "八味肾气丸"
+          },
+          {
+            "id": "jinkui:肾气丸",
+            "name": "肾气丸"
+          },
+          {
+            "id": "shanghan:白虎汤",
+            "name": "白虎汤"
+          },
+          {
+            "id": "jinkui:栝蒌瞿麦丸",
+            "name": "栝蒌瞿麦丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          },
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          },
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "糖尿病",
+        "消渴",
+        "胰岛素并发症",
+        "禁宵夜",
+        "两层脾功能"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 96,
+        "end_page": 104,
+        "q": "HT-24 降血糖"
+      }
+    },
+    {
+      "id": "hantang:ht-25",
+      "num": 25,
+      "ht_number": "HT-25",
+      "name": "疏通经络剂（三叉/颜面神经痛）",
+      "full_title": "HT-25 疏通经络剂（三叉/颜面神经痛）",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "三叉神经痛、颜面神经闪电样剧痛、面部肌肉麻木。",
+        "pathogenesis": "足少阳胆、足阳明胃、手少阳三焦三经阻滞火逆上冲。",
+        "partial_herbs": "直入三经兼开二十条奇正经脉之活血通络专方",
+        "is_partial_disclosure": true,
+        "dosage_method": "每日 1 次，每次 30 粒，10 日为一疗程；早晚不拘，但【务必于饭后服用】（令药浮居上焦头面）。",
+        "contraindications": "若久服止痛药已致大便秘结，提示肝脏受损，忌再滥止痛；务必戒熬夜、戒饮酒防逆火复发。"
+      },
+      "ziji_note": {
+        "commentary": "阐明邪气入络五阶深度：「痒（极浅）→ 痛 → 麻 → 木/不仁 → 不用（瘫废最重）」。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:大柴胡汤",
+            "name": "大柴胡汤"
+          },
+          {
+            "id": "jinkui:小柴胡汤",
+            "name": "小柴胡汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:li04:合谷",
+            "name": "合谷"
+          },
+          {
+            "id": "acupoint:st06:颊车",
+            "name": "颊车"
+          },
+          {
+            "id": "acupoint:st04:地仓",
+            "name": "地仓"
+          },
+          {
+            "id": "acupoint:extra:太阳",
+            "name": "太阳"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "三叉神经痛",
+        "颜面痛",
+        "必饭后服",
+        "五阶痒痛麻木不用"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 104,
+        "end_page": 108,
+        "q": "HT-25 疏通经络剂"
+      }
+    },
+    {
+      "id": "hantang:ht-26",
+      "num": 26,
+      "ht_number": "HT-26",
+      "name": "石淋·砂淋·小便带血",
+      "full_title": "HT-26 石淋·砂淋·小便带血",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "肾结石、细砂尿血、单侧或双侧腰腹痛，伴「内踝与跟腱间（太溪–照海–水泉–大钟）1 寸椭圆区剧烈压痛」。",
+        "pathogenesis": "肝疏泄失常＋水液杂离子沉积肾窍（与过食钙片、常饮含碱重硬生水有关）。",
+        "partial_herbs": "利肾通淋化石排砂方（未详列全味）",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭前 30 粒，重者一日三餐前 30 粒。",
+        "contraindications": "禁服化学钙片、忌饮生水硬水（改饮弱碱性茶）；勿只依赖 X 线（砂淋常不显影，须查脚踝肾石点：左足应左肾，右足应右肾）。"
+      },
+      "ziji_note": {
+        "commentary": "多饮茶水助化石通行，注意疏肝运水以断结石再源。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:猪苓汤",
+            "name": "猪苓汤"
+          },
+          {
+            "id": "jinkui:五苓散",
+            "name": "五苓散"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          },
+          {
+            "id": "acupoint:ki06:照海",
+            "name": "照海"
+          },
+          {
+            "id": "acupoint:gb25:京门",
+            "name": "京门"
+          },
+          {
+            "id": "acupoint:bl23:肾俞",
+            "name": "肾俞"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "肾结石",
+        "砂淋",
+        "尿血",
+        "肾石点压痛",
+        "禁钙片"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 108,
+        "end_page": 112,
+        "q": "HT-26 石淋·砂淋·小便带血"
+      }
+    },
+    {
+      "id": "hantang:ht-27",
+      "num": 27,
+      "ht_number": "HT-27",
+      "name": "痛风丸",
+      "full_title": "HT-27 痛风丸",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "痛风急性/慢性发作：关节红肿刺痛剧烈不可碰、痛风石、常伴饮酒或甘肥触发。",
+        "pathogenesis": "长期甘肥厚味积聚酸性阴浊沉滞肾与关节，阳气被郁格而成表象热痛，实质风寒湿杂而为痹。",
+        "partial_herbs": "炮附子、白术、桂枝、炙甘草、白附（独角莲）……等（宗《伤寒》桂枝去芍药加术附汤意）",
+        "is_partial_disclosure": true,
+        "dosage_method": "平时保养早晚饭前 20 粒，正值发痛期早晚饭前 30 粒。",
+        "contraindications": "【绝对禁忌】痛风万不可用任何补药！须分清炮川附（温阳）与白附子（独角莲，辛温麻醉逐酸性湿浊但有小毒）。"
+      },
+      "ziji_note": {
+        "commentary": "忌被表面皮肤红热肿误导投苦寒清热致酸浊深陷骨节，直从桂枝类方建中温散兼利肾除酸。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:甘草附子汤",
+            "name": "甘草附子汤"
+          },
+          {
+            "id": "jinkui:桂甘姜枣麻辛附子汤",
+            "name": "桂甘姜枣麻辛附子汤"
+          },
+          {
+            "id": "jinkui:桂枝芍药知母汤",
+            "name": "桂枝芍药知母汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:lv03:太冲",
+            "name": "太冲"
+          },
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          },
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "痛风",
+        "关节红肿剧痛",
+        "万不可用补药",
+        "独角莲白附子"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 112,
+        "end_page": 114,
+        "q": "HT-27 痛风丸"
+      }
+    },
+    {
+      "id": "hantang:ht-28",
+      "num": 28,
+      "ht_number": "HT-28",
+      "name": "风湿丸",
+      "full_title": "HT-28 风湿丸",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "游走性关节痛、肌肉沉重酸痛（风湿痹：风行、寒痛、湿重）。",
+        "pathogenesis": "大汗出后当风吹空调或直跳冷水泳池，致汗水闭锁于皮肉筋骨关节不得出。",
+        "partial_herbs": "白术、桂枝、炙甘草、茯苓……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "一般早晚饭前 25 粒，重症三餐前 30 粒。",
+        "contraindications": "服药及痊愈后严禁大汗吹空调或骤下冷水！"
+      },
+      "ziji_note": {
+        "commentary": "治风湿须守「微汗兼利小便双解」，临床常互参《金匮》桂枝芍药知母汤与乌头汤。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:桂枝芍药知母汤",
+            "name": "桂枝芍药知母汤"
+          },
+          {
+            "id": "jinkui:乌头汤",
+            "name": "乌头汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:gb34:阳陵泉",
+            "name": "阳陵泉"
+          },
+          {
+            "id": "acupoint:li11:曲池",
+            "name": "曲池"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "风湿",
+        "行痹",
+        "游走关节痛",
+        "大汗吹空调",
+        "桂枝芍药知母汤"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 114,
+        "end_page": 117,
+        "q": "HT-28 风湿丸"
+      }
+    },
+    {
+      "id": "hantang:ht-29",
+      "num": 29,
+      "ht_number": "HT-29",
+      "name": "消痔丸",
+      "full_title": "HT-29 消痔丸",
+      "category_id": "spleen_metabolic",
+      "category": "第四章 · 脾胃消渴便秘痔瘘代谢门",
+      "category_short": "脾胃消渴",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "外痔：肛门口外翻红肿炙热、剧痛奇痒、流浊水、大便后擦纸微滴带血。",
+        "pathogenesis": "肛门魄门外络湿热燥结搏聚，与内痔（HT-9）同源而标位不同。",
+        "partial_herbs": "黄芩、黄连、枳实、麻仁……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭前 25 粒，严重时可增至 40 粒。",
+        "contraindications": "忌辛辣酒燥湿热之物。"
+      },
+      "ziji_note": {
+        "commentary": "兼需升举气血治其本、清解湿热毒气治其标。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:麻子仁丸",
+            "name": "麻子仁丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:bl57:承山",
+            "name": "承山"
+          },
+          {
+            "id": "acupoint:du20:百会",
+            "name": "百会"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "外痔",
+        "肛门剧痛",
+        "流浊水",
+        "便后滴血"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 117,
+        "end_page": 118,
+        "q": "HT-29 消痔丸"
+      }
+    },
+    {
+      "id": "hantang:ht-30",
+      "num": 30,
+      "ht_number": "HT-30",
+      "name": "足三阳经虚实痛（坐骨神经痛）",
+      "full_title": "HT-30 足三阳经虚实痛（坐骨神经痛）",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "坐骨神经痛、腰椎间盘突出牵痛，甚则头不可转侧、卧床瘫痛。",
+        "pathogenesis": "足太阳膀胱与足少阳胆经筋力左右失衡牵拉、少阳火当降而不降兼肾虚血瘀。",
+        "partial_herbs": "活血通络＋固肾骨＋止痛专方（讲者临床常合活络效灵丹，头晕加天麻末）",
+        "is_partial_disclosure": true,
+        "dosage_method": "本方常规空腹服；但因下焦苦寒止痛药（如乳香没药、吴茱萸、龙胆草最苦三药）易犯胃致呕，服前宜先食【一小口点心垫胃】！",
+        "contraindications": "反对腰椎切盘手术（术后疤痕创伤极难完全逆转）。"
+      },
+      "ziji_note": {
+        "commentary": "传「最苦三药（乳香没药、吴茱萸、龙胆草）垫胃防呕法」；兼明「补肾为体、通络为用」，配合委中后溪申脉针刺效神速。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:芍药甘草汤",
+            "name": "芍药甘草汤"
+          },
+          {
+            "id": "jinkui:肾气丸",
+            "name": "肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:gb30:环跳",
+            "name": "环跳"
+          },
+          {
+            "id": "acupoint:bl40:委中",
+            "name": "委中"
+          },
+          {
+            "id": "acupoint:si03:后溪",
+            "name": "后溪"
+          },
+          {
+            "id": "acupoint:bl62:申脉",
+            "name": "申脉"
+          },
+          {
+            "id": "acupoint:gb34:阳陵泉",
+            "name": "阳陵泉"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "坐骨神经痛",
+        "腰椎间盘突出",
+        "先吃点心垫胃",
+        "反对腰椎手术"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 118,
+        "end_page": 121,
+        "q": "HT-30 足三阳经虚实痛"
+      }
+    },
+    {
+      "id": "hantang:ht-31",
+      "num": 31,
+      "ht_number": "HT-31",
+      "name": "中焦湿热（高甘油三酯）",
+      "full_title": "HT-31 中焦湿热（高甘油三酯）",
+      "category_id": "spleen_metabolic",
+      "category": "第四章 · 脾胃消渴便秘痔瘘代谢门",
+      "category_short": "脾胃消渴",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "高三酸甘油酯、习惯性便秘、全身多发脂肪瘤、防大肠癌经无瓣膜肠系膜静脉直转肝癌。",
+        "pathogenesis": "肝通大肠、脾通小肠、卯时（5–7 AM）必排便；湿浊滞留中焦血脉难以阳化清出。",
+        "partial_herbs": "泽泻、石膏、知母、大黄……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "调中焦湿热通腑，使卯时大便顺畅、血脂渐降。",
+        "contraindications": "紫极讲者严戒：切勿照抄公开泻药泽泻石膏大黄单用乱泻！必顾护脾胃正气。"
+      },
+      "ziji_note": {
+        "commentary": "补充柴胡剂调疏通腑三大吉兆：「微溏泄、腹肠鸣漉漉、昏然欲睡」。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:大柴胡汤",
+            "name": "大柴胡汤"
+          },
+          {
+            "id": "jinkui:小柴胡汤",
+            "name": "小柴胡汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:st25:天枢",
+            "name": "天枢"
+          },
+          {
+            "id": "acupoint:sj06:支沟",
+            "name": "支沟"
+          },
+          {
+            "id": "acupoint:gb34:阳陵泉",
+            "name": "阳陵泉"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "高甘油三酯",
+        "高血脂",
+        "脂肪瘤",
+        "习惯便秘",
+        "卯时便"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 121,
+        "end_page": 124,
+        "q": "HT-31 中焦湿热"
+      }
+    },
+    {
+      "id": "hantang:ht-32",
+      "num": 32,
+      "ht_number": "HT-32",
+      "name": "乌金丸",
+      "full_title": "HT-32 乌金丸",
+      "category_id": "cardiovascular",
+      "category": "第二章 · 心胸胸痹脉管血压门",
+      "category_short": "心胸脉管",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "「心痛彻背、背痛彻心」（心肌梗塞发作前约一年报警先兆）、心包顽痰阻塞，兼防婴幼儿痰塞猝死。",
+        "pathogenesis": "纵膈腔及心包膜周围积聚黏稠顽痰死血，牵阻督脉太阳背阳，久必发急梗。",
+        "partial_herbs": "赤石脂、附子……等（化裁《金匮》乌头赤石脂丸加除心包顽痰药）",
+        "is_partial_disclosure": true,
+        "dosage_method": "成人早晚饭后 30 粒；婴儿肺心痰塞防猝死（SIDS）研粉日 2 次、每次 5 粒。",
+        "contraindications": "反对心血管乱装支架；乌头附子热药须辨心包确有寒凝死痰，配合排痰药勿呆补。"
+      },
+      "ziji_note": {
+        "commentary": "全面贯通《金匮·胸痹心痛短气》八方（指出白酒乃古酿米酒非高度烧酒），依轻重虚实分别对参栝蒌薤白、枳实薤白桂枝、理中、九痛等方。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:乌头赤石脂丸",
+            "name": "乌头赤石脂丸"
+          },
+          {
+            "id": "jinkui:栝蒌薤白半夏汤",
+            "name": "栝蒌薤白半夏汤"
+          },
+          {
+            "id": "jinkui:枳实薤白桂枝汤",
+            "name": "枳实薤白桂枝汤"
+          },
+          {
+            "id": "jinkui:桂甘姜枣麻辛附子汤",
+            "name": "桂甘姜枣麻辛附子汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren14:巨阙",
+            "name": "巨阙"
+          },
+          {
+            "id": "acupoint:pc06:内关",
+            "name": "内关"
+          },
+          {
+            "id": "acupoint:sp04:公孙",
+            "name": "公孙"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "心痛彻背",
+        "胸痹",
+        "心肌梗塞先兆",
+        "心包痰",
+        "乌头赤石脂丸"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 124,
+        "end_page": 131,
+        "q": "HT-32 乌金丸"
+      }
+    },
+    {
+      "id": "hantang:ht-33",
+      "num": 33,
+      "ht_number": "HT-33",
+      "name": "中焦湿热过盛兼便秘",
+      "full_title": "HT-33 中焦湿热过盛兼便秘",
+      "category_id": "spleen_metabolic",
+      "category": "第四章 · 脾胃消渴便秘痔瘘代谢门",
+      "category_short": "脾胃消渴",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "胃家燥热过胖兼便秘、易饥暴食、突发低血糖发抖冷汗（消渴早期先兆）。",
+        "pathogenesis": "阳明胃热过炽兼肠中腐食宿湿结滞（湿为阴邪、热为阳邪相互胶结）。",
+        "partial_herbs": "石膏、泽泻、丹皮、茯苓……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "服至异常亢盛胃口消退、大便畅排浊液恶气尽出即停。",
+        "contraindications": "严禁用番泻叶、单味大黄等泻下减肥茶伤干肠津。"
+      },
+      "ziji_note": {
+        "commentary": "立「寒热（无形之气）× 燥湿（有形之形）四象矩阵」，指出石膏仅清阳明客热，化解胶结湿热重在五苓散加减枢纽与清瘀积。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:五苓散",
+            "name": "五苓散"
+          },
+          {
+            "id": "shanghan:调胃承气汤",
+            "name": "调胃承气汤"
+          },
+          {
+            "id": "shanghan:白虎汤",
+            "name": "白虎汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:st44:内庭",
+            "name": "内庭"
+          },
+          {
+            "id": "acupoint:st25:天枢",
+            "name": "天枢"
+          },
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "胃热便秘",
+        "肥胖易饥",
+        "低血糖发抖",
+        "寒热燥湿四象"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 131,
+        "end_page": 135,
+        "q": "HT-33 中焦湿热过盛兼便秘"
+      }
+    },
+    {
+      "id": "hantang:ht-34",
+      "num": 34,
+      "ht_number": "HT-34",
+      "name": "补天丸（脱发耳鸣）",
+      "full_title": "HT-34 补天丸（脱发耳鸣）",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "男性雄性秃脱发、脑转耳鸣、头晕、精血不上注髓海。",
+        "pathogenesis": "过嗜人工甜食及碳酸汽水令脾土过克肾水（土克水），肾精不足不能上奉发窍与髓海。",
+        "partial_herbs": "当归、熟地、升麻……等（纯中药滋补，无副作用）",
+        "is_partial_disclosure": true,
+        "dosage_method": "与 HT-49 相比本方偏于向上强脑生发。",
+        "contraindications": "【必守戒条】若不断绝减少重甜食与汽水习惯，药难尽效！"
+      },
+      "ziji_note": {
+        "commentary": "借天地「地气上升为云、天气下降为雨」阐明精血上注头巅脑海（天）而称「补天」。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:肾气丸",
+            "name": "肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:du20:百会",
+            "name": "百会"
+          },
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          },
+          {
+            "id": "acupoint:sj21:耳门",
+            "name": "耳门"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "脱发",
+        "耳鸣",
+        "脑转耳鸣",
+        "戒甜食",
+        "补天"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 135,
+        "end_page": 137,
+        "q": "HT-34 补天丸"
+      }
+    },
+    {
+      "id": "hantang:ht-35",
+      "num": 35,
+      "ht_number": "HT-35",
+      "name": "紫金丹",
+      "full_title": "HT-35 紫金丹",
+      "category_id": "cardiovascular",
+      "category": "第二章 · 心胸胸痹脉管血压门",
+      "category_short": "心胸脉管",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "胸腔挫伤瘀血、头部外伤瘀积、落枕、网球肘及一切膈以上与上肢陈瘀宿痛。",
+        "pathogenesis": "上半身肝经疏泄失司兼胸膈络脉瘀血凝滞（来自唐容川《血府逐瘀汤》法）。",
+        "partial_herbs": "柴胡、枳壳、赤芍、甘草、桃仁、红花、当归、生地、川芎、牛膝、桔梗等（血府逐瘀加减）",
+        "is_partial_disclosure": true,
+        "dosage_method": "务必于【饭后服用】（引药停驻上焦胸膈）；服后排出黑便属排出陈瘀常态，勿惊。",
+        "contraindications": "血府逐瘀攻破力锐，长期服用必须配伍补气药，严禁单服日久耗损正气。"
+      },
+      "ziji_note": {
+        "commentary": "指出王清任解剖误言胸膜血府，实则方为四逆散合桃红四物加牛膝桔梗，正击「肝藏血之真血府」，故奇效。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:四逆散",
+            "name": "四逆散"
+          },
+          {
+            "id": "jinkui:桂枝茯苓丸",
+            "name": "桂枝茯苓丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:lv14:期门",
+            "name": "期门"
+          },
+          {
+            "id": "acupoint:pc06:内关",
+            "name": "内关"
+          },
+          {
+            "id": "acupoint:li11:曲池",
+            "name": "曲池"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "胸腔瘀血",
+        "头部外伤",
+        "网球肘",
+        "黑便排瘀",
+        "血府逐瘀"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 137,
+        "end_page": 139,
+        "q": "HT-35 紫金丹"
+      }
+    },
+    {
+      "id": "hantang:ht-36",
+      "num": 36,
+      "ht_number": "HT-36",
+      "name": "天青丸",
+      "full_title": "HT-36 天青丸",
+      "category_id": "gynecology",
+      "category": "第一章 · 妇科乳经胎产症瘕门",
+      "category_short": "妇科乳经",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "女子下腹盆腔寒瘀痛经，兼治肚脐以下下肢膝踝跌扑瘀肿青紫（有别于 HT-60 主静脉曲张）。",
+        "pathogenesis": "小肠火弱兼下焦胆腑气机不敛、静脉血行迟滞停瘀下肢及少腹。",
+        "partial_herbs": "丹皮、桃仁、白芍……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "三餐或早晚饭前按证随用（常服令双足循环温劲）。",
+        "contraindications": "无内伤寒瘀者毋须滥用；忌纯寒凝血、纯热伤阴。"
+      },
+      "ziji_note": {
+        "commentary": "与 HT-35 紫金丹相对：紫金丹治膈上从肝升发；天青丸治脐下兼从胆腑收敛，守「冻头暖足」五要诀。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:桂枝茯苓丸",
+            "name": "桂枝茯苓丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:sp06:三阴交",
+            "name": "三阴交"
+          },
+          {
+            "id": "acupoint:bl40:委中",
+            "name": "委中"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "痛经",
+        "下肢瘀血",
+        "跌打瘀肿",
+        "小肠虚寒"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 139,
+        "end_page": 141,
+        "q": "HT-36 天青丸"
+      }
+    },
+    {
+      "id": "hantang:ht-37",
+      "num": 37,
+      "ht_number": "HT-37",
+      "name": "天威丸",
+      "full_title": "HT-37 天威丸",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "早泄、滑精遗精、夜梦交、女子肾虚神疲倦怠。",
+        "pathogenesis": "阳不入阴、神不守舍而精失固摄（本《伤寒》桂枝加龙骨牡蛎汤调阴阳浮越）。",
+        "partial_herbs": "收敛固精配补心健肾、定神之药（与 HT-49 偏重壮阳生精不同，本方重固摄定神）",
+        "is_partial_disclosure": true,
+        "dosage_method": "按固精常法服用，须配节欲安神。",
+        "contraindications": "戒迷信春药助欲竭精（以《红楼梦》贾瑞为例），忌不固神而乱投大热淫药。"
+      },
+      "ziji_note": {
+        "commentary": "立「六阶神精病变（阳虚/阴虚→神惊/遗精→阳脱兔髓/阴脱乌肝）」，唯有神定且精能上达心部方不遗泄。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:桂枝龙骨牡蛎汤",
+            "name": "桂枝龙骨牡蛎汤"
+          },
+          {
+            "id": "jinkui:小建中汤",
+            "name": "小建中汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ht07:神门",
+            "name": "神门"
+          },
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          },
+          {
+            "id": "acupoint:bl23:肾俞",
+            "name": "肾俞"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "早泄",
+        "遗精",
+        "梦交",
+        "神不定",
+        "桂枝加龙骨牡蛎"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 141,
+        "end_page": 142,
+        "q": "HT-37 天威丸"
+      }
+    },
+    {
+      "id": "hantang:ht-38",
+      "num": 38,
+      "ht_number": "HT-38",
+      "name": "玉华丸",
+      "full_title": "HT-38 玉华丸",
+      "category_id": "gynecology",
+      "category": "第一章 · 妇科乳经胎产症瘕门",
+      "category_short": "妇科乳经",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "女性抗衰老滋补、防骨质疏松与老年痴呆，调和女性阴血与阳化气之平。",
+        "pathogenesis": "男女内景翻转：男子胸阴腹阳，女子胸阳腹阴；女子以阴血为体、阳气运化为用，绝不可盲投纯阳燥药劫阴。",
+        "partial_herbs": "川芎、生地……等（纯植物性，绝无动物性或毒性药）",
+        "is_partial_disclosure": true,
+        "dosage_method": "未绝经三餐饭前 10 粒；更年期后三餐饭前 15–20 粒。晨起乳头微敏微勃为循环畅旺吉象。",
+        "contraindications": "忌盲服化学维生素与珍珠粉防生胆/肾结石；女子忌滥吃纯阳热补。"
+      },
+      "ziji_note": {
+        "commentary": "对照仲景肾气丸「知来路亦知去路」与朱丹溪六味地黄丸「有来路无去路」，阐明护阴不泥阴之义。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:肾气丸",
+            "name": "肾气丸"
+          },
+          {
+            "id": "jinkui:八味肾气丸",
+            "name": "八味肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          },
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "女性抗衰",
+        "更年期滋补",
+        "阴成形",
+        "乳头微敏"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 142,
+        "end_page": 147,
+        "q": "HT-38 玉华丸"
+      }
+    },
+    {
+      "id": "hantang:ht-39",
+      "num": 39,
+      "ht_number": "HT-39",
+      "name": "鼻渊丸",
+      "full_title": "HT-39 鼻渊丸",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "过敏性鼻炎、鼻塞不通、长流清涕不止、喷嚏连连、鼻痒眼痒（兼脑漏浊下）。",
+        "pathogenesis": "脾湿不运化痰饮积聚于肺（常见于过用抗生素压邪伤肺脾阳之小儿）。",
+        "partial_herbs": "葛根、苍术、桂枝、白芍、生姜……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "一般早晚饭前 20 粒，重症三餐饭前 20–25 粒。",
+        "contraindications": "禁吞压制喷嚏咳嗽之西医抗过敏药；需分清清晨起床微嚏数声（肺主治节调节）并非感冒。"
+      },
+      "ziji_note": {
+        "commentary": "引《四圣心源·鼻病根源》阐明治鼻本在中土升降；升脾培正气则肺湿清浊复常。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:葛根汤",
+            "name": "葛根汤"
+          },
+          {
+            "id": "jinkui:小青龙汤",
+            "name": "小青龙汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:li20:迎香",
+            "name": "迎香"
+          },
+          {
+            "id": "acupoint:li04:合谷",
+            "name": "合谷"
+          },
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "过敏性鼻炎",
+        "鼻渊",
+        "流清涕",
+        "喷嚏",
+        "脾湿聚肺"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 147,
+        "end_page": 148,
+        "q": "HT-39 鼻渊丸"
+      }
+    },
+    {
+      "id": "hantang:ht-40",
+      "num": 40,
+      "ht_number": "HT-40",
+      "name": "乌梅丸",
+      "full_title": "HT-40 乌梅丸",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "厥阴蛔厥寄生虫证；倪氏特辟扩大用于【心脏搭桥/支架术后舌现黄厚腻黏苔、头晕胸闷血压高】清心包胶痰。",
+        "pathogenesis": "厥阴寒热错杂兼心包与肠道阴浊痰湿虫积。",
+        "partial_herbs": "乌梅（300枚醋浸）、干姜、黄连、附子、川椒、桂枝、细辛、人参……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "清虫痰早晚 20–30 粒；防心脏术后苔腻三餐后各 5 粒，往往 2–3 日见效，【一见舌苔转薄白即止药】！",
+        "contraindications": "苔转净即止，不可无病过久攻泄。"
+      },
+      "ziji_note": {
+        "commentary": "深解乌梅丸寒热并用、辛酸同炉各归其位之妙（附椒桂辛细辛温升散、黄连清热、乌梅酸收），乃《伤寒》厥阴总纲。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:乌梅丸",
+            "name": "乌梅丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:pc06:内关",
+            "name": "内关"
+          },
+          {
+            "id": "acupoint:sp04:公孙",
+            "name": "公孙"
+          },
+          {
+            "id": "acupoint:lv14:期门",
+            "name": "期门"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "乌梅丸",
+        "寄生虫",
+        "蛔厥",
+        "黄厚腻苔",
+        "心脏支架术后苔腻"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 148,
+        "end_page": 151,
+        "q": "HT-40 乌梅丸"
+      }
+    },
+    {
+      "id": "hantang:ht-41",
+      "num": 41,
+      "ht_number": "HT-41",
+      "name": "中安丸（失眠）",
+      "full_title": "HT-41 中安丸（失眠）",
+      "category_id": "shen_emotion",
+      "category": "第七章 · 神志情志安神心法门",
+      "category_short": "神志安神",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "心血亏虚或肺魄不宁、心肾不交之长期失眠。",
+        "pathogenesis": "心血不足（乳水不降归心）兼肺不敛魄、肝胆升降失常，致卫气夜难入阴。",
+        "partial_herbs": "养心血、敛肺魄并通调肝肾升降安神方（对照天王补心丹、栀子豉汤、天魂地魄思路）",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚各 30 粒，严重可再加服 1 次。",
+        "contraindications": "【绝对经期切换铁律】女性凡遇月经来潮期间不可服用 HT-41，必须立即改服【HT-2 退乳丸】以顺经行而自安眠！"
+      },
+      "ziji_note": {
+        "commentary": "精比栀子豉汤（心烦懊恼虚热：栀子象心、香豉象肾）与竹叶石膏汤（不烦虚热）；肝郁火上当排肝毒，下寒当升肝木。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:栀子豉汤",
+            "name": "栀子豉汤"
+          },
+          {
+            "id": "jinkui:竹叶石膏汤",
+            "name": "竹叶石膏汤"
+          },
+          {
+            "id": "shanghan:黄连阿胶汤",
+            "name": "黄连阿胶汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ht07:神门",
+            "name": "神门"
+          },
+          {
+            "id": "acupoint:pc06:内关",
+            "name": "内关"
+          },
+          {
+            "id": "acupoint:ki06:照海",
+            "name": "照海"
+          },
+          {
+            "id": "acupoint:bl62:申脉",
+            "name": "申脉"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "失眠",
+        "中安丸",
+        "经期停服改HT2",
+        "卫不入阴"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 151,
+        "end_page": 153,
+        "q": "HT-41 中安丸"
+      }
+    },
+    {
+      "id": "hantang:ht-42",
+      "num": 42,
+      "ht_number": "HT-42",
+      "name": "控涎丹",
+      "full_title": "HT-42 控涎丹",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "顽痰胶着阻塞胸肺、癫痫发搐、中风昏迷痰涎壅盛、阴疽隐痛游走痰核。",
+        "pathogenesis": "十病九痰，怪病多顽痰阻闭清窍经络，正气尚支时当一鼓作气逐水破痰。",
+        "partial_herbs": "甘遂、大戟、白芥子（各等分糊丸）",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭后 30 粒（正邪实拒时宜果断逐之，痰退即止）。",
+        "contraindications": "戒生冷饮食；正气尚支方可用，正虚大衰不可妄投，亦绝对不可久服。"
+      },
+      "ziji_note": {
+        "commentary": "借仲景甘遂半夏汤「用大枣缓中护胃不用甘草掣肘」再次破十八反流俗偏见；精细对照十枣决水与皂荚涤肺焦痰。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:甘遂半夏汤",
+            "name": "甘遂半夏汤"
+          },
+          {
+            "id": "jinkui:十枣汤",
+            "name": "十枣汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:st40:丰隆",
+            "name": "丰隆"
+          },
+          {
+            "id": "acupoint:ren12:中脘",
+            "name": "中脘"
+          },
+          {
+            "id": "acupoint:li11:曲池",
+            "name": "曲池"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "控涎丹",
+        "顽痰",
+        "癫痫",
+        "中风痰阻",
+        "不可久服"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 153,
+        "end_page": 156,
+        "q": "HT-42 控涎丹"
+      }
+    },
+    {
+      "id": "hantang:ht-43",
+      "num": 43,
+      "ht_number": "HT-43",
+      "name": "麻子仁丸",
+      "full_title": "HT-43 麻子仁丸",
+      "category_id": "spleen_metabolic",
+      "category": "第四章 · 脾胃消渴便秘痔瘘代谢门",
+      "category_short": "脾胃消渴",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "脾约证：大便干硬如羊屎颗粒、数日一行却不觉腹痛胀满（多见久坐或老年女性）。",
+        "pathogenesis": "脾失升散、胃肺不降，致小肠水液偏渗膀胱、肠失濡润而燥如羊屎；通便旨在防浊毒逆入心包。",
+        "partial_herbs": "麻仁、当归、白芍、杏仁、枳实、厚朴、大黄（师《伤寒》阳明篇脾约麻仁丸）",
+        "is_partial_disclosure": true,
+        "dosage_method": "睡前 30 粒。",
+        "contraindications": "辨明无腹满硬痛胀气，忌盲投大承气猛攻；虚冷大便白泄忌用。"
+      },
+      "ziji_note": {
+        "commentary": "以「肺朝百脉输津大肠」及 HT-17「外湿必内燥」相参；日行一便乃防心包积浊第一要务。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:麻子仁丸",
+            "name": "麻子仁丸"
+          },
+          {
+            "id": "jinkui:大承气汤",
+            "name": "大承气汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:sj06:支沟",
+            "name": "支沟"
+          },
+          {
+            "id": "acupoint:ki06:照海",
+            "name": "照海"
+          },
+          {
+            "id": "acupoint:st25:天枢",
+            "name": "天枢"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "脾约",
+        "羊屎便",
+        "颗状便",
+        "无痛便秘",
+        "老年便秘"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 156,
+        "end_page": 157,
+        "q": "HT-43 麻子仁丸"
+      }
+    },
+    {
+      "id": "hantang:ht-44",
+      "num": 44,
+      "ht_number": "HT-44",
+      "name": "皂荚丸",
+      "full_title": "HT-44 皂荚丸",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "重度老烟枪、吸食鸦片、常吸油烟厨师、早期尘/硅肺咳喘（肺浊焦痰积聚、咳逆上气、时时吐浊、但坐不得眠）。",
+        "pathogenesis": "焦油浊物黏死肺泡壁形成浓痰顽积，非麦门冬汤之肺胃干枯燥咳（彼不可用皂荚）。",
+        "partial_herbs": "皂荚（制）……等（合枣肉成丸之意）",
+        "is_partial_disclosure": true,
+        "dosage_method": "晚饭后临睡前 30 粒，重者一日二次（次日可见排黑油状恶痰便）。",
+        "contraindications": "【绝对必遵送法】皂荚偏碱刮肠胃，必须配「大红枣汤」一同吞服护胃，严禁白开水或茶水直吞！"
+      },
+      "ziji_note": {
+        "commentary": "另传外用民间妙法：生皂角煎汤洗头去屑止脱，取代化学洗发水。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:皂荚丸",
+            "name": "皂荚丸"
+          },
+          {
+            "id": "jinkui:麦门冬汤",
+            "name": "麦门冬汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:bl13:肺俞",
+            "name": "肺俞"
+          },
+          {
+            "id": "acupoint:lu01:中府",
+            "name": "中府"
+          },
+          {
+            "id": "acupoint:lu09:太渊",
+            "name": "太渊"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "老烟枪",
+        "肺焦痰",
+        "早期尘肺",
+        "但坐不得眠",
+        "红枣汤送服"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 157,
+        "end_page": 159,
+        "q": "HT-44 皂荚丸"
+      }
+    },
+    {
+      "id": "hantang:ht-45",
+      "num": 45,
+      "ht_number": "HT-45",
+      "name": "己椒苈黄丸",
+      "full_title": "HT-45 己椒苈黄丸",
+      "category_id": "spleen_metabolic",
+      "category": "第四章 · 脾胃消渴便秘痔瘘代谢门",
+      "category_short": "脾胃消渴",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "右肋下至右下腹（升/横结肠）胀满硬痛拒按、按之肠间有水声或气块走动、大便秘、小便不利、或黄疸。",
+        "pathogenesis": "肠间水饮与宿气胶结（西医超声常未见实肿），须前后分消水饮兼润下软坚。",
+        "partial_herbs": "防己、椒目、葶苈子、大黄（原方出自《金匮要略》）",
+        "is_partial_disclosure": true,
+        "dosage_method": "【绝对必遵送法】必须以「芒硝汤」送服；服后大下片状/板结黏便及大量水液即行停药，利止勿久服！",
+        "contraindications": "须经医师辨证处方；水便已下即停，切勿无休止长服。"
+      },
+      "ziji_note": {
+        "commentary": "若右章门剧痛而左肝关、左胆石点无压痛兼按腹水声，即惊阻清浊水饮症；临床常以大柴胡汤合己椒苈黄丸直扫右结肠顽积。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:己椒苈黄丸",
+            "name": "己椒苈黄丸"
+          },
+          {
+            "id": "jinkui:大柴胡汤",
+            "name": "大柴胡汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:st25:天枢",
+            "name": "天枢"
+          },
+          {
+            "id": "acupoint:ren09:水分",
+            "name": "水分"
+          },
+          {
+            "id": "acupoint:sp09:阴陵泉",
+            "name": "阴陵泉"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "右腹胀拒按",
+        "肠间水声",
+        "己椒苈黄丸",
+        "芒硝汤送服",
+        "升结肠水饮"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 159,
+        "end_page": 161,
+        "q": "HT-45 己椒苈黄丸"
+      }
+    },
+    {
+      "id": "hantang:ht-46",
+      "num": 46,
+      "ht_number": "HT-46",
+      "name": "六味地黄丸（倪氏古比例）",
+      "full_title": "HT-46 六味地黄丸（倪氏古比例）",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "补益下焦肝肾精血、日常防肾亏（大人小孩男女皆宜）。",
+        "pathogenesis": "市售等量六味易困脾水肿；倪氏恢复重用地黄比例（熟地需九蒸九晒去腻滞），兼取辰时生发与淡凉盐水引咸下行。",
+        "partial_herbs": "泽泻 1 : 丹皮 1 : 茯苓 1 : 淮山药 2 : 山茱萸 2 : 九蒸九晒熟地黄 8（1:1:1:2:2:8 比例）",
+        "is_partial_disclosure": false,
+        "dosage_method": "【绝对特异服法】睡前床头备微凉淡盐水，清晨未起床前即吞服：成人 25–30 粒，小孩 10 粒。",
+        "contraindications": "忌用市售劣比例或白天温水乱服（现代人脾湿重，乱服常规六味多致小腿内侧凹陷水肿）。"
+      },
+      "ziji_note": {
+        "commentary": "指出沿用两千年的实是仲景肾气丸，非后世钱乙小儿减方之六味；若未严守本比例及辰盐凉水服法极易呆滞生湿。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:肾气丸",
+            "name": "肾气丸"
+          },
+          {
+            "id": "jinkui:八味肾气丸",
+            "name": "八味肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          },
+          {
+            "id": "acupoint:sp06:三阴交",
+            "name": "三阴交"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "六味地黄丸",
+        "九蒸九晒",
+        "晨淡盐水",
+        "比例1:1:1:2:2:8"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 161,
+        "end_page": 163,
+        "q": "HT-46 六味地黄丸"
+      }
+    },
+    {
+      "id": "hantang:ht-47",
+      "num": 47,
+      "ht_number": "HT-47",
+      "name": "重阳丸（血精/睾丸护养）",
+      "full_title": "HT-47 重阳丸（血精/睾丸护养）",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "男子精中带血（血精）、预防睾丸肿瘤或硬化。",
+        "pathogenesis": "小肠与命门阳火微弱，赤色血未能充分蒸化转为纯白精液，夹血残滞睾丸生患。",
+        "partial_herbs": "熟地、山茱萸、巴戟天、肉桂、远志……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭前 25 粒，虽约一周血精即退，但不可停药，须连续服完一瓶巩固小肠阳热。",
+        "contraindications": "勿见血止即早停。"
+      },
+      "ziji_note": {
+        "commentary": "精辨「精液（生殖营养）」与「精虫」之别，强调暖小肠化赤为白。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:八味肾气丸",
+            "name": "八味肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          },
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "血精",
+        "精中带血",
+        "小肠火",
+        "重阳"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 163,
+        "end_page": 164,
+        "q": "HT-47 重阳丸"
+      }
+    },
+    {
+      "id": "hantang:ht-48",
+      "num": 48,
+      "ht_number": "HT-48",
+      "name": "金匮肾气丸",
+      "full_title": "HT-48 金匮肾气丸",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "长年手足冰冷、下利、夜尿肾阳气化不足，配伍 HT-17 治湿疹渗水。",
+        "pathogenesis": "六味加桂附以温肾火、助小肠蒸化水津与升肝木。",
+        "partial_herbs": "熟地、山茱萸、山药、泽泻、茯苓、丹皮、炮附子、肉桂（市制版） vs 仲景原方干地黄+桂枝",
+        "is_partial_disclosure": true,
+        "dosage_method": "每日早起 30 粒，略加少许淡盐溶于水中吞服。",
+        "contraindications": "大便秘结者忌服熟地肉桂版！"
+      },
+      "ziji_note": {
+        "commentary": "重要考据：仲景原方本用【干地黄（润肠不滞）配牡桂（桂枝升肝）】，大便通利；后世改熟地配肉桂（主引火归元），唯有欲沉纳浮火时方用肉桂熟地。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:肾气丸",
+            "name": "肾气丸"
+          },
+          {
+            "id": "jinkui:八味肾气丸",
+            "name": "八味肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:bl23:肾俞",
+            "name": "肾俞"
+          },
+          {
+            "id": "acupoint:du04:命门",
+            "name": "命门"
+          },
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "金匮肾气丸",
+        "手脚冰冷",
+        "干地黄配桂枝",
+        "引火归元",
+        "便秘忌"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 164,
+        "end_page": 166,
+        "q": "HT-48 金匮肾气丸"
+      }
+    },
+    {
+      "id": "hantang:ht-49",
+      "num": 49,
+      "ht_number": "HT-49",
+      "name": "起阳丸（素食者壮阳生精）",
+      "full_title": "HT-49 起阳丸（素食者壮阳生精）",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "男性阳痿、精力不足、生精衰退，尤宜长期素食而不受动物性斑龙丸者。",
+        "pathogenesis": "助下焦阳气化生真精，区别于伟哥强掠心脏动力扩张血管而不生精反而诱发猝死。",
+        "partial_herbs": "肉苁蓉……等（纯植物性，绝无动物性药与毒性药）",
+        "is_partial_disclosure": true,
+        "dosage_method": "三餐饭前 10 粒。",
+        "contraindications": "【三不卖原则】仅限年满 40 岁以上、已婚男子或因外伤致勃起障碍影响夫妻生活者方售，严禁青少年滥购。"
+      },
+      "ziji_note": {
+        "commentary": "举 15 年糖尿病（血糖 12+）患者调理一年后精力如三十岁案；重申「一阴一阳之谓道，偏阳偏寒皆外道」。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:肾气丸",
+            "name": "肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          },
+          {
+            "id": "acupoint:du04:命门",
+            "name": "命门"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "阳痿",
+        "生精",
+        "肉苁蓉",
+        "纯植物壮阳",
+        "三不卖"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 166,
+        "end_page": 170,
+        "q": "HT-49 起阳丸"
+      }
+    },
+    {
+      "id": "hantang:ht-50",
+      "num": 50,
+      "ht_number": "HT-50",
+      "name": "牙痛止痛剂",
+      "full_title": "HT-50 牙痛止痛剂",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "深层化脓性牙痛、神经剧烈牙痛（反对杀牙神经或盲目拔牙）。",
+        "pathogenesis": "少阴肾与阳明胃经虚寒夹火上冲牙龈齿根。",
+        "partial_herbs": "细辛、赤豆、黄连……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚餐后 30 粒（剧痛可一日 4 次每次 40 粒，饭前后不拘）；【务必配合附子粉直接刷牙】透阳驱寒！",
+        "contraindications": "戒食甜食、冰啤烤辣引阳明厥阴相火暴动。"
+      },
+      "ziji_note": {
+        "commentary": "分享过年烤辣冷啤诱发奇痛用「小柴胡汤重加柴胡至 128g」一剂定痛；并传「生白矾＋食盐」日常固齿刷牙兼治口腔溃疡。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:麻黄附子细辛汤",
+            "name": "麻黄附子细辛汤"
+          },
+          {
+            "id": "jinkui:小柴胡汤",
+            "name": "小柴胡汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:li04:合谷",
+            "name": "合谷"
+          },
+          {
+            "id": "acupoint:st07:下关",
+            "name": "下关"
+          },
+          {
+            "id": "acupoint:st44:内庭",
+            "name": "内庭"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "牙痛",
+        "附子粉刷牙",
+        "生白矾食盐",
+        "口腔溃疡"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 170,
+        "end_page": 171,
+        "q": "HT-50 牙痛止痛剂"
+      }
+    },
+    {
+      "id": "hantang:ht-51",
+      "num": 51,
+      "ht_number": "HT-51",
+      "name": "白内障（蛴螬古注）",
+      "full_title": "HT-51 白内障（蛴螬古注）",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "白内障初中期晶状体白翳如云雾阻隔视物。",
+        "pathogenesis": "五脏之精皆上注于目而尤关肝气，目生白翳实系体内气血水浊瘀积阻窍，必破除瘀积。",
+        "partial_herbs": "蛴螬（原文误作蛴蚋）入肝目破除瘀积之翳",
+        "is_partial_disclosure": true,
+        "dosage_method": "原文作医理简要提示，全面治白内障与青光眼推荐参见 HT-88 磁珠丸。",
+        "contraindications": "切勿轻易激光或微创开眼割切（破损目络尺寸后患难复）。"
+      },
+      "ziji_note": {
+        "commentary": "与 HT-61 明目地黄、HT-88 磁珠丸串通眼五轮学说（详见 HT-88）。",
+        "linked_classical_formulas": [],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:bl01:睛明",
+            "name": "睛明"
+          },
+          {
+            "id": "acupoint:gb37:光明",
+            "name": "光明"
+          },
+          {
+            "id": "acupoint:lv03:太冲",
+            "name": "太冲"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "白内障",
+        "蛴螬",
+        "眼翳",
+        "肝开窍于目"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 171,
+        "end_page": 171,
+        "q": "HT-51 白内障"
+      }
+    },
+    {
+      "id": "hantang:ht-52",
+      "num": 52,
+      "ht_number": "HT-52",
+      "name": "赤丸",
+      "full_title": "HT-52 赤丸",
+      "category_id": "cardiovascular",
+      "category": "第二章 · 心胸胸痹脉管血压门",
+      "category_short": "心胸脉管",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "心脏肥大、主动脉血管剥离、寒气厥逆手足冰冷、腹满寒疝。",
+        "pathogenesis": "心与小肠及腹腔大动脉火力大虚、阴寒水气结聚厥逆；手温主心（动脉）、足温主小肠火（静脉回流）。",
+        "partial_herbs": "茯苓 4、半夏 4、炮乌头 2、细辛 1、真朱为衣，并加研究加强药味",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭前各 30 粒。",
+        "contraindications": "【绝对红线】无手足冰冷症状（手足温热者）绝对不可服用！"
+      },
+      "ziji_note": {
+        "commentary": "《金匮》赤丸方中乌头与半夏同用，铁证打破后世「十八反歌诀」死板教条；然须确审寒饮痼积与炮制如法。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:赤丸",
+            "name": "赤丸"
+          },
+          {
+            "id": "shanghan:真武汤",
+            "name": "真武汤"
+          },
+          {
+            "id": "jinkui:四逆汤",
+            "name": "四逆汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren14:巨阙",
+            "name": "巨阙"
+          },
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          },
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "心脏肥大",
+        "主动脉剥离",
+        "手足冰冷",
+        "赤丸",
+        "十八反实证"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 171,
+        "end_page": 172,
+        "q": "HT-52 赤丸"
+      }
+    },
+    {
+      "id": "hantang:ht-53",
+      "num": 53,
+      "ht_number": "HT-53",
+      "name": "风引汤（风瘫/风痱）",
+      "full_title": "HT-53 风引汤（风瘫/风痱）",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "风瘫/风痱：全身四肢瘫痪无力无法自行起坐、微热非高烧、言语困难、全身关节伸屈不能。",
+        "pathogenesis": "行房事时大汗出，或剧烈出汗后贪凉吹风饮冷，寒湿深锁于里经筋脉。",
+        "partial_herbs": "师《金匮》风引汤/大小续命法制丸（图丸剂药缓力专）",
+        "is_partial_disclosure": true,
+        "dosage_method": "早中晚饭前 30 粒。",
+        "contraindications": "服药令慢发黏腻浊汗时【绝对忌吹风】，须静待无风静室！严防改用峻汗麻黄汤猛发致「大汗亡阳」。"
+      },
+      "ziji_note": {
+        "commentary": "警诫「大汗亡阳」：若汗出淋漓反伤表卫与心营致兴奋精黄阴阳离绝，仲景多急以龙骨牡蛎固涩收敛。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:桂枝去芍药加蜀漆牡蛎龙骨救逆汤",
+            "name": "桂枝去芍药加蜀漆牡蛎龙骨救逆汤"
+          },
+          {
+            "id": "jinkui:桂枝龙骨牡蛎汤",
+            "name": "桂枝龙骨牡蛎汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:du16:风府",
+            "name": "风府"
+          },
+          {
+            "id": "acupoint:li11:曲池",
+            "name": "曲池"
+          },
+          {
+            "id": "acupoint:gb34:阳陵泉",
+            "name": "阳陵泉"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "风瘫",
+        "风痱",
+        "全身瘫痪",
+        "房事受风",
+        "忌大汗亡阳"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 172,
+        "end_page": 173,
+        "q": "HT-53 风引汤"
+      }
+    },
+    {
+      "id": "hantang:ht-54",
+      "num": 54,
+      "ht_number": "HT-54",
+      "name": "喉蛾方（扁桃体炎）",
+      "full_title": "HT-54 喉蛾方（扁桃体炎）",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "急慢性扁桃腺肿大化脓（单/双蛾）、咽喉痛不可吞咽。",
+        "pathogenesis": "相火不收藏兼外感六淫温热邪气上冲咽喉门户；扁桃腺乃脑颅防御卫哨。",
+        "partial_herbs": "浮萍、桂枝、白芍、生姜、连翘、薄荷、矾石……等（粉剂）",
+        "is_partial_disclosure": true,
+        "dosage_method": "小儿三餐饭后 1 茶匙，成人三餐饭后 2 茶匙；喉蛾挤塞肿甚者，先少商等点刺放血消肿后服更效。",
+        "contraindications": "反对手术摘除扁桃腺（拆撤脑防门户）！另参见 HT-59/本系：【常流鼻血者不可使用升浮散药】。"
+      },
+      "ziji_note": {
+        "commentary": "辨明喉蛾属「相火不藏感邪上冲」，故重用轻浮散邪兼敛降相火之辛凉药。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:甘草汤",
+            "name": "甘草汤"
+          },
+          {
+            "id": "jinkui:桔梗汤",
+            "name": "桔梗汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:lu11:少商",
+            "name": "少商"
+          },
+          {
+            "id": "acupoint:lu07:列缺",
+            "name": "列缺"
+          },
+          {
+            "id": "acupoint:ki06:照海",
+            "name": "照海"
+          },
+          {
+            "id": "acupoint:ren22:天突",
+            "name": "天突"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "扁桃体炎",
+        "喉蛾",
+        "咽喉肿痛",
+        "放血",
+        "反对切扁桃体"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 173,
+        "end_page": 174,
+        "q": "HT-54 喉蛾方"
+      }
+    },
+    {
+      "id": "hantang:ht-59",
+      "num": 59,
+      "ht_number": "HT-59",
+      "name": "喷鼻（耳）药粉",
+      "full_title": "HT-59 喷鼻（耳）药粉",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "外用三专途：配 HT-39/81 鼻炎过敏、小儿化脓中耳炎流脓（干耳）、不明原因猝昏开窍急救。",
+        "pathogenesis": "辛窜开脑窍鼻窦、燥湿收敛排脓水（矾石底方配芳香开窍品如麝香矾石散意）。",
+        "partial_herbs": "矾石……等（原文注「此方剂未讲解」，外用喷吹细粉）",
+        "is_partial_disclosure": true,
+        "dosage_method": "鼻炎日 1–3 次，中耳流脓喷耳日 2 次使干，昏迷急救日 1–3 次喷鼻醒神。",
+        "contraindications": "【绝对禁忌】常常流鼻血之病人不可使用！"
+      },
+      "ziji_note": {
+        "commentary": "见《汉唐医案》颅咽管瘤盲视重案（ch06）中，配针刺与本方喷鼻引出黄白黏脑水降颅压。",
+        "linked_classical_formulas": [],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:li20:迎香",
+            "name": "迎香"
+          },
+          {
+            "id": "acupoint:si19:听宫",
+            "name": "听宫"
+          },
+          {
+            "id": "acupoint:gb02:听会",
+            "name": "听会"
+          },
+          {
+            "id": "acupoint:du20:百会",
+            "name": "百会"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "中耳炎流脓",
+        "昏迷开窍",
+        "颅咽管瘤",
+        "喷鼻",
+        "常鼻血禁用"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 174,
+        "end_page": 174,
+        "q": "HT-59 喷鼻"
+      }
+    },
+    {
+      "id": "hantang:ht-60",
+      "num": 60,
+      "ht_number": "HT-60",
+      "name": "强力天青丸",
+      "full_title": "HT-60 强力天青丸",
+      "category_id": "cardiovascular",
+      "category": "第二章 · 心胸胸痹脉管血压门",
+      "category_short": "心胸脉管",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "双下肢深浅静脉曲张青筋突出如蚯蚓状、下肢静脉炎破溃流水难愈。",
+        "pathogenesis": "劳累汗出受风寒或小肠火衰，静脉瓣膜失却蒸汽负压推力导致血液在下肢淤滞回流不能。",
+        "partial_herbs": "炮附子、白芍、炙甘草……等（基于《伤寒》芍药甘草附子汤加活血通脉药）",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭前 25 粒（两周见效，服后短暂头晕乃下肢血脉骤开上行调整，无险）。",
+        "contraindications": "治疗期间忌下肢接触冷水或受冷风空调直吹。"
+      },
+      "ziji_note": {
+        "commentary": "不同于 HT-36 偏妇科少腹，本方专注瓣膜回流势能重建（去瘀血＋芍药甘草附子缓筋挛＋小肠蒸汽回流）。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:芍药甘草附子汤",
+            "name": "芍药甘草附子汤"
+          },
+          {
+            "id": "shanghan:当归四逆汤",
+            "name": "当归四逆汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:bl40:委中",
+            "name": "委中"
+          },
+          {
+            "id": "acupoint:bl57:承山",
+            "name": "承山"
+          },
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "静脉曲张",
+        "小腿溃烂",
+        "芍药甘草附子汤",
+        "下肢回流"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 174,
+        "end_page": 177,
+        "q": "HT-60 强力天青丸"
+      }
+    },
+    {
+      "id": "hantang:ht-61",
+      "num": 61,
+      "ht_number": "HT-61",
+      "name": "明目地黄丸",
+      "full_title": "HT-61 明目地黄丸",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "初期视力疲劳、近视衰退之日常目力保健。",
+        "pathogenesis": "肝开窍于目，治肝先实脾胃；普通杞菊地黄只合初疲，须调肺脾肝肾升降。",
+        "partial_herbs": "养肝补肾益脾明目平剂（改裁传统杞菊/明目地黄法）",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭前成人 30 粒、小儿 15 粒。",
+        "contraindications": "一旦已成白内障、青光眼等实质眼病，本方药力嫌不足，须立刻改换【HT-88 磁珠丸】！反对激光近视切角膜手术。"
+      },
+      "ziji_note": {
+        "commentary": "目为「五脏精华所注」，须肝升照、肺聚光、脾运清、肾固精并重。",
+        "linked_classical_formulas": [],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:bl01:睛明",
+            "name": "睛明"
+          },
+          {
+            "id": "acupoint:gb37:光明",
+            "name": "光明"
+          },
+          {
+            "id": "acupoint:lv03:太冲",
+            "name": "太冲"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "近视保健",
+        "视力疲劳",
+        "反对切角膜",
+        "早期明目"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 177,
+        "end_page": 178,
+        "q": "HT-61 明目地黄丸"
+      }
+    },
+    {
+      "id": "hantang:ht-62",
+      "num": 62,
+      "ht_number": "HT-62",
+      "name": "沉香桂附丸",
+      "full_title": "HT-62 沉香桂附丸",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "下焦沉寒冷痛、五更泄/寒泄、双脚冰冷、妇人严重宫寒痛经。",
+        "pathogenesis": "八味肾气加真正进口沉水沉香，取沉香极重降纳之力直入肾水「引火归元」。",
+        "partial_herbs": "桂附八味丸加真沉香（必沉水之进口沉香，非国产浮水伪品）",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭前 30 粒；服至双脚温热、冷痛消退即可停药。",
+        "contraindications": "无下焦真寒勿长期温燥。"
+      },
+      "ziji_note": {
+        "commentary": "以木性入水沉浮物理格物致知：唯有水沉重浊之真沉香能直追肾阴极寒、引浮火归元。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:八味肾气丸",
+            "name": "八味肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          },
+          {
+            "id": "acupoint:du04:命门",
+            "name": "命门"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "下焦冷痛",
+        "引火归元",
+        "宫寒",
+        "沉香"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 178,
+        "end_page": 179,
+        "q": "HT-62 沉香桂附丸"
+      }
+    },
+    {
+      "id": "hantang:ht-63",
+      "num": 63,
+      "ht_number": "HT-63",
+      "name": "中医学之骨损症（骨质疏松）",
+      "full_title": "HT-63 中医学之骨损症（骨质疏松）",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "骨质疏松、无故髋关节疼痛（最早警讯，常误作坐骨痛）。",
+        "pathogenesis": "非缺钙，乃过食甜食与汽水致血呈酸性迫骨释钙中和；兼小肠热化大肠盐水入肺归肾钙吸收链失效。",
+        "partial_herbs": "炮附子、肉苁蓉、续断（原文误倒作断续）、熟地、白芍、补骨脂……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "暖小肠、疏通大便兼适度步行运动。",
+        "contraindications": "禁用化学钙片与女性雌激素替代（易生肾石与乳癌），严戒重甜与碳酸饮料。"
+      },
+      "ziji_note": {
+        "commentary": "必守暖脾阳、肝升发、君火下达小肠三轴。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:芍药甘草附子汤",
+            "name": "芍药甘草附子汤"
+          },
+          {
+            "id": "jinkui:肾气丸",
+            "name": "肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          },
+          {
+            "id": "acupoint:gb39:悬钟",
+            "name": "悬钟"
+          },
+          {
+            "id": "acupoint:gb30:环跳",
+            "name": "环跳"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "骨质疏松",
+        "髋关节痛",
+        "禁用钙片",
+        "戒甜食",
+        "小肠吸钙"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 179,
+        "end_page": 181,
+        "q": "HT-63 中医学之骨损症"
+      }
+    },
+    {
+      "id": "hantang:ht-64",
+      "num": 64,
+      "ht_number": "HT-64",
+      "name": "妇女更年期潮热盗汗",
+      "full_title": "HT-64 妇女更年期潮热盗汗",
+      "category_id": "gynecology",
+      "category": "第一章 · 妇科乳经胎产症瘕门",
+      "category_short": "妇科乳经",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "妇女绝经前后身热盗汗、寒热往来、易怒心烦、大便干结、失眠及月经失调。",
+        "pathogenesis": "天癸将竭时余乳下行未平，郁于胸膈三焦，兼阳明胃肺虚烦燥热与脏燥百合气机失和。",
+        "partial_herbs": "石膏、人参、知母、小麦、枳实……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭前 25 粒；自觉症状全退后仍须续服 1 个月巩固。",
+        "contraindications": "严禁服用西医替代性荷尔蒙（HRT）与避孕药，免催发乳癌、SLE 及血癌。"
+      },
+      "ziji_note": {
+        "commentary": "直参《金匮》甘麦大枣汤、百合病、竹叶石膏汤与大/小柴胡汤清透少阳阳明浮热兼通腑气。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:甘麦大枣汤",
+            "name": "甘麦大枣汤"
+          },
+          {
+            "id": "jinkui:竹叶石膏汤",
+            "name": "竹叶石膏汤"
+          },
+          {
+            "id": "jinkui:小柴胡汤",
+            "name": "小柴胡汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:lv14:期门",
+            "name": "期门"
+          },
+          {
+            "id": "acupoint:lv03:太冲",
+            "name": "太冲"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "更年期",
+        "潮热盗汗",
+        "易怒",
+        "脏燥",
+        "HRT禁忌"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 181,
+        "end_page": 184,
+        "q": "HT-64 妇女更年期潮热盗汗"
+      }
+    },
+    {
+      "id": "hantang:ht-65",
+      "num": 65,
+      "ht_number": "HT-65",
+      "name": "膀胱结石（尿道血淋）",
+      "full_title": "HT-65 膀胱结石（尿道血淋）",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "膀胱结石、尿路结石、尿道炎小便刺痛伴尿血。",
+        "pathogenesis": "结石已离肾下达膀胱，或下焦湿热浊物积聚膀胱发炎。",
+        "partial_herbs": "以【白茅根】凉血止血补精兼利尿＋【滑石】滑利窍道排石＋清湿热诸品",
+        "is_partial_disclosure": true,
+        "dosage_method": "配合大量饮水养护胃气，促碎石浊物滑利随尿而出。",
+        "contraindications": "【绝对红线】膀胱湿热与尿道血淋期间绝对禁用一切热药！勿与肾石（HT-26）寒温混淆。"
+      },
+      "ziji_note": {
+        "commentary": "阐明异病同治法（直寻《金匮》五苓/猪苓/滑石白鱼及《千金》方），兼提膀胱湿热常波及妇科。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:猪苓汤",
+            "name": "猪苓汤"
+          },
+          {
+            "id": "jinkui:赤豆当归散",
+            "name": "赤豆当归散"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren03:中极",
+            "name": "中极"
+          },
+          {
+            "id": "acupoint:sp09:阴陵泉",
+            "name": "阴陵泉"
+          },
+          {
+            "id": "acupoint:bl40:委中",
+            "name": "委中"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "膀胱结石",
+        "尿道炎",
+        "小便带血",
+        "禁热药",
+        "白茅根滑石"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 184,
+        "end_page": 185,
+        "q": "HT-65 膀胱结石"
+      }
+    },
+    {
+      "id": "hantang:ht-66",
+      "num": 66,
+      "ht_number": "HT-66",
+      "name": "摄护腺肥大（前列腺增生）",
+      "full_title": "HT-66 摄护腺肥大（前列腺增生）",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "前列腺肥大：小便后须臾又欲尿、夜间尿频甚、尿失禁滴沥。",
+        "pathogenesis": "久坐压迫会阴瘀血＋伤精肾亏（本）＋小肠火不足影响静脉回流（用）。",
+        "partial_herbs": "滑石、冬葵子、王不留行、木通、桂心……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭前 25 粒（重者三餐前 25 粒）；务必配合【每日步行（非跑步）】借小肠蒸汽回流（倪父两周愈）。",
+        "contraindications": "年轻伤精者切忌狂投大热壮阳药；需适度调神并升发肝木（如五苓散中之桂枝升肝）。"
+      },
+      "ziji_note": {
+        "commentary": "点出男科前列腺肥大与女性产后尿失禁同出于小肠火衰与会阴气血痹阻。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:五苓散",
+            "name": "五苓散"
+          },
+          {
+            "id": "jinkui:肾气丸",
+            "name": "肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren03:中极",
+            "name": "中极"
+          },
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          },
+          {
+            "id": "acupoint:sp06:三阴交",
+            "name": "三阴交"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "前列腺肥大",
+        "夜尿频",
+        "尿后余沥",
+        "每日步行",
+        "会阴瘀滞"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 185,
+        "end_page": 187,
+        "q": "HT-66 摄护腺肥大"
+      }
+    },
+    {
+      "id": "hantang:ht-67",
+      "num": 67,
+      "ht_number": "HT-67",
+      "name": "失心丸（癫痫）",
+      "full_title": "HT-67 失心丸（癫痫）",
+      "category_id": "shen_emotion",
+      "category": "第七章 · 神志情志安神心法门",
+      "category_short": "神志安神",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "昼发癫痫、夜发癫痫、昼夜时发癫痫抽搐失神。",
+        "pathogenesis": "胸肺顽痰深伏（癫痫患者十之八九必兼大便秘结！）兼心火上浮、肾水寒沉阴阳失交。",
+        "partial_herbs": "下痰通腑兼交通心肾专方（配伍桂枝/半夏/小柴胡/少阴麻附细理路）",
+        "is_partial_disclosure": true,
+        "dosage_method": "配针灸区分【昼发灸申脉（阳跷）、夜发灸照海（阴跷）】双调；直服至【手足俱温热、额头清凉】方愈！",
+        "contraindications": "切忌单纯西药抗癫痫强行压抑神经，不除胸肺宿痰与便秘终生难解。"
+      },
+      "ziji_note": {
+        "commentary": "直击核心：通大便即下胸痰要诀！以诸半夏汤、小柴胡与麻黄附子细辛并参调和阴阳。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:小柴胡汤",
+            "name": "小柴胡汤"
+          },
+          {
+            "id": "shanghan:麻黄附子细辛汤",
+            "name": "麻黄附子细辛汤"
+          },
+          {
+            "id": "shanghan:桂枝汤",
+            "name": "桂枝汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:bl62:申脉",
+            "name": "申脉"
+          },
+          {
+            "id": "acupoint:ki06:照海",
+            "name": "照海"
+          },
+          {
+            "id": "acupoint:du20:百会",
+            "name": "百会"
+          },
+          {
+            "id": "acupoint:pc07:大陵",
+            "name": "大陵"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "癫痫",
+        "昼灸申脉",
+        "夜灸照海",
+        "通大便下痰",
+        "额凉足温"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 187,
+        "end_page": 188,
+        "q": "HT-67 失心丸"
+      }
+    },
+    {
+      "id": "hantang:ht-68",
+      "num": 68,
+      "ht_number": "HT-68",
+      "name": "护肝丸",
+      "full_title": "HT-68 护肝丸",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "急慢性肝炎（甲/乙/丙肝）、肝硬化前兆、护肝解毒、酒客护肝。",
+        "pathogenesis": "「见肝之病，知肝传脾，当先实脾」，防肝→脾肿→腹水→肾衰→水凌心肺之木克土死局；双途径自黑便与皮肤出毒。",
+        "partial_herbs": "柴胡、黄芩、柏子仁、郁金、女贞子……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "常人保健三餐前 15 粒；酗酒睡前 1 小时 30 粒；肝炎三餐前一小时 20 粒；肝重病三餐前一小时 30 粒（排黑便与发痒属吉兆，转大便正常黄、手掌红斑退为佳）。",
+        "contraindications": "【绝对停药警戒】如连服 3 天大便仍不通，须立即停服并面诊！严禁排黑便时误当胃出血冰敷止血，严禁发痒涂激素！严禁化疗/手术/切片；忌油炸过酒。"
+      },
+      "ziji_note": {
+        "commentary": "精论酒之体用：少量三钱行药通瘀，过饮湿热伤肝且配冷饮最败脾阳。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:小柴胡汤",
+            "name": "小柴胡汤"
+          },
+          {
+            "id": "shanghan:四逆散",
+            "name": "四逆散"
+          },
+          {
+            "id": "jinkui:大柴胡汤",
+            "name": "大柴胡汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:lv14:期门",
+            "name": "期门"
+          },
+          {
+            "id": "acupoint:lv13:章门",
+            "name": "章门"
+          },
+          {
+            "id": "acupoint:bl18:肝俞",
+            "name": "肝俞"
+          },
+          {
+            "id": "acupoint:lv03:太冲",
+            "name": "太冲"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "乙肝",
+        "护肝",
+        "排黑便",
+        "皮肤发痒排毒",
+        "三日不便停药",
+        "治肝先实脾"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 188,
+        "end_page": 190,
+        "q": "HT-68 护肝丸"
+      }
+    },
+    {
+      "id": "hantang:ht-69",
+      "num": 69,
+      "ht_number": "HT-69",
+      "name": "肾脏积水",
+      "full_title": "HT-69 肾脏积水",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "肾脏积水、早期双腿齐肿（别于心衰集中踝部肿）、小便不利，警「男怕穿靴、女怕戴帽」。",
+        "pathogenesis": "小肠火力不足致膀胱不能正常气化（男子阳从足升，脚肿即阳化气熄；女子阴从头降，头肿即阴成形败）。",
+        "partial_herbs": "补肾健脾兼带泻浊升木利水专方（济生肾气加减思路）",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭前各 30 粒。",
+        "contraindications": "严斥单纯西医利尿剂强排水（数年必耗竭肾精终成尿毒症）；未达极阴四逆阶段勿直接滥投生附子。"
+      },
+      "ziji_note": {
+        "commentary": "立「补中带泻」铁律：利小便必在温肾补脾中运泻，正治尤重「升肝木济心，以肺折心火下温肾与小肠」。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:真武汤",
+            "name": "真武汤"
+          },
+          {
+            "id": "jinkui:五苓散",
+            "name": "五苓散"
+          },
+          {
+            "id": "jinkui:肾气丸",
+            "name": "肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:bl23:肾俞",
+            "name": "肾俞"
+          },
+          {
+            "id": "acupoint:ki07:复溜",
+            "name": "复溜"
+          },
+          {
+            "id": "acupoint:sp09:阴陵泉",
+            "name": "阴陵泉"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "肾积水",
+        "男怕穿靴",
+        "女怕戴帽",
+        "双腿水肿",
+        "补中带泻"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 190,
+        "end_page": 191,
+        "q": "HT-69 肾脏积水"
+      }
+    },
+    {
+      "id": "hantang:ht-70",
+      "num": 70,
+      "ht_number": "HT-70",
+      "name": "定心丸（心肾不交焦虑抑郁）",
+      "full_title": "HT-70 定心丸（心肾不交焦虑抑郁）",
+      "category_id": "shen_emotion",
+      "category": "第七章 · 神志情志安神心法门",
+      "category_short": "神志安神",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "心肾不交型焦虑、抑郁、惊恐无定、烦躁失眠、额热足冷。",
+        "pathogenesis": "心火独炎上焦而肾水寒沉在下，肺金不降折火、肝木不升助水。",
+        "partial_herbs": "清折肺金引火下潜（地魄汤意）＋ 升达肝木暖水上济（天魂汤意）调中方",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭前 30 粒，一直服至【手脚温热、额头清凉】为止。",
+        "contraindications": "【未达极阴忌生附】若非手足厥逆过肘膝之极阴寒毒，正治不当妄投大热四逆，当从肝升肺降调中入手。"
+      },
+      "ziji_note": {
+        "commentary": "正古今四逆汤真伪：真四逆必用「生附子＋干姜＋炙甘草」，市售用炮附子实属理中温中辈，绝非破极阴之四逆。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:黄连阿胶汤",
+            "name": "黄连阿胶汤"
+          },
+          {
+            "id": "jinkui:四逆汤",
+            "name": "四逆汤"
+          },
+          {
+            "id": "shanghan:真武汤",
+            "name": "真武汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren14:巨阙",
+            "name": "巨阙"
+          },
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          },
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          },
+          {
+            "id": "acupoint:ht07:神门",
+            "name": "神门"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "定心丸",
+        "心肾不交",
+        "抑郁焦虑",
+        "额热足冷",
+        "天魂地魄"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 191,
+        "end_page": 193,
+        "q": "HT-70 定心丸"
+      }
+    },
+    {
+      "id": "hantang:ht-71",
+      "num": 71,
+      "ht_number": "HT-71",
+      "name": "清郁开结丸（肝脾抑郁症）",
+      "full_title": "HT-71 清郁开结丸（肝脾抑郁症）",
+      "category_id": "shen_emotion",
+      "category": "第七章 · 神志情志安神心法门",
+      "category_short": "神志安神",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "肝脾失衡型深重抑郁症：早期暴躁亢奋，久被压抑后转木然低落绝望。",
+        "pathogenesis": "肝郁不能升达（怒→愈欲郁而愈欲泄→无力反抗堕抑郁）＋ 思虑伤脾气结压迫肝区＋ 横膈气压不足。",
+        "partial_herbs": "当归、茯神、升麻、川芎、白术……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "一般早晚饭前 20 粒，重症 30 粒，必要时睡前再加 30 粒。",
+        "contraindications": "【呼吸安全提醒】严禁无师指导胡乱自行试练道家「逆式呼吸」，极易练成气逆胸闷昏晕！忌用西式镇静抗抑郁药压抑肝阳。"
+      },
+      "ziji_note": {
+        "commentary": "以《四圣心源》阐肝气升为心喜、肺气降为悲；升肝同时必运化中土脾胃，助胸膈气压恢复摄养功能。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:四逆散",
+            "name": "四逆散"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:lv03:太冲",
+            "name": "太冲"
+          },
+          {
+            "id": "acupoint:lv14:期门",
+            "name": "期门"
+          },
+          {
+            "id": "acupoint:du20:百会",
+            "name": "百会"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "抑郁症",
+        "情绪低落",
+        "愈欲郁而愈欲泄",
+        "逆式呼吸禁忌",
+        "肝脾失衡"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 193,
+        "end_page": 194,
+        "q": "HT-71 清郁开结丸"
+      }
+    },
+    {
+      "id": "hantang:ht-72",
+      "num": 72,
+      "ht_number": "HT-72",
+      "name": "浮萍方",
+      "full_title": "HT-72 浮萍方",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "小儿或成人运动大汗后直吹冷气/喝冰饮导致汗闭风痒红疹、疥癞皮肤痒。",
+        "pathogenesis": "浮萍性辛凉永浮水面不沉，专能透发肌表被冷风冰饮骤闭之旧水湿毒，导由小便与皮毛散出。",
+        "partial_herbs": "浮萍、白芷……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚餐后各 30 粒。",
+        "contraindications": "运动出汗时切忌立刻吹空调、洗冷水或强迫止汗！另辨清晨起床偶嚏数声属「肺主治节」，禁妄服抗生素。"
+      },
+      "ziji_note": {
+        "commentary": "典范「文明病」，以空调冷饮锁闭卫气阳散为根。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:桂枝麻黄各半汤",
+            "name": "桂枝麻黄各半汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:li11:曲池",
+            "name": "曲池"
+          },
+          {
+            "id": "acupoint:li04:合谷",
+            "name": "合谷"
+          },
+          {
+            "id": "acupoint:sp10:血海",
+            "name": "血海"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "风痒",
+        "红疹",
+        "汗出吹冷气",
+        "浮萍",
+        "过敏皮炎"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 194,
+        "end_page": 195,
+        "q": "HT-72 浮萍方"
+      }
+    },
+    {
+      "id": "hantang:ht-73",
+      "num": 73,
+      "ht_number": "HT-73",
+      "name": "透脓方",
+      "full_title": "HT-73 透脓方",
+      "category_id": "oncology_detox",
+      "category": "第三章 · 肿瘤癌瘤积聚排毒外科门",
+      "category_short": "癌瘤外科",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "糖尿病足坏疽（脱疽）、天疱疮、白血病及下肢末梢溃疡经年不收口烂腐。",
+        "pathogenesis": "小肠火力衰竭致末梢静脉血毒停滞，无阳气推动脓腐排出，强封创口反致内烂。",
+        "partial_herbs": "白芍、丹皮、附子……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭前各 30 粒，重症一日 3 次每次 40 粒；另文配「半斤白糖融水（纯蔗糖水）外洗浸泡溃脚」高渗拔毒。",
+        "contraindications": "溃疡未拔尽腐毒前切忌盲目抗生素或收口药强闭，禁使用精炼漂白白砂糖。"
+      },
+      "ziji_note": {
+        "commentary": "借四肢末梢最远离「下丹田太极中心（肚脐直入腹腔内两寸，前神阙后命门）」阐明：必须温升里阳，阳推毒出方能生新肉。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:芍药甘草附子汤",
+            "name": "芍药甘草附子汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          },
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "糖尿病足",
+        "脱疽",
+        "溃疡不收口",
+        "白糖水洗脚",
+        "下丹田"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 195,
+        "end_page": 198,
+        "q": "HT-73 透脓方"
+      }
+    },
+    {
+      "id": "hantang:ht-74",
+      "num": 74,
+      "ht_number": "HT-74",
+      "name": "艘风解毒汤",
+      "full_title": "HT-74 艘风解毒汤",
+      "category_id": "oncology_detox",
+      "category": "第三章 · 肿瘤癌瘤积聚排毒外科门",
+      "category_short": "癌瘤外科",
+      "safety_level": "practitioner_only",
+      "ni_original": {
+        "indications": "泡疹（Herpes）、淋病、梅毒等深层性传播疫毒疮疡。",
+        "pathogenesis": "足厥阴肝经循绕前阴（气血薄而易入肝直窜心包致心痹）；重在清排湿浊毒邪随小便排出，而非烈药硬杀。",
+        "partial_herbs": "白藓皮、皂荚……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "须持之以恒连服半年以上直至毒征全消。",
+        "contraindications": "不可半途而废致毒伏肝心。"
+      },
+      "ziji_note": {
+        "commentary": "精分「天地人三部疫疠」，批叶派混温病与温疫乱投寒凉；另注师门治三期梅毒用轻粉须配三味解毒药并「掘深土坑埋便」防传人畜。",
+        "linked_classical_formulas": [],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:lv03:太冲",
+            "name": "太冲"
+          },
+          {
+            "id": "acupoint:sp06:三阴交",
+            "name": "三阴交"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "疱疹",
+        "梅毒",
+        "淋病",
+        "疫疠三部",
+        "性传播毒"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 198,
+        "end_page": 199,
+        "q": "HT-74 艘风解毒汤"
+      }
+    },
+    {
+      "id": "hantang:ht-77",
+      "num": 77,
+      "ht_number": "HT-77",
+      "name": "上焦湿热且实心绞痛",
+      "full_title": "HT-77 上焦湿热且实心绞痛",
+      "category_id": "cardiovascular",
+      "category": "第二章 · 心胸胸痹脉管血压门",
+      "category_short": "心胸脉管",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "冠状动脉阻塞、心绞痛（支架/搭桥术后仍胸痛失眠便乱者）：手指麻刺、大便不规则、无因失眠、胸口闷刺痛。",
+        "pathogenesis": "肝藏血之毒未清＋上焦湿热顽痰凝滞冠状动脉，切忌单靠支架而不清肝通脉。",
+        "partial_herbs": "当归、川芎……等（书中仅示少量药味，严禁当完整成方；含疏肝少阳、涤胸痹痰及活瘀药）",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚餐后各 30 粒，2 周至 3 个月见效；必须「冠心病四症状全消」方停药。",
+        "contraindications": "心脏支架/术后伴寒热或大便不规则禁麻黄发汗，忌擅自停药于四证未净时。"
+      },
+      "ziji_note": {
+        "commentary": "直指大便「时便秘时下利」乃寒热往来、肝木疏泄失常之小柴胡少阳象；体现「治来路清肝毒 + 治去路通冠脉」双轨。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:小柴胡汤",
+            "name": "小柴胡汤"
+          },
+          {
+            "id": "jinkui:栝蒌薤白半夏汤",
+            "name": "栝蒌薤白半夏汤"
+          },
+          {
+            "id": "jinkui:栝蒌薤白白酒汤",
+            "name": "栝蒌薤白白酒汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:pc06:内关",
+            "name": "内关"
+          },
+          {
+            "id": "acupoint:sp04:公孙",
+            "name": "公孙"
+          },
+          {
+            "id": "acupoint:ren14:巨阙",
+            "name": "巨阙"
+          },
+          {
+            "id": "acupoint:lv14:期门",
+            "name": "期门"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "冠心病",
+        "心绞痛",
+        "手指麻木",
+        "大便交替",
+        "心脏支架术后"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 199,
+        "end_page": 201,
+        "q": "HT-77 上焦湿热且实心绞痛"
+      }
+    },
+    {
+      "id": "hantang:ht-78",
+      "num": 78,
+      "ht_number": "HT-78",
+      "name": "健胃散",
+      "full_title": "HT-78 健胃散",
+      "category_id": "spleen_metabolic",
+      "category": "第四章 · 脾胃消渴便秘痔瘘代谢门",
+      "category_short": "脾胃消渴",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "除胃痈/胃癌外一切胃家诸疾：胃溃疡、胃出血、胃下垂、胃酸反逆、食管贲门腐蚀、胃寒水饮囊肿。",
+        "pathogenesis": "脾胃中土须心火温暖、且贵在一个「降」字；喜温降护膜、祛痰饮，忌甜生酸、忌冰寒及不定时食。",
+        "partial_herbs": "陈皮、干姜……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "多餐前服顾胃气；服后 3 日必见显效，若无效必查是否偷食甜食/冰饮或三餐失时。",
+        "contraindications": "绝对戒除精炼甜食（甜即生酸之源）、冰饮与暴食。"
+      },
+      "ziji_note": {
+        "commentary": "立脾胃阴阳四象（尤针对「时饥却吃不下」即胃不降逆）；传重剂干姜茯苓各百余克温降散胃壁水泡样囊肿经验。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:理中丸",
+            "name": "理中丸"
+          },
+          {
+            "id": "shanghan:旋覆代赭石汤",
+            "name": "旋覆代赭石汤"
+          },
+          {
+            "id": "jinkui:半夏泻心汤",
+            "name": "半夏泻心汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren12:中脘",
+            "name": "中脘"
+          },
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          },
+          {
+            "id": "acupoint:sp04:公孙",
+            "name": "公孙"
+          },
+          {
+            "id": "acupoint:pc06:内关",
+            "name": "内关"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "胃酸过多",
+        "胃溃疡",
+        "胃下垂",
+        "时饥吃不下",
+        "胃囊肿",
+        "戒甜食"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 201,
+        "end_page": 203,
+        "q": "HT-78 健胃散"
+      }
+    },
+    {
+      "id": "hantang:ht-79",
+      "num": 79,
+      "ht_number": "HT-79",
+      "name": "青春痘（粉刺脓疱）",
+      "full_title": "HT-79 青春痘（粉刺脓疱）",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "颜面/前胸/后背湿热红肿发炎青春痘（伴油腻不退）。",
+        "pathogenesis": "青春期相火偏旺，加熬夜不令相火夜归阴分（卫气夜行于阴）、过食油炸辛辣，致油脂痰热堵塞三焦脂膜毛孔。",
+        "partial_herbs": "荆芥、连翘、银花、防风……等（严戒勿仅以此四味套试！）",
+        "is_partial_disclosure": true,
+        "dosage_method": "清三焦湿热内服，重者可配合外用【HT-85】睡前涂面，效力加倍。",
+        "contraindications": "必守三要：清水洗脸（忌化学洗面奶）、不熬夜、戒油炸！"
+      },
+      "ziji_note": {
+        "commentary": "对比胖子油脂走皮下反少面痘，揭示相火与三焦脂膜运行路径。",
+        "linked_classical_formulas": [],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:li11:曲池",
+            "name": "曲池"
+          },
+          {
+            "id": "acupoint:li04:合谷",
+            "name": "合谷"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "青春痘",
+        "痤疮",
+        "熬夜相火旺",
+        "三焦脂膜"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 203,
+        "end_page": 205,
+        "q": "HT-79 青春痘"
+      }
+    },
+    {
+      "id": "hantang:ht-80",
+      "num": 80,
+      "ht_number": "HT-80",
+      "name": "减肥药（胃家燥热过胖）",
+      "full_title": "HT-80 减肥药（胃家燥热过胖）",
+      "category_id": "spleen_metabolic",
+      "category": "第四章 · 脾胃消渴便秘痔瘘代谢门",
+      "category_short": "脾胃消渴",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "心脏搏动虚弱导致阳化气不足之肥胖，或客火窜胃所致食量失控过胖。",
+        "pathogenesis": "君火不明则不能压制窜胃之相火（胃强脾弱）；壮心阳行上焦气机则脾土自运、过亢食欲自降。",
+        "partial_herbs": "强心阳通上焦并平制胃客火专方（原书保密详味）",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚各 30 粒；若初服胃口反略增，乃脾受阳气带动恢复求补之吉象，须加量续服至中气足而食自平；兼肥胖便秘者合 HT-33。",
+        "contraindications": "反对饥饿、泻药茶及「芬芬」等西式减肥药损毁心脏瓣膜。"
+      },
+      "ziji_note": {
+        "commentary": "分减肥三等工：上工调气血阳化自瘦，中工适度运动，下工饿瘦或猛泻反酿终身顽秘。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:桂枝汤",
+            "name": "桂枝汤"
+          },
+          {
+            "id": "jinkui:大柴胡汤",
+            "name": "大柴胡汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          },
+          {
+            "id": "acupoint:st40:丰隆",
+            "name": "丰隆"
+          },
+          {
+            "id": "acupoint:ren12:中脘",
+            "name": "中脘"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "减肥",
+        "心脏搏动弱",
+        "胃强善饥",
+        "忌泻药茶"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 205,
+        "end_page": 207,
+        "q": "HT-80 减肥药"
+      }
+    },
+    {
+      "id": "hantang:ht-81",
+      "num": 81,
+      "ht_number": "HT-81",
+      "name": "鼻过敏合并头痛",
+      "full_title": "HT-81 鼻过敏合并头痛",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "顽固鼻炎每作即伴剧烈头痛甚至猝然晕倒（青少年学生多见）。",
+        "pathogenesis": "鼻腔深层黏液浓浊堵窒环周血脉与「上丹田八窍（印堂两眉下至鼻头三寸八卦区及目间上命门）」，令天气清浊（氧＋二氧化碳）交换失灵。",
+        "partial_herbs": "在 HT-39（葛根、苍术、桂枝、白芍、生姜……）基础上重加【白附子、僵蚕】",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚各 30 粒（轻症成人饭后 25 粒、小儿 10 粒）；兼肥胖便秘者合用 HT-33。",
+        "contraindications": "忌用通鼻喷雾激素掩耳盗铃；配合戒熬夜冷饮。"
+      },
+      "ziji_note": {
+        "commentary": "深刻阐释印堂至鼻「上命门/上丹田」冲虚交换大气清浊之理，白附僵蚕透络散顽痰开窍。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:葛根汤",
+            "name": "葛根汤"
+          },
+          {
+            "id": "jinkui:小青龙汤",
+            "name": "小青龙汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:li20:迎香",
+            "name": "迎香"
+          },
+          {
+            "id": "acupoint:li04:合谷",
+            "name": "合谷"
+          },
+          {
+            "id": "acupoint:du20:百会",
+            "name": "百会"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "鼻炎头痛",
+        "晕倒",
+        "白附子僵蚕",
+        "上丹田",
+        "上命门"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 207,
+        "end_page": 208,
+        "q": "HT-81 鼻过敏合并头痛"
+      }
+    },
+    {
+      "id": "hantang:ht-82",
+      "num": 82,
+      "ht_number": "HT-82",
+      "name": "下焦寒实四逆（摄护腺癌）",
+      "full_title": "HT-82 下焦寒实四逆（摄护腺癌）",
+      "category_id": "oncology_detox",
+      "category": "第三章 · 肿瘤癌瘤积聚排毒外科门",
+      "category_short": "癌瘤外科",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "前列腺癌/重度肥大钙化，核心特征为「双足愈加冰冷 ＋ 双手极度干裂（夜须涂油方眠）」。",
+        "pathogenesis": "小肠火熄、下焦寒实阻隔心火下行，心热上逆搏掌蒸干津液而无水润（手干足冷）；尿浊精滞成钙化结块。",
+        "partial_herbs": "炮附、细辛、五味子、丹皮、木通、车前、桂枝……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚餐前 30 粒；以「足温回升、手干转润」为恢复指针。",
+        "contraindications": "勿仅用热药而不祛下焦阴湿（湿热合谋反生胶痰）。"
+      },
+      "ziji_note": {
+        "commentary": "借本方发「体用之学（茯苓白术治湿为体，干姜桂枝生附为用）」与四逆「生附＝刀刃、干姜＝刀体、甘草＝粮草」名喻。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:四逆汤",
+            "name": "四逆汤"
+          },
+          {
+            "id": "shanghan:真武汤",
+            "name": "真武汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          },
+          {
+            "id": "acupoint:ren03:中极",
+            "name": "中极"
+          },
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "前列腺癌",
+        "摄护腺癌",
+        "手干足冷",
+        "下焦寒实",
+        "生附干姜"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 208,
+        "end_page": 212,
+        "q": "HT-82 下焦寒实四逆"
+      }
+    },
+    {
+      "id": "hantang:ht-83",
+      "num": 83,
+      "ht_number": "HT-83",
+      "name": "皮肤诸病（外涂雄黄散）",
+      "full_title": "HT-83 皮肤诸病（外涂雄黄散）",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "external_toxic",
+      "ni_original": {
+        "indications": "外涂皮肤生疮、流脓湿液、剧痒、顽固斑癣等一切有渗液皮癣（温和渐进）。",
+        "pathogenesis": "化裁当归赤小豆汤配白术等去湿生肌杀虫外敷法。",
+        "partial_herbs": "密陀僧、雄黄……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "洗澡后外涂患处至愈（可用少许色拉油调涂防脱落；药色深易染衣）。",
+        "contraindications": "【绝对禁止内服·有剧毒】！紫极讲者严警：生雄黄矿若见「白色条纹」必含砒石（砒霜），采制极须慎辨！"
+      },
+      "ziji_note": {
+        "commentary": "先明体用不明时可从调中祛湿入手使症明朗，外涂守温和渐消之法。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:赤豆当归散",
+            "name": "赤豆当归散"
+          }
+        ],
+        "linked_acupoints": []
+      },
+      "clinical_tags": [
+        "皮肤流脓",
+        "外涂癣疮",
+        "密陀僧雄黄",
+        "剧毒禁内服"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 212,
+        "end_page": 213,
+        "q": "HT-83 皮肤诸病"
+      }
+    },
+    {
+      "id": "hantang:ht-84",
+      "num": 84,
+      "ht_number": "HT-84",
+      "name": "肝结石（胆切除后遗）",
+      "full_title": "HT-84 肝结石（胆切除后遗）",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "胆囊切除术后多年遗留肝内胆管结石、右肋剧痛、黄疸、血压血脂（胆固醇/甘油三酯）飙升、性格突转胆怯易惊。",
+        "pathogenesis": "切胆后失去「肝木推（来路）＋胆囊吸（去路）」之外吸拉力，胆汁滞结肝管并倒迫浊物从肝—大肠脉络入血。",
+        "partial_herbs": "柴胡、枳实、黄芩、柏子仁、郁金、五倍子、海金沙……等（宗四逆散疏肝益胆）",
+        "is_partial_disclosure": true,
+        "dosage_method": "中餐前及睡前各 25 粒；无胆囊者与高血脂人群须长期服用。",
+        "contraindications": "无胆者戒维他命片与酗酒。"
+      },
+      "ziji_note": {
+        "commentary": "阐明胆主决断，「恶向胆边生」，临床切胆病人常出现听声即惊怯不安，本方重在助升肝木代胆泄浊。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:四逆散",
+            "name": "四逆散"
+          },
+          {
+            "id": "jinkui:大柴胡汤",
+            "name": "大柴胡汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:lv14:期门",
+            "name": "期门"
+          },
+          {
+            "id": "acupoint:bl18:肝俞",
+            "name": "肝俞"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "肝结石",
+        "胆囊切除后遗症",
+        "高胆固醇",
+        "易惊胆怯",
+        "四逆散"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 213,
+        "end_page": 214,
+        "q": "HT-84 肝结石"
+      }
+    },
+    {
+      "id": "hantang:ht-85",
+      "num": 85,
+      "ht_number": "HT-85",
+      "name": "外用青春痘之剂（无毒养颜粉）",
+      "full_title": "HT-85 外用青春痘之剂（无毒养颜粉）",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "面部青春痘油腻发炎外敷消炎滋润粉剂，亦可日常净肤保养。",
+        "pathogenesis": "吸除面部多余浊油兼清表炎、润肤开窍。",
+        "partial_herbs": "白芷……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "睡前清水洗脸后外涂患处，次晨清水洗净；合 HT-79 内服效倍。误服亦无毒无害。",
+        "contraindications": "严忌化学洗面奶阻塞毛孔。"
+      },
+      "ziji_note": {
+        "commentary": "紫极讲者严批古方美容外敷常用「铅粉」虽速白却酿铅中毒，必以健康无毒为首。",
+        "linked_classical_formulas": [],
+        "linked_acupoints": []
+      },
+      "clinical_tags": [
+        "外用祛痘",
+        "白芷",
+        "无毒敷面",
+        "忌铅粉"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 214,
+        "end_page": 215,
+        "q": "HT-85 外用青春痘之剂"
+      }
+    },
+    {
+      "id": "hantang:ht-87",
+      "num": 87,
+      "ht_number": "HT-87",
+      "name": "心脏肥大症（九种心痛）",
+      "full_title": "HT-87 心脏肥大症（九种心痛）",
+      "category_id": "cardiovascular",
+      "category": "第二章 · 心胸胸痹脉管血压门",
+      "category_short": "心胸脉管",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "心脏肥大、心瓣膜闭锁不全，见脉律忽快忽慢、双脚腹腔水肿、舌苔白黏厚地图样、手冷面赤（戴阳）、睡恶寒。",
+        "pathogenesis": "心为君主不受病，多因滥用抗生素及止痛药抽竭心宫津液与阳气，心脏只得被迫代偿肥大。",
+        "partial_herbs": "半夏、枳实、炙甘草……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "需连服 6 个月以上，待「睡眠佳、日便一次、四肢无肿麻、胸口无刺闷」四象全正方停。",
+        "contraindications": "反对单纯以西式「手术台存活」论成败及伤心化学药。"
+      },
+      "ziji_note": {
+        "commentary": "共享老翁咳喘突见「男怕穿靴」肿膝案，生附与炮附并用始破极阴水肿；点破打通祖气阳化即可促进脏器气化新生。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:桂枝生姜枳实汤",
+            "name": "桂枝生姜枳实汤"
+          },
+          {
+            "id": "jinkui:四逆汤",
+            "name": "四逆汤"
+          },
+          {
+            "id": "shanghan:炙甘草汤",
+            "name": "炙甘草汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren14:巨阙",
+            "name": "巨阙"
+          },
+          {
+            "id": "acupoint:bl15:心俞",
+            "name": "心俞"
+          },
+          {
+            "id": "acupoint:sp09:阴陵泉",
+            "name": "阴陵泉"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "心脏肥大",
+        "瓣膜不全",
+        "男怕穿靴",
+        "白黏厚苔",
+        "生附炮附"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 215,
+        "end_page": 219,
+        "q": "HT-87 心脏肥大症"
+      }
+    },
+    {
+      "id": "hantang:ht-88",
+      "num": 88,
+      "ht_number": "HT-88",
+      "name": "磁珠丸（白内障/青光眼）",
+      "full_title": "HT-88 磁珠丸（白内障/青光眼）",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "青光眼、眼压高、白内障、糖尿病视网膜病变、强光灼伤及老人眼神衰退。",
+        "pathogenesis": "心神不交于肾精、肺金不敛降助水纳神；睡前目静令金石磁铁与朱砂调和阴阳磁场入目。",
+        "partial_herbs": "磁石（黑入肾吸肺气归肾）、朱砂（红入心镇神）、神曲（黄入脾运化金石），倪氏加【决明子】明目（原《千金方》底）",
+        "is_partial_disclosure": true,
+        "dosage_method": "【绝对特异服法】睡前服 40 粒（睡眠时双目静止不转，药力最易注聚眼窍！）。",
+        "contraindications": "切勿轻易开眼手术；重病电焊灼伤初发亦可人乳点目避光助复。"
+      },
+      "ziji_note": {
+        "commentary": "精解眼五轮（肉轮及瞳孔黑睛交界开合竟同归脾土！黑精肾、黑睛肝、白睛肺、眦心），可互参交心肾之栀子豉汤与肉桂黄连安泰丸。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:栀子豉汤",
+            "name": "栀子豉汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:bl01:睛明",
+            "name": "睛明"
+          },
+          {
+            "id": "acupoint:gb37:光明",
+            "name": "光明"
+          },
+          {
+            "id": "acupoint:bl23:肾俞",
+            "name": "肾俞"
+          },
+          {
+            "id": "acupoint:du20:百会",
+            "name": "百会"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "磁珠丸",
+        "青光眼",
+        "白内障",
+        "五轮学说",
+        "睡前40粒"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 219,
+        "end_page": 220,
+        "q": "HT-88 磁珠丸"
+      }
+    },
+    {
+      "id": "hantang:ht-89",
+      "num": 89,
+      "ht_number": "HT-89",
+      "name": "健筋骨丸",
+      "full_title": "HT-89 健筋骨丸",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "50 岁后肝肾渐衰之筋痿骨弱、骨折难愈、腰椎间盘突出、下肢肌肉萎缩。",
+        "pathogenesis": "肝主筋、肾主骨（乙癸同源），咸过伤肾兼精血不能滋养下肢筋骨。",
+        "partial_herbs": "熟地、补骨脂……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "长期坚持服用配合适度太极气血运化（神气形三合）。",
+        "contraindications": "严格戒除重咸味食物（咸过伤肾血）。"
+      },
+      "ziji_note": {
+        "commentary": "强调补养肝肾同时须使气血流通，太极导引胜过单纯机械外拉。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:肾气丸",
+            "name": "肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:gb34:阳陵泉",
+            "name": "阳陵泉"
+          },
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          },
+          {
+            "id": "acupoint:bl57:承山",
+            "name": "承山"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "健筋骨",
+        "骨折",
+        "肌肉萎缩",
+        "乙癸同源",
+        "忌咸味"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 220,
+        "end_page": 221,
+        "q": "HT-89 健筋骨丸"
+      }
+    },
+    {
+      "id": "hantang:ht-90",
+      "num": 90,
+      "ht_number": "HT-90",
+      "name": "消瘤丸（大脖子病/甲状腺瘤）",
+      "full_title": "HT-90 消瘤丸（大脖子病/甲状腺瘤）",
+      "category_id": "oncology_detox",
+      "category": "第三章 · 肿瘤癌瘤积聚排毒外科门",
+      "category_short": "癌瘤外科",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "甲状腺肿瘤、颈前大脖子病，常伴体重骤增骤减、心慌便溏。",
+        "pathogenesis": "咽喉为阳冲之道，因抗生素/止痛药或情志损伤心阳搏动，上焦阳停而浊阴营养沉淀结块。",
+        "partial_herbs": "郁金、黄耆……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "强化心搏及上焦行阳直至结块渐消（停药验大便日一行、心慌止）。",
+        "contraindications": "切忌单纯外科切除（未改环境仍复发），紫极讲者严批见大脖子便投苦寒软坚散结败胃气！"
+      },
+      "ziji_note": {
+        "commentary": "患者多心慌便溏，治当「降胃气、振阳化气」；若服后泄泻兼心悸加剧必属误治。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:小柴胡汤",
+            "name": "小柴胡汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ren22:天突",
+            "name": "天突"
+          },
+          {
+            "id": "acupoint:lu07:列缺",
+            "name": "列缺"
+          },
+          {
+            "id": "acupoint:ki06:照海",
+            "name": "照海"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "甲状腺瘤",
+        "大脖子病",
+        "心慌便溏",
+        "忌寒凉软坚"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 221,
+        "end_page": 223,
+        "q": "HT-90 消瘤丸"
+      }
+    },
+    {
+      "id": "hantang:ht-92",
+      "num": 92,
+      "ht_number": "HT-92",
+      "name": "增高丸",
+      "full_title": "HT-92 增高丸",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "助青少年稳健长高，女子 25 岁前、男子 20 岁前骨骼生长期调补。",
+        "pathogenesis": "补益肾精兼「收敛阳化（坚肾）」令阴成形助骨拔高，且必配肝木流通防肾补而滞泄。",
+        "partial_herbs": "填精坚肾兼疏木流通方（原书未列单味，百无禁忌）",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭前各 30 粒，越早吃效果越佳，百无禁忌。",
+        "contraindications": "戒增高鞋垫、拔苗牵引、增高手术与含激素肉食。"
+      },
+      "ziji_note": {
+        "commentary": "一语破「虚不受补」伪案：小儿单用补肾药反致遗精，非不受补，实乃忘配肝木升发流通！",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:肾气丸",
+            "name": "肾气丸"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:st36:足三里",
+            "name": "足三里"
+          },
+          {
+            "id": "acupoint:gb39:悬钟",
+            "name": "悬钟"
+          },
+          {
+            "id": "acupoint:du12:身柱",
+            "name": "身柱"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "增高",
+        "青少年发育",
+        "坚肾",
+        "虚不受补辨"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 223,
+        "end_page": 225,
+        "q": "HT-92 增高丸"
+      }
+    },
+    {
+      "id": "hantang:ht-93",
+      "num": 93,
+      "ht_number": "HT-93",
+      "name": "小儿过动症（ADHD）",
+      "full_title": "HT-93 小儿过动症（ADHD）",
+      "category_id": "shen_emotion",
+      "category": "第七章 · 神志情志安神心法门",
+      "category_short": "神志安神",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "小儿多动症（过动、注意力散漫、躁动难静）。",
+        "pathogenesis": "倪氏归因过早滥用抗生素伤及心阳（心火独炎、肾水不上济）；讲者并指极度溺爱撤去土堤致肾水泛滥不归心。",
+        "partial_herbs": "木通、附子……等",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚饭前各 15 粒；家长睡后家庭验愈金标：一手按额头、一手摸双足心，【额头清凉、双足温暖】即痊愈铁证！",
+        "contraindications": "痛斥西医 Ritalin（利他林）化学本质近似古柯碱、遗毒深重；忌无理贴病名吓唬压抑纯阳顽皮天性。"
+      },
+      "ziji_note": {
+        "commentary": "引《王凤仪言行录》「讲病」与五行格物，重立脾土之堤使肾水上乘济心、归于木生火礼智。",
+        "linked_classical_formulas": [
+          {
+            "id": "shanghan:黄连阿胶汤",
+            "name": "黄连阿胶汤"
+          },
+          {
+            "id": "shanghan:真武汤",
+            "name": "真武汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          },
+          {
+            "id": "acupoint:ht07:神门",
+            "name": "神门"
+          },
+          {
+            "id": "acupoint:pc07:大陵",
+            "name": "大陵"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "小儿多动症",
+        "ADHD",
+        "额凉足暖",
+        "反对利他林",
+        "水不济火"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 225,
+        "end_page": 226,
+        "q": "HT-93 小儿过动症"
+      }
+    },
+    {
+      "id": "hantang:ht-95",
+      "num": 95,
+      "ht_number": "HT-95",
+      "name": "拖里化毒饮",
+      "full_title": "HT-95 拖里化毒饮",
+      "category_id": "oncology_detox",
+      "category": "第三章 · 肿瘤癌瘤积聚排毒外科门",
+      "category_short": "癌瘤外科",
+      "safety_level": "caution",
+      "ni_original": {
+        "indications": "淋巴结、乳房、腹股沟、腋下或阴道深处脓疡囊肿散发恶臭，触之烫手、脉数、口干不欲饮、便忽干忽利。",
+        "pathogenesis": "脓已成型带阳毒热势兼内伏水饮，必以内托扶正升提兼清热排脓令毒尽出。",
+        "partial_herbs": "黄耆……等（含升提益气托毒及清热解毒排脓药）",
+        "is_partial_disclosure": true,
+        "dosage_method": "按证内服托毒至脓尽消；配合 HT-96 外拔溃脓。",
+        "contraindications": "脓毒未净时不可骤用纯收敛药闭毒。"
+      },
+      "ziji_note": {
+        "commentary": "点出脓既发烫属阳毒，当用黄芪、升麻配金银花；注《衷中参西录》豆腐水煮炮松香治瘘管（生松香禁服）。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:薏苡附子败酱散",
+            "name": "薏苡附子败酱散"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:li04:合谷",
+            "name": "合谷"
+          },
+          {
+            "id": "acupoint:li11:曲池",
+            "name": "曲池"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "淋巴脓疡",
+        "乳房脓块恶臭",
+        "伤口不收",
+        "托毒排脓",
+        "口干不欲饮"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 226,
+        "end_page": 227,
+        "q": "HT-95 拖里化毒饮"
+      }
+    },
+    {
+      "id": "hantang:ht-96",
+      "num": 96,
+      "ht_number": "HT-96",
+      "name": "乳癌外用拔毒粉剂",
+      "full_title": "HT-96 乳癌外用拔毒粉剂",
+      "category_id": "oncology_detox",
+      "category": "第三章 · 肿瘤癌瘤积聚排毒外科门",
+      "category_short": "癌瘤外科",
+      "safety_level": "external_toxic",
+      "ni_original": {
+        "indications": "乳癌溃破、脓水恶臭不止（外拔深层棉絮样坏死癌根）。",
+        "pathogenesis": "破溃之疮已通体外邪道，绝对不可急于强行封口，必由外持续拔净腐根毒素。",
+        "partial_herbs": "外用拔毒粉（未公开详味，内含峻猛拔毒矿物/草药外敷成分）",
+        "is_partial_disclosure": true,
+        "dosage_method": "早晚各直接洒敷患处 1 次，卫生纸吸干流脓；待恶臭绝、块消、六脉眠便经信归正即愈。",
+        "contraindications": "【剧毒严禁内服】严防小儿误食！若误吞致呕吐下利，立即急饮【甘草水】解毒！"
+      },
+      "ziji_note": {
+        "commentary": "举八旬老翁贴心处骨癌溃口约 150mm 拔毒膏外拔一年半全净自愈奇案，重申内外兼顾、顺正收口。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:甘草汤",
+            "name": "甘草汤"
+          }
+        ],
+        "linked_acupoints": []
+      },
+      "clinical_tags": [
+        "乳癌破溃",
+        "外用拔毒",
+        "有毒外敷",
+        "甘草水解毒",
+        "棉絮癌根"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 227,
+        "end_page": 228,
+        "q": "HT-96 乳癌外用拔毒粉剂"
+      }
+    },
+    {
+      "id": "hantang:ht-97",
+      "num": 97,
+      "ht_number": "HT-97",
+      "name": "何首乌丸",
+      "full_title": "HT-97 何首乌丸",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "standard",
+      "ni_original": {
+        "indications": "早白发乌须黑发（专主黑发，不主生发；并传真天然蜂胶竹筷点滴白发根外法）。",
+        "pathogenesis": "纯阴不腻、滋补精液肝肾之阴，阴足为阳之宅故发色渐乌。",
+        "partial_herbs": "纯单味九蒸九晒何首乌（忌配龟板胶等腻品妨脾胃）",
+        "is_partial_disclosure": false,
+        "dosage_method": "性缓，须连续服用 100–200 日方显效；配真蜂胶熬微凉竹筷点发根，亦可配合肉苁蓉助阳。",
+        "contraindications": "炮制严禁铁刀（必用铜刀切片）！生首乌须米泔水浸 1–2 日后黑豆拌砂锅九蒸九晒；警惕市售九成假蜂胶。"
+      },
+      "ziji_note": {
+        "commentary": "引《玉楸子药解》「味甘性涩气平，补液不腻」，痛批庸工乱投龟胶生地腻脾致死。",
+        "linked_classical_formulas": [],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:ki03:太溪",
+            "name": "太溪"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "何首乌",
+        "白发乌须",
+        "忌铁刀用铜刀",
+        "九蒸九晒"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 228,
+        "end_page": 230,
+        "q": "HT-97 何首乌丸"
+      }
+    },
+    {
+      "id": "hantang:ht-98",
+      "num": 98,
+      "ht_number": "HT-98",
+      "name": "五石乌头丸",
+      "full_title": "HT-98 五石乌头丸",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "practitioner_only",
+      "ni_original": {
+        "indications": "《千金要方》极峻丹丸：常规药无效之末期重症癌症、重度顽痹「背水一战」，及良性肿瘤消坚。",
+        "pathogenesis": "借金石（钟乳/硫磺/矾石/紫石英/赤石脂）之猛悍镇摄配草木辛热破一切顽固阴实。",
+        "partial_herbs": "钟乳、硫磺、矾石、紫石英、赤石脂、枳实、甘草、白术、紫苑、山茱萸、防风、白薇、桔梗、天雄、皂荚、细辛、苁蓉、人参、附子、乌头、蜀椒等共 32 味",
+        "is_partial_disclosure": true,
+        "dosage_method": "三餐前 20 粒（耐受反应好者可渐加至极限 40 粒），务必由经验一线医师把关。",
+        "contraindications": "【高危禁区】过度化疗放疗后正气精气已彻底毁败者勿施！绝对不可长期连服，谨防丹药燥烈「发石」危证！"
+      },
+      "ziji_note": {
+        "commentary": "金石药非中平之品，仅作正气尚支、恶邪极顽之背水一战。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:乌头赤石脂丸",
+            "name": "乌头赤石脂丸"
+          },
+          {
+            "id": "jinkui:赤丸",
+            "name": "赤丸"
+          }
+        ],
+        "linked_acupoints": []
+      },
+      "clinical_tags": [
+        "五石乌头丸",
+        "千金方",
+        "金石重剂",
+        "忌久服发石",
+        "重症背水"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 230,
+        "end_page": 231,
+        "q": "HT-98 五石乌头丸"
+      }
+    },
+    {
+      "id": "hantang:ht-99",
+      "num": 99,
+      "ht_number": "HT-99",
+      "name": "斑龙丸",
+      "full_title": "HT-99 斑龙丸",
+      "category_id": "liver_kidney_andrology",
+      "category": "第五章 · 肝胆泌尿结石男科补肾门",
+      "category_short": "肝肾男科",
+      "safety_level": "high_risk",
+      "ni_original": {
+        "indications": "精血枯竭极寒、脑髓受损、骨骼痿弱、重度伤精（久萎重证）非素食者之血肉阴阳双补峻方。",
+        "pathogenesis": "鹿为斑龙，唯有鹿茸鹿角能补厥下海底之阴；动物血肉有情之品力胜草木，然不可久服过偏。",
+        "partial_herbs": "鹿茸、鹿角胶……等（动物性重剂，忌用于素食者）",
+        "is_partial_disclosure": true,
+        "dosage_method": "宜于医师指导下按虚寒平衡周期调服；平人常补不如 HT-49 起阳丸。",
+        "contraindications": "纯素食者不宜（改 HT-49）；一旦寒退阴阳平衡即应停药，勿长期过补「久则增气」反由阳过阴而烧干真阴。"
+      },
+      "ziji_note": {
+        "commentary": "精解《内经》「久则增气」：唯有山药莲子首乌可长服，大毒偏温峻品达衡必止，过则伤天和。",
+        "linked_classical_formulas": [],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:du04:命门",
+            "name": "命门"
+          },
+          {
+            "id": "acupoint:ren04:关元",
+            "name": "关元"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "斑龙丸",
+        "鹿茸",
+        "久则增气",
+        "素食不宜",
+        "伤精"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 231,
+        "end_page": 232,
+        "q": "HT-99 斑龙丸"
+      }
+    },
+    {
+      "id": "hantang:ht-100",
+      "num": 100,
+      "ht_number": "HT-100",
+      "name": "历节丸（乌头汤丸）",
+      "full_title": "HT-100 历节丸（乌头汤丸）",
+      "category_id": "lung_sensory_skin_bi",
+      "category": "第六章 · 肺窍皮肤外感风湿痹痛门",
+      "category_short": "肺窍皮痹",
+      "safety_level": "practitioner_only",
+      "ni_original": {
+        "indications": "类风湿关节炎剧痛、历节风（白虎历节）、关节变形屈伸不利甚或指节变形渐可复位。",
+        "pathogenesis": "寒湿痰浊深伏骨节髓缝，生乌头配蜜解毒缓行逐骨节深寒。",
+        "partial_herbs": "依《金匮》乌头汤原比例（麻黄、芍药、黄芪、甘草、川乌，蜜煎解毒制丸防病家误煎）",
+        "is_partial_disclosure": false,
+        "dosage_method": "早晚饭前各 30 颗（服后唇舌微麻属正常药验，勿惊）；合药熏法效更著，请由医师指定使用。",
+        "contraindications": "忌用西医止痛片毁肾损心瓣膜；严禁病家自行盲目生煎二三十克生乌头不加蜜久煮！"
+      },
+      "ziji_note": {
+        "commentary": "全书压轴正误：① 仲景「炮令彻」实乃草木灰盐水埋烧龟兆裂纹；② 批提纯单体（青蒿素/麻黄素）属偏性西药；③ 痛驳「南方无伤寒」与叶派混温病与温疫乱投寒凉。",
+        "linked_classical_formulas": [
+          {
+            "id": "jinkui:乌头汤",
+            "name": "乌头汤"
+          },
+          {
+            "id": "jinkui:乌头桂枝汤",
+            "name": "乌头桂枝汤"
+          }
+        ],
+        "linked_acupoints": [
+          {
+            "id": "acupoint:pc07:大陵",
+            "name": "大陵"
+          },
+          {
+            "id": "acupoint:li03:三间",
+            "name": "三间"
+          },
+          {
+            "id": "acupoint:gb34:阳陵泉",
+            "name": "阳陵泉"
+          }
+        ]
+      },
+      "clinical_tags": [
+        "历节丸",
+        "类风湿关节炎",
+        "乌头汤",
+        "唇舌微麻正常",
+        "炮令彻",
+        "反青蒿素单体"
+      ],
+      "source_anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 232,
+        "end_page": 235,
+        "q": "HT-100 历节丸"
+      }
+    }
+  ],
+  "du_spine_diagnostics": [
+    {
+      "id": "du:t3-shenzhu",
+      "location": "第 3 椎（身柱穴下）压痛",
+      "organ": "肺脏 / 胸水",
+      "warning_target": "肺积水 / 肺癌早期预警（提前两年）",
+      "companion_cue": "多伴凌晨 3:00–5:00（肺经旺时）自然醒来、胸闷或白泡沫痰",
+      "acupoint": "身柱",
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "督脉",
+        "label": "《汉唐医案集》督脉第3椎/肺癌预警"
+      },
+      "acupoint_id": "acupoint:du12:身柱"
+    },
+    {
+      "id": "du:t5-shendao",
+      "location": "第 5 椎（神道穴下）压痛",
+      "organ": "心脏 / 心包",
+      "warning_target": "系统性红斑狼疮（SLE）/ 心阳伤奶水逆流实据",
+      "companion_cue": "第 5 椎无压痛可排除真性 SLE；常见停经或月经失调、失眠不渴",
+      "acupoint": "神道",
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "第五椎",
+        "label": "《汉唐医案集》第5椎压痛判真伪SLE"
+      },
+      "acupoint_id": "acupoint:du11:神道"
+    },
+    {
+      "id": "du:t6-7-lingtai",
+      "location": "第 6 椎（灵台穴下）/ 第 7 椎压痛",
+      "organ": "督脉骨髓",
+      "warning_target": "白血病（血癌）/ 骨髓瘤预警",
+      "companion_cue": "常伴低热倦怠、不渴、齿龈或皮下易瘀、妇女乳水逆流（绝禁 HT-5）",
+      "acupoint": "灵台",
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "第六椎",
+        "label": "《汉唐医案集》第6/7椎骨髓逆流预警"
+      },
+      "acupoint_id": "acupoint:du10:灵台"
+    },
+    {
+      "id": "du:t9-jinsuo",
+      "location": "第 9 椎（筋缩穴下）压痛",
+      "organ": "肝脏",
+      "warning_target": "肝阴实 / 肝硬化 · 肝癌预警（提前两年）",
+      "companion_cue": "多伴凌晨 1:00–3:00（肝经旺时）自然醒来、口苦无味、手掌朱砂红斑",
+      "acupoint": "筋缩",
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "第九椎",
+        "label": "《汉唐医案集》第9椎肝阴实预警"
+      },
+      "acupoint_id": "acupoint:du08:筋缩"
+    },
+    {
+      "id": "du:t13-xuanshu",
+      "location": "第 13 椎（悬枢穴下）压痛",
+      "organ": "三焦水道 / 网膜",
+      "warning_target": "淋巴癌 / 三焦网膜寒浊阻塞预警",
+      "companion_cue": "颈腋或鼠蹊结节、恶寒但坐不得卧（亦注第4椎压痛见于骨瘤案）",
+      "acupoint": "悬枢",
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "第十三椎",
+        "label": "《汉唐医案集》第13椎三焦淋巴预警"
+      },
+      "acupoint_id": "acupoint:du05:悬枢"
+    }
+  ],
+  "special_palpation_points": [
+    {
+      "id": "palp:danshi",
+      "name": "胆石点（阳陵泉下 1–2 寸）＋ 右胁 ＋ T10",
+      "differential": "确诊胆结石与胆囊堵塞；若按右章门剧痛但左肝关、左胆石点无痛兼腹水鸣，反属惊阻水饮（己椒苈黄加芒硝症）",
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "胆石",
+        "label": "《汉唐医案集》胆石穴鉴别"
+      }
+    },
+    {
+      "id": "palp:shenshi",
+      "name": "肾石点（内踝太溪–跟腱间 1 寸椭圆区）",
+      "differential": "轻按剧痛即确诊肾结石/细砂（含 X 线不显影者），左足应左肾、右足应右肾，兼作针刺止痛与验石排净金标",
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "肾石",
+        "label": "《汉唐医案集》肾石点压痛定位"
+      }
+    },
+    {
+      "id": "palp:lanwei-sanyinjiao-tianshu",
+      "name": "阑尾穴 / 三阴交 / 左右天枢穴互鉴",
+      "differential": "天枢拒按=阳明燥屎宿便（承气/大柴胡）；阑尾穴痛=慢性盲肠炎（大黄牡丹+薏苡附子败酱）；三阴交剧痛=胞宫肌瘤瘀血",
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "大黄牡丹皮汤",
+        "label": "《汉唐医案集》腹部三点鉴诊"
+      }
+    },
+    {
+      "id": "palp:shougan-zuleng",
+      "name": "手极干裂 ＋ 双足愈冰冷（HT-82 铁象）",
+      "differential": "下焦寒实阻格心火，心热上搏掌动脉蒸干津液而足寒回流绝，为摄护腺癌早中期核心体征",
+      "anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "q": "HT-82 下焦寒实",
+        "label": "《汉唐百方》HT-82 手干足冷解析"
+      }
+    },
+    {
+      "id": "palp:eliang-zunuan",
+      "name": "头额清凉 ＋ 双足温暖（心肾相交验愈终标）",
+      "differential": "一切癫痫、小儿多动症、焦虑失眠及癌症扶阳重疾转愈之最可靠客观体征",
+      "anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "q": "HT-93 小儿过动症",
+        "label": "《汉唐百方》HT-93 睡后触验法"
+      }
+    },
+    {
+      "id": "palp:coronary4",
+      "name": "冠心病 / 中风 3 个月前四大报警体征",
+      "differential": "① 手指或足趾外前三指持续麻刺；② 大便时干时稀不规则；③ 无因失眠；④ 胸口闷痛或针刺痛（加胫前大片麻=2周危窗）",
+      "anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "q": "HT-77",
+        "label": "《汉唐百方》HT-77 & HT-23 四原则"
+      }
+    }
+  ],
+  "western_history_rules": [
+    {
+      "id": "west:heart-bypass-stent",
+      "title": "心脏搭桥 / 换瓣 / 支架术后",
+      "triggers": [
+        "心脏术后",
+        "搭桥",
+        "支架",
+        "换瓣",
+        "心脏手术"
+      ],
+      "pathogenesis_shift": "心阳经外创受损，汗为心液，纵见恶寒高热无汗喘逆亦绝不可强发大汗。",
+      "forbidden": "严禁使用麻黄汤、葛根汤、大青龙汤、小青龙汤等峻烈麻黄发汗方剂。",
+      "guidance": "表寒里热无汗急用大青龙证而遇开心手术者，去麻黄改「荆芥 5 钱、防风 3 钱、浮萍 3 钱」代宣表邪；术后遗黄厚腻黏苔、头晕胸闷合用「HT-40 乌梅丸」三餐后 5 粒，苔转薄白即停。",
+      "linked_ht": [
+        "HT-40",
+        "HT-77"
+      ],
+      "linked_classics": [
+        "小柴胡汤",
+        "炙甘草汤"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "荆芥",
+        "label": "《汉唐医案集》开心术后禁麻黄替代法"
+      },
+      "linked_classical_items": [
+        {
+          "id": "jinkui:小柴胡汤",
+          "name": "小柴胡汤"
+        },
+        {
+          "id": "shanghan:炙甘草汤",
+          "name": "炙甘草汤"
+        }
+      ]
+    },
+    {
+      "id": "west:cholecystectomy",
+      "title": "胆囊切除术后",
+      "triggers": [
+        "切胆",
+        "胆切除",
+        "切除胆囊",
+        "无胆囊",
+        "胆囊摘除"
+      ],
+      "pathogenesis_shift": "切胆后失去「肝推＋胆吸」外拉力，15–40 年内极易在肝管积成肝结石、高血脂，且病人常突发极度胆怯易惊。",
+      "forbidden": "切忌盲服人工合成维他命片剂与酗酒。",
+      "guidance": "长期服用「HT-84 肝结石（四逆散化裁）」辅助升肝益胆、畅泄浊脂降胆固醇。",
+      "linked_ht": [
+        "HT-84",
+        "HT-14"
+      ],
+      "linked_classics": [
+        "四逆散",
+        "大柴胡汤"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "q": "HT-84 肝结石",
+        "label": "《汉唐百方》HT-84 无胆后遗专方"
+      },
+      "linked_classical_items": [
+        {
+          "id": "shanghan:四逆散",
+          "name": "四逆散"
+        },
+        {
+          "id": "jinkui:大柴胡汤",
+          "name": "大柴胡汤"
+        }
+      ]
+    },
+    {
+      "id": "west:biopsy-excision-breast-liver",
+      "title": "乳房 / 肝脏穿刺切片或肿瘤切除后",
+      "triggers": [
+        "切片",
+        "穿刺",
+        "乳癌术后",
+        "子宫切除",
+        "切乳房",
+        "切子宫"
+      ],
+      "pathogenesis_shift": "穿刺切片易刺破包裹瘤体之纤维囊膜致浊乳邪水扩散；子宫切除后奶水犹生，唯一正常出路转为每日通畅大便。",
+      "forbidden": "确诊或曾患癌/SLE/血癌者绝对禁用 HT-5 通乳丸与人工雌激素（HRT）！忌停便。",
+      "guidance": "女科转用「HT-2 退乳丸」引余乳下行大便；肝脏穿刺术后留疤隐痛者，攻水后再配「半夏泻心汤」调中散结止疤痛。",
+      "linked_ht": [
+        "HT-2",
+        "HT-68",
+        "HT-96"
+      ],
+      "linked_classics": [
+        "半夏泻心汤",
+        "炙甘草汤"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "半夏泻心汤",
+        "label": "《汉唐医案集》切片禁用与疤痛调治"
+      },
+      "linked_classical_items": [
+        {
+          "id": "jinkui:半夏泻心汤",
+          "name": "半夏泻心汤"
+        },
+        {
+          "id": "shanghan:炙甘草汤",
+          "name": "炙甘草汤"
+        }
+      ]
+    },
+    {
+      "id": "west:contrast-dye-injury",
+      "title": "静脉注射造影显影剂（Dye）后急衰",
+      "triggers": [
+        "显影剂",
+        "造影剂",
+        "造影",
+        "增强CT"
+      ],
+      "pathogenesis_shift": "化学显影剂阴毒骤伤心肾真阳，突发四肢逆冷、喘悸濒危。",
+      "forbidden": "忌延误作常规喘肿寒凉输液。",
+      "guidance": "断为阴盛逼阳、心肾骤衰，果断予大剂「救逆汤」（桂枝去芍药加蜀漆牡蛎龙骨救逆变方思路）急固回阳。",
+      "linked_ht": [
+        "HT-52",
+        "HT-87"
+      ],
+      "linked_classics": [
+        "桂枝去芍药加蜀漆牡蛎龙骨救逆汤",
+        "四逆汤"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "显影剂",
+        "label": "《汉唐医案集》显影剂急伤急救"
+      },
+      "linked_classical_items": [
+        {
+          "id": "jinkui:桂枝去芍药加蜀漆牡蛎龙骨救逆汤",
+          "name": "桂枝去芍药加蜀漆牡蛎龙骨救逆汤"
+        },
+        {
+          "id": "jinkui:四逆汤",
+          "name": "四逆汤"
+        }
+      ]
+    },
+    {
+      "id": "west:insulin-antidiabetic",
+      "title": "长期注射胰岛素 / 口服降糖药（消渴五型）",
+      "triggers": [
+        "胰岛素",
+        "降糖药",
+        "糖尿病足",
+        "洗肾",
+        "透析"
+      ],
+      "pathogenesis_shift": "久注胰岛素逾 5 年（第 4/5 型）致胰脏萎缩如甜肥肉，且迫糖水下沉双足诱发眼盲、心衰与足坏疽。",
+      "forbidden": "晚饭后至睡前严禁宵夜！第四/五型忌向病人盲夸血糖必降回 100；切忌单纯用强利尿剂逼出尿毒洗肾。",
+      "guidance": "逐步在稳守饮食戒律下固心肾护脾（HT-24 + 桂附八味 + HT-73/纯蔗糖水洗溃足）；尿毒洗肾须生附+生硫磺+健心实脾。",
+      "linked_ht": [
+        "HT-24",
+        "HT-73",
+        "HT-88"
+      ],
+      "linked_classics": [
+        "八味肾气丸",
+        "真武汤"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "胰岛素",
+        "label": "《汉唐医案集》消渴五型预后分流"
+      },
+      "linked_classical_items": [
+        {
+          "id": "jinkui:八味肾气丸",
+          "name": "八味肾气丸"
+        },
+        {
+          "id": "shanghan:真武汤",
+          "name": "真武汤"
+        }
+      ]
+    },
+    {
+      "id": "west:gastrectomy-chemo-radio",
+      "title": "胃大部分切除或多次放化疗后",
+      "triggers": [
+        "化疗",
+        "放疗",
+        "切胃",
+        "胃切除",
+        "大肠癌术后"
+      ],
+      "pathogenesis_shift": "脾胃后天腐熟通道毁损，精气虚衰，药毒难运化，且大肠切后余毒极易由腑入脏直传肝脏。",
+      "forbidden": "胃全切或重化疗后禁用 HT-7 及 HT-98 五石乌头丸！切忌继续寒凉苦泄攻伐。",
+      "guidance": "唯存一丝元气方慎用 HT-10 同步小建中护胃，重在炙甘草汤、理中健胃护后天胃气，忌吃生冷腐食（如不洁三明治触发复发）。",
+      "linked_ht": [
+        "HT-10",
+        "HT-78",
+        "HT-68"
+      ],
+      "linked_classics": [
+        "小建中汤",
+        "炙甘草汤",
+        "理中丸"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "大黄甘草汤",
+        "label": "《汉唐医案集》术后复发戒忌"
+      },
+      "linked_classical_items": [
+        {
+          "id": "jinkui:小建中汤",
+          "name": "小建中汤"
+        },
+        {
+          "id": "shanghan:炙甘草汤",
+          "name": "炙甘草汤"
+        },
+        {
+          "id": "jinkui:理中丸",
+          "name": "理中丸"
+        }
+      ]
+    },
+    {
+      "id": "west:steroid-antipyretic-suppress",
+      "title": "滥用退烧药 / 抗生素 / 类固醇激素压邪",
+      "triggers": [
+        "抗生素",
+        "激素",
+        "类固醇",
+        "退烧药",
+        "干扰素"
+      ],
+      "pathogenesis_shift": "外邪寒湿被冰伏压入少阴厥阴督脉骨髓（如小儿白血病、C肝干扰素毁五脏、哮喘压成心脏肥大）。",
+      "forbidden": "忌见上热烦躁假热（不渴/双足冷/脉细无力）继续投冰寒滋阴药。",
+      "guidance": "识别「阴虚 → 阳虚 → 阴实」三阶与「热药冷服」技巧；外感重透邪（小儿出痘用葛根汤，防寒闭成大疾）。",
+      "linked_ht": [
+        "HT-4",
+        "HT-15",
+        "HT-20",
+        "HT-87"
+      ],
+      "linked_classics": [
+        "葛根汤",
+        "麻黄附子细辛汤",
+        "四逆汤"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "热药冷服",
+        "label": "《汉唐医案集》激素冰伏与热药冷服"
+      },
+      "linked_classical_items": [
+        {
+          "id": "jinkui:葛根汤",
+          "name": "葛根汤"
+        },
+        {
+          "id": "shanghan:麻黄附子细辛汤",
+          "name": "麻黄附子细辛汤"
+        },
+        {
+          "id": "jinkui:四逆汤",
+          "name": "四逆汤"
+        }
+      ]
+    }
+  ],
+  "prognosis_and_recovery_criteria": {
+    "ni_six_criteria": [
+      "1. 胃口转饥（表证次日中午觉饥，里证半夜转醒腹饥，乃阴寒松动大吉之兆）",
+      "2. 双脚转温（心阳下达小肠与末梢，寒凝血块消散第一客观指针）",
+      "3. 深沉安眠（一觉至天明，无子/丑/寅时惊醒噩梦）",
+      "4. 晨起大便畅通（卯时 5:00–7:00 顺畅排便）",
+      "5. 小便清长淡黄有力（日 5–7 次，非短少深茶，亦非白水失禁）",
+      "6. 体力精神同步上升（即使短暂出现排毒发痒/吐泻，总体精力渐盛）"
+    ],
+    "seven_recovery_signs": [
+      "痛痒外移：病灶深部出现手抓不到的痒感，渐移出皮肤红疹外透",
+      "晦浊退散：面青黑黄暗渐退，手掌朱砂掌红斑转回正常粉红",
+      "胃气味嗅全复：厌食转饥、味觉嗅觉重现",
+      "二便颜色压力转正：深茶尿转淡黄有力（服药后半小时大便小便顺畅），黑臭宿便转正常黄软",
+      "彻夜深眠：由失眠痛醒转为一觉天亮",
+      "足温肿消：冰冷浮肿双脚回温消肿（尤破男怕穿靴险关）",
+      "攻邪短暂反逆波动：攻破阴实时偶见血压一过性飙升或下黑臭浊便，神胃不衰而结开后血压自行跌回正常"
+    ],
+    "danger_reversal_signs": [
+      "面上青黑全无反光、头发干燥竖起浮散（阴阳相隔将死相）",
+      "厥阴危证反见脉洪大浮散而无根（脉症不符）",
+      "药后大汗淋漓、头面冷汗而四肢更见冰厥",
+      "胃口全绝反生恶逆、强止汗泻后神志反趋昏沉"
+    ],
+    "five_passages_ziji": "紫极五通健康总纲：饮食通（纳化无胀酸）、休息通（卫气入阴深眠）、二便通（去路畅洁）、体力通、阳气通（末梢温暖有神）。",
+    "anchor": {
+      "book_id": "ni-hantang-articles-cases-pdf",
+      "q": "倪氏六准则",
+      "label": "《汉唐医案集》倪氏六准则与疗效判标"
+    }
+  },
+  "clinical_redlines": [
+    {
+      "id": "ht-rl-1",
+      "title": "白血病 / SLE / 淋巴 / 肝 / 脑 / 肺癌禁用 HT-5",
+      "rule": "凡癌证与红斑狼疮严禁催生新乳（HT-5 通乳丸），一律专投 HT-2 退乳丸截断乳汁逆流。",
+      "ref": "HT-5",
+      "anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 22,
+        "end_page": 26,
+        "q": "HT-5 通乳丸"
+      }
+    },
+    {
+      "id": "ht-rl-2",
+      "title": "女子经期感冒禁用发汗药，唯用小柴胡汤",
+      "rule": "经水适来外感寒热头痛，禁用麻桂汗剂与退烧止痛药（防热入血室），唯立小柴胡汤和解（痛经甚加茜草白芍）。",
+      "ref": "HT-8, 11",
+      "anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 38,
+        "end_page": 42,
+        "q": "HT-8 子宫症痼"
+      }
+    },
+    {
+      "id": "ht-rl-3",
+      "title": "绝经忌雌激素（HRT）/ 乳房忌穿刺切片",
+      "rule": "强补人工荷尔蒙或刺破乳房囊壁反诱乳癌/扩散；骨松亦禁用化学钙片致肾石。",
+      "ref": "HT-2, 63, 64",
+      "anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 9,
+        "end_page": 14,
+        "q": "HT-2 退乳丸"
+      }
+    },
+    {
+      "id": "ht-rl-4",
+      "title": "胃出血血无止法 / 切胃化疗禁用 HT-7",
+      "rule": "胃痈吐血禁冰敷及强止血闭毒；已行胃全切或重化疗、不信医、中西混服者不适用 HT-7。",
+      "ref": "HT-7",
+      "anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 30,
+        "end_page": 38,
+        "q": "HT-7 胃痈及胃出血"
+      }
+    },
+    {
+      "id": "ht-rl-5",
+      "title": "膀胱结石（HT-65）绝对禁用一切热药",
+      "rule": "尿路膀胱湿热痛淋血尿严禁温热药，必择白茅根＋滑石清利通淋。",
+      "ref": "HT-65",
+      "anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 184,
+        "end_page": 185,
+        "q": "HT-65 膀胱结石"
+      }
+    },
+    {
+      "id": "ht-rl-6",
+      "title": "无手脚冰冷禁赤丸 / 痛风禁补药 / 心颤禁姜附",
+      "rule": "手足温热者严禁 HT-52 赤丸；HT-27 痛风万不可用补药；HT-6 胸痰心颤禁猛投姜附逼心衰。",
+      "ref": "HT-6, 27, 52",
+      "anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 26,
+        "end_page": 30,
+        "q": "HT-6 手抖兼心颤憟"
+      }
+    },
+    {
+      "id": "ht-rl-7",
+      "title": "护肝排毒禁激素止痒 / 三天不便立即停药",
+      "rule": "服 HT-68 排黑便或暴痒乃排毒吉兆切忌止泻/涂激素；但连服 3 天大便仍不通即停药面诊！",
+      "ref": "HT-68",
+      "anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 188,
+        "end_page": 190,
+        "q": "HT-68 护肝丸"
+      }
+    },
+    {
+      "id": "ht-rl-8",
+      "title": "外用毒粉严禁内服 / HT-96 误服急饮甘草水",
+      "rule": "HT-18/83/96 均禁内服，雄黄有白条含砒石须慎；HT-96 乳癌外用粉若误食吐泻急灌甘草水解之。",
+      "ref": "HT-18, 83, 96",
+      "anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 77,
+        "end_page": 78,
+        "q": "HT-18 腰蛇·胸蛇·颈蛇"
+      }
+    },
+    {
+      "id": "ht-rl-9",
+      "title": "鼻衄禁用 HT-54 / 便结忌熟地版 HT-48",
+      "rule": "常流鼻血者勿用升散咽喉鼻方；便秘勿用熟地肉桂版肾气丸，须辨仲景干地黄配牡桂原方。",
+      "ref": "HT-48, 54",
+      "anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 164,
+        "end_page": 166,
+        "q": "HT-48 金匮肾气丸"
+      }
+    },
+    {
+      "id": "ht-rl-10",
+      "title": "消渴晚饭后禁食 / 胃酸戒甜 / 慎练逆式呼吸",
+      "rule": "HT-24 晚饭后绝对禁宵夜；HT-78 胃酸戒甜食冰饮；HT-71 警示无师指导切勿自行试练道门逆式呼吸。",
+      "ref": "HT-24, 71, 78",
+      "anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "book_title": "倪海夏-汉唐中医方剂讲解",
+        "page_no": 96,
+        "end_page": 104,
+        "q": "HT-24 降血糖"
+      }
+    }
+  ],
+  "cases_index": [
+    {
+      "id": "case:sle-55days",
+      "title": "50岁女性 SLE 55日全愈案（真寒格阳 + 转肺拦截）",
+      "date": "2004/05/10–07/05",
+      "summary": "42岁停经8年、全身痛失眠洪数脉却从不口渴；停维他命以峻温破里寒，6月5日逼出白泡沫痰及时清肺截断肺癌移行，终减重55磅血检转阴配HT-2收功。",
+      "formulas": [
+        "HT-2",
+        "四逆汤"
+      ],
+      "points": [
+        "神道",
+        "巨阙",
+        "关元"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "红斑",
+        "page_hint": 95
+      },
+      "linked_formula_items": [
+        {
+          "id": "jinkui:四逆汤",
+          "name": "四逆汤"
+        }
+      ],
+      "linked_acupoint_items": [
+        {
+          "id": "acupoint:du11:神道",
+          "name": "神道"
+        },
+        {
+          "id": "acupoint:ren14:巨阙",
+          "name": "巨阙"
+        },
+        {
+          "id": "acupoint:ren04:关元",
+          "name": "关元"
+        }
+      ]
+    },
+    {
+      "id": "case:sle-3visits",
+      "title": "2007/08/31 SLE 三诊递进方（清胆脾表→启生附吴萸→强降温足）",
+      "date": "2007/08/31",
+      "summary": "初诊柴胡龙胆茵陈泻肝胆兼透表安神；二诊加生附3钱、吴茱萸、干姜启阳引乳；三诊加半夏、代赭石、桂枝、南星直温双足为度。",
+      "formulas": [
+        "四逆汤",
+        "HT-2"
+      ],
+      "points": [
+        "巨阙",
+        "关元"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "吴茱萸",
+        "page_hint": 84
+      },
+      "linked_formula_items": [
+        {
+          "id": "jinkui:四逆汤",
+          "name": "四逆汤"
+        }
+      ],
+      "linked_acupoint_items": [
+        {
+          "id": "acupoint:ren14:巨阙",
+          "name": "巨阙"
+        },
+        {
+          "id": "acupoint:ren04:关元",
+          "name": "关元"
+        }
+      ]
+    },
+    {
+      "id": "case:pseudo-sle",
+      "title": "假性 SLE 鉴别案（46岁男第5椎无压痛 · 阳明肺湿热）",
+      "date": "2006/08/24",
+      "summary": "面赤斑疑 SLE，然查第5椎全无压痛、双脚温热、口渴苔黄湿、脉洪大，排除真SLE，用石膏5两、知母、皂荚、三黄、封髓丹合紫云膏治愈。",
+      "formulas": [
+        "白虎汤",
+        "HT-44"
+      ],
+      "points": [
+        "合谷",
+        "曲池"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "第五椎",
+        "page_hint": 84
+      },
+      "linked_formula_items": [
+        {
+          "id": "shanghan:白虎汤",
+          "name": "白虎汤"
+        }
+      ],
+      "linked_acupoint_items": [
+        {
+          "id": "acupoint:li04:合谷",
+          "name": "合谷"
+        },
+        {
+          "id": "acupoint:li11:曲池",
+          "name": "曲池"
+        }
+      ]
+    },
+    {
+      "id": "case:k-liver-cancer",
+      "title": "77岁 K 君阴黄肝癌 7 周好转全实录 + 越婢退烧 + 炙甘草复代脉",
+      "date": "2004/05/18–10/06",
+      "summary": "右肋10cm+硬块、足肿冰冷不食，合 HT-68 逐周见双足回温、第3–4周肝区奇痒外透、穿刺疤加活血化瘀后缩消；感高热用越婢一帖退烧、代脉用炙甘草汤消除。",
+      "formulas": [
+        "HT-68",
+        "炙甘草汤",
+        "越婢汤"
+      ],
+      "points": [
+        "期门",
+        "章门",
+        "足三里"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "阴黄",
+        "page_hint": 88
+      },
+      "linked_formula_items": [
+        {
+          "id": "shanghan:炙甘草汤",
+          "name": "炙甘草汤"
+        },
+        {
+          "id": "jinkui:越婢汤",
+          "name": "越婢汤"
+        }
+      ],
+      "linked_acupoint_items": [
+        {
+          "id": "acupoint:lv14:期门",
+          "name": "期门"
+        },
+        {
+          "id": "acupoint:lv13:章门",
+          "name": "章门"
+        },
+        {
+          "id": "acupoint:st36:足三里",
+          "name": "足三里"
+        }
+      ]
+    },
+    {
+      "id": "case:tr-cirrhosis",
+      "title": "T.R 君无胆肝硬化吐血腹水「只活两次」急救案",
+      "date": "2006/02–09/20",
+      "summary": "40年前切胆致肝硬化腹水，初愈后误食不鲜三明治一夜大吐黑血重肿27磅，呈「面黑无光头发浮起」死相；大黄甘草排毒后隔日针三皇俞募配贴脐温灸20日再回生。",
+      "formulas": [
+        "大黄甘草汤",
+        "HT-84"
+      ],
+      "points": [
+        "章门",
+        "期门",
+        "肝俞",
+        "肾俞",
+        "足三里",
+        "关元",
+        "巨阙"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "大黄甘草汤",
+        "page_hint": 32
+      },
+      "linked_formula_items": [
+        {
+          "id": "jinkui:大黄甘草汤",
+          "name": "大黄甘草汤"
+        }
+      ],
+      "linked_acupoint_items": [
+        {
+          "id": "acupoint:lv13:章门",
+          "name": "章门"
+        },
+        {
+          "id": "acupoint:lv14:期门",
+          "name": "期门"
+        },
+        {
+          "id": "acupoint:bl18:肝俞",
+          "name": "肝俞"
+        },
+        {
+          "id": "acupoint:bl23:肾俞",
+          "name": "肾俞"
+        },
+        {
+          "id": "acupoint:st36:足三里",
+          "name": "足三里"
+        },
+        {
+          "id": "acupoint:ren04:关元",
+          "name": "关元"
+        },
+        {
+          "id": "acupoint:ren14:巨阙",
+          "name": "巨阙"
+        }
+      ]
+    },
+    {
+      "id": "case:jueyin-parkinson",
+      "title": "抗抑郁西药致帕金森厥阴死证十味救逆全案",
+      "date": "2005/02/24",
+      "summary": "全身剧抖、失聪记忆丧、二便闭、但坐不得卧、脉细小无力（附四逆+桂细+大黄急下存阴+白术茯苓洋参熟地护津），二碗通二便去郑声。",
+      "formulas": [
+        "四逆汤",
+        "大承气汤"
+      ],
+      "points": [
+        "太冲",
+        "足三里",
+        "百会"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "郑声",
+        "page_hint": 200
+      },
+      "linked_formula_items": [
+        {
+          "id": "jinkui:四逆汤",
+          "name": "四逆汤"
+        },
+        {
+          "id": "jinkui:大承气汤",
+          "name": "大承气汤"
+        }
+      ],
+      "linked_acupoint_items": [
+        {
+          "id": "acupoint:lv03:太冲",
+          "name": "太冲"
+        },
+        {
+          "id": "acupoint:st36:足三里",
+          "name": "足三里"
+        },
+        {
+          "id": "acupoint:du20:百会",
+          "name": "百会"
+        }
+      ]
+    },
+    {
+      "id": "case:cold-serve-hot-med",
+      "title": "2006/08/24 白虎3两并生附3钱「热药冷服」示教全案",
+      "date": "2006/08/24–08/30",
+      "summary": "旋覆代赭降酸＋大承气下臭屎＋黄连阿胶＋白虎石膏3两并生附3钱「热药冷服」破格拒；次日酸除黑便下足转温，二诊去生附代赭配川芎粉外敷脚趾骨肿。",
+      "formulas": [
+        "白虎汤",
+        "大承气汤",
+        "黄连阿胶汤",
+        "旋覆代赭汤"
+      ],
+      "points": [
+        "大陵",
+        "太白"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "热药冷服",
+        "page_hint": 143
+      },
+      "linked_formula_items": [
+        {
+          "id": "shanghan:白虎汤",
+          "name": "白虎汤"
+        },
+        {
+          "id": "jinkui:大承气汤",
+          "name": "大承气汤"
+        },
+        {
+          "id": "shanghan:黄连阿胶汤",
+          "name": "黄连阿胶汤"
+        },
+        {
+          "id": "shanghan:旋覆代赭石汤",
+          "name": "旋覆代赭石汤"
+        }
+      ],
+      "linked_acupoint_items": [
+        {
+          "id": "acupoint:pc07:大陵",
+          "name": "大陵"
+        },
+        {
+          "id": "acupoint:sp03:太白",
+          "name": "太白"
+        }
+      ]
+    },
+    {
+      "id": "case:uremia-stop-dialysis",
+      "title": "尿毒症多案停止洗肾法则（肌酐7.9→5.9 / 4.7→2.6）",
+      "date": "2006/09/04",
+      "summary": "拒用伤肾纯利尿剂，从「治肾必强心＋咸味软坚＋生附3至7钱配生硫磺7钱破肾阴实」配针三皇复溜关元俞募，恢复大力自主排尿脱透析。",
+      "formulas": [
+        "四逆汤",
+        "真武汤"
+      ],
+      "points": [
+        "复溜",
+        "公孙",
+        "内关",
+        "关元",
+        "肾俞",
+        "京门"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "生硫磺",
+        "page_hint": 13
+      },
+      "linked_formula_items": [
+        {
+          "id": "jinkui:四逆汤",
+          "name": "四逆汤"
+        },
+        {
+          "id": "shanghan:真武汤",
+          "name": "真武汤"
+        }
+      ],
+      "linked_acupoint_items": [
+        {
+          "id": "acupoint:ki07:复溜",
+          "name": "复溜"
+        },
+        {
+          "id": "acupoint:sp04:公孙",
+          "name": "公孙"
+        },
+        {
+          "id": "acupoint:pc06:内关",
+          "name": "内关"
+        },
+        {
+          "id": "acupoint:ren04:关元",
+          "name": "关元"
+        },
+        {
+          "id": "acupoint:bl23:肾俞",
+          "name": "肾俞"
+        },
+        {
+          "id": "acupoint:gb25:京门",
+          "name": "京门"
+        }
+      ]
+    },
+    {
+      "id": "case:als-protocol",
+      "title": "渐冻人（ALS）12 味全方与督筋七穴合击",
+      "date": "临床Logs L8293",
+      "summary": "少阴肾督真阳亏兼下焦寒湿：生附子3–4钱、干姜、炙草、茯苓、白术、牛膝、桂枝、白芍、当归、细辛、补骨脂、泽泻；针阳陵泉、承山、曲池、阴谷、委中、天柱、大杼。",
+      "formulas": [
+        "四逆汤",
+        "真武汤"
+      ],
+      "points": [
+        "阳陵泉",
+        "承山",
+        "曲池",
+        "阴谷",
+        "委中",
+        "大杼"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "阳陵泉",
+        "page_hint": 260
+      },
+      "linked_formula_items": [
+        {
+          "id": "jinkui:四逆汤",
+          "name": "四逆汤"
+        },
+        {
+          "id": "shanghan:真武汤",
+          "name": "真武汤"
+        }
+      ],
+      "linked_acupoint_items": [
+        {
+          "id": "acupoint:gb34:阳陵泉",
+          "name": "阳陵泉"
+        },
+        {
+          "id": "acupoint:bl57:承山",
+          "name": "承山"
+        },
+        {
+          "id": "acupoint:li11:曲池",
+          "name": "曲池"
+        },
+        {
+          "id": "acupoint:ki10:阴谷",
+          "name": "阴谷"
+        },
+        {
+          "id": "acupoint:bl40:委中",
+          "name": "委中"
+        },
+        {
+          "id": "acupoint:bl11:大杼",
+          "name": "大杼"
+        }
+      ]
+    },
+    {
+      "id": "case:bypass-water-paradox",
+      "title": "有下利的大承气热结旁流急案 & 终身寒秘旋覆大黄附子案",
+      "date": "2006/09/07",
+      "summary": "同日对照实热下水粪天枢拒按（大承气汤冲服芒硝）vs 终身无痛冷秘上燥下寒反酸脉微弱（大黄4钱炮附3钱细辛2钱＋旋覆代赭），天壤殊途。",
+      "formulas": [
+        "大承气汤",
+        "大黄附子汤",
+        "旋覆代赭汤"
+      ],
+      "points": [
+        "天枢",
+        "中脘",
+        "足三里"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "热结旁流",
+        "page_hint": 3
+      },
+      "linked_formula_items": [
+        {
+          "id": "jinkui:大承气汤",
+          "name": "大承气汤"
+        },
+        {
+          "id": "jinkui:大黄附子汤",
+          "name": "大黄附子汤"
+        },
+        {
+          "id": "shanghan:旋覆代赭石汤",
+          "name": "旋覆代赭石汤"
+        }
+      ],
+      "linked_acupoint_items": [
+        {
+          "id": "acupoint:st25:天枢",
+          "name": "天枢"
+        },
+        {
+          "id": "acupoint:ren12:中脘",
+          "name": "中脘"
+        },
+        {
+          "id": "acupoint:st36:足三里",
+          "name": "足三里"
+        }
+      ]
+    },
+    {
+      "id": "case:hydrops-lung-breakthrough",
+      "title": "肺积水破《金匮》「脉大者死」禁区十枣合射干案",
+      "date": "临床Logs L4837",
+      "summary": "肺积水咳喘不能平卧反见洪大脉，先用射干麻黄配桔梗，喘实极投十枣汤峻泻胸水，水退脉转微和再回归射干麻黄汤收功。",
+      "formulas": [
+        "射干麻黄汤",
+        "十枣汤"
+      ],
+      "points": [
+        "肺俞",
+        "中府",
+        "太渊"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-articles-cases-pdf",
+        "q": "射干麻黄汤",
+        "page_hint": 250
+      },
+      "linked_formula_items": [
+        {
+          "id": "jinkui:射干麻黄汤",
+          "name": "射干麻黄汤"
+        },
+        {
+          "id": "jinkui:十枣汤",
+          "name": "十枣汤"
+        }
+      ],
+      "linked_acupoint_items": [
+        {
+          "id": "acupoint:bl13:肺俞",
+          "name": "肺俞"
+        },
+        {
+          "id": "acupoint:lu01:中府",
+          "name": "中府"
+        },
+        {
+          "id": "acupoint:lu09:太渊",
+          "name": "太渊"
+        }
+      ]
+    },
+    {
+      "id": "case:ziji-three-miracles",
+      "title": "紫极临床三奇案（骨癌150mm拔毒 / 衡山生地250g湿疹 / 胃囊肿百克温降）",
+      "date": "紫极书院临床实录",
+      "summary": "HT-96旁参八旬老翁左胸贴心骨癌外拔棉絮毒根一年半愈；HT-17衡山大水疱湿疹重投生地100→250g两天收干；HT-78胃囊肿重投茯苓干姜百余克温降而愈。",
+      "formulas": [
+        "HT-96",
+        "HT-17",
+        "HT-78",
+        "理中丸"
+      ],
+      "points": [
+        "足三里",
+        "中脘"
+      ],
+      "anchor": {
+        "book_id": "ni-hantang-formulas-pdf",
+        "q": "HT-96",
+        "page_hint": 227
+      },
+      "linked_formula_items": [
+        {
+          "id": "jinkui:理中丸",
+          "name": "理中丸"
+        }
+      ],
+      "linked_acupoint_items": [
+        {
+          "id": "acupoint:st36:足三里",
+          "name": "足三里"
+        },
+        {
+          "id": "acupoint:ren12:中脘",
+          "name": "中脘"
+        }
+      ]
+    }
+  ]
+}

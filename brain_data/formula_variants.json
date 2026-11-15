@@ -1,0 +1,4947 @@
+{
+  "total_groups": 42,
+  "exact_same_count": 15,
+  "different_count": 27,
+  "items": [
+    {
+      "normalized_name": "乌梅丸",
+      "shanghan_id": "shanghan:乌梅丸",
+      "jinkui_id": "jinkui:乌梅丸",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [
+          "蜀椒"
+        ],
+        "only_in_jinkui": [
+          "川椒"
+        ]
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "乌梅",
+          "shanghan": "三百枚",
+          "jinkui": "三百个"
+        },
+        {
+          "herb": "黄连",
+          "shanghan": "十六两",
+          "jinkui": "一斤"
+        },
+        {
+          "herb": "附子",
+          "shanghan": "六两·炮去皮",
+          "jinkui": "六两"
+        },
+        {
+          "herb": "桂枝",
+          "shanghan": "六两·去皮",
+          "jinkui": "六两"
+        },
+        {
+          "herb": "黄柏",
+          "shanghan": "六两",
+          "jinkui": "六两·各"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:乌梅丸",
+        "name": "乌梅丸",
+        "book": "伤寒论",
+        "section": "厥阴",
+        "page_or_line": 6215,
+        "ingredients": [
+          {
+            "name": "乌梅",
+            "dose": "三百枚",
+            "processing": "",
+            "raw": "乌梅（三百枚○成本。枚作个。）"
+          },
+          {
+            "name": "细辛",
+            "dose": "六两",
+            "processing": "",
+            "raw": "细辛（六两）"
+          },
+          {
+            "name": "干姜",
+            "dose": "十两",
+            "processing": "",
+            "raw": "干姜（十两）"
+          },
+          {
+            "name": "当归",
+            "dose": "四两",
+            "processing": "",
+            "raw": "当归（四两）"
+          },
+          {
+            "name": "黄连",
+            "dose": "十六两",
+            "processing": "",
+            "raw": "黄连（十六两○成本。作一斤。千金。作十两。）"
+          },
+          {
+            "name": "附子",
+            "dose": "六两",
+            "processing": "炮去皮",
+            "raw": "附子（六两炮去皮○方周魏吴。并作六枚。成本。此与桂枝。并脱去皮字。）"
+          },
+          {
+            "name": "蜀椒",
+            "dose": "四两",
+            "processing": "去汗",
+            "raw": "蜀椒（四两去汗）"
+          },
+          {
+            "name": "桂枝",
+            "dose": "六两",
+            "processing": "去皮",
+            "raw": "桂枝（去皮六两）"
+          },
+          {
+            "name": "人参",
+            "dose": "六两",
+            "processing": "",
+            "raw": "人参（六两）"
+          },
+          {
+            "name": "黄柏",
+            "dose": "六两",
+            "processing": "",
+            "raw": "黄柏（六两○千金云。一方。用麦）"
+          }
+        ],
+        "decoction": "上十味。异捣筛。合治之。以苦酒渍乌梅一宿。去核。蒸之五斗米下。饭熟捣成泥。和药令相得。纳臼中。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:乌梅丸",
+        "name": "乌梅丸",
+        "book": "金匮要略",
+        "section": "趺蹶手指臂肿转筋狐疝蚘虫病脉证治第十九",
+        "page_or_line": 380,
+        "ingredients": [
+          {
+            "name": "乌梅",
+            "dose": "三百个",
+            "processing": "",
+            "raw": "乌梅三百个",
+            "herb_ref": "梅实",
+            "suspect": false
+          },
+          {
+            "name": "细辛",
+            "dose": "六两",
+            "processing": "",
+            "raw": "细辛六两",
+            "herb_ref": "细辛",
+            "suspect": false
+          },
+          {
+            "name": "干姜",
+            "dose": "十两",
+            "processing": "",
+            "raw": "干姜十两",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "黄连",
+            "dose": "一斤",
+            "processing": "",
+            "raw": "黄连一斤",
+            "herb_ref": "黄连",
+            "suspect": false
+          },
+          {
+            "name": "当归",
+            "dose": "四两",
+            "processing": "",
+            "raw": "当归",
+            "herb_ref": "当归",
+            "suspect": false
+          },
+          {
+            "name": "川椒",
+            "dose": "四两",
+            "processing": "各",
+            "raw": "川椒各四两",
+            "herb_ref": "蜀椒",
+            "suspect": false
+          },
+          {
+            "name": "附子",
+            "dose": "六两",
+            "processing": "",
+            "raw": "附子",
+            "herb_ref": "附子",
+            "suspect": false
+          },
+          {
+            "name": "桂枝",
+            "dose": "六两",
+            "processing": "",
+            "raw": "桂枝",
+            "herb_ref": "牡桂",
+            "suspect": false
+          },
+          {
+            "name": "人参",
+            "dose": "六两",
+            "processing": "",
+            "raw": "人参",
+            "herb_ref": "人参",
+            "suspect": false
+          },
+          {
+            "name": "黄柏",
+            "dose": "六两",
+            "processing": "各",
+            "raw": "黄柏各六两",
+            "herb_ref": "檗木",
+            "suspect": false
+          }
+        ],
+        "decoction": "上十味，异捣筛，合治之，以苦酒渍乌梅一宿，去核，蒸之五升米上饭熟，捣成泥，和药令相得，内臼中，与蜜杵二千下，丸如梧子大。先食饮服十丸，日三服，稍增至二十丸。",
+        "indication": "禁生冷滑臭等食。"
+      },
+      "summary": "同名异参方：药味异同（伤寒独见：蜀椒；金匮独见：川椒）；剂量/炮制写法差异共 5 味（如乌梅）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "五苓散",
+      "shanghan_id": "shanghan:五苓散",
+      "jinkui_id": "jinkui:五苓散",
+      "same_composition_and_dose": true,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "猪苓",
+          "shanghan": "十八铢·去皮",
+          "jinkui": "十八铢"
+        },
+        {
+          "herb": "白术",
+          "shanghan": "十八铢",
+          "jinkui": "十八铢·各"
+        },
+        {
+          "herb": "桂枝",
+          "shanghan": "半两·去皮",
+          "jinkui": "半两"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:五苓散",
+        "name": "五苓散",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 1667,
+        "ingredients": [
+          {
+            "name": "猪苓",
+            "dose": "十八铢",
+            "processing": "去皮",
+            "raw": "猪苓（十八铢去皮）"
+          },
+          {
+            "name": "泽泻",
+            "dose": "一两六铢",
+            "processing": "",
+            "raw": "泽泻（一两六铢○成本。铢下。有半字。）"
+          },
+          {
+            "name": "白术",
+            "dose": "十八铢",
+            "processing": "",
+            "raw": "白术（十八铢）"
+          },
+          {
+            "name": "茯苓",
+            "dose": "十八铢",
+            "processing": "",
+            "raw": "茯苓（十八铢）"
+          },
+          {
+            "name": "桂枝",
+            "dose": "半两",
+            "processing": "去皮",
+            "raw": "桂枝（半两去皮○成本。玉函。无枝字。后人故生议。考成氏本注。并明理论。俱作桂枝。知其脱误也。）"
+          }
+        ],
+        "decoction": "上五味捣为散。以白饮和。服方寸匕。日三服。多饮暖水汗出愈。如法将息。（捣为散。金匮。成本。玉函。作为末二字。千金翼。作各为散。更于臼中治之。外台夭行病。作为散水服。千金。亦作水服。多饮暖水。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:五苓散",
+        "name": "五苓散",
+        "book": "金匮要略",
+        "section": "痰饮欬嗽病脉证并治第十二",
+        "page_or_line": 244,
+        "ingredients": [
+          {
+            "name": "泽泻",
+            "dose": "一两六铢",
+            "processing": "",
+            "raw": "泽泻一两六铢",
+            "herb_ref": "泽泻",
+            "suspect": false
+          },
+          {
+            "name": "猪苓",
+            "dose": "十八铢",
+            "processing": "",
+            "raw": "猪苓",
+            "herb_ref": "猪苓",
+            "suspect": false
+          },
+          {
+            "name": "茯苓",
+            "dose": "十八铢",
+            "processing": "",
+            "raw": "茯苓",
+            "herb_ref": "茯苓",
+            "suspect": false
+          },
+          {
+            "name": "白术",
+            "dose": "十八铢",
+            "processing": "各",
+            "raw": "白术各十八铢",
+            "herb_ref": "白术",
+            "suspect": false
+          },
+          {
+            "name": "桂枝",
+            "dose": "半两",
+            "processing": "",
+            "raw": "桂枝半两",
+            "herb_ref": "牡桂",
+            "suspect": false
+          }
+        ],
+        "decoction": "上五味，为末，白饮服方寸匕，日三服，多饮煖水，汗出愈。",
+        "indication": "五苓散是用在病人出现脉浮有表症的时候，而且水蓄在膀胱，病"
+      },
+      "summary": "两书药味与剂量相同，但煎服法字句或分服要求有别（《伤寒论》属太阳，《金匮要略》见于「痰饮欬嗽病脉证并治第十二」），保留双条对照。"
+    },
+    {
+      "normalized_name": "十枣汤",
+      "shanghan_id": "shanghan:十枣汤",
+      "jinkui_id": "jinkui:十枣汤",
+      "same_composition_and_dose": true,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [],
+      "shanghan_snapshot": {
+        "id": "shanghan:十枣汤",
+        "name": "十枣汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 3413,
+        "ingredients": [
+          {
+            "name": "芫花",
+            "dose": "等分",
+            "processing": "熬",
+            "raw": "芫花（熬）"
+          },
+          {
+            "name": "甘遂",
+            "dose": "等分",
+            "processing": "",
+            "raw": "甘遂"
+          },
+          {
+            "name": "大戟",
+            "dose": "等分",
+            "processing": "",
+            "raw": "大戟"
+          }
+        ],
+        "decoction": "上三味等分。各别捣为散。以水一升半。先煮大枣肥者十枚。取八合。去滓。纳药末。强人服一钱匕。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:十枣汤",
+        "name": "十枣汤",
+        "book": "金匮要略",
+        "section": "痰饮欬嗽病脉证并治第十二",
+        "page_or_line": 233,
+        "ingredients": [
+          {
+            "name": "芫花",
+            "dose": "等分",
+            "processing": "熬",
+            "raw": "芫花熬",
+            "herb_ref": "芫花",
+            "suspect": false
+          },
+          {
+            "name": "甘遂",
+            "dose": "等分",
+            "processing": "",
+            "raw": "甘遂",
+            "herb_ref": "甘遂",
+            "suspect": false
+          },
+          {
+            "name": "大戟",
+            "dose": "等分",
+            "processing": "",
+            "raw": "大戟各等分",
+            "herb_ref": "大戟",
+            "suspect": false
+          }
+        ],
+        "decoction": "上三味，捣筛，以水一升五合，先煮肥大枣十枚。取八合，去滓，纳药末，强人服一钱匕，羸人服半钱匕，平旦温服之；不下者，明日更加半钱匕。得快利后，糜粥自养。",
+        "indication": "我们摸到病人的饮脉都是细细的一条，饮跟水肿病不一样，饮是"
+      },
+      "summary": "两书药味与剂量相同，但煎服法字句或分服要求有别（《伤寒论》属太阳，《金匮要略》见于「痰饮欬嗽病脉证并治第十二」），保留双条对照。"
+    },
+    {
+      "normalized_name": "半夏泻心汤",
+      "shanghan_id": "shanghan:半夏泻心汤",
+      "jinkui_id": "jinkui:半夏泻心汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "黄芩",
+          "shanghan": "三两",
+          "jinkui": "三两，炙"
+        },
+        {
+          "herb": "干姜",
+          "shanghan": "三两",
+          "jinkui": "三两，炙"
+        },
+        {
+          "herb": "人参",
+          "shanghan": "三两",
+          "jinkui": "三两，炙"
+        },
+        {
+          "herb": "甘草",
+          "shanghan": "三两·炙",
+          "jinkui": "三两，炙·各"
+        },
+        {
+          "herb": "大枣",
+          "shanghan": "十二枚·擘",
+          "jinkui": "十二枚"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:半夏泻心汤",
+        "name": "半夏泻心汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 3351,
+        "ingredients": [
+          {
+            "name": "黄芩",
+            "dose": "三两",
+            "processing": "",
+            "raw": "黄芩"
+          },
+          {
+            "name": "干姜",
+            "dose": "三两",
+            "processing": "",
+            "raw": "干姜"
+          },
+          {
+            "name": "人参",
+            "dose": "三两",
+            "processing": "",
+            "raw": "人参"
+          },
+          {
+            "name": "甘草",
+            "dose": "三两",
+            "processing": "炙",
+            "raw": "甘草（炙各三两）"
+          },
+          {
+            "name": "半夏",
+            "dose": "半升",
+            "processing": "洗",
+            "raw": "半夏（半升洗○外台注。一方五两。）"
+          },
+          {
+            "name": "黄连",
+            "dose": "一两",
+            "processing": "",
+            "raw": "黄连（一两）"
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "擘",
+            "raw": "大枣（十二枚擘○玉函作十六枚）"
+          }
+        ],
+        "decoction": "上七味。以水一斗。煮取六升。去滓再煎。取三升。温服一升。日三服。须大陷胸汤者。方用前第二法。",
+        "indication": "宜半夏泻心汤主之"
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:半夏泻心汤",
+        "name": "半夏泻心汤",
+        "book": "金匮要略",
+        "section": "呕吐哕下利病脉证治第十七",
+        "page_or_line": 343,
+        "ingredients": [
+          {
+            "name": "半夏",
+            "dose": "半升",
+            "processing": "洗",
+            "raw": "半夏洗半升",
+            "herb_ref": "半夏",
+            "suspect": false
+          },
+          {
+            "name": "黄芩",
+            "dose": "三两，炙",
+            "processing": "",
+            "raw": "黄芩",
+            "herb_ref": "黄芩",
+            "suspect": false
+          },
+          {
+            "name": "干姜",
+            "dose": "三两，炙",
+            "processing": "",
+            "raw": "干姜",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "人参",
+            "dose": "三两，炙",
+            "processing": "",
+            "raw": "人参",
+            "herb_ref": "人参",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "三两，炙",
+            "processing": "各",
+            "raw": "甘草各三两，炙",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "黄连",
+            "dose": "一两",
+            "processing": "",
+            "raw": "黄连一两",
+            "herb_ref": "黄连",
+            "suspect": false
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "",
+            "raw": "大枣十二枚",
+            "herb_ref": "大枣",
+            "suspect": false
+          }
+        ],
+        "decoction": "上七味，以水一斗，煮取六升，去渣。再煮，取三升，温服一升，日三服。",
+        "indication": "肠鸣就是水跑到肠子里面去咕噜咕噜的叫，在泻心汤证里面就可"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 5 味（如黄芩）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "吴茱萸汤",
+      "shanghan_id": "shanghan:吴茱萸汤",
+      "jinkui_id": "jinkui:吴茱萸汤",
+      "same_composition_and_dose": true,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "生姜",
+          "shanghan": "六两·切",
+          "jinkui": "六两"
+        },
+        {
+          "herb": "吴茱萸",
+          "shanghan": "一升·洗",
+          "jinkui": "一升"
+        },
+        {
+          "herb": "大枣",
+          "shanghan": "十二枚·擘",
+          "jinkui": "十二枚"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:吴茱萸汤",
+        "name": "吴茱萸汤",
+        "book": "伤寒论",
+        "section": "阳明",
+        "page_or_line": 4961,
+        "ingredients": [
+          {
+            "name": "人参",
+            "dose": "三两",
+            "processing": "",
+            "raw": "人参（三两○肘后方。作一两。）"
+          },
+          {
+            "name": "生姜",
+            "dose": "六两",
+            "processing": "切",
+            "raw": "生姜（六两切）"
+          },
+          {
+            "name": "吴茱萸",
+            "dose": "一升",
+            "processing": "洗",
+            "raw": "吴茱萸（一升洗○肘后。作半斤。外台。洗。作炒。）"
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "擘",
+            "raw": "大枣（十二枚擘）"
+          }
+        ],
+        "decoction": "上四味。以水七升。煮取二升。去滓。温服七合。日三服。（金匮。七升。作五升。二升。作三升。外台。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:吴茱萸汤",
+        "name": "吴茱萸汤",
+        "book": "金匮要略",
+        "section": "呕吐哕下利病脉证治第十七",
+        "page_or_line": 342,
+        "ingredients": [
+          {
+            "name": "吴茱萸",
+            "dose": "一升",
+            "processing": "",
+            "raw": "吴茱萸一升",
+            "herb_ref": "吴茱萸",
+            "suspect": false
+          },
+          {
+            "name": "人参",
+            "dose": "三两",
+            "processing": "",
+            "raw": "人参三两",
+            "herb_ref": "人参",
+            "suspect": false
+          },
+          {
+            "name": "生姜",
+            "dose": "六两",
+            "processing": "",
+            "raw": "生姜六两",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "",
+            "raw": "大枣十二枚",
+            "herb_ref": "大枣",
+            "suspect": false
+          }
+        ],
+        "decoction": "上四味，以水五升，煮取三升，温服七合，日三服。",
+        "indication": "病人有恶心、呕吐等症状，是由厥阴病所引起的。肝脏藏血，肝"
+      },
+      "summary": "两书药味与剂量相同，但煎服法字句或分服要求有别（《伤寒论》属阳明，《金匮要略》见于「呕吐哕下利病脉证治第十七」），保留双条对照。"
+    },
+    {
+      "normalized_name": "四逆加人参汤",
+      "shanghan_id": "shanghan:四逆加人参汤",
+      "jinkui_id": "jinkui:四逆加人参汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "甘草",
+          "shanghan": "二两·炙",
+          "jinkui": "二两，炙"
+        },
+        {
+          "herb": "附子",
+          "shanghan": "一枚·生去皮破八片",
+          "jinkui": "一枚，生用去"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:四逆加人参汤",
+        "name": "四逆加人参汤",
+        "book": "伤寒论",
+        "section": "厥阴",
+        "page_or_line": 6697,
+        "ingredients": [
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（二两炙）"
+          },
+          {
+            "name": "附子",
+            "dose": "一枚",
+            "processing": "生去皮破八片",
+            "raw": "附子（一枚生去皮破八片）"
+          },
+          {
+            "name": "干姜",
+            "dose": "一两半",
+            "processing": "",
+            "raw": "干姜（一两半）"
+          },
+          {
+            "name": "人参",
+            "dose": "一两",
+            "processing": "",
+            "raw": "人参（一两）"
+          }
+        ],
+        "decoction": "上四味。以水三升。煮取一升二合。去滓。分温再服。（千金。外台。用人参三两。利甚者。加龙骨二两。短剧。名四顺汤。）",
+        "indication": "四逆加人参汤主之"
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:四逆加人参汤",
+        "name": "四逆加人参汤",
+        "book": "金匮要略",
+        "section": "续伤寒篇",
+        "page_or_line": 11,
+        "ingredients": [
+          {
+            "name": "附子",
+            "dose": "一枚，生用去",
+            "processing": "",
+            "raw": "附子一枚，生用去",
+            "herb_ref": "附子",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两，炙",
+            "processing": "",
+            "raw": "甘草二两，炙",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "干姜",
+            "dose": "一两半",
+            "processing": "",
+            "raw": "干姜一两半",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "人参",
+            "dose": "一两",
+            "processing": "",
+            "raw": "人参一两",
+            "herb_ref": "人参",
+            "suspect": false
+          }
+        ],
+        "decoction": "温再服。强人可大附子一枚，干姜三两。）如果下利停止，病人又出现恶寒脉微小无力，之后又开始下利时，就表示病人血寒了，此时救逆的处方就是四逆加人参汤了。四逆汤是温阳救逆第一方，功能起死回生，多使用于心脏衰竭之危症时。此处之失血，并不是真的贫血，而是血寒，所以不用当归、川芎、白芍之类的补血药物。",
+        "indication": "霍乱，头痛，发热，身疼痛，热多欲饮水者，五苓散主"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 2 味（如甘草）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "四逆汤",
+      "shanghan_id": "shanghan:四逆汤",
+      "jinkui_id": "jinkui:四逆汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "甘草",
+          "shanghan": "二两·炙",
+          "jinkui": "二两炙"
+        },
+        {
+          "herb": "附子",
+          "shanghan": "一枚·生用去皮破八片",
+          "jinkui": "一枚，生用"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:四逆汤",
+        "name": "四逆汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 787,
+        "ingredients": [
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（二两炙○千金翼。霍乱门。作一两）"
+          },
+          {
+            "name": "干姜",
+            "dose": "一两半",
+            "processing": "",
+            "raw": "干姜（一两半）"
+          },
+          {
+            "name": "附子",
+            "dose": "一枚",
+            "processing": "生用去皮破八片",
+            "raw": "附子（一枚生用去皮破八片○玉函。作生去皮破）"
+          }
+        ],
+        "decoction": "上三味。以水三升。煮取一升二合。去滓。分温再服。强人可大附子一枚。干姜三两。（味下。成本。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:四逆汤",
+        "name": "四逆汤",
+        "book": "金匮要略",
+        "section": "呕吐哕下利病脉证治第十七",
+        "page_or_line": 346,
+        "ingredients": [
+          {
+            "name": "附子",
+            "dose": "一枚，生用",
+            "processing": "",
+            "raw": "附子一枚，生用",
+            "herb_ref": "附子",
+            "suspect": false
+          },
+          {
+            "name": "干姜",
+            "dose": "一两半",
+            "processing": "",
+            "raw": "干姜一两半",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两炙",
+            "processing": "",
+            "raw": "甘草二两炙",
+            "herb_ref": "甘草",
+            "suspect": false
+          }
+        ],
+        "decoction": "上三位，以水三升，煮取一升二合，去滓，分温再服。强人可大附子一枚，干姜三两。",
+        "indication": "四逆汤诸位看是生附子、干姜并用，炙甘草前面学过了，像这种"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 2 味（如甘草）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "大承气汤",
+      "shanghan_id": "shanghan:大承气汤",
+      "jinkui_id": "jinkui:大承气汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "厚朴",
+          "shanghan": "半斤·炙去皮",
+          "jinkui": "半斤，炙，去皮"
+        },
+        {
+          "herb": "枳实",
+          "shanghan": "五枚·炙",
+          "jinkui": "五枚，炙"
+        },
+        {
+          "herb": "大黄",
+          "shanghan": "四两·酒洗",
+          "jinkui": "四两，酒洗"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:大承气汤",
+        "name": "大承气汤",
+        "book": "伤寒论",
+        "section": "阳明",
+        "page_or_line": 4381,
+        "ingredients": [
+          {
+            "name": "厚朴",
+            "dose": "半斤",
+            "processing": "炙去皮",
+            "raw": "浓朴（半斤炙去皮）"
+          },
+          {
+            "name": "枳实",
+            "dose": "五枚",
+            "processing": "炙",
+            "raw": "枳实（五枚炙）"
+          },
+          {
+            "name": "芒硝",
+            "dose": "三合",
+            "processing": "",
+            "raw": "芒硝（三合）"
+          },
+          {
+            "name": "大黄",
+            "dose": "四两",
+            "processing": "酒洗",
+            "raw": "大黄（四两酒洗○外台。无酒洗字。）"
+          }
+        ],
+        "decoction": "上四味。以水一斗。先煮二物。取五升。去滓。纳大黄。更煮取二升。去滓。纳芒硝。更上微火一两沸。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:大承气汤",
+        "name": "大承气汤",
+        "book": "金匮要略",
+        "section": "痉湿暍病脉证治法第二",
+        "page_or_line": 47,
+        "ingredients": [
+          {
+            "name": "厚朴",
+            "dose": "半斤，炙，去皮",
+            "processing": "",
+            "raw": "厚朴半斤，炙，去皮",
+            "herb_ref": "厚朴",
+            "suspect": false
+          },
+          {
+            "name": "大黄",
+            "dose": "四两，酒洗",
+            "processing": "",
+            "raw": "大黄四两，酒洗",
+            "herb_ref": "大黄",
+            "suspect": false
+          },
+          {
+            "name": "枳实",
+            "dose": "五枚，炙",
+            "processing": "",
+            "raw": "枳实五枚，炙",
+            "herb_ref": "枳实",
+            "suspect": false
+          },
+          {
+            "name": "芒硝",
+            "dose": "三合",
+            "processing": "",
+            "raw": "芒硝三合",
+            "herb_ref": "朴消",
+            "suspect": false
+          }
+        ],
+        "decoction": "上四味，以水一斗，先煮枳朴，取五升，去滓内大黄，煮二升，去滓内芒硝，更上微火一两沸，分温再服，得下利，余勿服。",
+        "indication": "这个就是我们前面介绍过的，有种脑膜炎的症状必须使用大承气"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 3 味（如厚朴）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "大柴胡汤",
+      "shanghan_id": "shanghan:大柴胡汤",
+      "jinkui_id": "jinkui:大柴胡汤",
+      "same_composition_and_dose": true,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "芍药",
+          "shanghan": "三两",
+          "jinkui": "三两·各"
+        },
+        {
+          "herb": "半夏",
+          "shanghan": "半升·洗",
+          "jinkui": "半升"
+        },
+        {
+          "herb": "生姜",
+          "shanghan": "五两·切",
+          "jinkui": "五两"
+        },
+        {
+          "herb": "大枣",
+          "shanghan": "十二枚·擘",
+          "jinkui": "十二枚"
+        },
+        {
+          "herb": "枳实",
+          "shanghan": "四枚·炙",
+          "jinkui": "四枚"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:大柴胡汤",
+        "name": "大柴胡汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 2373,
+        "ingredients": [
+          {
+            "name": "柴胡",
+            "dose": "半斤",
+            "processing": "",
+            "raw": "柴胡（半斤○千金翼。八两）"
+          },
+          {
+            "name": "黄芩",
+            "dose": "三两",
+            "processing": "",
+            "raw": "黄芩（三两）"
+          },
+          {
+            "name": "芍药",
+            "dose": "三两",
+            "processing": "",
+            "raw": "芍药（三两）"
+          },
+          {
+            "name": "半夏",
+            "dose": "半升",
+            "processing": "洗",
+            "raw": "半夏（半升洗○外台半升。水洗）"
+          },
+          {
+            "name": "生姜",
+            "dose": "五两",
+            "processing": "切",
+            "raw": "生姜（五两切○玉函。三两。）"
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "擘",
+            "raw": "大枣（十二枚擘○外台。十三枚。）"
+          },
+          {
+            "name": "枳实",
+            "dose": "四枚",
+            "processing": "炙",
+            "raw": "枳实（四枚炙）"
+          },
+          {
+            "name": "大黄",
+            "dose": "二两",
+            "processing": "",
+            "raw": "大黄（二两）",
+            "origin": "同页校注补"
+          }
+        ],
+        "decoction": "上七味。以水一斗二升。煮取六升。去滓再煎。温服一升。日三服。一方。加大黄二两。若不加。恐不为大柴胡汤。（再煎下。玉函。外台。有取三升三字。根据小柴胡汤煎法。此系脱文。成本。玉函。本方。有大黄二两。玉函。上七味。作八味。云一方。无大黄。不加不得名大柴胡汤也。案一方加大黄以下。肘后。千金。千金翼。外台。及成本。共载之。本事方。本方有大黄。注云。伊芳尹汤液论。大柴胡。同姜枣共八味。今监本无。脱之也。）",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:大柴胡汤",
+        "name": "大柴胡汤",
+        "book": "金匮要略",
+        "section": "腹满寒疝宿食病脉证并治第十",
+        "page_or_line": 186,
+        "ingredients": [
+          {
+            "name": "柴胡",
+            "dose": "半斤",
+            "processing": "",
+            "raw": "柴胡半斤",
+            "herb_ref": "茈胡",
+            "suspect": false
+          },
+          {
+            "name": "黄芩",
+            "dose": "三两",
+            "processing": "",
+            "raw": "黄芩",
+            "herb_ref": "黄芩",
+            "suspect": false
+          },
+          {
+            "name": "芍药",
+            "dose": "三两",
+            "processing": "各",
+            "raw": "芍药各三两",
+            "herb_ref": "芍药",
+            "suspect": false
+          },
+          {
+            "name": "半夏",
+            "dose": "半升",
+            "processing": "",
+            "raw": "半夏半升",
+            "herb_ref": "半夏",
+            "suspect": false
+          },
+          {
+            "name": "枳实",
+            "dose": "四枚",
+            "processing": "",
+            "raw": "枳实四枚",
+            "herb_ref": "枳实",
+            "suspect": false
+          },
+          {
+            "name": "大黄",
+            "dose": "二两",
+            "processing": "",
+            "raw": "大黄二两",
+            "herb_ref": "大黄",
+            "suspect": false
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "",
+            "raw": "大枣十二枚",
+            "herb_ref": "大枣",
+            "suspect": false
+          },
+          {
+            "name": "生姜",
+            "dose": "五两",
+            "processing": "",
+            "raw": "生姜五两",
+            "herb_ref": "干姜",
+            "suspect": false
+          }
+        ],
+        "decoction": "上八味以水一斗二升，煮取六升，去滓再煎，温服一升，日三服。",
+        "indication": "『心下满痛者』，『心下』这个地方差不多是在中脘、下脘的地方。"
+      },
+      "summary": "两书药味与剂量相同，但煎服法字句或分服要求有别（《伤寒论》属太阳，《金匮要略》见于「腹满寒疝宿食病脉证并治第十」），保留双条对照。"
+    },
+    {
+      "normalized_name": "大青龙汤",
+      "shanghan_id": "shanghan:大青龙汤",
+      "jinkui_id": "jinkui:大青龙汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "麻黄",
+          "shanghan": "六两·去节",
+          "jinkui": "六两"
+        },
+        {
+          "herb": "桂枝",
+          "shanghan": "二两·去皮",
+          "jinkui": "二两"
+        },
+        {
+          "herb": "杏仁",
+          "shanghan": "四十枚·去皮尖",
+          "jinkui": "四十个"
+        },
+        {
+          "herb": "甘草",
+          "shanghan": "二两·炙",
+          "jinkui": "二两·各"
+        },
+        {
+          "herb": "生姜",
+          "shanghan": "三两·切",
+          "jinkui": "三两"
+        },
+        {
+          "herb": "大枣",
+          "shanghan": "十枚·擘",
+          "jinkui": "十二枚"
+        },
+        {
+          "herb": "石膏",
+          "shanghan": "如鸡子大·碎",
+          "jinkui": "如鸡子大一枚"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:大青龙汤",
+        "name": "大青龙汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 1079,
+        "ingredients": [
+          {
+            "name": "麻黄",
+            "dose": "六两",
+            "processing": "去节",
+            "raw": "麻黄（六两去节）"
+          },
+          {
+            "name": "桂枝",
+            "dose": "二两",
+            "processing": "去皮",
+            "raw": "桂枝（二两去皮）"
+          },
+          {
+            "name": "杏仁",
+            "dose": "四十枚",
+            "processing": "去皮尖",
+            "raw": "杏仁（四十枚去皮尖○枚。成本。作个。千金翼。尖下。有两仁者三字。）"
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（二两炙）"
+          },
+          {
+            "name": "生姜",
+            "dose": "三两",
+            "processing": "切",
+            "raw": "生姜（三两切）"
+          },
+          {
+            "name": "大枣",
+            "dose": "十枚",
+            "processing": "擘",
+            "raw": "大枣（十枚擘○成本。金匮。玉函。千金。并作十二枚。）"
+          },
+          {
+            "name": "石膏",
+            "dose": "如鸡子大",
+            "processing": "碎",
+            "raw": "石膏（如鸡子大。碎。○玉函。千金翼。外台。碎下。有绵裹二字。）"
+          }
+        ],
+        "decoction": "上七味。以水九升。先煮麻黄。减二升。去上沫。纳诸药。煮取三升。去滓。温服一升。取微似汗。汗出多者。温粉扑之。一服汗者。停后服。若复服汗多。亡阳遂（【原注】一作逆）虚。恶风烦躁不得眠也。（外台。味下。有切字。取微似汗。玉函。作覆令汗。外台。作浓覆取微汗。扑之。成本。千金翼。外台。作粉之。",
+        "indication": "末后大青龙汤主之"
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:大青龙汤",
+        "name": "大青龙汤",
+        "book": "金匮要略",
+        "section": "痰饮欬嗽病脉证并治第十二",
+        "page_or_line": 235,
+        "ingredients": [
+          {
+            "name": "麻黄",
+            "dose": "六两",
+            "processing": "",
+            "raw": "麻黄六两",
+            "herb_ref": "麻黄",
+            "suspect": false
+          },
+          {
+            "name": "桂枝",
+            "dose": "二两",
+            "processing": "",
+            "raw": "桂枝",
+            "herb_ref": "牡桂",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "各",
+            "raw": "甘草各二两",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "生姜",
+            "dose": "三两",
+            "processing": "",
+            "raw": "生姜三两",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "杏仁",
+            "dose": "四十个",
+            "processing": "",
+            "raw": "杏仁四十个",
+            "herb_ref": "杏核仁",
+            "suspect": false
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "",
+            "raw": "大枣十二枚",
+            "herb_ref": "大枣",
+            "suspect": false
+          },
+          {
+            "name": "石膏",
+            "dose": "如鸡子大一枚",
+            "processing": "",
+            "raw": "石膏如鸡子大一枚"
+          }
+        ],
+        "decoction": "上七味，以水九升，先煮麻黄减二升，去上沫纳诸药煮取三升，去滓，温服一升，取微似汗，汗多者温粉扑之。",
+        "indication": ""
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 7 味（如麻黄）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "小建中汤",
+      "shanghan_id": "shanghan:小建中汤",
+      "jinkui_id": "jinkui:小建中汤",
+      "same_composition_and_dose": true,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "桂枝",
+          "shanghan": "三两·去皮",
+          "jinkui": "三两"
+        },
+        {
+          "herb": "甘草",
+          "shanghan": "二两·炙",
+          "jinkui": "二两"
+        },
+        {
+          "herb": "生姜",
+          "shanghan": "三两·切",
+          "jinkui": "三两"
+        },
+        {
+          "herb": "大枣",
+          "shanghan": "十二枚·擘",
+          "jinkui": "十二枚"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:小建中汤",
+        "name": "小建中汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 2297,
+        "ingredients": [
+          {
+            "name": "桂枝",
+            "dose": "三两",
+            "processing": "去皮",
+            "raw": "桂枝（三两去皮）"
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（二两炙○玉函。成本。作三两。金匮亦然。）"
+          },
+          {
+            "name": "芍药",
+            "dose": "六两",
+            "processing": "",
+            "raw": "芍药（六两）"
+          },
+          {
+            "name": "生姜",
+            "dose": "三两",
+            "processing": "切",
+            "raw": "生姜（三两切）"
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "擘",
+            "raw": "大枣（十二枚擘○千金翼。十一枚。）"
+          },
+          {
+            "name": "饴糖",
+            "dose": "一升",
+            "processing": "",
+            "raw": "胶饴（一升）"
+          }
+        ],
+        "decoction": "上六味。以水七升。煮取三升。去滓纳饴。更上微火消解。温服一升。日三服。呕家不可用建中汤。以甜故也。（玉函。成本。饴上。有胶字。外台。作先煮五味。取三升。去滓。纳饴。更上火微煮。令消解。用。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:小建中汤",
+        "name": "小建中汤",
+        "book": "金匮要略",
+        "section": "血痹虚劳病脉并治第六",
+        "page_or_line": 120,
+        "ingredients": [
+          {
+            "name": "桂枝",
+            "dose": "三两",
+            "processing": "",
+            "raw": "桂枝三两",
+            "herb_ref": "牡桂",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "",
+            "raw": "甘草二两",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "芍药",
+            "dose": "六两",
+            "processing": "",
+            "raw": "芍药六两",
+            "herb_ref": "芍药",
+            "suspect": false
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "",
+            "raw": "大枣十二枚",
+            "herb_ref": "大枣",
+            "suspect": false
+          },
+          {
+            "name": "生姜",
+            "dose": "三两",
+            "processing": "",
+            "raw": "生姜三两",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "饴糖",
+            "dose": "一升",
+            "processing": "",
+            "raw": "饴糖一升",
+            "herb_ref": "饴糖",
+            "suspect": false
+          }
+        ],
+        "decoction": "上六味，以水七升，煮取三升，去滓内胶饴，更上微火消解，温服一升，日三服。",
+        "indication": "『虚劳里急』有虚劳症的病人都会有腹急痛的症状，『衄』就是"
+      },
+      "summary": "两书药味与剂量相同，但煎服法字句或分服要求有别（《伤寒论》属太阳，《金匮要略》见于「血痹虚劳病脉并治第六」），保留双条对照。"
+    },
+    {
+      "normalized_name": "小承气汤",
+      "shanghan_id": "shanghan:小承气汤",
+      "jinkui_id": "jinkui:小承气汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "厚朴",
+          "shanghan": "二两·炙去皮",
+          "jinkui": "三两，炙"
+        },
+        {
+          "herb": "枳实",
+          "shanghan": "三枚·大者炙",
+          "jinkui": "三枚"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:小承气汤",
+        "name": "小承气汤",
+        "book": "伤寒论",
+        "section": "阳明",
+        "page_or_line": 4439,
+        "ingredients": [
+          {
+            "name": "大黄",
+            "dose": "四两",
+            "processing": "",
+            "raw": "大黄（四两）"
+          },
+          {
+            "name": "厚朴",
+            "dose": "二两",
+            "processing": "炙去皮",
+            "raw": "浓朴（二两炙去皮）"
+          },
+          {
+            "name": "枳实",
+            "dose": "三枚",
+            "processing": "大者炙",
+            "raw": "枳实（三枚大者炙）"
+          }
+        ],
+        "decoction": "上三味。以水四升。煮取一升二合。去滓。分温二服。初服汤当更衣。不尔者尽饮之。若更衣者。勿服之。（千金翼。作初服谵语即止。服汤当更衣。不尔尽服之。外台。作若一服得利谵语止。勿服之。）",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:小承气汤",
+        "name": "小承气汤",
+        "book": "金匮要略",
+        "section": "呕吐哕下利病脉证治第十七",
+        "page_or_line": 361,
+        "ingredients": [
+          {
+            "name": "大黄",
+            "dose": "四两",
+            "processing": "",
+            "raw": "大黄四两",
+            "herb_ref": "大黄",
+            "suspect": false
+          },
+          {
+            "name": "枳实",
+            "dose": "三枚",
+            "processing": "",
+            "raw": "枳实三枚",
+            "herb_ref": "枳实",
+            "suspect": false
+          },
+          {
+            "name": "厚朴",
+            "dose": "三两，炙",
+            "processing": "",
+            "raw": "厚朴三两，炙",
+            "herb_ref": "厚朴",
+            "suspect": false
+          }
+        ],
+        "decoction": "上三味，以水四升，煮取一升二合，去滓，分温二服，得利则止。",
+        "indication": "谵语就是胡言乱语，自己不知道自己在讲什么。如果病人是女人，"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 2 味（如厚朴）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "小柴胡汤",
+      "shanghan_id": "shanghan:小柴胡汤",
+      "jinkui_id": "jinkui:小柴胡汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "半夏",
+          "shanghan": "半升·洗",
+          "jinkui": "半斤"
+        },
+        {
+          "herb": "大枣",
+          "shanghan": "十二枚·擘",
+          "jinkui": "十二枚"
+        },
+        {
+          "herb": "甘草",
+          "shanghan": "三两·炙",
+          "jinkui": "三两"
+        },
+        {
+          "herb": "生姜",
+          "shanghan": "三两·切",
+          "jinkui": "三两·各"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:小柴胡汤",
+        "name": "小柴胡汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 2137,
+        "ingredients": [
+          {
+            "name": "柴胡",
+            "dose": "半斤",
+            "processing": "",
+            "raw": "柴胡（半斤○千金翼。作八两）"
+          },
+          {
+            "name": "黄芩",
+            "dose": "三两",
+            "processing": "",
+            "raw": "黄芩（三两）"
+          },
+          {
+            "name": "人参",
+            "dose": "三两",
+            "processing": "",
+            "raw": "人参（三两）"
+          },
+          {
+            "name": "半夏",
+            "dose": "半升",
+            "processing": "洗",
+            "raw": "半夏（半升洗）"
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "擘",
+            "raw": "大枣（十二枚擘○全书。十三枚。）"
+          },
+          {
+            "name": "甘草",
+            "dose": "三两",
+            "processing": "炙",
+            "raw": "甘草（炙）"
+          },
+          {
+            "name": "生姜",
+            "dose": "三两",
+            "processing": "切",
+            "raw": "生姜（各三两切）"
+          }
+        ],
+        "decoction": "上七味。以水一斗二升。煮取六升。去滓再煎取三升。温服一升。日三服。若胸中烦而不呕者。去半夏人参。加栝蒌实一枚。若渴。去半夏。加人参。合前成四两半。栝蒌根四两。若腹中痛者。去黄芩。加芍药三两。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:小柴胡汤",
+        "name": "小柴胡汤",
+        "book": "金匮要略",
+        "section": "呕吐哕下利病脉证治第十七",
+        "page_or_line": 347,
+        "ingredients": [
+          {
+            "name": "柴胡",
+            "dose": "半斤",
+            "processing": "",
+            "raw": "柴胡半斤",
+            "herb_ref": "茈胡",
+            "suspect": false
+          },
+          {
+            "name": "半夏",
+            "dose": "半斤",
+            "processing": "",
+            "raw": "半夏半斤",
+            "herb_ref": "半夏",
+            "suspect": false
+          },
+          {
+            "name": "黄芩",
+            "dose": "三两",
+            "processing": "",
+            "raw": "黄芩",
+            "herb_ref": "黄芩",
+            "suspect": false
+          },
+          {
+            "name": "人参",
+            "dose": "三两",
+            "processing": "",
+            "raw": "人参",
+            "herb_ref": "人参",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "三两",
+            "processing": "",
+            "raw": "甘草",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "生姜",
+            "dose": "三两",
+            "processing": "各",
+            "raw": "生姜各三两",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "",
+            "raw": "大枣十二枚",
+            "herb_ref": "大枣",
+            "suspect": false
+          }
+        ],
+        "decoction": "上七味，以水一斗，煮取六升，去滓，再煎，取三升，温服一升，日三服。",
+        "indication": "这里的呕而发热的是表症的热，所以这个热是呕吐完以后，全身"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 4 味（如半夏）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "小青龙汤",
+      "shanghan_id": "shanghan:小青龙汤",
+      "jinkui_id": "jinkui:小青龙汤",
+      "same_composition_and_dose": true,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "麻黄",
+          "shanghan": "三两·去节",
+          "jinkui": "三两"
+        },
+        {
+          "herb": "桂枝",
+          "shanghan": "三两·去皮",
+          "jinkui": "三两·各"
+        },
+        {
+          "herb": "半夏",
+          "shanghan": "半升·洗",
+          "jinkui": "半升·各"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:小青龙汤",
+        "name": "小青龙汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 1141,
+        "ingredients": [
+          {
+            "name": "麻黄",
+            "dose": "三两",
+            "processing": "去节",
+            "raw": "麻黄（去节）"
+          },
+          {
+            "name": "芍药",
+            "dose": "三两",
+            "processing": "",
+            "raw": "芍药"
+          },
+          {
+            "name": "细辛",
+            "dose": "三两",
+            "processing": "",
+            "raw": "细辛"
+          },
+          {
+            "name": "干姜",
+            "dose": "三两",
+            "processing": "",
+            "raw": "干姜"
+          },
+          {
+            "name": "甘草",
+            "dose": "三两",
+            "processing": "炙",
+            "raw": "甘草（炙）"
+          },
+          {
+            "name": "桂枝",
+            "dose": "三两",
+            "processing": "去皮",
+            "raw": "桂枝（各三两去皮）"
+          },
+          {
+            "name": "五味子",
+            "dose": "半升",
+            "processing": "",
+            "raw": "五味子（半升）"
+          },
+          {
+            "name": "半夏",
+            "dose": "半升",
+            "processing": "洗",
+            "raw": "半夏（半升洗○成本。作汤洗）"
+          }
+        ],
+        "decoction": "上八味。以水一斗。先煮麻黄。减二升。去上沫。纳诸药。煮取三升。去滓。温服一升。若渴。去半夏。",
+        "indication": "故以小青龙汤主之"
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:小青龙汤",
+        "name": "小青龙汤",
+        "book": "金匮要略",
+        "section": "痰饮欬嗽病脉证并治第十二",
+        "page_or_line": 235,
+        "ingredients": [
+          {
+            "name": "麻黄",
+            "dose": "三两",
+            "processing": "",
+            "raw": "麻黄去节",
+            "herb_ref": "麻黄",
+            "suspect": false
+          },
+          {
+            "name": "芍药",
+            "dose": "三两",
+            "processing": "",
+            "raw": "芍药",
+            "herb_ref": "芍药",
+            "suspect": false
+          },
+          {
+            "name": "干姜",
+            "dose": "三两",
+            "processing": "",
+            "raw": "干姜",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "三两",
+            "processing": "炙",
+            "raw": "甘草炙",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "细辛",
+            "dose": "三两",
+            "processing": "",
+            "raw": "细辛",
+            "herb_ref": "细辛",
+            "suspect": false
+          },
+          {
+            "name": "桂枝",
+            "dose": "三两",
+            "processing": "各",
+            "raw": "桂枝各三两",
+            "herb_ref": "牡桂",
+            "suspect": false
+          },
+          {
+            "name": "五味子",
+            "dose": "半升",
+            "processing": "",
+            "raw": "五味子",
+            "herb_ref": "五味子",
+            "suspect": false
+          },
+          {
+            "name": "半夏",
+            "dose": "半升",
+            "processing": "各",
+            "raw": "半夏各半升",
+            "herb_ref": "半夏",
+            "suspect": false
+          }
+        ],
+        "decoction": "上八味，以水一斗，先煮麻黄减二升，去上沬纳诸药煮取三升，去滓温服一升。",
+        "indication": "所谓溢饮就是说水跑出水道系统了。平常的水在我们的血液里面"
+      },
+      "summary": "两书药味与剂量相同，但煎服法字句或分服要求有别（《伤寒论》属太阳，《金匮要略》见于「痰饮欬嗽病脉证并治第十二」），保留双条对照。"
+    },
+    {
+      "normalized_name": "抵当汤",
+      "shanghan_id": "shanghan:抵当汤",
+      "jinkui_id": "jinkui:抵当汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "桃仁",
+          "shanghan": "二十个·去皮尖",
+          "jinkui": "三十个"
+        },
+        {
+          "herb": "水蛭",
+          "shanghan": "三十个·熬",
+          "jinkui": "三十个，熬"
+        },
+        {
+          "herb": "虻虫",
+          "shanghan": "三十个·去翅足熬",
+          "jinkui": "三十个，熬·各"
+        },
+        {
+          "herb": "大黄",
+          "shanghan": "三两·酒洗",
+          "jinkui": "三两，酒浸"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:抵当汤",
+        "name": "抵当汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 2829,
+        "ingredients": [
+          {
+            "name": "桃仁",
+            "dose": "二十个",
+            "processing": "去皮尖",
+            "raw": "桃仁（二十个去皮尖○千金。二十三个。翼同本文。有熬字。）"
+          },
+          {
+            "name": "水蛭",
+            "dose": "三十个",
+            "processing": "熬",
+            "raw": "水蛭（熬）"
+          },
+          {
+            "name": "虻虫",
+            "dose": "三十个",
+            "processing": "去翅足熬",
+            "raw": "虫虻（各三十个去翅足熬）"
+          },
+          {
+            "name": "大黄",
+            "dose": "三两",
+            "processing": "酒洗",
+            "raw": "大黄（三两酒洗○玉函。成本。酒浸。千金翼。作二两。破六片。）"
+          }
+        ],
+        "decoction": "上四味。以水五升。煮取三升。去滓。温服一升。不下更服。（四味下。玉函。成本。有为末二字。）",
+        "indication": "而以攻坚破瘀之抵当汤主之"
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:抵当汤",
+        "name": "抵当汤",
+        "book": "金匮要略",
+        "section": "妇人杂病脉证治第二十二",
+        "page_or_line": 411,
+        "ingredients": [
+          {
+            "name": "水蛭",
+            "dose": "三十个，熬",
+            "processing": "",
+            "raw": "水蛭",
+            "herb_ref": "水蛭",
+            "suspect": false
+          },
+          {
+            "name": "虻虫",
+            "dose": "三十个，熬",
+            "processing": "各",
+            "raw": "虻虫各三十个，熬",
+            "herb_ref": "蜚虻",
+            "suspect": false
+          },
+          {
+            "name": "桃仁",
+            "dose": "三十个",
+            "processing": "",
+            "raw": "桃仁三十个",
+            "herb_ref": "桃核仁",
+            "suspect": false
+          },
+          {
+            "name": "大黄",
+            "dose": "三两，酒浸",
+            "processing": "",
+            "raw": "大黄三两，酒浸",
+            "herb_ref": "大黄",
+            "suspect": false
+          }
+        ],
+        "decoction": "上四味为末，水五升，煮取三升，温服一升。",
+        "indication": "『妇人经水不利下』，月经不能够顺利排出来，『抵当汤主之。』"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 4 味（如桃仁）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "文蛤散",
+      "shanghan_id": "shanghan:文蛤散",
+      "jinkui_id": "jinkui:文蛤散",
+      "same_composition_and_dose": true,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [],
+      "shanghan_snapshot": {
+        "id": "shanghan:文蛤散",
+        "name": "文蛤散",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 3155,
+        "ingredients": [
+          {
+            "name": "文蛤",
+            "dose": "五两",
+            "processing": "",
+            "raw": "文蛤（五两）"
+          }
+        ],
+        "decoction": "上一味。为散。以沸汤。和一方寸匕服。汤用五合。（一方寸匕。成本。作一钱匕。玉函。和下。有服字。无服以下五字。）",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:文蛤散",
+        "name": "文蛤散",
+        "book": "金匮要略",
+        "section": "消渴小便不利淋病脉证治第十三",
+        "page_or_line": 261,
+        "ingredients": [
+          {
+            "name": "文蛤",
+            "dose": "五两",
+            "processing": "",
+            "raw": "文蛤五两",
+            "herb_ref": "文蛤",
+            "suspect": false
+          }
+        ],
+        "decoction": "上一味，杵为散，以沸汤五合，和服方寸匕。",
+        "indication": "张仲景说渴，饮水即吐，五苓散治之，如果是口渴，喝水千杯又"
+      },
+      "summary": "两书药味与剂量相同，但煎服法字句或分服要求有别（《伤寒论》属太阳，《金匮要略》见于「消渴小便不利淋病脉证治第十三」），保留双条对照。"
+    },
+    {
+      "normalized_name": "枳实栀子豉汤",
+      "shanghan_id": "shanghan:枳实栀子豉汤",
+      "jinkui_id": "jinkui:枳实栀子豉汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [
+          "豆豉"
+        ],
+        "only_in_jinkui": [
+          "香豉"
+        ]
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "枳实",
+          "shanghan": "三枚·炙",
+          "jinkui": "三枚，炙"
+        },
+        {
+          "herb": "栀子",
+          "shanghan": "十四个·擘",
+          "jinkui": "十四枚"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:枳实栀子豉汤",
+        "name": "枳实栀子豉汤",
+        "book": "伤寒论",
+        "section": "厥阴",
+        "page_or_line": 6905,
+        "ingredients": [
+          {
+            "name": "枳实",
+            "dose": "三枚",
+            "processing": "炙",
+            "raw": "枳实（三枚炙）"
+          },
+          {
+            "name": "栀子",
+            "dose": "十四个",
+            "processing": "擘",
+            "raw": "栀子（十四个擘）"
+          },
+          {
+            "name": "豆豉",
+            "dose": "一升",
+            "processing": "绵裹",
+            "raw": "豉（一升绵裹）"
+          }
+        ],
+        "decoction": "上三味。以清浆水七升。空煮取四升。纳枳实栀子。煮取二升。下豉。更煮五六沸。去滓。温分再服。覆令微似汗。若有宿食者。纳大黄如博棋子。五六枚。服之愈。",
+        "indication": "故以枳实栀子豉汤主之"
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:枳实栀子豉汤",
+        "name": "枳实栀子豉汤",
+        "book": "金匮要略",
+        "section": "妇人杂病脉证治第二十二",
+        "page_or_line": 417,
+        "ingredients": [
+          {
+            "name": "枳实",
+            "dose": "三枚，炙",
+            "processing": "",
+            "raw": "枳实三枚，炙",
+            "herb_ref": "枳实",
+            "suspect": false
+          },
+          {
+            "name": "栀子",
+            "dose": "十四枚",
+            "processing": "",
+            "raw": "栀子十四枚",
+            "herb_ref": "栀子",
+            "suspect": false
+          },
+          {
+            "name": "香豉",
+            "dose": "一升，绵裹",
+            "processing": "",
+            "raw": "香豉一升，绵裹",
+            "herb_ref": "大豆黄卷",
+            "suspect": false
+          }
+        ],
+        "decoction": "上三味，以清浆水七升，空煮取四升，纳枳实栀子，煮取二升，下豉，更煮五六沸，去滓，温分再服，覆令微似汗，若有宿食者，内大黄如博碁子大五六枚，服之愈。",
+        "indication": "大病之后本应好好修养，不可过劳，如果强出劳力导致百脉伸张，"
+      },
+      "summary": "同名异参方：药味异同（伤寒独见：豆豉；金匮独见：香豉）；剂量/炮制写法差异共 2 味（如枳实）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "栀子豉汤",
+      "shanghan_id": "shanghan:栀子豉汤",
+      "jinkui_id": "jinkui:栀子豉汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [
+          "豆豉"
+        ],
+        "only_in_jinkui": [
+          "香豉"
+        ]
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "栀子",
+          "shanghan": "十四个·擘",
+          "jinkui": "十四枚，擘"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:栀子豉汤",
+        "name": "栀子豉汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 1809,
+        "ingredients": [
+          {
+            "name": "栀子",
+            "dose": "十四个",
+            "processing": "擘",
+            "raw": "栀子（十四个擘○成本。玉函。个。作枚。下并同。）"
+          },
+          {
+            "name": "豆豉",
+            "dose": "四合",
+            "processing": "绵裹",
+            "raw": "香豉（四合绵裹）"
+          }
+        ],
+        "decoction": "上二味。以水四升。先煮栀子。得二升半。纳豉。煮取一升半。去滓。分为二服。温进一服。得吐者。止后服。（外台。二升半下。有去滓二字。取上。有更字。玉函。千金。并翼。吐上。有快字。）",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:栀子豉汤",
+        "name": "栀子豉汤",
+        "book": "金匮要略",
+        "section": "呕吐哕下利病脉证治第十七",
+        "page_or_line": 363,
+        "ingredients": [
+          {
+            "name": "栀子",
+            "dose": "十四枚，擘",
+            "processing": "",
+            "raw": "栀子十四枚，擘",
+            "herb_ref": "栀子",
+            "suspect": false
+          },
+          {
+            "name": "香豉",
+            "dose": "四合，绵裹",
+            "processing": "",
+            "raw": "香豉四合，绵裹",
+            "herb_ref": "大豆黄卷",
+            "suspect": false
+          }
+        ],
+        "decoction": "上二味，以水四升，先煮栀子，得二升半，纳豉煮取一升半，去滓，分二服，温进一服，得吐则愈。",
+        "indication": "什么叫『心下濡者』？病人还在下利时，按肚子是软绵绵的，我"
+      },
+      "summary": "同名异参方：药味异同（伤寒独见：豆豉；金匮独见：香豉）；剂量/炮制写法差异共 1 味（如栀子）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "桂枝加桂汤",
+      "shanghan_id": "shanghan:桂枝加桂汤",
+      "jinkui_id": "jinkui:桂枝加桂汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "桂枝",
+          "shanghan": "五两·去皮",
+          "jinkui": "五两"
+        },
+        {
+          "herb": "芍药",
+          "shanghan": "三两",
+          "jinkui": "二两"
+        },
+        {
+          "herb": "甘草",
+          "shanghan": "二两·炙",
+          "jinkui": "二两，炙"
+        },
+        {
+          "herb": "大枣",
+          "shanghan": "十二枚·擘",
+          "jinkui": "十二枚"
+        },
+        {
+          "herb": "生姜",
+          "shanghan": "三两·切",
+          "jinkui": "二两·各"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:桂枝加桂汤",
+        "name": "桂枝加桂汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 2717,
+        "ingredients": [
+          {
+            "name": "桂枝",
+            "dose": "五两",
+            "processing": "去皮",
+            "raw": "桂枝（五两去皮）"
+          },
+          {
+            "name": "芍药",
+            "dose": "三两",
+            "processing": "",
+            "raw": "芍药（三两）"
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（二两炙）"
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "擘",
+            "raw": "大枣（十二枚擘）"
+          },
+          {
+            "name": "生姜",
+            "dose": "三两",
+            "processing": "切",
+            "raw": "生姜（三两切○玉函。二两）"
+          }
+        ],
+        "decoction": "上五味。以水七升。煮取三升。去滓。温服一升。本云桂枝汤。今加桂满五两。所以加桂者。以能泄奔豚气也。（案成本。不载方。为是。本条已云更加桂二两故也。玉函。无满以下十五字。）",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:桂枝加桂汤",
+        "name": "桂枝加桂汤",
+        "book": "金匮要略",
+        "section": "奔豚气病脉证并治第八",
+        "page_or_line": 159,
+        "ingredients": [
+          {
+            "name": "桂枝",
+            "dose": "五两",
+            "processing": "",
+            "raw": "桂枝五两",
+            "herb_ref": "牡桂",
+            "suspect": false
+          },
+          {
+            "name": "芍药",
+            "dose": "二两",
+            "processing": "",
+            "raw": "芍药",
+            "herb_ref": "芍药",
+            "suspect": false
+          },
+          {
+            "name": "生姜",
+            "dose": "二两",
+            "processing": "各",
+            "raw": "生姜各二两",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两，炙",
+            "processing": "",
+            "raw": "甘草二两，炙",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "",
+            "raw": "大枣十二枚",
+            "herb_ref": "大枣",
+            "suspect": false
+          }
+        ],
+        "decoction": "上五味，以水七升，微火煮取三升，去滓。服一升。",
+        "indication": "如果一个病人已经被发过汗了，就代表表症没了，结果『烧针令"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 5 味（如桂枝）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "桂枝去芍药加蜀漆牡蛎龙骨救逆汤",
+      "shanghan_id": "shanghan:桂枝去芍药加蜀漆牡蛎龙骨救逆汤",
+      "jinkui_id": "jinkui:桂枝去芍药加蜀漆牡蛎龙骨救逆汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "桂枝",
+          "shanghan": "三两·去皮",
+          "jinkui": "三两，去皮"
+        },
+        {
+          "herb": "甘草",
+          "shanghan": "二两·炙",
+          "jinkui": "二两，炙"
+        },
+        {
+          "herb": "生姜",
+          "shanghan": "三两·切",
+          "jinkui": "三两"
+        },
+        {
+          "herb": "大枣",
+          "shanghan": "十二枚·擘",
+          "jinkui": "十二枚"
+        },
+        {
+          "herb": "牡蛎",
+          "shanghan": "五两·熬",
+          "jinkui": "五两"
+        },
+        {
+          "herb": "蜀漆",
+          "shanghan": "三两·洗去腥",
+          "jinkui": "三两，洗去腥"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:桂枝去芍药加蜀漆牡蛎龙骨救逆汤",
+        "name": "桂枝去芍药加蜀漆牡蛎龙骨救逆汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 2619,
+        "ingredients": [
+          {
+            "name": "桂枝",
+            "dose": "三两",
+            "processing": "去皮",
+            "raw": "桂枝（三两去皮）"
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（二两炙）"
+          },
+          {
+            "name": "生姜",
+            "dose": "三两",
+            "processing": "切",
+            "raw": "生姜（三两切）"
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "擘",
+            "raw": "大枣（十二枚擘）"
+          },
+          {
+            "name": "牡蛎",
+            "dose": "五两",
+            "processing": "熬",
+            "raw": "牡蛎（五两熬）"
+          },
+          {
+            "name": "龙骨",
+            "dose": "四两",
+            "processing": "",
+            "raw": "龙骨（四两）"
+          },
+          {
+            "name": "蜀漆",
+            "dose": "三两",
+            "processing": "洗去腥",
+            "raw": "蜀漆（三两洗去腥○全书。腥。作脚）"
+          }
+        ],
+        "decoction": "上七味。以水一斗二升。先煮蜀漆。减二升。纳诸药。煮取三升。去滓。温服一升。本云桂枝汤。今去芍药。加蜀漆牡蛎龙骨。（成本。作为未。非也。玉函。七味下。有 咀字。作水八升。本云。作本方。方后云。",
+        "indication": "桂枝去芍药加蜀漆牡蛎龙骨救逆汤主之"
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:桂枝去芍药加蜀漆牡蛎龙骨救逆汤",
+        "name": "桂枝去芍药加蜀漆牡蛎龙骨救逆汤",
+        "book": "金匮要略",
+        "section": "惊悸吐衄下血胸满瘀血病脉证第十六",
+        "page_or_line": 329,
+        "ingredients": [
+          {
+            "name": "桂枝",
+            "dose": "三两，去皮",
+            "processing": "",
+            "raw": "桂枝三两，去皮",
+            "herb_ref": "牡桂",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两，炙",
+            "processing": "",
+            "raw": "甘草二两，炙",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "龙骨",
+            "dose": "四两",
+            "processing": "",
+            "raw": "龙骨四两",
+            "herb_ref": "龙骨",
+            "suspect": false
+          },
+          {
+            "name": "牡蛎",
+            "dose": "五两",
+            "processing": "",
+            "raw": "牡蛎五两",
+            "herb_ref": "牡蛎",
+            "suspect": false
+          },
+          {
+            "name": "生姜",
+            "dose": "三两",
+            "processing": "",
+            "raw": "生姜三两",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "",
+            "raw": "大枣十二枚",
+            "herb_ref": "大枣",
+            "suspect": false
+          },
+          {
+            "name": "蜀漆",
+            "dose": "三两，洗去腥",
+            "processing": "",
+            "raw": "蜀漆三两，洗去腥",
+            "herb_ref": "蜀漆",
+            "suspect": false
+          }
+        ],
+        "decoction": "上为末，以水一斗二升，先？蜀漆，减二升，纳诸药，煮取三升，去滓，温服一升。",
+        "indication": "『火邪者，桂枝去芍药加蜀漆牡蛎龙骨救逆汤』，我们人体遇到外"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 6 味（如桂枝）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "桂枝附子汤",
+      "shanghan_id": "shanghan:桂枝附子汤",
+      "jinkui_id": "jinkui:桂枝附子汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "桂枝",
+          "shanghan": "四两·去皮",
+          "jinkui": "四两"
+        },
+        {
+          "herb": "附子",
+          "shanghan": "三枚·炮去皮破",
+          "jinkui": "三枚，炮，去"
+        },
+        {
+          "herb": "生姜",
+          "shanghan": "三两·切",
+          "jinkui": "三两，切"
+        },
+        {
+          "herb": "大枣",
+          "shanghan": "十二枚·擘",
+          "jinkui": "十二枚，擘"
+        },
+        {
+          "herb": "甘草",
+          "shanghan": "二两·炙",
+          "jinkui": "二两，炙"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:桂枝附子汤",
+        "name": "桂枝附子汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 3907,
+        "ingredients": [
+          {
+            "name": "桂枝",
+            "dose": "四两",
+            "processing": "去皮",
+            "raw": "桂枝（四两去皮）"
+          },
+          {
+            "name": "附子",
+            "dose": "三枚",
+            "processing": "炮去皮破",
+            "raw": "附子（三枚炮去皮破○成本。破八片。钱本。作二枚）"
+          },
+          {
+            "name": "生姜",
+            "dose": "三两",
+            "processing": "切",
+            "raw": "生姜（三两切）"
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "擘",
+            "raw": "大枣（十二枚擘）"
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（二两炙）"
+          }
+        ],
+        "decoction": "上五味。以水六升。煮取二升。去滓。分温三服。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:桂枝附子汤",
+        "name": "桂枝附子汤",
+        "book": "金匮要略",
+        "section": "痉湿暍病脉证治法第二",
+        "page_or_line": 59,
+        "ingredients": [
+          {
+            "name": "附子",
+            "dose": "三枚，炮，去",
+            "processing": "",
+            "raw": "附子三枚，炮，去",
+            "herb_ref": "附子",
+            "suspect": false
+          },
+          {
+            "name": "桂枝",
+            "dose": "四两",
+            "processing": "",
+            "raw": "桂枝四两",
+            "herb_ref": "牡桂",
+            "suspect": false
+          },
+          {
+            "name": "生姜",
+            "dose": "三两，切",
+            "processing": "",
+            "raw": "生姜三两，切",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两，炙",
+            "processing": "",
+            "raw": "甘草二两，炙",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚，擘",
+            "processing": "",
+            "raw": "大枣十二枚，擘",
+            "herb_ref": "大枣",
+            "suspect": false
+          }
+        ],
+        "decoction": "上五味，以水六升，煮取二升，去滓，分温三服。",
+        "indication": ""
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 5 味（如桂枝）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "桃花汤",
+      "shanghan_id": "shanghan:桃花汤",
+      "jinkui_id": "jinkui:桃花汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "赤石脂",
+          "shanghan": "一斤·一半全用一半筛末",
+          "jinkui": "一升一半全"
+        },
+        {
+          "herb": "干姜",
+          "shanghan": "一两",
+          "jinkui": "二两"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:桃花汤",
+        "name": "桃花汤",
+        "book": "伤寒论",
+        "section": "少阴",
+        "page_or_line": 5655,
+        "ingredients": [
+          {
+            "name": "赤石脂",
+            "dose": "一斤",
+            "processing": "一半全用一半筛末",
+            "raw": "赤石脂（一斤一半全用一半筛末）"
+          },
+          {
+            "name": "干姜",
+            "dose": "一两",
+            "processing": "",
+            "raw": "干姜（一两）"
+          },
+          {
+            "name": "粳米",
+            "dose": "一升",
+            "processing": "",
+            "raw": "粳米（一升）"
+          }
+        ],
+        "decoction": "上三味。以水七升。煮米令熟。去滓。温服七合。纳赤石脂末方寸匕。日三服。若一服愈。余勿服。（金匮。千金翼。温下。无服字。千金翼。去上。有汤成二字。）",
+        "indication": "故以温中固脱之桃花汤主之"
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:桃花汤",
+        "name": "桃花汤",
+        "book": "金匮要略",
+        "section": "呕吐哕下利病脉证治第十七",
+        "page_or_line": 362,
+        "ingredients": [
+          {
+            "name": "赤石脂",
+            "dose": "一升一半全",
+            "processing": "",
+            "raw": "赤石脂一升一半全",
+            "herb_ref": "赤石脂",
+            "suspect": false
+          },
+          {
+            "name": "干姜",
+            "dose": "二两",
+            "processing": "",
+            "raw": "干姜二两",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "粳米",
+            "dose": "一升",
+            "processing": "",
+            "raw": "粳米一升",
+            "herb_ref": "粟米",
+            "suspect": false
+          }
+        ],
+        "decoction": "上三味，以水七升，煮米熟，去滓，温服七合，纳赤石脂末方寸匕，日三服。",
+        "indication": "若一服愈，余勿服。"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 2 味（如赤石脂）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "桔梗汤",
+      "shanghan_id": "shanghan:桔梗汤",
+      "jinkui_id": "jinkui:桔梗汤",
+      "same_composition_and_dose": true,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [],
+      "shanghan_snapshot": {
+        "id": "shanghan:桔梗汤",
+        "name": "桔梗汤",
+        "book": "伤寒论",
+        "section": "少阴",
+        "page_or_line": 5749,
+        "ingredients": [
+          {
+            "name": "桔梗",
+            "dose": "一两",
+            "processing": "",
+            "raw": "桔梗（一两）"
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "",
+            "raw": "甘草（二两○外台。作三两。）"
+          }
+        ],
+        "decoction": "上二味。以水三升。煮取一升。去滓。温分再服。（温分。成本。玉函。千金翼。作分温。）",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:桔梗汤",
+        "name": "桔梗汤",
+        "book": "金匮要略",
+        "section": "肺痿肺痈咳嗽上气病脉证治第七",
+        "page_or_line": 150,
+        "ingredients": [
+          {
+            "name": "桔梗",
+            "dose": "一两",
+            "processing": "",
+            "raw": "桔梗一两",
+            "herb_ref": "桔梗",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "",
+            "raw": "甘草二两",
+            "herb_ref": "甘草",
+            "suspect": false
+          }
+        ],
+        "decoction": "上以水三升，煮取一升，分温再服，则吐脓血也。",
+        "indication": "葶苈大枣泻肺汤是用在肺痈初期时，或是在肺痈进行到中期时都"
+      },
+      "summary": "两书药味与剂量相同，但煎服法字句或分服要求有别（《伤寒论》属少阴，《金匮要略》见于「肺痿肺痈咳嗽上气病脉证治第七」），保留双条对照。"
+    },
+    {
+      "normalized_name": "牡蛎泽泻散",
+      "shanghan_id": "shanghan:牡蛎泽泻散",
+      "jinkui_id": "jinkui:牡蛎泽泻散",
+      "same_composition_and_dose": true,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "牡蛎",
+          "shanghan": "等分·熬",
+          "jinkui": "等分"
+        },
+        {
+          "herb": "蜀漆",
+          "shanghan": "等分·暖水洗去腥",
+          "jinkui": "等分·洗去腥"
+        },
+        {
+          "herb": "葶苈子",
+          "shanghan": "等分·熬",
+          "jinkui": "等分"
+        },
+        {
+          "herb": "商陆根",
+          "shanghan": "等分·熬",
+          "jinkui": "等分"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:牡蛎泽泻散",
+        "name": "牡蛎泽泻散",
+        "book": "伤寒论",
+        "section": "厥阴",
+        "page_or_line": 6943,
+        "ingredients": [
+          {
+            "name": "牡蛎",
+            "dose": "等分",
+            "processing": "熬",
+            "raw": "牡蛎（熬）"
+          },
+          {
+            "name": "泽泻",
+            "dose": "等分",
+            "processing": "",
+            "raw": "泽泻"
+          },
+          {
+            "name": "蜀漆",
+            "dose": "等分",
+            "processing": "暖水洗去腥",
+            "raw": "蜀漆（暖水洗去腥）"
+          },
+          {
+            "name": "葶苈子",
+            "dose": "等分",
+            "processing": "熬",
+            "raw": "葶苈子（熬）"
+          },
+          {
+            "name": "商陆根",
+            "dose": "等分",
+            "processing": "熬",
+            "raw": "商陆根（熬）"
+          },
+          {
+            "name": "海藻",
+            "dose": "等分",
+            "processing": "洗去咸",
+            "raw": "海藻（洗去咸）"
+          },
+          {
+            "name": "栝蒌根",
+            "dose": "等分",
+            "processing": "",
+            "raw": "栝蒌根（各等分）"
+          }
+        ],
+        "decoction": "上七味。异捣。下筛为散。更于臼中治之。白饮和服方寸匕。日三服。小便利。止后服。（成本。葶苈下。无子字。于臼。作入臼。钱本。金鉴。葶苈上有苦字。）",
+        "indication": "而以牡蛎泽泻散主之"
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:牡蛎泽泻散",
+        "name": "牡蛎泽泻散",
+        "book": "金匮要略",
+        "section": "妇人杂病脉证治第二十二",
+        "page_or_line": 418,
+        "ingredients": [
+          {
+            "name": "牡蛎",
+            "dose": "等分",
+            "processing": "",
+            "raw": "牡蛎",
+            "herb_ref": "牡蛎",
+            "suspect": false
+          },
+          {
+            "name": "泽泻",
+            "dose": "等分",
+            "processing": "",
+            "raw": "泽泻",
+            "herb_ref": "泽泻",
+            "suspect": false
+          },
+          {
+            "name": "栝蒌根",
+            "dose": "等分",
+            "processing": "",
+            "raw": "栝蒌根",
+            "herb_ref": "瓜篓根",
+            "suspect": false
+          },
+          {
+            "name": "商陆根",
+            "dose": "等分",
+            "processing": "",
+            "raw": "商陆根",
+            "herb_ref": "",
+            "suspect": false
+          },
+          {
+            "name": "葶苈子",
+            "dose": "等分",
+            "processing": "",
+            "raw": "葶苈子以上各等分",
+            "herb_ref": "",
+            "suspect": false
+          },
+          {
+            "name": "蜀漆",
+            "dose": "等分",
+            "processing": "洗去腥",
+            "raw": "蜀漆洗去腥"
+          },
+          {
+            "name": "海藻",
+            "dose": "等分",
+            "processing": "洗去咸",
+            "raw": "海藻洗去咸"
+          }
+        ],
+        "decoction": "上七味，异捣，下筛为散，更于臼中治之，白饮和服方寸匕。小便利，止后服。",
+        "indication": "如果遇到大病初愈之人，自腰以下仍有积水之现象时，只需要利"
+      },
+      "summary": "两书药味与剂量相同，但煎服法字句或分服要求有别（《伤寒论》属厥阴，《金匮要略》见于「妇人杂病脉证治第二十二」），保留双条对照。"
+    },
+    {
+      "normalized_name": "猪苓汤",
+      "shanghan_id": "shanghan:猪苓汤",
+      "jinkui_id": "jinkui:猪苓汤",
+      "same_composition_and_dose": true,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "猪苓",
+          "shanghan": "一两·去皮",
+          "jinkui": "一两"
+        },
+        {
+          "herb": "滑石",
+          "shanghan": "一两·碎",
+          "jinkui": "一两"
+        },
+        {
+          "herb": "泽泻",
+          "shanghan": "一两",
+          "jinkui": "一两·各"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:猪苓汤",
+        "name": "猪苓汤",
+        "book": "伤寒论",
+        "section": "阳明",
+        "page_or_line": 4697,
+        "ingredients": [
+          {
+            "name": "猪苓",
+            "dose": "一两",
+            "processing": "去皮",
+            "raw": "猪苓（去皮）"
+          },
+          {
+            "name": "滑石",
+            "dose": "一两",
+            "processing": "碎",
+            "raw": "滑石（碎各一两○外台。有绵裹二字。）"
+          },
+          {
+            "name": "茯苓",
+            "dose": "一两",
+            "processing": "",
+            "raw": "茯苓"
+          },
+          {
+            "name": "阿胶",
+            "dose": "一两",
+            "processing": "",
+            "raw": "阿胶（○外台。有炙字。）"
+          },
+          {
+            "name": "泽泻",
+            "dose": "一两",
+            "processing": "",
+            "raw": "泽泻"
+          }
+        ],
+        "decoction": "上五味。以水四升。先煮四味。取二升。去滓。纳阿胶烊消。温服七合。日三服。（成本。纳下。有下字。烊消。玉函。作消尽。）",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:猪苓汤",
+        "name": "猪苓汤",
+        "book": "金匮要略",
+        "section": "消渴小便不利淋病脉证治第十三",
+        "page_or_line": 269,
+        "ingredients": [
+          {
+            "name": "猪苓",
+            "dose": "一两",
+            "processing": "",
+            "raw": "猪苓去皮",
+            "herb_ref": "猪苓",
+            "suspect": false
+          },
+          {
+            "name": "茯苓",
+            "dose": "一两",
+            "processing": "",
+            "raw": "茯苓",
+            "herb_ref": "茯苓",
+            "suspect": false
+          },
+          {
+            "name": "阿胶",
+            "dose": "一两",
+            "processing": "",
+            "raw": "阿胶",
+            "herb_ref": "阿胶",
+            "suspect": false
+          },
+          {
+            "name": "滑石",
+            "dose": "一两",
+            "processing": "",
+            "raw": "滑石",
+            "herb_ref": "滑石",
+            "suspect": false
+          },
+          {
+            "name": "泽泻",
+            "dose": "一两",
+            "processing": "各",
+            "raw": "泽泻各一两",
+            "herb_ref": "泽泻",
+            "suspect": false
+          }
+        ],
+        "decoction": "上五味，以水四升，先煮四味，取二升，去滓，内胶烊消，温服七合，日三服。",
+        "indication": "『脉浮发热，渴欲饮水，小便不利者』，这个就是我们平常用的一"
+      },
+      "summary": "两书药味与剂量相同，但煎服法字句或分服要求有别（《伤寒论》属阳明，《金匮要略》见于「消渴小便不利淋病脉证治第十三」），保留双条对照。"
+    },
+    {
+      "normalized_name": "理中丸",
+      "shanghan_id": "shanghan:理中丸",
+      "jinkui_id": "jinkui:理中丸",
+      "same_composition_and_dose": true,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "干姜",
+          "shanghan": "三两",
+          "jinkui": "三两·各"
+        },
+        {
+          "herb": "甘草",
+          "shanghan": "三两·炙",
+          "jinkui": "三两"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:理中丸",
+        "name": "理中丸",
+        "book": "伤寒论",
+        "section": "厥阴",
+        "page_or_line": 6719,
+        "ingredients": [
+          {
+            "name": "人参",
+            "dose": "三两",
+            "processing": "",
+            "raw": "人参"
+          },
+          {
+            "name": "干姜",
+            "dose": "三两",
+            "processing": "",
+            "raw": "干姜"
+          },
+          {
+            "name": "甘草",
+            "dose": "三两",
+            "processing": "炙",
+            "raw": "甘草（炙）"
+          },
+          {
+            "name": "白术",
+            "dose": "三两",
+            "processing": "",
+            "raw": "白术（各三两）"
+          }
+        ],
+        "decoction": "上四味。捣筛。蜜和为丸。如鸡子黄许大。以沸汤数合。和一丸。研碎温服之。日三四。夜二服。腹中未热。益至三四丸。然不及汤。汤法以四物。根据两数切。用水八升。煮取三升。去滓。温服一升。日三服。若脐上筑者。肾气动也。去术。加桂四两。吐多者。去术。加生姜三两。下多者还用术。悸者。加茯苓二两。渴欲得水者。加术。足前成四两半。腹中痛者。加人参。足前成四两半。寒者。加干姜。足前成四两半。腹满者。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:理中丸",
+        "name": "理中丸",
+        "book": "金匮要略",
+        "section": "续伤寒篇",
+        "page_or_line": 12,
+        "ingredients": [
+          {
+            "name": "人参",
+            "dose": "三两",
+            "processing": "",
+            "raw": "人参",
+            "herb_ref": "人参",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "三两",
+            "processing": "",
+            "raw": "甘草",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "白术",
+            "dose": "三两",
+            "processing": "",
+            "raw": "白术",
+            "herb_ref": "白术",
+            "suspect": false
+          },
+          {
+            "name": "干姜",
+            "dose": "三两",
+            "processing": "各",
+            "raw": "干姜各三两",
+            "herb_ref": "干姜",
+            "suspect": false
+          }
+        ],
+        "decoction": "上四味，捣筛为末，蜜和为丸，如鸡子黄大，以沸汤数合，和一丸研碎，温服之。日三四服，夜一服，腹中未热，益至三四丸，然不及汤，汤法以四物依两数切，用水八升，煮取三升，去渣，温服一升，日三服，若脐上筑者，肾气动也，去术加桂四两。吐多者，去术加生姜三两。下多者，还用术。悸者，加茯苓二两。渴欲得水者，加术，足前成四两半。腹中痛者，加人参，足前成四两半。寒者，加干姜，足前成四两半。腹满者，去术加附子一枚。",
+        "indication": "服汤后如食顷，饮热粥一升许，微自温，勿揭衣被。"
+      },
+      "summary": "两书药味与剂量相同，但煎服法字句或分服要求有别（《伤寒论》属厥阴，《金匮要略》见于「续伤寒篇」），保留双条对照。"
+    },
+    {
+      "normalized_name": "瓜蒂散",
+      "shanghan_id": "shanghan:瓜蒂散",
+      "jinkui_id": "jinkui:瓜蒂散",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "瓜蒂",
+          "shanghan": "一分·熬黄",
+          "jinkui": "一分，熬黄"
+        },
+        {
+          "herb": "赤小豆",
+          "shanghan": "一分",
+          "jinkui": "二分，煮"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:瓜蒂散",
+        "name": "瓜蒂散",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 3719,
+        "ingredients": [
+          {
+            "name": "瓜蒂",
+            "dose": "一分",
+            "processing": "熬黄",
+            "raw": "瓜蒂（一分熬黄）"
+          },
+          {
+            "name": "赤小豆",
+            "dose": "一分",
+            "processing": "",
+            "raw": "赤小豆（一分○玉函作各六铢）"
+          }
+        ],
+        "decoction": "上二味。各别捣筛为散。已合治之。取一钱匕。以香豉一合。用热汤七合。煮作稀糜。去滓。取汁和散。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:瓜蒂散",
+        "name": "瓜蒂散",
+        "book": "金匮要略",
+        "section": "腹满寒疝宿食病脉证并治第十",
+        "page_or_line": 197,
+        "ingredients": [
+          {
+            "name": "瓜蒂",
+            "dose": "一分，熬黄",
+            "processing": "",
+            "raw": "瓜蒂一分，熬黄",
+            "herb_ref": "瓜蒂",
+            "suspect": false
+          },
+          {
+            "name": "赤小豆",
+            "dose": "二分，煮",
+            "processing": "",
+            "raw": "赤小豆二分，煮",
+            "herb_ref": "大豆黄卷",
+            "suspect": false
+          }
+        ],
+        "decoction": "上二味，杵为散，以香豉七合，煮取汁，和散一钱匕，温服之，不吐者少加之，以快吐为度而止。",
+        "indication": "中医的观念里面胸腔到横膈的地方，这个部位叫上焦，从鸠尾穴"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 2 味（如瓜蒂）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "甘草干姜汤",
+      "shanghan_id": "shanghan:甘草干姜汤",
+      "jinkui_id": "jinkui:甘草干姜汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "甘草",
+          "shanghan": "四两·炙",
+          "jinkui": "四两，炙"
+        },
+        {
+          "herb": "干姜",
+          "shanghan": "二两",
+          "jinkui": "二两，炮"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:甘草干姜汤",
+        "name": "甘草干姜汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 701,
+        "ingredients": [
+          {
+            "name": "甘草",
+            "dose": "四两",
+            "processing": "炙",
+            "raw": "甘草（四两炙）"
+          },
+          {
+            "name": "干姜",
+            "dose": "二两",
+            "processing": "",
+            "raw": "干姜（二两）"
+          }
+        ],
+        "decoction": "上二味。以水三升。煮取一升五合。去滓。分温再服。（玉函。甘草二两。成本。干姜下。有炮字。玉函。成本。味下。有 咀二字。）",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:甘草干姜汤",
+        "name": "甘草干姜汤",
+        "book": "金匮要略",
+        "section": "肺痿肺痈咳嗽上气病脉证治第七",
+        "page_or_line": 141,
+        "ingredients": [
+          {
+            "name": "甘草",
+            "dose": "四两，炙",
+            "processing": "",
+            "raw": "甘草四两，炙",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "干姜",
+            "dose": "二两，炮",
+            "processing": "",
+            "raw": "干姜二两，炮",
+            "herb_ref": "干姜",
+            "suspect": false
+          }
+        ],
+        "decoction": "上呚咀，以水三升，煮取一升五合，去滓，分温再服。",
+        "indication": "肺痿现在诸位都有观念了，简言之就是肺虚。肺痈就是肺实，虚"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 2 味（如甘草）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "甘草汤",
+      "shanghan_id": "shanghan:甘草汤",
+      "jinkui_id": "jinkui:甘草汤",
+      "same_composition_and_dose": true,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [],
+      "shanghan_snapshot": {
+        "id": "shanghan:甘草汤",
+        "name": "甘草汤",
+        "book": "伤寒论",
+        "section": "少阴",
+        "page_or_line": 5745,
+        "ingredients": [
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "",
+            "raw": "甘草（二两）"
+          }
+        ],
+        "decoction": "上一味。以水三升煮取一升半。去滓。温服七合。日二服。（二服。外台。作三服。）",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:甘草汤",
+        "name": "甘草汤",
+        "book": "金匮要略",
+        "section": "肺痿肺痈咳嗽上气病脉证治第七",
+        "page_or_line": 157,
+        "ingredients": [
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "",
+            "raw": "甘草二两"
+          }
+        ],
+        "decoction": "上一味，以水三升，煮减半，分温三服。",
+        "indication": ""
+      },
+      "summary": "两书药味与剂量相同，但煎服法字句或分服要求有别（《伤寒论》属少阴，《金匮要略》见于「肺痿肺痈咳嗽上气病脉证治第七」），保留双条对照。"
+    },
+    {
+      "normalized_name": "甘草泻心汤",
+      "shanghan_id": "shanghan:甘草泻心汤",
+      "jinkui_id": "jinkui:甘草泻心汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "甘草",
+          "shanghan": "四两·炙",
+          "jinkui": "四两，炙"
+        },
+        {
+          "herb": "干姜",
+          "shanghan": "三两",
+          "jinkui": "三两·各"
+        },
+        {
+          "herb": "大枣",
+          "shanghan": "十二枚·擘",
+          "jinkui": "十二枚"
+        },
+        {
+          "herb": "半夏",
+          "shanghan": "半升·洗",
+          "jinkui": "半升"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:甘草泻心汤",
+        "name": "甘草泻心汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 3567,
+        "ingredients": [
+          {
+            "name": "甘草",
+            "dose": "四两",
+            "processing": "炙",
+            "raw": "甘草（四两炙）"
+          },
+          {
+            "name": "黄芩",
+            "dose": "三两",
+            "processing": "",
+            "raw": "黄芩（三两）"
+          },
+          {
+            "name": "干姜",
+            "dose": "三两",
+            "processing": "",
+            "raw": "干姜（三两○外台。作二两。）"
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "擘",
+            "raw": "大枣（十二枚擘）"
+          },
+          {
+            "name": "半夏",
+            "dose": "半升",
+            "processing": "洗",
+            "raw": "半夏（半升洗○外台。有去滑二字）"
+          },
+          {
+            "name": "黄连",
+            "dose": "一两",
+            "processing": "",
+            "raw": "黄连（一两）"
+          },
+          {
+            "name": "人参",
+            "dose": "三两",
+            "processing": "",
+            "raw": "人参（三两）",
+            "origin": "同页校注补"
+          }
+        ],
+        "decoction": "上六味。以水一斗。煮取六升。去滓。再煎取三升。温服一升。日三服。（【原注】臣亿等谨案上生姜泻心汤法。本云理中人参黄芩汤。今详泻心以疗痞。痞气因发阴而主。是半夏生姜甘草泻心三方。皆本于理中也。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:甘草泻心汤",
+        "name": "甘草泻心汤",
+        "book": "金匮要略",
+        "section": "痉湿暍病脉证治法第二",
+        "page_or_line": 76,
+        "ingredients": [
+          {
+            "name": "甘草",
+            "dose": "四两，炙",
+            "processing": "",
+            "raw": "甘草四两，炙",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "黄芩",
+            "dose": "三两",
+            "processing": "",
+            "raw": "黄芩三两",
+            "herb_ref": "黄芩",
+            "suspect": false
+          },
+          {
+            "name": "人参",
+            "dose": "三两",
+            "processing": "",
+            "raw": "人参",
+            "herb_ref": "人参",
+            "suspect": false
+          },
+          {
+            "name": "干姜",
+            "dose": "三两",
+            "processing": "各",
+            "raw": "干姜各三两",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "半夏",
+            "dose": "半升",
+            "processing": "",
+            "raw": "半夏半升",
+            "herb_ref": "半夏",
+            "suspect": false
+          },
+          {
+            "name": "黄连",
+            "dose": "一两",
+            "processing": "",
+            "raw": "黄连一两",
+            "herb_ref": "黄连",
+            "suspect": false
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "",
+            "raw": "大枣十二枚",
+            "herb_ref": "大枣",
+            "suspect": false
+          }
+        ],
+        "decoction": "上七味，以水一斗，煮取六升，去滓再煎，取三升，温服一升，日三服。",
+        "indication": "狐惑病，就是寄生虫引起的病。这种虫，有的时候可能是血丝虫，"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 4 味（如甘草）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "甘草附子汤",
+      "shanghan_id": "shanghan:甘草附子汤",
+      "jinkui_id": "jinkui:甘草附子汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "桂枝",
+          "shanghan": "四两·去皮",
+          "jinkui": "四两"
+        },
+        {
+          "herb": "附子",
+          "shanghan": "二枚·炮去皮",
+          "jinkui": "二枚，炮，去皮"
+        },
+        {
+          "herb": "甘草",
+          "shanghan": "二两·炙",
+          "jinkui": "二两，炙"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:甘草附子汤",
+        "name": "甘草附子汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 3943,
+        "ingredients": [
+          {
+            "name": "白术",
+            "dose": "二两",
+            "processing": "",
+            "raw": "白术（二两○玉函。作三两。）"
+          },
+          {
+            "name": "桂枝",
+            "dose": "四两",
+            "processing": "去皮",
+            "raw": "桂枝（四两去皮）"
+          },
+          {
+            "name": "附子",
+            "dose": "二枚",
+            "processing": "炮去皮",
+            "raw": "附子（二枚炮去皮○汪。周。作破八片）"
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（二两炙○玉函。外台。作三两）"
+          }
+        ],
+        "decoction": "上四味。以水六升。煮取二升。去滓。温服一升。日三服。初服得微汗则解。能食汗止。复烦者。将服五合。恐一升多者。宜服六七合为始。（玉函。二升。作三升。汗止。金匮。成本。作汗出。无将字。始。金匮。",
+        "indication": "故以甘草附子汤主之"
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:甘草附子汤",
+        "name": "甘草附子汤",
+        "book": "金匮要略",
+        "section": "痉湿暍病脉证治法第二",
+        "page_or_line": 63,
+        "ingredients": [
+          {
+            "name": "附子",
+            "dose": "二枚，炮，去皮",
+            "processing": "",
+            "raw": "附子二枚，炮，去皮",
+            "herb_ref": "附子",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两，炙",
+            "processing": "",
+            "raw": "甘草二两，炙",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "白术",
+            "dose": "二两",
+            "processing": "",
+            "raw": "白术二两",
+            "herb_ref": "白术",
+            "suspect": false
+          },
+          {
+            "name": "桂枝",
+            "dose": "四两",
+            "processing": "",
+            "raw": "桂枝四两",
+            "herb_ref": "牡桂",
+            "suspect": false
+          }
+        ],
+        "decoction": "上四味以水六升，煮取三升，去滓。温服一升，日三服，初服得微汗则解，能食，汗出复烦者，服五合。恐一升多者，服六七合为妙。",
+        "indication": "甘草附子汤证代表湿已经渗到关节里面去了，湿如果在内脏里"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 3 味（如桂枝）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "白头翁汤",
+      "shanghan_id": "shanghan:白头翁汤",
+      "jinkui_id": "jinkui:白头翁汤",
+      "same_composition_and_dose": true,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "秦皮",
+          "shanghan": "三两",
+          "jinkui": "三两·各"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:白头翁汤",
+        "name": "白头翁汤",
+        "book": "伤寒论",
+        "section": "厥阴",
+        "page_or_line": 6555,
+        "ingredients": [
+          {
+            "name": "白头翁",
+            "dose": "二两",
+            "processing": "",
+            "raw": "白头翁（二两○金匮。全书。方。魏。钱。鉴。并作三两。）"
+          },
+          {
+            "name": "黄柏",
+            "dose": "三两",
+            "processing": "",
+            "raw": "黄柏（三两）"
+          },
+          {
+            "name": "黄连",
+            "dose": "三两",
+            "processing": "",
+            "raw": "黄连（三两）"
+          },
+          {
+            "name": "秦皮",
+            "dose": "三两",
+            "processing": "",
+            "raw": "秦皮（三两）"
+          }
+        ],
+        "decoction": "上四味。以水七升。煮取二升。去滓。温服一升。不愈更服一升。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:白头翁汤",
+        "name": "白头翁汤",
+        "book": "金匮要略",
+        "section": "呕吐哕下利病脉证治第十七",
+        "page_or_line": 362,
+        "ingredients": [
+          {
+            "name": "白头翁",
+            "dose": "二两",
+            "processing": "",
+            "raw": "白头翁二两",
+            "herb_ref": "白头翁",
+            "suspect": false
+          },
+          {
+            "name": "黄连",
+            "dose": "三两",
+            "processing": "",
+            "raw": "黄连",
+            "herb_ref": "黄连",
+            "suspect": false
+          },
+          {
+            "name": "黄柏",
+            "dose": "三两",
+            "processing": "",
+            "raw": "黄柏",
+            "herb_ref": "檗木",
+            "suspect": false
+          },
+          {
+            "name": "秦皮",
+            "dose": "三两",
+            "processing": "各",
+            "raw": "秦皮各三两",
+            "herb_ref": "秦皮",
+            "suspect": false
+          }
+        ],
+        "decoction": "上四味，以水七升，煮取三升，去滓，温服一升，不愈更服。",
+        "indication": "白头翁汤跟桃花汤两个刚好是相对应的方子。白头翁汤是治疗纯"
+      },
+      "summary": "两书药味与剂量相同，但煎服法字句或分服要求有别（《伤寒论》属厥阴，《金匮要略》见于「呕吐哕下利病脉证治第十七」），保留双条对照。"
+    },
+    {
+      "normalized_name": "白术附子汤",
+      "shanghan_id": "shanghan:白术附子汤",
+      "jinkui_id": "jinkui:白术附子汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "附子",
+          "shanghan": "三枚·炮去皮破",
+          "jinkui": "一枚，炮，去皮"
+        },
+        {
+          "herb": "白术",
+          "shanghan": "四两",
+          "jinkui": "二两"
+        },
+        {
+          "herb": "生姜",
+          "shanghan": "三两·切",
+          "jinkui": "一两半"
+        },
+        {
+          "herb": "甘草",
+          "shanghan": "二两·炙",
+          "jinkui": "二两炙"
+        },
+        {
+          "herb": "大枣",
+          "shanghan": "十二枚·擘",
+          "jinkui": "六枚"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:白术附子汤",
+        "name": "白术附子汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 3911,
+        "ingredients": [
+          {
+            "name": "附子",
+            "dose": "三枚",
+            "processing": "炮去皮破",
+            "raw": "附子（三枚炮去皮破）"
+          },
+          {
+            "name": "白术",
+            "dose": "四两",
+            "processing": "",
+            "raw": "白术（四两）"
+          },
+          {
+            "name": "生姜",
+            "dose": "三两",
+            "processing": "切",
+            "raw": "生姜（三两切○玉函。作二两。）"
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（二两炙○玉函。作三两。）"
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "擘",
+            "raw": "大枣（十二枚擘○玉函。作十五枚。）"
+          }
+        ],
+        "decoction": "上五味。以水六升。煮取二升。去滓。分温三服。初一服。其人身如痹。半日许复服之。三服都尽。其人如冒状。勿怪。此以附子术。并走皮内。逐水气未得除。故使之耳。法当加桂四两。此本一方二法。以大便硬。小便自利。去桂也。以大便不硬。小便不利。当加桂。附子三枚。恐多也。虚弱家及产妇。宜减服之。（去桂加白术汤。金匮。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:白术附子汤",
+        "name": "白术附子汤",
+        "book": "金匮要略",
+        "section": "痉湿暍病脉证治法第二",
+        "page_or_line": 60,
+        "ingredients": [
+          {
+            "name": "附子",
+            "dose": "一枚，炮，去皮",
+            "processing": "",
+            "raw": "附子一枚，炮，去皮",
+            "herb_ref": "附子",
+            "suspect": false
+          },
+          {
+            "name": "白术",
+            "dose": "二两",
+            "processing": "",
+            "raw": "白术二两",
+            "herb_ref": "白术",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两炙",
+            "processing": "",
+            "raw": "甘草二两炙",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "生姜",
+            "dose": "一两半",
+            "processing": "",
+            "raw": "生姜一两半",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "大枣",
+            "dose": "六枚",
+            "processing": "",
+            "raw": "大枣六枚",
+            "herb_ref": "大枣",
+            "suspect": false
+          }
+        ],
+        "decoction": "上五味，以水三升，煮取一升，去滓，分温三服。一服觉身痺，半日许再服，三服都尽，其人如冒状，勿怪即是术附并走皮中，逐水气，未得除故耳。",
+        "indication": "诸位在伤寒论是不是也读到过这一段，仲师就是要再提醒我们，"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 5 味（如附子）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "白虎加人参汤",
+      "shanghan_id": "shanghan:白虎加人参汤",
+      "jinkui_id": "jinkui:白虎加人参汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [
+          "石膏"
+        ],
+        "only_in_jinkui": [
+          "生石膏"
+        ]
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "甘草",
+          "shanghan": "二两·炙",
+          "jinkui": "二两，炙"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:白虎加人参汤",
+        "name": "白虎加人参汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 599,
+        "ingredients": [
+          {
+            "name": "知母",
+            "dose": "六两",
+            "processing": "",
+            "raw": "知母（六两）"
+          },
+          {
+            "name": "石膏",
+            "dose": "一斤",
+            "processing": "碎绵裹",
+            "raw": "石膏（一斤碎绵裹）"
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（炙二两）"
+          },
+          {
+            "name": "粳米",
+            "dose": "六合",
+            "processing": "",
+            "raw": "粳米（六合）"
+          },
+          {
+            "name": "人参",
+            "dose": "三两",
+            "processing": "",
+            "raw": "人参（三两）"
+          }
+        ],
+        "decoction": "上五味。以水一斗。煮米熟。汤成去滓。温服一升。日三服。（外台秘要。作上五味切。以水一斗二升。",
+        "indication": "白虎加人参汤主之"
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:白虎加人参汤",
+        "name": "白虎加人参汤",
+        "book": "金匮要略",
+        "section": "痉湿暍病脉证治法第二",
+        "page_or_line": 67,
+        "ingredients": [
+          {
+            "name": "知母",
+            "dose": "六两",
+            "processing": "",
+            "raw": "知母六两",
+            "herb_ref": "知母",
+            "suspect": false
+          },
+          {
+            "name": "生石膏",
+            "dose": "一斤，碎",
+            "processing": "",
+            "raw": "生石膏一斤，碎",
+            "herb_ref": "石膏",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两，炙",
+            "processing": "",
+            "raw": "甘草二两，炙",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "粳米",
+            "dose": "六合",
+            "processing": "",
+            "raw": "粳米六合",
+            "herb_ref": "粟米",
+            "suspect": false
+          },
+          {
+            "name": "人参",
+            "dose": "三两",
+            "processing": "",
+            "raw": "人参三两",
+            "herb_ref": "人参",
+            "suspect": false
+          }
+        ],
+        "decoction": "上五味，以水一斗，煮米熟，汤成去滓，温服一升，日三服。",
+        "indication": "『太阳中热者，暍是也』就是中暑了。『汗出恶寒，身热而渴，"
+      },
+      "summary": "同名异参方：药味异同（伤寒独见：石膏；金匮独见：生石膏）；剂量/炮制写法差异共 1 味（如甘草）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "竹叶石膏汤",
+      "shanghan_id": "shanghan:竹叶石膏汤",
+      "jinkui_id": "jinkui:竹叶石膏汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "石膏",
+          "shanghan": "一斤",
+          "jinkui": "一升"
+        },
+        {
+          "herb": "半夏",
+          "shanghan": "半升·洗",
+          "jinkui": "半升"
+        },
+        {
+          "herb": "麦门冬",
+          "shanghan": "一升·去心",
+          "jinkui": "一升"
+        },
+        {
+          "herb": "人参",
+          "shanghan": "二两",
+          "jinkui": "三两"
+        },
+        {
+          "herb": "甘草",
+          "shanghan": "二两·炙",
+          "jinkui": "二两"
+        },
+        {
+          "herb": "粳米",
+          "shanghan": "半升",
+          "jinkui": "半斤"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:竹叶石膏汤",
+        "name": "竹叶石膏汤",
+        "book": "伤寒论",
+        "section": "厥阴",
+        "page_or_line": 6965,
+        "ingredients": [
+          {
+            "name": "竹叶",
+            "dose": "二把",
+            "processing": "",
+            "raw": "竹叶（二把）"
+          },
+          {
+            "name": "石膏",
+            "dose": "一斤",
+            "processing": "",
+            "raw": "石膏（一斤）"
+          },
+          {
+            "name": "半夏",
+            "dose": "半升",
+            "processing": "洗",
+            "raw": "半夏（半升洗）"
+          },
+          {
+            "name": "麦门冬",
+            "dose": "一升",
+            "processing": "去心",
+            "raw": "麦门冬（一升去心）"
+          },
+          {
+            "name": "人参",
+            "dose": "二两",
+            "processing": "",
+            "raw": "人参（二两○玉函。成本。作三两）"
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（二两炙）"
+          },
+          {
+            "name": "粳米",
+            "dose": "半升",
+            "processing": "",
+            "raw": "粳米（半升）"
+          }
+        ],
+        "decoction": "上七味。以水一斗。煮取六升。去滓。纳粳米。煮米熟。汤成去米。温服一升。日三服。",
+        "indication": "当以竹叶石膏汤主之"
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:竹叶石膏汤",
+        "name": "竹叶石膏汤",
+        "book": "金匮要略",
+        "section": "妇人杂病脉证治第二十二",
+        "page_or_line": 419,
+        "ingredients": [
+          {
+            "name": "竹叶",
+            "dose": "二把",
+            "processing": "",
+            "raw": "竹叶二把",
+            "herb_ref": "竹叶",
+            "suspect": false
+          },
+          {
+            "name": "石膏",
+            "dose": "一升",
+            "processing": "",
+            "raw": "石膏一升",
+            "herb_ref": "石膏",
+            "suspect": false
+          },
+          {
+            "name": "半夏",
+            "dose": "半升",
+            "processing": "",
+            "raw": "半夏半升",
+            "herb_ref": "半夏",
+            "suspect": false
+          },
+          {
+            "name": "人参",
+            "dose": "三两",
+            "processing": "",
+            "raw": "人参三两",
+            "herb_ref": "人参",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "",
+            "raw": "甘草二两",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "粳米",
+            "dose": "半斤",
+            "processing": "",
+            "raw": "粳米半斤",
+            "herb_ref": "粟米",
+            "suspect": false
+          },
+          {
+            "name": "麦门冬",
+            "dose": "一升",
+            "processing": "",
+            "raw": "麦门冬一升",
+            "herb_ref": "麦门冬",
+            "suspect": false
+          }
+        ],
+        "decoction": "上七味，以水一斗，煮取六升，去滓，纳粳米，煮米熟，汤成去米，温服一升，日三服。",
+        "indication": "伤寒解除后，无论是因汗法或是下法，病人都易失去胃津，当肠"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 6 味（如石膏）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "茯苓桂枝甘草大枣汤",
+      "shanghan_id": "shanghan:茯苓桂枝甘草大枣汤",
+      "jinkui_id": "jinkui:茯苓桂枝甘草大枣汤",
+      "same_composition_and_dose": true,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "桂枝",
+          "shanghan": "四两·去皮",
+          "jinkui": "四两"
+        },
+        {
+          "herb": "甘草",
+          "shanghan": "二两·炙",
+          "jinkui": "二两"
+        },
+        {
+          "herb": "大枣",
+          "shanghan": "十五枚·擘",
+          "jinkui": "十五枚"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:茯苓桂枝甘草大枣汤",
+        "name": "茯苓桂枝甘草大枣汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 1527,
+        "ingredients": [
+          {
+            "name": "茯苓",
+            "dose": "半斤",
+            "processing": "",
+            "raw": "茯苓（半斤）"
+          },
+          {
+            "name": "桂枝",
+            "dose": "四两",
+            "processing": "去皮",
+            "raw": "桂枝（四两去皮）"
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（二两炙）"
+          },
+          {
+            "name": "大枣",
+            "dose": "十五枚",
+            "processing": "擘",
+            "raw": "大枣（十五枚擘）"
+          }
+        ],
+        "decoction": "上四味。以甘烂水一斗。先煮茯苓。减二升。纳诸药煮取三升。去滓。温服一升。日三服。作甘烂水法。",
+        "indication": "茯苓桂枝甘草大枣汤主之"
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:茯苓桂枝甘草大枣汤",
+        "name": "茯苓桂枝甘草大枣汤",
+        "book": "金匮要略",
+        "section": "奔豚气病脉证并治第八",
+        "page_or_line": 160,
+        "ingredients": [
+          {
+            "name": "茯苓",
+            "dose": "半斤",
+            "processing": "",
+            "raw": "茯苓半斤",
+            "herb_ref": "茯苓",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "",
+            "raw": "甘草二两",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "大枣",
+            "dose": "十五枚",
+            "processing": "",
+            "raw": "大枣十五枚",
+            "herb_ref": "大枣",
+            "suspect": false
+          },
+          {
+            "name": "桂枝",
+            "dose": "四两",
+            "processing": "",
+            "raw": "桂枝四两",
+            "herb_ref": "牡桂",
+            "suspect": false
+          }
+        ],
+        "decoction": "上四味，以甘澜水一斗，先煮茯苓，减二升，内诸药，煮取三升，去滓，温服一升，日三服。 甘澜水法取水二斗置大盆内以杓扬之上有珠子五六千颗相逐取用之也。",
+        "indication": "两个都是发汗后产生的奔豚，发汗以后，当然病人表症就没了。"
+      },
+      "summary": "两书药味与剂量相同，但煎服法字句或分服要求有别（《伤寒论》属太阳，《金匮要略》见于「奔豚气病脉证并治第八」），保留双条对照。"
+    },
+    {
+      "normalized_name": "茵陈蒿汤",
+      "shanghan_id": "shanghan:茵陈蒿汤",
+      "jinkui_id": "jinkui:茵陈蒿汤",
+      "same_composition_and_dose": true,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "大黄",
+          "shanghan": "二两·去皮",
+          "jinkui": "二两"
+        },
+        {
+          "herb": "栀子",
+          "shanghan": "十四枚·擘",
+          "jinkui": "十四枚"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:茵陈蒿汤",
+        "name": "茵陈蒿汤",
+        "book": "伤寒论",
+        "section": "阳明",
+        "page_or_line": 4869,
+        "ingredients": [
+          {
+            "name": "茵陈蒿",
+            "dose": "六两",
+            "processing": "",
+            "raw": "茵陈蒿（六两）"
+          },
+          {
+            "name": "大黄",
+            "dose": "二两",
+            "processing": "去皮",
+            "raw": "大黄（二两去皮）"
+          },
+          {
+            "name": "栀子",
+            "dose": "十四枚",
+            "processing": "擘",
+            "raw": "栀子（十四枚擘○千金。作四十枚。）"
+          }
+        ],
+        "decoction": "上三味。以水一斗二升。先煮茵陈。减六升。纳二味。煮取三升。去滓。分三服。小盒饭利。尿如皂荚汁状。色正赤。一宿腹减。黄从小便去也。（一斗二升。金匮。及玉函。成本。作一斗。六升下。肘后。千金。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:茵陈蒿汤",
+        "name": "茵陈蒿汤",
+        "book": "金匮要略",
+        "section": "黄瘅病证并治第十五",
+        "page_or_line": 312,
+        "ingredients": [
+          {
+            "name": "茵陈蒿",
+            "dose": "六两",
+            "processing": "",
+            "raw": "茵陈蒿六两",
+            "herb_ref": "茵陈",
+            "suspect": false
+          },
+          {
+            "name": "栀子",
+            "dose": "十四枚",
+            "processing": "",
+            "raw": "栀子十四枚",
+            "herb_ref": "栀子",
+            "suspect": false
+          },
+          {
+            "name": "大黄",
+            "dose": "二两",
+            "processing": "",
+            "raw": "大黄二两",
+            "herb_ref": "大黄",
+            "suspect": false
+          }
+        ],
+        "decoction": "上三味，以水一斗，先煮茵陈减六升，纳二味煮取三升，去滓分温三服。小便当利，尿如皂角汁状，色正赤，一宿腹减，黄从小便去也。",
+        "indication": "茵陈蒿汤学会了以后，所有急性肝炎大家都会医治了，一剂下去，"
+      },
+      "summary": "两书药味与剂量相同，但煎服法字句或分服要求有别（《伤寒论》属阳明，《金匮要略》见于「黄瘅病证并治第十五」），保留双条对照。"
+    },
+    {
+      "normalized_name": "葛根汤",
+      "shanghan_id": "shanghan:葛根汤",
+      "jinkui_id": "jinkui:葛根汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "麻黄",
+          "shanghan": "三两·去节",
+          "jinkui": "三两，去节"
+        },
+        {
+          "herb": "桂枝",
+          "shanghan": "二两·去皮",
+          "jinkui": "二两"
+        },
+        {
+          "herb": "生姜",
+          "shanghan": "三两·切",
+          "jinkui": "三两"
+        },
+        {
+          "herb": "芍药",
+          "shanghan": "二两",
+          "jinkui": "二两·各"
+        },
+        {
+          "herb": "大枣",
+          "shanghan": "十二枚·擘",
+          "jinkui": "十二枚"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:葛根汤",
+        "name": "葛根汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 851,
+        "ingredients": [
+          {
+            "name": "葛根",
+            "dose": "四两",
+            "processing": "",
+            "raw": "葛根（四两）"
+          },
+          {
+            "name": "麻黄",
+            "dose": "三两",
+            "processing": "去节",
+            "raw": "麻黄（三两去节○外台。作四两）"
+          },
+          {
+            "name": "桂枝",
+            "dose": "二两",
+            "processing": "去皮",
+            "raw": "桂枝（二两去皮○外台。作桂心）"
+          },
+          {
+            "name": "生姜",
+            "dose": "三两",
+            "processing": "切",
+            "raw": "生姜（三两切）"
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（二两炙）"
+          },
+          {
+            "name": "芍药",
+            "dose": "二两",
+            "processing": "",
+            "raw": "芍药（二两○成本。有切字）"
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "擘",
+            "raw": "大枣（十二枚擘）"
+          }
+        ],
+        "decoction": "上七味。以水一斗。先煮麻黄葛根。减二升。去白沫。纳诸药。煮取三升。去滓。温服一升。覆取微似汗。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:葛根汤",
+        "name": "葛根汤",
+        "book": "金匮要略",
+        "section": "痉湿暍病脉证治法第二",
+        "page_or_line": 45,
+        "ingredients": [
+          {
+            "name": "葛根",
+            "dose": "四两",
+            "processing": "",
+            "raw": "葛根四两",
+            "herb_ref": "葛根",
+            "suspect": false
+          },
+          {
+            "name": "麻黄",
+            "dose": "三两，去节",
+            "processing": "",
+            "raw": "麻黄三两，去节",
+            "herb_ref": "麻黄",
+            "suspect": false
+          },
+          {
+            "name": "桂枝",
+            "dose": "二两",
+            "processing": "",
+            "raw": "桂枝",
+            "herb_ref": "牡桂",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草炙",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "芍药",
+            "dose": "二两",
+            "processing": "各",
+            "raw": "芍药各二两",
+            "herb_ref": "芍药",
+            "suspect": false
+          },
+          {
+            "name": "生姜",
+            "dose": "三两",
+            "processing": "",
+            "raw": "生姜三两",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "",
+            "raw": "大枣十二枚",
+            "herb_ref": "大枣",
+            "suspect": false
+          }
+        ],
+        "decoction": "上七味，以水一斗，先煮麻黄葛根，减三升去沫，内诸药，煮取三升，去滓温服一升，覆取微似汗，不须啜粥，余如桂枝汤法，将息及禁忌。",
+        "indication": "前段说的是有汗，就是表虚掉了，所以我们必须用栝蒌桂枝汤去"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 5 味（如麻黄）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "通脉四逆加猪胆汁汤",
+      "shanghan_id": "shanghan:通脉四逆加猪胆汁汤",
+      "jinkui_id": "jinkui:通脉四逆加猪胆汁汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "甘草",
+          "shanghan": "二两·炙",
+          "jinkui": "二两，炙"
+        },
+        {
+          "herb": "干姜",
+          "shanghan": "三两·强人可四两",
+          "jinkui": "三两，强人可"
+        },
+        {
+          "herb": "猪胆汁",
+          "shanghan": "半合",
+          "jinkui": "半合·汁"
+        },
+        {
+          "herb": "附子",
+          "shanghan": "一枚·大者生去皮破八片",
+          "jinkui": "一枚,生"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:通脉四逆加猪胆汁汤",
+        "name": "通脉四逆加猪胆汁汤",
+        "book": "伤寒论",
+        "section": "厥阴",
+        "page_or_line": 6837,
+        "ingredients": [
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（二两炙）"
+          },
+          {
+            "name": "干姜",
+            "dose": "三两",
+            "processing": "强人可四两",
+            "raw": "干姜（三两强人可四两）"
+          },
+          {
+            "name": "猪胆汁",
+            "dose": "半合",
+            "processing": "",
+            "raw": "猪胆汁（半合○玉函。作四合。肘后。作一合。）"
+          },
+          {
+            "name": "附子",
+            "dose": "一枚",
+            "processing": "大者生去皮破八片",
+            "raw": "附子（大者一枚生去皮破八片）"
+          }
+        ],
+        "decoction": "上四味。以水三升。煮取一升二合。去滓。纳猪胆汁。分温再服。其脉即来。无猪胆。以羊胆代之。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:通脉四逆加猪胆汁汤",
+        "name": "通脉四逆加猪胆汁汤",
+        "book": "金匮要略",
+        "section": "续伤寒篇",
+        "page_or_line": 13,
+        "ingredients": [
+          {
+            "name": "干姜",
+            "dose": "三两，强人可",
+            "processing": "",
+            "raw": "干姜三两，强人可",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "附子",
+            "dose": "一枚,生",
+            "processing": "",
+            "raw": "附子大者一枚,生",
+            "herb_ref": "附子",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两，炙",
+            "processing": "",
+            "raw": "甘草二两，炙",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "猪胆汁",
+            "dose": "半合",
+            "processing": "汁",
+            "raw": "猪胆汁半合",
+            "herb_ref": "豚卵",
+            "suspect": false
+          }
+        ],
+        "decoction": "上四味，以水三升，煮取一升二合，去滓，内猪胆汁，分温再服，其脉即来，无猪胆，以羊胆代之。",
+        "indication": "遇到吐到已经无可吐，下利到已经无可利的阶段时，病人必虚汗"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 4 味（如甘草）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "通脉四逆汤",
+      "shanghan_id": "shanghan:通脉四逆汤",
+      "jinkui_id": "jinkui:通脉四逆汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "甘草",
+          "shanghan": "二两·炙",
+          "jinkui": "二两，炙四两"
+        },
+        {
+          "herb": "干姜",
+          "shanghan": "三两·强人可四两",
+          "jinkui": "三两，强人可"
+        },
+        {
+          "herb": "附子",
+          "shanghan": "一枚·大者生用去皮破八片",
+          "jinkui": "一枚，生用"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:通脉四逆汤",
+        "name": "通脉四逆汤",
+        "book": "伤寒论",
+        "section": "少阴",
+        "page_or_line": 5955,
+        "ingredients": [
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（二两炙○全书。作三两。）"
+          },
+          {
+            "name": "干姜",
+            "dose": "三两",
+            "processing": "强人可四两",
+            "raw": "干姜（三两强人可四两）"
+          },
+          {
+            "name": "附子",
+            "dose": "一枚",
+            "processing": "大者生用去皮破八片",
+            "raw": "附子（大者一枚生用去皮破八片）"
+          }
+        ],
+        "decoction": "上三味。以水三升。煮取一升二合。去滓。分温再服。其脉即出者愈。面色赤者。加葱九茎。腹中痛者。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:通脉四逆汤",
+        "name": "通脉四逆汤",
+        "book": "金匮要略",
+        "section": "呕吐哕下利病脉证治第十七",
+        "page_or_line": 363,
+        "ingredients": [
+          {
+            "name": "干姜",
+            "dose": "三两，强人可",
+            "processing": "",
+            "raw": "干姜三两，强人可",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "附子",
+            "dose": "一枚，生用",
+            "processing": "",
+            "raw": "附子一枚，生用",
+            "herb_ref": "附子",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两，炙四两",
+            "processing": "",
+            "raw": "甘草二两，炙四两",
+            "herb_ref": "甘草",
+            "suspect": false
+          }
+        ],
+        "decoction": "上三味，以水三升，煮取一升二合，去滓，分温再服。",
+        "indication": "通脉四逆汤大家都知道了，在讲四逆汤时我一直在强调，如果用"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 3 味（如甘草）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "麻子仁丸",
+      "shanghan_id": "shanghan:麻子仁丸",
+      "jinkui_id": "jinkui:麻子仁丸",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [
+          "麻子仁"
+        ],
+        "only_in_jinkui": [
+          "麻仁"
+        ]
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "枳实",
+          "shanghan": "半斤·炙",
+          "jinkui": "半斤"
+        },
+        {
+          "herb": "大黄",
+          "shanghan": "一斤·去皮",
+          "jinkui": "一斤去皮"
+        },
+        {
+          "herb": "厚朴",
+          "shanghan": "一尺·去皮",
+          "jinkui": "一尺去皮别做脂"
+        },
+        {
+          "herb": "杏仁",
+          "shanghan": "一升·去皮尖熬别作脂",
+          "jinkui": "一升去皮尖熬"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:麻子仁丸",
+        "name": "麻子仁丸",
+        "book": "伤寒论",
+        "section": "阳明",
+        "page_or_line": 5019,
+        "ingredients": [
+          {
+            "name": "麻子仁",
+            "dose": "二升",
+            "processing": "",
+            "raw": "麻子仁（二升）"
+          },
+          {
+            "name": "芍药",
+            "dose": "半斤",
+            "processing": "",
+            "raw": "芍药（半斤）"
+          },
+          {
+            "name": "枳实",
+            "dose": "半斤",
+            "processing": "炙",
+            "raw": "枳实（半斤炙○千金翼。芍药。枳实。各八两。）"
+          },
+          {
+            "name": "大黄",
+            "dose": "一斤",
+            "processing": "去皮",
+            "raw": "大黄（一斤去皮）"
+          },
+          {
+            "name": "厚朴",
+            "dose": "一尺",
+            "processing": "去皮",
+            "raw": "浓朴（一尺去皮○玉函。作一。）"
+          },
+          {
+            "name": "杏仁",
+            "dose": "一升",
+            "processing": "去皮尖熬别作脂",
+            "raw": "杏仁（一升去皮尖熬别作脂○玉函。作一。）"
+          }
+        ],
+        "decoction": "上六味。蜜和丸如梧桐子大。饮服十丸。日三服。渐加。以知为度。（六味下。成本。玉函。有为末炼三字。和。作为。成本。无梧字。证类本草。饮服十丸。作以浆水饮下十丸。）",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:麻子仁丸",
+        "name": "麻子仁丸",
+        "book": "金匮要略",
+        "section": "五藏风寒积聚病脉证并治第十一",
+        "page_or_line": 212,
+        "ingredients": [
+          {
+            "name": "麻仁",
+            "dose": "二升",
+            "processing": "",
+            "raw": "麻仁二升",
+            "herb_ref": "麻蕡",
+            "suspect": false
+          },
+          {
+            "name": "芍药",
+            "dose": "半斤",
+            "processing": "",
+            "raw": "芍药半斤",
+            "herb_ref": "芍药",
+            "suspect": false
+          },
+          {
+            "name": "大黄",
+            "dose": "一斤去皮",
+            "processing": "",
+            "raw": "大黄一斤去皮",
+            "herb_ref": "大黄",
+            "suspect": false
+          },
+          {
+            "name": "枳实",
+            "dose": "半斤",
+            "processing": "",
+            "raw": "枳实半斤",
+            "herb_ref": "枳实",
+            "suspect": false
+          },
+          {
+            "name": "杏仁",
+            "dose": "一升去皮尖熬",
+            "processing": "",
+            "raw": "杏仁一升去皮尖熬",
+            "herb_ref": "杏核仁",
+            "suspect": false
+          },
+          {
+            "name": "厚朴",
+            "dose": "一尺去皮别做脂",
+            "processing": "",
+            "raw": "厚朴一尺去皮别做脂",
+            "herb_ref": "厚朴",
+            "suspect": false
+          }
+        ],
+        "decoction": "上六味，末之，炼蜜和丸，桐子大，饮服十丸，日三服，渐加以知为度。",
+        "indication": "『趺阳脉浮而涩，浮则胃气强，涩则小便数』，趺阳脉在胃经上，"
+      },
+      "summary": "同名异参方：药味异同（伤寒独见：麻子仁；金匮独见：麻仁）；剂量/炮制写法差异共 4 味（如枳实）。两书各自保留独立条文证据，不可简单去重合并。"
+    },
+    {
+      "normalized_name": "黄芩加半夏生姜汤",
+      "shanghan_id": "shanghan:黄芩加半夏生姜汤",
+      "jinkui_id": "jinkui:黄芩加半夏生姜汤",
+      "same_composition_and_dose": false,
+      "decoction_same": false,
+      "herb_diff": {
+        "only_in_shanghan": [],
+        "only_in_jinkui": []
+      },
+      "dose_or_processing_diffs": [
+        {
+          "herb": "芍药",
+          "shanghan": "二两",
+          "jinkui": "一两"
+        },
+        {
+          "herb": "甘草",
+          "shanghan": "二两·炙",
+          "jinkui": "二两"
+        },
+        {
+          "herb": "大枣",
+          "shanghan": "十二枚·擘",
+          "jinkui": "十二枚"
+        },
+        {
+          "herb": "半夏",
+          "shanghan": "半升·洗",
+          "jinkui": "半升"
+        },
+        {
+          "herb": "生姜",
+          "shanghan": "一两半·一方三两切",
+          "jinkui": "三两·各"
+        }
+      ],
+      "shanghan_snapshot": {
+        "id": "shanghan:黄芩加半夏生姜汤",
+        "name": "黄芩加半夏生姜汤",
+        "book": "伤寒论",
+        "section": "太阳",
+        "page_or_line": 3847,
+        "ingredients": [
+          {
+            "name": "黄芩",
+            "dose": "三两",
+            "processing": "",
+            "raw": "黄芩（三两）"
+          },
+          {
+            "name": "芍药",
+            "dose": "二两",
+            "processing": "",
+            "raw": "芍药（二两）"
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "炙",
+            "raw": "甘草（二两炙）"
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "擘",
+            "raw": "大枣（十二枚擘）"
+          },
+          {
+            "name": "半夏",
+            "dose": "半升",
+            "processing": "洗",
+            "raw": "半夏（半升洗）"
+          },
+          {
+            "name": "生姜",
+            "dose": "一两半",
+            "processing": "一方三两切",
+            "raw": "生姜（一两半一方三两切）"
+          }
+        ],
+        "decoction": "上六味。以水一斗。煮取三升。去滓。温服一升。日再。夜一服。",
+        "indication": ""
+      },
+      "jinkui_snapshot": {
+        "id": "jinkui:黄芩加半夏生姜汤",
+        "name": "黄芩加半夏生姜汤",
+        "book": "金匮要略",
+        "section": "呕吐哕下利病脉证治第十七",
+        "page_or_line": 345,
+        "ingredients": [
+          {
+            "name": "黄芩",
+            "dose": "三两",
+            "processing": "",
+            "raw": "黄芩",
+            "herb_ref": "黄芩",
+            "suspect": false
+          },
+          {
+            "name": "生姜",
+            "dose": "三两",
+            "processing": "各",
+            "raw": "生姜各三两",
+            "herb_ref": "干姜",
+            "suspect": false
+          },
+          {
+            "name": "甘草",
+            "dose": "二两",
+            "processing": "",
+            "raw": "甘草二两",
+            "herb_ref": "甘草",
+            "suspect": false
+          },
+          {
+            "name": "芍药",
+            "dose": "一两",
+            "processing": "",
+            "raw": "芍药一两",
+            "herb_ref": "芍药",
+            "suspect": false
+          },
+          {
+            "name": "半夏",
+            "dose": "半升",
+            "processing": "",
+            "raw": "半夏半升",
+            "herb_ref": "半夏",
+            "suspect": false
+          },
+          {
+            "name": "大枣",
+            "dose": "十二枚",
+            "processing": "",
+            "raw": "大枣十二枚",
+            "herb_ref": "大枣",
+            "suspect": false
+          }
+        ],
+        "decoction": "上六味，以水一斗，煮取三升，去滓，温服一升，日再夜一服。",
+        "indication": "这段是说病人已经有胃热，这个热就是指发炎，当胃发炎时津液"
+      },
+      "summary": "同名异参方：剂量/炮制写法差异共 5 味（如芍药）。两书各自保留独立条文证据，不可简单去重合并。"
+    }
+  ]
+}

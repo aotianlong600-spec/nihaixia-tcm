@@ -1,0 +1,2595 @@
+{
+  "batch_id": "ch1_to_ch3_foundations",
+  "source_id": "ni-acupuncture-v2-20100703",
+  "scope": "《针灸教程》第一章至第三章完整理论与技法批次（pp.11–23，完整覆盖 ch1:s001–ch3:s024 全部24节：精修试点5项基础技法并新增11项分节专项技法）",
+  "meridians": [],
+  "acupoints": [],
+  "techniques": [
+    {
+      "id": "tech:timing_and_contraindications",
+      "record_type": "technique",
+      "canonical_name": "针灸使用时机与基础禁忌",
+      "aliases": [
+        "不针时机",
+        "热症禁灸",
+        "病进病退判断",
+        "左病右治"
+      ],
+      "category": "needle_timing",
+      "section_ids": [
+        "ch1:s001"
+      ],
+      "clinical_purpose": "界定不可下针与不可施灸之体质/时机，确立针灸分用原则、对称治法及以病邪进退方向判定取穴处方是否正确。",
+      "steps_or_rules": [
+        "不针时机（p.11）：遇到气血大虚、重病、刚失很多血、完全没有元气、刚行房事后、运动过后、大汗后、饮酒后、体力不够时，皆不下针。",
+        "用灸补针之不足（p.11）：针与中药皆可独立治病（从感冒至癌症）；灸为“久”下加“火”，艾草本性向下、属纯阳，当针力不足或气血大虚时，改用灸法处理。",
+        "病进与病退校验法则（p.12）：病进是由四肢末梢往身上走（示原有处方与穴道不当，须及时调整）；病退是由身上往四肢末梢走（如肩痛转至手臂），此时处方与所针穴道均不可更改，守至病愈。",
+        "禁灸证候与部位（p.13）：一般热症、感冒发烧已热不灸；流汗多处（如手掌）不灸；津液多处（眼睛、阴部）不灸；痔疮热证不灸。",
+        "针灸分用勿并施（p.13）：引古歌诀“针而勿灸灸勿针，针经为此常叮咛。庸医针灸一齐施，徒施患者炮烙刑”，反对针柄上放艾绒同施；引《针灸大成》常规下针取“左病右治，右病左治”对称治疗，唯带状疱疹等则局部于天应穴施灸。"
+      ],
+      "cautions": "严格区分针刺与艾灸适用边界；大虚、大失血、高热及重病急症严禁非专业人士自行处置，应立即由专业医师诊疗；火罐局部禁忌另见第一章第四节（乳中、多汗处、头部忌拔）。",
+      "summary": "载于第一章第一节（p.11–13），明确气血大虚、失血、房事、大汗、饮酒等不下针时机，热症多汗眼阴痔疮禁灸规则，针勿兼灸、左病右治，以及病进病退辨效准则。",
+      "source_spans": [
+        {
+          "span_id": "sp:t1:p11a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p011",
+          "pdf_page": 11,
+          "printed_page": 11,
+          "chapter_path": "第一章 一、针灸的使用时机",
+          "quote": "遇到气血大虚、重病、刚刚失过很多血、病患完全没有元气的时候，这时候我们不下针。",
+          "quote_sha256": "1034e625b1bd7b91d1f8d86913f6b606fb3b11a95e9bbe0ee3bcb3801f189c63",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t1:p11b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p011",
+          "pdf_page": 11,
+          "printed_page": 11,
+          "chapter_path": "第一章 一、针灸的使用时机",
+          "quote": "另外，刚做完爱，行完房事后，也不针。时机不好、运动过后、大汗后也不针。喝酒后，不针。体力不够，不下针。",
+          "quote_sha256": "ecef8eeb8390e2b6a4e4ce5ec2446a7d54463a93896601673b537086c31a2d19",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t1:p11c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p011",
+          "pdf_page": 11,
+          "printed_page": 11,
+          "chapter_path": "第一章 一、针灸的使用时机",
+          "quote": "为什么要灸？当针力不足的地方，我们就会用到灸，气血大虚时，可用灸的方式处理。",
+          "quote_sha256": "f04d348be5daa76d5a6c59319503f75aa8573d59f3316f803d5ab2b1a22338e4",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t1:p11d",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p011",
+          "pdf_page": 11,
+          "printed_page": 11,
+          "chapter_path": "第一章 一、针灸的使用时机",
+          "quote": "艾有一个特性，就是向下，艾会自己去找水,找到水以后烟就往上升。",
+          "quote_sha256": "c9fc4a3f2110be3261da1732128228eb57865677c43d762d4ac0231a261a0296",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t1:p12a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p012",
+          "pdf_page": 12,
+          "printed_page": 12,
+          "chapter_path": "第一章 一、针灸的使用时机",
+          "quote": "当病进时，是由四肢末梢往身上走",
+          "quote_sha256": "87ea7f6d0d5b8d607f17781f60d794f351b19a94d59f3ed43e30139f37518889",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t1:p12b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p012",
+          "pdf_page": 12,
+          "printed_page": 12,
+          "chapter_path": "第一章 一、针灸的使用时机",
+          "quote": "而病退时，就会由身上往四肢走。",
+          "quote_sha256": "99c44cdbdd7487c7938d23338bcdaa252787e26124eb48c1c172ea9613385abb",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t1:p12c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p012",
+          "pdf_page": 12,
+          "printed_page": 12,
+          "chapter_path": "第一章 一、针灸的使用时机",
+          "quote": "当病在退的时，处方不能改，所针的穴道也不能改，要等它病好了为止。若病仍在进时，就表示你的处方、穴道错了!",
+          "quote_sha256": "103f65f21a8110adfc43d3e05158833c5d4805de40cc5576f70b0a02f16869a0",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t1:p13a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章 一、针灸的使用时机",
+          "quote": "一般热症不用灸法。当感冒发烧，病人已经很热了，不要灸。流汗多的地方不灸，手掌汗比较多，也不灸。津液很多的地方不要灸，眼睛不要灸，阴部不灸。病人有痔疮时，已经是热了，也不能灸。",
+          "quote_sha256": "55838e1a2a52e6cd8ad2c0496ebee77dfdde1155bf9feea5038b123821358f95",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t1:p13b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章 一、针灸的使用时机",
+          "quote": "针灸有些禁忌。有一个歌诀：“针而勿灸灸勿针，针经为此常叮咛。庸医针灸一齐施，徒施患者炮烙刑。”",
+          "quote_sha256": "5d2839b8bdb37b5d85cf5478cfa74765617990cbca53a1f345578075bbe04ba5",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:t1:p13c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章 一、针灸的使用时机",
+          "quote": "《针灸大成》①是我们的教科书，书上所说的地方都是：左病右治，右病左治。意思就是叫我们对称治疗。",
+          "quote_sha256": "f38a776442865061fc755eef850d432eddd4c88f71c1a1347c5b221460e42420",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t1:p13fn1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章第13页脚注①",
+          "quote": "①《针灸大成》由明代杨继洲原著，靳贤补辑重编，于明万历二十九年(1601)刊行。共10卷。",
+          "quote_sha256": "a18029d071b081e36d8a2faf5e34b1dac51883ba480681976c47c9c10fdc6c84",
+          "role": "other_annotations"
+        },
+        {
+          "span_id": "sp:t1:p13fn2",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章第13页脚注②",
+          "quote": "② 天应穴，穴名。《扁鹊神应针灸玉龙经》：“不定穴，又名天应穴，但疼痛便针。”",
+          "quote_sha256": "a9bc4d370d46cfd183c82731822359d071fd2e0af97c1ccfde2f25cc2906aec6",
+          "role": "other_annotations"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "引古诀：“针而勿灸灸勿针，针经为此常叮咛。庸医针灸一齐施，徒施患者炮烙刑。”（p.13）",
+          "引《针灸大成》对称治疗原则“左病右治，右病左治”（p.13）。"
+        ],
+        "ni_teaching": [
+          "阐明针灸与中药皆为独立完整之部门，讲针灸时专讲针灸；解释艾草“久”下加“火”之字义及古代军队烧艾草寻地下水源特性。",
+          "强调“病进/病退方向法则”为临床即时检验处方取穴正确与否的准则，并批评后世针上燃艾绒为花哨“炮烙刑”。"
+        ],
+        "other_annotations": [
+          "p.13脚注①标明《针灸大成》为明杨继洲原著、靳贤补辑，万历二十九年(1601)刊行，共10卷。",
+          "p.13脚注②引《扁鹊神应针灸玉龙经》解释天应穴又称不定穴，“但疼痛便针”。"
+        ],
+        "collation_notes": [
+          "“病进/病退”总原则与“热症禁灸、针勿兼灸”在原文中编排于隔蒜灸后至米粒灸前（p.12–13），实际统摄第一章第一节总纲。",
+          "火罐特定禁忌（乳中、多汗、头部）另见p.14第四节（详见 tech:cupping_therapy）。"
+        ],
+        "organizer_summary": [
+          "全书针灸施治总门禁：先定“何时不针”“何时不灸”“针灸分用”及“进退验效”，再分论灸、急、罐、针。"
+        ]
+      },
+      "open_questions": [
+        "第一章p.11仅列气血大虚、重病、大失血、无元气、行房、大汗运动、饮酒、体力不足等不针时机，未专条述及古典常见之大怒、大惊、过饥、过饱及孕妇禁针禁灸穴位清单（孕妇禁针另见第六章p.191–192“怀孕忌针”专节）。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "tech:moxa_methods",
+      "record_type": "technique",
+      "canonical_name": "艾灸四法（隔姜/隔盐/隔蒜/米粒灸）与施灸规范",
+      "aliases": [
+        "隔姜灸",
+        "隔盐灸",
+        "隔蒜灸",
+        "米粒灸",
+        "起水泡处置"
+      ],
+      "category": "moxibustion",
+      "section_ids": [
+        "ch1:s002",
+        "ch1:s003",
+        "ch1:s004",
+        "ch1:s005"
+      ],
+      "clinical_purpose": "完整规范第一章四种艾灸（隔姜/隔盐/隔蒜/米粒灸）的操作选材、一壮单数原则、毒虫咬伤与破伤风/疱疹应用、水泡防疤处置及第六章上星米粒灸衔接。",
+      "steps_or_rules": [
+        "施灸通则（p.11、p.13）：艾为纯阳取单数（一、三、五……）不灸双数；捏成金字塔状为一壮；旁置水盆将未燃尽余艾投入熄灭，防烧破器皿；总原则为“痛灸到不痛止（如肿瘤痛处），不痛灸到痛止（灸至触及病根产生痛感）”。",
+        "隔姜灸（s002，p.11）：切约五十元硬币大小生姜片穿数孔，置艾绒灸至温热（勿过烫）即换下一壮，姜片无需每壮更换；如灸膏肓穴可灸百壮（口干舌燥、小便有艾味无妨）。若起水泡，用消毒针自皮肤旁侧穿一小洞慢按排液，严禁撕掉表皮防留疤，可洒硫磺粉及大黄粉。",
+        "隔盐灸（s003，p.12）：先将青盐炒熟（不可用精盐），待温度放凉转微温后填满神阙穴（肚脐）防烫伤肚皮，上置艾绒施灸，主治古代下利（无论未消化食之寒利或极臭之热利）。",
+        "隔蒜灸与外科疮毒蛇伤应用（s004，p.12–13）：蒜辛辣色白入肺，久咳时切片置外伸舌面（舌为心表，借心脏助力与肺相邻）施灸（肺病用蒜不用姜）。亦可广泛用于毒蛇、蝎子、蜘蛛咬伤及破伤风：于手指红肿蔓延端头尾施灸（两壮即见红肿由手指退向掌心劳宫离开心脏）。带状疱疹（腰蛇/锦蛇）则在头尾隔姜包围灸，或以干棉花（忌用酒精棉）涂少许凡士林瞬烧（古用蜘蛛网），并可配合全蝎烤干粉装胶囊内服8–10颗。",
+        "米粒灸（s005，p.13；联动p.172）：捏取米粒大小艾绒，先在欲灸穴位涂凡士林固定，用香点燃，视病深浅灸三或五壮；主治鸡眼与鼻窦炎（如第六章p.172米粒灸上星至鼻感一阵麻而鼻通）。"
+      ],
+      "cautions": "热症发烧、眼部、阴部、多汗处（手掌、尺泽）、动脉处（经渠）及痔疮禁灸；青盐务必降温至微温方可填脐；全蝎属有毒虫类药材且灸火易致重度烫伤或浓烟风险，严禁非专业人士自行配服虫药、头面烧灸或盲目处理破伤风/肿瘤。",
+      "summary": "整合第一章第2–5小节（p.11–13）与第六章鼻病上星例（p.172）：涵盖隔姜（含水泡排水防疤）、隔盐（炒温青盐神阙）、隔蒜（舌面久咳及破伤风/蛇虫咬伤/疱疹围烧）与凡士林米粒灸完整细则。",
+      "source_spans": [
+        {
+          "span_id": "sp:t9:p11a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p011",
+          "pdf_page": 11,
+          "printed_page": 11,
+          "chapter_path": "第一章 一、隔姜灸",
+          "quote": "我们隔姜灸就是切一片大概五十元大小的生姜，先戳几个洞，我示范给诸位看。拿一些艾绒捏成金字塔状，再将它放在生姜上面，这样一个单位叫“一壮”。",
+          "quote_sha256": "0c634624e92bd54e389aeea3c2f241f41b303ff94533f054ec3b45924516cd1b",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t9:p11a2",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p011",
+          "pdf_page": 11,
+          "printed_page": 11,
+          "chapter_path": "第一章 一、隔姜灸",
+          "quote": "在灸的时候，这个生姜片不用换。不要灸五壮，就换五片生姜，烧到温热，不用烧到很烫。感觉温热，不用很烫时就换一壮，在旁边放一个水盆，未烧完的艾就丢到水里熄灭掉。",
+          "quote_sha256": "d1586319065a67527eba7bb82c6179bd1cb0fb1fb85451fd0a24e3ca9cb32d93",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t9:p11b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p011",
+          "pdf_page": 11,
+          "printed_page": 11,
+          "chapter_path": "第一章 一、隔姜灸",
+          "quote": "灸的时候，灸单数不灸双数，艾为纯阳，取阳数。若灸后起了水泡，就从皮肤旁边用消毒过的针刺一个小洞，把水慢按排出来。不要把皮肤撕掉免得造成疤痕，洒上一些硫磺粉及大黄粉就可以了。",
+          "quote_sha256": "58482688bddf6968ae0de564e8cc8bc9c24b9afe10499f18e912b599fca49269",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t9:p11c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p011",
+          "pdf_page": 11,
+          "printed_page": 11,
+          "chapter_path": "第一章 一、隔姜灸",
+          "quote": "譬如说，不论是什么病，灸膏肓穴灸百壮，无所不疗。灸到口干舌燥都没有关系，小便都会有艾草味。",
+          "quote_sha256": "49f6060e10c5f9091614d82f55baed55af132fee374595546954cd4f847a81a4",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t9:p12a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p012",
+          "pdf_page": 12,
+          "printed_page": 12,
+          "chapter_path": "第一章 一、隔盐灸",
+          "quote": "用盐巴填满神阙穴（就是肚脐），再放艾绒上去灸。先将盐炒熟。精盐不能用，要用青盐，要等盐变温一点了，凉了，再倒在神阙穴上，否则会把肚皮烧坏了。古病人下利时不管是寒利或热利（只要是食物没有消化就是寒，热利的话味道会很臭），灸神阙就可以了。",
+          "quote_sha256": "29a2da3e05db4d38c41560a0da87246dd0bf1a3197289a3e680c7f12aa3fa243",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t9:p12b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p012",
+          "pdf_page": 12,
+          "printed_page": 12,
+          "chapter_path": "第一章 一、隔蒜灸",
+          "quote": "当久咳的时候，因蒜是白色的，辛辣色白，才能入肺，放在舌上。因为舌为心表，把舌头往外伸，灸后心脏力量加强。心和肺最接近，这时候我们去灸，咳嗽就会好。那你不要拿生姜，要用蒜，肺的问题，我们要用隔蒜灸。",
+          "quote_sha256": "ecd42ba7287962bdb0addcff1169fecb2fe4de3cc66e9a406b1a51308bc89632",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t9:p12c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p012",
+          "pdf_page": 12,
+          "printed_page": 12,
+          "chapter_path": "第一章 一、隔蒜灸",
+          "quote": "像病人手指头破伤风红肿，我一看，针都不用下，用隔蒜灸。它（病）走到这边的时候，我们在这边的头上面灸，病人手粉红色，很痛，痛到不能动，我就在头尾灸两壮，灸完两壮后才几分钟而已，就在退了，退到手掌心，退到劳宫时，就知道病离开心脏。",
+          "quote_sha256": "0b3632aea1e948765e023d69cb688f319f0e362f88b94ee725dbf7debce3447b",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t9:p12d",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p012",
+          "pdf_page": 12,
+          "printed_page": 12,
+          "chapter_path": "第一章 一、隔蒜灸",
+          "quote": "在疱疹的头尾隔姜去灸他，它就不会再蔓延了，过两天，疱疹就变短了。",
+          "quote_sha256": "42b6b06c35c192d4baed1beb35489663c9653e71eb258508ab3c5ccee667b353",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t9:p12e",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p012",
+          "pdf_page": 12,
+          "printed_page": 12,
+          "chapter_path": "第一章 一、隔蒜灸",
+          "quote": "现在不要去拿蜘蛛网了，可以用干棉花，不要用有酒精的棉花。但棉花粘不住啊，它不像蜘蛛网，没有那个胶质，所以我们放点凡士林在上面，因为目的是烧嘛。",
+          "quote_sha256": "0edef4711318d4f284c70a23d6bb13dde31194557a5b8923e105d32e184ab156",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t9:p12f",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p012",
+          "pdf_page": 12,
+          "printed_page": 12,
+          "chapter_path": "第一章 一、隔蒜灸",
+          "quote": "但过去是把蝎子烧烤成金黄色，但现在药房已有全蝎粉，味道很强，你可以放到胶囊里面去，可以吃八到十颗。",
+          "quote_sha256": "c46acc77a9376ff1d393af0ba65ff2256f31869f0a3aa058912ac80851542c25",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t9:p13a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章 一、米粒灸",
+          "quote": "我们还有一个灸法是“米粒灸”。我们把一点点的艾绒，捏成像米粒一样大。用凡士林先涂在欲灸的穴道上，将它放在上面灸。用在什么地方呢，如鼻窦炎、鸡眼，我们用香来点，灸三个、五个，就看病有多深。",
+          "quote_sha256": "51275d2c4808994de0bc9beee60da464a4fe71076e6ed87596c5c2688aa69fe9",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t9:p13b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章 一、米粒灸",
+          "quote": "痛灸到不痛止，不痛灸到痛止，这是原则",
+          "quote_sha256": "338f066fdd54da17094911e78dc8794b9894da67a534f91d55394027adc5f9ef",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t9:p172",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p172",
+          "pdf_page": 172,
+          "printed_page": 172,
+          "chapter_path": "第六章 治鼻病：鼻息肉 鼻炎",
+          "quote": "最有名的是灸上星，用米粒灸。用凡士林涂涂，小小的艾放上去，香一点，烧上星的时候，会感到一阵麻。在麻的同时，鼻子开始开通了",
+          "quote_sha256": "131a7b8c09445c7115b0fb3ddd7e371199323bf1fc4cbc656d2006d9d3e98224",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "提出灸壮单数（阳数）、“一壮”单位及“痛灸到不痛止，不痛灸到痛止”原则（p.11、13）。"
+        ],
+        "ni_teaching": [
+          "以艾草向水找泉、烧如大麻味需开窗通风、五十元硬币大小姜片等生活化细节演示课堂实操。",
+          "在隔蒜灸一节顺带对比破伤风头尾施灸（退至劳宫离开心脏）与带状疱疹（腰蛇/锦蛇）隔姜围灸或干棉凡士林瞬烧并服全蝎粉胶囊。",
+          "第六章鼻病实操延续“涂凡士林米粒灸上星”治鼻窦炎。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "p.11“隔姜灸百壮”用“百壮”意指多壮，前面同段明述常规“灸单数不灸双数”。",
+          "p.12隔蒜灸节前半讲破伤风用隔蒜灸头尾，后半讲带状疱疹（腰蛇）时称“在疱疹的头尾隔姜去灸他”，整理时据实分述。"
+        ],
+        "organizer_summary": [
+          "涵盖隔姜、隔盐、隔蒜、米粒四类灸法与水泡善后规则，是全书灸法实操的核心索引。"
+        ]
+      },
+      "open_questions": [
+        "p.11仅详述灸后起水泡（灸疮）之侧刺排水与硫磺/大黄粉处理，第一章pp.11–13未提及所谓“晕灸”症状及处理，亦未详定隔蒜灸置舌面时蒜片厚薄、温度耐受及现代破伤风急症医疗转介规范。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "tech:emergency_first_aid",
+      "record_type": "technique",
+      "canonical_name": "针灸昏迷急救与晕针处理",
+      "aliases": [
+        "急救顺序",
+        "十宣放血",
+        "人中涌泉百会急救",
+        "晕针处置"
+      ],
+      "category": "emergency_care",
+      "section_ids": [
+        "ch1:s006"
+      ],
+      "clinical_purpose": "梳理第一章昏迷急救五步次序（人中→十宣→十趾→涌泉→百会放血）及衔接第二章卧姿防晕针与晕针处置规范（仅供文献与教学研究，不可替代现代急诊抢救）。",
+      "steps_or_rules": [
+        "昏迷急救第一步——人中（p.13）：不论心脏病、中风或溺水昏迷，先针人中（鼻下唇上水沟分三段，取上1/3处斜刺向上）；手边无针则直接掐人中。",
+        "昏迷急救第二步——十宣放血（p.13）：若未醒，取十指指尖“十宣”点刺放血；老师傅快手法为一手同时拢握五个手指，快速一二三四五连续刺完再五指一齐挤血。",
+        "昏迷急救第三步——十趾尖放血（p.13）：若仍未醒，再将双脚十个趾头尖点刺放血。",
+        "昏迷急救第四步——涌泉穴（p.13）：若仍未醒，握起脚掌见“人”字纹，取纹头处涌泉急救大穴下针（注意不可用三寸长针）。",
+        "昏迷急救第五步——百会放血（p.13–14）：若仍未醒且全脸呈红色（刚中风象），令病人仰躺、头靠床沿往下垂，在百会点刺放血（百会在此急救语境下一般放血、不下针；定位为额上至顶与两耳尖直上连线交点再往后半寸之凹洞），放血后病人感到清凉至口则可讲话、至手脚则可活动。",
+        "体位性晕针预防与处置（p.16）：常规采卧姿下针防站/坐姿晕针；若已晕针，先安抚令平躺、解开胸腔衣扣保持空气流通多可自醒；未醒可先下人中，戒性急滥施十宣十趾放血以免回家行走不便。"
+      ],
+      "cautions": "心脏病、中风、溺水及重度昏迷属危及生命的临床急症，务必第一时间呼叫专业医疗急救体系（如120/911）并配合现代心肺复苏及急诊救治，严禁延误就医或由非专业人员擅自施治。",
+      "summary": "载于第一章第二节（p.13–14）并衔接第二章p.16晕针内容：明确人中→十宣→十趾→涌泉→百会放血急救五步次序、百会与涌泉定位及卧姿避晕针原则。",
+      "source_spans": [
+        {
+          "span_id": "sp:t2:p13a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章 二、针灸的急救法",
+          "quote": "当有人发病，昏迷过去时，他可能是心脏病，也可能是中风，溺水。我们不管是什么原因，第一个先针“人中”，就是鼻子下方、嘴唇上方的水沟处，把它分三段，取上面三分之一处下针，下针时，针要斜刺往上，若没有针在手上呢，掐人中。",
+          "quote_sha256": "14e32e685718c927eb852c091b6188fe9ecf8f3ce260c0bfa2c6b346a9e5d2b9",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t2:p13b1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章 二、针灸的急救法",
+          "quote": "若仍未醒，第二个就是“十宣”放血。为什么叫“十宣”呢？就是在十只手指头的指尖放血。",
+          "quote_sha256": "e553515f7203280626c03965ba4e7df1dcd28d69359e719497de9eebe8babea2",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t2:p13b1b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章 二、针灸的急救法",
+          "quote": "我们可以一次捉五个手指，针拿起来，一、二、三、四、五，一下子就刺完，五只指头一起挤放血。这是老师傅的手法。",
+          "quote_sha256": "59a8b1119caa72fd3179121dd197dea3f0d2e351cd529bb31911cff2569c13e4",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t2:p13b2",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章 二、针灸的急救法",
+          "quote": "若仍未醒，再将脚的十个趾头尖放血。若还没醒，就再下“涌泉”穴。将脚掌一握起来，会看到“人”字纹，人字纹的纹头就是穴道。这是我们的急救大穴，你不要拿一个三寸针下去。",
+          "quote_sha256": "85711130f0e920abe312aa8439eb55ea19625aa31a9a21545a8539b2c9ca7340",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t2:p13b3",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章 二、针灸的急救法",
+          "quote": "若还不醒，就在“百会”放血。“百会穴”一般是放血用。我们不下针。当病人整个脸都是呈现红色时，就是刚中风，就在百会放血。",
+          "quote_sha256": "f8b6c3fd2a1190d89e84375d09e7c515df9853bb35b45c06ccd02a1cf63dc4f7",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t2:p13b4",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章 二、针灸的急救法",
+          "quote": "百会穴怎么找呢？从额头往上到顶，再由两耳尖直上，两线相交的一点，再往后半寸，",
+          "quote_sha256": "05dbfcfe456691a208e55fb5609b3c12ba0fe86dae08339f42bef591d5084682",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t2:p14a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p014",
+          "pdf_page": 14,
+          "printed_page": 14,
+          "chapter_path": "第一章 二、针灸的急救法",
+          "quote": "会摸到一个凹洞，就是百会穴。放血时，让病人躺下头靠着床沿往下垂，在百会放血后，病人会感到一阵清凉，凉到嘴巴，就可以讲话，凉到手脚，手脚就可以活动了。",
+          "quote_sha256": "e28bda888981d6878c8b49eadead3129c33e7a11f19db0c18b3b26e02f63d177",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t2:p16a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p016",
+          "pdf_page": 16,
+          "printed_page": 16,
+          "chapter_path": "第二章 三、成人与幼儿的不同入穴方式",
+          "quote": "姿势不对会产生的晕针，所以我们要病人采卧姿。",
+          "quote_sha256": "62ce6270dde2f4926e73c1cd992809a51606a3d7e1a7036fae8a6b2de2af7298",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t2:p16b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p016",
+          "pdf_page": 16,
+          "printed_page": 16,
+          "chapter_path": "第二章 三、成人与幼儿的不同入穴方式",
+          "quote": "先叫病人躺平。将胸腔的扣子打开。空气流通就会醒过来。晕针不会死的，到现在还没有因晕针而死的。如果你是很性急的人，不醒就十宣放血，脚趾头再放血，回家叫病人怎么走回去，太过也不好。",
+          "quote_sha256": "2b6792994b1ea9eeadea8ffa4da230cd6ad5e609f65ad5a4d959e8273a8e8972",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "引《后汉书》“药不瞑眩疾弗缪”辨别治疗瞑眩反应与体位性晕针（p.16，详条并见 tech:adult_vs_pediatric_needling）。"
+        ],
+        "ni_teaching": [
+          "强调临床抢救讲求速度，传授一次拢握五指连刺十宣并一齐挤血之师承手法。",
+          "明确涌泉急救不可用三寸长针；百会中风面赤急救以放血为常、不下针（而第六章p.170治全头痛时亦见百会针刺导引之别）。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "p.14末段含口述课堂调侃语（救人勿顾忌执照及嘴对嘴呼吸戏言），正文整理保留专业次序并加注现代急诊边界。",
+          "晕针具体处置见第二章第三节p.16，与本节昏迷急救相互衔接。"
+        ],
+        "organizer_summary": [
+          "建立昏迷危急时由近端到末端再到头顶的阶梯式急救穴序：人中→十宣→十趾→涌泉→百会。"
+        ]
+      },
+      "open_questions": [
+        "原文未区分不同昏迷病因（如脱症冷汗脉微 vs 闭证面赤气粗，或低血糖、心肺骤停）在用穴和急救流程上的差异，亦未明言涌泉所用具体针号及现代心肺复苏（CPR）衔接标准。"
+      ],
+      "risk_level": "emergency",
+      "safety_warning": "【急症及高风险警示】本条目涉及昏迷急救、肿瘤、大出血、癫痫/重症等急重情况，严禁个人延误就医或自行施治，仅供专业医疗教学与原文文献研究参考。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "tech:cupping_therapy",
+      "record_type": "technique",
+      "canonical_name": "火罐使用时机、刺络拔罐与局部禁忌",
+      "aliases": [
+        "拔火罐",
+        "真空拔罐",
+        "刺血拔罐",
+        "蚂蝗吸脓",
+        "乳中禁拔"
+      ],
+      "category": "cupping",
+      "section_ids": [
+        "ch1:s007",
+        "ch1:s008"
+      ],
+      "clinical_purpose": "规范第一章第三、四节火罐从古竹筒火罐/蚂蝗吸脓到现代真空抽气火罐的适应证、刺络放血后停罐指征及禁忌部位。",
+      "steps_or_rules": [
+        "古法竹火罐与蚂蝗吸脓（s007，p.14）：古代以大小不同竹子制成杯状，点火烧后罩拔（吸力极强）；古郎中火罐内尚置吸血蚂蝗吸除化脓烂伤口中之脓液，兼有天性麻醉作用（现代美国亦有用消毒医用蚂蝗者）。",
+        "现代真空拔罐操作（s008，p.14）：备不同尺寸真空火罐，以火罐枪抽空吸拔，起罐时拔动罐尾气阀放气即可（较旧法点火拔罐安全，旧法易烧伤头发）。",
+        "火罐主要适应证（s008，p.14）：①吸脓（化脓伤口）；②活血化瘀（如膝盖扭伤痛点先放血再上火罐，见血色由黑转淡即起罐）；③抽拔异物（竹刺、海胆刺等）；④外科急性扭伤（受伤时立即于扭伤处上火罐）；⑤痔疮放血拔吸（先以针尖呈三角形锐利之西医一次性放血针点刺，再用火罐吸出瘀血，放血针用后即弃）。",
+        "火罐局部禁忌（s008，p.14）：乳中绝对不可拔火罐（恐导致乳头流黄水）；多汗部位不上火罐；头部不用火罐。"
+      ],
+      "cautions": "刺络放血联合拔罐属侵入性见血操作，务必使用无菌一次性三角形放血针并严防感染；乳中、头部、多汗处严禁拔罐；化脓伤口、剧烈扭伤或痔疮出血需由专业医师鉴别处理。",
+      "summary": "载于第一章第三、四节（p.14），叙述古代竹罐与蚂蝗吸脓演进至现代真空抽气罐，涵盖化脓、急性扭伤瘀血、异物、痔疮刺血拔罐（血黑转淡起罐）及乳中/多汗/头部禁忌。",
+      "source_spans": [
+        {
+          "span_id": "sp:cup:p14a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p014",
+          "pdf_page": 14,
+          "printed_page": 14,
+          "chapter_path": "第一章 三、火罐的使用时机",
+          "quote": "针灸的器具,还有火罐。过去是用大小不同的竹子，做成杯子一样。把杯子先用火烧一下，就罩在要拔的地方。",
+          "quote_sha256": "026b842ab1cd23b2aa548f8b1298c239ba2fd75b9c2fc2ad94949c315871608e",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:cup:p14b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p014",
+          "pdf_page": 14,
+          "printed_page": 14,
+          "chapter_path": "第一章 三、火罐的使用时机",
+          "quote": "过去的郎中带着各式各样的火罐，里面呢，放只蚂蝗，这个吸血的蚂蝗，会吸脓，还有麻醉作用，这是他的天性。伤口烂了，里面化脓，对它来说是人间美食啊!在现代呢，美国有消毒过的蚂蝗。",
+          "quote_sha256": "a53f867a013b451521ef4dd0fb5331fbf71073a8cb6fe309f17358cdf396d2c4",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:cup:p14c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p014",
+          "pdf_page": 14,
+          "printed_page": 14,
+          "chapter_path": "第一章 四、火罐的使用",
+          "quote": "我们用真空的拔火罐，火罐有不同的size，用真空的来吸。",
+          "quote_sha256": "4adaeeb19a6b75c4073f73b9fcd3f80d0290f2c3de305514610068e85d602569",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:cup:p14d",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p014",
+          "pdf_page": 14,
+          "printed_page": 14,
+          "chapter_path": "第一章 四、火罐的使用",
+          "quote": "火罐除了可以吸脓，还有瘀血，我们在活血化瘀的时候，比如膝盖扭伤 ，我们会在痛点放血，用火罐放血的时候看颜色，由黑变淡，就起罐。被竹子刺到或海胆刺到，都可以抽出来。",
+          "quote_sha256": "d329995d62491722ae702362009ff36cbeeb9b442c880cdffa0f81a4a104367b",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:cup:p14e",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p014",
+          "pdf_page": 14,
+          "printed_page": 14,
+          "chapter_path": "第一章 四、火罐的使用",
+          "quote": "有些地方不能拔火罐，例如乳中，否则乳头会流黄水出来。多汗的地方不上火罐，头部也不用火罐。在外科急性扭伤的时候用的很多，受伤时马上在扭到的地方上火罐。还有痔疮，现在是用放血针，刺完以后，就用火罐把它吸出来。西医的放血针做得很好，针尖呈三角形，很锐利，放完后就可以直接丢掉。",
+          "quote_sha256": "1dd7eff0e5e3a068eabe8e5d6792595529ffb17c50e98f253bf9e33aa3f8cde6",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [],
+        "ni_teaching": [
+          "追述古竹火罐与水蛭（蚂蝗）吸脓天性，结合现代临床说明真空抽气罐避免点火烧发之优势。",
+          "给出火罐放血核心停手指标：观察吸出血液颜色“由黑变淡”即起罐；并肯定一次性三角形西医放血针之锐利卫生。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "试点条目 tech:bloodletting_and_plum_blossom 仅节录了本节火罐放血色淡起罐与三角形放血针两句，本条目完整覆盖 ch1:s007 与 ch1:s008 全部内容并与之相互呼应。"
+        ],
+        "organizer_summary": [
+          "补齐第一章第三、四节独立火罐技法档案，明确适用场景、起罐血色标准与三大禁区。"
+        ]
+      },
+      "open_questions": [
+        "p.14仅提及化脓伤口、膝盖扭伤痛点放血与乳中/多汗/头部禁拔，尚未述及关节腔抽脓具体进罐规范、多毛部位密封法、皮肤疮破直接拔罐禁忌或拔罐过久起水泡之处置（艾灸起水泡处置另载于p.11）；此外痔疮外刺放血之消毒、体位与继发感染风险细节亦未展开。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "tech:cun_and_depth",
+      "record_type": "technique",
+      "canonical_name": "同身寸丈量与针刺深浅法则",
+      "aliases": [
+        "同身寸",
+        "腹深似井背薄似饼",
+        "春夏浅秋冬深",
+        "五体深浅"
+      ],
+      "category": "measurement_and_depth",
+      "section_ids": [
+        "ch2:s009"
+      ],
+      "clinical_purpose": "确立第二章穴位个性化同身寸丈量标准，以及依据四季天时、五体脏腑层次、体形胖瘦与胸腹背部解剖厚度决定针刺深浅的核心规则。",
+      "steps_or_rules": [
+        "同身寸丈量标准（第二章引言，p.14–15）：须用患者自身手掌（小儿看小儿手，绝不用医者手量高大或瘦小患者）——中指弯曲两横纹头间点到点为一寸；三指并拢为两寸；四指并拢为三寸（以连接手掌之指端为度）。主要用于四肢及经络之间，胸腹部另有独立丈量方式。",
+        "四季天时深浅（s009，p.15）：春天与春夏天气热时下针较浅；秋冬天气寒时下针较深，喻如钓鱼（冬天鱼居深处，针需深至骨髓附近）。",
+        "五体层次与五脏对应（s009，p.15）：肺主皮毛（病在皮毛下在皮毛）、脾主肌肉（病在肌肉下在肌肉）、心主血脉（病在血脉扎在脉旁）、肾主骨（病在肾从皮肤下针直达骨头旁），依病位所在决定进针层深。",
+        "部位厚薄与体型差异（s009，p.15）：古诀“腹深似井，背薄似饼”，腹部虽可深针亦不可盲目乱深；背部严禁深针，否则易刺伤内脏（扎到肺会引起肺气肿/气胸）。胖人与瘦人下针深浅各异；某些穴位生来位置浅薄，亦不可强行深刺。"
+      ],
+      "cautions": "背部进针严禁过深以免穿刺胸膜肺脏致肺气肿/气胸；病在血脉只可刺于脉旁而不可正中刺穿血管；腹深亦须掌握解剖安全深度。",
+      "summary": "完整覆盖第二章引言与第一节（p.14–15）：患者自身同身寸（一/二/三寸）丈量法、春夏浅秋冬深、皮肉脉骨分层、胖瘦体型差异及“腹深似井，背薄似饼”安全准则。",
+      "source_spans": [
+        {
+          "span_id": "sp:t3:p14a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p014",
+          "pdf_page": 14,
+          "printed_page": 14,
+          "chapter_path": "第二章 针灸穴位丈量方法",
+          "quote": "怎么量这个寸，把中指头弯起来，这两个横纹头，点跟这个点之间我们定义为一寸，这是同身寸。",
+          "quote_sha256": "82aff8d08874e61ab1f0414d38bf4cbddffc49bb8dd14a9eaef3613286406a9c",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t3:p14b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p014",
+          "pdf_page": 14,
+          "printed_page": 14,
+          "chapter_path": "第二章 针灸穴位丈量方法",
+          "quote": "三个指头拿起来，这是两寸，四个指头是三寸，以连接手掌的指端为长度标准。你看的时候要看病人的手，不能看你的手，大概就可以了。",
+          "quote_sha256": "f76e163baaa5b0b321a1ff727cbb4b718d893add2e234b695aede95fa421ac40",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t3:p14c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p014",
+          "pdf_page": 14,
+          "printed_page": 14,
+          "chapter_path": "第二章 针灸穴位丈量方法",
+          "quote": "小孩子要看小孩子的手。所以每个人的寸都不一样，这是同身寸。",
+          "quote_sha256": "2962345005c5cb5984159bf0952f3dada10cf0b502f2a9d4d3566d6f973ed83a",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t3:p15intro",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p015",
+          "pdf_page": 15,
+          "printed_page": 15,
+          "chapter_path": "第二章 针灸穴位丈量方法",
+          "quote": "我们在运用的时候，同身寸大部分用在四肢上面，还有经络之间的寸。而腹部跟胸部，另有个独立的丈量方式。待介绍任督二脉，我会再讲，基本上是以同身寸为主。",
+          "quote_sha256": "39188b692b86d7d35d149281362c75e4c6a6e832c3187321634e08ae220ea3d6",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t3:p15s1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p015",
+          "pdf_page": 15,
+          "printed_page": 15,
+          "chapter_path": "第二章 一、针刺的深浅讨论",
+          "quote": "比如说在春天下针就要比较浅，秋冬的时候，针下的比较深，这就好像我们钓鱼一样。冬天的时候，鱼都在比较深的地方，针就要下到骨髓去，春夏的时候，天气比较热，所以针下的比较浅，这是一个观念。",
+          "quote_sha256": "7cb47a1b875508663084bccf69c02dda21577f0fcd0ade024752305a44bad0e1",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t3:p15s2",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p015",
+          "pdf_page": 15,
+          "printed_page": 15,
+          "chapter_path": "第二章 一、针刺的深浅讨论",
+          "quote": "皮毛是肺在管，肌肉是脾脏在管，血脉是心脏在管，骨是肾脏在管。一般下针的时候，如果病在皮毛，我们针就下在皮毛，如果病在肌肉，我们下在肌肉，病如果是在血脉上面，我们就扎在脉的旁边，如果病是在肾脏，我们会从皮肤上面下针下在骨头的旁边去。",
+          "quote_sha256": "c2d5824ef868072ba01395f20d931b94982dfa3b4f97a0399f69e98995d9c40e",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t3:p15a1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p015",
+          "pdf_page": 15,
+          "printed_page": 15,
+          "chapter_path": "第二章 一、针刺的深浅讨论",
+          "quote": "过去我们有一句话，叫做“腹深似井，背薄似饼”。这指的就是针刺的深浅。腹部上扎针的时候，可深针，背上扎针，就不可以深针，否则会扎到内脏。扎到肺会引起肺气肿，但也不能说腹深似井，就扎那么深，不能乱搞。还有，胖子瘦子下针的深浅也不一样。",
+          "quote_sha256": "68cb2736e6fbb402e48ee72957b661a3c696732f1fb853570e472c11ebc22b54",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "引古诀“腹深似井，背薄似饼”（p.15）。"
+        ],
+        "ni_teaching": [
+          "以接诊NBA高大球员及摔跤手为例说明必须按患者自身手指丈量同身寸，小儿看小儿手。",
+          "以“冬天钓鱼鱼在深水”形象比喻春夏浅刺、秋冬深刺之原理，并预告十二经与奇经讲毕后专授补泻手法。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "试点条目中本ID曾合并第二章第1–4节内容；现依章节精修，将ch2:s010（入穴摸隙）、ch2:s011（成人留针与小儿单刺）、ch2:s012（针号）及ch2:s013（九针）独立成条，本条目专注同身寸引言与ch2:s009针刺深浅。"
+        ],
+        "organizer_summary": [
+          "取穴之前先定量尺（同身寸），进针之时再定层深（四时、五体、腹背厚薄、胖瘦）。"
+        ]
+      },
+      "open_questions": [
+        "胸腹部独立于同身寸之外的分寸丈量法在第二章称“待介绍任督二脉再讲”，需结合第四章任督二脉专节补齐具体折寸比例（如脐上八寸、脐下五寸、两乳八寸等）。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "tech:needling_insertion_and_palpation",
+      "record_type": "technique",
+      "canonical_name": "一般针刺入穴方法与触诊摸隙原则",
+      "aliases": [
+        "针管进针",
+        "咳嗽进针",
+        "摸穴质感",
+        "筋骨肌脉间隙"
+      ],
+      "category": "needling_insertion",
+      "section_ids": [
+        "ch2:s010"
+      ],
+      "clinical_purpose": "阐明古今进针器械演变（咳嗽进针到针管拍入），以及用手触摸质感、寻取肌筋骨缝隙与避让血管正中入针的基本功。",
+      "steps_or_rules": [
+        "古今进针方式对比（p.15）：《针灸大成》等古书载“下针时令病人咳嗽一下同时进针”，实因古代无针管且九针粗如火柴棒、进针较痛，借咳嗽分散痛感；现代采用极细不锈钢针且配针管，直接拍入即可，兼以美国法规限定一针仅刺一次，毋须令中风多针患者反复咳嗽。",
+        "触诊摸穴质感总则（p.15）：知晓穴位大概位置后，必须以手触摸皮肤与深层质感找准落针缝隙。",
+        "四项解剖避让铁律（p.15）：①绝不在肌肉隆起正中（必在两条肌肉中间或肌肉与骨之间）；②绝不在筋上面（必在筋与肌肉中间或两条筋缝隙之间，如心包经）；③绝不直接戳在骨头上（必在肌肉与骨旁或筋骨之间，如脚踝部位）；④绝不在血管正上面直扎下去（必在血管旁边）。"
+      ],
+      "cautions": "直接刺中骨面、肌腱大筋或动脉血管正中不仅非穴，且易致剧痛、血肿或损伤；触摸脉搏搏动与肌筋缝隙为下针前必备步骤。",
+      "summary": "载于第二章第二节（p.15–16）：说明现代针管直拍进针取代古代咳嗽进针之缘由，并确立穴位必在肌间、肌骨间、筋肌间、筋筋间、筋骨间或血管旁之触诊定位铁律。",
+      "source_spans": [
+        {
+          "span_id": "sp:ins:p15a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p015",
+          "pdf_page": 15,
+          "printed_page": 15,
+          "chapter_path": "第二章 二、一般针刺入穴方法",
+          "quote": "过去医书如《针灸大成》提到入针的方式，下针的时候，要病人咳嗽一下，针就同时下去了。",
+          "quote_sha256": "0ba14446bb9e942c4212e8f6e3518c32705c79cf8a01d6fed1acded0b9edcd95",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ins:p15b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p015",
+          "pdf_page": 15,
+          "printed_page": 15,
+          "chapter_path": "第二章 二、一般针刺入穴方法",
+          "quote": "为什么以前是这样子，因为那时没有针管，同时，以前针的（制造）技术很差，过去的针像火柴棒那么粗，我们看黄帝的九针，《针灸大成》的九针画的图，那九种针根根都像火柴那么粗，所以扎针比较痛。用咳嗽，一咳，针就下去了，比较不痛。现在有针管直接拍进去就好了。",
+          "quote_sha256": "ad89427a042d0d42aa7081a9ecce73c9b2144f1baf9a1cc945753d0ff8b419c7",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ins:p15c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p015",
+          "pdf_page": 15,
+          "printed_page": 15,
+          "chapter_path": "第二章 二、一般针刺入穴方法",
+          "quote": "美国政府规定，针只能扎一次，所以你不用咳。不然中风病人，要下个十几针，要咳很多次，所以说不要去咳嗽进针。",
+          "quote_sha256": "1cbd5e815c640571b4766f83134774b4404e557f123d3277349f7395efef1526",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ins:p15d",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p015",
+          "pdf_page": 15,
+          "printed_page": 15,
+          "chapter_path": "第二章 二、一般针刺入穴方法",
+          "quote": "你要用手去摸质感，这是皮肤上的感觉，一般穴道绝对不会在肌肉上面，你摸两个肌肉中间穴位永远在肌肉、筋旁，你摸上去有两条，就在缝隙上下针",
+          "quote_sha256": "30117160c7f4948e6370b21b64fcc1d77b5d3a286de4b2a0debc86b5b20f357f",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ins:p15e",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p015",
+          "pdf_page": 15,
+          "printed_page": 15,
+          "chapter_path": "第二章 二、一般针刺入穴方法",
+          "quote": "穴道一定在血管旁边或在筋和筋之间、筋和肌之间、筋与骨中间。绝不会在骨上面。不要看到一个骨头，硬要戳进去。",
+          "quote_sha256": "0dc79bd7cd5a290d6bc89374b1522f7f43dfcf1f937b835fb300457afc59867b",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "引《针灸大成》咳嗽进针法与九针图（p.15）。"
+        ],
+        "ni_teaching": [
+          "从器械演进与临床实际（中风需下十几针、美国一次性针具规范）剖析古今进针法差异，破除盲从古书表面字句之弊。",
+          "反复强调“穴在缝隙与脉旁，不在肌、筋、骨、血管正上”，以心包经两筋缝隙与脚踝筋骨间为例。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "原书编排上，“留针二十分钟”、“出针停30秒”、“卧姿”与“晕针处置”紧接印于第二章第三节（p.16，见 tech:adult_vs_pediatric_needling），本条目据原书小节划分聚焦p.15–16第二节进针与摸隙原则。"
+        ],
+        "organizer_summary": [
+          "给出找准穴道下针那一刻的核心手感法则：先摸出两条肌/筋或筋骨缝隙，避开血管再以针管拍入。"
+        ]
+      },
+      "open_questions": [
+        "p.15–16第二节仅讲针管直接拍入与摸隙质感，未述及无针管单手进针手法；留针时长、卧姿与出针闭孔手法原书置入第三节（p.16），已于对应条目拆录说明。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "tech:adult_vs_pediatric_needling",
+      "record_type": "technique",
+      "canonical_name": "成人留针出针与十四岁以下幼儿单刺规范",
+      "aliases": [
+        "留针二十分钟",
+        "幼儿单刺",
+        "出针三十秒",
+        "卧姿避晕针",
+        "药不瞑眩疾弗缪"
+      ],
+      "category": "pediatric_and_retention",
+      "section_ids": [
+        "ch2:s011"
+      ],
+      "clinical_purpose": "界定成人与十四岁以下幼儿留针差异（留针20分钟 vs 单刺不留针）、无血慢出针手法、常规卧姿以及瞑眩反应与体位性晕针处理。",
+      "steps_or_rules": [
+        "成人留针规则（p.16）：十四岁以上按成人规范常规留针二十分钟（留针后可施行补泻手法）；如中风患者，留针二十、三十、四十分钟乃至一两小时均无妨。",
+        "成人慢拔无血出针法（p.16）：起针时手指轻按针孔旁慢慢拔出，退至毛孔出口处稍停约三十秒再缓缓完全拔出，可做到一滴血不带；切忌以挑勾或用力猛拔之方式出针以免带血。",
+        "幼儿十四岁界线与单刺法（p.16）：以十四岁为成人与幼儿分界；十四岁以下幼儿一律行“单刺”——针刺入穴位捻一捻即拔出，根本不留针，用于小儿发烧、感冒、拉肚子等，疗效极快（具体适用单刺穴位待经络学详述）。",
+        "卧姿下针与防晕针（p.16）：下针常规令患者采用卧姿（躺平），避免站立或坐姿引发体位性晕针。",
+        "瞑眩反应 vs 晕针处置（p.16）：引《后汉书》“药不瞑眩疾弗缪”指出治疗后瞑眩多伴良好疗效；若因姿势不当引发晕针，先安抚令躺平、解开胸腔衣扣令空气流通多可自醒；若未醒则先行人中，不可性急过度行十宣十趾放血以免患者难于行走回家。"
+      ],
+      "cautions": "十四岁以下儿童严禁长时间留针；出针粗暴挑拔易致出血或肌纤维牵拉；晕针须先确保平躺通风并排除心脏等急症风险，切忌站坐进针。",
+      "summary": "载于第二章第三节（p.16）：确立十四岁为单刺与留针分界线，明确成人留针20分钟及出毛孔停30秒无血起针法、卧姿防晕针，以及《后汉书》瞑眩观与晕针处理。",
+      "source_spans": [
+        {
+          "span_id": "sp:ped:p16a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p016",
+          "pdf_page": 16,
+          "printed_page": 16,
+          "chapter_path": "第二章 三、成人与幼儿的不同入穴方式",
+          "quote": "成人与幼儿有非常大的不同，成人要留针，幼儿不留针，幼儿我们有一个特别的名称，我们叫单刺。",
+          "quote_sha256": "4482457dcc92428e963f96264be356f4091f32c058e6474e71bd84c7c0a5f5da",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ped:p16b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p016",
+          "pdf_page": 16,
+          "printed_page": 16,
+          "chapter_path": "第二章 三、成人与幼儿的不同入穴方式",
+          "quote": "我们留针，留二十分钟，留针之后会做补泻，像中风的病人，留二十、三十、四十分钟、一个小时两个小时都没关系。",
+          "quote_sha256": "9f48019cf01df41821bba63cd3062806db649e857ef6eae8354a55746edff794",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ped:p16c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p016",
+          "pdf_page": 16,
+          "printed_page": 16,
+          "chapter_path": "第二章 三、成人与幼儿的不同入穴方式",
+          "quote": "拔针的时候，若这病人是你妈妈。这个指头放在那，慢慢的拔出来，出毛孔的时候，稍停一下，停个三十秒，再慢慢出来，这样一滴血都没有。",
+          "quote_sha256": "b0a83b245f1bccd26ebd07bbbab89170a7ebc592bc2e5f850bc8666c14ba9ef3",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ped:p16d",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p016",
+          "pdf_page": 16,
+          "printed_page": 16,
+          "chapter_path": "第二章 三、成人与幼儿的不同入穴方式",
+          "quote": "什么叫单刺？针进去捻一捻就出来了，根本不留针。哪些穴道可以单刺，我们经络学再讲。",
+          "quote_sha256": "ca42b54a06c90efaa326711104c614e16ef25c8ad468fd995f8e5f060cf9591e",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ped:p16e",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p016",
+          "pdf_page": 16,
+          "printed_page": 16,
+          "chapter_path": "第二章 三、成人与幼儿的不同入穴方式",
+          "quote": "幼儿的定义以十四岁做为标准，十四岁以下，单剌不留针，十四岁以上，就留针。下针时，叫病人采用卧姿。",
+          "quote_sha256": "a384ecf7db2ea2794431d53b6f674da9583881860eb3cf4dc688f08b2d785d1b",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ped:p16f",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p016",
+          "pdf_page": 16,
+          "printed_page": 16,
+          "chapter_path": "第二章 三、成人与幼儿的不同入穴方式",
+          "quote": "因为中医有一句话“药不瞑眩疾弗缪”。这句话，出自《后汉书》",
+          "quote_sha256": "d2444379142b081b696c0897aa2eec85bfffde25c2a6bb6f7cb2b11ad4e70662",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:ped:p16g",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p016",
+          "pdf_page": 16,
+          "printed_page": 16,
+          "chapter_path": "第二章 三、成人与幼儿的不同入穴方式",
+          "quote": "姿势不良，产生的晕针怎么处理？就是刚才的急救方式，先下人中，会很痛。晕针叫病人不要怕，先叫病人躺平。将胸腔的扣子打开。空气流通就会醒过来。",
+          "quote_sha256": "06cd7e337c1acd9191f63193a1719b0c098657ba6d4a1c835bb952e8e4998e72",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "引《后汉书》“药不瞑眩疾弗缪”阐释疗效性瞑眩现象（p.16）。"
+        ],
+        "ni_teaching": [
+          "以“若这病人是你妈妈”示范轻按毛孔、停30秒无血出针的细腻手感。",
+          "明确14岁年龄红线，决定后续经络各穴（如第四章天府、第五章胃俞中脘等）儿科单刺操作原则。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "p.16原文“单剌”系“单刺”形近异排字，原文引文保留“单剌”，正体说明作“单刺”。",
+          "本节晕针急救处置与第一章第二节 tech:emergency_first_aid 相互参照。"
+        ],
+        "organizer_summary": [
+          "把控进针后半程安全的核心三问：留多久（20分钟/中风可延；<14岁单刺不留）、摆什么姿势（卧姿）、怎么拔针不出血（出毛孔停30秒）。"
+        ]
+      },
+      "open_questions": [
+        "p.16明确称“哪些穴道可以单刺，我们经络学再讲”，本节未列小儿单刺具体穴单，亦未述及儿科三关指纹诊法或出针后按闭针孔补泻之疾徐细则。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "tech:modern_needle_gauges",
+      "record_type": "technique",
+      "canonical_name": "现代常用针号规格与透穴针具概念",
+      "aliases": [
+        "3215",
+        "2815",
+        "3210",
+        "3230",
+        "放血针片",
+        "透穴"
+      ],
+      "category": "needle_gauges",
+      "section_ids": [
+        "ch2:s012"
+      ],
+      "clinical_purpose": "解读现代一次性毫针编码规则（针号粗细与寸长），并对应不同部位（手指、肌肉四肢、硬疤瘀块、透穴及放血）之选针标准。",
+      "steps_or_rules": [
+        "针号粗细规律（p.16）：代号前两位为针号，数目字越大针身越细（例如1–4号极粗如螺丝刀，32号则已很细）。",
+        "3215（32号1.5寸，p.16）：临床最常用型号，适用于一般肌肉、四肢及全身大部分穴位。",
+        "2815（28号1.5寸，p.16）：号数较小故针身较32号粗，专用于开刀后局部硬疤伤口针不易入者，或脚肿有瘀血块等部位。",
+        "3210（32号1寸，p.16）：粗细同32号而长度一寸，适用于手指头旁等皮肉浅薄部位（亦常用于井穴浅刺）。",
+        "3230（32号3寸，p.16）：三寸长针，专为透穴使用；透穴得当则当场去痛，且不伤筋、不伤骨、不伤血脉、一滴血不见（如治脚伤、腕骨痛立竿见影）。",
+        "放血针与放血片（p.16）：现代除毫针外另有专用一次性放血针及放血片。"
+      ],
+      "cautions": "长针（如3230三寸针）透穴对解剖路径与层深要求极高，深刺失度或盲目透穴可能损伤肌腱、神经或血管；严禁将三寸针误用于涌泉等急救或浅薄末梢穴。",
+      "summary": "载于第二章第四节（p.16）：解析“数字越大越细”编码法则，区分3215常用、2815刺硬疤瘀块、3210刺指端浅部、3230透穴及放血针片。",
+      "source_spans": [
+        {
+          "span_id": "sp:gau:p16a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p016",
+          "pdf_page": 16,
+          "printed_page": 16,
+          "chapter_path": "第二章 四、现代常用的针号概念",
+          "quote": "现在我们常用的针，比如说 3215，32 是针号，数目字越大，越细，一号，二号，三号四号，很粗就像螺丝刀一样，32号已经很细了，15是一寸半",
+          "quote_sha256": "85fd3a9d31f36ec09d9916696ed1690200b1372c887f34668bf45759d2438f4c",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:gau:p16b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p016",
+          "pdf_page": 16,
+          "printed_page": 16,
+          "chapter_path": "第二章 四、现代常用的针号概念",
+          "quote": "有2815，平常多用32。也会需要28号针。有时候开刀后伤口变得很硬，针扎不进去。或还有一些脚肿在那，有瘀血块，就用28号针扎进去。",
+          "quote_sha256": "07d37a04172ea36fc551f9088eba2410337bbb1475a2ee28b638ab4da1b5ec45",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:gau:p16c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p016",
+          "pdf_page": 16,
+          "printed_page": 16,
+          "chapter_path": "第二章 四、现代常用的针号概念",
+          "quote": "一寸半的针用得最多，通常用在肌肉、四肢、身上都可以扎。手指头旁呢?手再肥也不会像身体那么厚，通常用一寸针来扎，刚才这针就是一寸针，你看这代号321O，32不变，粗细不变，尺寸变。",
+          "quote_sha256": "1d3a9e931175e57010d78cdedb70912d068d03439418e96b232eba66fcb9363c",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:gau:p16d",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p016",
+          "pdf_page": 16,
+          "printed_page": 16,
+          "chapter_path": "第二章 四、现代常用的针号概念",
+          "quote": "像这比较长，这是所谓3230,32号三寸针用来透穴。有些地方会用到透穴，当场透就好了。",
+          "quote_sha256": "3134880eea21f9e23a88a7db58447ed80c02d4343d8d9951174eb0a0f0b4bb46",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:gau:p16e",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p016",
+          "pdf_page": 16,
+          "printed_page": 16,
+          "chapter_path": "第二章 四、现代常用的针号概念",
+          "quote": "身上有非常多的穴道，都可以用透针，透的时候不但不伤筋，不伤骨，不伤血脉，连一滴血都看不到，脚伤、腕骨痛，针一下去当场痛就去掉了。",
+          "quote_sha256": "1e03ac6f2134e6b0e78fb30bb3474966b114c1bb17dcc7bcf7e7ab62941962b8",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:gau:p16f",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p016",
+          "pdf_page": 16,
+          "printed_page": 16,
+          "chapter_path": "第二章 四、现代常用的针号概念",
+          "quote": "还有放血针，现在放血片。",
+          "quote_sha256": "4ec870b35e8b5d0b59aa3e2c66dacfed830a54045590f8c2a14fab62a84225d9",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [],
+        "ni_teaching": [
+          "课堂直接手持实物演示3215、2815、3210、3230编码逻辑与放血针片。",
+          "强调正确针灸立竿见影；即使做不好最多无效也不易伤人，唯“扎得太深”出事责任在操作者不在古人。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "p.16原文排印将3210误排为“321O”（末位为大写字母O而非数字0），结构化条文中正作“3210”，引用原句保留原貌以备查。"
+        ],
+        "organizer_summary": [
+          "临床选针的实用速查卡：日常3215、指端浅刺3210、硬疤瘀肿2815、透穴3230。"
+        ]
+      },
+      "open_questions": [
+        "原文仅举例28号与32号及1寸、1.5寸、3寸四类常见规格，未系统换算现代毫针号数对应的毫米直径（如32号约0.25mm、28号约0.35mm）及0.5寸/2寸等其余规格。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "tech:nine_needles_intro",
+      "record_type": "technique",
+      "canonical_name": "黄帝时代九针型式与防断针/断针处置",
+      "aliases": [
+        "九针",
+        "镵员鍉锋铍员利毫长大针",
+        "断针处理"
+      ],
+      "category": "ancient_tools",
+      "section_ids": [
+        "ch2:s013"
+      ],
+      "clinical_purpose": "著录第二章第五节《针灸大成》九针手工原样复刻演示与《黄帝内经》九针总名，以及针身留外防折断、断针压肉取出安全法则。",
+      "steps_or_rules": [
+        "九针总名与经典原则（p.17及脚注①）：九针出《黄帝内经》，总包镵（音蝉）针、员针、鍉（音迪）针、锋针、铍（音披）针、员利针、毫针、长针和大针九种。《灵枢·官针》载“九针之宜，各有所为；长短大小，各有所施也，不得其用，病弗能移”，现代临床以毫针应用最多。",
+        "材质古今演变（p.17）：昔无不锈钢，针以金（太软）或银（太脆）制，故需做得较粗；旧时老师傅棉布包携带，用前口水沾拭隔衣下针、针弯磨地再用（属历史旧俗对比，现代严禁仿效）。今用一次性不锈钢针极难折断。",
+        "防断针操作规范（p.17）：现代针具唯一易折弱点在“针身与针柄接合处”，故下针时务必在皮肤外留露一截针身，严禁整支齐柄插尽。",
+        "万一断针处置（p.17）：若针身齐皮折断留于体内，立即用两指同时向下按压断端两侧肌肉，针端即会冒出便于夹取；破除“断针会随体内走动”之讹传。"
+      ],
+      "cautions": "古法唾液沾针、隔衣刺入、磨地再用绝对禁止在现代临床模仿，必须使用无菌一次性不锈钢针具；下针切忌插至针柄根部，发生滞针或断针须规范静置处理。",
+      "summary": "载于第二章第五节（p.17及注①）：对照《针灸大成》九针原图复刻与九针名目（以毫针最常用），阐明金银粗针到不锈钢针的材质演进，确立“留针身在外防断”与“双指压肉出断针”规范。",
+      "source_spans": [
+        {
+          "span_id": "sp:nine:p17a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p017",
+          "pdf_page": 17,
+          "printed_page": 17,
+          "chapter_path": "第二章 五、黄帝时代九针型式",
+          "quote": "这个九针图，你们在《针灸大成》里面看到的九针，这是原图，原样、原寸，手工做的。毫针用得最多。",
+          "quote_sha256": "9ef2bfe842be5f51d3af8a5864e7a1efecb9bfee2baf5133e397b44c53bfaa85",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nine:p17b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p017",
+          "pdf_page": 17,
+          "printed_page": 17,
+          "chapter_path": "第二章 五、黄帝时代九针型式",
+          "quote": "以前没有不锈钢，不是金就是银，金太软银太脆，都必须要做粗一点。我们现在用的针就不会断了。",
+          "quote_sha256": "630b4b0d77f1db9a5f6d160d9e23f6b7e4a5753ebeb1866ca240ea1013c490f3",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nine:p17c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p017",
+          "pdf_page": 17,
+          "printed_page": 17,
+          "chapter_path": "第二章 五、黄帝时代九针型式",
+          "quote": "只有针身跟针柄接合处容易折断，所以我们下针都会留一点针身在外面，不会整只插下去。若一段断在里面，两指同时一下压旁边的肉，针就出来了。有人说断了针会跟着跑，那是胡说八道。",
+          "quote_sha256": "91a89b5e6d59e034d19602b193f6b08401bc5639dbb24b2284eee2e42b854643",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nine:p17fn1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p017",
+          "pdf_page": 17,
+          "printed_page": 17,
+          "chapter_path": "第二章第17页脚注①",
+          "quote": "① 针具名。为九种针具的总称。出《黄帝内经》。即镵（音蝉）针、员针、鍉（音迪）针、锋针、铍（音披）针、员利针、毫针、长针和大针。《灵枢·官针》：“九针之宜，各有所为；长短大小，各有所施也，不得其用，病弗能移。”指出九针的形状、用途各异，据情选用，方可去病。",
+          "quote_sha256": "55314ccb381e481f4adc991cd7343283933376ba27e2ccdcbc29ddcb6c80f85e",
+          "role": "other_annotations"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "p.17脚注①引《灵枢·官针》：“九针之宜，各有所为；长短大小，各有所施也，不得其用，病弗能移。”"
+        ],
+        "ni_teaching": [
+          "课堂展示手工按《针灸大成》原图原寸制作的九针实物，明确现代临床绝大多数操作用“毫针”。",
+          "指出针身针柄接合处易折之物理节点，提出“必留一段针身在外”与“双指下压旁肉出针”实操法，驳斥断针游走谣言。"
+        ],
+        "other_annotations": [
+          "p.17脚注①补全九针准确名称及“镵（蝉）、鍉（迪）、铍（披）”读音，并引《灵枢·官针》说明形制用途各异。"
+        ],
+        "collation_notes": [
+          "第二章p.17正文仅提“九针原图”与“毫针用得最多”，九针各自的具体用途（镵针刺热放血、员针按摩、鍉针按脉等）至第五章“九针之使用时机”（p.168）方逐一讲授。"
+        ],
+        "organizer_summary": [
+          "以“历史九针概览 + 现代防断针底线规范”收束第二章针具与进针基础。"
+        ]
+      },
+      "open_questions": [
+        "第二章p.17正文未逐一拆解九针（除毫针外其余八针）的具体外形尺寸与适应证（此部分详载于第五章p.168），亦未展开断针紧贴骨膜或深陷肌肉压肉不出时的现代影像定位与外科取针预案。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "tech:heavenly_stems_meridians",
+      "record_type": "technique",
+      "canonical_name": "十二经纳天干歌与脏腑阴阳五行热力气化观",
+      "aliases": [
+        "十二经纳天干",
+        "甲胆乙肝丙小肠",
+        "物理医学热力模型",
+        "十二募穴脚注"
+      ],
+      "category": "heavenly_stems_and_zangfu",
+      "section_ids": [
+        "ch3:s014"
+      ],
+      "clinical_purpose": "掌握十天干配十二脏腑的五行阴阳归属，并以火克金、心肺小肠导热气化及水生木等物理医学模型推演正常生理常人之象。",
+      "steps_or_rules": [
+        "十二经纳天干歌（p.17）：“甲胆乙肝丙小肠，丁心戊胃己脾乡，庚属大肠辛属肺，壬属膀胱癸肾脏，三焦亦向壬中寄，心包同归入癸水。”",
+        "阴阳五行归属（p.17–18）：脏主收藏属阴，腑为消化系统属阳；五行各有阴阳——甲胆阳木/乙肝阴木、丙小肠阳火/丁心阴火、戊胃阳土/己脾阴土、庚大肠阳金/辛肺阴金、壬膀胱及三焦阳水/癸肾及心包阴水；天干十数配地支十二数合成六十甲子循环。",
+        "心与肺火克金热力学制衡（p.18）：心日搏十万余次产生热量（中医定义为火，乃人体体温来源，故心脏不受癌）；肺金如天幕水箱，火克金互相制衡，正常肺气使心火下行导至丹田小肠募穴关元，故正常人心与小肠具同等速度、温度与压力。",
+        "小肠与大肠气化返肺（p.18–19）：小肠得心下导之热方能消化（称“第二个心脏”）；大肠环绕小肠，小肠火在下烧使大肠水气化穿透肠壁回到表里脏肺中化为正常津液，残渣24小时排出。",
+        "肾膀胱两度气化与水生木（p.19）：膀胱紧邻小肠，水在肾经第一次气化、在小肠旁第二次气化；膀胱满400CC呈热气球状产生压力速度排尿；二次气化中浊水排出、清净水则交予肝木（水生木）助解毒后化入胆汁。"
+      ],
+      "cautions": "本节生理模型重在阐明“正常常人”之时间、速度、温度、压力关系，涉及“心脏不受癌”或癌症论述属于中医热化观教学比喻，绝不可替代现代心脏病及肿瘤专科诊断与治疗。",
+      "summary": "载于第三章第一节（p.17–19及p.18募穴脚注①）：以十二经纳天干歌定脏腑阴阳五行，并借物理医学之时间、速度、温度、压力系统阐述心肺导热、小肠大肠蒸化与肾膀胱气化生肝木。",
+      "source_spans": [
+        {
+          "span_id": "sp:stem:p17a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p017",
+          "pdf_page": 17,
+          "printed_page": 17,
+          "chapter_path": "第三章 一、十二经纳天干歌",
+          "quote": "甲胆乙肝丙小肠，丁心戊胃己脾乡，庚属大肠辛属肺，壬属膀胱癸肾脏，三焦亦向壬中寄，心包同归入癸水。",
+          "quote_sha256": "e5da74a4b88bd658456280196d0a9673f67ee19dbc0220653c7db8ed0eb3d444",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:stem:p17b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p017",
+          "pdf_page": 17,
+          "printed_page": 17,
+          "chapter_path": "第三章 一、十二经纳天干歌",
+          "quote": "我们会用纳天干，就是取它的五行。中医的五行理论木火土金水，就是不易让他人了解。八纲辨证法，用别的方法还不行，仍要用阴阳五行，木生火，火生土，土生金，金生水，在每一个行的中间，我们再分阴阳。",
+          "quote_sha256": "83a948398a8d63c0b935adff05570681ca39280ccf3ac470a785327a99058f06",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:stem:p17c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p017",
+          "pdf_page": 17,
+          "printed_page": 17,
+          "chapter_path": "第三章 一、十二经纳天干歌",
+          "quote": "五个脏，就是收藏，就是阴。腑是消化系统，就是所谓的阳",
+          "quote_sha256": "54dfbccb1c0af9bc59b51a7aadd32c8853336f0f16f4845c56806cd2e102cab4",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:stem:p18a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p018",
+          "pdf_page": 18,
+          "printed_page": 18,
+          "chapter_path": "第三章 一、十二经纳天干歌",
+          "quote": "把心当成引擎的话，肺就是水箱，肺如果只有呼吸，那就太简单了!你要有肺跟心脏有制衡的观念，正常肺的功能，肺会让热往下走，练气的人让气往下走，丹田是小肠的募穴①，让气就往下走。因此小肠的温度，就变得非常的热。",
+          "quote_sha256": "a9003c9b779ad3f9cca3a0eea0bc2dfc6c02164c5f8843d502c2d777efc3045f",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:stem:p18b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p018",
+          "pdf_page": 18,
+          "printed_page": 18,
+          "chapter_path": "第三章 一、十二经纳天干歌",
+          "quote": "心脏的火往小肠下导，所以，正常人的心脏和小肠是一样的速度、一样的温度、一样的压力。所以中医是物理医学。",
+          "quote_sha256": "4d1eb018ab92b270c06dbe5c0062c7beb0808b822437288f4a71fb642d1489c7",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:stem:p18c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p018",
+          "pdf_page": 18,
+          "printed_page": 18,
+          "chapter_path": "第三章 一、十二经纳天干歌",
+          "quote": "大肠环绕着小肠，小肠是火，水在上面走，火在下面烧，大肠的水因为很热而气化。所以这个蒸气才能透过肠壁上升，大肠与肺相表里，水会再回到肺里面，变成正常的津液，残渣才会排出来，这过程在二十四小时一定要完成",
+          "quote_sha256": "877de21214da217907471383b4cc115bf9d46ed98107dd14b1fbab73990f5363",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:stem:p18fn1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p018",
+          "pdf_page": 18,
+          "printed_page": 18,
+          "chapter_path": "第三章第18页脚注①",
+          "quote": "① 经穴分类名。指脏腑之气汇聚于胸腹部的一些特定穴位。五脏、心包络及六腑各有募穴一个，如肺为中府，心为巨阙，肝为期门，脾为章门，肾为京门，心包为膻中，胃为中脘，胆为日月，大肠为天枢，膀胱为中极，小肠为关元，三焦为石门穴等。募穴多用以诊断和治疗本脏腑病证。",
+          "quote_sha256": "4600956c8fe9424661b0bbf0358b53b1af40d1be8398f01648aa10c0f97fc21d",
+          "role": "other_annotations"
+        },
+        {
+          "span_id": "sp:stem:p19a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p019",
+          "pdf_page": 19,
+          "printed_page": 19,
+          "chapter_path": "第三章 一、十二经纳天干歌",
+          "quote": "膀胱在这，小肠在这，在肾脏这边第一次气化，在小肠里面是第二次气化。",
+          "quote_sha256": "e69511304d838fd49b2573371375e318ca39b10d8319dab31d3200584c5a0117",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:stem:p19b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p019",
+          "pdf_page": 19,
+          "printed_page": 19,
+          "chapter_path": "第三章 一、十二经纳天干歌",
+          "quote": "一到 400CC 满啦，就急着要上厕所。小便出来时，因膀胱的热气，才有办法产生速度，力量、压力，把小便排射出去，在膀胱气化的过程中间是第一次蒸馏，在第二次气化时，浊水会排出来。而干净的水会交给肝，肝得到干净的水（水去生木），就可把毒排掉、再交给胆，化成胆汁。",
+          "quote_sha256": "160a52b517e0973a413e5541436e749294fe66cae4719c50a49fc601aa884d11",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "录“十二经纳天干歌”七言口诀（p.17）。"
+        ],
+        "ni_teaching": [
+          "提出中医为“物理医学”（重时间、速度、温度、压力），以认识“正常常人”为核心，非先背病名。",
+          "将五行生克具象化为“引擎（心）-水箱（肺）火克金下导热入小肠”及“小肠火二次蒸馏清净水生木入肝”之生理流转。"
+        ],
+        "other_annotations": [
+          "p.18脚注①完整列举五脏、心包与六腑十二募穴（肺中府、心巨阙、肝期门、脾章门、肾京门、心包膻中、胃中脘、胆日月、大肠天枢、膀胱中极、小肠关元、三焦石门）。"
+        ],
+        "collation_notes": [
+          "p.18–19之脏腑气化详论在目录划分上顺接“一、十二经纳天干歌”之后，“二、十二经纳地支歌”正文详解始于p.19第14行（“地支歌，简单讲……”）。",
+          "p.18注①所列肺募“中府”与第四章p.42提及云门《难经》募说之微异，已在相关条目并注备考。"
+        ],
+        "organizer_summary": [
+          "奠定全书十天干五行阴阳代号与中医脏腑热力学气化生理底座。"
+        ]
+      },
+      "open_questions": [
+        "p.19所称“在肾脏这边第一次气化，在小肠里面是第二次气化”与后半句“在膀胱气化的过程中间是第一次蒸馏”，两处“第一次”指涉肾/膀胱分界尚待《黄帝内经》或第四章肾/膀胱经正文续校厘清；本节尚未展开十天干日干按时开穴（子午流注纳干法）。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "tech:earthly_branches_horary_flow",
+      "record_type": "technique",
+      "canonical_name": "十二经纳地支歌与十二时辰诊断/治疗/验效法则",
+      "aliases": [
+        "十二经纳地支",
+        "肺寅大卯胃辰宫",
+        "十二时辰气血流注",
+        "掌色辨肝"
+      ],
+      "category": "earthly_branches_and_horary",
+      "section_ids": [
+        "ch3:s015"
+      ],
+      "clinical_purpose": "以十二地支歌掌握十二正经昼夜二十四小时气血流注顺序，并应用于定时发病诊断、按时取穴治疗及疗效顺逆验证。",
+      "steps_or_rules": [
+        "十二经纳地支歌（p.17）：“肺寅大卯胃辰宫。脾巳心午小未中，申胱酉肾心包戌，亥焦子胆丑肝通。”",
+        "十二时辰气血流注表（p.19）：寅时（03:00–05:00）肺经→卯时（05:00–07:00）大肠经→辰时（07:00–09:00）胃经→巳时（09:00–11:00）脾经→午时（11:00–13:00）心经→未时（13:00–15:00）小肠经→申时（15:00–17:00）膀胱经→酉时（17:00–19:00）肾经→戌时（19:00–21:00）心包经→亥时（21:00–23:00）三焦经→子时（23:00–01:00）胆经→丑时（01:00–03:00）肝经。",
+        "临床用途一——诊断（p.19–20）：①清晨卯时（05:00–07:00）起床排大便代表大肠与气血流注正常；②每晚丑时（01:00–03:00）必醒，合见脸色偏黄、手掌暗红（正常肺白合心赤为粉红；肝硬化/肿瘤占空间则毒素未全代谢而多血返心致暗红）即断为肝实证；③每晚子时（23:00–01:00，尤其12点）必醒多主胆经病或胆结石。",
+        "临床用途二——治疗（p.20）：专门针对特定时辰发作者，可依地支确定对应经络并下“时间的针”（具体取对应经络俞穴，详s019）。",
+        "临床用途三——疗效验证（p.20）：原丑时（01:00–03:00）醒者治后能一觉到天亮即为好转痊愈；若治后反从01:00–03:00变成寅时（03:00–05:00）不眠，则示病邪进传肺脏、越治越坏。"
+      ],
+      "cautions": "十二时辰醒转与掌色望诊为中医早期功能性预警指征，不可替代现代影像学、肝功能或肿瘤筛查；若长期夜间痛醒、黄疸或疑似肿瘤务必及时正规就医。",
+      "summary": "载于第三章第二节（p.17、19–20）：完整建立十二经纳地支时辰歌诀与24小时气血流注表，并以“五色合掌诊断—按时下针—看睡醒时辰变迁验效”贯通临床。",
+      "source_spans": [
+        {
+          "span_id": "sp:br:p17",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p017",
+          "pdf_page": 17,
+          "printed_page": 17,
+          "chapter_path": "第三章 二、十二经纳地支歌",
+          "quote": "肺寅大卯胃辰宫。脾巳心午小未中，申胱酉肾心包戌，亥焦子胆丑肝通。",
+          "quote_sha256": "2b65defa5454508fce131b9347662118d67aec36470b65094494c7f1f3f4b799",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:br:p19a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p019",
+          "pdf_page": 19,
+          "printed_page": 19,
+          "chapter_path": "第三章 二、十二经纳地支歌",
+          "quote": "寅时大家都知道是三点到五点，是凌晨三点到五点。大肠开卯时，卯时，是五点到七点。胃开辰时，七点到九点。脾脏开巳时，九点到十一点早上，心开午时，十一点到下午的一点，小肠，是一点到三点。再来是膀胱，是三点到五点。再来是肾脏，五点到七点。心包经呢，七点到九点。晚上九点到十一点是三焦经。",
+          "quote_sha256": "b30e83801af82cc9d41a1d73ba0be147324919d07f8fe90dbc9a45fa2d11474b",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:br:p19b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p019",
+          "pdf_page": 19,
+          "printed_page": 19,
+          "chapter_path": "第三章 二、十二经纳地支歌",
+          "quote": "胆经是凌晨，晚上十一点到凌晨一点，最后再回到肝经，一点到三点。",
+          "quote_sha256": "542695b3ebd30df239c8a6ad0655c6049aa3911184bc2e11424033210d9f5772",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:br:p19c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p019",
+          "pdf_page": 19,
+          "printed_page": 19,
+          "chapter_path": "第三章 二、十二经纳地支歌",
+          "quote": "当有一天呢，你有肝硬化，肝肿瘤，有东西在里面的时候，中医称为实。没有东西在里面，中医叫做虚。有东西在里面的时候，代表空间变小了，空间少了但血流的量仍是一样没变，还没把毒素完全代谢掉，大量的血又跑回心脏去了，红的增加，白的一样，所以表示颜色慢慢变黑了，肝病的人手就会变成暗红色。",
+          "quote_sha256": "d009736054f241e5540d659320feb0354bf13bd70dfaf8d41fa5be5c2fadb6e1",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:br:p19d",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p019",
+          "pdf_page": 19,
+          "printed_page": 19,
+          "chapter_path": "第三章 二、十二经纳地支歌",
+          "quote": "大肠是开早上五点到七点，所以起床要上大号，这是正常的身体。代表你气血流注没有问题。",
+          "quote_sha256": "514752c14fbdbf550a1ee2ac2dbef19b61ec6deb2e3e3d04756cad98e94255ad",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:br:p20a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p020",
+          "pdf_page": 20,
+          "printed_page": 20,
+          "chapter_path": "第三章 二、十二经纳地支歌",
+          "quote": "当中医能掌握住时机，可以帮我们诊断、帮我们治疗、验证。肝病人来找你，本来一点到三点不能睡，治疗后来可以睡了，能一觉到天亮，就是肝病好啦!",
+          "quote_sha256": "6b0f85366e0a766cf3682c02202502bb288f8d711e14b5bf835aef28e1bd55cd",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:br:p20b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p020",
+          "pdf_page": 20,
+          "printed_page": 20,
+          "chapter_path": "第三章 二、十二经纳地支歌",
+          "quote": "但是现在是本来一点到三点不能睡、又变成三点到五点不能睡，就是转到肺癌。",
+          "quote_sha256": "9fb9af149a82a4e7d18cb4d10ff167e8e4ecf46f1123851baa902304b9496be8",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:br:p20c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p020",
+          "pdf_page": 20,
+          "printed_page": 20,
+          "chapter_path": "第三章 二、十二经纳地支歌",
+          "quote": "有一个人每天晚上十二点钟一定醒过来，他有一个很大的胆结石，发病都是晚上十一点到一点，如果我帮他动手治，那你怎么知道帮他治好，很简单，好不好睡?",
+          "quote_sha256": "8deed7c0e8fd3392789c18a0b990c49e94b6722d3d8f3d3af6f87abb5eeedf9d",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "录“十二经纳地支歌”四句口诀（p.17）。"
+        ],
+        "ni_teaching": [
+          "提出“人纪是站在外面就知道里面”，以手掌颜色（肺白多心赤少为粉红；肝实血滞变暗红）、清晨卯时排便与夜间固定醒时做快速诊查。",
+          "将中医病程划分为早期身体即知之症状阶段、六经传变阶段与西医仪器检出阶段，强调地支流注可在仪器检出前捕获异常。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "p.19口述顺接处原印“晚上九点到十一点是三焦经。九点到十一点再回到胆，胆经是凌晨，晚上十一点到凌晨一点”，前“九点到十一点再回到胆”系口误叠句，紧接本句已自正为“晚上十一点到凌晨一点”。",
+          "“左病右治，右病左治”对称刺法载于第一章p.13（见 tech:timing_and_contraindications），不在本节p.19–20原文中。"
+        ],
+        "organizer_summary": [
+          "把背诵歌诀转化为实用诊断仪与疗效裁判尺：何时醒、何时便，直接读出气血停滞或传变之脏腑。"
+        ]
+      },
+      "open_questions": [
+        "p.20末句称“干支以后还要慢慢混合在一起”，第三章本节仅单用十二地支时辰配经，尚未展开天干地支相合之子午流注或灵龟八法按时取穴法。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "tech:yin_five_shu_and_mother_child",
+      "record_type": "technique",
+      "canonical_name": "十二正经井荣俞原经合总纲与阴经子母本穴法则",
+      "aliases": [
+        "阴经井木荣火俞土经金合水",
+        "阳经井金荣水俞木经火合土",
+        "手不过肘足不过膝",
+        "络穴原穴区别"
+      ],
+      "category": "five_shu_and_mother_child",
+      "section_ids": [
+        "ch3:s016"
+      ],
+      "clinical_purpose": "确立第三章第三节正经/奇经框架、肘膝以下五俞安全区、阴阳经五俞五行逆顺排列、络穴与原穴定位，以及向第四章手太阴肺经子母本穴的推演主干。",
+      "steps_or_rules": [
+        "正经与奇经总纲（ch3:s016，p.20）：正经十二条（六阴经、六阳经），奇经八脉为任脉、督脉、冲脉、带脉、阳蹻、阴蹻、阳维、阴维；“俞”作运输解（古字有月边）。",
+        "安全取穴区“手不过肘，足不过膝”（p.20）：十二正经井荣俞经合均位于手肘以下、膝盖以下，针刺安全、无伤及内脏之虞。",
+        "阴阳经五俞五行排序（p.20）：①所有阴经之五俞五行必依次为“木火土金水”（井木、荣火、俞土、经金、合水）；②所有阳经之五俞五行必依次为“金水木火土”（井金、荣水、俞木、经火、合土）。",
+        "络穴与原穴之分（p.20）：无论阴经或阳经，每条正经皆有一“络穴”，用以联络平行不相交接之经脉，使人体不致涣散；阳经比阴经多出一个独立的“原穴”（阴经以俞代原另详s022）。",
+        "肺经子母本穴推演示范（联动第四、五章 p.44–45、166–167）：以手太阴肺经（辛属阴金）为例——母穴属土为太渊（虚则补其母：久咳一周以上虚证）、子穴属水为尺泽（实则泻其子：新咳一周内/新痛五天内实证）、本穴同属金为经渠（可补可泻）；五俞各主治规则详s017–s021。"
+      ],
+      "cautions": "临床据五俞五行择子母穴时，仍须辨明新久虚实（如切忌将久咳肺虚误用子穴尺泽泻之），并结合原书禁忌（如尺泽多汗忌灸、经渠在寸口脉忌灸）与整体辨证。",
+      "summary": "以第三章第三节（p.20）为核心并贯通第四、五章手太阴肺经示范（p.44–45、166–167）：确立手不过肘足不过膝安全区、阴木火土金水 vs 阳金水木火土排序、络/原穴通则及肺经太渊/尺泽/经渠子母推演。",
+      "source_spans": [
+        {
+          "span_id": "sp:t4:p20c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p020",
+          "pdf_page": 20,
+          "printed_page": 20,
+          "chapter_path": "第三章 三、十二正经之井荣俞原经合穴",
+          "quote": "正经有十二条，奇经有八条，这个十二正经，每一条经络，不管是阴经还是阳经。有六阳经、六阴经，加起来共十二条。奇经八脉有任脉、督脉、冲脉、带脉、阳蹻，阴蹻、阳维、阴维。",
+          "quote_sha256": "17623d2b1d7e454539a1a0b2e2d2f4c358cb963a6dbd6d3c61f6a22d640eab4e",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t4:p20b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p020",
+          "pdf_page": 20,
+          "printed_page": 20,
+          "chapter_path": "第三章 三、十二正经之井荣俞原经合穴",
+          "quote": "井荣俞经合都是手不过肘，足不过膝。我们下针的时候，在手肘以下，膝盖以下下针，这个字念怎么样无所谓，不要在形上面去争，功能最重要。",
+          "quote_sha256": "7b687100bfccd5ab42cb4bbdea6b42a3e67e87f4b568b1423712f11767e216db",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t4:p20a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p020",
+          "pdf_page": 20,
+          "printed_page": 20,
+          "chapter_path": "第三章 三、十二正经之井荣俞原经合穴",
+          "quote": "我在讲阴经的时候，它有五行的排行，叫做木火土金水，你这样看就很清楚。任何的阴经，他的井穴通通是木，任何荣穴都是火",
+          "quote_sha256": "3a85f9f16f5fb6b34d8d42d4bbf973c20b09abfb9239f86a7baa0ef991940e83",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t4:p20d",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p020",
+          "pdf_page": 20,
+          "printed_page": 20,
+          "chapter_path": "第三章 三、十二正经之井荣俞原经合穴",
+          "quote": "每一条阳经都有井荣俞经合，属性是金水木火土。",
+          "quote_sha256": "2c92989f958df48f6503d9ecd16c37b227adc5317b1d4b2b681f5b2386e147f9",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t4:p20e",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p020",
+          "pdf_page": 20,
+          "printed_page": 20,
+          "chapter_path": "第三章 三、十二正经之井荣俞原经合穴",
+          "quote": "阴经和阳经的每一条经，经上面都有一个络，叫络穴，什么叫络穴，这两条不交接，平行，是经，光这样不行，人就是散了。所以，每一条经都一定要有它的络穴。阳经比阴经多一个东西，就是原穴。",
+          "quote_sha256": "dc7e34e96c554710197791c402e3c04c5969abf15f1d917bed364b157c9ffe98",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t4:p44",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p044",
+          "pdf_page": 44,
+          "printed_page": 44,
+          "chapter_path": "第四章 6、反关脉与经渠穴",
+          "quote": "手太阴肺经的母穴就是太渊，手太阴肺经的子穴就是尺泽，本穴就是经渠。",
+          "quote_sha256": "dfdc6cdf774bda561d2244ada1a516b93c456b9343237142c7e8c84afe89070f",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:t4:p166",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p166",
+          "pdf_page": 166,
+          "printed_page": 166,
+          "chapter_path": "第五章 五俞穴治疗与原络治疗",
+          "quote": "“井主心下满”、“荣主身热”、“俞主体重结痛”、“经主喘咳寒热”、“合主逆气而泻”",
+          "quote_sha256": "328982cef99833276cfe0bef05a098373b214034419e8e04359dd737b7982986",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "提《针灸大成》“手不过肘，足不过膝”歌（p.20）；并联动第五章《针灸大成》“井主心下满”五句（p.166）。"
+        ],
+        "ni_teaching": [
+          "提醒勿在“俞”字读音字形（如月边输/俞）上空争，功能最为重要。",
+          "直白阐释“络穴”存在之意义：沟通平行不交接之经脉，使全身气血联成一体而不散。",
+          "在第四章肺经（p.44–45）落实“新病实泻尺泽、久病虚补太渊”及经渠本穴之用。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "p.20原文“经上面都有一个络”之前字序打印作“阴经和阳经的每一条经，经上面都有一个络”，整理引用精准分段。",
+          "第三章s017–s021之五俞主治分条、s022原穴与s023四季关系分别单独立条深化，本条目专主s016总纲并保持试点肺经跨章连线完整。"
+        ],
+        "organizer_summary": [
+          "全书最关键的穴性公式起点：阴木火土金水、阳金水木火土，以及手不过肘足不过膝的安全基线。"
+        ]
+      },
+      "open_questions": [
+        "第三章p.20仅点出阴阳经五俞五行排序，未在此节提前演示各经子母穴及“虚补其母、实泻其子”算例；另第五章p.171“委中是膀胱经的母穴”与阳经金水木火土归属（膀胱属阳水，其母当属金即至阴）是否一致，需结合第四章足太阳膀胱经文本核校。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "tech:five_shu_five_indications",
+      "record_type": "technique",
+      "canonical_name": "井荣俞经合五俞穴分主五症法则与全表",
+      "aliases": [
+        "病在脏取井",
+        "病变于色取荣",
+        "病在时间取俞",
+        "病变于音取经",
+        "病起于饮食取合"
+      ],
+      "category": "five_shu_indications",
+      "section_ids": [
+        "ch3:s017",
+        "ch3:s018",
+        "ch3:s019",
+        "ch3:s020",
+        "ch3:s021"
+      ],
+      "clinical_purpose": "掌握第三章第四至八节井、荣、俞、经、合五类特定穴的五大主治规律（在脏、变色、定时、变音、饮食）、十二经荣俞全表及饮食养胃气法则。",
+      "steps_or_rules": [
+        "病在脏取井穴（s017，p.20–21及注①）：病越深在脏者取指/趾末梢极为敏感之井穴（《灵枢·九针十二原》“所出为井”，如地下出泉）。临床“井主心下满”，如动脉血管堵塞之心剧烈疼痛实症，可取足阳明胃经井穴厉兑（第二趾端）以一寸针极浅刺一点点即止剧痛。",
+        "病变于色取荣穴（s018，p.21及注①）：《黄帝内经》五色应五脏——青肝、赤红心、黄脾、白肺、黑肾；病变见于面色或局部色异时取对应经络荣穴（《灵枢》“所溜为荣”）。十二经荣穴（注①）：肺鱼际、肝行间、心包劳宫、肾然谷、心少府、大肠二间、脾大都、三焦液门、小肠前谷、胆侠溪、胃内庭、膀胱通谷。",
+        "病在时间者取俞穴（s019，p.21及注②③）：按地支时辰周期发病者（如每晚12点醒属胆经、每晚3–5点发气喘醒属肺经），依《针灸甲乙经》（晋皇甫谧撰）取对应经络俞（shu）穴效果极佳；亦可取荣穴（痛感较强，故云“亲人用俞穴，敌人选荣穴”）。《灵枢》“所注为俞”，十二经俞穴（注②）：肺太渊、大肠三间、心包大陵、三焦中渚、心神门、小肠后溪、脾太白、胃陷谷、肝太冲、胆足临泣、肾太溪、膀胱束骨。",
+        "病变于音者取经穴（s020，p.21及注④）：如感冒或脏腑病变导致声音改变、沙哑者，按发音所属脏腑经络取经穴（《灵枢》“所行为经”，多位于腕踝附近及臂胫部；兼提相法“面大声沙骨粗”）。",
+        "病起于饮食取合穴（s021，p.21–22及注⑤）：饮食不节、暴饮暴食及胀满之症多选肘膝附近之合穴（《灵枢》“所入为合”，脉气最为盛大如水流合入大海）。养生法则：全年保持“七、八分饱”（饭后略留饿感）以训练胃气；重病只要尚有饥饿感（有胃气）即存生机，垂危多无胃口。"
+      ],
+      "cautions": "井穴“厉兑止心剧痛”所述动脉堵塞属高危心血管急症，严禁以针刺替代现代心梗急救抢救；井穴指趾末端极为敏感，严禁用长针（如三寸针）深刺；五俞主治须合四诊整体辨证。",
+      "summary": "整合第三章第4–8小节（p.20–22及6条原书脚注）：系统整理井（在脏/心下满）、荣（变色+十二经全表）、俞（定时+十二经全表+甲乙经）、经（变音）、合（饮食胀满+七八分饱养胃气）五律。",
+      "source_spans": [
+        {
+          "span_id": "sp:5s:p20a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p020",
+          "pdf_page": 20,
+          "printed_page": 20,
+          "chapter_path": "第三章 四、病在脏取井穴",
+          "quote": "所谓病在脏取井就是病在越深的地方，我们要在指头末稍，井穴通通在手指头或脚趾头的末稍，非常的敏感。比如说，足阳明胃经的井穴，我们叫厉兑，位在第二个脚趾头。我们下针的时候，“井主心下满”，临床上，在动脉血管堵塞，针一下去，病人会感到有个人在里面扫地",
+          "quote_sha256": "f25cc27aad2b0b3fb707a138f4117919e29e8a288a29f739d61a831f73742c5e",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:5s:p20fn1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p020",
+          "pdf_page": 20,
+          "printed_page": 20,
+          "chapter_path": "第三章第20页脚注①",
+          "quote": "① 五俞穴的一种，穴位均位于手指或足趾的末端处。《灵枢•九针十二原篇》 ：“所出为井”。也就是指在经脉流注方面好像水流开始的泉源一样。“井”为地下出泉。 全身十二经脉各有一个井穴。",
+          "quote_sha256": "96634f0402f5116217f54e22cf6b3a02dc4594b95c76bbbddab1d908525de295",
+          "role": "other_annotations"
+        },
+        {
+          "span_id": "sp:5s:p21a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第三章 五、病变于色取荣穴",
+          "quote": "《黄帝内经》指出病变在颜色上，青色为肝，红色主的是心，脾主黄色，肺是白色，肾是黑色。",
+          "quote_sha256": "87d62c642d210922168acf9529a9b0068dd9b5473c7d8986321050bb57d06beb",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:5s:p21fn1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第三章第21页脚注①",
+          "quote": "① 五俞穴的一种，均位于手足部的远端。《灵枢．九针十二原篇》：“所溜为荣”。也就是指在经脉流注方面好像刚流出泉源时的 细小水流一样。全身十二经各有一个荣穴，分别为 ： 肺经鱼际、肝经行间、心包经劳宫、肾经然谷、心经少府、大肠经二间、脾经大都、三焦经液门、小肠经前谷、胆经侠溪、胃经内庭、膀胱经通谷。",
+          "quote_sha256": "33dcc234a67b8b75b498e797f8f1c15013f2882f41628e8acd52f707641bef7a",
+          "role": "other_annotations"
+        },
+        {
+          "span_id": "sp:5s:p21b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第三章 六、病在时间者取俞穴",
+          "quote": "凡按照时间发病的，如每天晚上十二点起来，病是发在胆经上，取胆经的俞穴。按地支歌去判断。过去有的是用荣穴，例如有的人每天晚上因发气喘起来，或每天晚上三点钟起来，要五点才能睡，我们要下他的肺经的俞穴。这出自《针灸甲乙经》③，用俞穴的效果非常好。也可以用荣穴，也有效果。",
+          "quote_sha256": "1f022ac5ae6547b4312d91544c6c8487ae4c3adcdf682a6f715c599191ec6a1f",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:5s:p21fn2",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第三章第21页脚注②",
+          "quote": "② 五俞穴的一种，均位于手或足部。《灵枢•九针十二原篇》：“所注为俞”。也就是在经脉流注方面好像水流逐渐淮集输注到更大的水渠一样。全身十二经各有一个俞穴，分别是：肺经太渊、大肠经三间、心包经大陵、三焦经中渚、心经神门、小肠经后溪、脾经太白、胃经陷谷、肝经太冲、胆经（足）临泣、肾经太溪、膀胱经束骨。",
+          "quote_sha256": "afbe56dbeae32b686f887ef3c2b45de638286fc5a457373833a930ae93fee3fd",
+          "role": "other_annotations"
+        },
+        {
+          "span_id": "sp:5s:p21fn3",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第三章第21页脚注③",
+          "quote": "③ 《针灸甲乙经》是中国针灸学专著，原名《黄帝三部针灸甲乙经》，简称《甲乙经》，晋皇甫谧（215-282年）编撰于魏甘露四年（259年），共10卷，南北朝时期改为12卷本。",
+          "quote_sha256": "531aab17d26a6a6f8d0546426bd1dd8a84047c191845a384de5e0e0a9eff9c36",
+          "role": "other_annotations"
+        },
+        {
+          "span_id": "sp:5s:p21c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第三章 七、病变于音者取经穴",
+          "quote": "如果是感冒，声音变了，就用经穴来治疗，每一条经都有它的经穴，声音是从那器官发出来。",
+          "quote_sha256": "aef1ec209798e472e43800078c0c80bfde1ca8d5cd4a1219479a23f97a318de9",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:5s:p21fn4",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第三章第21页脚注④",
+          "quote": "④ 五俞穴之一。《灵枢•九针十二原》：“所行为经”。意为脉气至此，犹如通渠流水之迅速经过。经穴多分布在腕、踝关节附近及臂、胫部。",
+          "quote_sha256": "36fa7f6408427d7ebfbfc17a18e7feab8504a7b677192ccfd2a1ea0c4948829f",
+          "role": "other_annotations"
+        },
+        {
+          "span_id": "sp:5s:p21d",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第三章 八、病起于饮食取合穴",
+          "quote": "真正对身体最好的，是吃完还要有一点饿的感觉，一年四季保持有一点饿，只要七、八分饱就好，因为这样不断训练你的胃气。",
+          "quote_sha256": "ae82af09edc17658e229609b63454f7f3708cb28352d26c13488d26d2654c3e2",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:5s:p22a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p022",
+          "pdf_page": 22,
+          "printed_page": 22,
+          "chapter_path": "第三章 八、病起于饮食取合穴",
+          "quote": "饮食不节，暴饮暴食的，还有胀满的病，我们大部分选用合穴来治疗。",
+          "quote_sha256": "4a9d7a2cdf90ea050c9b6f22ac1b0878bf40b76f2452ce0756be5902976d3587",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:5s:p21fn5",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第三章第21页脚注⑤",
+          "quote": "⑤ 五俞穴之一。《灵枢•九针十二原》：“所入为合”。意为脉气自四肢末端至此，最为盛大，犹如水流合入大海。合穴多分布在肘、膝关节附近。",
+          "quote_sha256": "6aab5d096924fc0cdc9c947807a40c287fb3b3afe72b5605a3d0b68b7a9bfff5",
+          "role": "other_annotations"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "引《黄帝内经》五色配五脏、《灵枢·九针十二原》“所出为井、所溜为荣、所注为俞、所行为经、所入为合”及“井主心下满”（p.20–21）。",
+          "引晋皇甫谧《针灸甲乙经》时症取俞法（p.21）。"
+        ],
+        "ni_teaching": [
+          "点明井穴治“实症”之迅速（厉兑治心下满/动脉堵塞用一寸针浅刺即止）；说明时症取俞或取荣均可，荣穴较痛。",
+          "借合穴治饮食胀满申明“七八分饱养胃气”观：古今重病凡能知饥饿有胃气者多可救回，临终皆失食欲。"
+        ],
+        "other_annotations": [
+          "p.20–21五条脚注完整保留十二经荣穴（12穴）、俞穴（12穴）穴名清单、《甲乙经》成书年代与经/合穴解剖分布概括。"
+        ],
+        "collation_notes": [
+          "p.21脚注②原文排印“逐渐淮集”系“汇聚”形近讹字，原文引用照录。",
+          "p.21“肺经的俞穴（实指太渊）”在第四章肺经（p.45）复补充师传经验亦可用荣穴鱼际。"
+        ],
+        "organizer_summary": [
+          "直接回答临床“什么症状表现找井、荣、俞、经、合哪一格”的五把对应钥匙。"
+        ]
+      },
+      "open_questions": [
+        "p.20–21脚注①②详细列出了十二经荣穴与俞穴全表，但脚注①④⑤及正文尚未在本章一口气列出十二经全部井穴、经穴、合穴名称清单，须随第四章十二经逐经审校补全。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "tech:yuan_source_points_rule",
+      "record_type": "technique",
+      "canonical_name": "原穴安五脏法则与阴经以俞代原规则",
+      "aliases": [
+        "五脏不平衡用原穴",
+        "阴经以输为原",
+        "阳经有原穴",
+        "十二原"
+      ],
+      "category": "yuan_source_points",
+      "section_ids": [
+        "ch3:s022"
+      ],
+      "clinical_purpose": "阐明原穴“安五脏、调五脏不平衡”之核心定位，以及“阴经以五俞之俞（输）穴代原、阳经另置独立原穴”的结构规则。",
+      "steps_or_rules": [
+        "原穴基本功能（p.22）：原穴专门用来安五脏、治疗五脏不平衡或不安之症，多分布于四肢腕踝关节附近。",
+        "阳经另置原穴（p.20、p.22及注①）：十二正经中，六条阳经均于五俞穴中的腧（俞）穴之后另置一个独立原穴（故阳经比阴经多出一原穴）。",
+        "阴经无独立原穴、以俞代原（p.22注①及p.167互证）：六条阴经的原穴与五输穴中的输（俞）穴同穴名、同部位，实为一穴，即“阴经以输为原”、“阴经之输并于原”（例如手太阴肺经即以太渊为俞穴兼原穴）。"
+      ],
+      "cautions": "运用阴经以俞代原穴时（如太渊、太白、神门、大陵、太冲、太溪），应结合各自解剖邻近动脉（如太渊邻桡动脉）避脉进针及禁灸规定。",
+      "summary": "载于第三章第九节（p.22及脚注①）：确立原穴安五脏、调不平衡的基本概念，明确阳经另设独立原穴、阴经以输（俞）穴并代原穴的十二原结构律。",
+      "source_spans": [
+        {
+          "span_id": "sp:yuan:p22a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p022",
+          "pdf_page": 22,
+          "printed_page": 22,
+          "chapter_path": "第三章 九、五脏不平衡时用原穴",
+          "quote": "原穴是安五脏的，五脏不平衡时用的。阳经都有原穴。对不平衡的定义，不安的定义是什么?到讲脏腑时再告诉你们。诸位要先对原穴有个基本的观念，阳经都有原穴。",
+          "quote_sha256": "680a24d271d499f462da8d110b90997503ace866c7592c002e61815c29e8d33e",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:yuan:p22fn1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p022",
+          "pdf_page": 22,
+          "printed_page": 22,
+          "chapter_path": "第三章第22页脚注①",
+          "quote": "① 脏腑原气输注、经过和留止于十二经脉四肢部的腧穴，又称“十二原”。“原”含本原、原气之意，是人体生命活动的原动力，为十二经脉维持正常生理功能之根本。十二原穴多分布于腕踝关节附近。阴经之原穴与五输穴中的输穴同穴名，同部位，实为一穴，即所谓“阴经以输为原”，“阴经之输并于原”。阳经之原穴位于五输穴中的腧穴之后，既另置一原。",
+          "quote_sha256": "d2eeb67c80565435dd74778a7e57bfd81e7b34b004bae2157b9c367c1e6c6f3a",
+          "role": "other_annotations"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [],
+        "ni_teaching": [
+          "先在第三章建立“原穴安五脏、阳经皆有独立原穴”之核心概念，并将“不平衡/不安”的具体临床辨识留待脏腑经络分论。"
+        ],
+        "other_annotations": [
+          "p.22脚注①详释“十二原”本原原气涵义，明确揭示“阴经以输为原”“阴经之输并于原”及“阳经于腧穴之后另置一原”，补足正文未展开的阴经原穴去向。"
+        ],
+        "collation_notes": [
+          "p.22脚注①末句原文排印“既另置一原”（当为“即另置一原”），照录原文以存真。",
+          "原穴实际配穴法则（主经取原、表里客经取络之“原络/主客治疗”）已入第五章专条（见 pilot 条目 tech:shu_mu_yuan_luo_hui_xi）。"
+        ],
+        "organizer_summary": [
+          "回答“为何阴经五穴而阳经六穴”的关键一节：阴经以俞代原，阳经另有一原。"
+        ]
+      },
+      "open_questions": [
+        "正文对“五脏不平衡/不安”的具体临床定义明言“到讲脏腑时再告诉你们”，且p.22正文未举十二原穴具体穴名清单，尚须随第四章十二经与第五章原络篇逐一实配。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "tech:seasonal_five_shu_and_yang_yin",
+      "record_type": "technique",
+      "canonical_name": "五俞与四季对应及春夏养阳秋冬养阴法则",
+      "aliases": [
+        "冬刺井",
+        "长夏定义",
+        "味主秋刺合",
+        "春夏养阳秋冬养阴"
+      ],
+      "category": "seasonal_correspondence",
+      "section_ids": [
+        "ch3:s023"
+      ],
+      "clinical_purpose": "阐述第三章第十节所授五俞穴与冬/夏/长夏/秋季节之对应、长夏“四季转换前后各两周”之《易经》义，以及“有形为阴、无形力量为阳”的四季养生总纲。",
+      "steps_or_rules": [
+        "原文所授四季与五俞对应（p.22）：①井穴主冬天、脏主冬，冬天刺井穴（手肘以下、膝盖以下安全无误伤）；②时间问题若发生在夏天，仍取其俞穴；③声音（经穴）主长夏；④引《针灸甲乙经》“味主秋”——凡味觉或嗅觉异常（如口中甜、口苦、口发金属味等），治在合穴、主秋。",
+        "“长夏”的《易经》定义（p.22）：长夏非指盛夏偏长，而是依《易经》指两季交替转换之时间段——前三月之末两周与后三月之首两周合并成一月，即春夏、夏秋、秋冬、冬春每次节气交接各占一个月，共四个长夏交接期。",
+        "春夏养阳、秋冬养阴与阴阳实义（p.22）：臂膊皮肤、肌肉、血管等一切“看得到、有形之体”为阴；握力、肌力等“无形之力量与功能”为阳（例如肝好才能用力握拳，肝病者不能紧握）。春夏宜顺应生发多运动以养阳，秋冬主收敛以养阴（包含节制房事），依循节气不违逆则延寿少病。"
+      ],
+      "cautions": "四季刺法仍须结合患者当下病证虚实与部位深浅，切勿机械套用；如口发异味、握力骤减等亦可能提示代谢或神经/肝脏器质疾病，须配合正规医学排查。",
+      "summary": "载于第三章第十节（p.22）：记录本节冬刺井、夏取俞、音主长夏、味主秋治合之讲授实况，详释长夏为四季转换各一月，以及有形为阴/无形为阳的春夏养阳秋冬养阴养生观。",
+      "source_spans": [
+        {
+          "span_id": "sp:sea:p22a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p022",
+          "pdf_page": 22,
+          "printed_page": 22,
+          "chapter_path": "第三章 十、与四季的关系",
+          "quote": "井穴主冬天，脏主冬，冬天的时候刺井穴。井荣俞经合五穴，都在手肘以下或膝盖以下。",
+          "quote_sha256": "c542c519e192f5b7e680cd48c4ad977bb0a67d6715b046619800c8c6ac431032",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:sea:p22b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p022",
+          "pdf_page": 22,
+          "printed_page": 22,
+          "chapter_path": "第三章 十、与四季的关系",
+          "quote": "现在介绍的时间，若出问题时是夏天，我们一样取他的俞穴。声音主长夏，我们对长夏的定义，中医哦，依中国易经，在春三月的时候，这三个月，其实不是一月到三月，而走到了第三个月的最后两周，即将要转换为夏天的时候。夏天三个月，第一个月最早的两周。也就是说，春和夏交接的前后两个礼拜，春天取两个礼拜，夏天取两个礼拜，把它合并成一个月，叫长夏。",
+          "quote_sha256": "e00b859c6e676e07eb53fb65414a3f96fff416bdebb9a80624da2e6bd443664d",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:sea:p22c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p022",
+          "pdf_page": 22,
+          "printed_page": 22,
+          "chapter_path": "第三章 十、与四季的关系",
+          "quote": "至于合穴，《针灸甲乙经》指出，味主秋，常有人味道有问题，包括嗅觉，还有人嘴巴发出金属的味道。如我嘴巴为什么那么甜，我嘴巴为什么那么苦。只要有味道的问题治在合穴，主秋，秋天。",
+          "quote_sha256": "8c16777166c50d7b1c8c04570883aff8d6e766f08e502b2523cf0fb5fa6ce2ed",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:sea:p22d1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p022",
+          "pdf_page": 22,
+          "printed_page": 22,
+          "chapter_path": "第三章 十、与四季的关系",
+          "quote": "那为什么要去春夏秋冬，中医的观念，春夏养阳、秋冬这个季节是养阴",
+          "quote_sha256": "a38530ca59def5ba43b2cf80f9f9a6ba338bdf918fd8c202d2557c487fc55860",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:sea:p22d2",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p022",
+          "pdf_page": 22,
+          "printed_page": 22,
+          "chapter_path": "第三章 十、与四季的关系",
+          "quote": "看我的手臂，看得到的都是阴，阴就是有形的。力量有多大，那就是阳。比方说，为什么可以握，肝病的不可以握，握的力量有多大，肌肉的力量有多大，这些无形的就是阳。",
+          "quote_sha256": "cb7fb47899fcd0e353e729d76758d93151de4dd1aea6db3bd56cda67184cab13",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:sea:p22e",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p022",
+          "pdf_page": 22,
+          "printed_page": 22,
+          "chapter_path": "第三章 十、与四季的关系",
+          "quote": "所谓春天夏天要养阳，秋冬主收敛要养阴。圣人、智者告诉我们，要随着节气定，春夏要多运动，不是秋冬不用运动，而是要收敛，包括房事要节制。",
+          "quote_sha256": "4e3ba2ec7eebb3937ee8f2f27798ae8a537309c8420445f2e2cc2b4cb75b0b59",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "引《针灸甲乙经》“味主秋”阐释合穴治味觉异常；引“春夏养阳，秋冬养阴”阐释顺应节气（p.22）。"
+        ],
+        "ni_teaching": [
+          "给出极富启发的“长夏”定义：四季每季交接前后各两周（四正季间各有一长夏交接月），而非仅仅夏季之中段。",
+          "用手臂比喻“有形形体皆为阴、无形握力肌力为阳”，批驳把阴阳庸俗狭隘化的解释。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "本节口述系顺《难经·六十八难》“井主心下满，荥主身热……”及《甲乙经》“病变于音/味主秋”分属结构而讲，其所言“井穴主冬/冬天刺井穴、声音主长夏、味主秋治合穴”，与传统《难经·七十四难》“春刺井、夏刺荥、季夏刺俞、秋刺经、冬刺合”四季直配不同，整理时严依本节原文据实记载而不擅改。"
+        ],
+        "organizer_summary": [
+          "澄清“长夏”与“阴阳”二大中医基础概念的真实临床所指，并将五俞对应延伸至四季节气调摄。"
+        ]
+      },
+      "open_questions": [
+        "第三章p.22本节未明言“春季”及“荣穴”在四季中的对应位置，且未在本节展开《难经》“春井夏荣长夏俞秋经冬合”与“实泄其子、虚补其母”旺衰补泻算例（子母补泻实操在第四章起逐经展开）。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "tech:five_elements_disease_transmission",
+      "record_type": "technique",
+      "canonical_name": "五行生克传变与上工治未病截断法则",
+      "aliases": [
+        "上工治未病",
+        "五行相克传变",
+        "先安未受邪之地",
+        "肾是胃之关"
+      ],
+      "category": "five_elements_transmission",
+      "section_ids": [
+        "ch3:s024"
+      ],
+      "clinical_purpose": "依据第三章第十一节区分正常五行相生与病变五行相克传变路径，践行“上工治未病”——先强化被克之下一脏腑以截断病势恶化。",
+      "steps_or_rules": [
+        "正常相生 vs 病变相克（p.23）：正常人脏腑按五行相生运转；当某脏出现实质病变时，则呈相克传变（例如心克肺→肺克肝→肝克肾→肾再克回心则人危，故“克”即越治越坏之病传路线）。",
+        "“上工治未病”截断总则（p.23）：见到一脏发病，立即先行强化其所克之下一脏（未病之脏），使病邪止步于原处不致继续传变。",
+        "临床四大相克截断示范（p.23）：①肝病（面黄、手掌红热、丑时1–3点难眠）→问胃口并立刻先强脾土，病不传脾；②肺癌初期（咳嗽、寅时3–5点不眠、口吐白沫）→先强肝木，病止于肺不传肝；③肾脏病/肾衰竭征兆（头晕、恶心想吐，“肾是胃之关”关口不顺）→先顾强心脏火（询问能否通宵安睡及手脚温凉以测心力；并释血液透析亦关乎处理心血）；④心脏病（失眠、手脚冰冷因心力无法将血送达四肢末梢）→先强肺金，并从情志嘱患者戒“忧”（忧能伤肺）。"
+      ],
+      "cautions": "本节所举肺癌、肝病转移、肾衰竭、心脏病及眩晕呕恶危候均属重大致命疾病，必须由专业医疗团队结合现代急重症与专科诊疗同步处理，绝不可因“治未病”理论而延误急诊或专科治疗。",
+      "summary": "载于第三章第十一节（p.23）：确立“生为常、克为病”及“上工治未病”截断法——见肝先强脾、见肺先强肝、见肾先强心、见心先强肺并调情志忧伤肺。",
+      "source_spans": [
+        {
+          "span_id": "sp:5e:p23a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p023",
+          "pdf_page": 23,
+          "printed_page": 23,
+          "chapter_path": "第三章 十一、五行",
+          "quote": "所谓的正常人应该是这样走的。当器官有病变时就不是这样走，而是克。他如果克到这个脏，干卿何事?例如从心脏克到肺脏，肺脏会再克到肝脏，肝脏再克到肾脏，最后克回心脏，人就死掉了。",
+          "quote_sha256": "eef907d82e817225b9cf9c729271c96ec86f87cd8dd0b8935c97e953f0d102ca",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:5e:p23b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p023",
+          "pdf_page": 23,
+          "printed_page": 23,
+          "chapter_path": "第三章 十一、五行",
+          "quote": "上工治未病，而不治已病。我们看到就先去治未病，先把病停住了，病就不会再进。",
+          "quote_sha256": "c846bcc8ba4a8fbf2164914427a6a4e9d7c6ebc78f762f974f8acd134b2de60d",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:5e:p23c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p023",
+          "pdf_page": 23,
+          "printed_page": 23,
+          "chapter_path": "第三章 十一、五行",
+          "quote": "当我们发现肝病的时候，中医就会看到脸有点黄，手掌有点红热，半夜无法睡觉，诊断已经结束了。再问，胃口好不好?并赶快去强土，土是脾。根本还没有得到病前，先去强脾，一强脾，病就不会再前进了，会停下来。",
+          "quote_sha256": "2792f9c8f046c173fc2f98caa20b35064356a2dc2e67a9770bf17dfe62e358eb",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:5e:p23d",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p023",
+          "pdf_page": 23,
+          "printed_page": 23,
+          "chapter_path": "第三章 十一、五行",
+          "quote": "当我们知道肺癌初期，就先去强肝，病就停在肺上。",
+          "quote_sha256": "306ac74968cbc41f215f46deb76c9f74742798995aa20977897285ea7b4c2420",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:5e:p23e",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p023",
+          "pdf_page": 23,
+          "printed_page": 23,
+          "chapter_path": "第三章 十一、五行",
+          "quote": "治疗肾的时候，要会先去顾心脏，先把心脏顾好，肾就不会恶化。一但肾脏不行，就快挂了，会头晕，恶心想吐，肾是胃之关，胃的关口，一个人站不起来瞑眩想吐，知道肾快衰竭了，这时中医去下手，还是先去强心脏。",
+          "quote_sha256": "4935156edfb8dbfb25727badad151679a34bdd7f0a0e6ba2f2dd93146e437180",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:5e:p23f",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p023",
+          "pdf_page": 23,
+          "printed_page": 23,
+          "chapter_path": "第三章 十一、五行",
+          "quote": "一看到心脏病，先问好不好睡觉?不好睡觉!再问手脚冰不冰冷，因为手脚是四肢末梢，手脚冰冷表示心脏的血液没有办法压到四肢末梢。若心脏很好，手脚是温热的。我们动手也是先去强肺，强肺方式很多，从情志上，忧能伤肺，也要告诉病人担忧会伤到肺脏",
+          "quote_sha256": "e5a36f7f87bf7de1e8cd25ba0dda5de9e1ddda4ba75f536b7885ee914654357a",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "引经典“上工治未病，而不治已病”及“肾是胃之关”、“忧能伤肺”（p.23）。"
+        ],
+        "ni_teaching": [
+          "将难晦的五行相克直接转为急重症截断策略：不单盯着已病脏器猛攻，而是“抓紧把下一站（所克之脏）守住”，阻止癌症移转或脏器衰竭连锁反应。",
+          "给出极简四诊指标：手脚温热否与安睡否测心阳，晨便与胃口测大肠脾胃，站起晕眩呕吐（肾胃之关）辨肾衰危象。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "原文第23页以“心→肺→肝→肾→心”为例说明传变链（心火克肺金、肺金克肝木、肝木克脾土但此处直示例肝病强脾且后文略提肝肾相联而跳接肾水克心火），讲课重在演示“克即病进，强其下站则停”。"
+        ],
+        "organizer_summary": [
+          "第三章终结篇：把天干、地支、五俞、五行全部拧成一句话——治未病即是预先强固即将被克传之脏。"
+        ]
+      },
+      "open_questions": [
+        "p.23末称“讲到肺经的时候我会一条条列出来”，本节尚未系统展开各脏腑全部“强土/强肝/强心/强肺”的具体针灸穴方与五志七情全表，留待第四章各正经分节逐一补入。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    }
+  ],
+  "conditions": [],
+  "relations": [
+    {
+      "id": "rel:ch1_3:001",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:bl43:膏肓",
+      "to_id": "tech:moxa_methods",
+      "label": "隔姜灸百壮要穴",
+      "note": "膏肓穴隔姜灸百壮，无所不疗",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:001:p11",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p011",
+          "pdf_page": 11,
+          "printed_page": 11,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "譬如说，不论是什么病，灸膏肓穴灸百壮，无所不疗。",
+          "quote_sha256": "76d4f1bc58c802ed906b199941f35d6b116a6923a588d08c17cf4080d7042d07",
+          "role": "ni_teaching"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:002",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:ren08:神阙",
+      "to_id": "tech:moxa_methods",
+      "label": "隔盐灸主穴",
+      "note": "炒温青盐填神阙治寒利热利",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:002:p12",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p012",
+          "pdf_page": 12,
+          "printed_page": 12,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "用盐巴填满神阙穴（就是肚脐），再放艾绒上去灸。",
+          "quote_sha256": "d0e40f9ece32b0d7c7b49c78899f4d7039fca74059054968a23d08f5edd61a8d",
+          "role": "ni_teaching"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:003",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:pc08:劳宫",
+      "to_id": "tech:moxa_methods",
+      "label": "破伤风退病标记穴",
+      "note": "头尾施灸后病势自手指退至劳宫示离开心脏",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:003:p12",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p012",
+          "pdf_page": 12,
+          "printed_page": 12,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "就在退了，退到手掌心，退到劳宫时，就知道病离开心脏。",
+          "quote_sha256": "4a268d775682216c1d828c76dfeaaef75c4961c23498cc5bf232aed507c3f77c",
+          "role": "ni_teaching"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:004",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:extra:十宣",
+      "to_id": "tech:emergency_first_aid",
+      "label": "急救第二步放血穴",
+      "note": "人中未醒时十指尖十宣挤放血",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:004:p13",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "若仍未醒，第二个就是“十宣”放血。",
+          "quote_sha256": "e274cb64b7aa534afe0268f5b038f14440b7bd1d188e16b83146c277c8866fd1",
+          "role": "ni_teaching"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:005",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:ki01:涌泉",
+      "to_id": "tech:emergency_first_aid",
+      "label": "急救第四步要穴",
+      "note": "十宣十趾未醒后下涌泉（忌用三寸针）",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:005:p13",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "若还没醒，就再下“涌泉”穴。",
+          "quote_sha256": "85b909b9aaab18ade0bb8d998d8a1eb7e63decda295b6bc637c7a25b53bc7d12",
+          "role": "ni_teaching"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:006",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:du20:百会",
+      "to_id": "tech:emergency_first_aid",
+      "label": "急救第五步面赤放血",
+      "note": "刚中风面赤昏迷百会点刺放血不下针",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:006:p13",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p013",
+          "pdf_page": 13,
+          "printed_page": 13,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "若还不醒，就在“百会”放血。“百会穴”一般是放血用。我们不下针。",
+          "quote_sha256": "7c62cf63a4d848dd2ee5f8d580575db26fb5eb89029a73ffbff39e1311cb2db0",
+          "role": "ni_teaching"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:007",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:st17:乳中",
+      "to_id": "tech:cupping_therapy",
+      "label": "火罐禁忌部位",
+      "note": "乳中禁拔火罐恐乳头流黄水",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:007:p14",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p014",
+          "pdf_page": 14,
+          "printed_page": 14,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "有些地方不能拔火罐，例如乳中，否则乳头会流黄水出来。",
+          "quote_sha256": "14fd7a5b72217c179f32576087be305dd3f1394b14976ebbcabd23f4cfb352b7",
+          "role": "ni_teaching"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:008",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:lu09:太渊",
+      "to_id": "tech:yuan_source_points_rule",
+      "label": "阴经以俞代原示范",
+      "note": "肺经以五俞之俞穴太渊兼代原穴",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:008:p21",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "肺经太渊",
+          "quote_sha256": "b4e3baa40641bd2dba1375dd45133c982d3010957314e0519336d8b815ef3e64",
+          "role": "other_annotations"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:009",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:lu10:鱼际",
+      "to_id": "tech:five_shu_five_indications",
+      "label": "肺经荣穴",
+      "note": "p.21脚注①列十二经荣穴之肺经鱼际",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:009:p21",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "肺经鱼际",
+          "quote_sha256": "0586db25813bfa7cf24269c195d09b09f0b61ceefdb36304d051e35287b7b342",
+          "role": "other_annotations"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:010",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:pc08:劳宫",
+      "to_id": "tech:five_shu_five_indications",
+      "label": "心包经荣穴",
+      "note": "p.21脚注①列十二经荣穴之心包经劳宫",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:010:p21",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "心包经劳宫",
+          "quote_sha256": "db5948ebd60ddf757ea20ed95d75433655731aa33154a35e905b9c019edbcfb9",
+          "role": "other_annotations"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:011",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:ki02:然谷",
+      "to_id": "tech:five_shu_five_indications",
+      "label": "肾经荣穴",
+      "note": "p.21脚注①列十二经荣穴之肾经然谷",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:011:p21",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "肾经然谷",
+          "quote_sha256": "11952f14c7615536bd1d2c79736cb2c5dd0dee645be6424e4d6006f7e5b82792",
+          "role": "other_annotations"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:012",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:sj03:中渚",
+      "to_id": "tech:five_shu_five_indications",
+      "label": "三焦经俞穴",
+      "note": "p.21脚注②列十二经俞穴之三焦经中渚",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:012:p21",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "三焦经中渚",
+          "quote_sha256": "551208d7d29326e477f714c1288b2bb3d277493280900a2f335a9bd4284286b2",
+          "role": "other_annotations"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:013",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:lv03:太冲",
+      "to_id": "tech:five_shu_five_indications",
+      "label": "肝经俞穴",
+      "note": "p.21脚注②列十二经俞穴之肝经太冲",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:013:p21",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "肝经太冲",
+          "quote_sha256": "9e8bbd8f5395b97d678b98c1e997ec87d9e9cb3ed39747a46ded2200c801b313",
+          "role": "other_annotations"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:014",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:bl65:束骨",
+      "to_id": "tech:five_shu_five_indications",
+      "label": "膀胱经俞穴",
+      "note": "p.21脚注②列十二经俞穴之膀胱经束骨",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:014:p21",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p021",
+          "pdf_page": 21,
+          "printed_page": 21,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "膀胱经束骨",
+          "quote_sha256": "7f695af2e9e6f8dafef4199c0783851686194a66b818b28f68dc2deeb7bc99d0",
+          "role": "other_annotations"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:015",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:lu01:中府",
+      "to_id": "tech:heavenly_stems_meridians",
+      "label": "肺之募穴",
+      "note": "p.18脚注①列十二募穴之肺募中府",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:015:p18",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p018",
+          "pdf_page": 18,
+          "printed_page": 18,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "肺为中府",
+          "quote_sha256": "d1b8f6b3686fc62dd9b3bcd8445481448066c555dad0c843cc421e442d24ab48",
+          "role": "other_annotations"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:016",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:lv13:章门",
+      "to_id": "tech:heavenly_stems_meridians",
+      "label": "脾之募穴",
+      "note": "p.18脚注①列十二募穴之脾募章门",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:016:p18",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p018",
+          "pdf_page": 18,
+          "printed_page": 18,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "脾为章门",
+          "quote_sha256": "aba1e0ccc92fd4f00386f2c8567f95dfda869fdc9019865312807c0a725cb8da",
+          "role": "other_annotations"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:017",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:ren17:膻中",
+      "to_id": "tech:heavenly_stems_meridians",
+      "label": "心包之募穴",
+      "note": "p.18脚注①列十二募穴之心包募膻中",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:017:p18",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p018",
+          "pdf_page": 18,
+          "printed_page": 18,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "心包为膻中",
+          "quote_sha256": "178d5b23b0184d64b2115a32bd7221af6b5eac8a2d64af2af59c0262c6649b10",
+          "role": "other_annotations"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    },
+    {
+      "id": "rel:ch1_3:018",
+      "relation_type": "acupoint_to_technique",
+      "from_id": "acupoint:ren12:中脘",
+      "to_id": "tech:heavenly_stems_meridians",
+      "label": "胃之募穴",
+      "note": "p.18脚注①列十二募穴之胃募中脘",
+      "source_spans": [
+        {
+          "span_id": "sp:rel:ch1_3:018:p18",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p018",
+          "pdf_page": 18,
+          "printed_page": 18,
+          "chapter_path": "第一章至第三章关联锚点",
+          "quote": "胃为中脘",
+          "quote_sha256": "c4eb638a2ce3820022a74098c0aa60f04b9040d187b3849643b58900609fc290",
+          "role": "other_annotations"
+        }
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved"
+    }
+  ]
+}

@@ -1,0 +1,429 @@
+{
+  "schema_version": "2.0",
+  "total_sources": 23,
+  "sources": [
+    {
+      "source_id": "ni-bencao-pdf",
+      "title": "倪海厦注神农本草经",
+      "authors_and_collators": [
+        "倪海厦（注解）"
+      ],
+      "edition": "清晰版电子版",
+      "source_type": "collated_transcript",
+      "file_format": "pdf",
+      "sha256": "8159131c89a16427c4d981524a7035fb0fdd2d0b23888904ee58942567efe3c7",
+      "byte_size": 1619483,
+      "total_pages": 154,
+      "page_mapping_note": "共 154 页 PDF；已在 Stage 2 按页完整抽取并映射（blank 页 [2,3]，校勘与自序 [4,5]，目录 [6-15]，前言与药性总义 [16-18]，正经 357 味 [19-135]，第三章增补 28 味 [135-144]，附录检索 [145-154]），页文本与 SHA-256 见 sources/bencao/pages.jsonl",
+      "relative_path": "books/ni-haixia-medicine/【倪海厦注解版】倪海厦注神农本草经(清晰版).pdf",
+      "text_layer_status": "clean_digital_with_blank_flyleaves",
+      "known_issues": [
+        "第 2、3 页为空白扉页。",
+        "正文与目录‘二四九、大豆黄卷’误作‘二四丸、大豆黄卷’，‘二五八、粉钖’作‘【本绖原文】’；正经实编至‘三五七、彼子’（357 味），另有第三章增补经方药 28 味，合 385 味。"
+      ]
+    },
+    {
+      "source_id": "ni-jinkui-pdf",
+      "title": "倪海厦人纪系列之金匮要略",
+      "authors_and_collators": [
+        "倪海厦（注释）",
+        "小桂枝·群龙无首（校排）"
+      ],
+      "edition": "10.10.10 校排版",
+      "source_type": "collated_transcript",
+      "file_format": "pdf",
+      "sha256": "9ece46d46c90d78e1d399159988d4f96504c81c2dd5533ae5a3e3cda895bcbff",
+      "byte_size": 2871497,
+      "total_pages": 419,
+      "page_mapping_note": "共 419 页；已抽取页文本见 sources/ni_jinkui_pages.jsonl",
+      "relative_path": "books/ni-haixia-medicine/【倪海厦注释 】倪海厦人纪系列之金匮要略.pdf",
+      "text_layer_status": "clean_digital",
+      "known_issues": [
+        "待阶段 4 与目录前 186 条方剂逐页对照。"
+      ]
+    },
+    {
+      "source_id": "ni-hantang-clinic-notes-pdf",
+      "title": "倪海厦传统中医跟诊过程（心得）",
+      "authors_and_collators": [
+        "跟诊弟子（整理）"
+      ],
+      "edition": "汉唐中医跟诊电子稿",
+      "source_type": "lecture_transcript",
+      "file_format": "pdf",
+      "sha256": "2bb30b7a29f95746a87116a8d31415aabcedde9fddb737a89dd379841a2addb7",
+      "byte_size": 412752,
+      "total_pages": 35,
+      "page_mapping_note": "Extracted 35 digital pages in Stage 5 Library ETL.",
+      "relative_path": "books/ni-haixia-medicine/【汉唐中医内容】倪海厦传统中医跟诊过程.pdf",
+      "text_layer_status": "clean_digital",
+      "known_issues": [
+        "属弟子跟诊心得整理，不可替代原典。"
+      ]
+    },
+    {
+      "source_id": "ni-hantang-articles-cases-pdf",
+      "title": "倪海厦汉唐中医经典文章医案集",
+      "authors_and_collators": [
+        "倪海厦（撰）",
+        "汉唐中医整理"
+      ],
+      "edition": "电子汇编本",
+      "source_type": "collated_transcript",
+      "file_format": "pdf",
+      "sha256": "d940d48e45130e320026eb3800a0069ab40d477240dee5f2cd0d20a68daeda30",
+      "byte_size": 2969806,
+      "total_pages": 383,
+      "page_mapping_note": "共 383 页 PDF；待后续医案对照",
+      "relative_path": "books/ni-haixia-medicine/【汉唐中医内容】倪海厦汉唐中医经典文章医案集.pdf",
+      "text_layer_status": "clean_digital",
+      "known_issues": []
+    },
+    {
+      "source_id": "ni-jinkui-video-pdf",
+      "title": "《金匮要略》——倪海厦人纪教程简体整理稿（视频同步文稿）",
+      "authors_and_collators": [
+        "倪海厦（讲授）",
+        "视频同步整理者"
+      ],
+      "edition": "简体整理稿",
+      "source_type": "video_sync_transcript",
+      "file_format": "pdf",
+      "sha256": "d304834877d67a2b618e7223b8d81e28594ffc57f8f753b4c83c8509c0a8511d",
+      "byte_size": 2010114,
+      "total_pages": 377,
+      "page_mapping_note": "共 377 页；已抽取页文本见 sources/ni_jinkui_transcript.jsonl",
+      "relative_path": "books/ni-haixia-medicine/【视频同步文稿】《金匮要略》——倪海厦人纪教程简体整理稿.pdf",
+      "text_layer_status": "clean_digital",
+      "known_issues": [
+        "视频口语转录稿可能与印刷注本存在同音字差异。"
+      ]
+    },
+    {
+      "source_id": "ni-neijing-vol1-pdf",
+      "title": "倪海厦人纪系列《黄帝内经》上册（视频同步文稿）",
+      "authors_and_collators": [
+        "倪海厦（讲授）",
+        "视频同步文稿整理"
+      ],
+      "edition": "视频同步文稿上册",
+      "source_type": "video_sync_transcript",
+      "file_format": "pdf",
+      "sha256": "a2708f2828b9aba6cd8f8d302cf4683bba351646d49da7c7ce00f1fdb50b8e76",
+      "byte_size": 3150372,
+      "total_pages": 152,
+      "page_mapping_note": "共 152 PDF页（p.1封面、p.2版权、p.3–10总目录印制第1–8页、p.11–151正文印制第9–149页、p.152空白）；已全量抽出至 sources/neijing/pages.jsonl，正文全页清洁可读文字层，上册仅收《素问》第1–28篇。",
+      "relative_path": "books/ni-haixia-medicine/【视频同步文稿】倪海厦人纪系列书籍之《皇帝内经上册》 .pdf",
+      "text_layer_status": "clean_digital",
+      "known_issues": [
+        "文件名写作“皇帝内经上册”；属于视频同步讲义稿（守候诚实国学书店 2014 版），仅收录《素问》讲记而未收《灵枢》。",
+        "跨章多起于页面中部（无独立分隔页），部分转录存同音错字如“厉兑/历兑”“坎/砍”“纲纪/纲记”“奇恒/奇垣”。"
+      ]
+    },
+    {
+      "source_id": "ni-neijing-vol2-pdf",
+      "title": "倪海厦人纪系列《黄帝内经》下册（视频同步文稿）",
+      "authors_and_collators": [
+        "倪海厦（讲授）",
+        "视频同步文稿整理"
+      ],
+      "edition": "视频同步文稿下册",
+      "source_type": "video_sync_transcript",
+      "file_format": "pdf",
+      "sha256": "30297c7a0eccd5713f72f18257c6ad99e4b84c5228ae2ae8f54cbf14457f1f3f",
+      "byte_size": 4188806,
+      "total_pages": 154,
+      "page_mapping_note": "共 154 PDF页（p.1封面、p.2版权、p.3–154正文印制第150–301页）；两册合计306 PDF页 / 301印制页，实含《素问》72篇（74条篇目）、283节，缺《素问》第51、66–71、73、74篇且未收《灵枢》。",
+      "relative_path": "books/ni-haixia-medicine/【视频同步文稿】倪海厦人纪系列书籍之《黄帝内经下册》.pdf",
+      "text_layer_status": "clean_digital",
+      "known_issues": [
+        "属视频同步讲义稿；《素问》第72篇遗篇《刺法论》附于第81篇之后（p.283–288），第289页误题“第七五篇：着至教论”实为课程总结《第八节 万源归宗》。",
+        "第66–74篇失传七篇大论与遗篇原因由倪师于下册p.270（第七十五篇开头）明文交代，不作虚构补齐。"
+      ]
+    },
+    {
+      "source_id": "shanghan-juyi-book-txt",
+      "title": "伤寒论辑义（本地原始文本）",
+      "authors_and_collators": [
+        "（日）丹波元简（辑义）"
+      ],
+      "edition": "GB18030 纯文本",
+      "source_type": "classical_edition",
+      "file_format": "txt",
+      "sha256": "13fb57424558a4609eaa215af8704867b08c8138b302bd95f035870ed6a4f305",
+      "byte_size": 524308,
+      "total_pages": null,
+      "page_mapping_note": "纯文本按原始行号定位，与 sources/shanghan_juyi.txt 同源",
+      "relative_path": "books/ni-haixia-medicine/伤寒论辑义--.txt",
+      "text_layer_status": "plain_text",
+      "known_issues": []
+    },
+    {
+      "source_id": "ni-shanghan-pdf",
+      "title": "倪海厦人纪系列之伤寒论",
+      "authors_and_collators": [
+        "倪海厦（讲授）",
+        "民间校排整理"
+      ],
+      "edition": "2010-05-09 定稿",
+      "source_type": "collated_transcript",
+      "file_format": "pdf",
+      "sha256": "14f74c79021f533837e29a7d1e45e9e7b3c8d5d3d63db3ef9b3f6ddca2ffb9c0",
+      "byte_size": 2714484,
+      "total_pages": 209,
+      "page_mapping_note": "共 209 页；已抽取页文本见 sources/ni_shanghan_pages.jsonl",
+      "relative_path": "books/ni-haixia-medicine/倪海厦人纪系列之伤寒论.pdf",
+      "text_layer_status": "clean_digital",
+      "known_issues": [
+        "部分古文传本与《伤寒论辑义》存在剂量或字句差异，见方剂校注。"
+      ]
+    },
+    {
+      "source_id": "ni-acupuncture-v2-20100703",
+      "title": "倪海厦人纪系列之针灸教程（校勘转录版）",
+      "authors_and_collators": [
+        "倪海厦（讲授）",
+        "民间中医爱好者（校勘整理）"
+      ],
+      "edition": "V2-20100703（第四次修改）",
+      "source_type": "collated_transcript",
+      "file_format": "pdf",
+      "sha256": "9ee42f24f983656866117773687f0c0e69c9619482f11a5831cecac5792e3532",
+      "byte_size": 1846334,
+      "total_pages": 216,
+      "page_mapping_note": "第 1 页为封面；第 2–216 页 PDF 页码与印刷页码一致",
+      "relative_path": "books/ni-haixia-medicine/倪海厦人纪系列之针灸教程.pdf",
+      "text_layer_status": "clean_digital",
+      "known_issues": [
+        "校勘序明示其基于网络流传授课扫描件校勘整理，属校勘转录版，非原始出版原书。",
+        "页底带编号脚注（①②③）由校勘者补充，不代表原讲授者原意。",
+        "目录含六章正文与三份索引（穴位拼音、穴位笔画、治症索引）。"
+      ]
+    },
+    {
+      "source_id": "ni-hantang-formulas-pdf",
+      "title": "汉唐中医方剂讲解",
+      "authors_and_collators": [
+        "倪海厦（讲授）",
+        "紫极书院整理"
+      ],
+      "edition": "电子整理稿",
+      "source_type": "lecture_transcript",
+      "file_format": "pdf",
+      "sha256": "52af76b122ad0d000a57267d532a0b7bb7b02babe7bc532caa45eb3a6a360870",
+      "byte_size": 1747448,
+      "total_pages": 235,
+      "page_mapping_note": "共 235 页 PDF；含 HT 系列汉唐方讲解",
+      "relative_path": "books/ni-haixia-medicine/倪海夏-汉唐中医方剂讲解.pdf",
+      "text_layer_status": "clean_digital",
+      "known_issues": []
+    },
+    {
+      "source_id": "otsuka-shanghan-docx",
+      "title": "大冢敬节《伤寒论解说》摘录",
+      "authors_and_collators": [
+        "大冢敬节（著）"
+      ],
+      "edition": "DOCX 电子摘录",
+      "source_type": "collated_transcript",
+      "file_format": "docx",
+      "sha256": "dcb898e87b318e0612d0f1cf9bab5a5883208d574f25d2b890f3ff85039a66ff",
+      "byte_size": 22548,
+      "total_pages": null,
+      "page_mapping_note": "Extracted DOCX paragraphs into Stage 5 Library sections.",
+      "relative_path": "books/ni-haixia-medicine/大冢敬节伤寒论解说(1).docx",
+      "text_layer_status": "extracted_docx",
+      "known_issues": []
+    },
+    {
+      "source_id": "xu-lingtai-collection-pdf",
+      "title": "明清名医全书大成·徐灵胎医学全书",
+      "authors_and_collators": [
+        "（清）徐大椿（灵胎）"
+      ],
+      "edition": "WinRT OCR 校理双栏版 + 原版影印 PDF",
+      "source_type": "classical_edition",
+      "file_format": "pdf",
+      "sha256": "031a8d91a0accb66163e23bcd23bfe947369f6a797b21ab8f16e8ac80f22d709",
+      "byte_size": 16333494,
+      "total_pages": 434,
+      "page_mapping_note": "Extracted 434/434 pages via Windows zh-Hans-CN OCR; 22 verso/blank pages preserved blank.",
+      "relative_path": "books/ni-haixia-medicine/明清名医全书大成(徐灵胎医学全书 ).pdf",
+      "text_layer_status": "winrt_zh_hans_ocr",
+      "known_issues": []
+    },
+    {
+      "source_id": "chen-shiduo-shishimilu-txt",
+      "title": "石室秘录",
+      "authors_and_collators": [
+        "（清）陈士铎"
+      ],
+      "edition": "纯文本电子版",
+      "source_type": "classical_edition",
+      "file_format": "txt",
+      "sha256": "a71413ddccf498048f6da23cea520d691dcf2b2bfc6c885ea6a3f3d80e5cc35c",
+      "byte_size": 377169,
+      "total_pages": null,
+      "page_mapping_note": "纯文本按行定位",
+      "relative_path": "books/ni-haixia-medicine/石室秘录-清-陈士铎.txt",
+      "text_layer_status": "plain_text",
+      "known_issues": []
+    },
+    {
+      "source_id": "tang-rongchuan-xuezhenglun-pdf",
+      "title": "血证论",
+      "authors_and_collators": [
+        "（清）唐容川"
+      ],
+      "edition": "电子版 PDF",
+      "source_type": "classical_edition",
+      "file_format": "pdf",
+      "sha256": "2781a89e0283b7ec769cfee873107de7c0acf4699875dd10df23b728064bfe12",
+      "byte_size": 721271,
+      "total_pages": 170,
+      "page_mapping_note": "Page 1 cover blank; pages 2-170 clean digital text extracted in Stage 5 Library ETL.",
+      "relative_path": "books/ni-haixia-medicine/血证论-唐容川.pdf",
+      "text_layer_status": "clean_digital_with_blank_cover",
+      "known_issues": []
+    },
+    {
+      "source_id": "wang-rulin-zhengyinfanglun-doc",
+      "title": "证因方论集要",
+      "authors_and_collators": [
+        "汪汝麟"
+      ],
+      "edition": "DOC 电子版",
+      "source_type": "classical_edition",
+      "file_format": "doc",
+      "sha256": "9fb06638c40a05d9cfe648ca60f828b54f452b46745ce7bf534d6364df3842a6",
+      "byte_size": 169472,
+      "total_pages": null,
+      "page_mapping_note": "Extracted legacy MS-DOC piece table into Stage 5 Library sections.",
+      "relative_path": "books/ni-haixia-medicine/证因方论集要-汪汝麟.doc",
+      "text_layer_status": "extracted_doc_ole",
+      "known_issues": []
+    },
+    {
+      "source_id": "huangdi-waijing-pdf",
+      "title": "黄帝外经",
+      "authors_and_collators": [
+        "托名岐伯/陈士铎传"
+      ],
+      "edition": "WinRT OCR 数字化版 + 原版影印 PDF",
+      "source_type": "classical_edition",
+      "file_format": "pdf",
+      "sha256": "b8b6647b0d24e83abdd757c40c6b492b4ecc200fa2a7061a5e7e4552337b5bcb",
+      "byte_size": 21140279,
+      "total_pages": 85,
+      "page_mapping_note": "Extracted all 85/85 pages (4-page modern overview + 80 extant essays) via Windows zh-Hans-CN OCR.",
+      "relative_path": "books/ni-haixia-medicine/黄帝外经.pdf",
+      "text_layer_status": "winrt_zh_hans_ocr",
+      "known_issues": []
+    },
+    {
+      "source_id": "jinkui-recipes-snapshot",
+      "title": "金匮要略 186 条方剂抽取快照",
+      "authors_and_collators": [
+        "仓库 ETL 抽取"
+      ],
+      "edition": "JSON 结构化快照",
+      "source_type": "structured_snapshot",
+      "file_format": "json",
+      "sha256": "5b427ad8350b117e5d0989955c74f4b15dff9814a54a37c105fd1c1ae063e0fa",
+      "byte_size": 1103641,
+      "total_pages": null,
+      "page_mapping_note": "含每首方剂在金匮注本中的起始页码",
+      "relative_path": "sources/jinkui_recipes_source.json",
+      "text_layer_status": "structured_data",
+      "known_issues": []
+    },
+    {
+      "source_id": "ni-jinkui-pages-jsonl",
+      "title": "倪海厦注金匮要略 PDF 页级文本快照",
+      "authors_and_collators": [
+        "仓库 ETL 抽取"
+      ],
+      "edition": "JSONL 页级快照",
+      "source_type": "structured_snapshot",
+      "file_format": "jsonl",
+      "sha256": "4dfc166292d63cbc2852a8bb3bbd9afdd90082c6cd3725061da5e4304c66c66c",
+      "byte_size": 1288439,
+      "total_pages": null,
+      "page_mapping_note": "按 JSONL 内 page 字段对应原 PDF 页码",
+      "relative_path": "sources/ni_jinkui_pages.jsonl",
+      "text_layer_status": "structured_data",
+      "known_issues": []
+    },
+    {
+      "source_id": "ni-jinkui-video-jsonl",
+      "title": "《金匮要略》视频同步文稿页级文本快照",
+      "authors_and_collators": [
+        "仓库 ETL 抽取"
+      ],
+      "edition": "JSONL 页级快照",
+      "source_type": "structured_snapshot",
+      "file_format": "jsonl",
+      "sha256": "eacc1170e54f50756ecb7c16cbd2cb41ebdf18b8c83c50c0043b3ef081ce9aaf",
+      "byte_size": 1801005,
+      "total_pages": null,
+      "page_mapping_note": "按 JSONL 内 page 字段对应视频文稿 PDF 页码",
+      "relative_path": "sources/ni_jinkui_transcript.jsonl",
+      "text_layer_status": "structured_data",
+      "known_issues": []
+    },
+    {
+      "source_id": "ni-shanghan-pages-jsonl",
+      "title": "倪海厦人纪系列之伤寒论 PDF 页级文本快照",
+      "authors_and_collators": [
+        "仓库 ETL 抽取"
+      ],
+      "edition": "JSONL 页级快照",
+      "source_type": "structured_snapshot",
+      "file_format": "jsonl",
+      "sha256": "1cab66bf87b471e4fef3fbaecd4d0b433cf343f281d4e880870e1158ec4986fb",
+      "byte_size": 698895,
+      "total_pages": null,
+      "page_mapping_note": "按 JSONL 内 page 字段对应原 PDF 页码",
+      "relative_path": "sources/ni_shanghan_pages.jsonl",
+      "text_layer_status": "structured_data",
+      "known_issues": []
+    },
+    {
+      "source_id": "shanghan-juyi-snapshot",
+      "title": "伤寒论辑义（仓库抽取底本）",
+      "authors_and_collators": [
+        "（日）丹波元简（辑义）"
+      ],
+      "edition": "GB18030 仓库底本",
+      "source_type": "classical_edition",
+      "file_format": "txt",
+      "sha256": "13fb57424558a4609eaa215af8704867b08c8138b302bd95f035870ed6a4f305",
+      "byte_size": 524308,
+      "total_pages": null,
+      "page_mapping_note": "纯文本按行号定位，供 etl/extract_shanghan.py 读取",
+      "relative_path": "sources/shanghan_juyi.txt",
+      "text_layer_status": "plain_text",
+      "known_issues": []
+    },
+    {
+      "source_id": "ni-bencao-351-snapshot",
+      "title": "倪海厦注神农本草经 351 味药结构化快照",
+      "authors_and_collators": [
+        "倪海厦（注）",
+        "仓库 V1 抽取"
+      ],
+      "edition": "351 味基线快照",
+      "source_type": "structured_snapshot",
+      "file_format": "json",
+      "sha256": "d83f278f603e84b3a5dc471c1b4fd06d238b345f89669e983fddffe5e1aa2001",
+      "byte_size": 696515,
+      "total_pages": null,
+      "page_mapping_note": "每味药含 page_start 与 page_end 对应神农本草经 PDF 页码",
+      "relative_path": "data/herbs.json",
+      "text_layer_status": "structured_data",
+      "known_issues": [
+        "尚待阶段 2 核对原书完整总目分母与版本差异。"
+      ]
+    }
+  ]
+}

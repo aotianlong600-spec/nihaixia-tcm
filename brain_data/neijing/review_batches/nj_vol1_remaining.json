@@ -1,0 +1,1837 @@
+{
+  "batch_id": "nj_vol1_remaining",
+  "description": "Stage 3 Vol.1 其余全部13篇（第12–16、20、22–28篇），使上册29篇全部达到approved与source_span校验。",
+  "passages": [
+    {
+      "id": "passage:nj:suwen:12",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:12",
+      "order": 13,
+      "suwen_number": 12,
+      "canonical_name": "第十二篇 异法方宜论",
+      "classic_standard_title": "《素问·异法方宜论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        74,
+        75
+      ],
+      "printed_page_range": [
+        72,
+        73
+      ],
+      "summary": "先承接上篇奇恒之府“藏而不泻”之脏腑界定，继而论述东西南北中五方地理气候、饮食起居习惯与各自易发之病、对应所宜治法（东方砭石、西方毒药、北方灸焫、南方微针、中央导引按蹻），并详析“热中”食鱼阴不足而阳有余之病机。",
+      "key_points": [
+        "五方异法方宜：东方鱼盐多痈疡宜砭石；西方水土刚强病生于内宜毒药；北方脏寒生满病宜灸焫；南方地卑湿多挛痹宜微针；中央食杂而不劳多痿厥寒热宜导引按蹻。",
+        "因时因地制宜：圣人杂合五方治法各得其宜，不可执一端治四方之病。",
+        "热中病机辨析：食鱼多嗜咸致阴不足、阳有余而生热中之理，作为寒热虚实与食养避忌之示例。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:12:s01",
+          "title": "第一节 热中方位与治病",
+          "pdf_page_range": [
+            74,
+            75
+          ],
+          "printed_page_range": [
+            72,
+            73
+          ],
+          "status": "approved",
+          "note": "录于原书上册第72–73页（PDF第74–75页）：先承前篇补述奇恒之府“藏而不泻”之脉象与实证辨别，继以东南西北中五方配四季生长收藏，详解东方食鱼热中、北方灸法、南方微针及中央“导引按蹻”之所由。"
+        }
+      ],
+      "historical_boundary_note": "五方水土与砭药灸针导引对应源自先秦汉代中原视野下的医学地理观，属传统医学地域体质分类思路，不可机械套用于现代流行病学统计。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:12:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p074",
+          "pdf_page": 74,
+          "printed_page": 72,
+          "chapter_path": "第十二篇 异法方宜论",
+          "quote": "所谓的奇恒之府，在内经的定义",
+          "quote_sha256": "fa16084cc8152cf21d0a9e159be4c36c51f20b0b22ffe36306ec43016f0a2049",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:12:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p075",
+          "pdf_page": 75,
+          "printed_page": 73,
+          "chapter_path": "第十二篇 异法方宜论",
+          "quote": "那治宜导引按蹻，就是练工夫运动啊",
+          "quote_sha256": "5822268fadba9874850d55c218d8be5dc58ebac287501c4cf7f5a2235d5fbb8e",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·异法方宜论》论述东南西北中五方地域饮食所偏与砭石、毒药、灸焫、微针、导引按蹻五种治法之来源与合用原则。",
+          "经言嗜鱼食咸则热中，指出阴液不足而阳热有余之病势演化。"
+        ],
+        "ni_teaching": [
+          "开篇先收束上篇奇恒之府满实之脉象比喻：管内充水饱满尚为充实，冻成冰块则属阴寒凝结之实证。",
+          "五方对应春夏秋冬生长收藏，南方属长夏与阳；中央居民饮食丰杂而缺少劳动，故宜“导引按蹻”（练功活动气血）。",
+          "借食鱼“阴不足、阳有余”解释“热中”，提示若病人阳不足、寒凉过甚亦需顾护阳气，重在平衡而非死记食谱。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "本篇第72页前半承接第十一篇《五藏别论》奇恒之府讲授末尾，随文稿自然过渡入《第十二篇 异法方宜论》。"
+        ],
+        "organizer_summary": [
+          "建立地理水土、饮食习惯与治法选择的对应框架，为临床“因地、因人制宜”提供理论出处。"
+        ]
+      },
+      "open_questions": [
+        "讲记对“西方生金玉石砂、食肥鲜”之毒药细节略述大意，可于《神农本草经》及《汤液醪醴》章节互参。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:13",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:13",
+      "order": 14,
+      "suwen_number": 13,
+      "canonical_name": "第十三篇 移精变气论",
+      "classic_standard_title": "《素问·移精变气论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        76,
+        77
+      ],
+      "printed_page_range": [
+        74,
+        75
+      ],
+      "summary": "论述古今医疗环境由上古“祝由移精变气”演变至中古后“毒药针石”并重之由，确立“闭户塞牖、详问病情、合色与脉以通神明”之良医诊病准则，并阐明得神者生、失神者死及顺逆四时色脉定预后之大法。",
+      "key_points": [
+        "移精变气与治病演进：古人恬淡少嗜欲故祝由可愈；后世外邪与内忧交织，须合色脉、药石并治。",
+        "良医诊法准则：问诊需令病患安静独处、从容诉说，不受旁人干扰以求病机真实之情。",
+        "色脉合参与观生死：必辨五色与弦、钩、缓、毛、沉五脉之相生相克，色脉不合或真脏失神为重危之兆。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:13:s01",
+          "title": "第一节 论良医、辨色脉",
+          "pdf_page_range": [
+            76,
+            76
+          ],
+          "printed_page_range": [
+            74,
+            74
+          ],
+          "status": "approved",
+          "note": "上册第74页：论述因时因地制宜后入《移精变气论》，说明古今人心境与发病不同，重点讲解诊病必重色脉相合之大法。"
+        },
+        {
+          "section_id": "nj:suwen:13:s02",
+          "title": "第二节 观生死之法",
+          "pdf_page_range": [
+            76,
+            77
+          ],
+          "printed_page_range": [
+            74,
+            75
+          ],
+          "status": "approved",
+          "note": "上册第74–75页：阐释“闭户塞牖”使病患充分陈说病情以“得神”，并以肝心脾肺肾五色配合弦缓浮沉脉象阐发顺逆克贼之生死判断。"
+        }
+      ],
+      "historical_boundary_note": "“得神者昌，失神者亡”与五色克脉定预后属传统中医宏观神气与象数推演法，急危重症须依托现代临床监护与诊断评估。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:13:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p076",
+          "pdf_page": 76,
+          "printed_page": 74,
+          "chapter_path": "第十三篇 移精变气论",
+          "quote": "第十三篇 移精变气论",
+          "quote_sha256": "d86e5013f324ee9ec7aa95a453e754b12472b8065005d19ea63c762442d52609",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:13:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p077",
+          "pdf_page": 77,
+          "printed_page": 75,
+          "chapter_path": "第十三篇 移精变气论",
+          "quote": "所贵，以合于神明。所以说我们在讲色脉的时候",
+          "quote_sha256": "6904d06c49870e1fb85d90e676835915dcfe2c3109726191cf9c7933a927119a",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·移精变气论》提出“理色脉而通神明”，强调治之要极无失色脉、合之于四时五行。",
+          "提出诊病当“闭户塞牖，系之病者，数问其情，以从其意；得神者昌，失神者亡”。"
+        ],
+        "ni_teaching": [
+          "提醒医师看诊不可仓促或被围观杂乱打断，唯有令病人安心一五一十陈情，方能摸清发病缘起与情志诱因。",
+          "剖析色脉相合示例：如见赤色与弦脉（木生火）或五行相生常色常脉为顺；若见所胜克脉（贼邪相克）则主病情深重。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "录本第75页提及现代医院多人围诊环境与古书“闭户塞牖”之对比，属讲者即时评论，应与原经文区隔。"
+        ],
+        "organizer_summary": [
+          "将祝由心理调摄、隐私安静问诊与五色五脉并诊统一到“得神”高度，为《脉要》《玉版》诊法之延伸。"
+        ]
+      },
+      "open_questions": [
+        "讲记未逐条翻译“祝由”古代仪轨考据，重点落在临床“色脉合参”与“充分问情”。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "涉及危重预后“失神者亡”与“克脉”凶兆判断，仅作传统文献研读，遇危急征象应立即规范就医。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:14",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:14",
+      "order": 15,
+      "suwen_number": 14,
+      "canonical_name": "第十四篇 汤液醪醴论",
+      "classic_standard_title": "《素问·汤液醪醴论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        78,
+        79
+      ],
+      "printed_page_range": [
+        76,
+        77
+      ],
+      "summary": "论述五谷所制汤液醪醴古今备而不用之由，指出“神不使”则针石药剂难效、必先得医患信任与正气之神；进而阐明“微动四极、温衣、缪刺其处”，以及“平治于权衡、去宛陈莝、开鬼门、洁净府”治水肿鼓胀之经典八法。",
+      "key_points": [
+        "得神与“神不使”：病患拒信拒治或精气败绝、医患不相得，则汤液醪醴亦难奏功。",
+        "水肿治则纲领：“平治于权衡，去宛陈莝，开鬼门，洁净府”（发汗、利小便与微动导气），成为后世治水肿与伤寒蓄水之总纲。",
+        "上工微针缪刺与早期截断：病在毫毛经络阶段宜微刺左病取右、复其形气。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:14:s01",
+          "title": "第一节 易经之象数",
+          "pdf_page_range": [
+            78,
+            78
+          ],
+          "printed_page_range": [
+            76,
+            76
+          ],
+          "status": "approved",
+          "note": "上册第76页：讲述“得神”乃真正倾听病患与察其心理信任与否；兼论易经象数与《内经》中“神”的临床实际意义。"
+        },
+        {
+          "section_id": "nj:suwen:14:s02",
+          "title": "第二节 缪刺法",
+          "pdf_page_range": [
+            79,
+            79
+          ],
+          "printed_page_range": [
+            77,
+            77
+          ],
+          "status": "approved",
+          "note": "上册第77页：结合胸腹上下位置与肺水壅遏喻象，解读“缪刺其处”、“开鬼门，洁净府”等祛邪排水大法。"
+        }
+      ],
+      "historical_boundary_note": "古代谷酒制剂与“开鬼门、洁净府”乃传统水液排泄调控理论，剧烈水肿或脏器衰竭患者需行现代病因排查，切勿自行猛攻汗下。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:14:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p078",
+          "pdf_page": 78,
+          "printed_page": 76,
+          "chapter_path": "第十四篇 汤液醪醴论",
+          "quote": "要得神，得神的话，除了望神以外，得神的意思",
+          "quote_sha256": "0f7d41546e07e131452d1728066e3421f7afb11e6da2d8227cd19e3fe5c073f9",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:14:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p079",
+          "pdf_page": 79,
+          "printed_page": 77,
+          "chapter_path": "第十四篇 汤液醪醴论",
+          "quote": "症状。比如说我们这个人的颈部、颚部、下腹部",
+          "quote_sha256": "c6fdfc9e1852c885e30e3fe94dec4f64a282e42e2fd128594d13424363023aaa",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·汤液醪醴论》载：“平治于权衡，去宛陈莝……开鬼门，洁净府，精以时服，五阳已布，疏涤五脏。”",
+          "指出“病为本，工为标，标本不得，邪气不服”，以及“神不使”之治效边界。"
+        ],
+        "ni_teaching": [
+          "强调“得神”不仅是望眼神，更在于医患互信、让病患充分说明情况；若病患本身不信医学，纵有良症反应亦自以为坏。",
+          "释“开鬼门”即发汗解表，“洁净府”即利小便通膀胱；配合胸肺上下气机之象，辨水邪停蓄所在而分消之。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "文稿第76页第一小节标题题为“第一节 易经之象数”，内容实主要围绕《汤液醪醴论》“神不使”与“得神”医患契合展开。"
+        ],
+        "organizer_summary": [
+          "确立水肿“汗、利、动”三法并用准则与“标本相得”临床前提，直接启迪后世《金匮要略》水气病治法。"
+        ]
+      },
+      "open_questions": [
+        "古制“汤液醪醴”酿造工艺细节在讲记中从略，重点已转为水液代谢治则。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:15",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:15",
+      "order": 16,
+      "suwen_number": 15,
+      "canonical_name": "第十五篇 玉版论要",
+      "classic_standard_title": "《素问·玉版论要》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        80,
+        82
+      ],
+      "printed_page_range": [
+        78,
+        80
+      ],
+      "summary": "阐发“揆度奇恒”察色辨脉以决危候之要诀：揭示“面脱”“脉短气绝死”等重危征象，辨析阳脉浮长与阴脉沉短之常态及反常逆象，讲解女性两颊望色候肺肾脾肝表里阴阳，并提出虚实脉与“孤脉”顺逆准则。",
+      "key_points": [
+        "色夭面脱与脉短气绝：“色夭面脱不治”，“脉短气绝死”，揭示形气衰败与真阳欲竭之危候。",
+        "正常阴阳脉势：阳脉当浮而长（表之阳气充盛），若重按方现且短、阴脉反而上浮（孤阴独亢）则为危重逆象。",
+        "女子面颊诊法与肥瘦分层：依面部色泽浮沉判阴阳脏腑；以皮、脂、瘦肉之阴阳层叠阐发阴阳平衡观。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:15:s01",
+          "title": "第一节 天度、建月、短脉",
+          "pdf_page_range": [
+            80,
+            80
+          ],
+          "printed_page_range": [
+            78,
+            78
+          ],
+          "status": "approved",
+          "note": "上册第78页：释天度建月与长短脉分辨，详解“面脱”（面部油光精气尽失）与“脉短气绝死”之危机。"
+        },
+        {
+          "section_id": "nj:suwen:15:s02",
+          "title": "第二节 阴阳循环平衡",
+          "pdf_page_range": [
+            81,
+            81
+          ],
+          "printed_page_range": [
+            79,
+            79
+          ],
+          "status": "approved",
+          "note": "上册第79页：以手臂平放寸口之阴阳浅深，说明常脉阳气应浮外长足、阴脉应沉短守内，反之重按阳短阴浮则阴阳失衡。"
+        },
+        {
+          "section_id": "nj:suwen:15:s03",
+          "title": "第三节 女性面颊观阴阳",
+          "pdf_page_range": [
+            81,
+            81
+          ],
+          "printed_page_range": [
+            79,
+            79
+          ],
+          "status": "approved",
+          "note": "上册第79页：解析女子面颊望色顺逆、左右上下面部脏腑分候与忧郁失眠调治案例。"
+        },
+        {
+          "section_id": "nj:suwen:15:s04",
+          "title": "第四节 虚实脉、孤脉",
+          "pdf_page_range": [
+            82,
+            82
+          ],
+          "printed_page_range": [
+            80,
+            80
+          ],
+          "status": "approved",
+          "note": "上册第80页：以肥肉、瘦肉、皮肤相间示范“阴中有阳、阳中有阴”平衡态，归结虚实脉与孤绝无根之孤脉凶象。"
+        }
+      ],
+      "historical_boundary_note": "“面脱”“脉短气绝死”“孤脉”系古代中医判断精气败绝之高危指标，属理论与征象辨识教学；遇急性昏厥或危重休克务必立即急救。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:15:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p080",
+          "pdf_page": 80,
+          "printed_page": 78,
+          "chapter_path": "第十五篇 玉版论要",
+          "quote": "非常得危险，已经随时会这个死亡。所谓的面脱就是油光都没了",
+          "quote_sha256": "244df3aaf29873b78a5786610e63cf407aac63b711b22112954259f3c8bc2ebe",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:15:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p081",
+          "pdf_page": 81,
+          "printed_page": 79,
+          "chapter_path": "第十五篇 玉版论要",
+          "quote": "阳脉在底下变得很短，阴脉呢，浮",
+          "quote_sha256": "7862bc9d03405544cde123fc7f4c4d60f7d96c1a540d387952fb74fdd1126b3a",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:15:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p082",
+          "pdf_page": 82,
+          "printed_page": 80,
+          "chapter_path": "第十五篇 玉版论要",
+          "quote": "这就是平衡的状态之下。",
+          "quote_sha256": "767cc7f3434faf604cd117cc1383b3d9f1e6263ec040015bca6fbc733615f5bd",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·玉版论要》云：“色夭面脱，不治，百日尽已。脉短气绝，死；病温虚甚，死。”",
+          "明言“揆度者，度病之浅深也；奇恒者，言奇病也”。"
+        ],
+        "ni_teaching": [
+          "面脱指面色枯槁、全无润泽油光之气，兼见寸口阳脉短促无力或重按阳短而阴浮独见，皆主正气大亏、防备危候。",
+          "用肌肉（阴）、脂肪、皮肤（阳）层层包覆举例说明：人体外邪来犯时内脏阳气出表御邪，阴阳互倚方成平衡。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "本篇第80页后半无缝过渡至第十六篇《诊要经终论》，段落衔接处按PDF实录分段。"
+        ],
+        "organizer_summary": [
+          "将“揆度（常法测深浅）”与“奇恒（非常重危象）”定为诊法双重标尺，警示脉短、面脱、孤脉等死生关头。"
+        ]
+      },
+      "open_questions": [
+        "文稿对《玉版论要》古尺“揆度”数术比例多作义理提炼，详数可互参《素问·五脏别论》与《平人气象论》。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "包含“脉短气绝死”“面脱”“孤脉”等危重险候与生死断法，仅作传统医学理论研究，临床危急状态须立即现代急救。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:16",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:16",
+      "order": 17,
+      "suwen_number": 16,
+      "canonical_name": "第十六篇 诊要经终论",
+      "classic_standard_title": "《素问·诊要经终论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        82,
+        88
+      ],
+      "printed_page_range": [
+        80,
+        86
+      ],
+      "summary": "系统阐述一年十二个月（分四季与六气节候）人体阳气升降所在、春夏秋冬针刺浅深禁戒及误刺五脏之伤，明确避刺膈脾胃重地与脊旁缝隙安全尺度，并条析十二经（六经阴阳）气绝将终之特征征象及偶刺、短刺法。",
+      "key_points": [
+        "十二月人气与四时针刺：正月二月天气始方人气在肝，三月四月在脾，五月六月在头等；春夏刺浅、秋冬刺深，误刺则邪气着脏。",
+        "避刺五脏规范：讲解胸腹丈量基准与避刺膈、脾胃、肺心重地之进针深度与椎旁安全方向，属高风险针刺安全训诫。",
+        "六经十二经终绝候：详列足太阳“戴眼、反折、瘛疭、绝汗出”、少阳耳聋百节纵、阳明口目动作善惊妄言、少阴面黑齿长、太阴腹胀上下不通等终候。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:16:s01",
+          "title": "第一节 十二节 气与气血变化",
+          "pdf_page_range": [
+            82,
+            82
+          ],
+          "printed_page_range": [
+            80,
+            80
+          ],
+          "status": "approved",
+          "note": "上册第80页（PDF p.82）：引出“诊有十二”及天地气候与人身气血时序流转规律。"
+        },
+        {
+          "section_id": "nj:suwen:16:s02",
+          "title": "第二节 四季下针法",
+          "pdf_page_range": [
+            83,
+            83
+          ],
+          "printed_page_range": [
+            81,
+            81
+          ],
+          "status": "approved",
+          "note": "上册第81页（PDF p.83）：释正月二月人气在肝等十二月气序，规定春夏宜浅、秋冬宜深之四季下针规矩。"
+        },
+        {
+          "section_id": "nj:suwen:16:s03",
+          "title": "第三节 短刺针法",
+          "pdf_page_range": [
+            84,
+            84
+          ],
+          "printed_page_range": [
+            82,
+            82
+          ],
+          "status": "approved",
+          "note": "上册第82页（PDF p.84）：解“秋刺冬分”“夏刺春分”等误刺过深或过浅所致邪气着脏、喜言语、心悸或昏惑等弊端。"
+        },
+        {
+          "section_id": "nj:suwen:16:s04",
+          "title": "第四节 摇针：治肿病",
+          "pdf_page_range": [
+            85,
+            85
+          ],
+          "printed_page_range": [
+            83,
+            83
+          ],
+          "status": "approved",
+          "note": "上册第83页（PDF p.85）：以膈与脾胃之处作丈量标尺，叮嘱背俞与胸腹下针必避刺五脏实质。"
+        },
+        {
+          "section_id": "nj:suwen:16:s05",
+          "title": "第五节 经脉断绝",
+          "pdf_page_range": [
+            85,
+            86
+          ],
+          "printed_page_range": [
+            83,
+            84
+          ],
+          "status": "approved",
+          "note": "上册第83–84页（PDF p.85–86）：逐条解读太阳、少阳、阳明、少阴、太阴等经脉断绝之面色、眼目、筋骨、喘呕危状。"
+        },
+        {
+          "section_id": "nj:suwen:16:s06",
+          "title": "第六节 更正-短刺法",
+          "pdf_page_range": [
+            87,
+            87
+          ],
+          "printed_page_range": [
+            85,
+            85
+          ],
+          "status": "approved",
+          "note": "上册第85页（PDF p.87）：补正短刺法与汗吐下治法配合表里经络之义。"
+        },
+        {
+          "section_id": "nj:suwen:16:s07",
+          "title": "第七节 短刺、偶刺、刀针刺法",
+          "pdf_page_range": [
+            88,
+            88
+          ],
+          "printed_page_range": [
+            86,
+            86
+          ],
+          "status": "approved",
+          "note": "上册第86页（PDF p.88）：串讲十二刺中偶刺（前胸后背对刺心脾痛）、短刺与刀针刺法要诀。"
+        }
+      ],
+      "historical_boundary_note": "本篇涵盖避刺五脏安全规戒与“绝汗出”“经脉断绝”等死候判断，且含偶刺与刀针等专业高风险针具理论，仅供专业教学研读，绝非普通读者自操作指南。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:16:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p083",
+          "pdf_page": 83,
+          "printed_page": 81,
+          "chapter_path": "第十六篇 诊要经终论",
+          "quote": "正月二月，天气始方，地气始发，人气在肝。",
+          "quote_sha256": "14f84db1890e89214d79d37a0d384765379c4305a892f0f3aa9e9b9f830d9c05",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:16:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p085",
+          "pdf_page": 85,
+          "printed_page": 83,
+          "chapter_path": "第十六篇 诊要经终论",
+          "quote": "避刺五脏者，所谓重者就是膈与脾胃之处。",
+          "quote_sha256": "105d27d9541b0ed7202c2f4b2363d4ba03c6d10e6c7b0a4083fbdcd1489f6dde",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:16:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p087",
+          "pdf_page": 87,
+          "printed_page": 85,
+          "chapter_path": "第十六篇 诊要经终论",
+          "quote": "那腹胀毙，上下不通而终。",
+          "quote_sha256": "197eea47f2004e3042679419b29fefd6522110b03a10fec3472822258d53b469",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:16:4",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p088",
+          "pdf_page": 88,
+          "printed_page": 86,
+          "chapter_path": "第十六篇 诊要经终论",
+          "quote": "这个偶刺就是我们昨天谈的，心脾，专门治疗心脾，心脾，心痛",
+          "quote_sha256": "0be94b61a845d49be7c2c110afe8441427d2b875c596603187be970bb9ecf4ca",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·诊要经终论》载：“正月二月，天气始方，地气始发，人气在肝……故春刺散俞，夏刺络俞，秋刺皮肤，冬刺俞窍。”",
+          "详述经终危候：“太阳之脉，其终也，戴眼反折瘛疭，其色白，绝汗乃出，绝汗出则死矣”；少阴面黑齿长而垢、腹胀闭上下不通而终。"
+        ],
+        "ni_teaching": [
+          "讲解胸背丈量与进针安危：背部肋间缝隙与心脏位置不可直刺冒进，“避刺五脏者”以膈与脾胃作定位基准，重申针刺安全意识。",
+          "逐条印证经脉终绝征象：太阳绝则项强抽搐发绝汗；少阴肾气绝则黑气泛肤、大小便上下不通；太阴绝则腹胀满闭。",
+          "阐发“偶刺”之法即正面募穴与背面俞穴对刺以治心痛，不可穿胸直透，专示专业教学之用。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "第16篇涵盖PDF第82–88页，跨七节；录本第85页另补有对十二刺短刺之更正说明。"
+        ],
+        "organizer_summary": [
+          "兼融四时进针深度、内脏避刺规范与六经气绝危候辨识，既为《针刺法则》根基，亦为高风险危重警示篇章。"
+        ]
+      },
+      "open_questions": [
+        "“刀针刺法”在讲记第86页偏重概念概览，具体九针形制宜与《针解》《灵枢·九针十二原》（注：本馆藏未收《灵枢》）互参。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：含避刺五脏规范、刀针偶刺专业操作理论及“绝汗出则死”“经脉断绝”等垂危终候警示，非专业训练者切勿施针，遇危症急当就医。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:20",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:20",
+      "order": 21,
+      "suwen_number": 20,
+      "canonical_name": "第二十篇 三部九候论",
+      "classic_standard_title": "《素问·三部九候论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        121,
+        124
+      ],
+      "printed_page_range": [
+        119,
+        122
+      ],
+      "summary": "确立古代全身“三部九候”遍诊法：将头、手、足分为上中下三部，每部各具天地人三候以候脏腑经络之气，阐释“独大、独小、独疾、独迟、独热、独寒、独陷下”七者皆病、九候皆沉细悬绝必死，并述“弹踝验应”与真脏脉决死生及缪刺救表法。",
+      "key_points": [
+        "三部九候全身遍诊：上部天两额之动脉、地两颊、人耳前；中部天手太阴、地手阳明、人手少阴；下部天足厥阴、地足少阴（太溪）、人足太阴（冲阳等）。",
+        "九候决生死与七诊：独大独小独疾独迟等失调皆主病；真脏脉见或三部九候皆绝（冲阳、太溪、人迎、经渠脉尽失）属危重。",
+        "弹踝测阴与寒热七诊：弹内踝上五寸不鼓应或九候悬绝为危，寒热病以冬阴夏阳合脉断预后，病在络则以缪刺泄之。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:20:s01",
+          "title": "第一节 三部九候之脉",
+          "pdf_page_range": [
+            121,
+            122
+          ],
+          "printed_page_range": [
+            119,
+            120
+          ],
+          "status": "approved",
+          "note": "上册第119–120页（PDF p.121–122）：从察形肿瘦与呼吸胸阳切入，详解天地至数“九”及头手足三部九候脉位分布与顺逆四时。"
+        },
+        {
+          "section_id": "nj:suwen:20:s02",
+          "title": "第二节 三部九候之死",
+          "pdf_page_range": [
+            123,
+            123
+          ],
+          "printed_page_range": [
+            121,
+            121
+          ],
+          "status": "approved",
+          "note": "上册第121页（PDF p.123）：详解七诊之变与三部九候见“独异”、两候相似为病盛、三候尽失为病危及冲阳太溪人迎经渠等动脉危候。"
+        },
+        {
+          "section_id": "nj:suwen:20:s03",
+          "title": "第三节 案例:脚外踝骨判疾病",
+          "pdf_page_range": [
+            123,
+            123
+          ],
+          "printed_page_range": [
+            121,
+            121
+          ],
+          "status": "approved",
+          "note": "上册第121页（PDF p.123）：以手扣掌与弹脚外踝/内踝五寸“弹之不应”辨别阳微阴绝或经络阻滞案例。"
+        },
+        {
+          "section_id": "nj:suwen:20:s04",
+          "title": "第四节 寒热病、水病、七诊",
+          "pdf_page_range": [
+            124,
+            124
+          ],
+          "printed_page_range": [
+            122,
+            122
+          ],
+          "status": "approved",
+          "note": "上册第122页（PDF p.124）：解析冬阴夏阳（肾属水、心属火）与寒热病、水病之九候真脏脉诀别。"
+        },
+        {
+          "section_id": "nj:suwen:20:s05",
+          "title": "第五节 缪刺法",
+          "pdf_page_range": [
+            124,
+            124
+          ],
+          "printed_page_range": [
+            122,
+            122
+          ],
+          "status": "approved",
+          "note": "上册第122页（PDF p.124）：承三部九候言病在表浅孙络留血时施以缪刺之基本原理。"
+        }
+      ],
+      "historical_boundary_note": "“三部九候”以头手足动脉搏动决生死、判真脏脉，乃古代未具现代影像与循环监测条件下的全面触诊模型，重症休克须即刻现代救治。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:20:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p122",
+          "pdf_page": 122,
+          "printed_page": 120,
+          "chapter_path": "第二十篇 三部九候论",
+          "quote": "我们如何辩生死？黄帝就问岐伯。",
+          "quote_sha256": "61d132ba8d08543d2e5564eb6ac4c915b180edfb9e60c7220742849d64d1f8dc",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:20:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p123",
+          "pdf_page": 123,
+          "printed_page": 121,
+          "chapter_path": "第二十篇 三部九候论",
+          "quote": "冲阳脉没了，太溪脉没了，人迎脉没了，经渠脉没了",
+          "quote_sha256": "9ac76068e9c417028e1369aeabe80f349d4da963d89d54799ebb336fe19e0875",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:20:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p124",
+          "pdf_page": 124,
+          "printed_page": 122,
+          "chapter_path": "第二十篇 三部九候论",
+          "quote": "足太阳气绝者，其足不可屈伸，死",
+          "quote_sha256": "286439725f1273115e6101fb1e503bb29256b77acbe67b5d8d669464a260bca1",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·三部九候论》述：“人有三部，部有三候，以决死生，以处百病，以调虚实，而除邪疾。”",
+          "指出“察九候，独小者病，独大者病，独疾者病，独迟者病，独热者病，独寒者病，独陷下者病”；“足太阳气绝者，其足不可屈伸，死必戴眼”。"
+        ],
+        "ni_teaching": [
+          "强调不可仅凭手寸口一处，当全身三部（头、手、足，尤重冲阳胃气、太溪肾气、人迎、经渠）互勘以测生气存亡。",
+          "释“两个候有问题为病盛，三个候都有问题则病危”；并举弹踝验感应法辅助判断下肢经气通塞。",
+          "点明“冬阴夏阳”指代阴阳四时体用，非泥字面寒热，并区分传统中药烈毒与现代化工合成毒之别。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "上册页码119–122与第19篇《玉机真藏论》紧密衔接，第119页开头几行犹承前篇“逆四时”与“五虚五实”之尾声。"
+        ],
+        "organizer_summary": [
+          "建立全身多动脉点对比诊断系统，与《平人》《脉要》的寸口胃气诊法相辅相成，构成《内经》完整脉诊体系。"
+        ]
+      },
+      "open_questions": [
+        "九候具体动脉解剖定位与现代脉搏触诊点之精准核校，可与《针灸》足阳明冲阳、足少阴太溪等经穴位置互证。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：涉及九候皆绝、真脏脉、冲阳太溪搏动消失等危重生死征象辨别，仅供文献研读，遇垂危体征切勿延误急诊就医。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:22",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:22",
+      "order": 23,
+      "suwen_number": 22,
+      "canonical_name": "第二十二篇 藏气法时论",
+      "classic_standard_title": "《素问·脏气法时论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        128,
+        132
+      ],
+      "printed_page_range": [
+        126,
+        130
+      ],
+      "summary": "论述五行五脏法天道四时干支之生克胜复、日夜昼夜传变与生死日期推演，创立著名五脏苦欲补泻大法（“肝苦急，急食甘以缓之”等）及五脏病色味治法、毒药五谷辅助之纲，兼示邪实经络取穴刺血法则。",
+      "key_points": [
+        "五脏法时与干支预测：肝病起于春、愈于夏、持于冬、甚于秋、起于春，日中之甲乙丙丁壬癸日夜传变规律，体现时间医学节律。",
+        "五脏苦欲补泻五法：肝苦急急食甘缓（欲散急食辛）；心苦缓缓食酸收（欲软急食咸）；脾苦湿急食苦燥（欲缓急食甘）；肺苦气上逆急食苦泄（欲收急食酸）；肾苦燥急食辛润（欲坚急食苦）。",
+        "药食调养总则与五脏经络刺血：毒药攻邪，五谷为养，五果为助，五畜为益，五菜为充；依五脏虚实并兼顾表里与相克经络放血刺穴。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:22:s01",
+          "title": "第一节 五味之药性",
+          "pdf_page_range": [
+            128,
+            128
+          ],
+          "printed_page_range": [
+            126,
+            126
+          ],
+          "status": "approved",
+          "note": "上册第126页（PDF p.128）：统论酸苦甘辛咸五味走脏与散收缓坚急泻之基本药性法则。"
+        },
+        {
+          "section_id": "nj:suwen:22:s02",
+          "title": "第二节 病于四时之变化",
+          "pdf_page_range": [
+            128,
+            130
+          ],
+          "printed_page_range": [
+            126,
+            128
+          ],
+          "status": "approved",
+          "note": "上册第126–128页（PDF p.128–130）：详演肝心脾肺肾五脏遇春夏秋冬与十天干日时之“愈、甚、持、起”规律，提醒肝病忌当风、心病亥子水刻时防险。"
+        },
+        {
+          "section_id": "nj:suwen:22:s03",
+          "title": "第三节 五脏疾病之症状",
+          "pdf_page_range": [
+            131,
+            131
+          ],
+          "printed_page_range": [
+            129,
+            129
+          ],
+          "status": "approved",
+          "note": "上册第129页（PDF p.131）：详列五脏实虚病证、脾胃肾交界辰巳午未危险节气，以及“肾苦燥”、“用苦补之、用咸泻之”之五味调治。"
+        },
+        {
+          "section_id": "nj:suwen:22:s04",
+          "title": "第四节 药之形、色、气、味、象、数",
+          "pdf_page_range": [
+            132,
+            132
+          ],
+          "printed_page_range": [
+            130,
+            130
+          ],
+          "status": "approved",
+          "note": "上册第130页（PDF p.132）：论形色气味象数入药，兼举脾虚腹满肠鸣取脾经、阳明经穴并可在少阴肾经瘀血处点刺放血之理。"
+        }
+      ],
+      "historical_boundary_note": "五脏干支推演“死于某日”属于古代五行时空节律预后推算模型，且文中论及心脏夜间危候及猛攻毒药治法，重症患者应遵循现代急救监控与规范诊疗。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:22:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p128",
+          "pdf_page": 128,
+          "printed_page": 126,
+          "chapter_path": "第二十二篇 藏气法时论",
+          "quote": "第二十二篇 藏气法时论",
+          "quote_sha256": "a1d95d01930a2eca8d1b5d02d84b4f1f40ce53f8457bd4237c10a1619f0da407",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:22:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p130",
+          "pdf_page": 130,
+          "printed_page": 128,
+          "chapter_path": "第二十二篇 藏气法时论",
+          "quote": "半夜和晚上，亥时和子时的时候，是不是水？水是相克的",
+          "quote_sha256": "8caced7bd39fc7df9ba678ffdf41eb61463aa6390d03103471e92a258a585200",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:22:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p131",
+          "pdf_page": 131,
+          "printed_page": 129,
+          "chapter_path": "第二十二篇 藏气法时论",
+          "quote": "用苦补它，用咸来泄它。",
+          "quote_sha256": "55903f679156e04d05023ff04ce8d128d7871325b2d1781fce5ff838b76ced6f",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:22:4",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p132",
+          "pdf_page": 132,
+          "printed_page": 130,
+          "chapter_path": "第二十二篇 藏气法时论",
+          "quote": "可以在肾经上面，少阴经上面找血瘀的地方",
+          "quote_sha256": "2fd863799e9212320997b1721b7c7e4c4c0b248b0b6dd89c827fd02816fb7c36",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·藏气法时论》云：“肝苦急，急食甘以缓之；心苦缓，急食酸以收之；脾苦湿，急食苦以燥之；肺苦气上逆，急食苦以泄之；肾苦燥，急食辛以润之。”",
+          "详述“毒药攻邪，五谷为养，五果为助，五畜为益，五菜为充，气味合而服之，以补精益气”。"
+        ],
+        "ni_teaching": [
+          "强调天干五行推病时：肝病畏风忌风吹，心病火危于亥子水时，肾病需顾戊己土（辰巳午未土克水交界）并可借金生水时段趋稳。",
+          "深解“毒药攻邪”与后世经方（如《伤寒》《金匮》）大黄、甘草、附子、白术、桂枝配伍五味苦欲补泻一脉相承。",
+          "举脾虚腹满泄泻不仅治太阴脾、阳明胃，亦可因“土克水”查少阴肾经瘀络放血疏通。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "本篇“五脏苦欲补泻”条文直接孕育汉唐以来方剂配伍核心逻辑，故成为联结《内经》《神农本草经》与经方之关键桥梁。"
+        ],
+        "organizer_summary": [
+          "既提供“五脏干支昼夜节律”辨病进退框架，又确立“五味补泻”与“药攻谷养”两大治疗基石。"
+        ]
+      },
+      "open_questions": [
+        "十天干日夜克应期仅作宏观病机节律参考，真实临证变数尚受体质与介入治疗影响。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：含五脏克贼日夜危期警示、毒药攻邪及经脉刺血论述，心肾重症与急救风险患者须及时就医，切忌单凭天干推演或自行用药刺血。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:23",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:23",
+      "order": 24,
+      "suwen_number": 23,
+      "canonical_name": "第二十三篇 宣明五气篇",
+      "classic_standard_title": "《素问·宣明五气篇》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        133,
+        135
+      ],
+      "printed_page_range": [
+        131,
+        133
+      ],
+      "summary": "概括五味所入、五脏五气所化（噫咳语吞欠）、五精所并、五脏五恶（心恶热、肺恶寒、肝恶风、脾恶湿、肾恶燥）、五脏所藏（神魂魄意志）、五液、五劳所伤与五脉应象，阐明五味偏嗜走筋骨气血肉之禁及阴阳搏聚病机。",
+      "key_points": [
+        "五味禁忌（五走）：酸走筋（筋病无多食酸）、辛走气（气病无多食辛）、苦走骨、咸走血、甘走肉，偏嗜则反伤其所合。",
+        "五脏所恶与所病：心恶热、肺恶寒、肝恶风、脾恶湿、肾恶燥；心为噫、肺为咳、肝为语、脾为吞、肾为欠为嚏。",
+        "五藏所藏与五劳所伤：心藏神、肺藏魄、肝藏魂、脾藏意、肾藏志；久视伤血、久卧伤气、久坐伤肉、久立伤骨、久行伤筋。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:23:s01",
+          "title": "第一节 五味均衡、五脏五病",
+          "pdf_page_range": [
+            133,
+            133
+          ],
+          "printed_page_range": [
+            131,
+            131
+          ],
+          "status": "approved",
+          "note": "上册第131页（PDF p.133）：总述五味均调、五脏“五病所发”与“五经所病”基础归类。"
+        },
+        {
+          "section_id": "nj:suwen:23:s02",
+          "title": "第二节 五脏喜恶",
+          "pdf_page_range": [
+            134,
+            134
+          ],
+          "printed_page_range": [
+            132,
+            132
+          ],
+          "status": "approved",
+          "note": "上册第132页（PDF p.134）：剖析心恶热、肺恶寒、肝恶风等“五脏喜恶”的诊断与调护价值。"
+        },
+        {
+          "section_id": "nj:suwen:23:s03",
+          "title": "第三节 五味禁忌 五病所发",
+          "pdf_page_range": [
+            134,
+            134
+          ],
+          "printed_page_range": [
+            132,
+            132
+          ],
+          "status": "approved",
+          "note": "上册第132页（PDF p.134）：释酸辛苦咸甘“五味禁忌”与“五病所发”（邪入阴则为痹、入阳则为狂、搏阴则为喑等）。"
+        },
+        {
+          "section_id": "nj:suwen:23:s04",
+          "title": "第四节 五脏所藏、所主、所伤",
+          "pdf_page_range": [
+            135,
+            135
+          ],
+          "printed_page_range": [
+            133,
+            133
+          ],
+          "status": "approved",
+          "note": "上册第133页（PDF p.135）：讲解神魂魄意志“五藏所藏”、主病机理及“阳病发于冬，阴病发于夏”之阳藏阳发道理。"
+        }
+      ],
+      "historical_boundary_note": "“五味走五体”“神魂魄意志”及“久坐久立伤损”是中医食养、形神与起居摄生总纲，不可简化为单一食物直接靶向器官之现代药理。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:23:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p133",
+          "pdf_page": 133,
+          "printed_page": 131,
+          "chapter_path": "第二十三篇 宣明五气篇",
+          "quote": "第二十三篇，“宣明五气篇”，在明确的分析五种气的变化。",
+          "quote_sha256": "2f99317d3a3485947a0f7b680ec2629a5650a0932d1f667bb0103dbc75b55b0a",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:23:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p134",
+          "pdf_page": 134,
+          "printed_page": 132,
+          "chapter_path": "第二十三篇 宣明五气篇",
+          "quote": "五脏所恶，刚刚五虚所病的时候，协助我们诊断，判断病在哪个地方。",
+          "quote_sha256": "913f3053276678b7fc5b664128d28e35b7e67f517cf648ddc0aa953aeb03979d",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:23:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p135",
+          "pdf_page": 135,
+          "printed_page": 133,
+          "chapter_path": "第二十三篇 宣明五气篇",
+          "quote": "冬天的定义就是阳要潜藏，当阳潜藏的时候，我们就说是冬。",
+          "quote_sha256": "72f40527d5370485f11ab11854edabb7f0cff06b8ded1e8dba16b4761d19cb4d",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·宣明五气篇》载：“心藏神，肺藏魄，肝藏魂，脾藏意，肾藏志，是谓五脏所藏。”",
+          "“酸走筋，筋病无多食酸；辛走气，气病无多食辛；苦走骨，骨病无多食苦；咸走血，血病无多食咸；甘走肉，肉病无多食甘，是谓五禁。”"
+        ],
+        "ni_teaching": [
+          "将“五脏所恶”直接用于问诊鉴别：畏寒多属肺表寒、厌风当顾肝、肢困湿重责脾、急躁烦热责心。",
+          "精解“阳病发于冬，阴病发于夏”：冬为阳气当潜藏之时，阳不潜藏故阳病显；夏为阳发之季，内阴受伏或阳虚不出故阴病发。",
+          "提示“搏阴则为喑（失音）”“入阳则为狂”乃后世情志病、突发失音及疯癫症候之根源。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "本篇原文简练，属《素问》五气五行归类总表性质，讲记逐段结合饮食宜忌与临床问诊展开。"
+        ],
+        "organizer_summary": [
+          "将“五味—五脏—五液—五劳—神志—喜恶”集成最核心的中医辨象纲目表。"
+        ]
+      },
+      "open_questions": [
+        "“博阳/搏阴”及五脉细微分类在本篇较略，细节宜与《阴阳别论》《调经论》互参。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:24",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:24",
+      "order": 25,
+      "suwen_number": 24,
+      "canonical_name": "第二十四篇 血气行志论",
+      "classic_standard_title": "《素问·血气形志》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        136,
+        137
+      ],
+      "printed_page_range": [
+        134,
+        135
+      ],
+      "summary": "规定六经（十二经）血气多少定数，据此确立“太阳常多血少气、刺太阳出血恶出气；阳明多气多血、刺阳明出血气”等针刺出血出气准则，兼补五脏所主（心主脉、肺主皮、肝主筋、脾主肉、肾主骨）、志意与背俞丈量法及针药互参之旨。",
+      "key_points": [
+        "六经血气多少总诀：太阳多血少气、少阳少血多气、阳明多气多血、少阴少血多气、厥阴多血少气、太阴多气少血。",
+        "六经刺血出气禁戒：太阳与厥阴宜刺出血恶出气；少阳与少阴、太阴宜出气恶出血；阳明多气多血可兼出气血。",
+        "五脏所主与治法互通：知“脾主肉、肺主皮”故能悟五脏相通互治，兼及脱血脱气夺志之五脏形神症状。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:24:s01",
+          "title": "第一节 气血比值、十二经气",
+          "pdf_page_range": [
+            136,
+            136
+          ],
+          "printed_page_range": [
+            134,
+            134
+          ],
+          "status": "approved",
+          "note": "上册第134页（PDF p.136）：承前篇神志记忆与“五脏所主”（心脉肺皮肝筋脾肉肾骨），阐释“多血少气、多气多血”六经血气比值。"
+        },
+        {
+          "section_id": "nj:suwen:24:s02",
+          "title": "第二节 易经概述",
+          "pdf_page_range": [
+            137,
+            137
+          ],
+          "printed_page_range": [
+            135,
+            135
+          ],
+          "status": "approved",
+          "note": "上册第135页（PDF p.137）：详述“泄有余补不足”之去瘀放血与出气分寸，强调阳明可出气血而太阳独忌出气、仅可出血；顺论背俞按穴度尺与汤药、针砭分派合流之道。"
+        }
+      ],
+      "historical_boundary_note": "“刺血与出气”之经脉划分属古代经络血气分配法则；刺络放血属高风险侵入性操作，仅限合规专业人员在无菌条件下判断实施。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:24:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p136",
+          "pdf_page": 136,
+          "printed_page": 134,
+          "chapter_path": "第二十四篇 血气行志论",
+          "quote": "老师，我们为什么要知道五脏所主？我们就知道脾病了要去治肺嘛",
+          "quote_sha256": "b52356c10f9a7a5deeceb82113701f263f52faea268c579e01594144fb6bea83",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:24:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p137",
+          "pdf_page": 137,
+          "printed_page": 135,
+          "chapter_path": "第二十四篇 血气行志论",
+          "quote": "明经本身多血多气，你出气血都无所谓。太阳经是多血少气，我们出血",
+          "quote_sha256": "0edda855a373b1596ff69c07cb69d0017cbd5b80d82bbfd8fea5eb92dce3e04e",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·血气形志篇》载：“夫人之常数，太阳常多血少气，少阳常少血多气，阳明常多气多血，少阴常少血多气，厥阴常多血少气，太阴常多气少血。”",
+          "明戒“刺阳明，出血气；刺太阳，出血恶气；刺少阳，出气恶血”。"
+        ],
+        "ni_teaching": [
+          "在临床背俞与四肢委中放血立竿见影，正本于太阳经多血少气之特性；相反少阳、少阴、太阴忌妄刺放血伤血。",
+          "批评后世医派割裂：“开处方的不懂针灸，开温病的不懂伤寒”，呼吁通贯针、药与经典全貌。",
+          "借“以两乳之间折寸”等体表折量示背俞定穴大义，与《针灸篇》骨度分寸互相印证。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "篇题录本写作“血气行志论”（通行本多作《血气形志篇》），且第134页有“肺主脾（实指肺主皮）”口误或笔录音近误记，整理层如实保留并校注。"
+        ],
+        "organizer_summary": [
+          "为针灸临床何时“点刺放血”、何时“行气调补”提供按六经分区的硬性规则。"
+        ]
+      },
+      "open_questions": [
+        "第134页录文“肺主脾”系音误（原典作“肺主皮”），已于校注层标明，不改原档字面。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：涉及各经络刺络放血宜忌准则与出气伤血风险，属专业教学材料，非普通用户可自行执行的放血指南。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:25",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:25",
+      "order": 26,
+      "suwen_number": 25,
+      "canonical_name": "第二十五篇 宝命全角论",
+      "classic_standard_title": "《素问·宝命全形论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        138,
+        139
+      ],
+      "printed_page_range": [
+        136,
+        137
+      ],
+      "summary": "阐明天地万物与人体气血随四时节令相应之理，提出针刺医家必守之“治神五要”（治神、养身、知毒药为真、制砭石大小、知腑脏血气之诊）及针法九野九宫总括，指出五实死五虚死（兼述浆粥入胃泄注止则虚者活之机）与导引修身正道。",
+      "key_points": [
+        "针刺“治神”核心：“凡刺之真，必先治神”，医患专神凝气、随四时虚实动静以应，不为俗忌鬼神所惑（“道无鬼神，独来独往”）。",
+        "治神五条与毒药知真：明确知养身、辩识药物真伪性味、制砭小大、诊脏腑血气为医工全才根基。",
+        "九野九宫补泻与五实五虚：九针配九野四时以“虚者实之，满者泄之”；并藉九宫风占阐发气候导引防病意识。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:25:s01",
+          "title": "第一节 九野九宫、补泻之道五实五虚",
+          "pdf_page_range": [
+            138,
+            138
+          ],
+          "printed_page_range": [
+            136,
+            136
+          ],
+          "status": "approved",
+          "note": "上册第136页（PDF p.138）：题旨九野九宫与补泻、五实五虚，阐发顺应春夏秋冬二十四节气养生与调和形气之要。"
+        },
+        {
+          "section_id": "nj:suwen:25:s02",
+          "title": "第二节 导引术",
+          "pdf_page_range": [
+            139,
+            139
+          ],
+          "printed_page_range": [
+            137,
+            137
+          ],
+          "status": "approved",
+          "note": "上册第137页（PDF p.139）：释“虚者实之、满者泄之”、“道无鬼神，独来独往”及针法“治神”定力、辨别毒药为真与导引调息。"
+        }
+      ],
+      "historical_boundary_note": "本篇篇题在原档作“宝命全角论”，且涉及“五实五虚死”与攻邪毒药分辨；急症衰弱患者切忌依赖导引延误现代治疗。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:25:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p138",
+          "pdf_page": 138,
+          "printed_page": 136,
+          "chapter_path": "第二十五篇 宝命全角论",
+          "quote": "第二十五篇 宝命全角论",
+          "quote_sha256": "3cd73f3204b5509f0774a75301b6e6c64acdbe7badf7fe244cac3b710bc4c086",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:25:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p139",
+          "pdf_page": 139,
+          "printed_page": 137,
+          "chapter_path": "第二十五篇 宝命全角论",
+          "quote": "刺法，都是虚者实之，满者泄之，这是大家都知道的。若夫法天则地",
+          "quote_sha256": "96a2d6be6a71e910ff4e660713d93bec771a95d0869bddaab2e6b3659e00adb2",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·宝命全形论》云：“凡刺之真，必先治神，五脏已定，九候已备，后乃存针。”",
+          "确立五法：“一曰治神，二曰知养身，三曰知毒药为真，四曰制砭石小大，五曰知腑脏血气之诊。”"
+        ],
+        "ni_teaching": [
+          "指出临床下针远不止机械背诵“虚则补之、实则泄之”，核心在医生先“治神”定志、察透脏腑气血后随应而动。",
+          "释“道无鬼神，独来独往”：医道法天则地而无神秘迷信，掌握节气与药针规矩即可从容出入。",
+          "将养生、毒药分辨与传统导引按蹻并论，说明形体、精神与药石互为羽翼。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "篇题录本作《第二十五篇 宝命全角论》（通行善本作《宝命全形论》），为形近异文或录入错字，保留原档篇名并注校。"
+        ],
+        "organizer_summary": [
+          "上承天人相应宇宙观，下启后两篇《八正神明》《离合真邪》的具体候气与呼吸补泻实务。"
+        ]
+      },
+      "open_questions": [
+        "讲记第136–137页对《宝命全形论》“五实死（脉盛皮热腹胀前后不通闷瞀）与五虚死（脉细皮寒气少泄利前后饮食不入）”及“浆粥入胃则虚者活”转机未逐条细读，仍可据原典补校互参。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：涉及“五实五虚死”、毒药攻邪及针石施治准则，危险失代偿征象应立即寻求现代医疗救治。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:26",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:26",
+      "order": 27,
+      "suwen_number": 26,
+      "canonical_name": "第二十六篇 八正神明论",
+      "classic_standard_title": "《素问·八正神明论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        140,
+        142
+      ],
+      "printed_page_range": [
+        138,
+        140
+      ],
+      "summary": "阐发针刺法天时日月盈亏八风正邪之大法（月生无泻、月满无补、月廓空无治，天温日明则刺、天寒日阴则勿），严格区分虚邪贼风与正邪，论“上工救其萌芽、下工救其已成”，辨“形”与“神”并详解呼吸转针补泻与三部九候要旨。",
+      "key_points": [
+        "法日月天时刺禁：月生血气始精不可妄泻，月满血气实不可复补，月廓空血气衰无治；虚则补、实则泻，误施则致“乱经”。",
+        "虚邪与正邪之辨：八正虚风中人深重伤人正气；上工识神机而“救其萌芽”，下工泥有形待病已成乃救。",
+        "补泻呼吸手法实录：泻法需候病患吸气内针、转针以散邪气、呼时引出；补法反用，且重“手如握虎，如待所贵”之专一指感。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:26:s01",
+          "title": "第一节 针灸法则、脏虚、月满、乱经",
+          "pdf_page_range": [
+            140,
+            140
+          ],
+          "printed_page_range": [
+            138,
+            138
+          ],
+          "status": "approved",
+          "note": "上册第138页（PDF p.140）：论“神明”与“气”在表皮（戴手套触皮与气）、关节少阳开阖（枢纽梗阻）及月盈虚、乱经原则。"
+        },
+        {
+          "section_id": "nj:suwen:26:s02",
+          "title": "第二节 九宫释九风",
+          "pdf_page_range": [
+            141,
+            141
+          ],
+          "printed_page_range": [
+            139,
+            139
+          ],
+          "status": "approved",
+          "note": "上册第139页（PDF p.141）：解读九宫释八正九风与天干节律避忌。"
+        },
+        {
+          "section_id": "nj:suwen:26:s03",
+          "title": "第三节 虚邪与正邪、下工案例",
+          "pdf_page_range": [
+            141,
+            141
+          ],
+          "printed_page_range": [
+            139,
+            139
+          ],
+          "status": "approved",
+          "note": "上册第139页（PDF p.141）：分辨虚邪与正邪，举外感小儿误治“乱经”与下工救已成症之诊治案例。"
+        },
+        {
+          "section_id": "nj:suwen:26:s04",
+          "title": "第四节 补泻手法、三部九候",
+          "pdf_page_range": [
+            142,
+            142
+          ],
+          "printed_page_range": [
+            140,
+            140
+          ],
+          "status": "approved",
+          "note": "上册第140页（PDF p.142）：详述转针泄气、呼吸补泻出入手感，并剖析“形与神”及“目冥冥，按之不得”神在气外之理。"
+        }
+      ],
+      "historical_boundary_note": "“法日月盈亏择时下针”属古代天人感应历法医学模型；文中小儿发烧与胸闷危证案例仅为讲课举例，急症胸痛或小儿高热须立即规范就医，勿仅候月相或自行施针。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:26:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p140",
+          "pdf_page": 140,
+          "printed_page": 138,
+          "chapter_path": "第二十六篇 八正神明论",
+          "quote": "开合，关合都是少阳。我们知道病在这边的时候他开合有问题",
+          "quote_sha256": "93dd954d36b05d8cbec070e9d63db5fd1d63defa0beb3e7ea9f9d14f48910069",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:26:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p141",
+          "pdf_page": 141,
+          "printed_page": 139,
+          "chapter_path": "第二十六篇 八正神明论",
+          "quote": "该补的时候不补，该泄的时候不泄，就会乱经",
+          "quote_sha256": "a32933c9ef964b07e713dfca072de308b7ed051bc8daed0d84e07b291cdb08ff",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:26:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p142",
+          "pdf_page": 142,
+          "printed_page": 140,
+          "chapter_path": "第二十六篇 八正神明论",
+          "quote": "目冥冥，问其所病，索之于经，慧然在前，按之不得，不知其情，故曰形",
+          "quote_sha256": "b0bb288d531fb2bf628f9d0b20c2634376195117c4146f65380d036f3ff96cd2",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·八正神明论》云：“凡刺之法，必候日月星辰，四时八正之气，气定乃刺之。是故天温日明，则人血淖液而卫气浮……月始生，则血气始精……月廓满，则血气实……月廓空，则肌肉减，经络虚。”",
+          "强调“上工救其萌芽……下工救其已成，救其已败”。"
+        ],
+        "ni_teaching": [
+          "斥只见皮肤、戴手套隔绝手感乃失“气在皮肤”；遇关节少阳枢纽气梗之处，点破“开阖”之机下针疏导。",
+          "引经文解释“该补不补、该泄不泄则乱经”，使浅邪反陷深层；严辨“上工见微知著（如心脏初萌胸闷而仪器未查出前即辨治）”与下工已成乃治。",
+          "传授“吸则内针转针候气、呼则出针”之迎随泄法及呼吸静候之别。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "本篇第140页结尾直接带出后篇“三部九候”针刺转承及临床胸痛预防之案例阐发。"
+        ],
+        "organizer_summary": [
+          "把天文学“月相气血汐潮”观、防微杜渐的“上工救萌芽”思想，以及针下得气呼吸补泻操作高度统一。"
+        ]
+      },
+      "open_questions": [
+        "“月盈亏”对微针临床是否必拘泥执行，讲记在本篇强调法则敬畏，后于《缪刺论》亦有实效权衡补充。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：涉及“乱经”误治禁戒、专业转针补泻手法及心脏胸痛萌芽症例警示，非专业训练者切勿施针或延误急性胸痛、高热就诊。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:27",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:27",
+      "order": 28,
+      "suwen_number": 27,
+      "canonical_name": "第二十七篇 离合真邪论",
+      "classic_standard_title": "《素问·离合真邪论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        143,
+        145
+      ],
+      "printed_page_range": [
+        141,
+        143
+      ],
+      "summary": "解析人体真气与天地之气相合及邪气初客经脉寒凝热搏之机制，重点详授“候气”心法——“静以久留，无令邪布”、“吸则内针、呼尽乃去”之泻法与“候呼内针、静而久留、呼尽乃出（急扪其穴）”之补法，并论先补后攻次序与三部九候为本。",
+      "key_points": [
+        "真气与邪气之分：寒则血凝涩、热则气淖泽；邪入有微甚深浅，真气乃天地四时所养之正气。",
+        "“候气”精髓与不知日暮：下针莫问时辰长短，以指下“其气已至、气平乃止”为准；严戒“迎而夺之”过早失候。",
+        "呼吸补泻细则：泻法随吸进针、转针引邪而呼出（不闭孔）；补法随呼进针、轻静留候得气而呼尽出针、随即闭按其穴（“若先若后者，血气已尽”）。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:27:s01",
+          "title": "第一节 肝病案例、泻/补手法",
+          "pdf_page_range": [
+            143,
+            143
+          ],
+          "printed_page_range": [
+            141,
+            141
+          ],
+          "status": "approved",
+          "note": "上册第141页（PDF p.143）：借肝病案例、寒凝血涩之自然风涛比喻，讲解“真邪相离合”与专心听诊候气，详述泻、补基本手法。"
+        },
+        {
+          "section_id": "nj:suwen:27:s02",
+          "title": "第二节 候气（头痛案例）",
+          "pdf_page_range": [
+            144,
+            144
+          ],
+          "printed_page_range": [
+            142,
+            142
+          ],
+          "status": "approved",
+          "note": "上册第142页（PDF p.144）：藉头痛实证深入示范“候气”法要——“静以久留，以气至为故，不知日暮”，确保病根拔除。"
+        },
+        {
+          "section_id": "nj:suwen:27:s03",
+          "title": "第三节 治症时机、补泻攻邪",
+          "pdf_page_range": [
+            145,
+            145
+          ],
+          "printed_page_range": [
+            143,
+            143
+          ],
+          "status": "approved",
+          "note": "上册第143页（PDF p.145）：辨察“若先若后”误失补泻时机（虚者不可再夺、实者不可骤补）的攻邪准则。"
+        },
+        {
+          "section_id": "nj:suwen:27:s04",
+          "title": "第四节 常人之辨别",
+          "pdf_page_range": [
+            145,
+            145
+          ],
+          "printed_page_range": [
+            143,
+            143
+          ],
+          "status": "approved",
+          "note": "上册第143页（PDF p.145）：对比常人与病者之神色脉气，重申三部九候总括真邪辨别与针耀而匀。"
+        }
+      ],
+      "historical_boundary_note": "“候气”及呼吸补泻乃古典针灸专业手法教学，须在合格针灸医师临床带教下掌握，非大众可自行仿行操作。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:27:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p143",
+          "pdf_page": 143,
+          "printed_page": 141,
+          "chapter_path": "第二十七篇 离合真邪论",
+          "quote": "寒则血凝泣，这就是寒热。",
+          "quote_sha256": "92f4da1c8bdb32b40b96320cf7c4719ca7073052c7f527517f30c7396c4b7078",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:27:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p144",
+          "pdf_page": 144,
+          "printed_page": 142,
+          "chapter_path": "第二十七篇 离合真邪论",
+          "quote": "这个吸则转针，以得气为故，这是泄的手法",
+          "quote_sha256": "bb8cc1476855de5df406c29310c800c2778a8174f27f7a76bada65ce4c74cee3",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:27:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p145",
+          "pdf_page": 145,
+          "printed_page": 143,
+          "chapter_path": "第二十七篇 离合真邪论",
+          "quote": "第三节 治症时机、补泻攻邪",
+          "quote_sha256": "8a0a0a377daa32f27d4b97d919eb1f995abec1f27d137a42ef8951d4ad931dc9",
+          "role": "collation_notes"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·离合真邪论》云：“静以久留，以气至为故，如待所贵，不知日暮；其气已至，适而自护；候吸引针，气不得出，各在其处，推阖其门，令神气存，大气留止，故命曰补。”",
+          "又言：“吸则转针，以得气为故……候呼引针，呼尽乃去，大气皆出，故命曰泻。”"
+        ],
+        "ni_teaching": [
+          "以大水风涛比喻天寒血涩，说明外邪袭经脉如何滞气凝血。",
+          "重点标出“吸则转针候气得、呼则拔出”为泻；与补法之静候气至、随出按穴形成鲜明对照，提醒头痛等症不可未候气至即草率起针而留病根。",
+          "重申三部九候优于死背九针器具形式，贵在凝神听诊而“抓重点”。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "上册第143页（PDF p.145）后半紧接《第二十八篇 通评虚实论》，中间部分字义照原教材译文从略。"
+        ],
+        "organizer_summary": [
+          "是《素问》阐述针刺补泻具体呼吸节奏与“候气”操作手感最详实的核心篇章之一。"
+        ]
+      },
+      "open_questions": [
+        "原典上中下部邪气并居之多针分刺次序在录本第143页因课堂从略未逐字展开。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:28",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:28",
+      "order": 29,
+      "suwen_number": 28,
+      "canonical_name": "第二十八篇 通评虚实论",
+      "classic_standard_title": "《素问·通评虚实论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        145,
+        151
+      ],
+      "printed_page_range": [
+        143,
+        149
+      ],
+      "summary": "确立全中医学最核心之“邪气盛则实，精气夺则虚”定义，系统辨析重实、重虚、经虚络满、“阴实”死症、脉实满手足寒头热之生死逆顺、肠澼（下痢脓血或白沫）与癫痫、消瘅（甘肥贵人膏粱之疾）的脉象预后，并创立痛点“手不过肘、足不过膝”经脉远取法则。",
+      "key_points": [
+        "虚实千古总纲：“邪气盛则实，精气夺则虚”；由此推演“重实”（大热病气热脉满）与“重虚”（脉气皮气尺脉俱虚）及尺寒尺热分部。",
+        "阴实与脏腑危候：阴脉盛满、四肢厥冷兼头热不寝、肠澼便脓血而脉沉滑生、脉绝发热死，区分下痢带白沫为阴虚（沉生浮死）之脉症互参。",
+        "消瘅与治症远取：辨明消瘅为“肥贵人、膏粱之疾”；提出依病位经络取膝下、肘下三穴之远取准则与四时寒温逆顺。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:28:s01",
+          "title": "第一节 足寒论虚",
+          "pdf_page_range": [
+            145,
+            145
+          ],
+          "printed_page_range": [
+            143,
+            143
+          ],
+          "status": "approved",
+          "note": "上册第143页（PDF p.145）：以足寒论“重虚”之尺脉、气虚、皮寒诸征，点明肺虚气逆致足寒与常人脚温之别。"
+        },
+        {
+          "section_id": "nj:suwen:28:s02",
+          "title": "第二节 天干地支算生死",
+          "pdf_page_range": [
+            146,
+            146
+          ],
+          "printed_page_range": [
+            144,
+            144
+          ],
+          "status": "approved",
+          "note": "上册第144页（PDF p.146）：释“重实”即大热气热脉满，“非其时则生，当其时则死”之天干地支四季推生死法。"
+        },
+        {
+          "section_id": "nj:suwen:28:s03",
+          "title": "第三节 经虚络满、阴实脉",
+          "pdf_page_range": [
+            147,
+            147
+          ],
+          "printed_page_range": [
+            145,
+            145
+          ],
+          "status": "approved",
+          "note": "上册第145页（PDF p.147）：分析“经虚络满”与尺寸脉气上下方向，解析表里（足阳明经属表、胃为里）与“阳虚”之寸急尺缓推理。"
+        },
+        {
+          "section_id": "nj:suwen:28:s04",
+          "title": "第四节 阴实:死症",
+          "pdf_page_range": [
+            148,
+            148
+          ],
+          "printed_page_range": [
+            146,
+            146
+          ],
+          "status": "approved",
+          "note": "上册第146页（PDF p.148）：解读脉实满而手足寒头热、“阴实”危亢不能平卧24小时及失血、阳脱等死症征象。"
+        },
+        {
+          "section_id": "nj:suwen:28:s05",
+          "title": "第五节 儿科病症、血便、下痢、脓血、癫痫、消渴",
+          "pdf_page_range": [
+            149,
+            149
+          ],
+          "printed_page_range": [
+            147,
+            147
+          ],
+          "status": "approved",
+          "note": "上册第147页（PDF p.149）：论小儿痢疾、肠澼便脓血、下痢带白沫（寒虚脉沉生浮死）、癫痫与三阳结热“消瘅”虚实吉凶。"
+        },
+        {
+          "section_id": "nj:suwen:28:s06",
+          "title": "第六节 阿是穴之形与神",
+          "pdf_page_range": [
+            149,
+            151
+          ],
+          "printed_page_range": [
+            147,
+            149
+          ],
+          "status": "approved",
+          "note": "上册第147–149页（PDF p.149–151）：申明由《内经》所出“手不过肘、足不过膝”四肢远取寻穴原则，详释腹鸣脓血与贵人“高粱之疾”及“风寒湿”顺序异读。"
+        }
+      ],
+      "historical_boundary_note": "“阴实”“死症”“肠道脓血便”“消瘅昏仆偏枯”皆属严重器质病变或危重急症，古籍生死预后仅反映了古代中医病机观，真实临床见吐血便血、偏枯昏厥、不能平卧等症状必须立即送急诊救治。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:28:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p146",
+          "pdf_page": 146,
+          "printed_page": 144,
+          "chapter_path": "第二十八篇 通评虚实论",
+          "quote": "大热病气热脉满，这是重实。",
+          "quote_sha256": "4d7656d0485054e9af3c58ec97d9623665ff682cdc511b039321283fe64db35d",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:28:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p148",
+          "pdf_page": 148,
+          "printed_page": 146,
+          "chapter_path": "第二十八篇 通评虚实论",
+          "quote": "脉实满，手脚冷，头热。",
+          "quote_sha256": "13fa1419cb87e2afaa9e71b613fa6213fe9d406ddb82dc9e474b49a9cfdd20e8",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:28:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p149",
+          "pdf_page": 149,
+          "printed_page": 147,
+          "chapter_path": "第二十八篇 通评虚实论",
+          "quote": "脉沉则生，脉浮则死。下痢带脓血的时候",
+          "quote_sha256": "0e3affaf870e44948a63ea33c3e1a77e8bcfb05502ec8b50e916b5a162694bd8",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:28:4",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p151",
+          "pdf_page": 151,
+          "printed_page": 149,
+          "chapter_path": "第二十八篇 通评虚实论",
+          "quote": "甘肥贵人，这种都是，一般会有发生这种消渴，或者突然昏倒",
+          "quote_sha256": "1de1332e3d01901dbfb4948cdb286cd844d769dd84bb9d197e064e2c0a755873",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·通评虚实论》立纲：“黄帝问曰：何谓虚实？岐伯对曰：邪气盛则实，精气夺则虚。”",
+          "论危证：“黄帝曰：脉实满，手足寒，头热，何如？岐伯曰：春秋则生，冬夏则死”；“消瘅仆击，偏枯痿厥，气满发逆，甘肥贵人，则高粱之疾也”。"
+        ],
+        "ni_teaching": [
+          "重申“正常人脚温脚背微凉”及阳主表、阴主里的脉理推理：寸急尺缓辨表里虚实，手足冰寒兼高热满脉则为阴阳格拒大凶之象。",
+          "精辨便脓血（血热伤络）与下白沫（里虚寒阴亏）：阳热失血见寒脉沉可救，阴虚白沫见虚浮发热则阳绝危笃。",
+          "强调循经远取（手不过肘、足不过膝）及在循经压痛点（广义阿是反应）合穴取三针之法；点明膏粱厚味富贵病是消渴中风偏枯主因。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "本篇自143页末至149页（PDF p.145–151），系上册收官大篇；第149页末指出“寒风湿”与常言“风寒湿”仅辞序略异，保留原档录述；据目及总目，第二十九篇《太阴阳明论》实起于下册第150页之前后分卷处（本馆藏下册p.001起即第二十九篇）。"
+        ],
+        "organizer_summary": [
+          "确立“虚实病机总纲”，打通“邪实正虚—阴实危候—便血消渴脉症生死—远道取穴”全链条，是连接上册藏象脉法与下册热、厥、风、痹各论之总枢纽。"
+        ]
+      },
+      "open_questions": [
+        "“手不过肘、足不过膝”上取三穴之具体病证示例可与《针灸》井荣俞经合理论互参，不可僵化排除背俞募穴之配合。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：明确载有“阴实：死症”、脉实满手足寒头热、便脓血、不能平卧及偏枯昏倒等危重症候，仅限学术文献研究，出现此类体征应第一时间急诊就医。",
+      "version": "1.0.0"
+    }
+  ],
+  "concepts": [],
+  "relations": []
+}

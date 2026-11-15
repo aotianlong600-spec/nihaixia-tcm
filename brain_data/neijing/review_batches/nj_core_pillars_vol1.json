@@ -1,0 +1,2958 @@
+{
+  "batch_id": "nj_core_pillars_vol1",
+  "description": "Stage 3 Vol.1 核心基石篇章（前言 + 上古天真、四气调神、生气通天、金匮真言、阴阳应象、离合、别论、灵兰、六节、五脏生成、五藏别论、脉要、平人、玉机、经脉别论，共16篇）",
+  "passages": [
+    {
+      "id": "passage:nj:preface",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:preface",
+      "order": 1,
+      "suwen_number": null,
+      "canonical_name": "前言",
+      "classic_standard_title": "前言（课程导读）",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        11,
+        11
+      ],
+      "printed_page_range": [
+        9,
+        9
+      ],
+      "summary": "全书开讲总序：阐明《黄帝内经》讲授策略以生理、病理与临床可验之核心段落为主，与现存文献中散失、错简篇目背景一并交代。",
+      "key_points": [
+        "明确DVD视频同步整理文稿之教学主旨：聚焦与人体生理、病理直接相关之要义。",
+        "说明传本《内经》存在历史散失与编次沿革，先读大纲而后分篇详解。"
+      ],
+      "section_notes": [],
+      "historical_boundary_note": "本序为倪海厦课堂教学总论，不属先秦汉代《素问》原典经文；目录统计以馆藏两册PDF实际收录为准。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:preface:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p011",
+          "pdf_page": 11,
+          "printed_page": 9,
+          "chapter_path": "前言",
+          "quote": "前言",
+          "quote_sha256": "668ca8fac1405ba7d9224d8272bc897d2e9b70d58770a70d96d9f251bc9e1d75",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:preface:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p011",
+          "pdf_page": 11,
+          "printed_page": 9,
+          "chapter_path": "前言",
+          "quote": "讲《黄帝内经》的时候，它有很多，无关重要的生理学啊，病理学方面的东西。",
+          "quote_sha256": "213a134540466f41f34c27977471167cef4d58509fc21e8b752d8e230ff0b5f8",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[版本说明] 本节为讲记开篇导言，未另摘《素问》原序（《素问》传统序文见下册第75篇前言处之补注说明）。"
+        ],
+        "ni_teaching": [
+          "讲课方式重在提炼关乎人体生理、病理、诊法与治则之关键经文，非逐字考据式讲经。",
+          "明确提示《内经》历代流传有散失过程，需结合临床与针灸、本草互参理解。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "本馆藏上下册合计306 PDF页（印制第1–301页）实仅包含《素问》72篇（74条篇目，缺第51、66–71、73、74篇），未收录《灵枢》讲记。"
+        ],
+        "organizer_summary": [
+          "建立全书真实篇目分母与教学定位边界，避免将课堂导言混为《素问》经文。"
+        ]
+      },
+      "open_questions": [
+        "后续如需补齐王冰序言及全本《灵枢》，需另行引入可核查版本来源。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:01",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:01",
+      "order": 2,
+      "suwen_number": 1,
+      "canonical_name": "第一篇 上古天真论",
+      "classic_standard_title": "《素问·上古天真论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        11,
+        18
+      ],
+      "printed_page_range": [
+        9,
+        16
+      ],
+      "summary": "《素问》开篇总论天年寿命与先天真气之本：阐述法于阴阳、和于术数、恬淡虚无之养生原则，并以女子“七七”、男子“八八”肾气盛衰节律建立生长衰老模型，同时阐发五行“虚则补其母、实则泻其子”原理。",
+      "key_points": [
+        "养生总纲：法于阴阳，和于术数，饮食有节，起居有常，不妄作劳。",
+        "精神内守：恬淡虚无，真气从之，精神内守，病安从来。",
+        "男女天癸节律：女子七岁至七七、男子八岁至八八，皆系肾气盛衰与任脉、太冲脉充盈。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:01:s01",
+          "title": "第一节 道之解析",
+          "pdf_page_range": [
+            11,
+            11
+          ],
+          "printed_page_range": [
+            9,
+            9
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第9–9页。"
+        },
+        {
+          "section_id": "nj:suwen:01:s02",
+          "title": "第二节 难经第10难-五邪",
+          "pdf_page_range": [
+            12,
+            13
+          ],
+          "printed_page_range": [
+            10,
+            11
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第10–11页。"
+        },
+        {
+          "section_id": "nj:suwen:01:s03",
+          "title": "第三节 走路与健康",
+          "pdf_page_range": [
+            14,
+            14
+          ],
+          "printed_page_range": [
+            12,
+            12
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第12–12页。"
+        },
+        {
+          "section_id": "nj:suwen:01:s04",
+          "title": "第四节 女性成长关键期表征",
+          "pdf_page_range": [
+            14,
+            14
+          ],
+          "printed_page_range": [
+            12,
+            12
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第12–12页。"
+        },
+        {
+          "section_id": "nj:suwen:01:s05",
+          "title": "第五节 女性经期与脾脏",
+          "pdf_page_range": [
+            15,
+            15
+          ],
+          "printed_page_range": [
+            13,
+            13
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第13–13页。"
+        },
+        {
+          "section_id": "nj:suwen:01:s06",
+          "title": "第六节 五脏平衡",
+          "pdf_page_range": [
+            15,
+            15
+          ],
+          "printed_page_range": [
+            13,
+            13
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第13–13页。"
+        },
+        {
+          "section_id": "nj:suwen:01:s07",
+          "title": "第七节 水的重要性",
+          "pdf_page_range": [
+            16,
+            16
+          ],
+          "printed_page_range": [
+            14,
+            14
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第14–14页。"
+        },
+        {
+          "section_id": "nj:suwen:01:s08",
+          "title": "第八节 子宫肌瘤与月经",
+          "pdf_page_range": [
+            17,
+            17
+          ],
+          "printed_page_range": [
+            15,
+            15
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第15–15页。"
+        },
+        {
+          "section_id": "nj:suwen:01:s09",
+          "title": "第九节 男性成长关键期表征",
+          "pdf_page_range": [
+            17,
+            17
+          ],
+          "printed_page_range": [
+            15,
+            15
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第15–15页。"
+        },
+        {
+          "section_id": "nj:suwen:01:s10",
+          "title": "第十节 圣人与贤人",
+          "pdf_page_range": [
+            18,
+            18
+          ],
+          "printed_page_range": [
+            16,
+            16
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第16–16页。"
+        }
+      ],
+      "historical_boundary_note": "“上古天年”“女子七七、男子八八”系古典中医生殖与衰老周期理论模型，用于理解传统肾精与任冲观念，非现代人口统计学或绝对年龄上限。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:01:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p011",
+          "pdf_page": 11,
+          "printed_page": 9,
+          "chapter_path": "第一篇 上古天真论",
+          "quote": "第一篇 上古天真论",
+          "quote_sha256": "a7cd420d32a9ac4bc0cebaa542e79eb6ce5c084b37e9a9d31bc706fc63517673",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:01:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p013",
+          "pdf_page": 13,
+          "printed_page": 11,
+          "chapter_path": "第一篇 上古天真论",
+          "quote": "“恬淡虚无，真气从之，精神内守，病安从来。”",
+          "quote_sha256": "316d05a54550f1bfbc1ac7b2b613aa254514ebf2a161f4d0a7240865274930d2",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:01:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p015",
+          "pdf_page": 15,
+          "printed_page": 13,
+          "chapter_path": "第一篇 上古天真论",
+          "quote": "到七岁的时候，女人的牙齿要开始换",
+          "quote_sha256": "3696d9cbd37cb80cf4d9ec6d3d9b276648770fd3005061dbf9038b3ecc06e750",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[讲记引《素问》] “法于阴阳，和于术数”（p.11）",
+          "[讲记引《素问》] “务快其心，逆于生乐，起居无节”（p.12）",
+          "[讲记引《素问》] “恬淡虚无，真气从之，精神内守，病安从来。”（p.13）",
+          "[讲记引《素问》] “齿更”“任脉通”（p.15）"
+        ],
+        "ni_teaching": [
+          "辨阴阳从形神入手：看得见之手掌色脉皮肤属“形”（阴），无形之握力与生命气机属“阳”。",
+          "将“任脉通、太冲脉盛”与针灸循经联系：任脉起会阴行腹正中，月事、生育与心、脾（小肠火化精血）、肾密不可分。",
+          "指出人应“持满”而非过度耗散精气，强调心情开朗与粗食自然饮食的重要性。"
+        ],
+        "other_annotations": [
+          "讲记中同时引《难经》“实则泻其子，虚则补其母”互释五脏生克传变。"
+        ],
+        "collation_notes": [
+          "讲记以课堂对话口述方式串讲，部分《素问》经文以意译或半引文嵌于白话中。"
+        ],
+        "organizer_summary": [
+          "奠定“肾主先天、脾胃后天、形神相依”全书第一基石。"
+        ]
+      },
+      "open_questions": [
+        "需对照《素问》全本补充“四真人”（真人、至人、圣人、贤人）完整经文段落校勘。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:02",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:02",
+      "order": 3,
+      "suwen_number": 2,
+      "canonical_name": "第二篇 四气调神大论",
+      "classic_standard_title": "《素问·四气调神大论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        19,
+        21
+      ],
+      "printed_page_range": [
+        17,
+        19
+      ],
+      "summary": "阐述春夏秋冬四时“生、长、收、藏”与人体神气起居饮食相应之理，提出“春夏养阳，秋冬养阴”与“圣人不治已病治未病”两大防治总纲。",
+      "key_points": [
+        "春发陈、夏蕃秀、秋容平、冬闭藏之四时作息与情志调控。",
+        "“春夏养阳，秋冬养阴，以从其根”的顺时养生原理。",
+        "反顺为逆则发“内格”，引出“治未病”思想。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:02:s01",
+          "title": "第一节 四季之作息",
+          "pdf_page_range": [
+            19,
+            20
+          ],
+          "printed_page_range": [
+            17,
+            18
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第17–18页。"
+        },
+        {
+          "section_id": "nj:suwen:02:s02",
+          "title": "第二节 四气调神-肝、心、肺、肾",
+          "pdf_page_range": [
+            21,
+            21
+          ],
+          "printed_page_range": [
+            19,
+            19
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第19–19页。"
+        },
+        {
+          "section_id": "nj:suwen:02:s03",
+          "title": "第三节 阴阳调和论",
+          "pdf_page_range": [
+            21,
+            21
+          ],
+          "printed_page_range": [
+            19,
+            19
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第19–19页。"
+        },
+        {
+          "section_id": "nj:suwen:02:s04",
+          "title": "第四节 难经第3难-阴阳脉诊",
+          "pdf_page_range": [
+            22,
+            21
+          ],
+          "printed_page_range": [
+            20,
+            19
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第20–19页。"
+        }
+      ],
+      "historical_boundary_note": "“夜卧早起”“冬日冬泳禁忌”等为传统顺应四时阳气升沉之养生经验总结，个体体质与气候条件仍有差异。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:02:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p019",
+          "pdf_page": 19,
+          "printed_page": 17,
+          "chapter_path": "第二篇 四气调神大论",
+          "quote": "第二篇 四气调神大论",
+          "quote_sha256": "c9cb71b20b75c71cc1194ab5a503f2ebb49bf2fe77b8c4667934fed4145063d0",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:02:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p019",
+          "pdf_page": 19,
+          "printed_page": 17,
+          "chapter_path": "第二篇 四气调神大论",
+          "quote": "春三月，这叫做“发陈”，“天地俱生，万物以荣。”",
+          "quote_sha256": "2931ebc6fa5ec95b8cee7d9e99e0a0bf884e04cb966d57b8aeae1fb3b3cb33f9",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:02:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p020",
+          "pdf_page": 20,
+          "printed_page": 18,
+          "chapter_path": "第二篇 四气调神大论",
+          "quote": "“收敛神气，使秋气平。”",
+          "quote_sha256": "ec455d9599c09526e5523bf101887a0aa6d8d8ede85a205ac5d4a06d252c6386",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[讲记引《素问》] “春三月，这叫做‘发陈’，‘天地俱生，万物以荣。’”（p.19）",
+          "[讲记引《素问》] “夜卧早起”“广步于庭”“披发缓形”“生而勿杀，予而勿夺，赏而勿罚”（p.19）",
+          "[讲记引《素问》] “收敛神气，使秋气平。”（p.20）"
+        ],
+        "ni_teaching": [
+          "依“木曰曲直、夏长、秋收、冬藏”解释起居：秋宜收敛神气、使志安宁，冬当早卧晚起待日光而作，不主张寒冬凿冰冬泳耗伤阳气。",
+          "指出“天明则日月不明，邪害空窍”喻指逆四时闭藏之道则清阳失守、邪易上干。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "本篇跨印制p.17–19，末尾含“四时阴阳从之则生、逆之则死”承接第三篇。"
+        ],
+        "organizer_summary": [
+          "建立“天人四时相应”及“治未病”预防纲领。"
+        ]
+      },
+      "open_questions": [
+        "“春夏养阳，秋冬养阴”在后世医家中有顺养与反养之别，讲记偏重顺时护阳避寒，待进一步参校王冰与张景岳注。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:03",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:03",
+      "order": 4,
+      "suwen_number": 3,
+      "canonical_name": "第三篇 生气通天论",
+      "classic_standard_title": "《素问·生气通天论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        22,
+        28
+      ],
+      "printed_page_range": [
+        20,
+        26
+      ],
+      "summary": "讨论人体阳气与天阳相通及阴阳离决失调诸病证：重点讲解“阳气者若天与日”、“阴平阳秘，精神乃治”以及冬伤寒/春伤风/夏伤暑/秋伤湿的跨季发病法则，并涉及五味偏嗜伤及五脏。",
+      "key_points": [
+        "阳气卫表固阴之枢机：表阳虚则自汗亡阴，阴虚则阳亢外浮。",
+        "四季伏气受邪传变规律：冬伤于寒、春必温病；春伤于风、夏生飧泄；夏伤于暑、秋必痎疟；秋伤于湿、冬生咳嗽。",
+        "“治未病”句群重出强调顺逆生死之本。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:03:s01",
+          "title": "第一节 阳气论",
+          "pdf_page_range": [
+            22,
+            23
+          ],
+          "printed_page_range": [
+            20,
+            21
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第20–21页。"
+        },
+        {
+          "section_id": "nj:suwen:03:s02",
+          "title": "第二节 阳气精绝症状、湿热与疣",
+          "pdf_page_range": [
+            24,
+            24
+          ],
+          "printed_page_range": [
+            22,
+            22
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第22–22页。"
+        },
+        {
+          "section_id": "nj:suwen:03:s03",
+          "title": "第三节 阳气之开合",
+          "pdf_page_range": [
+            25,
+            25
+          ],
+          "printed_page_range": [
+            23,
+            23
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第23–23页。"
+        },
+        {
+          "section_id": "nj:suwen:03:s04",
+          "title": "第四节 神(心)、魂(肝)、魄(肺)",
+          "pdf_page_range": [
+            26,
+            26
+          ],
+          "printed_page_range": [
+            24,
+            24
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第24–24页。"
+        },
+        {
+          "section_id": "nj:suwen:03:s05",
+          "title": "第五节 四象-阴阳与时辰之关系",
+          "pdf_page_range": [
+            27,
+            27
+          ],
+          "printed_page_range": [
+            25,
+            25
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第25–25页。"
+        },
+        {
+          "section_id": "nj:suwen:03:s06",
+          "title": "第六节 伤寒论",
+          "pdf_page_range": [
+            28,
+            28
+          ],
+          "printed_page_range": [
+            26,
+            26
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第26–26页。"
+        },
+        {
+          "section_id": "nj:suwen:03:s07",
+          "title": "第七节 五味与五脏气色",
+          "pdf_page_range": [
+            28,
+            28
+          ],
+          "printed_page_range": [
+            26,
+            26
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第26–26页。"
+        }
+      ],
+      "historical_boundary_note": "“冬伤于寒，春必温病”等属中医古典外感伏气病机模型，讲记藉以阐明经方温阳与清热辨证差异，不代表现代感染性疾病传播机制。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:03:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p022",
+          "pdf_page": 22,
+          "printed_page": 20,
+          "chapter_path": "第三篇 生气通天论",
+          "quote": "“反顺为逆，是谓内格。故圣人不治已病，治",
+          "quote_sha256": "7488a8d38662cd8f476711f2f6d606db3ad12a872811ac58d67417308fafbf38",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:03:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p022",
+          "pdf_page": 22,
+          "printed_page": 20,
+          "chapter_path": "第三篇 生气通天论",
+          "quote": "“万物沉浮于生长之门。逆其根，则伐其本，坏其真。故阴阳四时者，万物之终始也，死生之本也。”",
+          "quote_sha256": "20b9a0ebcf0ba01c751f0b221803d2c7ec3de88e40fa50938ceacada877e16d6",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:03:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p025",
+          "pdf_page": 25,
+          "printed_page": 23,
+          "chapter_path": "第三篇 生气通天论",
+          "quote": "阳气者这一段呢提出来就是，运动呢早上做运动，晚上不要做运动",
+          "quote_sha256": "86b4bf9b012d976c607d298d66dda8cc0b559121a92320a2072ecf21ebc51f6a",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[讲记引《素问》] “反顺为逆，是谓内格。故圣人不治已病，治未病，不治已乱，治未乱。”（p.22）",
+          "[讲记引《素问》] “万物沉浮于生长之门。逆其根，则伐其本，坏其真。故阴阳四时者，万物之终始也，死生之本也。”（p.22）"
+        ],
+        "ni_teaching": [
+          "详析表阳虚与汗出关系：表阳不能固表则汗（阴液）外泄；阴虚则阳无所依而浮越，两者治法迥异。",
+          "以督脉至第14椎命门喻人阳气根基；并主张顺应日中阳旺之时运动，夜间阳气入藏不宜剧烈运动。",
+          "于煎厥、薄厥、大怒伤肝段落强调情志过极可令阳气暴张或血随气逆。"
+        ],
+        "other_annotations": [
+          "讲记中将第二篇末段“治未病”与第三篇开篇连续串讲。"
+        ],
+        "collation_notes": [
+          "p.22上方承接第二篇末节文字，讲记中将四季伏邪经文并引于本篇及第五篇复述处。"
+        ],
+        "organizer_summary": [
+          "核心确立“阳密乃固”的表里固摄与气血升降概念。"
+        ]
+      },
+      "open_questions": [
+        "本篇“煎厥”“薄厥”“俞气化薄”与后世中风病证之对应关系待详录。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:04",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:04",
+      "order": 5,
+      "suwen_number": 4,
+      "canonical_name": "第四篇 金匮真言论",
+      "classic_standard_title": "《素问·金匮真言论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        29,
+        34
+      ],
+      "printed_page_range": [
+        27,
+        32
+      ],
+      "summary": "系统归纳天之八风与人体五风发病部位，确立五脏分属“春善病鼽衄、仲夏善病胸胁、长夏善病洞泄寒中、秋善病风疟、冬善病痹厥”之季节关联，并确立“阴中有阴，阳中有阳”的分层法则及五脏对应方位、五色、五音、五味系统。",
+      "key_points": [
+        "昼夜与脏腑再分阴阳：背为阳（心肺分太阳/少阴），腹为阴（肾肝脾分至阴/太阴/少阴）。",
+        "四时多发病定位与“按跷”等调养时机。",
+        "五行系统归纳表初具规模：木火土金水对应青赤黄白黑、酸苦甘辛咸。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:04:s01",
+          "title": "第一节 五封与八风-四季易发之病",
+          "pdf_page_range": [
+            29,
+            29
+          ],
+          "printed_page_range": [
+            27,
+            27
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第27–27页。"
+        },
+        {
+          "section_id": "nj:suwen:04:s02",
+          "title": "第二节 人身阴阳",
+          "pdf_page_range": [
+            30,
+            30
+          ],
+          "printed_page_range": [
+            28,
+            28
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第28–28页。"
+        },
+        {
+          "section_id": "nj:suwen:04:s03",
+          "title": "第三节 脏之阴阳膈分",
+          "pdf_page_range": [
+            31,
+            31
+          ],
+          "printed_page_range": [
+            29,
+            29
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第29–29页。"
+        },
+        {
+          "section_id": "nj:suwen:04:s04",
+          "title": "第四节 阴中之阴，阳中之阳",
+          "pdf_page_range": [
+            31,
+            31
+          ],
+          "printed_page_range": [
+            29,
+            29
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第29–29页。"
+        },
+        {
+          "section_id": "nj:suwen:04:s05",
+          "title": "第五节 五脏对应形色气味",
+          "pdf_page_range": [
+            32,
+            34
+          ],
+          "printed_page_range": [
+            30,
+            32
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第30–32页。"
+        }
+      ],
+      "historical_boundary_note": "五色、五味与种族体质比类系讲者个人比附发挥（标记于ni_teaching），与《素问》原典阴阳五行推演体例应严格区隔。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:04:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p029",
+          "pdf_page": 29,
+          "printed_page": 27,
+          "chapter_path": "第四篇 金匮真言论",
+          "quote": "第四篇 金匮真言论",
+          "quote_sha256": "a7aa77b9a4c2061a7fea7475413662fd9bdcad9dcbf45c1f87af2e203f4fde96",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:04:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p030",
+          "pdf_page": 30,
+          "printed_page": 28,
+          "chapter_path": "第四篇 金匮真言论",
+          "quote": "所以春气者病在头",
+          "quote_sha256": "a0e3fee1bc16f07c03fbadf9287f046a922ff176c7486fc8cff134d65d70586d",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:04:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p033",
+          "pdf_page": 33,
+          "printed_page": 31,
+          "chapter_path": "第四篇 金匮真言论",
+          "quote": "那这个东方呢是青色，正色的青色",
+          "quote_sha256": "cb150e2f87868ba95884706b6d255acb737a252d32820330ba7b901609e2d323",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[讲记引《素问》] “天有八风，经有五风”（p.29）",
+          "[讲记引《素问》] “所以春气者病在头”（p.30）",
+          "[讲记引《素问》] 五方五色五脏体系（东方青色入通于肝……）（p.33）"
+        ],
+        "ni_teaching": [
+          "释清淡食与厚味药物之别：日常饮食味淡养胃，药治重病则多取厚味专攻偏胜，酸苦甘辛咸各有所入，偏嗜则伤脏。",
+          "强调“肾开窍于二阴”而非独主小便：临床问诊大小便之干燥或下利，可直接初判肾阴、肾阳虚实。"
+        ],
+        "other_annotations": [
+          "讲记中将八风方位名目（婴儿风、大弱风、刚风、凶风等）作古书词源说明。"
+        ],
+        "collation_notes": [
+          "p.29第34行始入第四篇标题；p.29前段仍为第三篇五味伤脏结语。"
+        ],
+        "organizer_summary": [
+          "建立五脏五行配属纲目与表里、背腹阴阳细分规则。"
+        ]
+      },
+      "open_questions": [
+        "原书印制p.27–32跨第五篇前段五脏五行表交界处，需进一步核定逐节切分点。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:05",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:05",
+      "order": 6,
+      "suwen_number": 5,
+      "canonical_name": "第五篇 阴阳应象大论",
+      "classic_standard_title": "《素问·阴阳应象大论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        35,
+        44
+      ],
+      "printed_page_range": [
+        33,
+        42
+      ],
+      "summary": "《素问》全书阴阳五行与辨证治则核心篇章：提出“阴阳者天地之道也，万物之纲纪”，阐发“阳化气、阴成形”、“清阳出上窍、浊阴出下窍”、“重阴必阳、重阳必阴”、“气伤痛、形伤肿”以及“阳病治阴、阴病治阳”、“汗下涌泄引竭”等临床治疗原则。",
+      "key_points": [
+        "生理纲领：阴在内阳之守也，阳在外阴之使也；壮火食气，少火生气。",
+        "病理与治则：气伤痛、形伤肿；先痛后肿（气伤形）、先肿后痛（形伤气）；高者抑之，下者举之，其在皮者汗而发之。",
+        "伏气发病与重阴必阳转化：冬伤于寒，春必温病；寒极生热，热极生寒。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:05:s01",
+          "title": "第一节 五脏化五气-情志",
+          "pdf_page_range": [
+            38,
+            38
+          ],
+          "printed_page_range": [
+            36,
+            36
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第36–36页。"
+        },
+        {
+          "section_id": "nj:suwen:05:s02",
+          "title": "第二节 治病法则-阴阳平衡",
+          "pdf_page_range": [
+            39,
+            40
+          ],
+          "printed_page_range": [
+            37,
+            38
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第37–38页。"
+        },
+        {
+          "section_id": "nj:suwen:05:s03",
+          "title": "第三节 阴阳调和",
+          "pdf_page_range": [
+            41,
+            41
+          ],
+          "printed_page_range": [
+            39,
+            39
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第39–39页。"
+        },
+        {
+          "section_id": "nj:suwen:05:s04",
+          "title": "第四节 天之纪、地之道",
+          "pdf_page_range": [
+            42,
+            42
+          ],
+          "printed_page_range": [
+            40,
+            40
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第40–40页。"
+        },
+        {
+          "section_id": "nj:suwen:05:s05",
+          "title": "第五节 77难与75难经：肝癌治疗",
+          "pdf_page_range": [
+            43,
+            43
+          ],
+          "printed_page_range": [
+            41,
+            41
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第41–41页。"
+        },
+        {
+          "section_id": "nj:suwen:05:s06",
+          "title": "第六节 病于表-汗法",
+          "pdf_page_range": [
+            44,
+            44
+          ],
+          "printed_page_range": [
+            42,
+            42
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第42–42页。"
+        }
+      ],
+      "historical_boundary_note": "“壮火食气，少火生气”“阳病治阴，阴病治阳”属中医哲学与古典病理治则，旨在指导传统针药扶正祛邪，非现代药理或物理机制。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:05:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p035",
+          "pdf_page": 35,
+          "printed_page": 33,
+          "chapter_path": "第五篇 阴阳应象大论",
+          "quote": "第五篇 阴阳应象大论",
+          "quote_sha256": "803b342da89bd18ce41eac0fd858cc1489bf125a89564974db8b191647a23f8b",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:05:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p035",
+          "pdf_page": 35,
+          "printed_page": 33,
+          "chapter_path": "第五篇 阴阳应象大论",
+          "quote": "黄帝就说了，\"阴阳者天地之",
+          "quote_sha256": "bc65e47a43e094bf3f49096179ce5be13f4d879ffc2a3800f7fe54fb28887bb1",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:05:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p039",
+          "pdf_page": 39,
+          "printed_page": 37,
+          "chapter_path": "第五篇 阴阳应象大论",
+          "quote": "所以重阴必阳，重阳必阴，故曰冬伤于寒，春必瘟病",
+          "quote_sha256": "916c584b7d269c8dd8c7dfac9b8c5d5d4bd712195a0a77065209716d4362231a",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:05:4",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p045",
+          "pdf_page": 45,
+          "printed_page": 43,
+          "chapter_path": "第五篇 阴阳应象大论",
+          "quote": "阳病治阴，阴病治阳",
+          "quote_sha256": "8f45bb402f56cd5c14bf1f2b27361cb846582aa73e32ccb31ffafd6989693b3d",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[讲记引《素问》] “阴阳者天地之道也，万物的纲记[纲纪]，变换的父母，生杀之本”（p.35）",
+          "[讲记引《素问》] “重阴必阳，重阳必阴，故曰冬伤于寒，春必瘟病[温病]”“春伤于风，夏生飧泄”“秋伤于湿，冬生咳嗽”（p.39）",
+          "[讲记引《素问》] “审其阴阳，以便[以别]刚柔，阳病治阴，阴病治阳”（p.45）"
+        ],
+        "ni_teaching": [
+          "辨“气伤痛、形伤肿”与针灸临床：扎针通气后痛止而肿未尽消，是先调气而后待形消。",
+          "以脐周上下左右动悸比附五脏（左肝、下心、中脾、右肺、上肾）辅助腹诊思路。",
+          "严辨冬伤寒与春温病因果，反对见热即用寒凉，并以佛罗里达酷暑用生附子治真寒假热大胖患者为例阐发重阴重阳。",
+          "释“阳病治阴，阴病治阳”临床应用：实症便秘（阳明实）则早通利以免伤阴；肝病（阴病）先通其大便大小便以顾阳气不令邪陷。"
+        ],
+        "other_annotations": [
+          "“善诊者，察色按脉，先别阴阳”构成本网站辨证专题重要骨架。"
+        ],
+        "collation_notes": [
+          "PDF第35页前37行尚属《金匮真言论》北方入通肾等段，第38行始入第五篇；第45页前20行仍属第五篇末段“按而收之、散而泻之、阳病治阴”。",
+          "原文“纲纪”误打为“纲记”，“温病”误打为“瘟病”，“以别刚柔”误打为“以便刚柔”。"
+        ],
+        "organizer_summary": [
+          "全书最高频引用篇目之一，横跨阴阳、五行、病因、诊法与治疗五大子模块。"
+        ]
+      },
+      "open_questions": [
+        "本篇“清阳发腠理，浊阴走五藏”“七损八益”等分段在讲记中简略带过，待后续补全原文逐条校释。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:06",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:06",
+      "order": 7,
+      "suwen_number": 6,
+      "canonical_name": "第六篇 阴阳离合论",
+      "classic_standard_title": "《素问·阴阳离合论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        45,
+        46
+      ],
+      "printed_page_range": [
+        43,
+        44
+      ],
+      "summary": "确立“三阴三阳”空间定位与开阖枢生理总纲：释“数之可十、推之可百，然其要一也”，并标定太阳根于至阴结于命门为开、阳明根于厉兑为阖、少阳根于窍阴为枢，以及太阴为开、厥阴为阖、少阴为枢的三阴三阳离合体系。",
+      "key_points": [
+        "三阳离合：太阳为开（表门户），阳明为阖（收敛入里），少阳为枢（半表半里转枢）。",
+        "阳经井穴起于足末（至阴、厉兑、窍阴），与针灸井荣俞经合根结理论相接。",
+        "由《内经》三阴三阳开阖枢直接奠定《伤寒论》六经传变框架。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:06:s01",
+          "title": "第一节 三阳三阴之离合",
+          "pdf_page_range": [
+            45,
+            46
+          ],
+          "printed_page_range": [
+            43,
+            44
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第43–44页。"
+        }
+      ],
+      "historical_boundary_note": "“太阳为开、阳明为阖、少阳为枢”为传统经络气化象数模型，用于理解六经病位深浅与枢转机制。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:06:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p045",
+          "pdf_page": 45,
+          "printed_page": 43,
+          "chapter_path": "第六篇 阴阳离合论",
+          "quote": "第六篇 阴阳离合论",
+          "quote_sha256": "9698fc1ab4d9a476b6c16a069cfce3b599f07f9e7ba44748d8cdc4f6fb2699d6",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:06:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p046",
+          "pdf_page": 46,
+          "printed_page": 44,
+          "chapter_path": "第六篇 阴阳离合论",
+          "quote": "是故三阳之离合也。太阳为开，阳明为阖，少阳为枢。三经者，不得相失也。",
+          "quote_sha256": "23c122396f58967b81aa31a6de5807b4caa0ec86f6330dd84315d19cab82b6b3",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[讲记引《素问》] “天为阳，地为阴。日为阳，月为阴。大小月，三百六十日，成一岁，人亦应之。”（p.45）",
+          "[讲记引《素问》] “阴阳者数之可十，推之可百，数之可千，推之可万。万之大，不可胜数，然其要一也”（p.45）",
+          "[讲记引《素问》] “太阳根起于至阴，结于命门”“阳明根起于厉兑”“少阳根起于窍阴”“是故三阳之离合也。太阳为开，阳明为阖，少阳为枢。”（p.46）"
+        ],
+        "ni_teaching": [
+          "结合针灸井穴解释“至阴”“厉兑”“窍阴”为何皆在足趾末：阳气虽主表上行，其根却由地（阴、下）发源上升。",
+          "用门扉比喻开阖枢：太阳主外门户开合受风寒之最先，少阳为门轴枢转半表半里，阳明主闭阖收纳。"
+        ],
+        "other_annotations": [
+          "本篇为连接《素问》与张仲景《伤寒论》六经辨证最直接的理论桥梁。"
+        ],
+        "collation_notes": [
+          "p.46转录误将“厉兑”写作“历兑”。“三阴之离合”（太阴为开、厥阴为阖、少阴为枢）在讲记中简省带过，待参照全本校补。"
+        ],
+        "organizer_summary": [
+          "直接锚定足三阳经井穴与六经三阳门户枢机概念。"
+        ]
+      },
+      "open_questions": [
+        "讲记中三阴（太阴、少阴、厥阴）根结穴位（隐白、大敦、涌泉）未在p.46展开，列为待核校补点。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:07",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:07",
+      "order": 8,
+      "suwen_number": 7,
+      "canonical_name": "第七篇 阴阳别论",
+      "classic_standard_title": "《素问·阴阳别论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        47,
+        55
+      ],
+      "printed_page_range": [
+        45,
+        53
+      ],
+      "summary": "以脉分阴阳为纲探讨常脉、病脉与脏腑危重脉候：借《易经》坎离卦象解释阳藏阴中之常脉，阐述“四经十二从”、心腹之阴阳脉辨（鼓一阳曰钩、二阳曰病温等），并录三阳、二阴、一阴俱搏等危险死期推演之古典文献。",
+      "key_points": [
+        "坎卦常脉观：真阳含藏于阴血之内，脉体沉缓柔和有神，反此浮散暴鼓则病。",
+        "脾胃肌肉与“四肢不用”机理及“鼓脉”触诊体会。",
+        "“三阴俱搏、二阴俱搏、一阴俱搏”属古代医经推测凶险预后之传世记录。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:07:s01",
+          "title": "第一节 男女正常脉",
+          "pdf_page_range": [
+            47,
+            48
+          ],
+          "printed_page_range": [
+            45,
+            46
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第45–46页。"
+        },
+        {
+          "section_id": "nj:suwen:07:s02",
+          "title": "第二节 三阳之病",
+          "pdf_page_range": [
+            49,
+            50
+          ],
+          "printed_page_range": [
+            47,
+            48
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第47–48页。"
+        },
+        {
+          "section_id": "nj:suwen:07:s03",
+          "title": "第三节 治胆石、鼓阳钩脉",
+          "pdf_page_range": [
+            51,
+            51
+          ],
+          "printed_page_range": [
+            49,
+            49
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第49–49页。"
+        },
+        {
+          "section_id": "nj:suwen:07:s04",
+          "title": "第四节 阴阳相过、五种脉象",
+          "pdf_page_range": [
+            52,
+            52
+          ],
+          "printed_page_range": [
+            50,
+            50
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第50–50页。"
+        },
+        {
+          "section_id": "nj:suwen:07:s05",
+          "title": "第五节 手之正常色、阴盛阳虚症",
+          "pdf_page_range": [
+            52,
+            52
+          ],
+          "printed_page_range": [
+            50,
+            50
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第50–50页。"
+        },
+        {
+          "section_id": "nj:suwen:07:s06",
+          "title": "第六节 正常之阴",
+          "pdf_page_range": [
+            53,
+            53
+          ],
+          "printed_page_range": [
+            51,
+            51
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第51–51页。"
+        },
+        {
+          "section_id": "nj:suwen:07:s07",
+          "title": "第七节 腑脏之满实",
+          "pdf_page_range": [
+            53,
+            53
+          ],
+          "printed_page_range": [
+            51,
+            51
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第51–51页。"
+        },
+        {
+          "section_id": "nj:suwen:07:s08",
+          "title": "第八节 正常之脏腑结阳/结阴",
+          "pdf_page_range": [
+            54,
+            55
+          ],
+          "printed_page_range": [
+            52,
+            53
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第52–53页。"
+        }
+      ],
+      "historical_boundary_note": "文中“二阴俱搏不过十三日死”等为古代医经在无现代生命支持与检验手段下对严重脏衰脉候的观察推演，绝不可作现代临床机械套算或预后断语。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:07:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p047",
+          "pdf_page": 47,
+          "printed_page": 45,
+          "chapter_path": "第七篇 阴阳别论",
+          "quote": "第七篇 阴阳别论",
+          "quote_sha256": "53e531d5a1eed5e79312261d2a7ad582528703a6c755281fac52194fac567314",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:07:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p052",
+          "pdf_page": 52,
+          "printed_page": 50,
+          "chapter_path": "第七篇 阴阳别论",
+          "quote": "鼓一阳曰钩，什么叫做鼓？",
+          "quote_sha256": "a8731b298e37e6faa7879ffcd5f993a557787b24be2a63d048fd239ab6d50c4e",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:nj:suwen:07:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p056",
+          "pdf_page": 56,
+          "printed_page": 54,
+          "chapter_path": "第七篇 阴阳别论",
+          "quote": "那如果是二阴俱搏，就是心，二阴讲的是少阴",
+          "quote_sha256": "971f8210490d7254ef68311e0fe678b9f9a306b1ed0546a188b0c21b80fb0bfd",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[讲记引《素问》] “人有四经十二从”（p.47）",
+          "[讲记引《素问》] “鼓一阳曰钩”（p.52）",
+          "[讲记引《素问》] “二阴俱搏”“一阴俱搏”“三阳巨搏且鼓”（p.56）"
+        ],
+        "ni_teaching": [
+          "借《易》坎卦（一阳藏于二阴中）解常态脉象：脉当含蓄沉隐缓而有力，暴浮暴搏如同鼓起顶指即病。",
+          "释“四肢不举”依木（枝）生于土（脾主四肢肌肉）而辨。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "PDF第47页“坎”字转录误植为“砍”，“三阳俱搏”写作“三阳巨搏”，“厥阴”写作“绝阴”。",
+          "第56页第1–15行仍接第七篇结尾（死候时日推算），第16行方入第八篇。"
+        ],
+        "organizer_summary": [
+          "建立以坎离象数解脉诊阴阳虚实的基础心法。"
+        ]
+      },
+      "open_questions": [
+        "“刚与刚，阳气破散，阴气乃消亡”与“二阳之病发心脾”原文细句在讲记中的详释尚待按全本核对。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【危重病证与古典死候边界】本篇含三阴二阴俱搏、急症死期等古典脉候文献记录，仅作医史与脉理教学整理，临床危重患者须立即由现代急诊与专业医师救治。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:08",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:08",
+      "order": 9,
+      "suwen_number": 8,
+      "canonical_name": "第八篇 灵兰秘典论",
+      "classic_standard_title": "《素问·灵兰秘典论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        56,
+        57
+      ],
+      "printed_page_range": [
+        54,
+        55
+      ],
+      "summary": "以朝廷百官比拟人体十二脏腑职司之著名篇目：确立心为“君主之官，神明出焉”、肺为“相傅之官”、肝为“将军之官”、胆为“中正之官”、膻中为“臣使之官”、脾胃为“仓廪之官”、大肠传导、小肠受盛、肾为作强、三焦决渎、膀胱州都之十二藏象职能体系。",
+      "key_points": [
+        "心主神明、君主之官统帅十一官之核心地位。",
+        "脾胃同属仓廪之官，小肠受盛化物、大肠传导变化、三焦决渎水道、膀胱气化出津液。",
+        "“主明则下安……主不明则十二官危”，奠定“凡刺之真、必先治神”及从心肾三焦调治诸病纲领。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:08:s01",
+          "title": "第一节 十二脏象",
+          "pdf_page_range": [
+            56,
+            56
+          ],
+          "printed_page_range": [
+            54,
+            54
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第54–54页。"
+        },
+        {
+          "section_id": "nj:suwen:08:s02",
+          "title": "第二节 君主之官-心脏与三焦",
+          "pdf_page_range": [
+            57,
+            57
+          ],
+          "printed_page_range": [
+            55,
+            55
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第55–55页。"
+        }
+      ],
+      "historical_boundary_note": "“十二官”系中国古代官制政治隐喻下的脏腑功能网络模型，阐述整体协调关系而非现代解剖器官独立生理学。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:08:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p056",
+          "pdf_page": 56,
+          "printed_page": 54,
+          "chapter_path": "第八篇 灵兰秘典论",
+          "quote": "第八篇 灵兰秘典论",
+          "quote_sha256": "475c1c2fa2c2b3956df2e55c7efc1660062679c3bbf930ab35a242af62828ae5",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:08:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p056",
+          "pdf_page": 56,
+          "printed_page": 54,
+          "chapter_path": "第八篇 灵兰秘典论",
+          "quote": "他说心者，心脏君主之官，神明出焉",
+          "quote_sha256": "0fa1af1d8ee074d0e6c26d7e9ab9d1af9c7f08ef5294724cbe3a3aafc4dd30fc",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:08:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p057",
+          "pdf_page": 57,
+          "printed_page": 55,
+          "chapter_path": "第八篇 灵兰秘典论",
+          "quote": "三焦者，决渎之官，水道出焉，膀胱者，州都之官，津液",
+          "quote_sha256": "6174f4ec78f6cf49022a6f05701e6a5663faf2fdda10a8919f87c13e9333c455",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[讲记引《素问》] “心者，君主之官，神明出焉”（p.56）",
+          "[讲记引《素问》] “三焦者，决渎之官，水道出焉，膀胱者，州都之官，津液藏焉”（p.57）"
+        ],
+        "ni_teaching": [
+          "以烛火空心喻心为火脏：心肌热力循血脉通达四肢末端，故认为心火恒温充足有助全身运行。",
+          "释肾“作强之官，伎巧出焉”与工艺巧思及骨髓精气有关，释三焦为脏腑间油膜网状通道与水道枢纽。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "将第8篇与传统“三焦决渎/小肠火气化膀胱”理念打通，对应《伤寒》《金匮》理水诸方。"
+        ],
+        "organizer_summary": [
+          "建立全书最清晰的十二脏腑分工坐标，与藏象理论子模块核心对应。"
+        ]
+      },
+      "open_questions": [
+        "原书“凡此十二官者，不得相失也”“至道在微，变化无穷”等结语可补录原文详校。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:09",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:09",
+      "order": 10,
+      "suwen_number": 9,
+      "canonical_name": "第九篇 六节藏象论",
+      "classic_standard_title": "《素问·六节藏象论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        58,
+        63
+      ],
+      "printed_page_range": [
+        56,
+        61
+      ],
+      "summary": "上篇论“六六之节、九九制会”、十天干与六十甲子节气推步及太过不及平气规律；下篇首提“藏象”之名，系统界定心（生之本）、肺（气之本）、肾（封藏之本）、肝（罢极之本）、脾胃大肠小肠三焦膀胱（仓廪之本）及其荣华所充与阴阳属性。",
+      "key_points": [
+        "系统提出五脏藏象总纲：心为阳中之太阳、肺为阳中之太阴、肾为阴中之少阴、肝为阳中之少阳、脾为阴中之至阴。",
+        "说明天地五运六气节律（甲子十干、五日一候、三候一气）与人体脉色五味相应。",
+        "“凡十一藏取决于胆也”提示少阳春升生发之枢对诸脏的重要带动作用。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:09:s01",
+          "title": "第一节 天干与地支气",
+          "pdf_page_range": [
+            58,
+            58
+          ],
+          "printed_page_range": [
+            56,
+            56
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第56–56页。"
+        },
+        {
+          "section_id": "nj:suwen:09:s02",
+          "title": "第二节 节气、五行之气",
+          "pdf_page_range": [
+            59,
+            59
+          ],
+          "printed_page_range": [
+            57,
+            57
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第57–57页。"
+        },
+        {
+          "section_id": "nj:suwen:09:s03",
+          "title": "第三节 天文-五之数",
+          "pdf_page_range": [
+            60,
+            60
+          ],
+          "printed_page_range": [
+            58,
+            58
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第58–58页。"
+        },
+        {
+          "section_id": "nj:suwen:09:s04",
+          "title": "第四节 药材之五色与五味",
+          "pdf_page_range": [
+            61,
+            61
+          ],
+          "printed_page_range": [
+            59,
+            59
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第59–59页。"
+        },
+        {
+          "section_id": "nj:suwen:09:s05",
+          "title": "第五节 脏象-心、肺、肝、肾、脾",
+          "pdf_page_range": [
+            61,
+            61
+          ],
+          "printed_page_range": [
+            59,
+            59
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第59–59页。"
+        },
+        {
+          "section_id": "nj:suwen:09:s06",
+          "title": "第六节 肾之功能：发色与骨髓",
+          "pdf_page_range": [
+            62,
+            62
+          ],
+          "printed_page_range": [
+            60,
+            60
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第60–60页。"
+        },
+        {
+          "section_id": "nj:suwen:09:s07",
+          "title": "第七节 五脏之五味",
+          "pdf_page_range": [
+            62,
+            63
+          ],
+          "printed_page_range": [
+            60,
+            61
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第60–61页。"
+        }
+      ],
+      "historical_boundary_note": "“六六之节”“甲乙干支气运”等源于中国古代天文历法与医理交叉推步，属于传统气象医学与时空模型研究对象。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:09:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p058",
+          "pdf_page": 58,
+          "printed_page": 56,
+          "chapter_path": "第九篇 六节藏象论",
+          "quote": "第九篇 六节藏象论",
+          "quote_sha256": "d7c5321b3e4ce87a38d6bac61fa8f9049cff52021ffd465b37b022092c01a240",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:09:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p058",
+          "pdf_page": 58,
+          "printed_page": 56,
+          "chapter_path": "第九篇 六节藏象论",
+          "quote": "如果天以六六之节，以成一岁，地以九九制会。",
+          "quote_sha256": "db2ccf854e4a48b3a07343c016c15c77a682d0fa9b826774a9a253eb58608fb6",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:09:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p061",
+          "pdf_page": 61,
+          "printed_page": 59,
+          "chapter_path": "第九篇 六节藏象论",
+          "quote": "肺者呢，气之本，魄之处也；其华在毛，其充在皮，为阳中之太阴，通于秋气。",
+          "quote_sha256": "b58e62eab3e340b6055313e6ada02e5b6e7a8f5df1df0c306f4c472039dcde10",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[讲记引《素问》] “天以六六之节，以成一岁，地以九九制会。计人亦有三百六十五节”（p.58）",
+          "[讲记引《素问》] “心者，生之本，神之变也”“肺者，气之本，魄之处也；其华在毛，其充在皮，为阳中之太阴，通于秋气”（p.61）"
+        ],
+        "ni_teaching": [
+          "详析五味草木药食配五脏与气味厚薄：轻清发散为阳，厚浊沉降为阴。",
+          "指出诊察发肤、爪甲、口唇、毛发色泽即可外揣内脏荣枯（如发润为肾精充）。"
+        ],
+        "other_annotations": [
+          "本篇与第10篇《五脏生成》共同组成中医“司外揣内”藏象望诊基础。"
+        ],
+        "collation_notes": [
+          "p.61–62分段详讲心、肺、肝、肾、脾五脏藏象。"
+        ],
+        "organizer_summary": [
+          "“藏象”概念命名源头，兼含干支天文岁时基础与五脏华充表象对照。"
+        ]
+      },
+      "open_questions": [
+        "“九候”“人迎寸口三倍四倍躁盛”节段待与《素问》《灵枢》脉口法并校。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:10",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:10",
+      "order": 11,
+      "suwen_number": 10,
+      "canonical_name": "第十篇 五脏生成",
+      "classic_standard_title": "《素问·五脏生成》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        64,
+        71
+      ],
+      "printed_page_range": [
+        62,
+        69
+      ],
+      "summary": "详述心主脉、肺主皮、肝主筋、脾主肉、肾主骨之“五合五荣五主”制约关系，阐述五味过伤互制（咸伤脉、甘伤骨等）、目受血而能视/卧出风吹成痹、五脏色脉诊察及赤脉胃气断病吉凶，兼论白赤青黄黑五绝色死候。",
+      "key_points": [
+        "五脏制约关系：心合脉荣色其主肾、肺合皮荣毛其主心、肝合筋荣爪其主肺、脾合肉荣唇其主肝、肾合骨荣发其主脾。",
+        "气血生理经典句：“卧则血归于肝，肝受血而能视，足受血而能步，掌受血而能握，指受血而能摄”。",
+        "色诊吉凶对比：青如草兹（死）vs青如翠羽（生）、黑如炲（死）vs黑如乌羽（生）等五色荣枯辨。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:10:s01",
+          "title": "第一节 五味之所伤",
+          "pdf_page_range": [
+            64,
+            64
+          ],
+          "printed_page_range": [
+            62,
+            62
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第62–62页。"
+        },
+        {
+          "section_id": "nj:suwen:10:s02",
+          "title": "第二节 药物/食物之选择",
+          "pdf_page_range": [
+            64,
+            64
+          ],
+          "printed_page_range": [
+            62,
+            62
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第62–62页。"
+        },
+        {
+          "section_id": "nj:suwen:10:s03",
+          "title": "第三节 望诊-眼辨五脏健康状态",
+          "pdf_page_range": [
+            65,
+            65
+          ],
+          "printed_page_range": [
+            63,
+            63
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第63–63页。"
+        },
+        {
+          "section_id": "nj:suwen:10:s04",
+          "title": "第四节 八风八科",
+          "pdf_page_range": [
+            66,
+            66
+          ],
+          "printed_page_range": [
+            64,
+            64
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第64–64页。"
+        },
+        {
+          "section_id": "nj:suwen:10:s05",
+          "title": "第五节 肝厥阴(睡眠与视力)",
+          "pdf_page_range": [
+            67,
+            67
+          ],
+          "printed_page_range": [
+            65,
+            65
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第65–65页。"
+        },
+        {
+          "section_id": "nj:suwen:10:s06",
+          "title": "第六节 五绝气脉",
+          "pdf_page_range": [
+            68,
+            68
+          ],
+          "printed_page_range": [
+            66,
+            66
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第66–66页。"
+        },
+        {
+          "section_id": "nj:suwen:10:s07",
+          "title": "第七节 癫痫、头痛",
+          "pdf_page_range": [
+            69,
+            69
+          ],
+          "printed_page_range": [
+            67,
+            67
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第67–67页。"
+        },
+        {
+          "section_id": "nj:suwen:10:s08",
+          "title": "第八节 肺法象天幕",
+          "pdf_page_range": [
+            69,
+            69
+          ],
+          "printed_page_range": [
+            67,
+            67
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第67–67页。"
+        },
+        {
+          "section_id": "nj:suwen:10:s09",
+          "title": "第九节 脉诊要领：滑浮濇沉",
+          "pdf_page_range": [
+            70,
+            70
+          ],
+          "printed_page_range": [
+            68,
+            68
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第68–68页。"
+        },
+        {
+          "section_id": "nj:suwen:10:s10",
+          "title": "第十节 色脉合、长短脉",
+          "pdf_page_range": [
+            70,
+            70
+          ],
+          "printed_page_range": [
+            68,
+            68
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第68–68页。"
+        },
+        {
+          "section_id": "nj:suwen:10:s11",
+          "title": "第十一节 气色与灾色",
+          "pdf_page_range": [
+            70,
+            71
+          ],
+          "printed_page_range": [
+            68,
+            69
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第68–69页。"
+        }
+      ],
+      "historical_boundary_note": "“五绝色”“死期”系古典色诊对危重病候颜面循环衰败之经验性描述，不可作现代医学诊断或绝对生死预测指标。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:10:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p064",
+          "pdf_page": 64,
+          "printed_page": 62,
+          "chapter_path": "第十篇 五脏生成",
+          "quote": "第十篇 五脏生成",
+          "quote_sha256": "00b8954e29e77029b090cf1f8f7bef8c6ea7e70b8413329d3d2164a1b173f620",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:10:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p064",
+          "pdf_page": 64,
+          "printed_page": 62,
+          "chapter_path": "第十篇 五脏生成",
+          "quote": "心之合，脉也。其荣",
+          "quote_sha256": "096017bcaf770baf2042908db45faeb8462a7ef6dd8b9e3a8f931fea4b20497d",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:10:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p068",
+          "pdf_page": 68,
+          "printed_page": 66,
+          "chapter_path": "第十篇 五脏生成",
+          "quote": "第82页最后一行，“诊病之始，五决为纪。欲知其始，先建其母”。",
+          "quote_sha256": "08cafb8f2151ac5520d012451399973b28055f4d1cc4529185db225e146fc882",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:10:4",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p069",
+          "pdf_page": 69,
+          "printed_page": 67,
+          "chapter_path": "第十篇 五脏生成",
+          "quote": "过实的时候我们前面难经我那时候我有提“泻南补北”，那我们要怎么样子？“子能令母实，母能令子",
+          "quote_sha256": "c31f8d621e3003c1feab000fd34195bc0db993aa4a51bea9bc04c63eb5397734",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[讲记引《素问》] “心之合，脉也。其荣色也，其主肾也……”（p.64）",
+          "[讲记引《素问》] “脚[足]受血而能步”“掌受血而能握”“卧出而风吹之”“血凝于肤者为痹，凝于脉者为泣，凝于足者为厥”（p.67–68）",
+          "[讲记引《素问》] “诊病之始，五决为纪。欲知其始，先建其母”“徇蒙招尤，目冥耳聋…过在足少阳厥阴”“腹满胀，支鬲胠胁，下厥上冒。过在足太阴阳明”（p.68–69）"
+        ],
+        "ni_teaching": [
+          "释“其主肾也”为制衡之道：治心血虚、心悸过速常佐补肾（如熟地等补水制火）或遵“泻南补北”。",
+          "将“血归于肝”关联睡眠、视力与眼部望诊（白睛肺、黑睛肝、瞳仁肾、内外眦心、上下胞脾）。",
+          "结合针灸治疗眩晕耳鸣头痛（足少阳厥阴）与腹满胀满（足太阴阳明）。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "p.67转录作“脚受血”，传统本《素问》作“足受血”；p.69引《难经》“泻南补北”。"
+        ],
+        "organizer_summary": [
+          "将脏腑相克制衡、五官目诊、局部凝血成痹成厥与经络归属串联一体。"
+        ]
+      },
+      "open_questions": [
+        "赤黑脉至“喘而坚”等段落与《金匮要略》肺痿肺痈、心痹经方对照待细化。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【古典色脉危候警示边界】本篇含五脏死色与气血绝脉辨别，属于古代临床经验汇总，出现急性面色发绀、剧烈头痛眩晕或抽搐时请立即按现代急诊规范处理。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:11",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:11",
+      "order": 12,
+      "suwen_number": 11,
+      "canonical_name": "第十一篇 五藏别论",
+      "classic_standard_title": "《素问·五脏别论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        72,
+        73
+      ],
+      "printed_page_range": [
+        70,
+        71
+      ],
+      "summary": "厘清脏、腑、奇恒之腑三类生理本质差异：指出脑、髓、骨、脉、胆、女子胞六者为“奇恒之府”（名腑而藏精气，藏而不泻），五脏藏精而不泻（满而不实），六腑传化物而不藏（实而不满），并提出“气口（手太阴寸口）独为五脏主”及“面黄目青等有胃气皆不死”。",
+      "key_points": [
+        "“五藏者，藏精气而不泻也，故满而不能实；六府者，传化物而不藏，故实而不能满也。”",
+        "界定六大奇恒之府：脑、髓、骨、脉、胆、女子胞（皆藏精气似脏，形态中空似腑）。",
+        "确立手太阴肺经寸口（气口）何以能独候五脏六腑吉凶之机：水谷精微入胃脾，五脏皆禀气于胃。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:11:s01",
+          "title": "第一节 男女水肿之别、奇垣之府",
+          "pdf_page_range": [
+            72,
+            72
+          ],
+          "printed_page_range": [
+            70,
+            70
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第70–70页。"
+        },
+        {
+          "section_id": "nj:suwen:11:s02",
+          "title": "第二节 脏腑排泄/满实",
+          "pdf_page_range": [
+            73,
+            73
+          ],
+          "printed_page_range": [
+            71,
+            71
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第71–71页。"
+        },
+        {
+          "section_id": "nj:suwen:11:s03",
+          "title": "第三节 气口、胃",
+          "pdf_page_range": [
+            74,
+            73
+          ],
+          "printed_page_range": [
+            72,
+            71
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第72–71页。"
+        }
+      ],
+      "historical_boundary_note": "“五脏藏而不泻、奇恒之府”及气口候五脏理论乃中医脏腑分类与脉诊定位核心原则，属传统象态生理学。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:11:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p072",
+          "pdf_page": 72,
+          "printed_page": 70,
+          "chapter_path": "第十一篇 五藏别论",
+          "quote": "第十一篇 五藏别论",
+          "quote_sha256": "48c55981fbd06a2dca783d12edcaa0d97075827651fe49824a7b703a50cf3597",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:11:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p072",
+          "pdf_page": 72,
+          "printed_page": 70,
+          "chapter_path": "第十一篇 五藏别论",
+          "quote": "凡相五色之奇脉，面黄目青，目赤，面黄目白，面黄目黑者，皆不死也。",
+          "quote_sha256": "f2e1a99a3d21a8e878f62a27b90d48938679a6791396af1817d916a413e6dcde",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:11:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p073",
+          "pdf_page": 73,
+          "printed_page": 71,
+          "chapter_path": "第十一篇 五藏别论",
+          "quote": "所以这个奇恒之府，同属于阴。阴的本性是收藏而不宣泻的才对。",
+          "quote_sha256": "6424e4e3e9aa728ef158bea709edaf890875569b5db26fac477e33686b038696",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[讲记引《素问》] “凡相五色之奇脉，面黄目青，目赤，面黄目白，面黄目黑者，皆不死也。”（p.72）",
+          "[讲记引《素问》] “奇恒之府……夫胃、大肠、小肠、三焦、膀胱，此五者，天气之所生也，其气象天，故泻而不藏”（p.73）"
+        ],
+        "ni_teaching": [
+          "用“水管注水鼓胀（满）”对比“水管结冰成块（实）”形象辨别五脏“满而不实”与六腑“实而不满”。",
+          "强调临床首要“顾胃气”：脸色微黄润泽或有食欲，表示胃气尚存、生机未败；并指出若奇恒之府脑、女子胞中蓄积浊物（如肿块肿瘤）即属藏而反实之病机。",
+          "点出气口（肺经太渊寸口部位）乃五脏水谷之气总汇，故切寸口可知五脏状态。"
+        ],
+        "other_annotations": [
+          "衔接第十篇“面黄目青”承上启下，全书最清晰辨析“满”与“实”二字之专章。"
+        ],
+        "collation_notes": [
+          "p.74前段尚为本篇奇恒之府与脉满脉实辨析；“奇恒”在p.72章节名误印为“奇垣”。"
+        ],
+        "organizer_summary": [
+          "建立藏象分类基石，同时解释手太阴寸口独主诊脉之根源。"
+        ]
+      },
+      "open_questions": [
+        "“魄门亦为五藏使，水谷不得久藏”一段在p.74尚可深入展开。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【脑瘤、水肿与急症观察边界】讲记中提及脑瘤、肾痹及预后判断案例，属临床思路讲授，涉脑部占位或全身水肿者应接受现代医学影像检查与专科评估。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:17",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:17",
+      "order": 18,
+      "suwen_number": 17,
+      "canonical_name": "第十七篇 脉要精微论",
+      "classic_standard_title": "《素问·脉要精微论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        88,
+        103
+      ],
+      "printed_page_range": [
+        86,
+        101
+      ],
+      "summary": "《素问》诊法最宏富专论之一：确定“常以平旦，阴气未动”诊脉法则，系统阐述“五色脉微”“诊四时脉从逆”“三部诊尺肤（尺内两傍、外以候肾、内以候腹中）”与五脉（胃脉、心脏脉、弦钩毛石代）分辨，及久病新病色脉互参法则。",
+      "key_points": [
+        "最佳诊脉时机：平旦阴气未动、阳气未散、饮食未进、经脉未盛、络脉调匀、气血未乱。",
+        "“夫脉者，血之府也”：长则气治，短则气病，数则烦心，大则病进，上盛则气高，下盛则气胀，代则气衰，细则气少，涩则心痛。",
+        "色脉参伍：能合色脉可以万全；脉逆四时与色枯槁则预后多逆。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:17:s01",
+          "title": "第一节 阴阳调和：六味地黄丸",
+          "pdf_page_range": [
+            88,
+            88
+          ],
+          "printed_page_range": [
+            86,
+            86
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第86–86页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s02",
+          "title": "第二节 五脏五色",
+          "pdf_page_range": [
+            89,
+            89
+          ],
+          "printed_page_range": [
+            87,
+            87
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第87–87页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s03",
+          "title": "第三节 红斑性狼疮、气色、克色",
+          "pdf_page_range": [
+            90,
+            91
+          ],
+          "printed_page_range": [
+            88,
+            89
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第88–89页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s04",
+          "title": "第四节 脏气强弱、关格之病",
+          "pdf_page_range": [
+            92,
+            92
+          ],
+          "printed_page_range": [
+            90,
+            90
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第90–90页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s05",
+          "title": "第五节 汗尿同源",
+          "pdf_page_range": [
+            93,
+            93
+          ],
+          "printed_page_range": [
+            91,
+            91
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第91–91页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s06",
+          "title": "第六节 节 气与阴阳变化",
+          "pdf_page_range": [
+            94,
+            94
+          ],
+          "printed_page_range": [
+            92,
+            92
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第92–92页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s07",
+          "title": "第七节 梦知阴阳：灾色",
+          "pdf_page_range": [
+            95,
+            95
+          ],
+          "printed_page_range": [
+            93,
+            93
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第93–93页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s08",
+          "title": "第十八难三部四经图",
+          "pdf_page_range": [
+            95,
+            95
+          ],
+          "printed_page_range": [
+            93,
+            93
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第93–93页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s09",
+          "title": "第一节 肝、脾、肾、胃之脉象",
+          "pdf_page_range": [
+            96,
+            97
+          ],
+          "printed_page_range": [
+            94,
+            95
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第94–95页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s10",
+          "title": "第二节 糖尿病（瘅）之由来",
+          "pdf_page_range": [
+            98,
+            99
+          ],
+          "printed_page_range": [
+            96,
+            97
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第96–97页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s11",
+          "title": "第三节 四时之痛（例：关节 痛、过敏）",
+          "pdf_page_range": [
+            100,
+            100
+          ],
+          "printed_page_range": [
+            98,
+            98
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第98–98页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s12",
+          "title": "第四节 色脉辨久病/新病",
+          "pdf_page_range": [
+            100,
+            100
+          ],
+          "printed_page_range": [
+            98,
+            98
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第98–98页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s13",
+          "title": "第五节 脉象假想图",
+          "pdf_page_range": [
+            101,
+            101
+          ],
+          "printed_page_range": [
+            99,
+            99
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第99–99页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s14",
+          "title": "第六节 热中与恶风",
+          "pdf_page_range": [
+            101,
+            101
+          ],
+          "printed_page_range": [
+            99,
+            99
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第99–99页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s15",
+          "title": "第七节 便血、濇脉、滑脉",
+          "pdf_page_range": [
+            101,
+            102
+          ],
+          "printed_page_range": [
+            99,
+            100
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第99–100页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s16",
+          "title": "第八节 望闻问切之道",
+          "pdf_page_range": [
+            103,
+            103
+          ],
+          "printed_page_range": [
+            101,
+            101
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第101–101页。"
+        },
+        {
+          "section_id": "nj:suwen:17:s17",
+          "title": "第九节 阳有余",
+          "pdf_page_range": [
+            103,
+            103
+          ],
+          "printed_page_range": [
+            101,
+            101
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第101–101页。"
+        }
+      ],
+      "historical_boundary_note": "“平旦诊脉”“寸口尺肤分候脏腑”及“关格”辨别是传统四诊核心教学法，红斑狼疮或糖尿病（消瘅）等现代病名比附仅属于讲者临床课堂诠释。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:17:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p088",
+          "pdf_page": 88,
+          "printed_page": 86,
+          "chapter_path": "第十七篇 脉要精微论",
+          "quote": "第十七篇 脉要精微论",
+          "quote_sha256": "650bdfd3aa264801fcfca6ccd09c5a573f5ac432cd447d3f88dd846fe23e1466",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:17:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p088",
+          "pdf_page": 88,
+          "printed_page": 86,
+          "chapter_path": "第十七篇 脉要精微论",
+          "quote": "齐伯说，常以平旦，阴气未动，阳气未散，饮食未进，经脉未盛，络脉",
+          "quote_sha256": "45869306b303d9c4cc36c4cbdd8e508a329472d5eabda6076f810f9096df4417",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:17:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p103",
+          "pdf_page": 103,
+          "printed_page": 101,
+          "chapter_path": "第十七篇 脉要精微论",
+          "quote": "第八节 望闻问切之道",
+          "quote_sha256": "6390b5a31b9a6646becbf391f20663de2ba9b01aff34949367b9fcbc60603508",
+          "role": "collation_notes"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[讲记引《素问》] “常以平旦，阴气未动，阳气未散，饮食未进，经脉未盛，络脉调匀，气血未乱，乃可诊有过之脉。”（p.88）",
+          "[讲记引《素问》] “关格”（p.92）、四时痛（p.100）、色脉辨久病新病（p.100）"
+        ],
+        "ni_teaching": [
+          "实务提示清晨平旦虽为理论最佳诊脉时刻，临床门诊难全数晨诊，故可嘱病患或亲友留意静息态脉象并与饮食、梦境参合。",
+          "详讲寸关尺阴阳分候与“六味地黄丸”等调和阴阳观念；阐发“阳有余一定阴不足”之阴阳相率关系。",
+          "将“尺肤诊法”与寸口滑涩脉结合，用来辨别便血、痛证及痹症热中。"
+        ],
+        "other_annotations": [
+          "PDF p.95录有《难经》“第十八难三部四经图”作课堂脉位参图。"
+        ],
+        "collation_notes": [
+          "本篇长16页（印p.86–101），跨17个小节，转录中将“岐伯”数处拼作“齐伯”。",
+          "p.88第1–25行属第十六篇《诊要经终论》十二刺法/刀针尾声，第26行起入第十七篇。"
+        ],
+        "organizer_summary": [
+          "全书脉诊与四诊合参主干篇目之一，提供诊脉时机、脉形、尺肤与色脉互参细则。"
+        ]
+      },
+      "open_questions": [
+        "本篇原文中“征四失”（持脉有道虚静为保、梦知阴阳、寸口尺内左右配脏腑）逐句对照可进一步细分条文。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【重大慢性病与脉诊教学边界】本篇讲记提及关格、红斑性狼疮、消渴等重病诊脉辨色经验，严禁仅凭单次脉象自行停药或延误正规医疗。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:18",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:18",
+      "order": 19,
+      "suwen_number": 18,
+      "canonical_name": "第十八篇 平人气象论",
+      "classic_standard_title": "《素问·平人气象论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        104,
+        110
+      ],
+      "printed_page_range": [
+        102,
+        108
+      ],
+      "summary": "建立呼吸定息测量脉律的客观基准（“一呼脉再动，一吸脉再动，闰以太息，命曰平人”），阐述“人以水谷为本”及“平人之常气禀于胃，胃者平人之常气也，人无胃气曰逆，逆者死”的“脉以胃气为本”铁律，并辨虚里（胃之大络）与消渴、胃疸等证候。",
+      "key_points": [
+        "定量平人脉：一呼两动、一吸两动，加太息一动共五动，以医者平息为标准。",
+        "“有胃气则生，无胃气则死”：柔和缓和、不硬不燥即是有胃气，见刚硬急促真脏脉而无胃气为逆。",
+        "虚里诊法：胃之大络出左乳下（对应心尖搏动处），动而不紧、缓而不急为宗气平和。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:18:s01",
+          "title": "第一节 脉之五动、常人之气",
+          "pdf_page_range": [
+            104,
+            105
+          ],
+          "printed_page_range": [
+            102,
+            103
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第102–103页。"
+        },
+        {
+          "section_id": "nj:suwen:18:s02",
+          "title": "第二节 虚里、脉横、脉宗气",
+          "pdf_page_range": [
+            106,
+            107
+          ],
+          "printed_page_range": [
+            104,
+            105
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第104–105页。"
+        },
+        {
+          "section_id": "nj:suwen:18:s03",
+          "title": "第三节 五脏之节 气对应死亡",
+          "pdf_page_range": [
+            108,
+            108
+          ],
+          "printed_page_range": [
+            106,
+            106
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第106–106页。"
+        },
+        {
+          "section_id": "nj:suwen:18:s04",
+          "title": "第四节 面部望诊：眼袋",
+          "pdf_page_range": [
+            108,
+            108
+          ],
+          "printed_page_range": [
+            106,
+            106
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第106–106页。"
+        },
+        {
+          "section_id": "nj:suwen:18:s05",
+          "title": "第五节 消渴三症",
+          "pdf_page_range": [
+            109,
+            109
+          ],
+          "printed_page_range": [
+            107,
+            107
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第107–107页。"
+        },
+        {
+          "section_id": "nj:suwen:18:s06",
+          "title": "第六节 逆四频率症不合",
+          "pdf_page_range": [
+            109,
+            109
+          ],
+          "printed_page_range": [
+            107,
+            107
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第107–107页。"
+        },
+        {
+          "section_id": "nj:suwen:18:s07",
+          "title": "第七节 胃气之脉",
+          "pdf_page_range": [
+            110,
+            110
+          ],
+          "printed_page_range": [
+            108,
+            108
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第108–108页。"
+        },
+        {
+          "section_id": "nj:suwen:18:s08",
+          "title": "第八节 脉诊-以胃气为本",
+          "pdf_page_range": [
+            110,
+            110
+          ],
+          "printed_page_range": [
+            108,
+            108
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第108–108页。"
+        }
+      ],
+      "historical_boundary_note": "“无胃气曰逆，逆者死”及“虚里动”属古代临床脉诊衡量中气脾胃强弱的判断纲领，现代须配合生命体征与循环检查综合评估。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:18:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p104",
+          "pdf_page": 104,
+          "printed_page": 102,
+          "chapter_path": "第十八篇 平人气象论",
+          "quote": "第十八篇 平人气象论",
+          "quote_sha256": "6aeccd32620eac2e3ace8b8575e3243de3f4f8e127c816dfd85c481ebb9ff335",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:18:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p104",
+          "pdf_page": 104,
+          "printed_page": 102,
+          "chapter_path": "第十八篇 平人气象论",
+          "quote": "这所以一呼一吸，脉是五动。这个“闰以太息，命曰平人。平人者不病也。”",
+          "quote_sha256": "2ce2fb929e1a00ec5f37c0d7351776873a8b23a07e9052965a99c2f04a41be92",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:18:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p110",
+          "pdf_page": 110,
+          "printed_page": 108,
+          "chapter_path": "第十八篇 平人气象论",
+          "quote": "第八节 脉诊-以胃气为本",
+          "quote_sha256": "81805103ee45109ed3da00feb780958faf55582d695322ec5c1f93348e779f75",
+          "role": "collation_notes"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[讲记引《素问》] “一呼脉再动，一吸脉亦再动……闰以太息，命曰平人。平人者不病也。常以不病调病人，医不病，故为病人平息以调之为法”（p.104）",
+          "[讲记引《素问》] 虚里、脉宗气与五脏胃气之脉（春微弦、夏微钩、秋微毛、冬微石曰平）（p.106–110）"
+        ],
+        "ni_teaching": [
+          "释督脉主阳气：若气脉少则常兼见督脉阳虚之腰脊痛、疲乏四肢麻木；并借此分“壮督脉之阳药”与“行四肢皮肤之阳药”。",
+          "将眼袋望诊与面黄有胃气结合判断预后；另解上中下消渴与阳明、少阴关系。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "p.104–110跨印制p.102–108，末尾紧接第十九篇玉机真藏论。"
+        ],
+        "organizer_summary": [
+          "把“胃气”确立为辨别常脉、病脉、真脏脉的根本试金石。"
+        ]
+      },
+      "open_questions": [
+        "五脏“平脉/病脉/死脉”形象比喻（厌厌聂聂如落榆荚、蔼蔼如车盖等）全文校注可增入原文对比栏。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【脉宗气衰绝与生死断法边界】本篇涉及虚里宗气动甚及真脏脉无胃气之危险评估内容，涉胸闷气喘休克前兆请即刻现代急救处理。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:19",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:19",
+      "order": 20,
+      "suwen_number": 19,
+      "canonical_name": "第十九篇 玉机真藏论",
+      "classic_standard_title": "《素问·玉机真藏论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        111,
+        120
+      ],
+      "printed_page_range": [
+        109,
+        118
+      ],
+      "summary": "深论四时常脉（春弦、夏钩、秋毛、冬石）与各脏“病脉”“真脏脉”之形态差别，详述五行相克传病顺序、五虚五实辨别，并记风寒痹瘅传变治法（汗法、摩浴、汤药）以及“五藏者皆禀气于胃”之精要。",
+      "key_points": [
+        "四时常脉：春弦（肝木生发）、夏钩（心火繁茂）、秋毛（肺金轻虚）、冬石（肾水沉固），反之太过不及皆病。",
+        "真脏脉本质：弦钩毛石全失冲和柔和胃气，硬急如循刀刃、操带钩、按鼓皮，系精气枯竭征象。",
+        "风寒客表入里传经顺序与五虚五实救治契机（五实死、五虚死，然浆粥入胃泄注止则虚者活）。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:19:s01",
+          "title": "第一节 常脉与病脉",
+          "pdf_page_range": [
+            111,
+            111
+          ],
+          "printed_page_range": [
+            109,
+            109
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第109–109页。"
+        },
+        {
+          "section_id": "nj:suwen:19:s02",
+          "title": "第二节 五脏落五脉",
+          "pdf_page_range": [
+            112,
+            114
+          ],
+          "printed_page_range": [
+            110,
+            112
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第110–112页。"
+        },
+        {
+          "section_id": "nj:suwen:19:s03",
+          "title": "第三节 节气之逆行",
+          "pdf_page_range": [
+            115,
+            115
+          ],
+          "printed_page_range": [
+            113,
+            113
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第113–113页。"
+        },
+        {
+          "section_id": "nj:suwen:19:s04",
+          "title": "第四节 五分法、天干、地支",
+          "pdf_page_range": [
+            115,
+            115
+          ],
+          "printed_page_range": [
+            113,
+            113
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第113–113页。"
+        },
+        {
+          "section_id": "nj:suwen:19:s05",
+          "title": "第五节 五行相克",
+          "pdf_page_range": [
+            115,
+            115
+          ],
+          "printed_page_range": [
+            113,
+            113
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第113–113页。"
+        },
+        {
+          "section_id": "nj:suwen:19:s06",
+          "title": "第六节 风寒、太阳症",
+          "pdf_page_range": [
+            116,
+            116
+          ],
+          "printed_page_range": [
+            114,
+            114
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第114–114页。"
+        },
+        {
+          "section_id": "nj:suwen:19:s07",
+          "title": "第七节 汗解法",
+          "pdf_page_range": [
+            116,
+            116
+          ],
+          "printed_page_range": [
+            114,
+            114
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第114–114页。"
+        },
+        {
+          "section_id": "nj:suwen:19:s08",
+          "title": "第八节 女子胞、男精",
+          "pdf_page_range": [
+            117,
+            119
+          ],
+          "printed_page_range": [
+            115,
+            117
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第115–117页。"
+        },
+        {
+          "section_id": "nj:suwen:19:s09",
+          "title": "第九节 阴阳与神",
+          "pdf_page_range": [
+            120,
+            120
+          ],
+          "printed_page_range": [
+            118,
+            118
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第118–118页。"
+        },
+        {
+          "section_id": "nj:suwen:19:s10",
+          "title": "第十节 逆四时之脉",
+          "pdf_page_range": [
+            120,
+            120
+          ],
+          "printed_page_range": [
+            118,
+            118
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第118–118页。"
+        },
+        {
+          "section_id": "nj:suwen:19:s11",
+          "title": "第十一节 五实五虚",
+          "pdf_page_range": [
+            121,
+            120
+          ],
+          "printed_page_range": [
+            119,
+            118
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第119–118页。"
+        }
+      ],
+      "historical_boundary_note": "“真脏脉见则死”“五实五虚死候”属古典中医危候预后文献，文中讲者将《素问》“胃”径释为“小肠”属其独特学术主张（独立录于ni_teaching）。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:19:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p111",
+          "pdf_page": 111,
+          "printed_page": 109,
+          "chapter_path": "第十九篇 玉机真藏论",
+          "quote": "第十九篇 玉机真藏论",
+          "quote_sha256": "96b7623680291f6630cf71719571ef89a32af00fcc752be0da96d4e89574102f",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:19:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p111",
+          "pdf_page": 111,
+          "printed_page": 109,
+          "chapter_path": "第十九篇 玉机真藏论",
+          "quote": "心死脉来，前曲后佝",
+          "quote_sha256": "342f0be429001f172e66cae44c00c151acd1d79c4773c76cfd3da2e52029f470",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:19:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p120",
+          "pdf_page": 120,
+          "printed_page": 118,
+          "chapter_path": "第十九篇 玉机真藏论",
+          "quote": "五藏者，皆禀气于小肠，小肠者，五藏之本。",
+          "quote_sha256": "e9bfda8b3915e37dee12f5bf4cf74e139026dcd3734bb10e1e088fd9b741ad4b",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[讲记引《素问》] 春脉如弦，“其气软弱，轻虚而滑，端直以长，故曰弦”（p.111）",
+          "[讲记引《素问》] “心死脉来，前曲后佝[居]，如操带钩”；肺平“厌厌聂聂，如落榆[揄]荚”（p.111）",
+          "[讲记引《素问》] “五藏各以其时，自为而至于手太阴也。”“邪气胜，则精气衰。”“形气相得，谓之可治。”（p.120）"
+        ],
+        "ni_teaching": [
+          "提出独到阐释：古代医经言“胃”常兼指小肠（受盛消化之官），胃上接心下，小肠腐熟营养方输五脏，因而关元（小肠募）与胃脾并重。",
+          "释“如操带钩”“如吹鸡毛”等触诊手感，重在指下辨别“有无胃气冲和柔滑”，见纯硬强直则险。",
+          "由风邪依次犯表→肺→肝→脾（发瘅黄）→肾（疝瘕）讲清按法、外浴与汤剂阶梯。"
+        ],
+        "other_annotations": [
+          "注意：通行古本《素问》作“五藏者，皆禀气于胃，胃者五藏之本也”，讲记中倪师主张“把《黄帝内经》里面的胃解释成小肠”。"
+        ],
+        "collation_notes": [
+          "原书p.120讲记中“胃”字主动改读作“小肠”，校勘层必须明示通行古文作“胃”。",
+          "转录将“揄荚”写作“榆荚”（实际原文作榆荚而p.111录作揄荚），“居”误录为“佝”。"
+        ],
+        "organizer_summary": [
+          "全书真脏脉与风病按五行相克传变之代表作。"
+        ]
+      },
+      "open_questions": [
+        "“五实五虚”五条具体组合表现待核对p.120–121分条补全。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【真脏脉与五实五虚危候边界】本篇包含多处心、肺、肝、肾真脏脉死候及急重传变记载，属于传统高危病症理论学习材料，不得自行依脉延误抢救。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "passage:nj:suwen:21",
+      "record_type": "classic_chapter",
+      "chapter_id": "nj:suwen:21",
+      "order": 22,
+      "suwen_number": 21,
+      "canonical_name": "第二十一篇 经脉别论",
+      "classic_standard_title": "《素问·经脉别论》",
+      "volume": "vol1",
+      "volume_label": "上册",
+      "source_id": "ni-neijing-vol1-pdf",
+      "end_source_id": "ni-neijing-vol1-pdf",
+      "pdf_page_range": [
+        125,
+        127
+      ],
+      "printed_page_range": [
+        123,
+        125
+      ],
+      "summary": "阐述情志勇怯、劳逸过用对脉象与喘证的影响（惊恐恚劳动静皆为变、生病起于过用），系统描写水谷精气入胃、散精于肝、浊气归心、肺朝百脉、输精于皮毛之营卫气血全身流注循环，并以“太阳、少阳、阳明、太阴、少阴、厥阴”分立经脉辨证治法。",
+      "key_points": [
+        "“生病起于过用”：劳倦惊恐皆可扰动脏腑喘出脉变。",
+        "谷食化生精血循环总路线：食气入胃 → 散精于肝 / 浊气归心 → 脉气流经 → 经气归于肺 → 肺朝百脉，输精皮毛 → 水精四布，五经并行。",
+        "六经独至与厥病辨析及取穴调治总纲（如阳明独至当以大补泻，少阴独啸当泻阳补阴等）。"
+      ],
+      "section_notes": [
+        {
+          "section_id": "nj:suwen:21:s01",
+          "title": "第一节 气血",
+          "pdf_page_range": [
+            126,
+            126
+          ],
+          "printed_page_range": [
+            124,
+            124
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第124–124页。"
+        },
+        {
+          "section_id": "nj:suwen:21:s02",
+          "title": "第二节 三焦、三阳三阴",
+          "pdf_page_range": [
+            126,
+            126
+          ],
+          "printed_page_range": [
+            124,
+            124
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第124–124页。"
+        },
+        {
+          "section_id": "nj:suwen:21:s03",
+          "title": "第三节 六经辨证",
+          "pdf_page_range": [
+            127,
+            127
+          ],
+          "printed_page_range": [
+            125,
+            125
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第125–125页。"
+        },
+        {
+          "section_id": "nj:suwen:21:s04",
+          "title": "第四节 三阳三阴之脉象",
+          "pdf_page_range": [
+            127,
+            127
+          ],
+          "printed_page_range": [
+            125,
+            125
+          ],
+          "status": "approved",
+          "note": "录于原书上册印制第125–125页。"
+        }
+      ],
+      "historical_boundary_note": "“食气入胃，散精于肝，肺朝百脉”系中医水谷气血营卫代谢模型；讲记把原文“入胃”口述改作“入小肠”属其讲学口径。",
+      "source_spans": [
+        {
+          "span_id": "sp:nj:suwen:21:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p125",
+          "pdf_page": 125,
+          "printed_page": 123,
+          "chapter_path": "第二十一篇 经脉别论",
+          "quote": "第二十一篇 经脉别论",
+          "quote_sha256": "8a11537dd6a777589811f0573ea189571585837186bdc6a8ba6ca168d9c5abd2",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:nj:suwen:21:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p126",
+          "pdf_page": 126,
+          "printed_page": 124,
+          "chapter_path": "第二十一篇 经脉别论",
+          "quote": "生病起于过用",
+          "quote_sha256": "d6050c0ab93932c7fc49860e5a6c81b4ded8af7be5aed311f5a9969680fecd82",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:nj:suwen:21:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p127",
+          "pdf_page": 127,
+          "printed_page": 125,
+          "chapter_path": "第二十一篇 经脉别论",
+          "quote": "第三节 六经辨证",
+          "quote_sha256": "97dfcb39547df28794226c3fe8799e61ce6d62e2108b47eaacba3db36baadbdc",
+          "role": "collation_notes"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[讲记引《素问》] “凡人之惊恐恚劳动静，皆为变也”“夜行则喘出于肾”“有所堕恐，喘出于肝”（p.125）",
+          "[讲记引《素问》] “生病起于过用”“浊气归心，淫精于脉。脉气流经，经气归于肺，肺朝百脉，输精于皮毛”（p.126）"
+        ],
+        "ni_teaching": [
+          "将“肺朝百脉、毛脉合精”解释为气血受纳于小肠而后经脾肺播散至皮毛腠理。",
+          "顺“第三节 六经辨证”讲清三阳传变次序：太阳最先受风，或入少阳半表半里，或入阳明纯阳燥热，入阳明多不再传入阴分；另指正p.127“一阳独啸”传抄错字实应为“少阴独啸”（一阴/少阴厥逆）。"
+        ],
+        "other_annotations": [
+          "明清注家多谓“一阳独啸”为错简，讲记与张景岳等校正为少阴之理相通。"
+        ],
+        "collation_notes": [
+          "p.127明言教材文字有“一阳独啸”误植，并自改“食气入胃”作“食气入小肠”。"
+        ],
+        "organizer_summary": [
+          "兼顾水谷精微生理大循环与《素问》“六经脉辨”实操条文。"
+        ]
+      },
+      "open_questions": [
+        "本篇“太阴藏搏”“二阴一阴”各条经脉取穴对应针灸俞穴列表待进一步对照《针灸》篇。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【古典医理与危重候警示边界】本条目涉及古典危重脉症或急重症辨别理论，仅作《黄帝内经》原典教学与传统思维研究资料，不替代现代临床急症评估与医师诊疗。",
+      "version": "1.0.0"
+    }
+  ],
+  "concepts": [],
+  "relations": []
+}

@@ -1,0 +1,47 @@
+{
+  "sources": [
+    {
+      "path": "sources/shanghan_juyi.txt",
+      "title": "伤寒论辑义",
+      "encoding": "gb18030",
+      "sha256": "13FB57424558A4609EAA215AF8704867B08C8138B302BD95F035870ED6A4F305",
+      "role": "伤寒论方剂正文、校注与行号定位"
+    },
+    {
+      "path": "data/herbs.json",
+      "title": "倪海厦注神农本草经",
+      "sha256": "D83F278F603E84B3A5DC471C1B4FD06D238B345F89669E983FDDFFE5E1AA2001",
+      "role": "本经药物条目、段落与 PDF 页码"
+    },
+    {
+      "path": "sources/jinkui_recipes_source.json",
+      "title": "倪海厦注金匮要略方剂抽取快照",
+      "sha256": "5B427AD8350B117E5D0989955C74F4B15DFF9814A54A37C105FD1C1AE063E0FA",
+      "role": "金匮 186 条方剂、组成、煎服法、页码与倪注"
+    },
+    {
+      "path": "sources/ni_shanghan_pages.jsonl",
+      "title": "倪海厦人纪系列之伤寒论 PDF 页文本",
+      "sha256": "1CAB66BF87B471E4FEF3FBAECD4D0B433CF343F281D4E880870E1158EC4986FB",
+      "role": "伤寒论逐方视频/书本讲解候选出处"
+    },
+    {
+      "path": "sources/ni_jinkui_pages.jsonl",
+      "title": "倪海厦注金匮要略 PDF 页文本",
+      "sha256": "4DFC166292D63CBC2852A8BB3BBD9AFDD90082C6CD3725061DA5E4304C66C66C",
+      "role": "金匮要略逐方书本讲解候选出处"
+    },
+    {
+      "path": "sources/ni_jinkui_transcript.jsonl",
+      "title": "《金匮要略》视频同步文稿",
+      "sha256": "EACC1170E54F50756ECB7C16CBD2CB41EBDF18B8C83C50C0043B3EF081CE9AAF",
+      "role": "金匮要略逐方视频文稿候选出处"
+    }
+  ],
+  "notes": [
+    "herbs.json 是从本地《倪海厦注神农本草经》PDF 抽出的页级结构化副本；原件不随仓库分发。",
+    "shanghan_juyi.txt 是本地原文文本，保留 GB18030 编码与原始行号。",
+    "伤寒论独立视频同步文稿未在本地资料中找到，因此伤寒方的视频文稿状态明确标为 missing，而不是用金匮文稿顶替。",
+    "方剂剂量按原文写法保留，不换算成克、不生成个人处方。"
+  ]
+}

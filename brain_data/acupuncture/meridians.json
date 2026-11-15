@@ -1,0 +1,2785 @@
+{
+  "source_id": "ni-acupuncture-v2-20100703",
+  "accepted_batches": [
+    "pilot_lung_and_ch6.json",
+    "ch1_to_ch3_foundations.json",
+    "ch4_ren_du.json",
+    "ch4_li_st.json",
+    "ch4_sp_ht_si.json",
+    "ch4_bl.json",
+    "ch4_ki_pc_sj.json",
+    "ch4_gb_lv.json",
+    "ch5_eight_vessels_and_methods.json",
+    "ch6_conditions_part1.json",
+    "ch6_conditions_part2.json"
+  ],
+  "stats": {
+    "total": 15,
+    "approved": 15,
+    "pending": 0,
+    "high_risk_or_emergency": 15
+  },
+  "items": [
+    {
+      "id": "meridian:ren",
+      "record_type": "meridian",
+      "canonical_name": "任脉",
+      "aliases": [
+        "任脉经穴",
+        "RN",
+        "CV"
+      ],
+      "chapter_id": "ch4",
+      "section_id": "ch4:s026",
+      "page_range": [
+        23,
+        33
+      ],
+      "zang_fu": "奇经八脉之一，不单属某一脏腑；总汇全身一切阴经之气（阴汇积之大海），主女子怀孕（任，女子妊也），下统胞宫/膀胱/小肠/三焦/胃/心之募穴。",
+      "yin_yang_five_element": "阴脉总纲（身上所有阴汇积之处，阴经如河流最终流入任脉如大海；不配单一五行与五俞穴）",
+      "flow_hour": "奇经八脉不纳入十二正经地支时辰流注；气脉循环依“后升前降”——督脉由后背上升滋脑，任脉由前面下降回归小肠与关元，交会于鼻子人中（说话则开、舌抵上腭则任督相通）。",
+      "pathway_source": "教材第四章（p.23–33）载：任脉共三八二十四个穴道，起于会阴，沿前正中线（腹部可见隐隐约约黑线）上行经曲骨、中极、关元、石门、气海、阴交、神阙、水分、下脘、建里、中脘、上脘、巨阙、鸠尾、中庭、膻中、玉堂、紫宫、华盖、璇玑、天突、廉泉，止于承浆，并与督脉交会于人中/水沟。气血循“后升前降”，在腹部采用独立比例腹寸而非同身寸定位（下腹神阙至曲骨分五段四点；上腹心蔽骨至神阙分四段；胸段先取天突与鸠尾中点玉堂再定膻中）。",
+      "paired_meridian_id": "meridian:du",
+      "acupoint_ids": [
+        "acupoint:ren01:会阴",
+        "acupoint:ren02:曲骨",
+        "acupoint:ren03:中极",
+        "acupoint:ren04:关元",
+        "acupoint:ren05:石门",
+        "acupoint:ren06:气海",
+        "acupoint:ren07:阴交",
+        "acupoint:ren08:神阙",
+        "acupoint:ren09:水分",
+        "acupoint:ren10:下脘",
+        "acupoint:ren11:建里",
+        "acupoint:ren12:中脘",
+        "acupoint:ren13:上脘",
+        "acupoint:ren14:巨阙",
+        "acupoint:ren15:鸠尾",
+        "acupoint:ren16:中庭",
+        "acupoint:ren17:膻中",
+        "acupoint:ren18:玉堂",
+        "acupoint:ren19:紫宫",
+        "acupoint:ren20:华盖",
+        "acupoint:ren21:璇玑",
+        "acupoint:ren22:天突",
+        "acupoint:ren23:廉泉",
+        "acupoint:ren24:承浆"
+      ],
+      "five_shu_table": {},
+      "summary": "奇经八脉总阴之脉，共24穴起于会阴止于承浆，无五俞穴；主妊娠且为十二经选穴标杆，依“后升前降”与督脉交会于人中，临床重在腹部独立比例分寸、六腑/心/三焦募穴（中极、关元、石门、阴交、中脘、巨阙）、八会穴（中脘、膻中）与心脏三针（天突、巨阙、关元）。",
+      "source_spans": [
+        {
+          "span_id": "sp:ren:p23a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p023",
+          "pdf_page": 23,
+          "printed_page": 23,
+          "chapter_path": "第四章 一、任脉与督脉",
+          "quote": "任，女子妊也，女人会怀孕是靠任脉。十二经络开始介绍之前，要从任脉开始介绍。找穴道要从任、督二脉为基准，找到标准，就可以很快速的找到穴道。",
+          "quote_sha256": "8a0fc54bde9d70c0c53d37c57c60af436804d7877a8891dce6689b14cd302045",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ren:p23b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p023",
+          "pdf_page": 23,
+          "printed_page": 23,
+          "chapter_path": "第四章 一、任脉与督脉",
+          "quote": "任脉是所有阴汇积的地方。",
+          "quote_sha256": "5237453bd3d10ce6e8bc4f0ad32813015420b7b1f6627b08509197907f0b7f61",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ren:p23c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p023",
+          "pdf_page": 23,
+          "printed_page": 23,
+          "chapter_path": "第四章 一、任脉与督脉",
+          "quote": "任督二脉交会在鼻子人中这边。刚好嘴巴讲话，讲话时任督二脉是开的，你在听课的时候，舌头是顶着上颚。",
+          "quote_sha256": "fa5388676d23cd12f4ad9f8c3be25d0b86d4a389c55e12711ee4a7939de01f0e",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ren:p24a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p024",
+          "pdf_page": 24,
+          "printed_page": 24,
+          "chapter_path": "第四章 一、任脉与督脉",
+          "quote": "任脉有三八二十四个穴道，任脉三八起会阴",
+          "quote_sha256": "ddc03764e3e663238d3e505d9f54ece87a7e5bbb6c6bc345eccb8a13b2349ab1",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:ren:p25a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p025",
+          "pdf_page": 25,
+          "printed_page": 25,
+          "chapter_path": "第四章 二、任脉经穴",
+          "quote": "所有的阴经像河流一样，总有一天会流入大海，阴经总有一天会回到任脉。任脉本身没有井、荣、俞、经、合。",
+          "quote_sha256": "4f9e7a83740de201c161f42b13bc465ec8158f9e457a594e468005c8a0285841",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ren:p25b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p025",
+          "pdf_page": 25,
+          "printed_page": 25,
+          "chapter_path": "第四章 二、任脉经穴",
+          "quote": "如果我们按照“同身寸”来找任脉的穴道就会错掉，因为它有个独立的寸法。",
+          "quote_sha256": "9b6ed3dcc264113c34b6d28b95700c80c1414fbdff8804f20c2ad745e6bdea7c",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ren:p25c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p025",
+          "pdf_page": 25,
+          "printed_page": 25,
+          "chapter_path": "第四章 二、任脉经穴",
+          "quote": "其实重点在气血的流注。气脉的流注叫后升前降。什么叫后升呢?背后是督脉，前降呢，前降的是任脉。",
+          "quote_sha256": "6a128d2d56e7dccd650d4864a044cfe20c10954703c7f75aece97ac01295c51e",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ren:p33",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p033",
+          "pdf_page": 33,
+          "printed_page": 33,
+          "chapter_path": "第四章 13、承浆穴",
+          "quote": "任脉到了承浆是最后一个穴道。",
+          "quote_sha256": "e53449c99add6443274a8ead0bb86dea841ba8033d2366aacc65baceef25b252",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "“任，女子妊也”（p.23）；“任脉有三八二十四个穴道，任脉三八起会阴”（p.24）。",
+          "转引《针灸大成》杨继洲合各家专论（教材指当时所翻72页起），强调后升前降与内视闭四门（耳、目、口、鼻，p.25）。"
+        ],
+        "ni_teaching": [
+          "以任、督二脉为全身找穴基准标杆（旁开几寸定肾经、胃经等皆赖任脉定位精准）。",
+          "阐明下焦水火同源与脖子冷却系统：心脏之热得肺肃降入小肠，小肠火蒸化肾水与营养入督脉上滋脑部，经脖子冷却防脑烧坏后，气复由前任脉回入小肠关元。",
+          "任脉本身无井荣俞经合五俞穴；列缺（肺经络穴）主任脉（p.24）。",
+          "传授任脉三段比例定位法：下腹寸（神阙—曲骨五等分）、上腹寸（心蔽骨—神阙四等分）、胸段（天突—鸠尾中点玉堂再定膻中）。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "第23–24页《一、任脉与督脉》（ch4:s025）为任督合论，第24–33页（ch4:s026–s040）为任脉经穴专篇。",
+          "传统医籍常称“任脉为阴脉之海”“女子二七天癸至、七七天癸竭”，本节p.23–33实文表述为“任脉是所有阴汇积的地方”“阴经像河流一样总有一天会流入大海”“女人怀孕全靠任脉”，而“女子二七十四、七七四十九”则详于第六章妇科篇p.189，于此互注不混。",
+          "任脉第28页附带经外奇穴绝孕穴（已单列为 acupoint:extra:绝孕穴）。"
+        ],
+        "organizer_summary": [
+          "全书十二正经之前置标杆经络：既是腹部与胸喉要穴基准线，也是募穴与前降气机总纲。"
+        ]
+      },
+      "open_questions": [
+        "任脉本篇未完整引录《难经》或《灵枢》任脉循行起止古文原文（如起于中极之下、上毛际、循腹里至咽喉承浆环唇），且p.23–33未见“男以精为主”“女子主血”“七七之数”原句，待结合第六章p.189妇科篇统一交叉链接。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "meridian:du",
+      "record_type": "meridian",
+      "canonical_name": "督脉",
+      "aliases": [
+        "督脉经穴篇",
+        "DU",
+        "GV"
+      ],
+      "chapter_id": "ch4",
+      "section_id": "ch4:s041",
+      "page_range": [
+        23,
+        39
+      ],
+      "zang_fu": "奇经八脉之一，统领诸阳（诸阳之会，阳气之大海）；行于脊柱正中（龙骨），贯脊络脑并接续各脏腑背段脊椎反应点。",
+      "yin_yang_five_element": "阳脉总纲（督脉是诸阳之会，全身动能与能量所在；阳气流行全身后皆回流入督脉如大海；无五行五俞配属）",
+      "flow_hour": "奇经八脉不纳入十二正经地支流注；气脉循环依“后升前降”自下而后上循脊柱入脑，过头顶颜面于鼻子人中/水沟与任脉交会。",
+      "pathway_source": "教材第四章（p.23–24、p.33–39）载：督脉起于尾椎骨下方肛门与尾椎间之长强穴，沿脊椎正中（椎下软骨缝）上行腰俞（21椎）、腰阳关（16椎）、命门（14椎）、悬枢（13椎）、脊中（11椎）、筋缩（9椎）、至阳（7椎）、灵台（6椎）、神道（5椎）、身柱（3椎）、陶道（1胸椎下）、大椎（1胸椎上），继循枕颈与头面经哑门、风府、脑户、强间、后顶、百会、前顶、顖会、上星、神庭、素髎、人中（水沟）、兑端，终于上唇内龈交穴。共实讲27正经穴（明确言第10椎下、第4椎下无穴道），并附第7至第9椎间（第8椎下）经外奇穴消渴穴。",
+      "paired_meridian_id": "meridian:ren",
+      "acupoint_ids": [
+        "acupoint:du01:长强",
+        "acupoint:du02:腰俞",
+        "acupoint:du03:腰阳关",
+        "acupoint:du04:命门",
+        "acupoint:du05:悬枢",
+        "acupoint:du06:脊中",
+        "acupoint:du08:筋缩",
+        "acupoint:du09:至阳",
+        "acupoint:du10:灵台",
+        "acupoint:du11:神道",
+        "acupoint:du12:身柱",
+        "acupoint:du13:陶道",
+        "acupoint:du14:大椎",
+        "acupoint:du15:哑门",
+        "acupoint:du16:风府",
+        "acupoint:du17:脑户",
+        "acupoint:du18:强间",
+        "acupoint:du19:后顶",
+        "acupoint:du20:百会",
+        "acupoint:du21:前顶",
+        "acupoint:du22:顖会",
+        "acupoint:du23:上星",
+        "acupoint:du24:神庭",
+        "acupoint:du25:素髎",
+        "acupoint:du26:人中",
+        "acupoint:du27:兑端",
+        "acupoint:du28:龈交"
+      ],
+      "five_shu_table": {},
+      "summary": "奇经八脉诸阳之会、阳气大海，无五俞穴；沿脊椎龙骨（椎棘突下方软骨缝）上头面，起于长强终于龈交，原书实授27正经穴（明言第十椎、第四椎无穴而未立中枢），兼重脊椎护养大义（天柱倾危重、忌轻率手术）、背部压痛诊断（命门/至阳/灵台/神道/消渴穴）、头针斜刺与对称急救（人中/百会）。",
+      "source_spans": [
+        {
+          "span_id": "sp:du:p23a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p023",
+          "pdf_page": 23,
+          "printed_page": 23,
+          "chapter_path": "第四章 一、任脉与督脉",
+          "quote": "而督脉是诸阳之会!全身的动能，能量，都在督脉上面。我最常跟病人讲一句话就是，无论如何不要让别人碰你的脊椎骨，督脉不能碰，脊椎骨像龙骨一样",
+          "quote_sha256": "034fe0019911a0d3774a2ad4b190cb39a8211e7b82a6679037da47930f286bc0",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:du:p23b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p023",
+          "pdf_page": 23,
+          "printed_page": 23,
+          "chapter_path": "第四章 一、任脉与督脉",
+          "quote": "比如说我们叫天柱倾，脖子都歪过去，这样的人命在旦夕，一两天就走了。",
+          "quote_sha256": "4417a0b3ac7a8d73845b4150f777d35bc1dfde0c7c5cbad503305da6a95aee9a",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:du:p33",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p033",
+          "pdf_page": 33,
+          "printed_page": 33,
+          "chapter_path": "第四章 三、督脉经穴篇",
+          "quote": "督脉是所有阳气之会。阳气在流行完全身之后．就会回到督脉。阳气就像河流，最后会流到大海，督脉就像个大海。",
+          "quote_sha256": "b813c7bd81cb9c4337897d3a730bce21fafba8bd0ac52e0a1a6131c2f3494672",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:du:p34",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p034",
+          "pdf_page": 34,
+          "printed_page": 34,
+          "chapter_path": "第四章 三、督脉经穴篇",
+          "quote": "督脉跟任脉一样，没有井荣俞经合。书上在讲考正穴法之前有提到，要知任督二脉之功，先将四门关闭，耳、目、口、鼻先闭起来。",
+          "quote_sha256": "f765631d1299fda670a00cd5189a4db713aac380a4c0bece723243c2d2f21583",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:du:p35",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p035",
+          "pdf_page": 35,
+          "printed_page": 35,
+          "chapter_path": "第四章 三、督脉经穴篇",
+          "quote": "在讲督脉时都是指第几椎下。在触诊摸背后的时候，会摸到一个凸，两个凸的。这个凸的才是椎下。因为骨头是这样子的，下针要在软骨下，所以凸起来的才是椎下。",
+          "quote_sha256": "92d0e57de1d47d9adef3c97852e1ffb37eab9028097aa3e4d05d26e35a71b0aa",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:du:p36",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p036",
+          "pdf_page": 36,
+          "printed_page": 36,
+          "chapter_path": "第四章 6、至阳、灵台、神道、身柱",
+          "quote": "我们的督脉是诸阳之会，每一个穴道几乎都络到一个脏。",
+          "quote_sha256": "3d9a32deba93ac025cd5aff2193892b613bbbc7c618769e29bd4a9840e55449a",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:du:p37",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p037",
+          "pdf_page": 37,
+          "printed_page": 37,
+          "chapter_path": "第四章 9、后顶与百会穴",
+          "quote": "所以“头”部，人称六阳之首，头上没有阴经，头部是阳经。",
+          "quote_sha256": "ec3467018d1a64db25f733df1672e9f7ddcaa97f0200990e30d8506e803f45a8",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:du:p39",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p039",
+          "pdf_page": 39,
+          "printed_page": 39,
+          "chapter_path": "第四章 11、素髎、兑端、龈交穴",
+          "quote": "这是督脉最后一个穴道，治疗牙龈肿 、腐烂，牙周病 ，用放血的就好了。",
+          "quote_sha256": "bcb42e2c06b6354bad5e115c8e82d617953d0617ac02292dbeb020ea4c9babf9",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "“督脉是诸阳之会”“六阳之首”（p.23、p.37）；《考正穴法》前先闭耳目口鼻四门（p.34）。"
+        ],
+        "ni_teaching": [
+          "脊柱督脉大义：脊椎为全身阳气龙骨，痛批椎间盘突出轻率开刀致恶化及疫苗伤督（引天柱倾项歪者命在旦夕，p.23）。",
+          "触诊找椎标准：以棘突隆起正下方软骨缝为“第几椎下”；再以肩胛骨三角形底端连线（双肘垂举趴姿）定位第七椎至阳，动骨颈椎与不动骨胸椎交界定位大椎（p.35–36）。",
+          "督脉背部各穴几乎各络一脏，除治病外更是核心诊断尺：如第5椎神道诊心脏病、第6椎灵台诊白血球过多/血癌、第7椎至阳诊血癌与血会、第8椎奇穴消渴穴诊糖尿病、第14椎命门配合p.171辨脑瘤实症。",
+          "头面部定穴废除主观发际、眉毛与发旋法，改以度骨法（枕骨下风府/哑门、额弧转弯凹点神庭）或耳尖直上后五分百会向前后各1.5寸推算。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "第23–24页与任脉合论，第33–39页（ch4:s041–s054）为督脉专篇。",
+          "【重要校勘：du07 中枢未载】经逐页检索全书216页及穴位索引，“中枢”一词全书未见；第32页明言“第十椎下没有穴道”，第35页亦自第十一椎下“脊中”直接跳讲第九椎下“筋缩”（并指第七椎与第九椎中间为经外奇穴消渴穴）。故严守原书实际讲授口径，acupoint_ids 收录实讲 27 个督脉经穴（du01–du06、du08–du28），不虚构 du07:中枢，特此注明。",
+          "第36页亦明言“第四椎没有穴道”，第35页附见第7–9椎间经外奇穴消渴穴（已单列为 acupoint:extra:消渴穴）。"
+        ],
+        "organizer_summary": [
+          "脊柱阳气中枢与头面急救/压痛诊断总纲，兼具“不可轻伤龙骨”大义与27穴实操定位体系。"
+        ]
+      },
+      "open_questions": [
+        "通行二十八穴督脉含第十椎下“中枢”（DU7），本书第32页明言“第十椎下没有穴道”且全书未讲中枢，后续若对接外部国标经穴编码（GV1–GV28）时须保留 GV7 空缺映射说明。",
+        "第37页头部言“人称六阳之首”，原文排字作“所以‘头’部，人称六阳之首”（校勘照录）。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "meridian:lu",
+      "record_type": "meridian",
+      "canonical_name": "手太阴肺经",
+      "aliases": [
+        "肺经",
+        "LU"
+      ],
+      "chapter_id": "ch4",
+      "section_id": "ch4:s055",
+      "page_range": [
+        39,
+        45
+      ],
+      "zang_fu": "肺（相傅之官，治节出焉；肺藏魄，肺主皮毛，开窍在鼻；与手阳明大肠经相表里）",
+      "yin_yang_five_element": "手太阴 · 阴金（燥金；干支：辛寅；五音：商声呬；五志：忧，喜胜忧；在声为哭，在变动为咳）",
+      "flow_hour": "寅时（03:00–05:00，气血从左向右流注；多气少血）",
+      "pathway_source": "教材于第四章（p.39–45）载：手太阴肺经共十一穴，起于中府、云门，下行手臂经天府、侠白、尺泽、孔最、列缺、经渠、太渊、鱼际，终于手拇指少商，气血自少商转入手阳明大肠经。并专论肺脏法象天幕、主皮毛与肺大肠表里气化（大肠水气化回肺为津液），尚待补充第四章未逐句展开之《灵枢·经脉》全文循行。",
+      "paired_meridian_id": "meridian:li",
+      "acupoint_ids": [
+        "acupoint:lu01:中府",
+        "acupoint:lu02:云门",
+        "acupoint:lu03:天府",
+        "acupoint:lu04:侠白",
+        "acupoint:lu05:尺泽",
+        "acupoint:lu06:孔最",
+        "acupoint:lu07:列缺",
+        "acupoint:lu08:经渠",
+        "acupoint:lu09:太渊",
+        "acupoint:lu10:鱼际",
+        "acupoint:lu11:少商"
+      ],
+      "five_shu_table": {
+        "well_wood": "acupoint:lu11:少商",
+        "ying_fire": "acupoint:lu10:鱼际",
+        "shu_earth_yuan": "acupoint:lu09:太渊",
+        "jing_metal_ben": "acupoint:lu08:经渠",
+        "he_water_child": "acupoint:lu05:尺泽",
+        "luo": "acupoint:lu07:列缺",
+        "xi": "acupoint:lu06:孔最",
+        "mu_front": [
+          "acupoint:lu01:中府",
+          "acupoint:lu02:云门"
+        ]
+      },
+      "summary": "十二正经首经，属阴金、多气少血、寅时（03:00–05:00）主令，起于中府终于少商共十一穴；临床依阴经井木荣火俞土经金合水定子穴尺泽、母穴太渊、本穴经渠、络穴列缺、郄穴孔最。",
+      "source_spans": [
+        {
+          "span_id": "sp:lu:p39",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p039",
+          "pdf_page": 39,
+          "printed_page": 39,
+          "chapter_path": "第四章 四、手太阴肺经",
+          "quote": "第一条经是手太阴肺经。",
+          "quote_sha256": "cade91d2cf40684b20e0498af070f58a8413b1b36628549e3176dfebc9d6e340",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:lu:p39b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p039",
+          "pdf_page": 39,
+          "printed_page": 39,
+          "chapter_path": "第四章 四、手太阴肺经",
+          "quote": "那肺是“相傅之官，治节出焉”。",
+          "quote_sha256": "44e4f474d35427ced331f2b5044dc3347ea69cc796e02bd1e163f4c0c35e080d",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:lu:p40a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p040",
+          "pdf_page": 40,
+          "printed_page": 40,
+          "chapter_path": "第四章 2、阴经之井荣俞经合",
+          "quote": "肺经有十一个穴道，我们会一个一个介绍，起于中府，终于少商。",
+          "quote_sha256": "b67255468c8a6efefffd9bdf6dc57b0596f376c0de38b833f6b36a9e2d735deb",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:lu:p40b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p040",
+          "pdf_page": 40,
+          "printed_page": 40,
+          "chapter_path": "第四章 2、阴经之井荣俞经合",
+          "quote": "这条经是多气少血，流注的时间是寅时，就是早上的三点到五点在这里。三点在这，五点在这，肺气是从左向右走。",
+          "quote_sha256": "2c73dd44e842b318c01b0e636f4af6a8d66b72e91f1e621e1493fbfad045e5ec",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:lu:p41",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p041",
+          "pdf_page": 41,
+          "printed_page": 41,
+          "chapter_path": "第四章 4、中府穴至经渠",
+          "quote": "歌诀是：“中府云门天府诀，侠白尺泽孔最存，列缺经渠太渊涉，鱼际少商如韭叶。”",
+          "quote_sha256": "d1773906e3654045248ea368fe7fb9a4f79e6b41cd3164872c17c8b1dddc7528",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:lu:p44",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p044",
+          "pdf_page": 44,
+          "printed_page": 44,
+          "chapter_path": "第四章 5、太渊穴—手太阴肺经母穴",
+          "quote": "手太阴肺经的母穴就是太渊，手太阴肺经的子穴就是尺泽，本穴就是经渠。",
+          "quote_sha256": "dfdc6cdf774bda561d2244ada1a516b93c456b9343237142c7e8c84afe89070f",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《内经》相傅之官，治节出焉（p.39）。",
+          "歌诀：“中府云门天府诀，侠白尺泽孔最存，列缺经渠太渊涉，鱼际少商如韭叶。”（p.41）",
+          "引《针灸大成》卷八第四页：肺在声为哭，在变动为咳，在志为忧，忧能伤肺，喜能胜忧；人参非大剂不补，少则凝滞；过食瓜果以薤白粥加羊肾空心补之（p.40–41）。"
+        ],
+        "ni_teaching": [
+          "肺主皮毛、开窍在鼻、眉毛属肺；肺属阴金、干支辛寅、商声呬（配五脏逼毒法发呬声及最后无声提谷道/提肛）。",
+          "流注寅时（03:00–05:00）且气血从左向右走，可凭寅时醒来时间判断肺脏病变与疗效验证；正常秋脉/肺脉轻取如刀触皮肤之浮脉。",
+          "肺脏法象天幕，使心火热气下行入小肠；大肠与肺相表里，大肠水得小肠之热气化透壁回肺为津液；肺主吐气、肾主吸气（p.45）。",
+          "阴经五俞穴木火土金水：少商（井木）→鱼际（荣火）→太渊（俞土/母穴/代原穴）→经渠（经金/本穴）→尺泽（合水/子穴）。"
+        ],
+        "other_annotations": [
+          "教材转引《针灸大成》称中府为肺之募，而倪海厦按《难经》提出云门才是肺之募穴（p.42）。",
+          "《甲乙经》载按时辰发病用俞穴（太渊），师传经验亦可用荣穴鱼际（p.21、p.45）。"
+        ],
+        "collation_notes": [
+          "本段转录含视频时间戳（2-01:53:55 至 2-03:02:34+），属于授课听写校勘转录本（collated_transcript）。",
+          "正文第41页所称“第四页”“第五页”，指讲课所据《针灸大成》卷八原书页码，非本教材页码。"
+        ],
+        "organizer_summary": [
+          "手太阴肺经为 Stage 1 经络样板，总领本经 11 穴，并与第六章治鼻病、第五章原络（太渊配偏历）、俞募（肺俞配中府/云门）、会郄（章门配孔最）直接相连。"
+        ]
+      },
+      "open_questions": [
+        "教材第四章侧重临床穴位与生理功能口授，未完整逐句引录《灵枢·经脉》“肺手太阴之脉，起于中焦……”古文循行原文，待校对补录原典。",
+        "《针灸大成》卷八“中府为肺募”与倪海厦依《难经》“云门为肺募”之说存在经典注家分歧，均予并存保留，尚待后续专题考证。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及肺脏近邻进针、重要血管避让、点刺放血、艾灸防烫伤/疤痕、儿童单刺限制或肿瘤/出血风险提示。严禁非专业人士自行模仿操作；出现持续出血、高热或疑似肿瘤症状请立即就医。",
+      "version": "2.0.0"
+    },
+    {
+      "id": "meridian:li",
+      "record_type": "meridian",
+      "canonical_name": "手阳明大肠经",
+      "aliases": [
+        "大肠经",
+        "LI"
+      ],
+      "chapter_id": "ch4",
+      "section_id": "ch4:s064",
+      "page_range": [
+        45,
+        51
+      ],
+      "zang_fu": "大肠（《内经》谓传导之官、变化出焉，又云白肠；属腑为阳，与手太阴肺经相表里，募穴为天枢）",
+      "yin_yang_five_element": "手阳明 · 阳金（阳经五输穴五行配属为金井、水荣、木俞、火经、土合）",
+      "flow_hour": "卯时（05:00–07:00，气血由手走头，自肺经少商交接大肠经；顺时针揉丹田顺大肠助排便）",
+      "pathway_source": "教材第四章五、手阳明大肠经（p.45–51）依序讲授：手阳明大肠经由手食指端商阳起，循二间、三间、合谷、阳溪、偏历、温溜、下廉、上廉、手三里、曲池、肘髎、五里（手五里）、臂臑、肩髃、巨骨，上行颈部大筋外侧天鼎、扶突，挟口鼻终于口禾髎（禾髎）与迎香，并说明阳经热化及手三阳控制肩臂前抬功能。",
+      "paired_meridian_id": "meridian:lu",
+      "acupoint_ids": [
+        "acupoint:li01:商阳",
+        "acupoint:li02:二间",
+        "acupoint:li03:三间",
+        "acupoint:li04:合谷",
+        "acupoint:li05:阳溪",
+        "acupoint:li07:偏历",
+        "acupoint:li06:温溜",
+        "acupoint:li08:下廉",
+        "acupoint:li09:上廉",
+        "acupoint:li10:手三里",
+        "acupoint:li11:曲池",
+        "acupoint:li12:肘髎",
+        "acupoint:li13:手五里",
+        "acupoint:li14:臂臑",
+        "acupoint:li15:肩髃",
+        "acupoint:li16:巨骨",
+        "acupoint:li17:天鼎",
+        "acupoint:li18:扶突",
+        "acupoint:li19:口禾髎",
+        "acupoint:li20:迎香"
+      ],
+      "five_shu_table": {
+        "well_metal_ben": "acupoint:li01:商阳",
+        "ying_water_child": "acupoint:li02:二间",
+        "shu_wood": "acupoint:li03:三间",
+        "yuan": "acupoint:li04:合谷",
+        "jing_fire": "acupoint:li05:阳溪",
+        "he_earth_mother": "acupoint:li11:曲池",
+        "luo": "acupoint:li07:偏历",
+        "xi": "acupoint:li06:温溜",
+        "mu_front": "acupoint:st25:天枢"
+      },
+      "summary": "手阳明大肠经属阳金、卯时（05:00–07:00）流注，起商阳终迎香共20穴，与肺经相表里（阳明主燥热化）。阳经五输按金水木火土定本穴商阳、子穴二间、俞木三间、原穴合谷、经火阳溪、母穴曲池、络穴偏历、郄穴温溜。",
+      "source_spans": [
+        {
+          "span_id": "sp:li:p45a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p045",
+          "pdf_page": 45,
+          "printed_page": 45,
+          "chapter_path": "第四章 五、手阳明大肠经",
+          "quote": "手阳明大肠经，我们遇到阳经的时候，我们的五腧穴属性就改变了，变成金（井）水（荣）木（俞）火（经）土（合）。",
+          "quote_sha256": "f323ff97b91c676164572fbda21ad9f19780835bfbb0b4954ea8272c975781ab",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:li:p45b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p045",
+          "pdf_page": 45,
+          "printed_page": 45,
+          "chapter_path": "第四章 五、手阳明大肠经",
+          "quote": "《内经》曰“大肠者，传导之官，变化出焉，又云白肠”。",
+          "quote_sha256": "a33b496771fe86d165f0b29bee8cccd4d000c0d51bff43bafb6a20ed92c51e21",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:li:p45c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p045",
+          "pdf_page": 45,
+          "printed_page": 45,
+          "chapter_path": "第四章 五、手阳明大肠经",
+          "quote": "大肠经是上午的五点到七点，在卯时的时候，气血流注到这边。",
+          "quote_sha256": "a9561de1057a507fc4b1958320e85aa349a412adc33c06b2fb324ae5371b37ee",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:li:p46",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p046",
+          "pdf_page": 46,
+          "printed_page": 46,
+          "chapter_path": "第四章 2、二间与三间穴",
+          "quote": "所以，二间变成是大肠经的子穴。",
+          "quote_sha256": "edeae0823392695a3e6bbf0dde30968788440b21a442403ce58d94488bfbca92",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:li:p47Yuan",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p047",
+          "pdf_page": 47,
+          "printed_page": 47,
+          "chapter_path": "第四章 3、合谷穴",
+          "quote": "那大肠经的原穴，合谷。",
+          "quote_sha256": "8149441d39c5ebc929c0a82e05b8a87adfd1d4faf94f64e913ea6c6d99759051",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:li:p48b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p048",
+          "pdf_page": 48,
+          "printed_page": 48,
+          "chapter_path": "第四章 6、偏历与温溜穴",
+          "quote": "再来是偏历穴，偏历穴是手阳明的络穴，与肺经的络穴列缺是通的。",
+          "quote_sha256": "ec5ec4712b4563605b483a87048116600c53450a045932ef1b0e52f767def105",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:li:p48c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p048",
+          "pdf_page": 48,
+          "printed_page": 48,
+          "chapter_path": "第四章 6、偏历与温溜穴",
+          "quote": "温溜穴是大肠经的郄穴。",
+          "quote_sha256": "2386dc2564352561cbdf8ac15b91eb255c2a1f37d91278aab8d50f2601b16c4e",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:li:p48d",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p048",
+          "pdf_page": 48,
+          "printed_page": 48,
+          "chapter_path": "第四章 7、曲池与手三里穴",
+          "quote": "变成曲池这个穴道呢，是大肠经的母穴。",
+          "quote_sha256": "d51e9efd30f74255c479c18399a0c3574add626e53731c57b999085ce8608730",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《内经》：“大肠者，传导之官，变化出焉，又云白肠”（p.45）。",
+          "转引《针灸大成》卷八第七页、第九页大肠经经旨与“虚实皆拔之”等文（p.45, 47–48）。"
+        ],
+        "ni_teaching": [
+          "阳经五输定为金（井商阳/本穴）、水（荣二间/子穴）、木（俞三间）、火（经阳溪）、土（合曲池/母穴），另设原穴合谷、络穴偏历、郄穴温溜。",
+          "生理专论肺大肠表里与气化：吸气由肾主使横膈下降压肝血入大肠助蠕动（双金克木修枝叶），小肠火蒸化大肠水气上升回肺为津液则不口渴。",
+          "明确手三阳辨经：手不能前抬属大肠经、不能梳头属三焦经、不能后摆属小肠经；颈部大筋外侧为大肠经，内侧为胃经。"
+        ],
+        "other_annotations": [
+          "第48页脚注①引《说文》《辞源》《灵枢·小针解》《灵枢·终始》及《针灸大成·三衢杨氏补泻》详释“迎随”。",
+          "第47页口述称“阳溪是足阳明胃经的经穴属火”，实为手阳明大肠经经火穴，照录并注。"
+        ],
+        "collation_notes": [
+          "第48页原络表述中提及“合谷”，注意原文第47页先言“阴经没有原穴，阳经才有，那大肠经的原穴，合谷”，此处将sp:li:p48a订正锚定于第47页原句。",
+          "ID `acupoint:li06:温溜` 与 `acupoint:li07:偏历` 沿用 Stage 1 样板已锚定标识符，按第48页经脉从远及近次序实为偏历（第6）在前、温溜（第7，偏历上两寸）在后。"
+        ],
+        "organizer_summary": [
+          "总领手阳明大肠经20穴及虚实诊治、四关、中风八大穴、捻转迎随等核心实操框架。"
+        ]
+      },
+      "open_questions": [
+        "第47页印作“阳溪是足阳明胃经的经穴属火”，疑为讲授口误或听录误植，依阳经五输实为手阳明大肠经经穴属火。",
+        "第51页称禾髎“左右各两个”，疑为口述指鼻下左右双侧两穴，未改动原文。",
+        "本章侧重穴位与临床理法讲授，未逐句引录《灵枢·经脉》大肠手阳明之脉古文循行全文。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "version": "2.0.0"
+    },
+    {
+      "id": "meridian:st",
+      "record_type": "meridian",
+      "canonical_name": "足阳明胃经",
+      "aliases": [
+        "胃经",
+        "ST"
+      ],
+      "chapter_id": "ch4",
+      "section_id": "ch4:s078",
+      "page_range": [
+        51,
+        65
+      ],
+      "zang_fu": "胃（《内经》谓仓廪之官、五味出焉，又云黄肠/黄土；胃为肾之关；与足太阴脾经相表里，募穴为任脉中脘）",
+      "yin_yang_five_element": "足阳明 · 阳土（多血多气；天然甜味入脾胃；阳经五输属性为金井、水荣、木俞、火经、土合）",
+      "flow_hour": "辰时（07:00–09:00，多血多气；教材明校“是辰时注此，书上写错了”；气血由头向下行至足趾）",
+      "pathway_source": "教材第四章六、足阳明胃经（p.51–65）先总论五味、胃为肾关、常人脉息及“一共四十五个穴道”，继自头面头维、下关、颊车、承泣、四白、巨髎、地仓、大迎讲至颈部人迎、水突、气舍，下胸腹缺盆、气户、库房、屋翳、膺窗、乳中（禁针灸）、乳根、不容、承满、（原文脱载梁门穴名而述中脘旁开两寸）、关门、太乙、滑肉门、天枢、外陵、大巨、水道、归来、气冲，再入下肢髀关、伏兔、阴市、梁丘、犊鼻、足三里、上巨虚、条口、下巨虚、丰隆、解溪、冲阳、陷谷、内庭，终于足次趾端厉兑；并附奇穴解穴与阑尾穴。",
+      "paired_meridian_id": "meridian:sp",
+      "acupoint_ids": [
+        "acupoint:st01:承泣",
+        "acupoint:st02:四白",
+        "acupoint:st03:巨髎",
+        "acupoint:st04:地仓",
+        "acupoint:st05:大迎",
+        "acupoint:st06:颊车",
+        "acupoint:st07:下关",
+        "acupoint:st08:头维",
+        "acupoint:st09:人迎",
+        "acupoint:st10:水突",
+        "acupoint:st11:气舍",
+        "acupoint:st12:缺盆",
+        "acupoint:st13:气户",
+        "acupoint:st14:库房",
+        "acupoint:st15:屋翳",
+        "acupoint:st16:膺窗",
+        "acupoint:st17:乳中",
+        "acupoint:st18:乳根",
+        "acupoint:st19:不容",
+        "acupoint:st20:承满",
+        "acupoint:st21:梁门",
+        "acupoint:st22:关门",
+        "acupoint:st23:太乙",
+        "acupoint:st24:滑肉门",
+        "acupoint:st25:天枢",
+        "acupoint:st26:外陵",
+        "acupoint:st27:大巨",
+        "acupoint:st28:水道",
+        "acupoint:st29:归来",
+        "acupoint:st30:气冲",
+        "acupoint:st31:髀关",
+        "acupoint:st32:伏兔",
+        "acupoint:st33:阴市",
+        "acupoint:st34:梁丘",
+        "acupoint:st35:犊鼻",
+        "acupoint:st36:足三里",
+        "acupoint:st37:上巨虚",
+        "acupoint:st38:条口",
+        "acupoint:st39:下巨虚",
+        "acupoint:st40:丰隆",
+        "acupoint:st41:解溪",
+        "acupoint:st42:冲阳",
+        "acupoint:st43:陷谷",
+        "acupoint:st44:内庭",
+        "acupoint:st45:厉兑"
+      ],
+      "five_shu_table": {
+        "well_metal_child": "acupoint:st45:厉兑",
+        "ying_water_xie_sub": "acupoint:st44:内庭",
+        "shu_wood": "acupoint:st43:陷谷",
+        "yuan": "acupoint:st42:冲阳",
+        "jing_fire_mother": "acupoint:st41:解溪",
+        "he_earth_ben": "acupoint:st36:足三里",
+        "luo": "acupoint:st40:丰隆",
+        "xi": "acupoint:st34:梁丘",
+        "mu_front": "acupoint:ren12:中脘"
+      },
+      "summary": "足阳明胃经属阳土、多血多气、辰时（07:00–09:00）流注，共45穴。依金水木火土定本穴足三里、母穴解溪、子穴厉兑（临床按“泻井当泻荣”改泻内庭）、俞穴陷谷、原穴冲阳、络穴丰隆、郄穴梁丘；专论乳中禁针灸、乳癌初期调治、腹四针、五穴四针、足三里补泻、条口透承山与糖尿病、导痰与导引。",
+      "source_spans": [
+        {
+          "span_id": "sp:st:p51",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p051",
+          "pdf_page": 51,
+          "printed_page": 51,
+          "chapter_path": "第四章 六、足阳明胃经",
+          "quote": "《内经》里面说：“胃者仓廪之官，五味出焉”，胃为黄肠。",
+          "quote_sha256": "79df2b4bce2d2db7b5a77e16dff3eec67514a17918703e1e0d295fc7172efff6",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:st:p52a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p052",
+          "pdf_page": 52,
+          "printed_page": 52,
+          "chapter_path": "第四章 1、头维穴",
+          "quote": "足阳明胃经一共四十五个穴道，它还不是最大的经络，最大的是膀胱经。",
+          "quote_sha256": "2f08a0e4a48a3f77915615f5c69e4e3d95e7a6a7b3dcf1cc944a4f5901b69915",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:st:p52b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p052",
+          "pdf_page": 52,
+          "printed_page": 52,
+          "chapter_path": "第四章 1、头维穴",
+          "quote": "厉兑、内庭、陷谷、冲阳、解溪、足三里，为井荣俞原经合。",
+          "quote_sha256": "40289d03482054e716a25c32af7b0ad2e8e0d39154ac786cd41004960b9ad456",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:st:p52c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p052",
+          "pdf_page": 52,
+          "printed_page": 52,
+          "chapter_path": "第四章 1、头维穴",
+          "quote": "胃经，是多血多气的。是辰时注此，书上写错了。",
+          "quote_sha256": "0ecdf6e993113a7dff518ae5460419537906d35753422c897c26a67814ae2b95",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:st:p54",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p054",
+          "pdf_page": 54,
+          "printed_page": 54,
+          "chapter_path": "第四章 6、乳中穴与乳根穴",
+          "quote": "乳中禁针也禁灸。",
+          "quote_sha256": "ddaa7d63daaf2836a81901b3f43862ce1ad04ff3f49c8e6540fb5a11b5e69750",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:st:p59",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p059",
+          "pdf_page": 59,
+          "printed_page": 59,
+          "chapter_path": "第四章 10、髀关穴至梁丘穴",
+          "quote": "梁丘是足阳明胃经的郄穴",
+          "quote_sha256": "ea59c07528e9188e75f93169cb68c2df96245f9c1553e4721730676d74945175",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:st:p60",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p060",
+          "pdf_page": 60,
+          "printed_page": 60,
+          "chapter_path": "第四章 11、足三里穴：胃经合穴",
+          "quote": "足三里是胃经的合穴",
+          "quote_sha256": "a3d2322badd2172ce276bd1ab2aa3f7d9495dfd8c56edead95268ed964b2dc5c",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:st:p63",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p063",
+          "pdf_page": 63,
+          "printed_page": 63,
+          "chapter_path": "第四章 15、解溪穴与冲阳穴",
+          "quote": "解溪是胃经的母穴。",
+          "quote_sha256": "5a52634d9e849fcbb1b459a3e5e242faf1811e62e0ba84debf94e4ed9c65af61",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:st:p64a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p064",
+          "pdf_page": 64,
+          "printed_page": 64,
+          "chapter_path": "第四章 15、解溪穴与冲阳穴",
+          "quote": "冲阳穴是胃经的原穴。",
+          "quote_sha256": "e4ba01326ffa51f18ee357f5c60d63d56d87b454510deff9a2b5f7ef9e1430c5",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:st:p64b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p064",
+          "pdf_page": 64,
+          "printed_page": 64,
+          "chapter_path": "第四章 16、陷谷、内庭与厉兑穴",
+          "quote": "厉兑本身是子穴",
+          "quote_sha256": "a12e23cb62c33208b0f4a4b3e301b5cec74769172365bb673882b93e0184c2b0",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:st:p64c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p064",
+          "pdf_page": 64,
+          "printed_page": 64,
+          "chapter_path": "第四章 16、陷谷、内庭与厉兑穴",
+          "quote": "所以我们有个法则，叫做“补井当补合，泻井当泻荣”。",
+          "quote_sha256": "b56b8a3eb00f1ed7b838a54097b73fa5d4ad5cd16ae8dd1fd97ad82f363ff059",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《内经》“胃者仓廪之官，五味出焉”（p.51）；“补井当补合，泻井当泻荣”（p.64）；“井主心下满”（p.65）。",
+          "转引《针灸大成》卷八第十二页、第二十页：胃经五输表及发狂奔走、登高而歌、弃衣而走、见鬼好笑等证（p.52, 64–65）。"
+        ],
+        "ni_teaching": [
+          "正色校出第52页古本时辰误植：“是辰时注此，书上写错了”；并指胃气脉候于右手关部及足背冲阳脉，冲阳在则胃气存。",
+          "阐明“胃是肾之关”，肾水反土（尿毒症）则现极度晕眩与恶心呕吐，非单纯胃病。",
+          "五输应用完整落地：厉兑虽为本位子穴，因在趾端井穴不便重泻，故依“泻井当泻荣”改用荣穴内庭；陷谷主辰时定时病与晨起脸肿；冲阳诊胃气兼治虚实。",
+          "胸腹任脉旁开寸数勘误：指出自不容至天枢实际均为任脉外开二寸（《大成》部分处误载三寸）。"
+        ],
+        "other_annotations": [
+          "第64页脚注①标注：“① 视频作子穴”，校订正文“内庭穴变成足阳明胃经的母穴”之误字。"
+        ],
+        "collation_notes": [
+          "第52页明言共45穴，然第57页承满之后径言“从中脘穴把图放大……关门、太乙、滑肉门”，正经第21穴“梁门”穴名在整理本文字中缺载，已专列为 `pending` 校勘锚点。",
+          "第54页讲及“乳房有足阳明胃经通过它，足太阴肝经也通过它”，依经脉属性实应为足厥阴肝经，留录原话并予校注。"
+        ],
+        "organizer_summary": [
+          "全书头面、胸乳、胃肠腹证及下肢要穴最繁富之经脉，打通乳癌早期调治、消渴糖尿病、膝关节炎、盲肠炎与急症心梗井穴诊治。"
+        ]
+      },
+      "open_questions": [
+        "第57页中脘旁开两寸（正经第21穴“梁门”）在整理本文字脱漏穴名，待对照视频原文或《针灸大成》补录。",
+        "第63页未见明言“丰隆为胃经络穴”整句（该页重在“丰隆穴是很有名的导痰穴”），其作为胃经络穴之统表待第五章十五络穴段落互校印证。",
+        "第54页“足太阴肝经”系“足厥阴肝经”之笔/口误；第64页“内庭母穴”据脚注实作子穴（泻井当泻荣代穴）。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "version": "2.0.0"
+    },
+    {
+      "id": "meridian:sp",
+      "record_type": "meridian",
+      "canonical_name": "足太阴脾经",
+      "aliases": [
+        "脾经",
+        "SP",
+        "水道（p.72讲义称呼）"
+      ],
+      "chapter_id": "ch4",
+      "section_id": "ch4:s102",
+      "page_range": [
+        65,
+        76
+      ],
+      "zang_fu": "脾（中医将脾脏与甜肉即胰脏合并论治；《黄帝内经》谓“谏议之官”）；脾主四肢、主肌肉、主少腹（肚脐以下）、主味觉、开窍在唇、在变动为哕（打嗝）、脾统血并主运化五色营养入五脏、主湿热；与足阳明胃经相表里（脾为里主荣主血，胃为表主卫主气，随呼吸横膈上下互相挤压推动）；后天之本（肾为先天之本）。",
+      "yin_yang_five_element": "足太阴 · 阴土（五行属土，土生万物；天然甘味如麦芽糖、蔗糖入脾胃，黄色入脾；五声宫音，练功吐纳作“呼”口形吹尽气后提肛提谷道发无声内劲以动脾排毒，得当则头瞑眩为效；七情思伤脾，思虑重则伤脾失味觉）。",
+      "flow_hour": "巳时（09:00–11:00，气血自足阳明胃经厉兑进入足大趾隐白，循经上行至腋下大包，再交入手少阴心经极泉）。",
+      "pathway_source": "教材第四章第七节（p.65–76）逐穴讲授足太阴脾经共二十一穴：起于足大趾内侧隐白（附奇穴三毛），经大都、太白、公孙、商丘上内踝，循小腿内侧三阴交、漏谷、地机、阴陵泉（三皇穴），上股内侧血海（附奇穴百虫窝）、箕门，入腹冲门、府舍、腹结、大横、腹哀，上胸肋食窦、天溪、胸乡、周荣，终于侧胸腋下大包（脾之大络）；全经在制水治水肿语境下亦被称为“水道”（p.72）。",
+      "paired_meridian_id": "meridian:st",
+      "acupoint_ids": [
+        "acupoint:sp01:隐白",
+        "acupoint:sp02:大都",
+        "acupoint:sp03:太白",
+        "acupoint:sp04:公孙",
+        "acupoint:sp05:商丘",
+        "acupoint:sp06:三阴交",
+        "acupoint:sp07:漏谷",
+        "acupoint:sp08:地机",
+        "acupoint:sp09:阴陵泉",
+        "acupoint:sp10:血海",
+        "acupoint:sp11:箕门",
+        "acupoint:sp12:冲门",
+        "acupoint:sp13:府舍",
+        "acupoint:sp14:腹结",
+        "acupoint:sp15:大横",
+        "acupoint:sp16:腹哀",
+        "acupoint:sp17:食窦",
+        "acupoint:sp18:天溪",
+        "acupoint:sp19:胸乡",
+        "acupoint:sp20:周荣",
+        "acupoint:sp21:大包"
+      ],
+      "five_shu_table": {
+        "well_wood": "acupoint:sp01:隐白",
+        "ying_fire_mother": "acupoint:sp02:大都",
+        "shu_earth_ben_yuan": "acupoint:sp03:太白",
+        "jing_metal_child": "acupoint:sp05:商丘",
+        "he_water": "acupoint:sp09:阴陵泉",
+        "luo": "acupoint:sp04:公孙",
+        "da_luo": "acupoint:sp21:大包",
+        "xi": "acupoint:sp08:地机"
+      },
+      "summary": "足太阴脾经共21穴（p.65–76），巳时（09:00–11:00）流注，为谏议之官、后天之本，主肌肉四肢少腹与统血运化；依阴经木火土金水定隐白（井木）、大都（荣火·母）、太白（俞土·本/代原）、商丘（经金·子）、阴陵泉（合水），兼设络穴公孙（主冲脉，另p.71亦称漏谷为脾经络穴）、郄穴地机、大络大包及奇穴三毛、百虫窝。",
+      "source_spans": [
+        {
+          "span_id": "sp:meridian:sp:p65",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p065",
+          "pdf_page": 65,
+          "printed_page": 65,
+          "chapter_path": "第四章 七、足太阴脾经",
+          "quote": "下面介绍脾经。足太阴脾经。",
+          "quote_sha256": "bbb514b70c38f2494f5e1e9e9067ae475161e368aac21e8f72fad43039747f7a",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:sp:p66a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p066",
+          "pdf_page": 66,
+          "printed_page": 66,
+          "chapter_path": "第四章 1、谏议之官：脾脏",
+          "quote": "脾脏跟胃相表里。胃是表，脾是里。",
+          "quote_sha256": "4e04b66eddd7a075086bcc194a72b29546eb23eaaf059e46a4dd1aee94735a71",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:sp:p66b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p066",
+          "pdf_page": 66,
+          "printed_page": 66,
+          "chapter_path": "第四章 1、谏议之官：脾脏",
+          "quote": "脾脏按《黄帝内经》来说是“谏议之官”",
+          "quote_sha256": "355daf2721f0395622f782fb1848f4582994ca710161702228753929dd905f33",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:meridian:sp:p66c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p066",
+          "pdf_page": 66,
+          "printed_page": 66,
+          "chapter_path": "第四章 1、谏议之官：脾脏",
+          "quote": "那脾脏主四肢，四肢的问题通通是脾脏在管。",
+          "quote_sha256": "fd77fcae779824613e9ae374d52535590009085270e4f2fadd79cc58fd5a3f10",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:sp:p68a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p068",
+          "pdf_page": 68,
+          "printed_page": 68,
+          "chapter_path": "第四章 3、大都穴与太白穴",
+          "quote": "所以大都穴，就是脾经的母穴",
+          "quote_sha256": "8562e723dbb3396998600651d0ed0995b6eceaabbe1893ecd276c2b7c5c65d0b",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:sp:p68b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p068",
+          "pdf_page": 68,
+          "printed_page": 68,
+          "chapter_path": "第四章 3、大都穴与太白穴",
+          "quote": "太白穴是脾经的俞穴。俞穴第一个，按时间发的病，脾是早上九点到十一点，气血是在这两个小时走在脾。",
+          "quote_sha256": "2133d3ddffd689458f0bde320af9626e6d099972d94f00a94bccc323ae7eb96e",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:sp:p69",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p069",
+          "pdf_page": 69,
+          "printed_page": 69,
+          "chapter_path": "第四章 5、商丘穴与对称治疗法",
+          "quote": "商丘穴是经穴，脾经的经穴。木火土金水，所有阴经的经穴都是金，脾经是多土，土生金嘛，所以这是它的子穴。",
+          "quote_sha256": "2c0ed25818cbd2724c1ba85224f15cb24caa673fc9bb7e55aba6481a5956c5a4",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:sp:p75",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p075",
+          "pdf_page": 75,
+          "printed_page": 75,
+          "chapter_path": "第四章 15、全身脉络之主管：大包穴",
+          "quote": "大包穴是脾之大络，络是联络的意思。脏腑之间不能沟通时，要大包让他协调。",
+          "quote_sha256": "62626dfbff2a936fd7b1d409dbefeeb9b56fa8b0027511d51422054af52134bd",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:sp:p76",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p076",
+          "pdf_page": 76,
+          "printed_page": 76,
+          "chapter_path": "第四章 15、全身脉络之主管：大包穴",
+          "quote": "脾经到了大包穴，是脾经的终点。",
+          "quote_sha256": "a534b0f574830f52da44c9f0dcb2b7ea2796db41bb7ed340b61a3bb880e76292",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "引《黄帝内经》“谏议之官”；引《针灸大成》公孙“实则肠中切痛，泻之。虚则鼓胀，补之”（p.66、69）。",
+          "第72页脚注①引《灵枢·九针十二原》“所出为井……所入为合”及“阴经以输出为原”总表。"
+        ],
+        "ni_teaching": [
+          "脾胃合胰（甜肉）：呼吸横膈推压令脾胃一充一瘪互动；分辨肺津“唾”与脾胃“涎”（中风口流甜涎不酸，胃津乃酸 p.66）。",
+          "味重入血分（脾）、味淡入气分（胃）；天然甘味补脾胃，人工精炼糖口甜入胃变酸（木克土），咖啡味厚重且酸直击脾血分致胰脏癌（p.66–67）。",
+          "不断打嗝（哕）三四日至嗝不出气为脾胃气绝危候；实虚可从“绷紧为实、松弛为虚”“痛多酸少先泻后补，酸多痛少先补后泻”及辰时（09:00–11:00）精力盛衰辨证（p.67–69, 76）。",
+          "囊括中风预兆（手前三指麻六月内、足阳明经麻两周内急灸足三里）、蛔虫症诊断（唇龈白点、眼白蓝点、夜肛痒、百虫窝压痛）、三皇穴强土制水消水肿、痛经三穴与腹部各经排布（p.66–74）。"
+        ],
+        "other_annotations": [
+          "第72页脚注①（校勘注）录十二经五俞穴全表，原注存在三处印刷错字：心包经“间便”（当为间使）、三焦经“中诸”（当为中渚）、胃经“后溪”（当为解溪）。"
+        ],
+        "collation_notes": [
+          "第69页称公孙为“脾经的络穴”，第71页又言漏谷“本身是脾经的络穴”；双记并存，公孙为传统十五络穴并主冲脉。",
+          "第69页“脾经是多土”系口语或“属土”听写微异；第74页“太阳经的天枢穴”系“阳明经的天枢穴”听写之误；第73页百虫窝谓“血海往下一寸”（详见百虫窝条）；第73页“二阴交”系“三阴交”误植。"
+        ],
+        "organizer_summary": [
+          "足太阴脾经完整收编21正经穴及三毛、百虫窝2奇穴，衔接胃经末段气血与手少阴心经，打通水肿、妇科痛经、蛔虫、黄疸及乳腺经络鉴别五大临床主轴。"
+        ]
+      },
+      "open_questions": [
+        "教材第69页（公孙）与第71页（漏谷）均称“脾经的络穴”，第69页讲解足阳明原络配穴时先言冲阳后又口误提及“足三里为原穴”，均已忠实记录以备与第五章原络篇对照核订。",
+        "脾之募穴“章门”归属足厥阴肝经（第149页），待肝经批次审校后在图谱中补连脾之俞募（脾俞+章门）。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "meridian:ht",
+      "record_type": "meridian",
+      "canonical_name": "手少阴心经",
+      "aliases": [
+        "心经",
+        "HT"
+      ],
+      "chapter_id": "ch4",
+      "section_id": "ch4:s121",
+      "page_range": [
+        76,
+        81
+      ],
+      "zang_fu": "心（“君主之官”，其脏坚固不能容邪，容邪则死，一般病变都在心包膜；心脏不受癌症；心藏神——比喻心中一滴血，失神则易生轻生之念；其华在面——两颊赤红为心实、苍白为心虚；心主汗；心主喜，恐能胜喜；心与小肠相表里，借中央大血管移热于小肠，心与小肠同温同压同速，心脏实则主掌人体体重、腰围与脂肪燃烧）。",
+      "yin_yang_five_element": "手少阴 · 阴火（五行属火，阴经阴火；五音徵声，练功撞墙发“喝”音清动脉阻塞；五志为喜，恐为肾水能胜喜火，如范进中举以恐治过喜）。",
+      "flow_hour": "午时（11:00–13:00，心开午时，气血自足太阴脾经大包交入极泉，下行至小指内侧少冲交手太阳小肠经）。",
+      "pathway_source": "教材第四章第八节（p.76–81）载：手少阴心经为全身穴道最少之经，共九穴：起于腋窝极泉，经青灵、肘内少海，沿前臂尺侧筋内侧依次每差半寸走灵道、通里、阴郄、神门，入掌心少府（手解穴），终于手小指内侧指甲旁少冲，交接手太阳小肠经。",
+      "paired_meridian_id": "meridian:si",
+      "acupoint_ids": [
+        "acupoint:ht01:极泉",
+        "acupoint:ht02:青灵",
+        "acupoint:ht03:少海",
+        "acupoint:ht04:灵道",
+        "acupoint:ht05:通里",
+        "acupoint:ht06:阴郄",
+        "acupoint:ht07:神门",
+        "acupoint:ht08:少府",
+        "acupoint:ht09:少冲"
+      ],
+      "five_shu_table": {
+        "well_wood": "acupoint:ht09:少冲",
+        "ying_fire_ben": "acupoint:ht08:少府",
+        "shu_earth_child": "acupoint:ht07:神门",
+        "jing_metal": "acupoint:ht04:灵道",
+        "he_water_mother": "acupoint:ht03:少海",
+        "luo": "acupoint:ht05:通里",
+        "xi": "acupoint:ht06:阴郄"
+      },
+      "summary": "手少阴心经共9穴（p.76–81），午时（11:00–13:00）主令，为君主之官；心主神明、主汗、主喜、移热小肠并管体重腰围，依“补井当补合”取合水少海作母穴、神门为子穴、少府为本穴兼“手解穴”及心脏急救要穴，通里为络、阴郄为郄，并传授撞墙发“喝”音非置入性清除动脉血管阻塞法。",
+      "source_spans": [
+        {
+          "span_id": "sp:meridian:ht:p76a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p076",
+          "pdf_page": 76,
+          "printed_page": 76,
+          "chapter_path": "第四章 八、手少阴心经",
+          "quote": "心开午时，午时是早上十一点到下午一点。",
+          "quote_sha256": "498600988921df55e69ae19e08e893f7377eac91abe1de3cf3c4514a8c48ad97",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:ht:p76b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p076",
+          "pdf_page": 76,
+          "printed_page": 76,
+          "chapter_path": "第四章 1、君主之官：心脏",
+          "quote": "心脏本身是“君主之官”，它本身不受病。心脏会有病，依中医的观念，是心包膜有病，病都在心包上面",
+          "quote_sha256": "9703f06ca4592e209e5e64c022b93b8608d217a0ca7f0bcb43c8c53b5406fa9d",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:ht:p77a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p077",
+          "pdf_page": 77,
+          "printed_page": 77,
+          "chapter_path": "第四章 1、君主之官：心脏",
+          "quote": "中医认为心藏神。简单解释，心中有一滴血。",
+          "quote_sha256": "41ca34688a283aea6f680eb6ac833043b22a24a8e997ef181eb9554ef07a6bd3",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:ht:p77b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p077",
+          "pdf_page": 77,
+          "printed_page": 77,
+          "chapter_path": "第四章 非置入性治疗清除动脉血管阻塞",
+          "quote": "那我现在表演撞墙的动作，同时发出来的声音是“喝”，就可以把心脏动脉血管的堵塞打通。",
+          "quote_sha256": "5b3b9ab11fd02cd9e339e5615502d82af8f59f73a128786a46cb77c2aa801ee8",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:ht:p78",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p078",
+          "pdf_page": 78,
+          "printed_page": 78,
+          "chapter_path": "第四章 2、极泉穴与青灵穴",
+          "quote": "我们全身上下穴道最少的就是心经。心主喜。",
+          "quote_sha256": "812add0ab1e7b912716e9360e819e91685b4513fec216408f6263676e62bb33f",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:ht:p79",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p079",
+          "pdf_page": 79,
+          "printed_page": 79,
+          "chapter_path": "第四章 3、母穴：少海穴",
+          "quote": "因此少海穴是心经的母穴，像心脏的虚症，就取它的母，当心气太过而不能睡觉，心气不足也不能睡觉。",
+          "quote_sha256": "7a8d0cb112255a56dcf45f7117377f4f67d723790c0ca23dc851f297c21a9eab",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:ht:p80a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p080",
+          "pdf_page": 80,
+          "printed_page": 80,
+          "chapter_path": "第四章 5、少府与少冲穴",
+          "quote": "“心脏其脏坚固，不能容邪，容邪则死”。",
+          "quote_sha256": "88dbad3a65991996dabb1da0f7101be86acbbc323cceb50c50650c5970d83195",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:meridian:ht:p80b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p080",
+          "pdf_page": 80,
+          "printed_page": 80,
+          "chapter_path": "第四章 5、少府与少冲穴",
+          "quote": "少府穴是心经的本穴",
+          "quote_sha256": "3bb2b6d0f1b5ba8b9ac93b9c2610777eaa65451bdeea84d550118ccb3ea16654",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:ht:p81",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p081",
+          "pdf_page": 81,
+          "printed_page": 81,
+          "chapter_path": "第四章 5、少府与少冲穴",
+          "quote": "心经只有九个穴道，是阴火。小肠经是阳火，而心跟小肠相表里，小肠的问题可以在心经上面治，同样心的问题可以在小肠经上治",
+          "quote_sha256": "eb26f4c8c3661fe22094631f5a73f55565d2129f352156b0064806e491a21fec",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "引《针灸大成》卷八第二十九页“心脏其脏坚固，不能容邪，容邪则死”（p.80）；引“心虚补之”（p.81）。"
+        ],
+        "ni_teaching": [
+          "心脏瓣膜闭锁不全以塑料盒与盒盖压力变化作喻，批评贸然换猪瓣膜/人工瓣膜改变原结构反令中医后续减压治疗后不合（p.76）。",
+          "失眠辨证：整夜不易入睡且无黄疸喘咳属心脏问题（对照子时胆、丑时肝、寅时肺定时醒来 p.76–77）；并警惕安眠药、抗忧郁药伤心致“失神”反增微笑轻生风险（p.77）。",
+          "强心减肥机理：心脏借血管热力移热小肠燃烧脂肪，西药减肥药代心烧脂反令心脏怠工受损（p.77）。",
+          "五行本穴与生克急救顺序：肝克脾土时先强土壮水“到此为止”，再复相生（p.80–81）；“补井当补合”令少海实任心经母穴（p.78–79）。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "第78页“这叫征声”即五音之“徵”声（同页上段作“徵”），听写简繁混用保留原貌。"
+        ],
+        "organizer_summary": [
+          "全书心脏生理病理最浓缩的一节，串联手少阴9穴与心包膜、小肠、精神睡眠、肥胖及心血管急救五大议题。"
+        ]
+      },
+      "open_questions": [
+        "第77–78页“非置入性撞墙清除动脉血管阻塞”专教练功吐纳“喝”音撞3–7椎法，尚待与第四章心俞、巨阙、天突（p.31–32、95–96）及第六章胸痛治症（p.178–179）联合归并成完整心血管针灸治法网络。"
+      ],
+      "risk_level": "emergency",
+      "safety_warning": "【急症及高风险警示】本条目涉及昏迷急救、肿瘤、大出血、癫痫/重症等急重情况，严禁个人延误就医或自行施治，仅供专业医疗教学与原文文献研究参考。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "meridian:si",
+      "record_type": "meridian",
+      "canonical_name": "手太阳小肠经",
+      "aliases": [
+        "小肠经",
+        "SI"
+      ],
+      "chapter_id": "ch4",
+      "section_id": "ch4:s128",
+      "page_range": [
+        81,
+        88
+      ],
+      "zang_fu": "小肠（《内经》谓“受盛之官，化物出焉”；赤肠，在胃之下口，泌别清浊、水谷于是分焉）；小肠属阳火，热能自心脏移热而来（p.70、81）；小肠之火在大肠下烧煮使水气化回流肺脏为口中唾液，同时加热紧贴之膀胱使尿液二次气化膨胀，经三焦油网渗出洁净之水入肝以“水生木”；若小肠冷则少腹冷、静脉与脚冰冷、月经淡而不化、膀胱冷而小便不出或冷水频尿（p.70–71, 81–82）。",
+      "yin_yang_five_element": "手太阳 · 阳火（五行属火，阳经阳火；阳经五俞按金水木火土排列：井金、荣水、俞木、经火、合土）。",
+      "flow_hour": "未时（13:00–15:00，气血自手少阴心经少冲交入手太阳小肠经少泽，上行经前臂、肘、肩背、颈颊至耳前听宫；临床见午饭后13:00–15:00犯困打瞌睡属小肠偏虚之时症，依《甲乙经》取俞穴后溪或师传荣穴前谷）。",
+      "pathway_source": "教材第四章第九节（p.81–88）逐穴讲授手太阳小肠经共十九穴：起于手小指尺侧少泽，循前谷、后溪、腕骨、阳谷、养老、支正、小海，上肩背肩贞、臑腧、天宗、秉风、曲垣、肩外俞、肩中俞，再循颈侧天窗、天容、面颊颧髎，终于耳前骨缝听宫；下接足太阳膀胱经。",
+      "paired_meridian_id": "meridian:ht",
+      "acupoint_ids": [
+        "acupoint:si01:少泽",
+        "acupoint:si02:前谷",
+        "acupoint:si03:后溪",
+        "acupoint:si04:腕骨",
+        "acupoint:si05:阳谷",
+        "acupoint:si06:养老",
+        "acupoint:si07:支正",
+        "acupoint:si08:小海",
+        "acupoint:si09:肩贞",
+        "acupoint:si10:臑腧",
+        "acupoint:si11:天宗",
+        "acupoint:si12:秉风",
+        "acupoint:si13:曲垣",
+        "acupoint:si14:肩外俞",
+        "acupoint:si15:肩中俞",
+        "acupoint:si16:天窗",
+        "acupoint:si17:天容",
+        "acupoint:si18:颧髎",
+        "acupoint:si19:听宫"
+      ],
+      "five_shu_table": {
+        "well_metal": "acupoint:si01:少泽",
+        "ying_water": "acupoint:si02:前谷",
+        "shu_wood_mother": "acupoint:si03:后溪",
+        "yuan": "acupoint:si04:腕骨",
+        "jing_fire_ben": "acupoint:si05:阳谷",
+        "he_earth_child": "acupoint:si08:小海",
+        "luo": "acupoint:si07:支正",
+        "xi": "acupoint:si06:养老"
+      },
+      "summary": "手太阳小肠经共19穴（p.81–88），未时（13:00–15:00）流注，为受盛之官、阳火之经；主受心热气化水谷、大肠唾液与膀胱三焦气化；五俞以少泽为井、前谷为荣（水）、后溪为俞（木·母穴兼统督脉）、腕骨为原穴、阳谷为经（火·本穴）、小海为合（土·子穴），支正为络、养老为郄（透间使治扭毛巾痛），并附臂后奇穴肠关、肝关、心关及听宫配干燥散剂治耳鸣耳脓法。",
+      "source_spans": [
+        {
+          "span_id": "sp:meridian:si:p81a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p081",
+          "pdf_page": 81,
+          "printed_page": 81,
+          "chapter_path": "第四章 九、手太阳小肠经",
+          "quote": "《内经》上说小肠是“受盛之官，化物出焉”。",
+          "quote_sha256": "ddd143a63ebcbb514400e6fb5a52162bd21b9e08ac499a53828b22e6262ead09",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:meridian:si:p81b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p081",
+          "pdf_page": 81,
+          "printed_page": 81,
+          "chapter_path": "第四章 九、手太阳小肠经",
+          "quote": "手太阳小肠经，它流注的时间为下午一点到三点。",
+          "quote_sha256": "7912e82fbfa1f4b577d8cc12f946a62eaccfcb2e38e9865c21953aa6f7837110",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:si:p81c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p081",
+          "pdf_page": 81,
+          "printed_page": 81,
+          "chapter_path": "第四章 1、受盛之官：小肠",
+          "quote": "《黄帝内经》说，心脏移热给小肠。这写的很好，转移的移，移转心脏的热到小肠。",
+          "quote_sha256": "e293ad63e544d0030147dfcf388d028a2a76f23db782c7d6927e3547f3080595",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:meridian:si:p82a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p082",
+          "pdf_page": 82,
+          "printed_page": 82,
+          "chapter_path": "第四章 2、少泽穴与前谷穴",
+          "quote": "小肠经一共有十九个穴道，用到地方非常多。",
+          "quote_sha256": "3f2874a871811207d2a85f9c187a0409a7885d8332671046dba9d14a5e91c77c",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:si:p83a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p083",
+          "pdf_page": 83,
+          "printed_page": 83,
+          "chapter_path": "第四章 3、后溪穴",
+          "quote": "后溪穴除了管督脉以外，本身又是小肠经的母穴",
+          "quote_sha256": "e8df7cd034a93e7245ef04176ea0742776df47c5a4d3e6c093f6c0dbeac20f7c",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:si:p83b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p083",
+          "pdf_page": 83,
+          "printed_page": 83,
+          "chapter_path": "第四章 4、腕骨穴与阳谷穴",
+          "quote": "腕骨穴是小肠经的原穴。我们阳经都有原穴，阴经没有原穴。",
+          "quote_sha256": "3e52f4d772b190b015f9f209ef7d5b117782d18d7420b2108d71f48ff6f718ab",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:si:p83c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p083",
+          "pdf_page": 83,
+          "printed_page": 83,
+          "chapter_path": "第四章 4、腕骨穴与阳谷穴",
+          "quote": "阳谷穴是我们的经穴，属火，阳谷也是小肠经的本穴。",
+          "quote_sha256": "2a6cd0d104b4b673cbe6c934faf9560ec17da40540fbac60d91b58c0100a3d39",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:si:p85",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p085",
+          "pdf_page": 85,
+          "printed_page": 85,
+          "chapter_path": "第四章 7、支正穴与小海穴",
+          "quote": "小海穴是小肠经的合穴，也就是小肠经的子穴。",
+          "quote_sha256": "9ba9685bd1bd8c14911eacbbbe354d3836c6d7cc1aaa962af0ff23d1e4314b1f",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:meridian:si:p87",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p087",
+          "pdf_page": 87,
+          "printed_page": 87,
+          "chapter_path": "第四章 12、听宫穴（耳鸣耳脓中耳炎）",
+          "quote": "我们有三条经，三焦经、小肠经、胆经经过我们耳朵里面。正中间是听宫穴，就是小肠经的经过。",
+          "quote_sha256": "ede2c74d45135ce31221f75ce0929be8fba71ffe04b59b797634d2025e7b4fd9",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "引《内经》“受盛之官，化物出焉”及“心脏移热给小肠”；引古书“水谷于是分焉”“泌别清浊，渗入膀胱，渣碎流入大肠”（p.81）。",
+          "引《针灸甲乙经》未时（13:00–15:00）发病用俞穴（p.81）。"
+        ],
+        "ni_teaching": [
+          "澄清“膀胱有上口”千年聚讼：活体因小肠热令膀胱尿液气化膨胀，水经三焦油网洁化入肝（水生木），死尸无小肠热故不见上口，并举猪膀胱吹气助少女解尿案（p.81–82）。",
+          "与第70–71页互补说明小肠温度异常则腹部冷、脚冰冷、月经色淡不化（或过热焦黑）及膀胱冷水频尿闭癃。",
+          "确立手太阳经四肢要穴及肩背定位鉴别法（肩前大肠、肩中三焦、肩后小肠，取远端对侧子海或母后溪一针即效，反对盲目乱扎几十针 p.85–86）。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "第82页少泽节先言阳经五俞“金水木火土”，后半句却口述“因阳经的关系是火，所以少泽穴是小肠经的本穴”，然第83页已明确“阳谷穴是经穴，属火，也是小肠经的本穴”；少泽按金水木火土实为井金。",
+          "第82页“前谷穴是心经的荣穴”为“小肠经的荣穴”口误/转录笔误；第83页腕骨条先口述“这个腕骨是小肠经的经穴”后又紧接言“所以腕骨穴是小肠经的原穴”且下文阳谷方为经穴。",
+          "第86页讲授顺序先言曲垣、再言秉风，而标准穴序秉风为SI12、曲垣为SI13；本库保持标准编号并如实加注。",
+          "第85页、目录及索引全书均作“臑腧”（通用标准字作“臑俞”）。"
+        ],
+        "organizer_summary": [
+          "手太阳小肠经19正经穴与臂后3奇穴全录，完整连接心火—小肠气化—膀胱三焦生理链与督脉/手肘/肩背/耳疾临床体系。"
+        ]
+      },
+      "open_questions": [
+        "第82页少泽“本穴/属火”口误与第83页阳谷“经火/本穴”之间在整理中已据金水木火土定阳谷为本穴、少泽为井金，两处原文并存备考。",
+        "第86页秉风（从曲垣旁开两寸）与传统经穴图谱中秉风、曲垣相对方位略有出入，尚待对照《针灸大成》铜人定位图校订。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "meridian:bl",
+      "record_type": "meridian",
+      "canonical_name": "足太阳膀胱经",
+      "aliases": [
+        "膀胱经",
+        "足太阳经",
+        "BL"
+      ],
+      "chapter_id": "ch4",
+      "section_id": "ch4:s141",
+      "page_range": [
+        88,
+        111
+      ],
+      "zang_fu": "膀胱（州都之官，津液藏焉，气化则能出焉；与小肠火相贴邻行二次气化，水生肝木；与足少阴肾经相表里）",
+      "yin_yang_five_element": "足太阳 · 阳水（阳经五输五行：金水木火土；传统歌诀归属“多血少气”）",
+      "flow_hour": "申时（15:00–17:00，小肠经未时之后、肾经酉时之前；传统作多血少气，本节pp.88–111重点讲申时流注与水火二次气化）",
+      "pathway_source": "教材第四章第十节（p.88–111）载：足太阳膀胱经共六十七穴，为全身最大、穴道最多之经络。起于眼内眦睛明，经攒竹、眉冲、曲差、五处、承光、通天、络却、玉枕至天柱循头项下行；背部自大杼起分两条并行：第一线（督脉外开一寸半）经风门、肺俞（三椎）直至白环俞（二十一椎）、八髎（上髎/次髎/中髎/下髎）与会阳；第二线（督脉外开三寸）经附分、魄户、膏肓、神堂、譩嘻、膈关、魂门、阳纲、意舍、胃仓、肓门、志室、胞肓至秩边；下循臀股后侧承扶、殷门、委阳、浮郄、委中，小腿合阳、承筋、承山、飞扬、跗阳、昆仑，足外侧仆参、申脉、金门、京骨、束骨、通谷，终于足小趾外侧至阴穴交足少阴肾经。",
+      "paired_meridian_id": "meridian:ki",
+      "acupoint_ids": [
+        "acupoint:bl01:睛明",
+        "acupoint:bl02:攒竹",
+        "acupoint:bl03:眉冲",
+        "acupoint:bl04:曲差",
+        "acupoint:bl05:五处",
+        "acupoint:bl06:承光",
+        "acupoint:bl07:通天",
+        "acupoint:bl08:络却",
+        "acupoint:bl09:玉枕",
+        "acupoint:bl10:天柱",
+        "acupoint:bl11:大杼",
+        "acupoint:bl12:风门",
+        "acupoint:bl13:肺俞",
+        "acupoint:bl14:厥阴俞",
+        "acupoint:bl15:心俞",
+        "acupoint:bl16:督俞",
+        "acupoint:bl17:膈俞",
+        "acupoint:bl18:肝俞",
+        "acupoint:bl19:胆俞",
+        "acupoint:bl20:脾俞",
+        "acupoint:bl21:胃俞",
+        "acupoint:bl22:三焦俞",
+        "acupoint:bl23:肾俞",
+        "acupoint:bl24:气海俞",
+        "acupoint:bl25:大肠俞",
+        "acupoint:bl26:关元俞",
+        "acupoint:bl27:小肠俞",
+        "acupoint:bl28:膀胱俞",
+        "acupoint:bl29:中膂俞",
+        "acupoint:bl30:白环俞",
+        "acupoint:bl31:上髎",
+        "acupoint:bl32:次髎",
+        "acupoint:bl33:中髎",
+        "acupoint:bl34:下髎",
+        "acupoint:bl35:会阳",
+        "acupoint:bl36:承扶",
+        "acupoint:bl37:殷门",
+        "acupoint:bl38:浮郄",
+        "acupoint:bl39:委阳",
+        "acupoint:bl40:委中",
+        "acupoint:bl41:附分",
+        "acupoint:bl42:魄户",
+        "acupoint:bl43:膏肓",
+        "acupoint:bl44:神堂",
+        "acupoint:bl45:譩嘻",
+        "acupoint:bl46:膈关",
+        "acupoint:bl47:魂门",
+        "acupoint:bl48:阳纲",
+        "acupoint:bl49:意舍",
+        "acupoint:bl50:胃仓",
+        "acupoint:bl51:肓门",
+        "acupoint:bl52:志室",
+        "acupoint:bl53:胞肓",
+        "acupoint:bl54:秩边",
+        "acupoint:bl55:合阳",
+        "acupoint:bl56:承筋",
+        "acupoint:bl57:承山",
+        "acupoint:bl58:飞扬",
+        "acupoint:bl59:跗阳",
+        "acupoint:bl60:昆仑",
+        "acupoint:bl61:仆参",
+        "acupoint:bl62:申脉",
+        "acupoint:bl63:金门",
+        "acupoint:bl64:京骨",
+        "acupoint:bl65:束骨",
+        "acupoint:bl66:通谷",
+        "acupoint:bl67:至阴"
+      ],
+      "five_shu_table": {
+        "well_metal_mother": "acupoint:bl67:至阴",
+        "ying_water_ben": "acupoint:bl66:通谷",
+        "shu_wood_child": "acupoint:bl65:束骨",
+        "yuan": "acupoint:bl64:京骨",
+        "jing_fire": "acupoint:bl60:昆仑",
+        "he_earth": "acupoint:bl40:委中",
+        "luo": "acupoint:bl58:飞扬",
+        "luo_bie": "acupoint:bl39:委阳",
+        "xi": "acupoint:bl63:金门",
+        "mu_front": [
+          "acupoint:ren03:中极"
+        ],
+        "back_shu_system": [
+          "acupoint:bl13:肺俞",
+          "acupoint:bl14:厥阴俞",
+          "acupoint:bl15:心俞",
+          "acupoint:bl16:督俞",
+          "acupoint:bl17:膈俞",
+          "acupoint:bl18:肝俞",
+          "acupoint:bl19:胆俞",
+          "acupoint:bl20:脾俞",
+          "acupoint:bl21:胃俞",
+          "acupoint:bl22:三焦俞",
+          "acupoint:bl23:肾俞",
+          "acupoint:bl24:气海俞",
+          "acupoint:bl25:大肠俞",
+          "acupoint:bl26:关元俞",
+          "acupoint:bl27:小肠俞",
+          "acupoint:bl28:膀胱俞",
+          "acupoint:bl29:中膂俞",
+          "acupoint:bl30:白环俞"
+        ]
+      },
+      "summary": "全身最大、穴道最多之阳经（67穴），申时（15:00–17:00）流注，传统属多血少气、五行属阳水。内应膀胱“州都之官”，受小肠火二次气化而上济肝木；背部双线统摄五脏六腑背俞穴体系（三椎肺俞至二十一椎白环俞，含八髎）；五输按阳经金水木火土定：至阴（井金真母/补井当补合以委中代母）、通谷（荣水本穴）、束骨（俞木子穴）、京骨（原穴）、昆仑（经火）、委中（合土兼血郄）、飞扬（正络）、委阳（别络）、金门（郄穴）。",
+      "source_spans": [
+        {
+          "span_id": "sp:bl:p88",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p088",
+          "pdf_page": 88,
+          "printed_page": 88,
+          "chapter_path": "第四章 十、足太阳膀胱经",
+          "quote": "膀胱经是最大、穴道最多的经络，要花点时间介绍。",
+          "quote_sha256": "fa229232864be6f98f3573274ff334692f2c05edd063a3ba881ade5ec2a53688",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:bl:p89a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p089",
+          "pdf_page": 89,
+          "printed_page": 89,
+          "chapter_path": "第四章 1、州都之官：膀胱",
+          "quote": "在《黄帝内经》里说，膀胱为“州都之官”，它是第二次气化才到这里来的。水道出焉，这个水道要气化才能出焉。书上写“气化则能出焉”",
+          "quote_sha256": "ba7cb3e27b8149ee81d3cc7f6e5ab8adbba803af478d3597340999905be1d649",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:bl:p89b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p089",
+          "pdf_page": 89,
+          "printed_page": 89,
+          "chapter_path": "第四章 1、州都之官：膀胱",
+          "quote": "足太阳膀胱经一共有六十七个穴道。",
+          "quote_sha256": "168c78791c2edddff19aaca23c2ac98c6ab773c4640a905070b6bffd55a15d37",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:bl:p93",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p093",
+          "pdf_page": 93,
+          "printed_page": 93,
+          "chapter_path": "第四章 5、大杼穴（专治骨病）",
+          "quote": "十二经络上，“肺寅大卯胃辰宫，脾巳心午小未中，申胱酉肾心包戌，亥焦子胆丑肝通”。",
+          "quote_sha256": "35e24f5e6536032e148f715701e912c500e09625b1b5563fcda861adfc4ca83a",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:bl:p99",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p099",
+          "pdf_page": 99,
+          "printed_page": 99,
+          "chapter_path": "第四章 13、肝俞与胆俞穴",
+          "quote": "第九椎以下依序是肝胆脾胃三焦肾。这一椎一椎的，全部是外开一寸半。",
+          "quote_sha256": "a476ebe20a914c9d3ad15a475bd54f2ed277b47ec49a1e5964cccde811cbf9c8",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:bl:p103",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p103",
+          "pdf_page": 103,
+          "printed_page": 103,
+          "chapter_path": "第四章 20、附分穴与魄户穴",
+          "quote": "膀胱经在上背部分两条。第一条是在督脉外开一寸半，另外一条是从督脉算外开三寸。",
+          "quote_sha256": "4c7861b5894aabfc6a6f8d55afd1f11a9cc43576186fe07dc4ac5bf5713ccf19",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:bl:p107",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p107",
+          "pdf_page": 107,
+          "printed_page": 107,
+          "chapter_path": "第四章 27、委中穴",
+          "quote": "水是子，金是母，所以膀胱经是水经，他的妈妈就是金，所以你可以看到任何阳经的井穴都是金。若你在膀胱经的井穴上补泻，这不是整人吗?所以我们按照原则，补井当补合，补的手法是遇到母穴是井穴的时候，因补井当补合，所以就补合穴。",
+          "quote_sha256": "04e1b1d501d21dda28e79487ea5cf38eeb5f16b50d9e7b58f190f7e3f9120755",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:bl:p109",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p109",
+          "pdf_page": 109,
+          "printed_page": 109,
+          "chapter_path": "第四章 28、承筋、承山、飞扬穴",
+          "quote": "飞扬是膀胱络穴，刚才那个络是别络，就是比较细的络，飞扬是络穴。",
+          "quote_sha256": "8438a92657b8131e78357c2d6972def086a2bc64a876a00f0e48f8e95f8254a5",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:bl:p110a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p110",
+          "pdf_page": 110,
+          "printed_page": 110,
+          "chapter_path": "第四章 30、仆参穴至京骨穴",
+          "quote": "金门是膀胱经的郄穴。",
+          "quote_sha256": "d5eaff1413f822ab205bb210faf31f260241f4b918acc0ba3b3a8734c0fabac1",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:bl:p110b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p110",
+          "pdf_page": 110,
+          "printed_page": 110,
+          "chapter_path": "第四章 30、仆参穴至京骨穴",
+          "quote": "京骨穴是膀胱经的原穴。",
+          "quote_sha256": "82c160ca54e7866ee260ec88ba095f75e4c116b2248478d7208edcb604cf0228",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:bl:p110c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p110",
+          "pdf_page": 110,
+          "printed_page": 110,
+          "chapter_path": "第四章 31、束骨穴",
+          "quote": "束骨穴是膀胱经的子穴，因为它又是膀胱经的俞穴，膀胱经的俞穴是木，木刚好是水的",
+          "quote_sha256": "86fed5cc9ca14dd6d36ea25d0b140e354e7be82bd03acb26b5ce47a626cab34e",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:bl:p111c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p111",
+          "pdf_page": 111,
+          "printed_page": 111,
+          "chapter_path": "第四章 31、束骨穴",
+          "quote": "母，他的穴性是木，所以束骨穴是膀胱经的子穴。",
+          "quote_sha256": "e2c084b9cbf839b936621fb3273140c57c59db63586a0b93f169cd954c9851c0",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:bl:p111a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p111",
+          "pdf_page": 111,
+          "printed_page": 111,
+          "chapter_path": "第四章 32、通谷穴与至阴穴",
+          "quote": "通谷穴是荣穴。膀胱经的井荣俞经合，是金水木火土，膀胱经本身是水，那荣穴也是水，因为它们属性相同，所以通谷是膀胱经的本穴。",
+          "quote_sha256": "12fdaaea4190a15186cf8bba5654d939c42966cf94848baedc0b110008da0c02",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:bl:p111b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p111",
+          "pdf_page": 111,
+          "printed_page": 111,
+          "chapter_path": "第四章 十一、足少阴肾经",
+          "quote": "膀胱经是申时，申时是下午三点到五点。五点钟以后，气血会进入肾经，首先是涌泉穴。",
+          "quote_sha256": "70ab15b808d545224f8b10e049b169457d284b2cc6a280b4398558952c272513",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《黄帝内经》：“膀胱者，州都之官，津液藏焉，气化则能出焉”（p.89作“州都之官”“气化则能出焉”）。",
+          "十二经流注歌：“肺寅大卯胃辰宫，脾巳心午小未中，申胱酉肾心包戌，亥焦子胆丑肝通。”（p.93）",
+          "“五脏气乱，天柱大杼，不补不泻”（引《针灸大成》东垣语，p.93）；“腰背委中求”（p.107）。"
+        ],
+        "ni_teaching": [
+          "膀胱受水有二道：一由肾经输尿管入，一由三焦油网渗透入（p.88、p.81）。肾与小肠相贴作第一次气化升脑，余液入膀胱贴小肠火作第二次气化，顶升至400cc产生蒸气压排尿，同时清液透出经三焦油网入肝以“水生木”（p.88–89）。",
+          "老年或寒证小肠火衰，水冷沉积膀胱底下致频尿、失禁、寒水养病毒肿瘤；治在灸中极、关元振小肠阳火（观脚冷热知小肠火盛衰，p.89）。",
+          "背俞穴体系与度骨法：督脉为中线，第一椎下陶道旁大杼（一寸半）、七椎肩胛骨底端连线旁膈俞、十四椎脐后命门旁肾俞为三大标尺；自三椎肺俞至二十一椎白环俞共十八对背俞（含督俞、气海俞、关元俞等），十四椎以上斜刺入肋间、以下直刺一寸半或隔姜灸。",
+          "阳经五俞五行“金水木火土”：井金至阴为真母穴，因“补井当补合”临床取合土委中代母穴行阳数（3/5/7/9）捻转补泻；荣水通谷为本穴，俞木束骨为子穴，京骨为原穴，昆仑为经火，飞扬为正络，委阳为别络，金门为郄穴。"
+        ],
+        "other_annotations": [
+          "第89页提到古医书因水色黑而称膀胱为“黑肠”，倪师评其不必斤斤计较，重在气化水火关系。",
+          "第103页脚注①标明视频原口述“膏肓”作“膏肓俞”。"
+        ],
+        "collation_notes": [
+          "传统歌诀“多血少气太阳经”属膀胱经标准气血属性；本教材第88–111页课堂听写录重点申明申时（15:00–17:00）流注及水火气化机制，未于该段正文直接口出“多血少气”四字，故于流注栏并注明出处。",
+          "第111页先口误称“至阴穴是膀胱经的子穴”，同段紧接即正为“所以膀胱经真正的母穴是至阴。但是，因为补井当补合，所以我们用委中来取代它”；由此亦可印证第171页称“委中是膀胱经的母穴”系从“补井当补合代用母穴”立言，并无矛盾。",
+          "第101页“第十五椎下气海穴”即经穴标准“气海俞”（bl24）；第104页“阳刚穴”即“阳纲”（bl48）；第99–100页“四花灸”标题与正文分别为“膈俞、肝俞”与“两个胆俞、膈俞”，均逐条留注。",
+          "第105–106页第25节末与第26节存在休息续讲重述殷门、委阳、浮郄之现象，保留不删。"
+        ],
+        "organizer_summary": [
+          "贯通膀胱水火气化生理、背俞双线诊断治疗体系及阳经补井当补合五俞推演三大支柱，全经67穴无缺录入。"
+        ]
+      },
+      "open_questions": [
+        "第111页论述“通谷是本穴”随举“无手者以足代手泻大肠经实症”时，原文一度口述“就扎对侧的束骨，束骨是水”，而同页前段明言束骨属木（子穴）、通谷属水（本穴），当以“通谷属水以金生水”理解或待核对原授课视频音画。",
+        "第99页标题作“四花灸（膈俞、肝俞）”而第100页正文作“两个胆俞，还有第七椎外开一寸半的膈俞”，与传统崔氏四花灸亦有差异，保留并列备考。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及背俞肋间斜刺、眼眶周边直进直出、点刺放血、火罐/烧针、艾灸百壮导热、孕妇禁针、肿瘤或传染病防护提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "meridian:ki",
+      "record_type": "meridian",
+      "canonical_name": "足少阴肾经",
+      "aliases": [
+        "肾经",
+        "KI"
+      ],
+      "chapter_id": "ch4",
+      "section_id": "ch4:s178",
+      "page_range": [
+        111,
+        120
+      ],
+      "zang_fu": "肾（作强之官，伎巧出焉；主骨、生髓、主记忆、其华在发、开窍在耳、在液为唾、主二便及呼吸引纳；与足太阳膀胱经相表里）",
+      "yin_yang_five_element": "足少阴 · 阴水（北方生寒、寒生水、水生咸；五音：羽声吹；其数六，其臭腐，其液唾）",
+      "flow_hour": "酉时（17:00–19:00，气血由足太阳膀胱经至阴接入涌泉，经足内踝、下肢内侧上腹旁开一寸、胸旁开二寸直上俞府）",
+      "pathway_source": "教材第四章十一节（p.111–120）载：酉时（下午五点至七点）气血自膀胱经进入肾经涌泉穴，循足内侧及内踝上行经然谷、太溪、大钟、水泉、照海、复溜、交信、筑宾至膝内阴谷；入腹自横骨起外开任脉一寸（与冲脉交会重叠）上行大赫、气穴、四满、中注、肓俞、商曲、石关、阴都、通谷、幽门；抵胸斜出外开任脉二寸（胃经与任脉之间，隔一肋一穴）经步廊、神封、灵墟、神藏、彧中，终于俞府，凡二十七穴。",
+      "paired_meridian_id": "meridian:bl",
+      "acupoint_ids": [
+        "acupoint:ki01:涌泉",
+        "acupoint:ki02:然谷",
+        "acupoint:ki03:太溪",
+        "acupoint:ki04:大钟",
+        "acupoint:ki05:水泉",
+        "acupoint:ki06:照海",
+        "acupoint:ki07:复溜",
+        "acupoint:ki08:交信",
+        "acupoint:ki09:筑宾",
+        "acupoint:ki10:阴谷",
+        "acupoint:ki11:横骨",
+        "acupoint:ki12:大赫",
+        "acupoint:ki13:气穴",
+        "acupoint:ki14:四满",
+        "acupoint:ki15:中注",
+        "acupoint:ki16:肓俞",
+        "acupoint:ki17:商曲",
+        "acupoint:ki18:石关",
+        "acupoint:ki19:阴都",
+        "acupoint:ki20:通谷",
+        "acupoint:ki21:幽门",
+        "acupoint:ki22:步廊",
+        "acupoint:ki23:神封",
+        "acupoint:ki24:灵墟",
+        "acupoint:ki25:神藏",
+        "acupoint:ki26:彧中",
+        "acupoint:ki27:俞府"
+      ],
+      "five_shu_table": {
+        "well_wood_child": "acupoint:ki01:涌泉",
+        "ying_fire": "acupoint:ki02:然谷",
+        "shu_earth_yuan": "acupoint:ki03:太溪",
+        "jing_metal_mother": "acupoint:ki07:复溜",
+        "he_water_ben": "acupoint:ki10:阴谷",
+        "luo": "acupoint:ki04:大钟",
+        "xi": "acupoint:ki05:水泉"
+      },
+      "summary": "足少阴肾经主令酉时（17:00–19:00），属阴水，由涌泉至俞府共27穴（经气自下而上行）。肾为作强之官、胚胎受胎先成真水；五俞井木涌泉（子穴，泻井当泻荣多代用然谷）、荣火然谷（教材第115页亦称其为郄穴）、俞土太溪（原穴兼脉诊肾气）、经金复溜（母穴）、合水阴谷（本穴），络穴大钟，传统郄穴水泉。",
+      "source_spans": [
+        {
+          "span_id": "sp:ki:p111a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p111",
+          "pdf_page": 111,
+          "printed_page": 111,
+          "chapter_path": "第四章 十一、足少阴肾经",
+          "quote": "五点钟以后，气血会进入肾经，首先是涌泉穴。肾经本身是水，属水。开穴、气血流注的时间是下午五点到七点。",
+          "quote_sha256": "6b73f03609e68612f7b75df3a04c156ea2c1fd56187fc033699b4b936876127d",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ki:p111b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p111",
+          "pdf_page": 111,
+          "printed_page": 111,
+          "chapter_path": "第四章 1、作强之官——肾脏",
+          "quote": "肾主骨，骨病就要想到肾。肾其华在发，所谓其华在发，就是头发的光泽，是肾在管。",
+          "quote_sha256": "d450c1df3e3511d4cfc56a82c396a2a798e30cec03550c86e4adf2ad7c7d24c1",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ki:p112a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p112",
+          "pdf_page": 112,
+          "printed_page": 112,
+          "chapter_path": "第四章 1、作强之官——肾脏",
+          "quote": "按照《黄帝内经》，肾是“作强之官，伎巧出焉”。",
+          "quote_sha256": "f0d7519901ebfbdb7bbd810090a6d0e2f4e3a13ca39fa4e19f4d77eaa0a2bb5b",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:ki:p112b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p112",
+          "pdf_page": 112,
+          "printed_page": 112,
+          "chapter_path": "第四章 1、作强之官——肾脏",
+          "quote": "吸入困难就是肾脏在管，呼出困难就是肺脏在管，这两个不太一样。",
+          "quote_sha256": "46acc456cc990a1a38067ea01d37011b6aa1e4fa35eb40add423784f3fd0af32",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ki:p119",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p119",
+          "pdf_page": 119,
+          "printed_page": 119,
+          "chapter_path": "第四章 13、石关穴至幽门穴",
+          "quote": "我们从下往上一直走，就是告诉你这个足少阴肾经的经气流注是由下往上的。",
+          "quote_sha256": "0660ed0d3d2305f531a89f24cf82bd553b3b56faef690d64fe5732c8d0b75e49",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:ki:p120",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p120",
+          "pdf_page": 120,
+          "printed_page": 120,
+          "chapter_path": "第四章 15、神封穴至俞府穴",
+          "quote": "俞府是肾经的最后一个穴道。",
+          "quote_sha256": "0683e9c1d7de7b8e28928c7bde606bdff4a7acccd60289a2eb344f56cec41235",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《黄帝内经》：“作强之官，伎巧出焉”（p.112）。",
+          "引《针灸大成》卷八第四十五页第四行：“病之在骨也，其音羽，其数六，其臭腐，其液唾”（p.112）。"
+        ],
+        "ni_teaching": [
+          "受胎生理先水（肾）→生木（肝筋膜，第一周）→生火（心，第二周心跳可查）；强调准备怀孕前即应禁绝西药（防伤水波及木火致先天性心脏病），并可多灸关元、中极、三阴交助着床（p.112）。",
+          "肾年寿节律：五十岁肾气巅峰，其后下走，五十以后宜固肾并节房事、情志、野心欲望。",
+          "辨哮喘两分：吸入困难主在肾（伴耳鸣、黄昏倦、全身骨酸），呼出困难主在肺；批评滥用类固醇扩肺反伤肾成月亮脸、骨坏死，治肾当先强心火小肠火以蒸发水气（截法/水肿口渴唾还论，p.112–113）。",
+          "五俞定位：涌泉井木（真子穴，泻井当泻荣用然谷）、然谷荣火、太溪俞土/原穴、复溜经金（母穴）、阴谷合水（本穴）、大钟络穴、水泉传统郄穴（教材第115页口述“然谷除了是荣穴以外，还是郄穴”，另见交信为阴跷郄、筑宾为阴维郄）。"
+        ],
+        "other_annotations": [
+          "中医与西医对胚胎最先发育脏器之分歧（肾水先于心脏，p.112、120–121）。",
+          "古典《针灸大成》以水泉为肾经郄穴，而教材第115页口授然谷时并称“然谷穴除了是荣穴以外，还是郄穴”；两说均予以保留校注。"
+        ],
+        "collation_notes": [
+          "腹部横骨至肓俞距任脉尺寸旧版或有五分说，倪海厦依肌肉缝隙定为一寸，石关亦从一寸（p.118–119）；步廊至俞府胸部改为外开任脉二寸（p.119–120）。"
+        ],
+        "organizer_summary": [
+          "足少阴肾经完整收载27穴（ki01–ki27），串联肾主骨发耳喘生理、眼诊五轮、羽音吹声逼毒、肾结石/脑震荡/扁桃腺/妇科近取治法。"
+        ]
+      },
+      "open_questions": [
+        "第115页口授“然谷穴除了是荣穴以外，还是郄穴”与传统经穴学以“水泉”为肾经郄穴存在名分歧异，保留并注。",
+        "第119页口述“通谷在上脘穴上一寸”按经脉外开通则当为上脘旁开一寸（与石关建里旁一寸、阴都中脘旁一寸、幽门巨阙旁一寸相续），尚待对照《针灸大成》原文校核。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "meridian:pc",
+      "record_type": "meridian",
+      "canonical_name": "手厥阴心包经",
+      "aliases": [
+        "心包经",
+        "PC"
+      ],
+      "chapter_id": "ch4",
+      "section_id": "ch4:s194",
+      "page_range": [
+        120,
+        124
+      ],
+      "zang_fu": "心包（包护心脏之外膜，代君主受病；募穴膻中，下络三焦之募石门；与手少阳三焦经相表里）",
+      "yin_yang_five_element": "手厥阴 · 相火（依节气半年一调：夏至至冬至属火，冬至至来夏至属水；阴经五俞井木荣火俞土经金合水）",
+      "flow_hour": "戌时（19:00–21:00，气血从上往下行，由胸侧天池出臂内侧正中经天泉、曲泽、郄门、间使、内关、大陵、劳宫，终于中指端中冲，交手少阳三焦经）",
+      "pathway_source": "教材第四章十二节（p.120–124）载：心包经与心经同为九穴，气血于戌时（晚七点至九点）由上往下运行。起于乳中旁开一寸天池，经天泉、肘内横纹大筋内侧曲泽、前臂两条筋间（手六筋正中黄筋）郄门、间使、内关、腕横纹头大陵、掌心劳宫，终于中指指尖中冲；内络胸腔膻中及下焦石门（三焦募），并上络喉咙舌后。",
+      "paired_meridian_id": "meridian:sj",
+      "acupoint_ids": [
+        "acupoint:pc01:天池",
+        "acupoint:pc02:天泉",
+        "acupoint:pc03:曲泽",
+        "acupoint:pc04:郄门",
+        "acupoint:pc05:间使",
+        "acupoint:pc06:内关",
+        "acupoint:pc07:大陵",
+        "acupoint:pc08:劳宫",
+        "acupoint:pc09:中冲"
+      ],
+      "five_shu_table": {
+        "well_wood": "acupoint:pc09:中冲",
+        "ying_fire_ben_summer": "acupoint:pc08:劳宫",
+        "shu_earth_child_summer": "acupoint:pc07:大陵",
+        "jing_metal_mother_winter": "acupoint:pc05:间使",
+        "he_water_ben_winter": "acupoint:pc03:曲泽",
+        "luo": "acupoint:pc06:内关",
+        "xi": "acupoint:pc04:郄门",
+        "mu_front": [
+          "acupoint:ren17:膻中"
+        ]
+      },
+      "summary": "手厥阴心包经主令戌时（19:00–21:00），凡九穴（天池至中冲）。特色在于相火随夏至/冬至节气“日光节约时间”半年换属：夏至→冬至属火（劳宫为本穴、大陵为子穴、中冲为理论母穴但“补井当补合”）；冬至→夏至属水（曲泽为本穴、间使为母穴、中冲为子穴）；另具络穴兼阴维会穴内关（配公孙治胃心胸）、郄穴郄门。",
+      "source_spans": [
+        {
+          "span_id": "sp:pc:p120a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p120",
+          "pdf_page": 120,
+          "printed_page": 120,
+          "chapter_path": "第四章 十二、手厥阴心包经",
+          "quote": "心包经气血流注在戌时。就是晚上七点到九点，肾经是从下午五点到七点。心包经的俞穴等于心包之募，就是膻中穴。心包募是膻中穴。心包经跟心经一样，只有九个穴道。",
+          "quote_sha256": "56f86b4faa81464cb3ab91ce47abd0e18eeb28711426998a8cdfbfac0c6beb3f",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:pc:p120b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p120",
+          "pdf_page": 120,
+          "printed_page": 120,
+          "chapter_path": "第四章 十二、手厥阴心包经",
+          "quote": "我们如果用中医的生理学来看，心脏在这边，心包就是它的外膜，有很多膜把心脏包住，这就是所谓的心包。",
+          "quote_sha256": "a6bce28c79a754dc32296c9a03f25b9caf2e4982480c8287787bbf831b10636f",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:pc:p121a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p121",
+          "pdf_page": 121,
+          "printed_page": 121,
+          "chapter_path": "第四章 十二、手厥阴心包经",
+          "quote": "今年的夏至到今年的冬至，心包经属火。今年的冬至到来年的夏至，心包经属水。",
+          "quote_sha256": "997cb55a9f42035b790f3426c73f33472dd401a982dccd5577ade41878d3af6c",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:pc:p121b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p121",
+          "pdf_page": 121,
+          "printed_page": 121,
+          "chapter_path": "第四章 十二、手厥阴心包经",
+          "quote": "心包络会在胸腔膻中，男的找比较快，两个乳中穴的中间就是膻中，下面络到石门穴，石门穴是三焦之募，三焦的募穴，这两个是表里。",
+          "quote_sha256": "d78e98ba5dd2f56e8a76faf7399107b207665bec0cd460f51feefac5a0ccca60",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:pc:p123",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p123",
+          "pdf_page": 123,
+          "printed_page": 123,
+          "chapter_path": "第四章 3、大陵穴、劳宫穴、中冲穴",
+          "quote": "在介绍心包时，要记得我讲的话，气血的流向是从上往下走的。心包经，因为是跟心脏在一起，所以它是偏向走阴的。",
+          "quote_sha256": "04fefc0f4f611f2dc90aaf172e4887ca35ecc65a3849e1235ad525201df7e84a",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《针灸甲乙经》按戌时发心脏不适时症取心包俞穴大陵（师传亦可取荣穴劳宫，p.121）。"
+        ],
+        "ni_teaching": [
+          "心脏为君主之官不受病，临床所谓心脏病变实源于心包外膜或受孕最初二周（先水后木后心）母体情绪/药物伤胎（p.120–121）。",
+          "立节气交换法（半年一调）：夏至→冬至相火发散出汗，经属火（大陵土为子、劳宫火为本、中冲木为理论母而补合）；冬至→夏至相水内敛小便，经属水（间使金为母、中冲木为子、曲泽水为本）。",
+          "阐述手臂内侧“手六筋”（p.122、p.130），为小儿指针退烧与惊搐推拿立下定位基准。"
+        ],
+        "other_annotations": [
+          "第120页句首口述“心包经的俞穴等于心包之募，就是膻中穴”紧接重申“心包募是膻中穴”，按心包五俞之俞穴实为大陵（p.123），膻中乃心包之募（兼八会之气会），并注供校核。"
+        ],
+        "collation_notes": [
+          "心包经全9穴（pc01–pc09）均已逐一收录；手六筋排属在p.122与p.130微有次序口授差异，已于技术条目详细对照。"
+        ],
+        "organizer_summary": [
+          "全书十二正经中最具时间节气动态五行特征的阴经，上承肾经胎育生理，下开三焦相火表里与八脉交会内关/公孙临床主方。"
+        ]
+      },
+      "open_questions": [
+        "第120页“心包经的俞穴等于心包之募，就是膻中穴”疑似口误（将“胸腹募穴/任脉气会”简称为俞穴，非背俞厥阴俞亦非五俞穴大陵），保留原文供校核。",
+        "第124页“补井当补合”应用在夏至→冬至心包虚症时，是以合穴曲泽补之抑或另选他法，第124页未点明具体穴名，待对照第五章补泻篇核实。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "meridian:sj",
+      "record_type": "meridian",
+      "canonical_name": "手少阳三焦经",
+      "aliases": [
+        "三焦经",
+        "SJ",
+        "TE"
+      ],
+      "chapter_id": "ch4",
+      "section_id": "ch4:s198",
+      "page_range": [
+        124,
+        131
+      ],
+      "zang_fu": "三焦（决渎之官，水道出焉；行阳气，为遍布全身脏腑间的黄色油网膜网，分上焦如雾、中焦如沤、下焦如渎，总司水道、淋巴及内分泌；募穴石门，与手厥阴心包经相表里）",
+      "yin_yang_five_element": "手少阳 · 相火（依节气半年一调：夏至至冬至属火，冬至至夏至属水；阳经五俞金水木火土并多一原穴阳池）",
+      "flow_hour": "亥时（21:00–23:00，气血由手厥阴中冲交入无名指外侧关冲，沿手臂背侧上肩绕耳后耳前，至眉梢丝竹空，交足少阳胆经）",
+      "pathway_source": "教材第四章十三节（p.124–131）载：三焦经主令亥时（晚九点至十一点），书称凡二十三穴。气血自手无名指尺侧端关冲起，经手背液门、中渚、腕背阳池、前臂外关、支沟、会宗、三阳络、四渎，过肘尖天井上臂清冷渊、消泺、臑会、肩髎，上颈后天牖、耳后翳风、瘈脉、颅息、角孙，环绕耳前和髎、耳门，达眉梢外端丝竹空（按：正文第128–129页间未讲及第15穴天髎，且p.131把和髎、耳门置于丝竹空之后讲述）。",
+      "paired_meridian_id": "meridian:pc",
+      "acupoint_ids": [
+        "acupoint:sj01:关冲",
+        "acupoint:sj02:液门",
+        "acupoint:sj03:中渚",
+        "acupoint:sj04:阳池",
+        "acupoint:sj05:外关",
+        "acupoint:sj06:支沟",
+        "acupoint:sj07:会宗",
+        "acupoint:sj08:三阳络",
+        "acupoint:sj09:四渎",
+        "acupoint:sj10:天井",
+        "acupoint:sj11:清冷渊",
+        "acupoint:sj12:消泺",
+        "acupoint:sj13:臑会",
+        "acupoint:sj14:肩髎",
+        "acupoint:sj16:天牖",
+        "acupoint:sj17:翳风",
+        "acupoint:sj18:瘈脉",
+        "acupoint:sj19:颅息",
+        "acupoint:sj20:角孙",
+        "acupoint:sj21:耳门",
+        "acupoint:sj22:和髎",
+        "acupoint:sj23:丝竹空"
+      ],
+      "five_shu_table": {
+        "well_metal": "acupoint:sj01:关冲",
+        "ying_water": "acupoint:sj02:液门",
+        "shu_wood_mother_summer": "acupoint:sj03:中渚",
+        "yuan": "acupoint:sj04:阳池",
+        "jing_fire_ben_summer": "acupoint:sj06:支沟",
+        "he_earth_child_summer": "acupoint:sj10:天井",
+        "luo": "acupoint:sj05:外关",
+        "xi": "acupoint:sj07:会宗",
+        "mu_front": [
+          "acupoint:ren05:石门"
+        ]
+      },
+      "summary": "手少阳三焦经主令亥时（21:00–23:00），决渎之官、全身行阳油网膜网，主淋巴、内分泌及水气气化（上焦如雾、中焦如沤、下焦如渎）。阳经五俞金水木火土配夏至→冬至属火，定子穴天井（合土）、母穴中渚（俞木）、本穴支沟（经火）、原穴阳池、络穴外关（通阳维）、郄穴会宗；教材原文实讲22穴（缺天髎），兼载外关通生死关、开天河水与三关、耳轮、手六筋指针及眉棱点奇穴。",
+      "source_spans": [
+        {
+          "span_id": "sp:sj:p124a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p124",
+          "pdf_page": 124,
+          "printed_page": 124,
+          "chapter_path": "第四章 1、三焦：上焦、中焦与下焦",
+          "quote": "肚脐以下我们称下焦，胸蔽骨到肚脐称中焦。胸蔽骨以上称上焦，合为三焦。上焦如雾，雾是很轻的，非常干净，中焦如沤，下焦如渎。",
+          "quote_sha256": "6bfe7dc03c11ca4a5e874580f579ce34773edba51081706f9ad47ee105939fb9",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:sj:p124b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p124",
+          "pdf_page": 124,
+          "printed_page": 124,
+          "chapter_path": "第四章 1、三焦：上焦、中焦与下焦",
+          "quote": "在《黄帝内经》里面认为，三焦是“决渎之官，水道出焉”。",
+          "quote_sha256": "84cae337446176822ee9eea99f73116536049544ff2ae822592e0410df3d48a2",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:sj:p124c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p124",
+          "pdf_page": 124,
+          "printed_page": 124,
+          "chapter_path": "第四章 1、三焦：上焦、中焦与下焦",
+          "quote": "三焦经有二十三个穴道。三焦经跟心包经是表里经。亥时是晚上九点到十一点。",
+          "quote_sha256": "41c93793162b53cc9f87ac18a34e2a8d48d3075f55c587c73c51f4c683c9933e",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:sj:p125",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p125",
+          "pdf_page": 125,
+          "printed_page": 125,
+          "chapter_path": "第四章 2、关冲穴至阳池穴",
+          "quote": "由夏至到冬至,三焦经属火，三焦的俞穴属木，所以是中渚穴。在夏至到冬至的中间，它是三焦经的母穴",
+          "quote_sha256": "6ff27be3ffd1b39f44932a7d2ee952fa63762a046a65ed87f36cc18111b27a70",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:sj:p128a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p128",
+          "pdf_page": 128,
+          "printed_page": 128,
+          "chapter_path": "第四章 5、天井穴与清冷渊穴",
+          "quote": "在今年的夏至到今年的冬至，三焦相火，合穴属土，所以合穴是三焦经的子穴。",
+          "quote_sha256": "469ebdd53339e57b46ae0da641a7034fcb178148cdd5c5cf466933eec1b73ab0",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:sj:p128b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p128",
+          "pdf_page": 128,
+          "printed_page": 128,
+          "chapter_path": "第四章 6、消泺穴至翳风穴",
+          "quote": "我们知道三焦经散布全身，所有的淋巴系统、内分泌系统，通通是三焦在管。",
+          "quote_sha256": "15d0946d1f9888d4f088dbb41a949baa6970708b4a556a38acc1cb827bfe593b",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《黄帝内经》：“决渎之官，水道出焉”；三焦分部“上焦如雾，中焦如沤，下焦如渎”（p.124）。"
+        ],
+        "ni_teaching": [
+          "具象定义“三焦”即包覆内脏与肉层间黄色网膜/油网（“膲”，如牛腱白膜、内脏拉网），沟通五脏六腑，故邪正交争发往来寒热（液门、中渚），中焦气竭则见“哕”（打嗝危候），行房时三焦气聚命门排精。",
+          "与心包经同按夏至/冬至半年换属相火或相水（如夏至→冬至属火：中渚木为母、支沟火为本、天井土为子）；冬至→夏至属水时按金水木火土推换。",
+          "手臂三阳分经辨痛（p.128）：大肠经（外侧前）、三焦经（正中，主不能梳头、夹菜筷叉闪落）、小肠经（后侧，主肘不能后背）；耳周唯三焦经绕耳后（沿耳一圈痛唯三焦）。"
+        ],
+        "other_annotations": [
+          "教材第124页总言“二十三个穴道”，但实际逐穴讲授（p.124–131）漏讲第15穴“天髎”（肩髎后直跳天牖），故本批次严格忠实原文建立实际讲及之22正经穴，避免无原文支撑编造。"
+        ],
+        "collation_notes": [
+          "p.128口授“肩俞”实指手阳明大肠经“肩髃”，用作定位三焦经肩髎之参照点。",
+          "p.128“消泺再上三寸，就是臑会”紧接又言“臑会在清冷渊上五寸”，二者寸数相加存在差异（5+3 vs 5），已于对应穴位并存标注。",
+          "p.131将和髎、耳门置于“丝竹空”与“指针术”之后讲解，结构化序列仍依标准经穴序号标注 `sj21:耳门`、`sj22:和髎`、`sj23:丝竹空`。"
+        ],
+        "organizer_summary": [
+          "涵盖三焦经生理总纲、22个实载正经穴、儿科开天河水/三关/耳轮/手六筋指针及眉棱点奇穴，全面贯通淋巴/内分泌/耳目/背痛辨证。"
+        ]
+      },
+      "open_questions": [
+        "第124页明言三焦经共二十三穴，但第128–129页正文中肩髎至天牖间漏讲“天髎”（SJ15），全书亦未见该穴，保留缺口待考。",
+        "第128页清冷渊至消泺（上五寸）、消泺至臑会（上三寸）与“臑会在清冷渊上五寸”存在字面尺寸冲突，待结合《针灸大成》原文复核。",
+        "第127页仅口授会宗定位（支沟旁开至骨边）而未提及“会宗为三焦经郄穴”之穴性，待对照第五章补齐。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "meridian:gb",
+      "record_type": "meridian",
+      "canonical_name": "足少阳胆经",
+      "aliases": [
+        "胆经",
+        "GB"
+      ],
+      "chapter_id": "ch4",
+      "section_id": "ch4:s212",
+      "page_range": [
+        131,
+        144
+      ],
+      "zang_fu": "胆（清净之腑、中正之官；属木，居肝下方连十二指肠；心包经神经与心搏动推动胆汁一阵阵喷入小肠生阳火助消化；与足厥阴肝经相表里）",
+      "yin_yang_five_element": "足少阳 · 阳木（阳木生阳火；肝收养化血后浊物入胆，借心火推动下十二指肠助小肠化食）",
+      "flow_hour": "子时（23:00–01:00，气血自瞳子髎下行至第四趾足窍阴；夜半一点后自脚底转入足厥阴肝经大敦）",
+      "pathway_source": "教材第四章（p.131–144）讲授：胆经起于目外眦瞳子髎（本节亦称太阳穴），经耳前听会、上关（客主人），上头侧颔厌、悬颅、悬厘、曲鬓、率谷，绕耳后完骨回转上额至阳白、头临泣、目窗，后行正营、承灵、脑空至风池，下肩井、腋下渊液、辄筋、肋间日月（胆募）、京门（肾募），环腰带脉、五枢、维道，循下肢外侧居髎、环跳、风市、中渎、阳关、阳陵泉（转外丘—阳交折转）、光明、阳辅、悬钟（绝骨）、丘墟、足临泣、地五会、侠溪，终于第四趾外侧足窍阴，夜半一点经足掌下络入肝经。原书未逐句引录《灵枢·经脉》全文循行，亦未讲授天冲、浮白、头窍阴三穴。",
+      "paired_meridian_id": "meridian:lv",
+      "acupoint_ids": [
+        "acupoint:gb01:瞳子髎",
+        "acupoint:gb02:听会",
+        "acupoint:gb03:上关",
+        "acupoint:gb04:颔厌",
+        "acupoint:gb05:悬颅",
+        "acupoint:gb06:悬厘",
+        "acupoint:gb07:曲鬓",
+        "acupoint:gb08:率谷",
+        "acupoint:gb12:完骨",
+        "acupoint:gb13:本神",
+        "acupoint:gb14:阳白",
+        "acupoint:gb15:头临泣",
+        "acupoint:gb16:目窗",
+        "acupoint:gb17:正营",
+        "acupoint:gb18:承灵",
+        "acupoint:gb19:脑空",
+        "acupoint:gb20:风池",
+        "acupoint:gb21:肩井",
+        "acupoint:gb22:渊液",
+        "acupoint:gb23:辄筋",
+        "acupoint:gb24:日月",
+        "acupoint:gb25:京门",
+        "acupoint:gb26:带脉",
+        "acupoint:gb27:五枢",
+        "acupoint:gb28:维道",
+        "acupoint:gb29:居髎",
+        "acupoint:gb30:环跳",
+        "acupoint:gb31:风市",
+        "acupoint:gb32:中渎",
+        "acupoint:gb33:阳关",
+        "acupoint:gb34:阳陵泉",
+        "acupoint:gb35:阳交",
+        "acupoint:gb36:外丘",
+        "acupoint:gb37:光明",
+        "acupoint:gb38:阳辅",
+        "acupoint:gb39:悬钟",
+        "acupoint:gb40:丘墟",
+        "acupoint:gb41:足临泣",
+        "acupoint:gb42:地五会",
+        "acupoint:gb43:侠溪",
+        "acupoint:gb44:足窍阴"
+      ],
+      "five_shu_table": {
+        "well_metal": "acupoint:gb44:足窍阴",
+        "ying_water_mother": "acupoint:gb43:侠溪",
+        "shu_wood_ben": "acupoint:gb41:足临泣",
+        "yuan": "acupoint:gb40:丘墟",
+        "jing_fire_child": "acupoint:gb38:阳辅",
+        "he_earth": "acupoint:gb34:阳陵泉",
+        "luo": "acupoint:gb37:光明",
+        "luo_also_in_text": "acupoint:gb36:外丘",
+        "xi_yangwei": "acupoint:gb35:阳交",
+        "mu_front": "acupoint:gb24:日月"
+      },
+      "summary": "足少阳胆经（p.131–144），属阳木、子时（23:00–01:00）主令，本教材实际讲授 41 穴（瞳子髎至足窍阴，略去天冲、浮白、头窍阴），附奇穴华佗夹脊（原书作华陀夹脊）与胆石点及《难经》八会穴全表；依阳经金水木火土定子穴阳辅、母穴侠溪、本穴足临泣、原穴丘墟、络穴光明（p.141亦称外丘为络穴，中渎为别络）。",
+      "source_spans": [
+        {
+          "span_id": "sp:gb:p131",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p131",
+          "pdf_page": 131,
+          "printed_page": 131,
+          "chapter_path": "第四章十四、足少阳胆经",
+          "quote": "十四、足少阳胆经（6-02:01:40）",
+          "quote_sha256": "4a77cee3b448a5b44b8b9345369eddb31ea02d00b21514d05e2fafe6fbe68ebf",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:gb:p132a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p132",
+          "pdf_page": 132,
+          "printed_page": 132,
+          "chapter_path": "第四章十四、1、胆",
+          "quote": "心包膜直接络到胆上面，所以心脏不断的博动，这动作不断的打到胆，所以胆受到压力时，胆汁出来就绝对不是一直线。胆汁喷出来是一阵阵的。",
+          "quote_sha256": "6f01e307edef3d4a45443970adb124ab85fc371190786b815996f53a6f8262e1",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:gb:p132b_1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p132",
+          "pdf_page": 132,
+          "printed_page": 132,
+          "chapter_path": "第四章十四、1、胆",
+          "quote": "胆为清净之腑、中正之官，视物倒之，道理就是这样。",
+          "quote_sha256": "95a00faeb237100098ed01c72e6cce8054184fbc94e3e4be3b444d13bc16d555",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:gb:p132b_2",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p132",
+          "pdf_page": 132,
+          "printed_page": 132,
+          "chapter_path": "第四章十四、1、胆",
+          "quote": "临床上，胆病呕吐，口苦，嘴巴苦。",
+          "quote_sha256": "98fdd9870ce1d6c7598ef87622cf6d4d594d1ad02031db823bef548e8c038193",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:gb:p141",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p141",
+          "pdf_page": 141,
+          "printed_page": 141,
+          "chapter_path": "第四章十四、17、光明、阳辅与悬钟穴",
+          "quote": "阳辅穴是经穴。因为是阳木它的属性是金水木火土，原穴跳过去，金水木火土。胆经是木，它的经穴是火，所以阳辅穴是胆经的子穴。",
+          "quote_sha256": "2731bfeb2e57215244e255351ebec972970743278dadaef9cceb7f38141f6026",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:gb:p142_1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p142",
+          "pdf_page": 142,
+          "printed_page": 142,
+          "chapter_path": "第四章十四、19、丘墟穴至足窍阴穴",
+          "quote": "丘墟穴是胆经的原穴",
+          "quote_sha256": "d842e02c133c82cbbff3c8f53e5df6b9cd626e6acc5326ec3e0789deb1335b14",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:gb:p142_2",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p142",
+          "pdf_page": 142,
+          "printed_page": 142,
+          "chapter_path": "第四章十四、19、丘墟穴至足窍阴穴",
+          "quote": "临泣穴是胆经的俞穴。胆经是属木，临泣也是属木，所以临泣是胆经的本穴。",
+          "quote_sha256": "9890f781e0f977dd09483819b9dc572a11718ccdbe12ad59d5462555309908de",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:gb:p142_3",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p142",
+          "pdf_page": 142,
+          "printed_page": 142,
+          "chapter_path": "第四章十四、19、丘墟穴至足窍阴穴",
+          "quote": "窍阴穴就是它的井穴。",
+          "quote_sha256": "992bce78948f8cbb3b6425cdefe4045e27cb383e167927c40a9d1bf06d6d6eae",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:gb:p143_1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p143",
+          "pdf_page": 143,
+          "printed_page": 143,
+          "chapter_path": "第四章十四、19、丘墟穴至足窍阴穴",
+          "quote": "侠溪穴是胆经的母穴",
+          "quote_sha256": "39e1f01cb0dd07e7d7e91b60da9f12274eac0735499791635f9c0366102dfc63",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:gb:p143_2",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p143",
+          "pdf_page": 143,
+          "printed_page": 143,
+          "chapter_path": "第四章十四、19、丘墟穴至足窍阴穴",
+          "quote": "晚上十一点到一点是子时是胆经开窍的时间。",
+          "quote_sha256": "1e2f1c0c01165a599c82db3a5dacaaf69483465fed8efd989e7c72fcd111b6f0",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:gb:p144_1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p144",
+          "pdf_page": 144,
+          "printed_page": 144,
+          "chapter_path": "第四章十五、1、肝经走向",
+          "quote": "按照时间发胆结石痛的时候，都是十一点半，十二点时发。",
+          "quote_sha256": "eb807d03cca4000b99e20993d4c390c3043b6c11d2d8b197c919d095eda87000",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:gb:p144_2",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p144",
+          "pdf_page": 144,
+          "printed_page": 144,
+          "chapter_path": "第四章十五、1、肝经走向",
+          "quote": "因为它是在这个时间发生的，就去针胆经的俞穴，荣穴也可以。扎俞穴是《针灸甲乙经》说的",
+          "quote_sha256": "b0ebefe9f7d7f4cc86d3021465974fc1eae239d471671873c2fcbcc802329d3b",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《内经》/教材引称“胆为清净之腑、中正之官，视物倒之”（p.132）。",
+          "引《难经》“筋会阳陵”“髓会绝骨”及八会穴全诀（p.140–142）；引《针灸大成》眼科及外丘治猘犬咬伤勘正（p.133、141、143）；引《针灸甲乙经》时症取俞穴（p.144）。"
+        ],
+        "ni_teaching": [
+          "以“香水瓶（肝）与喷头（胆）借心包搏动推喷胆汁”喻心包、肝、胆、小肠生理关联，告诫勿轻率切除胆囊以免十五年后总胆管蓄积成肝结石。",
+          "详析幼时剧吐致胆囊翻转成左右视物颠倒（b看成d）及胆病口苦呕吐机理。",
+          "确立阳经五俞“金水木火土”跳过原穴之推演：窍阴（井金）→侠溪（荣水·母）→足临泣（俞木·本）→丘墟（原）→阳辅（经火·子）→阳陵泉（合土·筋会）；并以子时十一点半至十二点夜痛断胆结石时症。",
+          "阐明头部三阳分界（督脉→膀胱经→胆经→三焦经）、胸肋摸缝找日月/京门、腰背四痛分经（华佗夹脊配足三里+足临泣，带脉横痛取临泣）及八会穴全表。"
+        ],
+        "other_annotations": [
+          "教材纠明某本误标辄筋为胆募之讹（日月方为胆募，p.137）；并记《甲乙经》俞穴与荣穴治子时时症（p.144）。"
+        ],
+        "collation_notes": [
+          "p.131前半尚属三焦经“和髎穴与耳门穴”，第28行起入足少阳胆经，p.144首段仍兼收胆经子时流注与胆结石夜痛时间规则，故 page_range 记为 [131, 144]。",
+          "原书略去胆经第9–11穴（天冲、浮白、头窍阴）未讲；p.132未直引《素问》“决断出焉”；p.141同时称外丘为胆经络穴（中渎为别络）与光明为足少阳络（别走厥阴），未标明传统外丘作胆经郄穴之名分。",
+          "p.138、142均写作“华陀夹脊”。"
+        ],
+        "organizer_summary": [
+          "阳木胆经完整知识框架：贯通物理搏动生理、子时胆石诊断、头身循行分经与41个实讲穴位及八会/夹脊/胆石点诸要法。"
+        ]
+      },
+      "open_questions": [
+        "原书第131–143页未讲及标准胆经第9–11穴（天冲、浮白、头窍阴），亦未逐句引录《灵枢·经脉》循行全文。",
+        "教材第141页先后称外丘与光明均为胆经络穴，未见“外丘为胆经郄穴”之传统定位（p.140仅标阳交为阳维脉郄穴），待互校。",
+        "原书未在此段出现《素问》“决断出焉”四字，且多处头面近取穴（如颔厌、悬颅、悬厘、曲鬓、正营、承灵、脑空、居髎等）未单列进针深浅寸数与留针时间。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "meridian:lv",
+      "record_type": "meridian",
+      "canonical_name": "足厥阴肝经",
+      "aliases": [
+        "肝经",
+        "LV",
+        "LR"
+      ],
+      "chapter_id": "ch4",
+      "section_id": "ch4:s232",
+      "page_range": [
+        144,
+        150
+      ],
+      "zang_fu": "肝（乙木之脏；肝藏血、肝藏魂、主全身之筋、开窍在眼、在志为怒，悲胜怒；环绕阴器、络过少腹子宫；转化浊物入胆，与足少阳胆经相表里）",
+      "yin_yang_five_element": "足厥阴 · 阴木（乙木；五色：青；五味：新鲜酸入肝养身、腐烂酸伤身；五音：角/无声嘘声提谷道排肝毒；五志：怒，怒伤肝、悲胜怒）",
+      "flow_hour": "丑时（01:00–03:00，夜半一点气血自胆经足窍阴经足底转入大敦；血归于肝则能眠；三点后气血转入手太阴肺经）",
+      "pathway_source": "教材第四章（p.144–150）讲授：半夜一点后气血自足窍阴经足掌下方转入足大趾外侧（近二趾侧）之大敦，循足背行间、太冲（太冲脉）、中封，沿小腿内侧上蠡沟（五寸）、中都（七寸），至膝内侧膝关、曲泉，上股内侧阴包（兼附大腿内侧肝一、肝二、肝三奇穴）与腹股沟五里、阴廉，环绕阴器过少腹子宫，上行胁肋章门（脏会兼脾募）、期门（肝募），连眼后大筋入目，三点后气血交入手太阴肺经。原书未讲及标准肝经第12穴“急脉”，亦未逐句引录《灵枢·经脉》全文。",
+      "paired_meridian_id": "meridian:gb",
+      "acupoint_ids": [
+        "acupoint:lv01:大敦",
+        "acupoint:lv02:行间",
+        "acupoint:lv03:太冲",
+        "acupoint:lv04:中封",
+        "acupoint:lv05:蠡沟",
+        "acupoint:lv06:中都",
+        "acupoint:lv07:膝关",
+        "acupoint:lv08:曲泉",
+        "acupoint:lv09:阴包",
+        "acupoint:lv10:五里",
+        "acupoint:lv11:阴廉",
+        "acupoint:lv12:急脉",
+        "acupoint:lv13:章门",
+        "acupoint:lv14:期门"
+      ],
+      "five_shu_table": {
+        "well_wood_ben": "acupoint:lv01:大敦",
+        "ying_fire_child": "acupoint:lv02:行间",
+        "shu_earth_yuan": "acupoint:lv03:太冲",
+        "jing_metal": "acupoint:lv04:中封",
+        "he_water_mother": "acupoint:lv08:曲泉",
+        "luo": "acupoint:lv05:蠡沟",
+        "xi_note": "acupoint:lv06:中都（p.148载定位内踝上七寸及主产后恶露；p.149提及下肝经郄穴镇痛但未点名中都，传统归为肝经郄穴）",
+        "mu_front": "acupoint:lv14:期门",
+        "zang_hui": "acupoint:lv13:章门"
+      },
+      "summary": "足厥阴肝经（p.144–150），属阴木（乙木）、丑时（01:00–03:00）主令，含实讲 13 穴及第 12 穴急脉待审占位（共 14 穴），附大腿内侧奇穴“治肝三穴”（肝一、肝二、肝三）；主肝嘘排毒、丑时失眠诊断预后、开四关与太冲/冲阳/太溪三脉候生死、阴经井木荣火俞土经金合水定本穴大敦、子穴行间、母穴曲泉、络穴蠡沟，以及见肝实脾补土强水与热入血室。",
+      "source_spans": [
+        {
+          "span_id": "sp:lv:p144_1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p144",
+          "pdf_page": 144,
+          "printed_page": 144,
+          "chapter_path": "第四章十五、1、肝经走向",
+          "quote": "十五、足厥阴肝经（7-00:00:12）",
+          "quote_sha256": "abef96b7e15fe48d7b2aa20b7b0b80028a9e36819917822815628d6a2e97c980",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:lv:p144_2",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p144",
+          "pdf_page": 144,
+          "printed_page": 144,
+          "chapter_path": "第四章十五、1、肝经走向",
+          "quote": "从一点钟以后，就进入肝经了。半夜一点到三点是肝经",
+          "quote_sha256": "afbe46da996491553d81929802fce833b9d1915740ce3175d70838027f172148",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:lv:p145a",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p145",
+          "pdf_page": 145,
+          "printed_page": 145,
+          "chapter_path": "第四章十五、1、肝经走向",
+          "quote": "当没有气时，把谷道提起来，再最后发一声无声的嘘，因为没有气了嘛!用内劲发出来的嘘才有效，才会把肝毒逼出去。",
+          "quote_sha256": "a4dee1ad70b1f53ad6d4d71bc2f9fdf6188b2f6f3b5fbfe71a8502a78b3fda3c",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:lv:p145b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p145",
+          "pdf_page": 145,
+          "printed_page": 145,
+          "chapter_path": "第四章十五、2、肝病与睡眠",
+          "quote": "由于气血流注的时间是半夜一点到三点。所以当你肝有问题时，准时半夜一点起床，三点以后才能入睡。",
+          "quote_sha256": "33bf1e5eb8dd92b9d5a17fe339282fe6a297e726e69361c37d5cffa6ffc1e9ec",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:lv:p145c",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p145",
+          "pdf_page": 145,
+          "printed_page": 145,
+          "chapter_path": "第四章十五、2、肝病与睡眠",
+          "quote": "看卷九第六十八页（第四行），丑时气血流注在这，乙木之脏",
+          "quote_sha256": "01de05f35f6044d01a24aaf52beb3076e11e3d0027083a01087de5044e254504",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:lv:p146_1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p146",
+          "pdf_page": 146,
+          "printed_page": 146,
+          "chapter_path": "第四章十五、3、大敦穴（疟气、子宫下垂、性病、阴部痛）",
+          "quote": "肝经是阴经。所以，它的井荣俞经合，就是木火土金水。",
+          "quote_sha256": "4391833dfb99c2bf94749ffea4ef626adca89f2957cf3b910e98770cb85bd960",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:lv:p146_2",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p146",
+          "pdf_page": 146,
+          "printed_page": 146,
+          "chapter_path": "第四章十五、3、大敦穴（疟气、子宫下垂、性病、阴部痛）",
+          "quote": "所以笫一个穴道大敦是井穴。因井是木，肝也是木，所以大敦是本穴",
+          "quote_sha256": "27c9f8191aa58ecd90975f4ad910ffb8595d4560fff9bfcf1539169c2166950d",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:lv:p147",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p147",
+          "pdf_page": 147,
+          "printed_page": 147,
+          "chapter_path": "第四章十五、4、行间穴",
+          "quote": "行间是荣穴，它属性是火，肝是木，荣穴是火穴，所以行间是肝经的子穴。",
+          "quote_sha256": "0aa8f2272f9bd4ed6e45016e776ec1e370775273745d4f700376a54bbc03df16",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:lv:p148",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p148",
+          "pdf_page": 148,
+          "printed_page": 148,
+          "chapter_path": "第四章十五、6、中封穴至阴包穴",
+          "quote": "曲泉穴是肝经的合穴，主水。因为它主水，肝是主木，水生木，所以曲泉是肝经的母穴。",
+          "quote_sha256": "b9e813e661fd681f4564e639ebe294beb5d9414604bec7240f2901ee00564db7",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:lv:p150_1",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p150",
+          "pdf_page": 150,
+          "printed_page": 150,
+          "chapter_path": "第四章十五、9、章门穴与期门穴",
+          "quote": "期门穴是肝经的募穴。肝募期门。",
+          "quote_sha256": "fa521d92cdd0fa098cf25624a2ffa56734eb855ff0d42282ae45208b23259bce",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:lv:p150_2",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p150",
+          "pdf_page": 150,
+          "printed_page": 150,
+          "chapter_path": "第四章十五、9、章门穴与期门穴",
+          "quote": "这时候我们一定要去补土。这样的话，病就不会再恶化。",
+          "quote_sha256": "4247d6f4702567abfca4a85f0048e7139aca4129ce1f4f9d5e144ab76e046354",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "引卷九第六十八页“丑时气血流注在这，乙木之脏”（p.145）；引卷九第七十一页“热入血室”（p.150）。",
+          "引《针灸甲乙经》按时发病取俞穴（p.147）；提及《伤寒论》奔豚、太阳少阳并病、结胸（p.150）。"
+        ],
+        "ni_teaching": [
+          "详论肝之五色（青外现则面青）、开窍于目（瞳孔黑属肾）、惊恐筋挛癫痫及嘘声提谷道排肝毒（3–5嘘即目亮，勿过）。",
+          "确立“丑时（1–3点）醒来早于验血两年查肝病”及“1:30→2:30→安睡为愈、1:30→1:00为进”预后准绳，辅以悲胜怒情志疗法与少眠智慧。",
+          "梳理阴经五俞：大敦（井木·本）→行间（荣火·子）→太冲（俞土·代原·开四关·三脉）→中封（经金）→曲泉（合水·母）；及蠡沟络穴与沟谷消积法。",
+          "重磅临床：大腿内侧肝一/肝二/肝三鉴诊肝硬化与肝癌、五里/阴廉隔姜灸求子、章门奔豚与期门补土强水（一直打嗝提示已太慢）及刺期门治热入血室。"
+        ],
+        "other_annotations": [
+          "保留p.146脚注①大趾内外侧相对说明，以及p.147《甲乙经》时症用俞穴太冲与师传用荣穴行间并存。"
+        ],
+        "collation_notes": [
+          "原书未见《素问》“将军之官”四字；第149页略去传统第12穴急脉（已单列 pending 占位）。",
+          "p.147“冲阳是管胃气，冲阳脉是管血，管肝脏”系听写将“太冲脉”误录为“冲阳脉”；p.148“从中封穴再上二寸就是中都，在内踝上七寸”系将“蠡沟”误读为“中封”；p.148未直指中都即为p.149所称肝经郄穴。"
+        ],
+        "organizer_summary": [
+          "十二正经收官之脏经（p.144–150），集丑时流注早筛、肝病补土强水大法、三脉生死与治肝三穴鉴别肝癌/肝硬化之核心精华。"
+        ]
+      },
+      "open_questions": [
+        "原书未讲及标准足厥阴肝经第12穴“急脉”（p.149由五里、阴廉直入章门，书后索引亦无），亦未见“将军之官”四字与《灵枢·经脉》全文。",
+        "p.147“冲阳脉是管血，管肝脏”与p.148“从中封再上二寸就是中都”均存在明确口授/听写笔误；p.148中都条亦未直接标注其为“肝经郄穴”。",
+        "中封、中都、阴包、曲泉等穴的具体进针寸数与艾灸细节未尽展开，待考。"
+      ],
+      "risk_level": "emergency",
+      "safety_warning": "【急症及高风险警示】本条目涉及昏迷急救、肿瘤、大出血、癫痫/重症等急重情况，严禁个人延误就医或自行施治，仅供专业医疗教学与原文文献研究参考。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    },
+    {
+      "id": "meridian:extra",
+      "record_type": "meridian",
+      "canonical_name": "经外奇穴",
+      "aliases": [
+        "奇穴",
+        "Extra Points"
+      ],
+      "chapter_id": "ch6",
+      "section_id": "ch6:s293",
+      "page_range": [
+        171,
+        199
+      ],
+      "zang_fu": "分属于十二正经与任督之外或经脉附近之经验特效点；常随正经压痛点（阿是/天应）与五行法则配合运用。",
+      "yin_yang_five_element": "不入十四经循行专表，以实证经验取效为主；第六章强调奇穴须助于正经之后，不可偏废正道。",
+      "flow_hour": "无固定十二时辰流注专时。",
+      "pathway_source": "散见于第一章急救（十宣）、第四章各正经附见奇穴（绝孕穴、消渴/消渴穴、解穴、阑尾、鹤顶、膝眼、牙痛合谷、三毛、百虫窝、肠关/肝关/心关、安眠、痞根、消积、眉棱点、华佗夹脊、胆石点、肝一二三）以及第六章治症专节（太阳、肾关、内迎香、金津、玉液、耳尖、肘尖、定喘、解酒）。",
+      "paired_meridian_id": null,
+      "acupoint_ids": [
+        "acupoint:extra:太阳",
+        "acupoint:extra:肾关",
+        "acupoint:extra:内迎香",
+        "acupoint:extra:十宣",
+        "acupoint:extra:金津",
+        "acupoint:extra:玉液",
+        "acupoint:extra:耳尖",
+        "acupoint:extra:绝孕穴",
+        "acupoint:extra:解穴",
+        "acupoint:extra:阑尾",
+        "acupoint:extra:鹤顶",
+        "acupoint:extra:膝眼",
+        "acupoint:extra:牙痛合谷",
+        "acupoint:extra:三毛",
+        "acupoint:extra:百虫窝",
+        "acupoint:extra:肠关",
+        "acupoint:extra:肝关",
+        "acupoint:extra:心关",
+        "acupoint:extra:安眠",
+        "acupoint:extra:消渴",
+        "acupoint:extra:痞根",
+        "acupoint:extra:消积",
+        "acupoint:extra:眉棱点",
+        "acupoint:extra:华佗夹脊",
+        "acupoint:extra:胆石点",
+        "acupoint:extra:肝一",
+        "acupoint:extra:肝二",
+        "acupoint:extra:肝三",
+        "acupoint:extra:肘尖",
+        "acupoint:extra:定喘",
+        "acupoint:extra:解酒"
+      ],
+      "five_shu_table": [],
+      "summary": "汇总全书第一、四、六章散见经外奇穴，作为正经取穴之外的特效辅助与急症救急穴位体系。",
+      "source_spans": [
+        {
+          "span_id": "sp:mex:p195",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p195",
+          "pdf_page": 195,
+          "printed_page": 195,
+          "chapter_path": "第六章 奇穴：大椎外五分定喘穴",
+          "quote": "那我们有奇穴，大椎旁开五分，定喘穴。",
+          "quote_sha256": "6445a352a0e7baa5dff0c89fe67b5920a20fbbc0f27f08be547769771cac37fd",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:mex:p195b",
+          "source_id": "ni-acupuncture-v2-20100703",
+          "page_id": "ni-acupuncture-v2-20100703:p195",
+          "pdf_page": 195,
+          "printed_page": 195,
+          "chapter_path": "第六章 奇穴：大椎外五分定喘穴",
+          "quote": "正经的穴道一定要知道，绝对不能偏离正道，学针灸绝对不能偏离正道，有些奇穴，它效果很好，可以由它增加一些助力，没有它，正经也要治好",
+          "quote_sha256": "f4ddc1ff45d9364ec909268ce86e94402b70e68871dd67aabde58311eff1e623",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "正经的穴道一定要知道，绝对不能偏离正道，学针灸绝对不能偏离正道，有些奇穴，它效果很好，可以由它增加一些助力，没有它，正经也要治好"
+        ],
+        "ni_teaching": [
+          "经外奇穴散附于各正经尾及第六章治症专题，如阑尾、胆石、痞根、消积、定喘、肘尖、太阳、十宣、解酒等。",
+          "奇穴用时仍应先守正经辨证，待正经立基后再增奇穴助力，切忌“只会扎奇穴而忘正经”。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "本节点归口全书31个独立经外奇穴；其中第130页“眉棱点”与第171页“肾关”皆位于阴陵泉下一寸已双向对照，第35页与第98页两载之“消渴/消渴穴”经核校合并为单一 `acupoint:extra:消渴`。"
+        ],
+        "organizer_summary": [
+          "提供跨章节检索全部经外奇穴及“正经为本、奇穴为助”原书原则的统一入口。"
+        ]
+      },
+      "open_questions": [
+        "散附各经之奇穴在传统《针灸大成》中名称与定位偶有异同，原书多按倪海厦临床取穴口授整理。"
+      ],
+      "risk_level": "high_risk",
+      "safety_warning": "【专业教学及高风险警示】本条目涉及针刺深浅、重要解剖部位、放血、火针/烧针、艾灸防疤/烫伤、孕妇/儿童禁忌或急重病症提示；仅供专业教学与文献研究，严禁非专业人士自行模仿操作。",
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "version": "2.0.0"
+    }
+  ]
+}

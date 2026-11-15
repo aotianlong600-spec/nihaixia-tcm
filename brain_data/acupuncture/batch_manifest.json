@@ -1,0 +1,19 @@
+{
+  "module": "acupuncture",
+  "source_id": "ni-acupuncture-v2-20100703",
+  "stage": "full_book_v1",
+  "accepted": [
+    "pilot_lung_and_ch6.json",
+    "ch1_to_ch3_foundations.json",
+    "ch4_ren_du.json",
+    "ch4_li_st.json",
+    "ch4_sp_ht_si.json",
+    "ch4_bl.json",
+    "ch4_ki_pc_sj.json",
+    "ch4_gb_lv.json",
+    "ch5_eight_vessels_and_methods.json",
+    "ch6_conditions_part1.json",
+    "ch6_conditions_part2.json"
+  ],
+  "pending": []
+}

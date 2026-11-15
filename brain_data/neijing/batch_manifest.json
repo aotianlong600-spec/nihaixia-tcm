@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "source_ids": [
+    "ni-neijing-vol1-pdf",
+    "ni-neijing-vol2-pdf"
+  ],
+  "accepted": [
+    "nj_core_pillars_vol1.json",
+    "nj_clinical_pillars_vol2.json",
+    "nj_vol1_remaining.json",
+    "nj_vol2_diseases_needling.json",
+    "nj_vol2_regulation_closing.json",
+    "nj_thematic_concepts.json",
+    "nj_thematic_concepts_vol2.json"
+  ],
+  "candidate": []
+}

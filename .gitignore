@@ -3,6 +3,10 @@ __pycache__/
 .venv/
 node_modules/
 data/
+brain_data/library/page_images/
+sources/bencao/rendered_pages/
+.tmp/
+.pages-cache/
 .superpowers/
 *.log
 *.key

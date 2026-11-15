@@ -1,0 +1,2850 @@
+{
+  "total": 108,
+  "items": [
+    {
+      "id": "mod-001",
+      "base_formula_id": "shanghan:桂枝汤",
+      "base_formula_name": "桂枝汤",
+      "condition": "太阳病，项背强几几，反汗出恶风者",
+      "changes": {
+        "add": [
+          "葛根（四两）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加葛根（四两）"
+      },
+      "target_formula_id": "shanghan:桂枝加葛根汤",
+      "target_formula_name": "桂枝加葛根汤",
+      "rationale": "表虚有汗兼具足太阳经项背津液不输，用葛根升津舒筋，仍守桂枝解肌法度。",
+      "boundary": "若无汗、小便反少且项背强几几，须转麻黄并入葛根汤，不可单守桂枝。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页22",
+        "excerpt": "太阳病，项背强几几，反汗出恶风者，桂枝加葛根汤主之。"
+      }
+    },
+    {
+      "id": "mod-002",
+      "base_formula_id": "shanghan:桂枝汤",
+      "base_formula_name": "桂枝汤",
+      "condition": "喘家作，桂枝汤加厚朴、杏子佳（微喘表虚者）",
+      "changes": {
+        "add": [
+          "厚朴（二两）",
+          "杏仁（五十枚）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加厚朴（二两）、杏仁（五十枚）"
+      },
+      "target_formula_id": "shanghan:桂枝加厚朴杏仁汤",
+      "target_formula_name": "桂枝加厚朴杏仁汤",
+      "rationale": "太阳中风宿喘复发，或微表不解迫肺气逆，降气平喘而不失解肌之本。",
+      "boundary": "若无汗大喘、脉浮紧或身重烦躁，则属麻黄汤、大青龙或麻杏石甘汤之实喘，非桂枝可及。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页24",
+        "excerpt": "喘家，作桂枝汤，加厚朴、杏子佳。"
+      }
+    },
+    {
+      "id": "mod-003",
+      "base_formula_id": "shanghan:桂枝汤",
+      "base_formula_name": "桂枝汤",
+      "condition": "太阳病发汗，遂漏不止，其人恶风，小便难，四肢微急难以屈伸",
+      "changes": {
+        "add": [
+          "附子（一枚炮）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加附子（一枚炮）"
+      },
+      "target_formula_id": "shanghan:桂枝加附子汤",
+      "target_formula_name": "桂枝加附子汤",
+      "rationale": "过汗亡表阳，汗漏不止而筋急尿难，加炮附子固表回阳以摄津液。",
+      "boundary": "若已经陷入少阴下利清谷、四肢冰厥脉微欲绝，须径用四逆汤救里，不宜再用桂枝。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页28",
+        "excerpt": "遂漏不止，其人恶风，小便难，四肢微急，难以屈伸者，桂枝加附子汤主之。"
+      }
+    },
+    {
+      "id": "mod-004",
+      "base_formula_id": "shanghan:桂枝汤",
+      "base_formula_name": "桂枝汤",
+      "condition": "太阳病，下之后，脉促胸满者",
+      "changes": {
+        "add": [],
+        "remove": [
+          "芍药（三两）"
+        ],
+        "dose_adjust": [],
+        "summary": "去芍药（三两）"
+      },
+      "target_formula_id": "shanghan:桂枝去芍药汤",
+      "target_formula_name": "桂枝去芍药汤",
+      "rationale": "误下引邪微入胸中，脉促胸满、胸阳受遏，故去阴柔酸收之芍药，纯以辛甘振胸阳。",
+      "boundary": "若仅脉促微喘无胸阳虚闭或属结胸实痛者，禁按去芍药轻振法延误。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页29",
+        "excerpt": "太阳病，下之后，脉促胸满者，桂枝去芍药汤主之。"
+      }
+    },
+    {
+      "id": "mod-005",
+      "base_formula_id": "shanghan:桂枝去芍药汤",
+      "base_formula_name": "桂枝去芍药汤",
+      "condition": "若微恶寒者，去芍药方中加附子",
+      "changes": {
+        "add": [
+          "附子（一枚炮）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加附子（一枚炮）"
+      },
+      "target_formula_id": "shanghan:桂枝去芍药加附子汤",
+      "target_formula_name": "桂枝去芍药加附子汤",
+      "rationale": "误下胸满兼微恶寒，明见下焦阳气已伤，在振胸阳之外必助附子温经扶阳。",
+      "boundary": "须辨无里寒下利、脉尚未微绝；否则直转四逆辈。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页29",
+        "excerpt": "若微恶寒者，桂枝去芍药加附子汤主之。"
+      }
+    },
+    {
+      "id": "mod-006",
+      "base_formula_id": "shanghan:桂枝汤",
+      "base_formula_name": "桂枝汤",
+      "condition": "发汗后，身疼痛，脉沉迟者",
+      "changes": {
+        "add": [
+          "人参（三两）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "芍药增至四两",
+          "生姜增至四两"
+        ],
+        "summary": "加人参（三两），芍药增至四两；生姜增至四两"
+      },
+      "target_formula_id": "shanghan:桂枝加芍药生姜人参新加汤",
+      "target_formula_name": "桂枝加芍药生姜人参新加汤",
+      "rationale": "过汗伤营气不足，脉反沉迟而身疼不休，非仍有实邪，加参倍芍姜补益气血。",
+      "boundary": "须分清未汗身痛（麻黄汤/桂枝汤）与汗后阴血不足身痛，不可误汗。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页49",
+        "excerpt": "发汗后，身疼痛，脉沉迟者，桂枝加芍药生姜各一两、人参三两新加汤主之。"
+      }
+    },
+    {
+      "id": "mod-007",
+      "base_formula_id": "shanghan:桂枝汤",
+      "base_formula_name": "桂枝汤",
+      "condition": "发汗过多，其人叉手自冒心，心下悸，欲得按者",
+      "changes": {
+        "add": [],
+        "remove": [
+          "芍药",
+          "生姜",
+          "大枣"
+        ],
+        "dose_adjust": [
+          "桂枝增至四两"
+        ],
+        "summary": "去芍药、生姜、大枣，桂枝增至四两"
+      },
+      "target_formula_id": "shanghan:桂枝甘草汤",
+      "target_formula_name": "桂枝甘草汤",
+      "rationale": "大汗损伤心阳，急需辛甘化阳固守胸阳，故只存桂枝四两炙甘草二两。",
+      "boundary": "只适用于纯粹心阳虚悸、无停饮无惊狂热邪之阶段。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页50",
+        "excerpt": "发汗过多，其人叉手自冒心，心下悸，欲得按者，桂枝甘草汤主之。"
+      }
+    },
+    {
+      "id": "mod-008",
+      "base_formula_id": "shanghan:桂枝汤",
+      "base_formula_name": "桂枝汤",
+      "condition": "伤寒脉浮，医以火迫劫之，亡阳必惊狂、卧起不安者",
+      "changes": {
+        "add": [
+          "蜀漆（三两）",
+          "龙骨（四两）",
+          "牡蛎（五两）"
+        ],
+        "remove": [
+          "芍药"
+        ],
+        "dose_adjust": [],
+        "summary": "去芍药，加蜀漆（三两）、龙骨（四两）、牡蛎（五两）"
+      },
+      "target_formula_id": "shanghan:桂枝去芍药加蜀漆牡蛎龙骨救逆汤",
+      "target_formula_name": "桂枝去芍药加蜀漆牡蛎龙骨救逆汤",
+      "rationale": "烧针火劫伤心阳兼扰痰浊，惊狂卧起不安，去芍药以免阴柔碍胸，加蜀漆涤痰并重用龙牡镇惊潜阳。",
+      "boundary": "仅用于火逆亡阳惊狂，不可与大承气汤热实谵语或柴胡加龙牡汤混淆。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页84",
+        "excerpt": "火邪者，桂枝去芍药加蜀漆牡蛎龙骨救逆汤主之。"
+      }
+    },
+    {
+      "id": "mod-009",
+      "base_formula_id": "shanghan:桂枝汤",
+      "base_formula_name": "桂枝汤",
+      "condition": "烧针令其汗，针处被寒，核起而赤者，必发奔豚，气从少腹上冲心",
+      "changes": {
+        "add": [],
+        "remove": [],
+        "dose_adjust": [
+          "桂枝加重二两（共五两）"
+        ],
+        "summary": "桂枝加重二两（共五两）"
+      },
+      "target_formula_id": "shanghan:桂枝加桂汤",
+      "target_formula_name": "桂枝加桂汤",
+      "rationale": "表寒乘烧针创口激惹心阳不振、下焦水气沿冲脉逆冲于心，重倍桂枝降冲平奔豚。",
+      "boundary": "与肝肾惊热上冲之金匮奔豚汤不同，桂枝加桂乃纯粹温补心阳以降逆。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页85",
+        "excerpt": "气从少腹上冲心者，灸其核上各一壮，与桂枝加桂汤，更加桂二两也。"
+      }
+    },
+    {
+      "id": "mod-010",
+      "base_formula_id": "shanghan:桂枝汤",
+      "base_formula_name": "桂枝汤",
+      "condition": "伤寒二三日，心中悸而烦者；或虚劳里急腹痛",
+      "changes": {
+        "add": [
+          "胶饴（一升）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "芍药倍用至六两"
+        ],
+        "summary": "加胶饴（一升），芍药倍用至六两"
+      },
+      "target_formula_id": "shanghan:小建中汤",
+      "target_formula_name": "小建中汤",
+      "rationale": "中州虚寒气滞里急或阴阳两虚而悸烦，倍芍药调肝脾，加胶饴温建中焦生津血。",
+      "boundary": "呕家不可用建中汤，以甜令人呕故也；亦忌中焦实热湿阻。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页73",
+        "excerpt": "伤寒二三日，心中悸而烦者，小建中汤主之。"
+      }
+    },
+    {
+      "id": "mod-011",
+      "base_formula_id": "shanghan:桂枝汤",
+      "base_formula_name": "桂枝汤",
+      "condition": "本太阳病，医反下之，因而腹满时痛者，属太阴也",
+      "changes": {
+        "add": [],
+        "remove": [],
+        "dose_adjust": [
+          "芍药增至六两"
+        ],
+        "summary": "芍药增至六两"
+      },
+      "target_formula_id": "shanghan:桂枝加芍药汤",
+      "target_formula_name": "桂枝加芍药汤",
+      "rationale": "误下邪陷太阴致脾络气滞、时腹自痛喜按，倍芍药和脾缓挛。",
+      "boundary": "仅限虚滞时痛；若持续大实痛拒按兼便硬，须转桂枝加大黄汤；脉弱者减量。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页170",
+        "excerpt": "因而腹满时痛者，属太阴也，桂枝加芍药汤主之。"
+      }
+    },
+    {
+      "id": "mod-012",
+      "base_formula_id": "shanghan:桂枝加芍药汤",
+      "base_formula_name": "桂枝加芍药汤",
+      "condition": "大实痛者（太阴兼阳明腑实）",
+      "changes": {
+        "add": [
+          "大黄（二两）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加大黄（二两）"
+      },
+      "target_formula_id": "shanghan:桂枝加大黄汤",
+      "target_formula_name": "桂枝加大黄汤",
+      "rationale": "太阴腹满时痛转为大实痛、腹诊拒按便闭，加少量大黄荡下实积。",
+      "boundary": "严防脉弱胃虚而过下，二九三条明言“宜减之，以其人胃气弱，易动故也”。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页170",
+        "excerpt": "大实痛者，桂枝加大黄汤主之。"
+      }
+    },
+    {
+      "id": "mod-013",
+      "base_formula_id": "shanghan:桂枝汤",
+      "base_formula_name": "桂枝汤",
+      "condition": "伤寒，脉结代，心动悸，虚羸少气",
+      "changes": {
+        "add": [
+          "人参",
+          "生地黄",
+          "阿胶",
+          "麦门冬",
+          "麻仁"
+        ],
+        "remove": [
+          "芍药"
+        ],
+        "dose_adjust": [
+          "合清酒水煎（去滓入阿胶）"
+        ],
+        "summary": "去芍药，加人参、生地黄、阿胶、麦门冬、麻仁，合清酒水煎（去滓入阿胶）"
+      },
+      "target_formula_id": "shanghan:炙甘草汤",
+      "target_formula_name": "炙甘草汤",
+      "rationale": "气血阴阳俱亏、脉道接续不匀呈结代，去酸收之芍药，大队人参地黄阿胶麦冬麻仁补气养血复脉。",
+      "boundary": "非虚损脉结代而见痰热实闭阻脉者禁用，防滋腻滞邪。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页129",
+        "excerpt": "伤寒，脉结代，心动悸，炙甘草汤主之。"
+      }
+    },
+    {
+      "id": "mod-014",
+      "base_formula_id": "shanghan:桂枝汤",
+      "base_formula_name": "桂枝汤",
+      "condition": "太阳病，桂枝证，医反下之，利遂不止，脉促者表未解，喘而汗出",
+      "changes": {
+        "add": [
+          "黄芩（三两）",
+          "黄连（三两）"
+        ],
+        "remove": [
+          "桂枝",
+          "芍药",
+          "生姜",
+          "大枣"
+        ],
+        "dose_adjust": [
+          "重用葛根半斤（先煮）配甘草芩连"
+        ],
+        "summary": "去桂枝、芍药、生姜、大枣，加黄芩（三两）、黄连（三两），重用葛根半斤（先煮）配甘草芩连"
+      },
+      "target_formula_id": "shanghan:葛根黄芩黄连汤",
+      "target_formula_name": "葛根黄芩黄连汤",
+      "rationale": "表邪未解误下挟热下利，改以葛根升津解表清阳明，配芩连苦寒直折肠胃热利。",
+      "boundary": "协热下利而臭秽灼肛适用；寒湿清谷冷利禁用。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页35",
+        "excerpt": "喘而汗出者，葛根黄芩黄连汤主之。"
+      }
+    },
+    {
+      "id": "mod-015",
+      "base_formula_id": "shanghan:麻黄汤",
+      "base_formula_name": "麻黄汤",
+      "condition": "太阳中风，脉浮紧，发热恶寒，身疼痛，不汗出而烦躁者",
+      "changes": {
+        "add": [
+          "石膏（鸡子大）",
+          "生姜（二两）",
+          "大枣（十枚）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "麻黄增至六两"
+        ],
+        "summary": "加石膏（鸡子大）、生姜（二两）、大枣（十枚），麻黄增至六两"
+      },
+      "target_formula_id": "shanghan:大青龙汤",
+      "target_formula_name": "大青龙汤",
+      "rationale": "表寒紧闭兼肺胃郁热烦躁，倍麻黄大开腠理并合石膏大枣姜草清里热护胃津。",
+      "boundary": "若脉微弱汗出恶风误服，必致厥逆筋惕肉瞤（大汗亡阳危证）。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页36",
+        "excerpt": "不汗出而烦躁者，大青龙汤主之。若脉微弱，汗出恶风者，不可服之。"
+      }
+    },
+    {
+      "id": "mod-016",
+      "base_formula_id": "shanghan:麻黄汤",
+      "base_formula_name": "麻黄汤",
+      "condition": "伤寒表不解，心下有水气，干呕，发热而咳",
+      "changes": {
+        "add": [
+          "干姜",
+          "细辛",
+          "半夏",
+          "五味子",
+          "芍药"
+        ],
+        "remove": [
+          "杏仁"
+        ],
+        "dose_adjust": [
+          "麻黄、桂枝、甘草、芍药、细辛、干姜各三两，半夏五味子半升"
+        ],
+        "summary": "去杏仁，加干姜、细辛、半夏、五味子、芍药，麻黄、桂枝、甘草、芍药、细辛、干姜各三两，半夏五味子半升"
+      },
+      "target_formula_id": "shanghan:小青龙汤",
+      "target_formula_name": "小青龙汤",
+      "rationale": "外寒束表兼心下冷饮射肺，去杏仁而增干姜细辛半夏温化寒饮，五味子芍药收敛防散太甚。",
+      "boundary": "燥渴里热咽痛及咯血者慎用；小青龙有五大方后或然加减。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页38",
+        "excerpt": "伤寒表不解，心下有水气，干呕，发热而咳……小青龙汤主之。"
+      }
+    },
+    {
+      "id": "mod-017",
+      "base_formula_id": "shanghan:麻黄汤",
+      "base_formula_name": "麻黄汤",
+      "condition": "太阳病，项背强几几，无汗恶风者",
+      "changes": {
+        "add": [
+          "葛根（四两）",
+          "生姜（三两）",
+          "大枣（十二枚）",
+          "芍药（二两）"
+        ],
+        "remove": [
+          "杏仁"
+        ],
+        "dose_adjust": [
+          "麻黄三两，先煮葛根麻黄减二升去沫"
+        ],
+        "summary": "去杏仁，加葛根（四两）、生姜（三两）、大枣（十二枚）、芍药（二两），麻黄三两，先煮葛根麻黄减二升去沫"
+      },
+      "target_formula_id": "shanghan:葛根汤",
+      "target_formula_name": "葛根汤",
+      "rationale": "无汗表实兼足太阳项背强急（或太阳阳明合病自下利、金匮刚痉），主麻黄开表配葛根升津舒筋、兼加姜枣芍调和营卫。",
+      "boundary": "若兼呕而不下利者，须进一步加半夏为葛根加半夏汤。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页32",
+        "excerpt": "太阳病，项背强几几，无汗，恶风，葛根汤主之。"
+      }
+    },
+    {
+      "id": "mod-018",
+      "base_formula_id": "shanghan:麻黄汤",
+      "base_formula_name": "麻黄汤",
+      "condition": "发汗后（或下后），不可更行桂枝汤，汗出而喘，无大热者",
+      "changes": {
+        "add": [
+          "石膏（半斤）"
+        ],
+        "remove": [
+          "桂枝"
+        ],
+        "dose_adjust": [
+          "麻黄四两配生石膏半斤，炙甘草二两"
+        ],
+        "summary": "去桂枝，加石膏（半斤），麻黄四两配生石膏半斤，炙甘草二两"
+      },
+      "target_formula_id": "shanghan:麻黄杏仁甘草石膏汤",
+      "target_formula_name": "麻黄杏仁甘草石膏汤",
+      "rationale": "肺中伏热壅迫、喘急汗出（或外邪化热入肺），去桂枝免助热，重配石膏宣泄肺热而麻杏平喘。",
+      "boundary": "纯寒痰饮喘、无热无汗者禁投大寒石膏；须辨有热喘逆。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页49",
+        "excerpt": "汗出而喘，无大热者，可与麻黄杏仁甘草石膏汤。"
+      }
+    },
+    {
+      "id": "mod-019",
+      "base_formula_id": "shanghan:麻黄汤",
+      "base_formula_name": "麻黄汤",
+      "condition": "湿家，身烦疼（寒湿留滞皮肤肌表，不可大汗或火攻）",
+      "changes": {
+        "add": [
+          "白术（四两）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "煮法改取微汗"
+        ],
+        "summary": "加白术（四两），煮法改取微汗"
+      },
+      "target_formula_id": "jinkui:麻黄加术汤",
+      "target_formula_name": "麻黄加术汤",
+      "rationale": "麻黄汤加四两白术以制麻黄专主大汗之势，使发微汗而并去皮肤浅表寒湿。",
+      "boundary": "仅限于表寒湿实证；湿深肌肉关节有汗表虚者用防己黄耆或附子方，切戒大汗火攻。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页55",
+        "excerpt": "湿家，身烦疼，可与麻黄加术汤，发其汗为宜，慎不可以火攻之。"
+      }
+    },
+    {
+      "id": "mod-020",
+      "base_formula_id": "shanghan:小青龙汤",
+      "base_formula_name": "小青龙汤",
+      "condition": "若渴者（心下水饮稍从燥化或水去津少）",
+      "changes": {
+        "add": [
+          "栝蒌根（三两）"
+        ],
+        "remove": [
+          "半夏"
+        ],
+        "dose_adjust": [],
+        "summary": "去半夏，加栝蒌根（三两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "水去津伤作渴时，燥性半夏易劫津，故去半夏加栝蒌根生津润渴。",
+      "boundary": "仅当确见水饮兼渴而非纯冷饮不渴时方去半夏易栝蒌根。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页39",
+        "excerpt": "若渴，去半夏，加栝蒌根三两。"
+      }
+    },
+    {
+      "id": "mod-021",
+      "base_formula_id": "shanghan:小青龙汤",
+      "base_formula_name": "小青龙汤",
+      "condition": "若微利者（水饮下趋大肠而见微利，或兼郁热）",
+      "changes": {
+        "add": [
+          "荛花（如鸡子，熬令赤色）"
+        ],
+        "remove": [
+          "麻黄"
+        ],
+        "dose_adjust": [],
+        "summary": "去麻黄，加荛花（如鸡子，熬令赤色）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "外寒已轻而水饮偏趋肠胃，去上宣之麻黄以免伤阳（或易茯苓，古方原文用荛花逐饮）。",
+      "boundary": "荛花为峻烈逐水毒药，注家指出实热未结及体虚者禁轻投。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页39",
+        "excerpt": "若微利，去麻黄，加荛花，如一鸡子，熬令赤色。"
+      }
+    },
+    {
+      "id": "mod-022",
+      "base_formula_id": "shanghan:小青龙汤",
+      "base_formula_name": "小青龙汤",
+      "condition": "若噎者（气滞水阻胸膈胃口如噎）",
+      "changes": {
+        "add": [
+          "附子（一枚炮）"
+        ],
+        "remove": [
+          "麻黄"
+        ],
+        "dose_adjust": [],
+        "summary": "去麻黄，加附子（一枚炮）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "下焦寒逆气上阻碍胃降而作噎，去麻黄防散阳，加炮附子温降真阳破阴凝。",
+      "boundary": "炮附子须先煮久煎或严格依规炮制使用。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页39",
+        "excerpt": "若噎者，去麻黄，加附子一枚，炮。"
+      }
+    },
+    {
+      "id": "mod-023",
+      "base_formula_id": "shanghan:小青龙汤",
+      "base_formula_name": "小青龙汤",
+      "condition": "若小便不利，少腹满者（水蓄下焦膀胱不行）",
+      "changes": {
+        "add": [
+          "茯苓（四两）"
+        ],
+        "remove": [
+          "麻黄"
+        ],
+        "dose_adjust": [],
+        "summary": "去麻黄，加茯苓（四两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "水停下焦致少腹胀尿少，去上散肺表之麻黄，加茯苓四两淡渗下行导水。",
+      "boundary": "表寒无汗尚急时仍不得径去麻黄。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页39",
+        "excerpt": "若小便不利，少腹满者，去麻黄，加茯苓四两。"
+      }
+    },
+    {
+      "id": "mod-024",
+      "base_formula_id": "shanghan:小青龙汤",
+      "base_formula_name": "小青龙汤",
+      "condition": "若喘者（表寒肺气上逆尤甚，或痰多饮壅）",
+      "changes": {
+        "add": [
+          "杏仁（半升去皮尖）"
+        ],
+        "remove": [
+          "麻黄（原书注：去麻黄，加杏仁；或有表实不去麻黄加杏仁，保留版本异同）"
+        ],
+        "dose_adjust": [],
+        "summary": "去麻黄（原书注：去麻黄，加杏仁；或有表实不去麻黄加杏仁，保留版本异同），加杏仁（半升去皮尖）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "杏仁专降肺气平喘；原书方后明列去麻黄加杏仁（注家多疑虚喘忌麻黄大散）。",
+      "boundary": "若表实无汗且喘极，注家尝辨麻黄宜留或酌减，依证而定不可机械割裂。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页39",
+        "excerpt": "若喘，去麻黄，加杏仁半升，去皮尖。"
+      }
+    },
+    {
+      "id": "mod-025",
+      "base_formula_id": "shanghan:小青龙汤",
+      "base_formula_name": "小青龙汤",
+      "condition": "肺胀，咳而上气，烦躁而喘，脉浮者，心下有水（寒饮兼里热）",
+      "changes": {
+        "add": [
+          "石膏（二两）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加石膏（二两）"
+      },
+      "target_formula_id": "jinkui:小青龙加石膏汤",
+      "target_formula_name": "小青龙加石膏汤",
+      "rationale": "外有表寒内有寒饮郁而化热，故加石膏二两清烦躁内热而不失温散水饮之本。",
+      "boundary": "若单纯冷饮不烦渴不发热者，守原方小青龙汤，不加石膏。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页151",
+        "excerpt": "肺胀，咳而上气，烦躁而喘，脉浮者，心下有水，小青龙加石膏汤主之。"
+      }
+    },
+    {
+      "id": "mod-026",
+      "base_formula_id": "shanghan:葛根汤",
+      "base_formula_name": "葛根汤",
+      "condition": "太阳与阳明合病，不下利，但呕者",
+      "changes": {
+        "add": [
+          "半夏（半升洗）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加半夏（半升洗）"
+      },
+      "target_formula_id": "shanghan:葛根加半夏汤",
+      "target_formula_name": "葛根加半夏汤",
+      "rationale": "太阳阳明合病邪未下迫大肠作利，反上逆作呕，于葛根汤中加半夏降胃逆止呕。",
+      "boundary": "须合表无汗、项背强及呕恶；半夏需用合规炮制品。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页34",
+        "excerpt": "太阳与阳明合病，不下利，但呕者，葛根加半夏汤主之。"
+      }
+    },
+    {
+      "id": "mod-027",
+      "base_formula_id": "shanghan:小柴胡汤",
+      "base_formula_name": "小柴胡汤",
+      "condition": "或然证一：若胸中烦而不呕者（热聚胸膈而非饮逆）",
+      "changes": {
+        "add": [
+          "栝蒌实（一枚）"
+        ],
+        "remove": [
+          "半夏",
+          "人参"
+        ],
+        "dose_adjust": [],
+        "summary": "去半夏、人参，加栝蒌实（一枚）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "不呕则非胃饮上逆（故去燥散之半夏），烦热属阴虚气滞胸中（故去温补之人参），改加栝蒌实清热宽胸散结。",
+      "boundary": "若仍有呕恶或中寒喜唾者，不可妄去姜半夏而投滑降栝蒌实。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页70",
+        "excerpt": "若胸中烦而不呕者，去半夏、人参，加栝蒌实一枚。"
+      }
+    },
+    {
+      "id": "mod-028",
+      "base_formula_id": "shanghan:小柴胡汤",
+      "base_formula_name": "小柴胡汤",
+      "condition": "或然证二：若渴者（少阳郁火灼伤肺胃津液）",
+      "changes": {
+        "add": [
+          "栝蒌根（四两）"
+        ],
+        "remove": [
+          "半夏"
+        ],
+        "dose_adjust": [
+          "人参增至四两半"
+        ],
+        "summary": "去半夏，加栝蒌根（四两），人参增至四两半"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "燥热伤津口渴，去温燥劫阴之半夏，加人参至四两半并入天花粉（栝蒌根四两）大滋生津止渴。",
+      "boundary": "非真燥渴而仅假渴停饮不喜饮者，反不宜妄去半夏。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页70",
+        "excerpt": "若渴，去半夏，加人参，合前成四两半，栝蒌根四两。"
+      }
+    },
+    {
+      "id": "mod-029",
+      "base_formula_id": "shanghan:小柴胡汤",
+      "base_formula_name": "小柴胡汤",
+      "condition": "或然证三：若腹中痛者（木邪乘土、肝脾气血拘急）",
+      "changes": {
+        "add": [
+          "芍药（三两）"
+        ],
+        "remove": [
+          "黄芩"
+        ],
+        "dose_adjust": [],
+        "summary": "去黄芩，加芍药（三两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "腹痛为少阳木郁克脾土且常怕寒凝中焦，故去苦寒伤脾阳之黄芩，加芍药三两缓急和脾止痛。",
+      "boundary": "若属大便燥结实满痛则当转大柴胡汤，而非但加芍药。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页70",
+        "excerpt": "若腹中痛者，去黄芩，加芍药三两。"
+      }
+    },
+    {
+      "id": "mod-030",
+      "base_formula_id": "shanghan:小柴胡汤",
+      "base_formula_name": "小柴胡汤",
+      "condition": "或然证四：若胁下痞硬者（气郁痰血微结于胁下）",
+      "changes": {
+        "add": [
+          "牡蛎（四两）"
+        ],
+        "remove": [
+          "大枣（十二枚）"
+        ],
+        "dose_adjust": [],
+        "summary": "去大枣（十二枚），加牡蛎（四两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "胁下结硬为气痰久结，去甘润壅滞之大枣，加咸寒软坚之牡蛎四两散胁结。",
+      "boundary": "注意勿与脾虚气滞之腹胀混同；牡蛎以咸软坚为主。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页70",
+        "excerpt": "若胁下痞硬，去大枣，加牡蛎四两。"
+      }
+    },
+    {
+      "id": "mod-031",
+      "base_formula_id": "shanghan:小柴胡汤",
+      "base_formula_name": "小柴胡汤",
+      "condition": "或然证五：若心下悸，小便不利者（水饮停滞三焦水道）",
+      "changes": {
+        "add": [
+          "茯苓（四两）"
+        ],
+        "remove": [
+          "黄芩"
+        ],
+        "dose_adjust": [],
+        "summary": "去黄芩，加茯苓（四两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "心下悸兼小便不利为水停三焦气化不利，恐苦寒黄芩凝水遏阳，故去黄芩加茯苓四两利水宁心。",
+      "boundary": "水去尿利悸止即应停加。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页70",
+        "excerpt": "若心下悸、小便不利者，去黄芩，加茯苓四两。"
+      }
+    },
+    {
+      "id": "mod-032",
+      "base_formula_id": "shanghan:小柴胡汤",
+      "base_formula_name": "小柴胡汤",
+      "condition": "或然证六：若不渴，外有微热者（少阳兼太阳表郁未尽）",
+      "changes": {
+        "add": [
+          "桂枝（三两）"
+        ],
+        "remove": [
+          "人参"
+        ],
+        "dose_adjust": [
+          "温覆微汗愈"
+        ],
+        "summary": "去人参，加桂枝（三两），温覆微汗愈"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "不渴知里阴未伤且无内燥，外微热乃太阳余邪未散，故去滞邪守中之参，加桂枝三两解肌微汗出。",
+      "boundary": "若身大热无汗而口渴反烦，非桂枝和解微热能了。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页70",
+        "excerpt": "若不渴、外有微热者，去人参，加桂枝三两，温覆微汗愈。"
+      }
+    },
+    {
+      "id": "mod-033",
+      "base_formula_id": "shanghan:小柴胡汤",
+      "base_formula_name": "小柴胡汤",
+      "condition": "或然证七：若咳者（少阳兼肺中寒饮伏咳）",
+      "changes": {
+        "add": [
+          "五味子（半升）",
+          "干姜（二两）"
+        ],
+        "remove": [
+          "人参",
+          "大枣",
+          "生姜"
+        ],
+        "dose_adjust": [],
+        "summary": "去人参、大枣、生姜，加五味子（半升）、干姜（二两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "少阳兼肺寒停饮作咳，去甘滞生痰之人参大枣及散而不温里之生姜，加干姜二两温肺化饮、五味子半升敛肺止咳。",
+      "boundary": "仅适用寒饮作咳；燥咳脓血或肺热喘急不可投干姜五味子。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页70",
+        "excerpt": "若咳者，去人参、大枣、生姜，加五味子半升、干姜二两。"
+      }
+    },
+    {
+      "id": "mod-034",
+      "base_formula_id": "shanghan:小柴胡汤",
+      "base_formula_name": "小柴胡汤",
+      "condition": "呕不止，心下急，郁郁微烦；或少阳兼阳明腑实",
+      "changes": {
+        "add": [
+          "枳实（四枚）",
+          "芍药（三两）",
+          "大黄（二两）"
+        ],
+        "remove": [
+          "人参",
+          "甘草"
+        ],
+        "dose_adjust": [
+          "加重半夏生姜分量"
+        ],
+        "summary": "去人参、甘草，加枳实（四枚）、芍药（三两）、大黄（二两），加重半夏生姜分量"
+      },
+      "target_formula_id": "shanghan:大柴胡汤",
+      "target_formula_name": "大柴胡汤",
+      "rationale": "少阳兼阳明里实而正不甚虚，去参草以免碍实，加入芍药枳实大黄，和解少阳并通阳明腑滞。",
+      "boundary": "大黄不可轻易删去（倪注等并提示无大黄即无下势），但虚寒下利或纯表证禁用。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页76",
+        "excerpt": "呕不止，心下急，郁郁微烦者，为未解也，与大柴胡汤，下之则愈。"
+      }
+    },
+    {
+      "id": "mod-035",
+      "base_formula_id": "shanghan:小柴胡汤",
+      "base_formula_name": "小柴胡汤",
+      "condition": "伤寒十三日不解，过经谵语（少阳并微热燥结）",
+      "changes": {
+        "add": [
+          "芒硝（二两）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "全方按三分之一微剂加芒硝二两再煎"
+        ],
+        "summary": "加芒硝（二两），全方按三分之一微剂加芒硝二两再煎"
+      },
+      "target_formula_id": "shanghan:柴胡加芒硝汤",
+      "target_formula_name": "柴胡加芒硝汤",
+      "rationale": "微利潮热而呕不解、胸胁满仍存，在和解小柴胡原方小剂基础上加咸寒芒硝微软坚热，缓不急攻。",
+      "boundary": "严禁替代大承气汤重下；原方系小柴胡三分之一量配芒硝。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页78",
+        "excerpt": "伤寒十三日不解，过经谵语者，以有热也，当以汤下之……宜柴胡加芒硝汤。"
+      }
+    },
+    {
+      "id": "mod-036",
+      "base_formula_id": "shanghan:小柴胡汤",
+      "base_formula_name": "小柴胡汤",
+      "condition": "伤寒六七日，发热微恶寒，支节烦疼，微呕，心下支结，外证未去",
+      "changes": {
+        "add": [
+          "桂枝（一两半）",
+          "芍药（一两半）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "小柴胡各药与桂枝汤各取半量合用"
+        ],
+        "summary": "加桂枝（一两半）、芍药（一两半），小柴胡各药与桂枝汤各取半量合用"
+      },
+      "target_formula_id": "shanghan:柴胡桂枝汤",
+      "target_formula_name": "柴胡桂枝汤",
+      "rationale": "太阳少阳两经并病之轻证和解剂，兼顾解表调营卫与枢转少阳半表半里。",
+      "boundary": "若大热烦渴或已成结胸痞硬，此缓和之方不及。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页88",
+        "excerpt": "发汗多，亡阳谵语者，不可下……柴胡桂枝汤主之。"
+      }
+    },
+    {
+      "id": "mod-037",
+      "base_formula_id": "shanghan:小柴胡汤",
+      "base_formula_name": "小柴胡汤",
+      "condition": "伤寒五六日，已发汗而复下之，胸胁满微结，小便不利，渴而不呕，但头汗出，往来寒热，心烦",
+      "changes": {
+        "add": [
+          "桂枝（三两）",
+          "干姜（二两）",
+          "栝蒌根（四两）",
+          "牡蛎（二两）"
+        ],
+        "remove": [
+          "人参",
+          "半夏",
+          "生姜",
+          "大枣"
+        ],
+        "dose_adjust": [],
+        "summary": "去人参、半夏、生姜、大枣，加桂枝（三两）、干姜（二两）、栝蒌根（四两）、牡蛎（二两）"
+      },
+      "target_formula_id": "shanghan:柴胡桂枝干姜汤",
+      "target_formula_name": "柴胡桂枝干姜汤",
+      "rationale": "汗下重伤津液而少阳枢机失宣、兼阳虚水饮结滞，去参夏姜枣，加桂枝温经解微表、干姜温太阴水饮、牡蛎软结、栝蒌根生津。",
+      "boundary": "少阳兼微饮脾寒上热津伤名方；纯里热实证不适用。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页89",
+        "excerpt": "胸胁满微结，小便不利，渴而不呕，但头汗出，往来寒热，心烦者，柴胡桂枝干姜汤主之。"
+      }
+    },
+    {
+      "id": "mod-038",
+      "base_formula_id": "shanghan:小柴胡汤",
+      "base_formula_name": "小柴胡汤",
+      "condition": "伤寒八九日下之，胸满烦惊，小便不利，谵语，一身尽重不可转侧",
+      "changes": {
+        "add": [
+          "桂枝",
+          "茯苓",
+          "龙骨",
+          "牡蛎",
+          "大黄",
+          "铅丹（现代禁用，须合规代换或禁调）"
+        ],
+        "remove": [
+          "甘草"
+        ],
+        "dose_adjust": [
+          "重用柴胡四两，参苓龙牡桂大黄各一两半"
+        ],
+        "summary": "去甘草，加桂枝、茯苓、龙骨、牡蛎、大黄、铅丹（现代禁用，须合规代换或禁调），重用柴胡四两，参苓龙牡桂大黄各一两半"
+      },
+      "target_formula_id": "shanghan:柴胡加龙骨牡蛎汤",
+      "target_formula_name": "柴胡加龙骨牡蛎汤",
+      "rationale": "误下致表里三焦枢机俱乱、胆热痰气惊狂交错，原方以清透、通阳、泻热、利水、镇惊并用。",
+      "boundary": "原方含铅丹属剧毒含铅矿物药，现代教学绝不可直接依古方自配内服。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页81",
+        "excerpt": "胸满烦惊，小便不利，谵语，一身尽重，不可转侧者，柴胡加龙骨牡蛎汤主之。"
+      }
+    },
+    {
+      "id": "mod-039",
+      "base_formula_id": "shanghan:大黄黄连泻心汤",
+      "base_formula_name": "大黄黄连泻心汤",
+      "condition": "心下痞，而复恶寒汗出者（上焦痞热兼表阳虚）",
+      "changes": {
+        "add": [
+          "附子（一枚炮别煮取汁）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加附子（一枚炮别煮取汁）"
+      },
+      "target_formula_id": "shanghan:附子泻心汤",
+      "target_formula_name": "附子泻心汤",
+      "rationale": "以麻沸汤渍大黄黄连黄芩泻无形之热痞，另煎炮附子汁固护表里阳气，寒热分煮合服。",
+      "boundary": "此方仅用滚水渍取三黄汁，不可久煎，否则苦寒沉下失于上焦清痞之旨。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页115",
+        "excerpt": "心下痞，而复恶寒汗出者，附子泻心汤主之。"
+      }
+    },
+    {
+      "id": "mod-040",
+      "base_formula_id": "shanghan:半夏泻心汤",
+      "base_formula_name": "半夏泻心汤",
+      "condition": "伤寒汗出解之后，胃中不和，心下痞硬，干噫食臭，胁下有水气，腹中雷鸣下利",
+      "changes": {
+        "add": [
+          "生姜（四两）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "干姜减至一两",
+          "保留人参等扶胃气"
+        ],
+        "summary": "加生姜（四两），干姜减至一两；保留人参等扶胃气"
+      },
+      "target_formula_id": "shanghan:生姜泻心汤",
+      "target_formula_name": "生姜泻心汤",
+      "rationale": "胃虚水停、干噫食臭肠鸣下利，于半夏泻心法重用生姜四两以宣散水饮、减少干姜免燥。",
+      "boundary": "需辨别实结腹满（承气证）与水气雷鸣痞硬（生姜泻心）。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页117",
+        "excerpt": "干噫食臭，胁下有水气，腹中雷鸣，下利者，生姜泻心汤主之。"
+      }
+    },
+    {
+      "id": "mod-041",
+      "base_formula_id": "shanghan:半夏泻心汤",
+      "base_formula_name": "半夏泻心汤",
+      "condition": "下利日数十行，谷不化，腹中雷鸣，心下痞硬而满，干呕心烦不得安",
+      "changes": {
+        "add": [],
+        "remove": [],
+        "dose_adjust": [
+          "炙甘草增至四两（并重用黄连）"
+        ],
+        "summary": "炙甘草增至四两（并重用黄连）"
+      },
+      "target_formula_id": "shanghan:甘草泻心汤",
+      "target_formula_name": "甘草泻心汤",
+      "rationale": "反复误下致脾胃极虚、水谷不化且热陷心下痞利（亦治金匮狐惑病），加重炙甘草至四两安中急挽胃气。",
+      "boundary": "若纯虚寒脉微欲绝下利清谷，仍当归四逆辈而非泻心苦降。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页119",
+        "excerpt": "心下痞硬而满，干呕心烦不得安，此非结热，但以胃中虚，客气上逆，故使硬也，甘草泻心汤主之。"
+      }
+    },
+    {
+      "id": "mod-042",
+      "base_formula_id": "shanghan:栀子豉汤",
+      "base_formula_name": "栀子豉汤",
+      "condition": "若少气者（热扰胸膈兼中气不足）",
+      "changes": {
+        "add": [
+          "甘草（二两炙）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加甘草（二两炙）"
+      },
+      "target_formula_id": "shanghan:栀子甘草豉汤",
+      "target_formula_name": "栀子甘草豉汤",
+      "rationale": "余热虚烦兼呼吸少气，加炙甘草益中护正而不令清热损胃。",
+      "boundary": "仍忌大便溏泄者使用栀豉。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页60",
+        "excerpt": "若少气者，栀子甘草豉汤主之。"
+      }
+    },
+    {
+      "id": "mod-043",
+      "base_formula_id": "shanghan:栀子豉汤",
+      "base_formula_name": "栀子豉汤",
+      "condition": "若呕者（胸膈余热兼胃气轻逆）",
+      "changes": {
+        "add": [
+          "生姜（五两）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加生姜（五两）"
+      },
+      "target_formula_id": "shanghan:栀子生姜豉汤",
+      "target_formula_name": "栀子生姜豉汤",
+      "rationale": "余热烦郁兼胃气上逆呕恶，加生姜五两温和胃逆。",
+      "boundary": "若寒饮停胃剧呕无烦热，当用小半夏或吴茱萸汤。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页60",
+        "excerpt": "若呕者，栀子生姜豉汤主之。"
+      }
+    },
+    {
+      "id": "mod-044",
+      "base_formula_id": "shanghan:栀子豉汤",
+      "base_formula_name": "栀子豉汤",
+      "condition": "伤寒下后，心烦腹满，卧起不安者",
+      "changes": {
+        "add": [
+          "厚朴（四两）",
+          "枳实（四枚）"
+        ],
+        "remove": [
+          "香豉"
+        ],
+        "dose_adjust": [],
+        "summary": "去香豉，加厚朴（四两）、枳实（四枚）"
+      },
+      "target_formula_id": "shanghan:栀子厚朴汤",
+      "target_formula_name": "栀子厚朴汤",
+      "rationale": "下后热留胸膈并见腹部气滞满实，故去宣透香豉而加枳实厚朴行气宽腹消满。",
+      "boundary": "若大便硬结成燥实，须转小承气或调胃承气，不守轻清除烦。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页64",
+        "excerpt": "伤寒下后，心烦腹满，卧起不安者，栀子厚朴汤主之。"
+      }
+    },
+    {
+      "id": "mod-045",
+      "base_formula_id": "shanghan:栀子豉汤",
+      "base_formula_name": "栀子豉汤",
+      "condition": "伤寒医以丸药大下之，身热不去，微烦者（下寒胃中而余热仍留上焦）",
+      "changes": {
+        "add": [
+          "干姜（二两）"
+        ],
+        "remove": [
+          "香豉"
+        ],
+        "dose_adjust": [],
+        "summary": "去香豉，加干姜（二两）"
+      },
+      "target_formula_id": "shanghan:栀子干姜汤",
+      "target_formula_name": "栀子干姜汤",
+      "rationale": "苦寒丸药大下损伤中焦阳气而上焦微热犹存，去香豉加干姜二两温护中焦配栀子清上烦。",
+      "boundary": "凡用栀子豉类方，病人大便旧微溏者不可与服。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页65",
+        "excerpt": "身热不去，微烦者，栀子干姜汤主之。"
+      }
+    },
+    {
+      "id": "mod-046",
+      "base_formula_id": "shanghan:栀子豉汤",
+      "base_formula_name": "栀子豉汤",
+      "condition": "大病差后，劳复者（起居失节复发虚烦胸满微食滞）",
+      "changes": {
+        "add": [
+          "枳实（三枚炙）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "以清浆水七升空煮减四升后再煮"
+        ],
+        "summary": "加枳实（三枚炙），以清浆水七升空煮减四升后再煮"
+      },
+      "target_formula_id": "shanghan:枳实栀子豉汤",
+      "target_formula_name": "枳实栀子豉汤",
+      "rationale": "差后劳复余热兼微宿滞（或略大便微实加大大黄如博棋子五六枚），取枳实破滞配栀豉除烦。",
+      "boundary": "如原文注：若有宿食者，可加大量微大黄。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页205",
+        "excerpt": "大病差后，劳复者，枳实栀子豉汤主之。若有宿食者，内大黄如博棋子五六枚，服之愈。"
+      }
+    },
+    {
+      "id": "mod-047",
+      "base_formula_id": "shanghan:白虎汤",
+      "base_formula_name": "白虎汤",
+      "condition": "大汗出后，大烦渴不解，脉洪大；或夏月中暍汗出恶寒身热而渴",
+      "changes": {
+        "add": [
+          "人参（三两）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加人参（三两）"
+      },
+      "target_formula_id": "shanghan:白虎加人参汤",
+      "target_formula_name": "白虎加人参汤",
+      "rationale": "经热炽盛且气阴两耗、津亏极渴，重加人参益气生津，令大热退而胃液复。",
+      "boundary": "表寒无汗发热或里实腹痛拒按便结者皆不可妄用白虎。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页25",
+        "excerpt": "服桂枝汤，大汗出后，大烦渴不解，脉洪大者，白虎加人参汤主之。"
+      }
+    },
+    {
+      "id": "mod-048",
+      "base_formula_id": "shanghan:白虎汤",
+      "base_formula_name": "白虎汤",
+      "condition": "温疟，其脉如平，身无寒但热，骨节疼烦，时呕",
+      "changes": {
+        "add": [
+          "桂枝（三两）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加桂枝（三两）"
+      },
+      "target_formula_id": "jinkui:白虎加桂枝汤",
+      "target_formula_name": "白虎加桂枝汤",
+      "rationale": "里热炽盛兼营卫经络邪闭骨节烦疼，于白虎辛凉清气中佐桂枝通阳宣络。",
+      "boundary": "非表寒恶寒之症，桂枝乃导热达络、和调血脉而并非单独解风寒。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页85",
+        "excerpt": "温疟者，其脉如平，身无寒但热，骨节疼烦，时呕，白虎加桂枝汤主之。"
+      }
+    },
+    {
+      "id": "mod-049",
+      "base_formula_id": "shanghan:白虎加人参汤",
+      "base_formula_name": "白虎加人参汤",
+      "condition": "伤寒解后，虚羸少气，气逆欲吐",
+      "changes": {
+        "add": [
+          "竹叶（二把）",
+          "半夏（半升洗）",
+          "麦门冬（一升）"
+        ],
+        "remove": [
+          "知母"
+        ],
+        "dose_adjust": [
+          "石膏一斤配参甘粳米，改知母为竹叶麦冬清养胃肺"
+        ],
+        "summary": "去知母，加竹叶（二把）、半夏（半升洗）、麦门冬（一升），石膏一斤配参甘粳米，改知母为竹叶麦冬清养胃肺"
+      },
+      "target_formula_id": "shanghan:竹叶石膏汤",
+      "target_formula_name": "竹叶石膏汤",
+      "rationale": "大病瘥后热未尽净而胃气大虚、气液两伤，去峻寒滑利之知母，添竹叶麦冬养胃清余热、半夏降胃逆气。",
+      "boundary": "适用于差后气阴两虚之余热，不可在寒湿中虚时使用。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页138",
+        "excerpt": "伤寒解后，虚羸少气，气逆欲吐，竹叶石膏汤主之。"
+      }
+    },
+    {
+      "id": "mod-050",
+      "base_formula_id": "shanghan:小承气汤",
+      "base_formula_name": "小承气汤",
+      "condition": "阳明燥实兼痞满燥实四证俱备（潮热、谵语、手足濈然汗出）",
+      "changes": {
+        "add": [
+          "芒硝（三合）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "厚朴由二两增至半斤，枳实增至五枚，改大黄先煮枳朴再入大黄最后微沸芒硝"
+        ],
+        "summary": "加芒硝（三合），厚朴由二两增至半斤，枳实增至五枚，改大黄先煮枳朴再入大黄最后微沸芒硝"
+      },
+      "target_formula_id": "shanghan:大承气汤",
+      "target_formula_name": "大承气汤",
+      "rationale": "从小承气加倍枳朴之行气破满，并后入芒硝咸寒软坚，成急下存阴之峻方。",
+      "boundary": "得快利则止后服；非真有燥屎结痛者忌服，防伤正气。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页141",
+        "excerpt": "手足濈然而汗出者，此大便已鞕也，大承气汤主之。"
+      }
+    },
+    {
+      "id": "mod-051",
+      "base_formula_id": "shanghan:大承气汤",
+      "base_formula_name": "大承气汤",
+      "condition": "腹满不减，或痛而闭（金匮厚朴三物汤证，气滞满急甚于燥坚）",
+      "changes": {
+        "add": [],
+        "remove": [
+          "芒硝"
+        ],
+        "dose_adjust": [
+          "重用厚朴八两、枳实五枚、大黄四两（同方重朴行气除满）"
+        ],
+        "summary": "去芒硝，重用厚朴八两、枳实五枚、大黄四两（同方重朴行气除满）"
+      },
+      "target_formula_id": "jinkui:厚朴三物汤",
+      "target_formula_name": "厚朴三物汤",
+      "rationale": "虽同于小承气之三味，然厚朴大增四倍、大黄增二两且先煮朴实，专为腹满胀痛尤急而未需芒硝破硬者设。",
+      "boundary": "如金匮所述：痛而闭者厚朴三物；以泄大便为主且未太痛仍守小承气。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页181",
+        "excerpt": "痛而闭者，厚朴三物汤主之。"
+      }
+    },
+    {
+      "id": "mod-052",
+      "base_formula_id": "jinkui:厚朴三物汤",
+      "base_formula_name": "厚朴三物汤",
+      "condition": "腹满发热数日，脉浮而数，饮食如故（里实腹满兼太阳表热）",
+      "changes": {
+        "add": [
+          "桂枝（二两）",
+          "甘草（三两）",
+          "生姜（五两）",
+          "大枣（十枚）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "与厚朴大黄枳实合煎为七物汤"
+        ],
+        "summary": "加桂枝（二两）、甘草（三两）、生姜（五两）、大枣（十枚），与厚朴大黄枳实合煎为七物汤"
+      },
+      "target_formula_id": "jinkui:厚朴七物汤",
+      "target_formula_name": "厚朴七物汤",
+      "rationale": "腹满闭痛而外见脉浮数发热之表里同病，合桂枝汤法（去芍）配厚朴三物汤表里兼治。",
+      "boundary": "无表热恶风而脉沉实者不必合桂枝等表药。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页180",
+        "excerpt": "腹满，发热十日，脉浮而数，饮食如故，厚朴七物汤主之。"
+      }
+    },
+    {
+      "id": "mod-053",
+      "base_formula_id": "shanghan:大承气汤",
+      "base_formula_name": "大承气汤",
+      "condition": "胃气不和，太阳发汗后微烦燥结，欲和胃气",
+      "changes": {
+        "add": [
+          "甘草（二两炙）"
+        ],
+        "remove": [
+          "厚朴",
+          "枳实"
+        ],
+        "dose_adjust": [
+          "用大黄四两、芒硝半升、炙甘草二两，以清火润燥缓下为主"
+        ],
+        "summary": "去厚朴、枳实，加甘草（二两炙），用大黄四两、芒硝半升、炙甘草二两，以清火润燥缓下为主"
+      },
+      "target_formula_id": "shanghan:调胃承气汤",
+      "target_formula_name": "调胃承气汤",
+      "rationale": "去破气之枳实厚朴，留硝黄配炙甘草缓和胃中燥实，防大泻重伤。",
+      "boundary": "无腹大满而仅谵语心烦、津微燥者适用；腹满胀闭则须枳朴。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页29",
+        "excerpt": "不吐不下，心烦者，可与调胃承气汤。"
+      }
+    },
+    {
+      "id": "mod-054",
+      "base_formula_id": "shanghan:四逆散",
+      "base_formula_name": "四逆散",
+      "condition": "若咳者（少阴/阳郁兼寒饮上犯于肺）",
+      "changes": {
+        "add": [
+          "五味子",
+          "干姜（各五分，并主下利）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加五味子、干姜（各五分，并主下利）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "阳郁致厥兼见肺寒水饮咳，加五味子敛肺、干姜温肺散寒（原文特标并主下利）。",
+      "boundary": "须辨是否真正寒咳下利；热痰咯血忌干姜。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页186",
+        "excerpt": "咳者，加五味子、干姜各五分，并主下利。"
+      }
+    },
+    {
+      "id": "mod-055",
+      "base_formula_id": "shanghan:四逆散",
+      "base_formula_name": "四逆散",
+      "condition": "若悸者（水气凌心或心阳微悸）",
+      "changes": {
+        "add": [
+          "桂枝（五分）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加桂枝（五分）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "手足阳郁兼见心悸，加桂枝五分温通心阳以平悸。",
+      "boundary": "实热烦悸属心火炽盛者不宜妄加桂枝。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页186",
+        "excerpt": "悸者，加桂枝五分。"
+      }
+    },
+    {
+      "id": "mod-056",
+      "base_formula_id": "shanghan:四逆散",
+      "base_formula_name": "四逆散",
+      "condition": "若小便不利者（中下水滞气化不畅）",
+      "changes": {
+        "add": [
+          "茯苓（五分）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加茯苓（五分）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "阳郁三焦水道不利，加茯苓五分淡渗导水从小便出。",
+      "boundary": "须分清无阳虚阴寒（真武/四逆）方可淡渗。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页186",
+        "excerpt": "小便不利者，加茯苓五分。"
+      }
+    },
+    {
+      "id": "mod-057",
+      "base_formula_id": "shanghan:四逆散",
+      "base_formula_name": "四逆散",
+      "condition": "若腹中痛者（中虚寒滞挛痛）",
+      "changes": {
+        "add": [
+          "附子（一枚炮令坼）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加附子（一枚炮令坼）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "腹中冷痛者，原方去凉燥之忧而加炮附子一枚温经散寒止痛。",
+      "boundary": "严禁生附代炮附未经合规减毒直接兑服；腹痛实热拒按者禁用。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页186",
+        "excerpt": "腹中痛者，加附子一枚，炮令坼。"
+      }
+    },
+    {
+      "id": "mod-058",
+      "base_formula_id": "shanghan:四逆散",
+      "base_formula_name": "四逆散",
+      "condition": "若泄利下重者（厥热郁迫大肠、肝脾气滞兼下焦冷虚）",
+      "changes": {
+        "add": [
+          "薤白（三升水煮成一升，与散同服）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加薤白（三升水煮成一升，与散同服）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "阳气郁遏而作泄利后重（似痢实滞），加薤白通阳导滞行大肠气。",
+      "boundary": "若纯粹湿热迫肠、便脓血烦渴大热，主白头翁汤而非四逆散。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页186",
+        "excerpt": "泄利下重者，先以水五升，煮薤白三升，煮取三升，去滓，以散三方寸匕，内汤中。"
+      }
+    },
+    {
+      "id": "mod-059",
+      "base_formula_id": "shanghan:真武汤",
+      "base_formula_name": "真武汤",
+      "condition": "若咳者（下焦水泛射肺）",
+      "changes": {
+        "add": [
+          "五味子（半升）",
+          "细辛（一两）",
+          "干姜（一两）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加五味子（半升）、细辛（一两）、干姜（一两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "肾阳虚水泛犯肺作咳，加姜辛温化寒饮、五味子收敛肺气，得小青龙合真武之意。",
+      "boundary": "干姜细辛配附子药力偏温燥，实热燥咳禁投。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页63",
+        "excerpt": "若咳者，加五味子半升，细辛、干姜各一两。"
+      }
+    },
+    {
+      "id": "mod-060",
+      "base_formula_id": "shanghan:真武汤",
+      "base_formula_name": "真武汤",
+      "condition": "若小便利者（水气已通、恐阴液渗利太过）",
+      "changes": {
+        "add": [],
+        "remove": [
+          "茯苓"
+        ],
+        "dose_adjust": [],
+        "summary": "去茯苓"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "本方用茯苓渗利水饮，若病人小便已极通利（反患虚寒不固），去茯苓以免重利伤阴阳。",
+      "boundary": "仅适小便反清长无水滞者。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页63",
+        "excerpt": "若小便利者，去茯苓。"
+      }
+    },
+    {
+      "id": "mod-061",
+      "base_formula_id": "shanghan:真武汤",
+      "base_formula_name": "真武汤",
+      "condition": "若下利者（水寒并走大肠，畏芍药阴柔助利）",
+      "changes": {
+        "add": [
+          "干姜（二两）"
+        ],
+        "remove": [
+          "芍药"
+        ],
+        "dose_adjust": [],
+        "summary": "去芍药，加干姜（二两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "中下阳虚寒甚作利，去酸凉阴敛之芍药而换干姜二两温中固脾止利。",
+      "boundary": "热利或阴血不足虚腹痛不可任意去芍加干姜。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页63",
+        "excerpt": "若下利者，去芍药，加干姜二两。"
+      }
+    },
+    {
+      "id": "mod-062",
+      "base_formula_id": "shanghan:真武汤",
+      "base_formula_name": "真武汤",
+      "condition": "若呕者（胃虚寒饮上逆）",
+      "changes": {
+        "add": [],
+        "remove": [
+          "附子（原书“去附子，加生姜”，注意真武原方即用生姜三两，此指倍生姜至半斤，或见后世版本争论）"
+        ],
+        "dose_adjust": [
+          "生姜增足前成半斤（去附子，依宋本方后原文标明版本注记）"
+        ],
+        "summary": "去附子（原书“去附子，加生姜”，注意真武原方即用生姜三两，此指倍生姜至半斤，或见后世版本争论），生姜增足前成半斤（去附子，依宋本方后原文标明版本注记）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "原书方后载“若呕者，去附子，加生姜足前为半斤”；后世注家或疑附子是否可去，系统按原书文字与争议并列保留。",
+      "boundary": "证据提示：原书明文去附子加生姜，若真寒肾虚剧呕则医家尚有存疑，宜审证辨裁。",
+      "evidence_status": "conflicted",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页63",
+        "excerpt": "若呕者，去附子，加生姜，足前成半斤。"
+      }
+    },
+    {
+      "id": "mod-063",
+      "base_formula_id": "jinkui:理中丸",
+      "base_formula_name": "理中丸",
+      "condition": "若脐上筑者，肾气动也（水寒欲上逆动悸）",
+      "changes": {
+        "add": [
+          "桂枝（四两）"
+        ],
+        "remove": [
+          "白术"
+        ],
+        "dose_adjust": [],
+        "summary": "去白术，加桂枝（四两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "脐上筑筑跳动为肾水乘中焦，因白术燥脾易壅气，故去白术加桂枝四两温心阳以伐肾邪。",
+      "boundary": "与伤寒茯苓桂枝甘草大枣汤防奔豚意相通。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页12",
+        "excerpt": "若脐上筑者，肾气动也，去术加桂四两。"
+      }
+    },
+    {
+      "id": "mod-064",
+      "base_formula_id": "jinkui:理中丸",
+      "base_formula_name": "理中丸",
+      "condition": "若吐多者（中寒胃气上逆尤甚）",
+      "changes": {
+        "add": [
+          "生姜（三两）"
+        ],
+        "remove": [
+          "白术"
+        ],
+        "dose_adjust": [],
+        "summary": "去白术，加生姜（三两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "脾恶滞、胃呕忌白术甘壅留邪，故去术加生姜三两和胃降逆止呕。",
+      "boundary": "若胃热呕逆脉数口臭非理中丸所主。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页12",
+        "excerpt": "吐多者，去术加生姜三两。"
+      }
+    },
+    {
+      "id": "mod-065",
+      "base_formula_id": "jinkui:理中丸",
+      "base_formula_name": "理中丸",
+      "condition": "若下多者（脾湿下泄尤甚）",
+      "changes": {
+        "add": [],
+        "remove": [],
+        "dose_adjust": [
+          "还用白术（甚或如理中燥湿守中）"
+        ],
+        "summary": "还用白术（甚或如理中燥湿守中）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "既兼呕又见大下利，去术止呕后因下多复需白术健脾燥湿止泄（若脾虚下不止反成悸，乃加茯苓）。",
+      "boundary": "须辨清寒湿便溏与协热下利。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页12",
+        "excerpt": "下多者，还用术。"
+      }
+    },
+    {
+      "id": "mod-066",
+      "base_formula_id": "jinkui:理中丸",
+      "base_formula_name": "理中丸",
+      "condition": "若悸者（水饮凌心或气水互停）",
+      "changes": {
+        "add": [
+          "茯苓（二两）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加茯苓（二两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "心下悸动多缘中虚水停，在原方四味之上加茯苓二两导水宁心。",
+      "boundary": "肾气大冲者仍先用去术加桂法。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页12",
+        "excerpt": "悸者，加茯苓二两。"
+      }
+    },
+    {
+      "id": "mod-067",
+      "base_formula_id": "jinkui:理中丸",
+      "base_formula_name": "理中丸",
+      "condition": "若渴欲得水者（中焦阳虚不能布津上潮，非真热渴）",
+      "changes": {
+        "add": [],
+        "remove": [],
+        "dose_adjust": [
+          "白术增至四两半"
+        ],
+        "summary": "白术增至四两半"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "脾虚湿阻致津不上升而假渴欲水，加倍白术转输脾津（如四两半）则湿化津生渴自止。",
+      "boundary": "若实热大渴饮冷脉洪大，属白虎汤而非增术。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页12",
+        "excerpt": "渴欲得水者，加术，足前成四两半。"
+      }
+    },
+    {
+      "id": "mod-068",
+      "base_formula_id": "jinkui:理中丸",
+      "base_formula_name": "理中丸",
+      "condition": "若腹中痛者（中气虚弱不运）",
+      "changes": {
+        "add": [],
+        "remove": [],
+        "dose_adjust": [
+          "人参增至四两半"
+        ],
+        "summary": "人参增至四两半"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "中虚寒痛时重用人参（至四两半）大补中焦气津以濡止其痛。",
+      "boundary": "实热腹满大便硬痛拒按禁用。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页12",
+        "excerpt": "腹中痛者，加人参，足前成四两半。"
+      }
+    },
+    {
+      "id": "mod-069",
+      "base_formula_id": "jinkui:理中丸",
+      "base_formula_name": "理中丸",
+      "condition": "若寒者（脾胃里寒尤深）",
+      "changes": {
+        "add": [],
+        "remove": [],
+        "dose_adjust": [
+          "干姜增至四两半"
+        ],
+        "summary": "干姜增至四两半"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "寒重无热者重加温中散寒之主帅干姜（成四两半），峻逐中焦沉寒。",
+      "boundary": "口疮咽痛内热者戒增干姜。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页12",
+        "excerpt": "寒者，加干姜，足前成四两半。"
+      }
+    },
+    {
+      "id": "mod-070",
+      "base_formula_id": "jinkui:理中丸",
+      "base_formula_name": "理中丸",
+      "condition": "若腹满者（太阴冷湿壅气兼下焦寒结）",
+      "changes": {
+        "add": [
+          "附子（一枚）"
+        ],
+        "remove": [
+          "白术"
+        ],
+        "dose_adjust": [],
+        "summary": "去白术，加附子（一枚）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "里寒腹满胀重而滞，恐白术补脾益满，故去白术而加附子一枚温运肾脾阳气以消寒胀（俗称附子理中汤意由此出）。",
+      "boundary": "附子生用或炮制用量极需专业把关；阳明实满禁用。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页12",
+        "excerpt": "腹满者，去术加附子一枚。"
+      }
+    },
+    {
+      "id": "mod-071",
+      "base_formula_id": "shanghan:理中丸",
+      "base_formula_name": "理中丸",
+      "condition": "霍乱寒多不饮水，或需改丸为汤以急取效（汤法）",
+      "changes": {
+        "add": [],
+        "remove": [],
+        "dose_adjust": [
+          "四味依两数切，水八升煮取三升服（理中汤）；服后饮热粥一升许微自温"
+        ],
+        "summary": "四味依两数切，水八升煮取三升服（理中汤）；服后饮热粥一升许微自温"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "原书明示“然不及汤”，急证寒重霍乱吐利须改汤剂取其迅捷，并借热粥温覆助脾阳。",
+      "boundary": "热多欲饮水之霍乱须先别用五苓散，不可混投。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页207",
+        "excerpt": "然不及汤，汤法以四物依两数切，用水八升煮取三升，去滓，温服一升。"
+      }
+    },
+    {
+      "id": "mod-072",
+      "base_formula_id": "shanghan:四逆汤",
+      "base_formula_name": "四逆汤",
+      "condition": "利止，恶寒脉微而复利，亡血也（吐利伤正血寒）",
+      "changes": {
+        "add": [
+          "人参（一两）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加人参（一两）"
+      },
+      "target_formula_id": "shanghan:四逆加人参汤",
+      "target_formula_name": "四逆加人参汤",
+      "rationale": "下利初止而恶寒脉微且再利，津气阴液大脱（血寒非实贫血），在四逆回阳中急加人参救阴存胃。",
+      "boundary": "生附子大毒须规范炮制或严格控煎，仅限阳脱脉微危证。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页207",
+        "excerpt": "利止，恶寒脉微，而复利，亡血也，四逆加人参汤主之。"
+      }
+    },
+    {
+      "id": "mod-073",
+      "base_formula_id": "shanghan:四逆汤",
+      "base_formula_name": "四逆汤",
+      "condition": "少阴病，下利清谷，里寒外热，手足厥逆，脉微欲绝，身反不恶寒，其人面色赤",
+      "changes": {
+        "add": [],
+        "remove": [],
+        "dose_adjust": [
+          "干姜倍用三两（强人可四两），与大生附子、炙草同煎"
+        ],
+        "summary": "干姜倍用三两（强人可四两），与大生附子、炙草同煎"
+      },
+      "target_formula_id": "shanghan:通脉四逆汤",
+      "target_formula_name": "通脉四逆汤",
+      "rationale": "阴盛格阳于外反见面红发热，倍增干姜温守中阳、急破内寒以通血脉。",
+      "boundary": "需配通脉四逆方后随证加减（面赤、腹痛、呕、咽痛、利止脉不出）。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页184",
+        "excerpt": "里寒外热，手足厥逆，脉微欲绝，身反不恶寒……通脉四逆汤主之。"
+      }
+    },
+    {
+      "id": "mod-074",
+      "base_formula_id": "shanghan:通脉四逆汤",
+      "base_formula_name": "通脉四逆汤",
+      "condition": "若面色赤者（下寒逼迫微阳浮面戴阳）",
+      "changes": {
+        "add": [
+          "葱（九茎）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加葱（九茎）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "寒重格阳致面戴假热赤，加葱白九茎宣通上下阳气引归命门。",
+      "boundary": "切忌误认为阳明面赤实热而投寒凉。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页185",
+        "excerpt": "面色赤者，加葱九茎。"
+      }
+    },
+    {
+      "id": "mod-075",
+      "base_formula_id": "shanghan:通脉四逆汤",
+      "base_formula_name": "通脉四逆汤",
+      "condition": "若腹中痛者（中寒夹血络急滞）",
+      "changes": {
+        "add": [
+          "芍药（二两）"
+        ],
+        "remove": [
+          "葱"
+        ],
+        "dose_adjust": [],
+        "summary": "去葱，加芍药（二两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "寒厥而兼腹中拘急挛痛，加芍药二两和阴血缓腹挛，并去宣散葱白。",
+      "boundary": "便溏清谷已极不痛者守原方。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页185",
+        "excerpt": "腹中痛者，去葱，加芍药二两。"
+      }
+    },
+    {
+      "id": "mod-076",
+      "base_formula_id": "shanghan:通脉四逆汤",
+      "base_formula_name": "通脉四逆汤",
+      "condition": "若呕者（虚寒水逆上犯胃口）",
+      "changes": {
+        "add": [
+          "生姜（二两）"
+        ],
+        "remove": [
+          "葱"
+        ],
+        "dose_adjust": [],
+        "summary": "去葱，加生姜（二两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "内寒伴寒饮上呕，去葱加生姜二两开胃散寒止呕。",
+      "boundary": "热吐黄苦水非本证。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页185",
+        "excerpt": "呕者，去葱，加生姜二两。"
+      }
+    },
+    {
+      "id": "mod-077",
+      "base_formula_id": "shanghan:通脉四逆汤",
+      "base_formula_name": "通脉四逆汤",
+      "condition": "若利止脉不出者（极虚阳微难复脉）",
+      "changes": {
+        "add": [
+          "人参（二两）"
+        ],
+        "remove": [
+          "桔梗"
+        ],
+        "dose_adjust": [],
+        "summary": "去桔梗，加人参（二两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "下利虽止但真阴精微不足致脉犹微细欲绝，加人参二两益气生阴复脉。",
+      "boundary": "兼咽痛者原方方后另注去芍药加桔梗一两。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页185",
+        "excerpt": "利止脉不出者，去桔梗，加人参二两。"
+      }
+    },
+    {
+      "id": "mod-078",
+      "base_formula_id": "shanghan:通脉四逆汤",
+      "base_formula_name": "通脉四逆汤",
+      "condition": "吐已下断，汗出而厥，四肢拘急不解，脉微欲绝",
+      "changes": {
+        "add": [
+          "猪胆汁（半合，无猪胆以羊胆代）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "汤煮成去滓后内猪胆汁调服"
+        ],
+        "summary": "加猪胆汁（半合，无猪胆以羊胆代），汤煮成去滓后内猪胆汁调服"
+      },
+      "target_formula_id": "jinkui:通脉四逆加猪胆汁汤",
+      "target_formula_name": "通脉四逆加猪胆汁汤",
+      "rationale": "真寒极甚兼阴竭阳越，直服纯热易格拒不入，借苦寒咸润之猪胆汁反佐引热入阴。",
+      "boundary": "原书明示无猪胆以羊胆代；极危抢救之理法仅供研读对照。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页13",
+        "excerpt": "吐已下断，汗出而厥，四肢拘急不解，脉微欲绝者，通脉四逆加猪胆汁汤主之。"
+      }
+    },
+    {
+      "id": "mod-079",
+      "base_formula_id": "shanghan:四逆汤",
+      "base_formula_name": "四逆汤",
+      "condition": "下之后，复发汗，昼日烦躁不得眠，夜而安静，不呕不渴，无表证，脉沉微，身无大热",
+      "changes": {
+        "add": [
+          "人参（一两）",
+          "茯苓（四两）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "用生附子配干姜炙草人参茯苓"
+        ],
+        "summary": "加人参（一两）、茯苓（四两），用生附子配干姜炙草人参茯苓"
+      },
+      "target_formula_id": "shanghan:茯苓四逆汤",
+      "target_formula_name": "茯苓四逆汤",
+      "rationale": "汗下两误致肾阳大虚且虚阳昼日浮躁不眠，合人参救阴、茯苓安神导水兼四逆回阳。",
+      "boundary": "严辨阳明烦躁（大渴不恶寒）与少阴虚阳外扰烦躁。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页55",
+        "excerpt": "昼日烦躁不得眠……脉沉微，身无大热者，茯苓四逆汤主之。"
+      }
+    },
+    {
+      "id": "mod-080",
+      "base_formula_id": "shanghan:四逆汤",
+      "base_formula_name": "四逆汤",
+      "condition": "少阴病，下利脉微者（上下格拒需急通阳气）",
+      "changes": {
+        "add": [
+          "葱白（四茎）"
+        ],
+        "remove": [
+          "炙甘草"
+        ],
+        "dose_adjust": [],
+        "summary": "去炙甘草，加葱白（四茎）"
+      },
+      "target_formula_id": "shanghan:白通汤",
+      "target_formula_name": "白通汤",
+      "rationale": "去甘草甘缓守中之力，取生附干姜之急配葱白辛温直通上下，打破上下寒热格拒。",
+      "boundary": "服后若大呕烦躁、厥逆无脉乃药病格拒，须即加人尿猪胆汁反佐。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页183",
+        "excerpt": "少阴病，下利，脉微者，与白通汤。"
+      }
+    },
+    {
+      "id": "mod-081",
+      "base_formula_id": "shanghan:白通汤",
+      "base_formula_name": "白通汤",
+      "condition": "利不止，厥逆无脉，干呕，烦者（寒极格热药拒而不入）",
+      "changes": {
+        "add": [
+          "猪胆汁（一合）",
+          "人尿（五合）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "煎成和入胆汁人尿微温分服"
+        ],
+        "summary": "加猪胆汁（一合）、人尿（五合），煎成和入胆汁人尿微温分服"
+      },
+      "target_formula_id": "shanghan:白通加猪胆汁汤",
+      "target_formula_name": "白通加猪胆汁汤",
+      "rationale": "同通脉四逆加猪胆汁义，苦寒滑利之猪胆汁、人尿为反佐向导，引热药直达下焦。",
+      "boundary": "现代临床与法规对动物胆汁与人尿原料自有安全规范，系统依古籍文本完整留存。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页184",
+        "excerpt": "利不止，厥逆无脉，干呕，烦者，白通加猪胆汁汤主之。"
+      }
+    },
+    {
+      "id": "mod-082",
+      "base_formula_id": "jinkui:防己黄耆汤",
+      "base_formula_name": "防己黄耆汤",
+      "condition": "风湿脉浮身重、若喘者（表气郁迫于肺）",
+      "changes": {
+        "add": [
+          "麻黄（半两）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加麻黄（半两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "风湿表虚汗出兼见喘咳气逆，加麻黄半两轻宣肺气平喘。",
+      "boundary": "用量仅半两微助宣发，防过汗伤卫阳。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页58",
+        "excerpt": "喘者加麻黄半两。"
+      }
+    },
+    {
+      "id": "mod-083",
+      "base_formula_id": "jinkui:防己黄耆汤",
+      "base_formula_name": "防己黄耆汤",
+      "condition": "若胃中不和者（中焦木克土痛闷）",
+      "changes": {
+        "add": [
+          "芍药（三分）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加芍药（三分）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "脾湿兼胃肠微滞不适，加芍药三分和阴调脾缓急。",
+      "boundary": "大寒腹痛下利者审慎用芍。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页58",
+        "excerpt": "胃中不和者加芍药三分。"
+      }
+    },
+    {
+      "id": "mod-084",
+      "base_formula_id": "jinkui:防己黄耆汤",
+      "base_formula_name": "防己黄耆汤",
+      "condition": "若气上冲者（表阳虚而下水气欲冲）",
+      "changes": {
+        "add": [
+          "桂枝（三分）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加桂枝（三分）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "气从少腹欲上逆冲胸，加桂枝三分温通阳气以降冲逆。",
+      "boundary": "热冲呕苦忌桂枝。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页58",
+        "excerpt": "气上冲者加桂枝三分。"
+      }
+    },
+    {
+      "id": "mod-085",
+      "base_formula_id": "jinkui:防己黄耆汤",
+      "base_formula_name": "防己黄耆汤",
+      "condition": "若下有陈寒者（下焦素积寒水冷痛）",
+      "changes": {
+        "add": [
+          "细辛（三分）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加细辛（三分）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "风湿兼下焦宿寒水气（久冷痛重），加细辛三分温散肾经沉寒。",
+      "boundary": "肺燥阴虚热渴者忌辛温散耗。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页58",
+        "excerpt": "下有陈寒者加细辛三分。"
+      }
+    },
+    {
+      "id": "mod-086",
+      "base_formula_id": "jinkui:防己黄耆汤",
+      "base_formula_name": "防己黄耆汤",
+      "condition": "风水或皮水，四肢肿，水气在皮肤中，四肢聂聂动者",
+      "changes": {
+        "add": [
+          "茯苓（六两）",
+          "桂枝（三两）"
+        ],
+        "remove": [
+          "白术",
+          "生姜",
+          "大枣"
+        ],
+        "dose_adjust": [
+          "桂枝配黄耆茯苓防己甘草通阳利水"
+        ],
+        "summary": "去白术、生姜、大枣，加茯苓（六两）、桂枝（三两），桂枝配黄耆茯苓防己甘草通阳利水"
+      },
+      "target_formula_id": "jinkui:防己茯苓汤",
+      "target_formula_name": "防己茯苓汤",
+      "rationale": "湿重在肌肉脾土者用白术（防己黄耆）；若水气浮于皮肤致四肢肌肉振颤跳动，改白术为桂枝茯苓配耆防草，专走肌表通阳散水。",
+      "boundary": "皮水脉浮无大热可通；阳虚大寒水肿需配附子方。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页292",
+        "excerpt": "皮水为病，四肢肿，水气在皮肤中，四肢聂聂动者，防己茯苓汤主之。"
+      }
+    },
+    {
+      "id": "mod-087",
+      "base_formula_id": "jinkui:桂枝附子汤",
+      "base_formula_name": "桂枝附子汤",
+      "condition": "风湿相搏，大便坚，小便自利者（去桂枝加白术）",
+      "changes": {
+        "add": [
+          "白术（四两）"
+        ],
+        "remove": [
+          "桂枝"
+        ],
+        "dose_adjust": [],
+        "summary": "去桂枝，加白术（四两）"
+      },
+      "target_formula_id": "jinkui:白术附子汤",
+      "target_formula_name": "白术附子汤",
+      "rationale": "风湿在表而小便自利大便反硬，乃表邪已微、津偏趋而湿着肌脾，故去发散之桂枝，加白术燥湿护脾津以助便润。",
+      "boundary": "湿郁未透而仍恶风有汗不小便利者留桂枝。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页60",
+        "excerpt": "若其人大便硬，小便自利者，去桂加白术汤主之。"
+      }
+    },
+    {
+      "id": "mod-088",
+      "base_formula_id": "jinkui:桂枝附子汤",
+      "base_formula_name": "桂枝附子汤",
+      "condition": "风湿相搏，骨节疼烦掣痛，不得屈伸，近之则痛剧，汗出短气，小便不利，恶风不欲去衣，或身微肿",
+      "changes": {
+        "add": [
+          "白术（二两）"
+        ],
+        "remove": [
+          "生姜",
+          "大枣"
+        ],
+        "dose_adjust": [
+          "减桂枝为四两、附子二枚，增白术，配甘草急守缓通"
+        ],
+        "summary": "去生姜、大枣，加白术（二两），减桂枝为四两、附子二枚，增白术，配甘草急守缓通"
+      },
+      "target_formula_id": "jinkui:甘草附子汤",
+      "target_formula_name": "甘草附子汤",
+      "rationale": "风湿两盛深入骨节痛剧、阳虚表里俱急，故减桂附骤散猛性并去姜枣，合甘草白术以缓留关节徐徐驱散寒湿。",
+      "boundary": "风湿热痹红肿发热脉数者属白虎桂枝或桂枝芍药知母汤，忌纯温燥。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页60",
+        "excerpt": "甘草附子汤主之。"
+      }
+    },
+    {
+      "id": "mod-089",
+      "base_formula_id": "jinkui:栝蒌薤白白酒汤",
+      "base_formula_name": "栝蒌薤白白酒汤",
+      "condition": "胸痹不得卧，心痛彻背者（痰饮浊阴上壅尤盛）",
+      "changes": {
+        "add": [
+          "半夏（半斤）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "加入大量半夏洗配栝蒌薤白白酒同煮"
+        ],
+        "summary": "加半夏（半斤），加入大量半夏洗配栝蒌薤白白酒同煮"
+      },
+      "target_formula_id": "jinkui:栝蒌薤白半夏汤",
+      "target_formula_name": "栝蒌薤白半夏汤",
+      "rationale": "胸痹加重至不能平卧且心痛彻背，乃浊痰饮邪尤炽，于原方专加半夏半斤涤痰降逆。",
+      "boundary": "若寒痛彻背彻心绝急无痰郁而脉微弦紧者，须进用乌头赤石脂丸。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页169",
+        "excerpt": "胸痹不得卧，心痛彻背者，栝蒌薤白半夏汤主之。"
+      }
+    },
+    {
+      "id": "mod-090",
+      "base_formula_id": "jinkui:栝蒌薤白白酒汤",
+      "base_formula_name": "栝蒌薤白白酒汤",
+      "condition": "胸痹，心中痞，留气结在胸，胸满，胁下逆抢心者",
+      "changes": {
+        "add": [
+          "枳实（四枚）",
+          "厚朴（四两）",
+          "桂枝（一两）"
+        ],
+        "remove": [
+          "白酒"
+        ],
+        "dose_adjust": [
+          "改水煎先煮枳朴再入栝蒌薤白桂枝"
+        ],
+        "summary": "去白酒，加枳实（四枚）、厚朴（四两）、桂枝（一两），改水煎先煮枳朴再入栝蒌薤白桂枝"
+      },
+      "target_formula_id": "jinkui:枳实薤白桂枝汤",
+      "target_formula_name": "枳实薤白桂枝汤",
+      "rationale": "饮停之外尤以气滞胸胁满闷、逆抢于心为急，去白酒之升浮散，入枳实厚朴破下气滞并添桂枝平降冲逆。",
+      "boundary": "若属中虚微寒心中痞而无实滞抢逆者，当用人参汤（理中汤）。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页169",
+        "excerpt": "心中痞，留气结在胸，胸满，胁下逆抢心，枳实薤白桂枝汤主之，人参汤亦主之。"
+      }
+    },
+    {
+      "id": "mod-091",
+      "base_formula_id": "jinkui:越婢汤",
+      "base_formula_name": "越婢汤",
+      "condition": "里水，一身面目黄肿，其脉沉，小便不利（水在里兼脾湿，原文加术四两）",
+      "changes": {
+        "add": [
+          "白术（四两）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加白术（四两）"
+      },
+      "target_formula_id": null,
+      "target_formula_name": null,
+      "rationale": "水气非仅在皮表浮肿，兼入里脾湿致脉沉小便少，于越婢汤中加白术四两（越婢加术法）燥脾协麻石发越水湿。",
+      "boundary": "无热寒水脉沉细无力（正水少阴）忌重投石膏；原方随越婢汤条目方后加减记录。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页290",
+        "excerpt": "里水，越婢加术汤主之，甘草麻黄汤亦主之……于内加白术四两。"
+      }
+    },
+    {
+      "id": "mod-092",
+      "base_formula_id": "jinkui:越婢汤",
+      "base_formula_name": "越婢汤",
+      "condition": "咳而上气，此为肺胀，其人喘，目如脱状，脉浮大者",
+      "changes": {
+        "add": [
+          "半夏（半升）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加半夏（半升）"
+      },
+      "target_formula_id": "jinkui:越婢加半夏汤",
+      "target_formula_name": "越婢加半夏汤",
+      "rationale": "外感风热郁肺兼痰饮上逆致肺胀暴喘目突，加半夏半升化痰降逆配越婢清肺散水。",
+      "boundary": "表寒里冷无热喘咳则属小青龙汤或射干麻黄汤。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页152",
+        "excerpt": "咳而上气，此为肺胀，其人喘，目如脱状，脉浮大者，越婢加半夏汤主之。"
+      }
+    },
+    {
+      "id": "mod-093",
+      "base_formula_id": "jinkui:小青龙汤",
+      "base_formula_name": "小青龙汤",
+      "condition": "咳逆倚息不得卧，或寒饮冲悸气喘（去麻黄桂枝芍药，温化冲饮主方）",
+      "changes": {
+        "add": [
+          "茯苓（四两）"
+        ],
+        "remove": [
+          "麻黄",
+          "桂枝",
+          "芍药",
+          "半夏"
+        ],
+        "dose_adjust": [
+          "存干姜、细辛、甘草、五味子合茯苓，专温化寒饮而不发汗"
+        ],
+        "summary": "去麻黄、桂枝、芍药、半夏，加茯苓（四两），存干姜、细辛、甘草、五味子合茯苓，专温化寒饮而不发汗"
+      },
+      "target_formula_id": "jinkui:苓甘五味姜辛汤",
+      "target_formula_name": "苓甘五味姜辛汤",
+      "rationale": "大病或平素极虚不堪麻桂大汗发表者，独取小青龙中姜辛草味配茯苓淡渗温饮，护阳冲气不上逆。",
+      "boundary": "冲气复上且兼面热多涎者再递加半夏、杏仁。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页240",
+        "excerpt": "冲气即低，而反更咳、胸满者，用桂苓五味甘草汤去桂加干姜细辛，以治其咳满。"
+      }
+    },
+    {
+      "id": "mod-094",
+      "base_formula_id": "jinkui:苓甘五味姜辛汤",
+      "base_formula_name": "苓甘五味姜辛汤",
+      "condition": "水去呕止，其人形肿者；或咳满而更复吐涎沫不止",
+      "changes": {
+        "add": [
+          "半夏（半升）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加半夏（半升）"
+      },
+      "target_formula_id": "jinkui:苓甘五味姜辛半夏汤",
+      "target_formula_name": "苓甘五味姜辛半夏汤",
+      "rationale": "支饮咳嗽兼中焦饮逆吐痰呕恶（水去或未尽形微肿），加入半夏半升专走胃膈降逆消痰。",
+      "boundary": "仍属温化方，燥热阴虚咳血忌用。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页242",
+        "excerpt": "其人形肿者，加杏仁主之……若更复吐者，苓甘五味姜辛半夏汤主之。"
+      }
+    },
+    {
+      "id": "mod-095",
+      "base_formula_id": "jinkui:苓甘五味姜辛半夏汤",
+      "base_formula_name": "苓甘五味姜辛半夏汤",
+      "condition": "其人形肿者，加杏仁主之（兼表闭气急形肿）",
+      "changes": {
+        "add": [
+          "杏仁（半升去皮尖）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加杏仁（半升去皮尖）"
+      },
+      "target_formula_id": "jinkui:苓甘五味加姜辛半夏杏仁汤",
+      "target_formula_name": "苓甘五味加姜辛半夏杏仁汤",
+      "rationale": "喘咳肿剧，恐麻黄过发，乃以杏仁半升宣降肺气开皮毛之水而不伤正。",
+      "boundary": "依金匮原文警示：“以其人血虚，麻黄发其阳故也”。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页244",
+        "excerpt": "其人形肿者，加杏仁主之。证应纳麻黄，以其人痹（血虚），故不纳之。"
+      }
+    },
+    {
+      "id": "mod-096",
+      "base_formula_id": "jinkui:苓甘五味加姜辛半夏杏仁汤",
+      "base_formula_name": "苓甘五味加姜辛半夏杏仁汤",
+      "condition": "若面热如醉，此为胃热上冲熏其面（寒饮夹胃阳明冲热）",
+      "changes": {
+        "add": [
+          "大黄（三两）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加大黄（三两）"
+      },
+      "target_formula_id": "jinkui:苓甘五味加姜辛夏杏大黄汤",
+      "target_formula_name": "苓甘五味加姜辛夏杏大黄汤",
+      "rationale": "肺胃寒饮未清反见胃家阳热随饮上冲面赤如醉，加入大黄三两导胃热下行而不伤温饮大法。",
+      "boundary": "仅兼胃实面赤上冲时加入，大便溏寒清谷禁用。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页246",
+        "excerpt": "若面热如醉，此为胃热上冲熏其面，加大黄以利之。"
+      }
+    },
+    {
+      "id": "mod-097",
+      "base_formula_id": "jinkui:小半夏汤",
+      "base_formula_name": "小半夏汤",
+      "condition": "卒呕吐，心下痞，膈间有水，眩悸者",
+      "changes": {
+        "add": [
+          "茯苓（三两或四两）"
+        ],
+        "remove": [],
+        "dose_adjust": [],
+        "summary": "加茯苓（三两或四两）"
+      },
+      "target_formula_id": "jinkui:小半夏加茯苓汤",
+      "target_formula_name": "小半夏加茯苓汤",
+      "rationale": "痰饮在膈止呕之小半夏汤，兼头眩心悸乃饮停未泄，加茯苓导水从小便去。",
+      "boundary": "属止呕除饮专方，食热便秘呕吐非此所治。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页238",
+        "excerpt": "卒呕吐，心下痞，膈间有水，眩悸者，小半夏加茯苓汤主之。"
+      }
+    },
+    {
+      "id": "mod-098",
+      "base_formula_id": "jinkui:小半夏汤",
+      "base_formula_name": "小半夏汤",
+      "condition": "病人胸中似喘不喘，似呕不呕，似哕不哕，彻心中愦愦然无奈者",
+      "changes": {
+        "add": [],
+        "remove": [],
+        "dose_adjust": [
+          "改生姜四两为生姜汁二升，半夏同煮后徐徐小冷分服"
+        ],
+        "summary": "改生姜四两为生姜汁二升，半夏同煮后徐徐小冷分服"
+      },
+      "target_formula_id": "jinkui:生姜半夏汤",
+      "target_formula_name": "生姜半夏汤",
+      "rationale": "痰饮滞胸极微细顽固、气逆胶结，取峻辛破痰散结之生姜生汁合半夏，分四次冷服防格拒。",
+      "boundary": "生半夏炮制毒性极需注意，须合规炮制并规范操作。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页350",
+        "excerpt": "似喘不喘，似呕不呕，似哕不哕，彻心中愦愦然无奈者，生姜半夏汤主之。"
+      }
+    },
+    {
+      "id": "mod-099",
+      "base_formula_id": "jinkui:木防己汤",
+      "base_formula_name": "木防己汤",
+      "condition": "支饮喘满、心下痞坚、面色黧黑，初服防己汤不愈（石膏恐微清过而坚饮仍固）",
+      "changes": {
+        "add": [
+          "茯苓（四两）",
+          "芒硝（三合）"
+        ],
+        "remove": [
+          "石膏"
+        ],
+        "dose_adjust": [
+          "三日复与，以消心下痞坚"
+        ],
+        "summary": "去石膏，加茯苓（四两）、芒硝（三合），三日复与，以消心下痞坚"
+      },
+      "target_formula_id": "jinkui:木防己去石膏加茯苓芒硝汤",
+      "target_formula_name": "木防己去石膏加茯苓芒硝汤",
+      "rationale": "膈间支饮夹气血瘀结心下痞坚，初剂木防己清透未尽，知非浮热乃老饮胶坚，故去石膏之滞凉，易茯苓化气、芒硝软坚破结。",
+      "boundary": "得微利则痞消，中寒大便久泄慎芒硝。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页236",
+        "excerpt": "木防己汤主之。虚者即愈，实者三日复发，复与不愈者，宜木防己汤去石膏加茯苓芒硝汤主之。"
+      }
+    },
+    {
+      "id": "mod-100",
+      "base_formula_id": "jinkui:瓜蒂散",
+      "base_formula_name": "瓜蒂散",
+      "condition": "太阳中暍，身热疼重，而脉微弱，此以夏月伤冷水，水行皮中所致",
+      "changes": {
+        "add": [],
+        "remove": [
+          "赤小豆（原瓜蒂散配赤小豆）"
+        ],
+        "dose_adjust": [
+          "改单味瓜蒂二七个水煎（金匮另名一物瓜蒂汤）"
+        ],
+        "summary": "去赤小豆（原瓜蒂散配赤小豆），改单味瓜蒂二七个水煎（金匮另名一物瓜蒂汤）"
+      },
+      "target_formula_id": "jinkui:一物瓜蒂汤",
+      "target_formula_name": "一物瓜蒂汤",
+      "rationale": "伤水暍在皮表膈上而正虚脉微弱，去赤小豆免并利耗血，单取一味瓜蒂涌吐胸中寒水。",
+      "boundary": "剧烈催吐之品，失血亡阳或老弱心脏衰者慎禁。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页68",
+        "excerpt": "太阳中暍，身热疼重，而脉微弱，此以夏月伤冷水，水行皮中所致也，一物瓜蒂汤主之。"
+      }
+    },
+    {
+      "id": "mod-101",
+      "base_formula_id": "jinkui:小建中汤",
+      "base_formula_name": "小建中汤",
+      "condition": "虚劳里急，诸不足（兼具表气不固、自汗短气甚者）",
+      "changes": {
+        "add": [
+          "黄耆（一两半）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "与小建中汤合用（或气短胸满者再去桂枝加茯苓等方后三加减）"
+        ],
+        "summary": "加黄耆（一两半），与小建中汤合用（或气短胸满者再去桂枝加茯苓等方后三加减）"
+      },
+      "target_formula_id": "jinkui:黄耆建中汤",
+      "target_formula_name": "黄耆建中汤",
+      "rationale": "大补中气之外复增黄耆益卫实表，固汗托虚，并载“呕家不可用建中”及加减微义。",
+      "boundary": "方后记：气短胸满者加生姜；腹满去枣加茯苓；及疗肺虚损不足补气加半夏三两。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页116",
+        "excerpt": "虚劳里急，诸不足，黄耆建中汤主之。"
+      }
+    },
+    {
+      "id": "mod-102",
+      "base_formula_id": "jinkui:白头翁汤",
+      "base_formula_name": "白头翁汤",
+      "condition": "产后下利虚极（热利兼产后阴血暴虚）",
+      "changes": {
+        "add": [
+          "甘草（二两）",
+          "阿胶（二两）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "共水七升煮后纳阿胶烊服"
+        ],
+        "summary": "加甘草（二两）、阿胶（二两），共水七升煮后纳阿胶烊服"
+      },
+      "target_formula_id": "jinkui:白头翁加甘草阿胶汤",
+      "target_formula_name": "白头翁加甘草阿胶汤",
+      "rationale": "产后亡血下利热重迫急，纯用苦寒恐伤胃阴血海，故于白头翁汤加阿胶养血止血、甘草和中止急。",
+      "boundary": "寒湿清谷冷利禁用。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页402",
+        "excerpt": "产后下利虚极，白头翁加甘草阿胶汤主之。"
+      }
+    },
+    {
+      "id": "mod-103",
+      "base_formula_id": "jinkui:大黄牡丹汤",
+      "base_formula_name": "大黄牡丹汤",
+      "condition": "肠痈已成脓（身甲错，腹皮急按之濡如肿状，腹无积聚，身无热，脉数）",
+      "changes": {
+        "add": [
+          "薏苡仁（十分）",
+          "附子（二分）",
+          "败酱草（五分）"
+        ],
+        "remove": [
+          "大黄",
+          "牡丹皮",
+          "桃仁",
+          "冬瓜仁",
+          "芒硝"
+        ],
+        "dose_adjust": [],
+        "summary": "去大黄、牡丹皮、桃仁、冬瓜仁、芒硝，加薏苡仁（十分）、附子（二分）、败酱草（五分）"
+      },
+      "target_formula_id": "jinkui:薏苡附子败酱散",
+      "target_formula_name": "薏苡附子败酱散",
+      "rationale": "肠痈分前后期：初起按痛脉紧为瘀热实结未溃，主大黄牡丹汤急下消之；一旦脓已成、身甲错无大热，不可再行芒硝大黄破泄伤正，转薏苡附子败酱散托阳排脓。",
+      "boundary": "临床急性腹痛必须现代急诊鉴查阑尾穿孔指征，古方分化仅作辨证原理研习。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页370",
+        "excerpt": "肠痈之为病，其身甲错，腹皮急，按之濡，如肿状，腹无积聚，身无热，脉数，此为肠内有痈脓，薏苡附子败酱散主之。"
+      }
+    },
+    {
+      "id": "mod-104",
+      "base_formula_id": "jinkui:枳实芍药散",
+      "base_formula_name": "枳实芍药散",
+      "condition": "产后腹痛，服枳实芍药散不愈者，此为腹中有瘀血着脐下",
+      "changes": {
+        "add": [
+          "大黄（一两）",
+          "桃仁（三十个）",
+          "蟅虫（二十枚）"
+        ],
+        "remove": [
+          "枳实",
+          "芍药"
+        ],
+        "dose_adjust": [
+          "炼蜜丸，以酒一升煮丸顿服（下瘀血汤）"
+        ],
+        "summary": "去枳实、芍药，加大黄（一两）、桃仁（三十个）、蟅虫（二十枚），炼蜜丸，以酒一升煮丸顿服（下瘀血汤）"
+      },
+      "target_formula_id": "jinkui:下瘀血汤",
+      "target_formula_name": "下瘀血汤",
+      "rationale": "轻剂气滞血阻用枳实芍药和气血；若瘀结脐下硬滞不去，改酒煮峻逐血瘀之下瘀血汤（亦治经水不利）。",
+      "boundary": "妊娠绝对禁用；虫类破瘀峻剂产后亦须确证老瘀着脐下方慎辨。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页398",
+        "excerpt": "产妇腹痛，法当以枳实芍药散。假令不愈者，此为腹中有瘀血着脐下，宜下瘀血汤主之。"
+      }
+    },
+    {
+      "id": "mod-105",
+      "base_formula_id": "shanghan:当归四逆汤",
+      "base_formula_name": "当归四逆汤",
+      "condition": "若其人内有久寒者（经脉血虚寒凝兼中下焦沉寒胃痛呕逆）",
+      "changes": {
+        "add": [
+          "吴茱萸（二升）",
+          "生姜（半斤）"
+        ],
+        "remove": [],
+        "dose_adjust": [
+          "改水六升清酒六升各半同煮"
+        ],
+        "summary": "加吴茱萸（二升）、生姜（半斤），改水六升清酒六升各半同煮"
+      },
+      "target_formula_id": "shanghan:当归四逆加吴茱萸生姜汤",
+      "target_formula_name": "当归四逆加吴茱萸生姜汤",
+      "rationale": "血虚受寒手足厥冷兼脾胃肝经素有久寒水逆，加温散厥阴沉寒之吴茱萸配生姜，并以清酒助药力直达四末。",
+      "boundary": "实热大渴呕血者禁用。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页197",
+        "excerpt": "若其人内有久寒者，宜当归四逆加吴茱萸生姜汤。"
+      }
+    },
+    {
+      "id": "mod-106",
+      "base_formula_id": "shanghan:大陷胸丸",
+      "base_formula_name": "大陷胸丸",
+      "condition": "结胸热实，脉沉而紧，心下痛按之石硬；日晡所小有潮热，从心下至少腹硬满而痛不可近",
+      "changes": {
+        "add": [],
+        "remove": [
+          "葶苈子",
+          "杏仁",
+          "白蜜"
+        ],
+        "dose_adjust": [
+          "单取大黄、芒硝、甘遂三味（大陷胸汤）峻速泻水逐热"
+        ],
+        "summary": "去葶苈子、杏仁、白蜜，单取大黄、芒硝、甘遂三味（大陷胸汤）峻速泻水逐热"
+      },
+      "target_formula_id": "shanghan:大陷胸汤",
+      "target_formula_name": "大陷胸汤",
+      "rationale": "圆缓破结胸兼颈项强用大陷胸丸（合葶苈杏仁白蜜徐行）；热实水饮急聚自心下至腹石硬痛不可近，急取汤剂大黄芒硝甘遂直下。",
+      "boundary": "甘遂极烈大毒逐水，一服得利即止，体虚痞证（非实痛）误服立危。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页91",
+        "excerpt": "从心下至少腹硬满而痛不可近者，大陷胸汤主之。"
+      }
+    },
+    {
+      "id": "mod-107",
+      "base_formula_id": "shanghan:小陷胸汤",
+      "base_formula_name": "小陷胸汤",
+      "condition": "小结胸病，正在心下，按之则痛，脉浮滑者（痰热交结未成大水实，以大陷胸对比）",
+      "changes": {
+        "add": [
+          "黄连（一两）",
+          "半夏（半升）",
+          "栝蒌实（大者一枚）"
+        ],
+        "remove": [
+          "大黄",
+          "芒硝",
+          "甘遂"
+        ],
+        "dose_adjust": [],
+        "summary": "去大黄、芒硝、甘遂，加黄连（一两）、半夏（半升）、栝蒌实（大者一枚）"
+      },
+      "target_formula_id": "shanghan:大陷胸汤",
+      "target_formula_name": "大陷胸汤",
+      "rationale": "热毒大水实痛属大陷胸；仅痰热互结心下、但按之始痛、脉浮滑者用小陷胸汤清热化痰开结，毋须甘遂芒硝峻泻。",
+      "boundary": "与只满不痛之寒热错杂半夏泻心汤亦当严分。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "伤寒论",
+        "ref": "页97",
+        "excerpt": "小结胸病，正在心下，按之则痛，脉浮滑者，小陷胸汤主之。"
+      }
+    },
+    {
+      "id": "mod-108",
+      "base_formula_id": "jinkui:小建中汤",
+      "base_formula_name": "小建中汤",
+      "condition": "胸痹心中寒气大痛、腹皮起有头足上下痛而不可触近（中虚奇寒，改投蜀椒干姜峻温）",
+      "changes": {
+        "add": [
+          "蜀椒",
+          "干姜"
+        ],
+        "remove": [
+          "桂枝",
+          "芍药",
+          "甘草",
+          "生姜",
+          "大枣"
+        ],
+        "dose_adjust": [
+          "重用蜀椒、干姜、人参配饴糖"
+        ],
+        "summary": "去桂枝、芍药、甘草、生姜、大枣，加蜀椒、干姜，重用蜀椒、干姜、人参配饴糖"
+      },
+      "target_formula_id": "jinkui:大建中汤",
+      "target_formula_name": "大建中汤",
+      "rationale": "小建中重在饴糖芍药桂枝甘姜调营建中；若心胸腹痛见大寒气逆、肠蠕动冲起头足如蛇、不可触按，须弃桂枝芍药而专取蜀椒干姜人参胶饴峻温补阳。",
+      "boundary": "属中焦纯虚大寒奇痛，里热结痛或腹膜炎化脓实热严禁温补。",
+      "evidence_status": "verified",
+      "source": {
+        "book": "金匮要略",
+        "ref": "页188",
+        "excerpt": "心胸中大寒痛，呕不能饮食，腹中寒，上冲皮起，出见有头足，上下痛而不可触近，大建中汤主之。"
+      }
+    }
+  ]
+}

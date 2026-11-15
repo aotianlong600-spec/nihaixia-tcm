@@ -1,4 +1,4 @@
-param([string]$DataDirectory = (Join-Path $PSScriptRoot 'data'), [int]$Port=8767, [switch]$NoBrowser)
+﻿param([string]$DataDirectory = (Join-Path $PSScriptRoot 'data'), [int]$Port=8767, [switch]$NoBrowser)
 $ErrorActionPreference = 'Stop'
 $serviceUrl = "http://127.0.0.1:$Port"
 $dataPath = [System.IO.Path]::GetFullPath($DataDirectory)
@@ -9,7 +9,7 @@ if ($health -and $health.app_id -ne 'tcm-knowledge-core') { throw "Port $Port is
 if (-not $health) {
     $pythonPath = Join-Path $PSScriptRoot '.venv\Scripts\python.exe'
     if (-not (Test-Path -LiteralPath $pythonPath)) { $pythonPath = (Get-Command python.exe -ErrorAction Stop).Source }
-    & $pythonPath -c 'import fastapi, uvicorn, pydantic, pdfplumber, pypdfium2'
+    & $pythonPath -c 'import fastapi, uvicorn, pydantic, pdfplumber, pypdfium2, httpx'
     if ($LASTEXITCODE -ne 0) { throw 'Dependencies missing. Run setup.cmd first.' }
     $runScript = Join-Path $PSScriptRoot 'scripts\run.py'
     $arguments = @('-u', ('"' + $runScript + '"'), '--data-dir', ('"' + $dataPath + '"'), '--port', "$Port")

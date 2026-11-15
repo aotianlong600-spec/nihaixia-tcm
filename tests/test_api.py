@@ -29,22 +29,6 @@ def token_fixture(data_dir: Path) -> str:
     return (data_dir / "write_token.txt").read_text(encoding="utf-8").strip()
 
 
-@pytest.fixture(name="synthetic_catalog")
-def synthetic_catalog_fixture(monkeypatch):
-    catalog = {
-        "formulas": [
-            {"id": "synthetic-a", "name": "合成方甲", "syndrome": "合成证甲",
-             "components": [{"name": "药材甲"}], "source_refs": []},
-            {"id": "synthetic-b", "name": "合成方乙", "syndrome": "合成证乙",
-             "components": [{"name": "药材乙"}], "source_refs": []},
-        ],
-        "patterns": [],
-        "source_metadata": {},
-    }
-    monkeypatch.setattr("app.main.catalog", lambda: catalog)
-    return catalog
-
-
 def archive(files: dict[str, bytes]) -> bytes:
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, "w") as bundle:
@@ -85,22 +69,53 @@ def test_write_token_file_is_created(data_dir, client):
     assert (data_dir / "write_token.txt").read_text(encoding="utf-8").strip()
 
 
-def test_overview_reports_empty_catalog(client):
+def test_overview_reports_curated_brain_catalog(client):
     payload = client.get("/api/overview").json()
-    assert payload["formulas"] == 0
-    assert payload["patterns"] == 0
-    assert payload["source_metadata"] == {}
+    assert payload["formulas"] >= 299
+    assert payload["herbs"] > 0
     assert payload["documents"] == 0
     assert payload["sources"] == 0
+    assert "acupuncture_summary" in payload
+    assert "bencao_summary" in payload
+    assert "neijing_summary" in payload
 
 
-def test_shipped_catalog_is_empty(client):
-    catalog = json.loads((Path(__file__).resolve().parents[1] / "app" / "resources"
-                          / "open_formula_library.json").read_text(encoding="utf-8"))
-    assert catalog == {"formulas": [], "patterns": [], "source_metadata": {}}
-    assert client.get("/api/formulas").json() == {"total": 0, "items": []}
-    assert client.get("/api/formulas", params={"q": "任意条目"}).json() == {"total": 0, "items": []}
+def test_formula_index_detail_and_filter(client):
+    listing = client.get("/api/formulas", params={"page_size": 20}).json()
+    assert listing["total"] >= 299
+    assert len(listing["items"]) == 20
+    first = listing["items"][0]
+    assert set(first) >= {"id", "name", "six_meridian", "book"}
+
+    detail = client.get(f"/api/formulas/{first['id']}").json()
+    assert detail["id"] == first["id"]
+    assert isinstance(detail["ingredients"], list)
+
+    guizhi = client.get("/api/formulas", params={"q": "桂枝汤"}).json()
+    assert guizhi["total"] >= 1
+    assert any("桂枝汤" in item["name"] for item in guizhi["items"])
+    assert client.get("/api/formulas", params={"q": "不存在的虚构方名xyz"}).json()["total"] == 0
     assert client.get("/api/formulas/not-a-formula").status_code == 404
+
+
+def test_stage5_library_and_frontend_shell(client):
+    lib = client.get("/api/library/books").json()
+    assert lib["total"] == 17
+
+    composed = client.get("/api/stage5/compose", params={"q": "发热 恶风 自汗"}).json()
+    assert composed["candidate_formulas"]
+
+    grounded = client.get("/api/stage5/ground", params={"q": "少阳 往来寒热"}).json()
+    assert grounded["verified_citations"]
+
+    html = client.get("/")
+    assert html.status_code == 200
+    assert "倪师AI开方" in html.text
+    assert 'src="/ni_ai.js"' in html.text
+
+    js = client.get("/ni_ai.js")
+    assert js.status_code == 200
+    assert "/api/ai/chat/stream" in js.text
 
 
 def test_writes_without_token_are_refused(client):
@@ -116,30 +131,6 @@ def test_wrong_token_is_refused(client):
 def test_unsupported_methods_are_refused(client, token):
     assert client.put("/api/formulas", headers={"X-Write-Token": token}).status_code == 405
     assert client.delete("/api/formulas/anything", headers={"X-Write-Token": token}).status_code == 405
-
-
-def test_formula_index_and_detail(client, synthetic_catalog):
-    listing = client.get("/api/formulas").json()
-    assert listing["total"] > 0
-    first = listing["items"][0]
-    assert set(first) >= {"id", "name", "syndrome"}
-    detail = client.get(f"/api/formulas/{first['id']}").json()
-    assert detail["id"] == first["id"]
-    assert isinstance(detail["components"], list)
-    assert client.get("/api/formulas/not-a-formula").status_code == 404
-
-
-@pytest.mark.parametrize(("query", "expected_id"), [
-    ("合成方甲", "synthetic-a"),
-    ("合成证乙", "synthetic-b"),
-    ("药材甲", "synthetic-a"),
-])
-def test_formula_filter(client, synthetic_catalog, query, expected_id):
-    total = client.get("/api/formulas").json()["total"]
-    filtered = client.get("/api/formulas", params={"q": query}).json()
-    assert 0 < filtered["total"] <= total
-    assert [item["id"] for item in filtered["items"]] == [expected_id]
-    assert client.get("/api/formulas", params={"q": "不存在的药名"}).json()["total"] == 0
 
 
 def test_empty_library_reads(client):
@@ -207,14 +198,6 @@ def test_unknown_page_is_404(client):
 def test_search_requires_query(client):
     assert client.get("/api/search").status_code == 422
     assert client.get("/api/search", params={"q": ""}).status_code == 422
-
-
-def test_six_meridian_field_is_gone(client, synthetic_catalog):
-    """合成目录保持现有读取契约，不重新引入六经字段。"""
-    listing = client.get("/api/formulas").json()
-    assert all("six_meridian" not in item for item in listing["items"])
-    detail = client.get(f"/api/formulas/{listing['items'][0]['id']}").json()
-    assert "six_meridian" not in detail
 
 
 def test_security_headers(client):

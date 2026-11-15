@@ -1,0 +1,3967 @@
+{
+  "schema_version": "1.0.0",
+  "sources": [
+    "ni-neijing-vol1-pdf",
+    "ni-neijing-vol2-pdf"
+  ],
+  "accepted_batches": [
+    "nj_core_pillars_vol1.json",
+    "nj_clinical_pillars_vol2.json",
+    "nj_vol1_remaining.json",
+    "nj_vol2_diseases_needling.json",
+    "nj_vol2_regulation_closing.json",
+    "nj_thematic_concepts.json",
+    "nj_thematic_concepts_vol2.json"
+  ],
+  "stats": {
+    "total": 34,
+    "approved": 34,
+    "pending": 0,
+    "high_risk_or_emergency": 18,
+    "by_submodule": {
+      "yin_yang_wu_xing": 5,
+      "zang_xiang": 5,
+      "bing_yin_bing_ji": 7,
+      "zhen_fa": 6,
+      "bian_zheng": 6,
+      "yang_sheng": 5
+    }
+  },
+  "items": [
+    {
+      "id": "concept:nj:san-yin-san-yang-kaihe",
+      "record_type": "theory",
+      "submodule": "yin_yang_wu_xing",
+      "canonical_name": "三阴三阳开阖枢与井穴根结（六经渊源）",
+      "doctrine_key": "三阳开阖枢空间分部与六经桥接",
+      "chapter_ids": [
+        "nj:suwen:06",
+        "nj:suwen:21",
+        "nj:suwen:31"
+      ],
+      "summary": "阐明太阳为开、阳明为阖、少阳为枢的“三阳离合”定位法则，指出太阳起于至阴、阳明起于厉兑、少阳起于窍阴，三经不得相失；该三阳三阴层阶观与《经脉别论》《热论》直接构成《伤寒论》六经辨证的理论母体。",
+      "differentiation_rules": [
+        {
+          "condition": "外邪由表入里之开阖枢层次",
+          "manifestations": "风寒先袭太阳（开：头项强痛恶寒）→ 或枢转少阳（枢：往来寒热、胸胁苦满耳聋）→ 或合入阳明（阖：身热目痛鼻干、腑燥结实）。",
+          "traditional_judgment": "开枢在表半表宜从汗解、和解；既阖入阳明腑则禁妄汗，转用泄下或清阳明经热；不可相失令传入阴经。",
+          "classic_basis": "《素问·阴阳离合论》《经脉别论》《热论》（上册p.44、p.125；下册p.154–155）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "six_channels",
+          "target_id": "taiyang",
+          "label": "太阳病（开·门户）",
+          "rationale": "太阳为诸阳之属且主开，对应表证风寒首犯"
+        },
+        {
+          "target_module": "six_channels",
+          "target_id": "shaoyang",
+          "label": "少阳病（枢·转枢）",
+          "rationale": "少阳为半表半里枢机，往来寒热口苦咽干咽痛"
+        },
+        {
+          "target_module": "six_channels",
+          "target_id": "yangming",
+          "label": "阳明病（阖·受纳里热）",
+          "rationale": "阳明主阖主里热燥结，入阳明多不复传阴"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:st45:厉兑",
+          "label": "穴位：厉兑（阳明井穴）",
+          "rationale": "《阴阳离合论》明言“阳明根起于厉兑”"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:du04:命门",
+          "label": "穴位：命门（太阳所结）",
+          "rationale": "《阴阳离合论》言“太阳根起于至阴，结于命门”（注：古释命门含目内眦晴明及督脉命门两说）"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:小柴胡汤",
+          "label": "《伤寒论》小柴胡汤",
+          "rationale": "和解少阳枢机之第一核心方"
+        }
+      ],
+      "historical_boundary_note": "“开阖枢”以门户开关譬喻经气向表向里出入趋势，用于统摄六经病位深浅与经络起止走向，非机械物理阀门。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:san-yin-san-yang-kaihe:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p046",
+          "pdf_page": 46,
+          "printed_page": 44,
+          "chapter_path": "三阴三阳开阖枢与井穴根结（六经渊源）",
+          "quote": "太阳根起于至阴",
+          "quote_sha256": "bfa11a746a72cbf60c3a4500170c0543a7a7aa562ee363c5421f28978a10821d",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:san-yin-san-yang-kaihe:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p046",
+          "pdf_page": 46,
+          "printed_page": 44,
+          "chapter_path": "三阴三阳开阖枢与井穴根结（六经渊源）",
+          "quote": "是故三阳之离合也。太阳为开，阳明为阖，少阳为枢。三经者，不得相失也。",
+          "quote_sha256": "23c122396f58967b81aa31a6de5807b4caa0ec86f6330dd84315d19cab82b6b3",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:san-yin-san-yang-kaihe:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p127",
+          "pdf_page": 127,
+          "printed_page": 125,
+          "chapter_path": "三阴三阳开阖枢与井穴根结（六经渊源）",
+          "quote": "第三节 六经辨证",
+          "quote_sha256": "97dfcb39547df28794226c3fe8799e61ce6d62e2108b47eaacba3db36baadbdc",
+          "role": "collation_notes"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·阴阳离合论》] “太阳根起于至阴，结于命门”“阳明根起于厉兑”“少阳根起于窍阴”“太阳为开，阳明为阖，少阳为枢”（上册p.44）"
+        ],
+        "ni_teaching": [
+          "把足三阳井穴（至阴、厉兑、窍阴）与“太阳为大门开合、少阳为门枢转纽、阳明为关闭收纳”统一起来，解释为何六经病多由太阳起始而或止于阳明、或枢转入里。"
+        ],
+        "other_annotations": [
+          "《伤寒论》六经传经与提纲（太阳表、阳明里、少阳半表半里）即依此离合枢机展开。"
+        ],
+        "collation_notes": [
+          "p.44“厉兑”转录作“历兑”；三阴开阖枢（太阴开、厥阴阖、少阴枢）于后续篇目校对补齐。"
+        ],
+        "organizer_summary": [
+          "直接打通《内经》三阴三阳理论、针灸足部井穴与《伤寒论》六经架构三大模块。"
+        ]
+      },
+      "open_questions": [
+        "《阴阳离合论》原文本节末尾三阴开阖枢讲记简略带过，待对照通行本详注。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:wu-xing-sheng-ke",
+      "record_type": "theory",
+      "submodule": "yin_yang_wu_xing",
+      "canonical_name": "五行生克、五味五色配属与补母泻子",
+      "doctrine_key": "五行制化与五脏互调法则",
+      "chapter_ids": [
+        "nj:suwen:01",
+        "nj:suwen:04",
+        "nj:suwen:10"
+      ],
+      "summary": "汇集《素问》木火土金水与五脏（肝心脾肺肾）、五方、五色（青赤黄白黑）、五味（酸苦甘辛咸）、五官五体配合纲领，并结合《难经》“虚则补其母、实则泻其子”“泻南补北”，解释五脏病传与临床制衡取穴用药思维。",
+      "differentiation_rules": [
+        {
+          "condition": "五脏生克传变与补母泻子",
+          "manifestations": "某脏偏实或偏虚连及相邻脏腑（如肝木生心火、心火克肺金、肺金不制肝木，或心火亢盛需肾水制约）。",
+          "traditional_judgment": "遵循“实则泻其子、虚则补其母”，如心火偏旺失制时兼用滋肾水以“泻南补北”，或依据五合五主制衡原则调治。",
+          "classic_basis": "《素问·上古天真论》《五脏生成》及讲记并引《难经》（上册p.11、p.62–67）"
+        },
+        {
+          "condition": "五味偏嗜伤脏辨别",
+          "manifestations": "过食咸、苦、甘、辛、酸致脉凝、骨痛、皮肤槁、筋急、肉胝皱。",
+          "traditional_judgment": "饮食宜淡和调中，过食某味反制所胜或伤所合之组织，临证审问嗜味可溯脏偏。",
+          "classic_basis": "《素问·五脏生成》《金匮真言论》（上册p.27、p.62）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "acupuncture",
+          "target_id": "meridian:lu",
+          "label": "手太阴肺经（母子补泻渊源）",
+          "rationale": "肺金虚则补脾土、实则泻肾水之五输配穴基础"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:lu09:太渊",
+          "label": "太渊穴（肺之原/俞土）",
+          "rationale": "五俞穴“土生金”培土生金实操要穴"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:干地黄",
+          "label": "本草：干地黄",
+          "rationale": "讲记p.62明确举例“心生血不足时用熟地等补肾水生心血”"
+        },
+        {
+          "target_module": "jinkui_formulas",
+          "target_id": "jinkui:八味肾气丸",
+          "label": "《金匮》八味肾气丸",
+          "rationale": "滋水涵木、水火相济调治下焦肾阴肾阳之代表方"
+        }
+      ],
+      "historical_boundary_note": "五行生克系传统关系模型而非化学营养元素分析，讲记中将五色直接套用人种特征系口语比喻而非经文原义。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:wu-xing-sheng-ke:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p013",
+          "pdf_page": 13,
+          "printed_page": 11,
+          "chapter_path": "五行生克、五味五色配属与补母泻子",
+          "quote": "除了“实则泻其子，虚则补其母”之外",
+          "quote_sha256": "a674b833c81748603c79de0d3a84697ed4f071d20e75b93678699a49b8823784",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:wu-xing-sheng-ke:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p064",
+          "pdf_page": 64,
+          "printed_page": 62,
+          "chapter_path": "五行生克、五味五色配属与补母泻子",
+          "quote": "心之合，脉也。其荣",
+          "quote_sha256": "096017bcaf770baf2042908db45faeb8462a7ef6dd8b9e3a8f931fea4b20497d",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:wu-xing-sheng-ke:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p069",
+          "pdf_page": 69,
+          "printed_page": 67,
+          "chapter_path": "五行生克、五味五色配属与补母泻子",
+          "quote": "过实的时候我们前面难经我那时候我有提“泻南补北”，那我们要怎么样子？“子能令母实，母能令子",
+          "quote_sha256": "c31f8d621e3003c1feab000fd34195bc0db993aa4a51bea9bc04c63eb5397734",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·五脏生成》] “心之合，脉也。其荣色也，其主肾也；肺之合，皮也。其荣毛也，其主心也……”（上册p.62）"
+        ],
+        "ni_teaching": [
+          "点出“其主肾也”之真意：所主者即能克制、监护该脏者；如心贫血悸动时用熟地等补肾水，水旺则心火定。",
+          "将五行生克直接对接针灸五俞穴母子补泻，打通针刺补母泻子法则。"
+        ],
+        "other_annotations": [
+          "《难经·六十九难》“虚者补其母，实者泻其子”与《内经》五行治则互为表里。"
+        ],
+        "collation_notes": [
+          "将《上古天真论》讲记所引《难经》母子补泻与第4、10篇《素问》五行配属统一成专题。"
+        ],
+        "organizer_summary": [
+          "建立五脏、五味、五色制衡关系，兼顾针灸母子补泻与方剂配伍思路。"
+        ]
+      },
+      "open_questions": [
+        "五运六气十天干甲乙化运（见《六节藏象论》p.56–59）与五行生克更深推演待整理。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:wufang-yifa-fashi",
+      "record_type": "theory",
+      "submodule": "yin_yang_wu_xing",
+      "canonical_name": "五方异法方宜与藏气法时干支苦欲",
+      "doctrine_key": "地势五行与五味苦欲时间节律",
+      "chapter_ids": [
+        "nj:suwen:12",
+        "nj:suwen:22",
+        "nj:suwen:49",
+        "nj:suwen:72"
+      ],
+      "summary": "合参《异法方宜论》《藏气法时论》与《脉解篇》：揭示五方地域水土饮食所偏而衍生砭石、毒药、灸焫、微针、导引按蹻五治杂合；建构五脏应十天干日夜昼时轻重愈甚之时间节律，并确立酸苦甘辛咸“五脏苦欲补泻”及四时气序“退位”失衡观。",
+      "differentiation_rules": [
+        {
+          "condition": "五方地势饮食失偏",
+          "manifestations": "东方鱼盐致热中痈疡；西方肥甘致内生之病；北方藏寒满病；南方湿热痉痹；中央少劳萎厥寒热。",
+          "traditional_judgment": "杂合五法以治：东宜砭石、西宜毒药、北宜灸焫、南宜微针、中央宜导引按蹻。",
+          "classic_basis": "《素问·异法方宜论》（上册p.72–73）"
+        },
+        {
+          "condition": "五脏干支昼夜节律与五味苦欲失调",
+          "manifestations": "肝病畏风于秋金庚辛危；心病危于亥子壬癸水刻时；肾病于戊己四季交界加重，喜苦坚阴、辛润燥、咸泻实。",
+          "traditional_judgment": "肝苦急急食甘缓之；心苦缓缓食酸收之；脾苦湿急食苦燥之；肺苦气上逆急食苦泄之；肾苦燥急食辛润之。",
+          "classic_basis": "《素问·藏气法时论》（上册p.126–130）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:甘草",
+          "label": "本草：甘草",
+          "rationale": "甘味缓肝急、调和诸味，直接印证《藏气法时论》“肝苦急，急食甘以缓之”"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:大黄",
+          "label": "本草：大黄",
+          "rationale": "苦味泄实燥湿与荡涤肠胃热结"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "tech:heavenly_stems_meridians",
+          "label": "针法：十二经纳天干歌",
+          "rationale": "将十天干五行气化观从《内经》藏气法时延伸至针灸经脉开穴"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "tech:earthly_branches_horary_flow",
+          "label": "针法：十二经纳地支与时辰",
+          "rationale": "心脏亥子时加重、肺脾胃分时盛衰对应地支流注验效"
+        }
+      ],
+      "historical_boundary_note": "天干日夜克应与五方治法乃古代五行时空医学范式，不可用于排斥现代全天候监护与多地通用急救手段。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:wufang-yifa-fashi:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p075",
+          "pdf_page": 75,
+          "printed_page": 73,
+          "chapter_path": "五方异法方宜与藏气法时干支苦欲",
+          "quote": "那治宜导引按蹻，就是练工夫运动啊",
+          "quote_sha256": "5822268fadba9874850d55c218d8be5dc58ebac287501c4cf7f5a2235d5fbb8e",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:wufang-yifa-fashi:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p130",
+          "pdf_page": 130,
+          "printed_page": 128,
+          "chapter_path": "五方异法方宜与藏气法时干支苦欲",
+          "quote": "半夜和晚上，亥时和子时的时候，是不是水？水是相克的",
+          "quote_sha256": "8caced7bd39fc7df9ba678ffdf41eb61463aa6390d03103471e92a258a585200",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:wufang-yifa-fashi:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p131",
+          "pdf_page": 131,
+          "printed_page": 129,
+          "chapter_path": "五方异法方宜与藏气法时干支苦欲",
+          "quote": "用苦补它，用咸来泄它。",
+          "quote_sha256": "55903f679156e04d05023ff04ce8d128d7871325b2d1781fce5ff838b76ced6f",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·藏气法时论》云：“肝苦急，急食甘以缓之；心苦缓，急食酸以收之；脾苦湿，急食苦以燥之。”",
+          "《素问·异法方宜论》述五方“圣人杂合以治，各得其所宜”。"
+        ],
+        "ni_teaching": [
+          "强调不可把五方饮食治法看死，实乃以“平衡”为尺：阴不足阳有余者减咸防热中，阳不足者助阳。",
+          "以心病危于亥子水时、肾危于辰巳午未土克之界，贯通《内经》时间诊疗观。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）4篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》yin_yang_wu_xing专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:yin-yang-gangji",
+      "record_type": "theory",
+      "submodule": "yin_yang_wu_xing",
+      "canonical_name": "阴阳纲纪与生杀变化（重阴必阳·阳病治阴）",
+      "doctrine_key": "阴阳转化与表里互治总纲",
+      "chapter_ids": [
+        "nj:suwen:03",
+        "nj:suwen:05",
+        "nj:suwen:06"
+      ],
+      "summary": "确立阴阳为天地万物之纲纪、形与气之总属：阴守内、阳使外，阳化气、阴成形；揭示重阴必阳、重阳必阴的寒热转化机理，并推导出“气伤痛、形伤肿”与“阳病治阴、阴病治阳”之辨治总则。",
+      "differentiation_rules": [
+        {
+          "condition": "形与气之阴阳分属（手掌、肌肉、形体 vs 力量、气机）",
+          "manifestations": "能见之皮肤血管肌肉属阴之形；无形之握力、体温煦达与功能活动属阳之气。",
+          "traditional_judgment": "有形无神或阳不能固表则汗漏亡阴；阴虚无所依则浮阳外越。气伤先痛，形伤先肿，先痛后肿为气伤形。",
+          "classic_basis": "《素问·阴阳应象大论》《生气通天论》《上古天真论》（上册p.10、p.20、p.33–43）"
+        },
+        {
+          "condition": "重阴必阳与阳病治阴 / 阴病治阳",
+          "manifestations": "表实大热或实证便秘（阳病）延久伤阴；肝胆阴脏病变伴二便不通或冷热转化。",
+          "traditional_judgment": "见阳明热结急顾阴液防伤阴；见阴病（如肝病）先畅阳腑二便（阳通则阴病不陷）；严辨真寒假热与重寒化热。",
+          "classic_basis": "《素问·阴阳应象大论》“重阴必阳，重阳必阴”“阳病治阴，阴病治阳”（上册p.37、p.43）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "six_channels",
+          "target_id": "shaoyin",
+          "label": "少阴病 · 真寒假热转化",
+          "rationale": "阴盛格阳（重阴似阳）对应少阴四逆汤、通脉四逆汤证候识别"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:四逆汤",
+          "label": "《伤寒论》四逆汤",
+          "rationale": "用于阴盛格阳、亡阳欲脱回阳救逆之经方例证"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:附子",
+          "label": "本草：附子",
+          "rationale": "讲记于p.37举大热汗出真寒用生附子说明不可唯热象误用寒凉"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:ren04:关元",
+          "label": "穴位：关元",
+          "rationale": "小肠募穴与培元固阴顾阳核心大穴"
+        }
+      ],
+      "historical_boundary_note": "阴阳对立消长与“形气阴阳”属于中国古代自然哲学与中医基础理论范式，讲记中个别极端气候与生附子救治案例属个人经验讲解，非普适现代治疗建议。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:yin-yang-gangji:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p035",
+          "pdf_page": 35,
+          "printed_page": 33,
+          "chapter_path": "阴阳纲纪与生杀变化（重阴必阳·阳病治阴）",
+          "quote": "黄帝就说了，\"阴阳者天地之",
+          "quote_sha256": "bc65e47a43e094bf3f49096179ce5be13f4d879ffc2a3800f7fe54fb28887bb1",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:yin-yang-gangji:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p039",
+          "pdf_page": 39,
+          "printed_page": 37,
+          "chapter_path": "阴阳纲纪与生杀变化（重阴必阳·阳病治阴）",
+          "quote": "所以重阴必阳，重阳必阴，故曰冬伤于寒，春必瘟病",
+          "quote_sha256": "916c584b7d269c8dd8c7dfac9b8c5d5d4bd712195a0a77065209716d4362231a",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:yin-yang-gangji:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p045",
+          "pdf_page": 45,
+          "printed_page": 43,
+          "chapter_path": "阴阳纲纪与生杀变化（重阴必阳·阳病治阴）",
+          "quote": "阳病治阴，阴病治阳",
+          "quote_sha256": "8f45bb402f56cd5c14bf1f2b27361cb846582aa73e32ccb31ffafd6989693b3d",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·阴阳应象大论》] “阴阳者，天地之道也，万物之纲纪，变化之父母”（上册p.33）",
+          "[《素问·阴阳应象大论》] “重阴必阳，重阳必阴”“审其阴阳，以别刚柔，阳病治阴，阴病治阳”（上册p.37、p.43）"
+        ],
+        "ni_teaching": [
+          "强调用手掌外形对比握力理解阴阳不可分离：无阳之形则如死人之手无神无力。",
+          "将“阳病治阴，阴病治阳”落地为临床通二便防传变，并用大汗亡阳（桂枝加附子汤类思路）、表虚自汗阐释阴阳互相固摄。"
+        ],
+        "other_annotations": [
+          "《伤寒论》少阴寒极真寒假热（四逆汤、通脉四逆汤）及桂枝汤调和营卫均以此章阴阳互根为理论底座。"
+        ],
+        "collation_notes": [
+          "p.35“纲记”校为“纲纪”，p.45“以便刚柔”校为“以别刚柔”。"
+        ],
+        "organizer_summary": [
+          "全书理论总纲，将阴阳学说直接翻译成痛肿、寒热转化、二便攻守三套临床规则。"
+        ]
+      },
+      "open_questions": [
+        "“七损八益”“审清浊而知部分”原文在讲记中简省部分待结合全本补齐。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:yinyang-shengjiang-jieli",
+      "record_type": "theory",
+      "submodule": "yin_yang_wu_xing",
+      "canonical_name": "中膈阴阳升降、六经归类与天人天文地理顺逆",
+      "doctrine_key": "阴升阳降常态、足底温足背凉及三阳三阴定位",
+      "chapter_ids": [
+        "nj:suwen:45",
+        "nj:suwen:79",
+        "nj:suwen:81",
+        "nj:suwen:75_bis"
+      ],
+      "summary": "汇通《厥论》《阴阳类论》《解经微论》与《著至教论》阴阳气化总则：人体以中膈肚脐分上下，“常态阴升阳降”；足心脚底常热（阳入阴）而脚背微凉（阳带阴护），失常则下寒厥逆或上亢癫狂；明确三阳（经、维、游部）与三阴（表、里、绝）之类属，以及“上知天文、下知地理、中知人事”之医道疆界。",
+      "differentiation_rules": [
+        {
+          "condition": "中膈升降常态 vs 阴阳厥逆倒错",
+          "manifestations": "正常者脚底温热、脚面微凉、胃气下行而肾阴上升；失常则阴气不降、下焦冰寒而虚阳上越致喘呕头胀。",
+          "traditional_judgment": "下温上凉、阴升阳降为水火既济；反之阳衰于下为寒厥，阴竭阳亢于上为热厥与阳逆。",
+          "classic_basis": "《素问·厥论》《解经微论》（下册p.204、p.283）"
+        },
+        {
+          "condition": "三阳三阴脉位总归属（阴阳类论）",
+          "manifestations": "太阳主表统经（三阳为经），阳明维系谷气（二阳为维），少阳游行枢机（一阳为游部）；太阴居脾胃表里得缓而有力之常脉，脉沉深则入脏。",
+          "traditional_judgment": "脉浮在表、沉下入脏；太阴浮缓有胃气则顺，短绝与脉症不合则逆。",
+          "classic_basis": "《素问·阴阳类论》（下册p.278–279）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "six_channels",
+          "target_id": "shaoyang",
+          "label": "少阳病 · 游部开合枢机",
+          "rationale": "一阳为游部与全身关节开合，通《伤寒论》少阳枢转半表半里"
+        },
+        {
+          "target_module": "six_channels",
+          "target_id": "taiyin",
+          "label": "太阴病 · 脾缓中土",
+          "rationale": "《阴阳类论》太阴缓而有力为有胃气之本"
+        },
+        {
+          "target_module": "jinkui_formulas",
+          "target_id": "jinkui:肾气丸",
+          "label": "《金匮》肾气丸（八味丸）",
+          "rationale": "引阴中之阳温化肾水而潜虚阳，复归“脚底温、阳下潜”水火交济"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:ki01:涌泉",
+          "label": "穴位：涌泉",
+          "rationale": "足心少阴起点，检验下焦温热与引火归元关键穴"
+        }
+      ],
+      "historical_boundary_note": "第75篇末含《易经》八卦、南北半球堪舆逆顺与灾色讲授，属跨领域文化象数阐发；“足底温凉”等体感评估不能代替下肢动静脉血管超声排查。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:yinyang-shengjiang-jieli:1",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p057",
+          "pdf_page": 57,
+          "printed_page": 204,
+          "chapter_path": "中膈阴阳升降、六经归类与天人天文地理顺逆",
+          "quote": "常态阴升，我们人体中膈肚脐，阴升阳降",
+          "quote_sha256": "cd12ede27d456d2c3d278977d4180d9816f98f087dd9e7702a37a2ef3ebe00c4",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:yinyang-shengjiang-jieli:2",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p132",
+          "pdf_page": 132,
+          "printed_page": 279,
+          "chapter_path": "中膈阴阳升降、六经归类与天人天文地理顺逆",
+          "quote": "如果是太阴是缓脉浮而缓，缓一点点，脉在中间，缓而有力的脉。",
+          "quote_sha256": "f85424139d7eda3ce0876538b2c44f1c8555bdf75e978345ccd19ddc1d8d0425",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:yinyang-shengjiang-jieli:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p136",
+          "pdf_page": 136,
+          "printed_page": 283,
+          "chapter_path": "中膈阴阳升降、六经归类与天人天文地理顺逆",
+          "quote": "脚一定要热，但是脚热是在脚底板，脚面上要冷的",
+          "quote_sha256": "45b1b0fa6780bdcbfc473c5a8b85d1a1cc0c4439e5e4d549019cdb6ccc63f189",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:yinyang-shengjiang-jieli:4",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p146",
+          "pdf_page": 146,
+          "printed_page": 293,
+          "chapter_path": "中膈阴阳升降、六经归类与天人天文地理顺逆",
+          "quote": "上知天文，下知地理，中知人事",
+          "quote_sha256": "57accce2c70a64b586106c102387c59f5e5dcbdd0571ddd8d869248e19fdec33",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·阴阳类论》：“三阳为经，二阳为维，一阳为游部……三阳为表，二阴为里，一阴至绝作朔晦。”",
+          "《素问·著至教论》：“上知天文，下知地理，中知人事，可以长久。”"
+        ],
+        "ni_teaching": [
+          "把高深理论凝练成日常检验准则：脚底必须温暖有阳，足背不可燥热（阳中有阴互济），作为全书收篇验证药方寒温总尺。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）4篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》yin_yang_wu_xing专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "理论与边界提示：涉及阴升阳降失调所致寒厥逆与脉绝危候，同时严禁把《第75篇》易经堪舆讲义当作临床诊疗规范；危症应立即就医。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:jing-qi-shen-xue",
+      "record_type": "theory",
+      "submodule": "zang_xiang",
+      "canonical_name": "水谷化生、血归于肝与气血营卫流注",
+      "doctrine_key": "精气神血营卫生成输布模型",
+      "chapter_ids": [
+        "nj:suwen:10",
+        "nj:suwen:21",
+        "nj:suwen:43"
+      ],
+      "summary": "汇总《五脏生成》《经脉别论》《痹论》对饮食入胃（受纳）散精于肝脾、浊气归心肺、肺朝百脉输精皮毛的气血生成全景，并明确“荣者水谷之精气（入脉为血）、卫者水谷之悍气（行脉外）”及“卧则血归于肝、人动则血运诸经”的动态循环律。",
+      "differentiation_rules": [
+        {
+          "condition": "卧出风吹与血凝肤脉足之厥痹",
+          "manifestations": "睡眠血归于肝时骤遇风邪吹袭，则血凝于肤（麻痹不仁）、凝于脉（血行涩泣）、凝于足（寒厥冷痛）。",
+          "traditional_judgment": "宜静卧固护阳气使血归肝濡养目视筋脉，并顺应营卫运行时序调治皮肤肌肉络脉阻滞。",
+          "classic_basis": "《素问·五脏生成》《经脉别论》《痹论》（上册p.65–66、p.124；下册p.198）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:桂枝汤",
+          "label": "《伤寒论》桂枝汤（调和营卫）",
+          "rationale": "直接调和脉内营血与脉外卫气不谐之祖方"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:当归",
+          "label": "本草：当归",
+          "rationale": "养血和血行痹痛之常用本草"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:黄耆",
+          "label": "本草：黄耆（黄芪）",
+          "rationale": "益卫固表、行肌肉皮表卫阳气虚之代表药"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "meridian:lv",
+          "label": "足厥阴肝经（血归藏之本）",
+          "rationale": "卧血归肝，视步握摄与睡眠皆关乎肝血"
+        }
+      ],
+      "historical_boundary_note": "“卧则血归于肝”“卫行脉外、营行脉中”系中医经典生理循环理论，旨在诠释睡眠、视力、肤表寒凉及疼痛麻木机理，非现代细胞代谢与循环血压动力学替代。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:jing-qi-shen-xue:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p068",
+          "pdf_page": 68,
+          "printed_page": 66,
+          "chapter_path": "水谷化生、血归于肝与气血营卫流注",
+          "quote": "血凝于肤者",
+          "quote_sha256": "246dc622691e9f20a8704ab71ee4b95a9d653ed8f4572e1362cf6491ee407649",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:jing-qi-shen-xue:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p126",
+          "pdf_page": 126,
+          "printed_page": 124,
+          "chapter_path": "水谷化生、血归于肝与气血营卫流注",
+          "quote": "会照顾全身的血脉。这个时候脉、脉气流经，经气归于肺肺朝百脉，输精于皮毛。毛脉合精，行气于府。府",
+          "quote_sha256": "70d7cf8fe7cd5d13667fe4959f48e50f050dd573188aa1e372f9c67116266292",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:jing-qi-shen-xue:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p051",
+          "pdf_page": 51,
+          "printed_page": 198,
+          "chapter_path": "水谷化生、血归于肝与气血营卫流注",
+          "quote": "这是荣。所以荣之源，是水谷之精及卫者是水谷之函气。",
+          "quote_sha256": "074bba52d48911909fdc5c328bed01b2d1dd3e935c1452ac4dbd3523e6ee1f9d",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·五脏生成》] “脚[足]受血而能步，掌受血而能握”“卧出而风吹之，血凝于肤者为痹，凝于脉者为泣，凝于足者为厥”（上册p.65–66）",
+          "[《素问·经脉别论》] “食气入胃……肺朝百脉，输精于皮毛”（上册p.124）",
+          "[《素问·痹论》] “荣者，水谷之精气也……卫者，水谷之悍气也”（下册p.198）"
+        ],
+        "ni_teaching": [
+          "贯通“人卧血归肝，肝开窍于目”与“睡眠好则目清、熬夜则肝血不藏目糊”；同时强调卧眠不可当风直吹足肤以免凝痹成厥。",
+          "以“水谷入小肠→分清泌浊→血入心肺朝百脉”重新连缀营卫源头。"
+        ],
+        "other_annotations": [
+          "直接指导《伤寒论》桂枝汤“调和营卫”及《金匮》当归四逆汤、黄芪桂枝五物汤温通脉痹。"
+        ],
+        "collation_notes": [
+          "p.51“水姑”“函气”与p.67“脚受血”校记一并保存，不掩原稿转录字面。"
+        ],
+        "organizer_summary": [
+          "阐明血营与阳卫均源于饮食水谷而分化脉内脉外之统一体。"
+        ]
+      },
+      "open_questions": [
+        "“三焦出气以温肌肉充皮肤”与《灵枢·决气》《营卫生会》对照有待另入《灵枢》来源后再作扩展。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:liujing-xueqi-shierpibu",
+      "record_type": "theory",
+      "submodule": "zang_xiang",
+      "canonical_name": "六经血气多少、十二皮部溪谷与三焦决渎贯通",
+      "doctrine_key": "经络血气比值、体表防御层级与三焦水道",
+      "chapter_ids": [
+        "nj:suwen:24",
+        "nj:suwen:47",
+        "nj:suwen:56",
+        "nj:suwen:58",
+        "nj:suwen:61"
+      ],
+      "summary": "确立针刺施血出气与三焦水液运行之解剖生理基石：定六经气血常数（太阳、厥阴多血少气；少阳、太阴、少阴少血多气；阳明多气多血）；立十二皮部→孙络→溪谷→主经→脏腑五层防线；阐明“任督前后气脉贯穿”致心痛彻背、以及“三焦决渎紧邻肾脏、治肾必兼顾三焦”水气通道模型。",
+      "differentiation_rules": [
+        {
+          "condition": "六经血气多少定出血出气宜忌",
+          "manifestations": "太阳膀胱、厥阴肝经瘀滞疼痛或实热；少阳、少阴、太阴气虚不足或气郁；阳明实热腑实。",
+          "traditional_judgment": "太阳、厥阴宜刺出血而恶耗气；少阳、太阴、少阴宜调气而恶滥放血；阳明可兼出气血。",
+          "classic_basis": "《素问·血气形志篇》（上册p.134–135）"
+        },
+        {
+          "condition": "皮部渐传与心痛彻背、肾三焦相连",
+          "manifestations": "风寒先客皮毛汗毛开闭，未止则转入孙络肌肉溪谷而至大经内脏；或心痛透背脊、或肾水不利水溢为痹。",
+          "traditional_judgment": "病在皮部孙络者及时浅刺泄解；心痛彻背察任督前后相贯；治肾脏水液失常必同时调理三焦网膜水道。",
+          "classic_basis": "《素问·皮部论》《气穴论》《奇病论》（下册p.215、p.239、p.242）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "acupuncture",
+          "target_id": "meridian:bl",
+          "label": "经脉：足太阳膀胱经（多血少气）",
+          "rationale": "太阳常多血少气，故背部膀胱经俞与委中常宜点刺瘀血"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "meridian:st",
+          "label": "经脉：足阳明胃经（多气多血）",
+          "rationale": "阳明多气多血，足三里、上下巨虚兼能调气泻热"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "meridian:sj",
+          "label": "经脉：手少阳三焦经",
+          "rationale": "《奇病论》指出三焦决渎与肾相依，治肾必同治三焦"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "tech:bloodletting_and_plum_blossom",
+          "label": "技法：点刺放血与梅花针",
+          "rationale": "必须依托《血气形志》《皮部论》判断经络多血少气及邪在皮肤孙络之浅深"
+        }
+      ],
+      "historical_boundary_note": "“心痛彻背、背痛彻心”在现代医疗须极度警惕急性心肌梗死及主动脉夹层等致命急症；点刺放血均属高风险有创操作，需无菌专业施行。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:liujing-xueqi-shierpibu:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p137",
+          "pdf_page": 137,
+          "printed_page": 135,
+          "chapter_path": "六经血气多少、十二皮部溪谷与三焦决渎贯通",
+          "quote": "明经本身多血多气，你出气血都无所谓。太阳经是多血少气，我们出血",
+          "quote_sha256": "0edda855a373b1596ff69c07cb69d0017cbd5b80d82bbfd8fea5eb92dce3e04e",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:liujing-xueqi-shierpibu:2",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p068",
+          "pdf_page": 68,
+          "printed_page": 215,
+          "chapter_path": "六经血气多少、十二皮部溪谷与三焦决渎贯通",
+          "quote": "所以我们治肾脏，治肾呢我们一定会去治三焦",
+          "quote_sha256": "0f2e7e95190287e8f3c182b0beb1ba7a7991b6555babdec8d1983c9251c52a8c",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:liujing-xueqi-shierpibu:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p092",
+          "pdf_page": 92,
+          "printed_page": 239,
+          "chapter_path": "六经血气多少、十二皮部溪谷与三焦决渎贯通",
+          "quote": "皮之部，百病之始，必先生于皮毛",
+          "quote_sha256": "77ff130dd5873c2d55f2b5659da3e8c0374a340560bdb1c61a20292d97a3c258",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:liujing-xueqi-shierpibu:4",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p095",
+          "pdf_page": 95,
+          "printed_page": 242,
+          "chapter_path": "六经血气多少、十二皮部溪谷与三焦决渎贯通",
+          "quote": "这前面三个是我们所谓的任脉，后面是督脉，本来就是阴阳",
+          "quote_sha256": "d83dcf936ee118cf002b33dfa63b318a6da907379a702dfbfce476728848adc7",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·血气形志》：“太阳常多血少气，少阳常少血多气，阳明常多气多血。”",
+          "《素问·皮部论》：“百病之始生也，必先于皮毛”；《气穴论》：“肉之大会为谷，肉之小会为溪，以行荣卫，以会大气。”"
+        ],
+        "ni_teaching": [
+          "阐明肌肉大间隙为谷、小间隙为溪，寒热积滞于溪谷孙络乃生骨痹不仁；任脉在前、督脉在后一阴一阳相通，解释心痛背痛互相牵连。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）5篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》zang_xiang专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：含点刺放血经脉宜忌及“心痛彻背、背痛彻心”提示（急诊需严防心梗与主动脉夹层），非专业人员勿行刺血。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:shier-guan-shenming",
+      "record_type": "theory",
+      "submodule": "zang_xiang",
+      "canonical_name": "十二官藏象与心主神明",
+      "doctrine_key": "十二脏腑君臣协理模型",
+      "chapter_ids": [
+        "nj:suwen:08",
+        "nj:suwen:09"
+      ],
+      "summary": "以《灵兰秘典论》“十二官”与《六节藏象论》为核心，确立“心者君主之官，神明出焉”为全身主宰，统摄肺（相傅）、肝（将军）、胆（中正）、膻中（臣使）、脾胃（仓廪）、大肠小肠、肾（作强）、三焦（决渎水道）与膀胱（州都气化）。",
+      "differentiation_rules": [
+        {
+          "condition": "君主失明与脏腑协同失常",
+          "manifestations": "心神扰乱、气机郁滞、水液潴留（三焦决渎失司而膀胱不利）或消化清浊不分（仓廪失职）。",
+          "traditional_judgment": "“主明则下安，主不明则十二官危”。神明、肺之治节与三焦气化水道的畅通是诸脏生理平衡首要前提。",
+          "classic_basis": "《素问·灵兰秘典论》《六节藏象论》（上册p.54–59）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "acupuncture",
+          "target_id": "meridian:ht",
+          "label": "手少阴心经（君主之官）",
+          "rationale": "心主血脉神明，手少阴通达经气"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "meridian:sj",
+          "label": "手少阳三焦经（决渎之官）",
+          "rationale": "水道出焉，三焦沟通上下油膜气化"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:ht07:神门",
+          "label": "穴位：神门（心原穴）",
+          "rationale": "宁心安神、通调君主神明之代表原穴"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "cond:ch6:s275",
+          "label": "治症：肺积水与胸肋积水",
+          "rationale": "决渎失司水饮滞于三焦胸胁之临床延伸"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:真武汤",
+          "label": "《伤寒论》真武汤",
+          "rationale": "温肾壮阳化气以通利州都水道之代表方"
+        }
+      ],
+      "historical_boundary_note": "“君主”“相傅”“将军”为中国古代朝廷职能喻象，用于阐释器官间整体调节关系（如心火温煦小肠与全身血脉），不等同现代独立内脏生理功能。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:shier-guan-shenming:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p056",
+          "pdf_page": 56,
+          "printed_page": 54,
+          "chapter_path": "十二官藏象与心主神明",
+          "quote": "他说心者，心脏君主之官，神明出焉",
+          "quote_sha256": "0fa1af1d8ee074d0e6c26d7e9ab9d1af9c7f08ef5294724cbe3a3aafc4dd30fc",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:shier-guan-shenming:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p057",
+          "pdf_page": 57,
+          "printed_page": 55,
+          "chapter_path": "十二官藏象与心主神明",
+          "quote": "三焦者，决渎之官，水道出焉，膀胱者，州都之官，津液",
+          "quote_sha256": "6174f4ec78f6cf49022a6f05701e6a5663faf2fdda10a8919f87c13e9333c455",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:shier-guan-shenming:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p061",
+          "pdf_page": 61,
+          "printed_page": 59,
+          "chapter_path": "十二官藏象与心主神明",
+          "quote": "肺者呢，气之本，魄之处也；其华在毛，其充在皮，为阳中之太阴，通于秋气。",
+          "quote_sha256": "b58e62eab3e340b6055313e6ada02e5b6e7a8f5df1df0c306f4c472039dcde10",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·灵兰秘典论》] “心者，君主之官，神明出焉……三焦者，决渎之官，水道出焉，膀胱者，州都之官，津液藏焉”（上册p.54–55）",
+          "[《素问·六节藏象论》] 心为生之本神之变、肺为气之本魄之处（上册p.59）"
+        ],
+        "ni_teaching": [
+          "以心火温血下达手足末梢及下焦小肠说明“君主之官”生理意义：心火不断则下焦水液得以汽化，四肢温煦。",
+          "释三焦“决渎”即疏通油膜水道网络，水聚停积（胸胁积水、腹水等）首察心肺宣发与三焦膀胱气化。"
+        ],
+        "other_annotations": [
+          "对应针灸“肺积水与胸肋积水”及《伤寒》《金匮》五苓散、真武汤气化利水思路。"
+        ],
+        "collation_notes": [
+          "整合第8、9篇十二藏职能与五脏华充属性，严格按讲记页码锚定。"
+        ],
+        "organizer_summary": [
+          "建立全书最标准的脏腑定位辞典，兼明心主神与三焦水道枢纽之理。"
+        ]
+      },
+      "open_questions": [
+        "“膻中者臣使之官，喜乐出焉”在后世包络与心包经学说中之演变待补充。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:wuzang-cangxie-yu-qiheng",
+      "record_type": "theory",
+      "submodule": "zang_xiang",
+      "canonical_name": "藏而不泻与泻而不藏（五脏·六腑·奇恒之腑）",
+      "doctrine_key": "满实分辨与三类器官本质界定",
+      "chapter_ids": [
+        "nj:suwen:11"
+      ],
+      "summary": "明确区分体内器官三大属性：五脏藏精气而不泻（满而不实）；六腑传化物而不藏（实而不满，当新陈代谢更替）；脑、髓、骨、脉、胆、女子胞六者形似中空之腑却行藏精之职，故名“奇恒之府”。",
+      "differentiation_rules": [
+        {
+          "condition": "五脏“满而不实”与六腑“实而不满”失常",
+          "manifestations": "该泻之六腑（胃肠胆膀胱）久停糟粕不下则为病（积滞便秘）；该藏不泻之五脏与奇恒之府反聚浊邪痰瘀积块（如颅脑、胞宫肿物）。",
+          "traditional_judgment": "调治六腑重在“通腑泄浊”、新旧更代（如实热便秘急攻下）；调治五脏与奇恒之府重在“固藏精气、不令蓄浊”。",
+          "classic_basis": "《素问·五藏别论》（上册p.70–72）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:大承气汤",
+          "label": "《伤寒论》大承气汤",
+          "rationale": "六腑传化物而不藏，阳明腑实壅滞当泻之代表方"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "cond:ch6:头部与脑瘤治症",
+          "label": "治症：头部与脑瘤治症",
+          "rationale": "讲记p.71明确提及脑属奇恒之府当藏精而不宜蓄浊积邪"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "cond:ch6:s289",
+          "label": "治症：痛经与子宫卵巢肿瘤",
+          "rationale": "女子胞属奇恒之府藏泻失衡之典型临床专题"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:大黄",
+          "label": "本草：大黄",
+          "rationale": "荡涤肠胃六腑滞浊推陈致新之要药"
+        }
+      ],
+      "historical_boundary_note": "“脑、髓、骨、脉、胆、女子胞为奇恒之府”及“蓄浊成瘤”属中医经典形态功能分类与宏观象态推导，现代涉及器质性占位病变仍须影像病理确诊。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:wuzang-cangxie-yu-qiheng:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p073",
+          "pdf_page": 73,
+          "printed_page": 71,
+          "chapter_path": "藏而不泻与泻而不藏（五脏·六腑·奇恒之腑）",
+          "quote": "所以这个奇恒之府，同属于阴。阴的本性是收藏而不宣泻的才对。",
+          "quote_sha256": "6424e4e3e9aa728ef158bea709edaf890875569b5db26fac477e33686b038696",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:wuzang-cangxie-yu-qiheng:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p074",
+          "pdf_page": 74,
+          "printed_page": 72,
+          "chapter_path": "藏而不泻与泻而不藏（五脏·六腑·奇恒之腑）",
+          "quote": "的，你如果摸他的脉，一摸他是满的脉，就好像水管里面充水一样，很饱，摸摸摁，很饱，就水很多。",
+          "quote_sha256": "b87976a991544f355d5b663c2f14ab4215606f97158b1c533366edecb6470486",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·五藏别论》] 奇恒之府“藏而不泻”，胃大肠小肠三焦膀胱“泻而不藏”“受五藏浊气，名曰传化之府”（上册p.70–72）"
+        ],
+        "ni_teaching": [
+          "以水充水管为“满”、冻冰阻塞水管为“实”辨别藏与腑病机核心差异。",
+          "将脑（脑瘤例）、女子胞异常浊积解读为“奇恒之府失藏反实”。"
+        ],
+        "other_annotations": [
+          "解释《伤寒论》“阳明病实则谵语”大承气汤类正是治六腑当泄不泄之“实”，而四逆辈温五脏正是补五脏不藏之“虚”。"
+        ],
+        "collation_notes": [
+          "第72页原标题误作“奇垣之府”，实际经典定名及p.73–74内文均作“奇恒之府”。"
+        ],
+        "organizer_summary": [
+          "建立五脏、六腑与奇恒之腑治则截然不同的理论界碑。"
+        ]
+      },
+      "open_questions": [
+        "“五藏使（魄门）”肛门开合与肺脾肾关联可增入排泄辨证条文。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:wuzang-wushen-wuzou",
+      "record_type": "theory",
+      "submodule": "zang_xiang",
+      "canonical_name": "五脏所藏神志、五恶五液五劳与五味走失禁忌",
+      "doctrine_key": "形神五主、五液化生及五味偏嗜防损",
+      "chapter_ids": [
+        "nj:suwen:23",
+        "nj:suwen:24",
+        "nj:suwen:33"
+      ],
+      "summary": "系统集成《宣明五气篇》《血气形志篇》与《评热病论》的脏象功能表：心藏神主脉恶热化汗、肺藏魄主皮毛恶寒化涕、肝藏魂主筋恶风化泪、脾藏意主肉恶湿化涎、肾藏志主骨恶燥化唾；同时确立久视伤血、久卧伤气、久坐伤肉、久立伤骨、久行伤筋之“五劳”，以及酸走筋、辛走气、苦走骨、咸走血、甘走肉之五味食禁。",
+      "differentiation_rules": [
+        {
+          "condition": "五脏恶象与五液异常定位",
+          "manifestations": "自汗盗汗责心、多清涕责肺寒、泪水频流责肝目寒热、多涎责脾湿、口唾异常责肾。",
+          "traditional_judgment": "恶热者辨心火、恶寒者察肺表、恶风者顾肝风、恶湿者健脾土、恶燥者润肾水。",
+          "classic_basis": "《素问·宣明五气》《评热病论》（上册p.131–133、下册p.161）"
+        },
+        {
+          "condition": "五味偏嗜伤形（五走五禁）与阳病发冬",
+          "manifestations": "筋脉挛痛仍嗜酸、气喘短气仍猛食辛辣、骨痿嗜苦、血病嗜咸重盐、肉痿嗜甜食，皆反克加重病损。",
+          "traditional_judgment": "酸走筋、辛走气、苦走骨、咸走血、甘走肉，偏味必生所制所伤之病；并察冬潜夏发之阳气动静。",
+          "classic_basis": "《素问·宣明五气》（上册p.132–133）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:芍药",
+          "label": "本草：芍药（酸走筋敛阴）",
+          "rationale": "酸味入肝养血敛阴缓急，唯筋病偏虚损实宜依制配合甘草调和"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:桂枝加附子汤",
+          "label": "《伤寒论》桂枝加附子汤",
+          "rationale": "汗漏不止（心液大泄兼卫阳虚寒）遂致恶风小便难四肢微急之纠偏救阳"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:bl15:心俞",
+          "label": "穴位：心俞",
+          "rationale": "调心神与治盗汗惊悸之核心背俞"
+        }
+      ],
+      "historical_boundary_note": "“五味走五体”“五脏藏神魂魄意志”属中医取象比类脏象理论，五劳提示久坐久卧静态生活之弊，现代精神或汗液分泌异常亦需辨别内分泌及自主神经器质病变。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:wuzang-wushen-wuzou:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p134",
+          "pdf_page": 134,
+          "printed_page": 132,
+          "chapter_path": "五脏所藏神志、五恶五液五劳与五味走失禁忌",
+          "quote": "五脏所恶，刚刚五虚所病的时候，协助我们诊断，判断病在哪个地方。",
+          "quote_sha256": "913f3053276678b7fc5b664128d28e35b7e67f517cf648ddc0aa953aeb03979d",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:wuzang-wushen-wuzou:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p135",
+          "pdf_page": 135,
+          "printed_page": 133,
+          "chapter_path": "五脏所藏神志、五恶五液五劳与五味走失禁忌",
+          "quote": "冬天的定义就是阳要潜藏，当阳潜藏的时候，我们就说是冬。",
+          "quote_sha256": "72f40527d5370485f11ab11854edabb7f0cff06b8ded1e8dba16b4761d19cb4d",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:wuzang-wushen-wuzou:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p136",
+          "pdf_page": 136,
+          "printed_page": 134,
+          "chapter_path": "五脏所藏神志、五恶五液五劳与五味走失禁忌",
+          "quote": "肝主经、脾主肉、肾主骨，为什么要五主？",
+          "quote_sha256": "0f9719f5fdc821318079eff64a058f8a0020a89c28d9bb83150adf48fdf1da12",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·宣明五气》：“心藏神，肺藏魄，肝藏魂，脾藏意，肾藏志”；“久视伤血，久卧伤气，久坐伤肉，久立伤骨，久行伤筋。”",
+          "“酸走筋，筋病无多食酸；辛走气，气病无多食辛；苦走骨……咸走血……甘走肉。”"
+        ],
+        "ni_teaching": [
+          "点明“阳病发于冬，阴病发于夏”关键在于“冬主潜藏、夏主发越”之气化本质，而非纯粹季节温度。",
+          "强调掌握五脏所主（心脉、肺皮、肝筋、脾肉、肾骨），即可用“脾病调肺”等五行生克跨脏施治。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）3篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》zang_xiang专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:fengshui-shuinie-ni",
+      "record_type": "theory",
+      "submodule": "bing_yin_bing_ji",
+      "canonical_name": "风水（卧蚕面肿）、骨痹水寒与“不得卧而喘”鉴别",
+      "doctrine_key": "水气客肺喘呼与胃不和不得卧之分界",
+      "chapter_ids": [
+        "nj:suwen:33",
+        "nj:suwen:34",
+        "nj:suwen:61"
+      ],
+      "summary": "汇参《评热病论》《逆调论》《病能论》与《水热穴论》，精确析分中医三大水湿气逆重证：①劳役出汗逢风袭玄府、本在肾末在肺之“风水”（下眼睑如新卧起蚕状水泡、胫肿、小便黄）；②水寒长期侵袭导致太阳气衰、肾脂不长而髓虚之冷痛“骨痹”；③严格鉴别“胃不和则卧不安”（不能仰卧之消化停滞）与“水气客于肺、一呼一吸卧则气喘”（肺肾衰竭端坐呼吸）。",
+      "differentiation_rules": [
+        {
+          "condition": "“风水”望诊与标本传变",
+          "manifestations": "目下微肿如新卧起之卧蚕、面部胕肿、小便黄、胫骨肿、甚则按腹不泄或呼吸喘促。",
+          "traditional_judgment": "本在肾（牝脏至阴、主五液），末在肺（树叶布散）；汗出玄府闭于皮里成风水，切忌猛攻耗竭津液，当宣肺通阳利下焦。",
+          "classic_basis": "《素问·评热病论》《水热穴论》（下册p.163、p.248–249）"
+        },
+        {
+          "condition": "“不得卧”之胃病 vs 水病鉴别",
+          "manifestations": "其一为食后腹满泛酸不眠但平卧尚可呼吸（胃不和）；其二为肾水泛上射肺，坐起微安而“卧则气喘”（甚至恶寒肢冷）。",
+          "traditional_judgment": "胃不和则卧不安（调畅阳明胃腑）；卧则喘乃水气客于肺（本在肾水泛滥、取肾街胃街水俞兼温阳行水）。",
+          "classic_basis": "《素问·逆调论》《病能论》《水热穴论》（下册p.165、p.211、p.249）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:真武汤",
+          "label": "《伤寒论》真武汤（温肾水寒防悸喘头眩）",
+          "rationale": "温化少阴肾水、制约寒水上泛于肺心"
+        },
+        {
+          "target_module": "jinkui_formulas",
+          "target_id": "jinkui:越婢汤",
+          "label": "《金匮》越婢汤（风水恶风一身悉肿）",
+          "rationale": "直接承袭《内经》风水理论“玄府闭郁”，宣肺发汗行水"
+        },
+        {
+          "target_module": "jinkui_formulas",
+          "target_id": "jinkui:防己黄耆汤",
+          "label": "《金匮》防己黄耆汤（风水脉浮汗出恶风身重）",
+          "rationale": "补益卫气疏导皮里水气滞留"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "cond:ch6:s275",
+          "label": "治症：肺积水与胸肋积水",
+          "rationale": "肾本肺末、肺气逆不得卧与胸胁停饮在针灸治症上高度一致"
+        }
+      ],
+      "historical_boundary_note": "“卧则喘”（端坐呼吸）、眼睑及下肢进行性水肿极常见于充血性心力衰竭、急性肾炎、肾病综合征或肺水肿，属于高危临床征象，务必先行医院心肾急诊排查。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:fengshui-shuinie-ni:1",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p016",
+          "pdf_page": 16,
+          "printed_page": 163,
+          "chapter_path": "风水（卧蚕面肿）、骨痹水寒与“不得卧而喘”鉴别",
+          "quote": "这个眼袋，就好像个水泡一",
+          "quote_sha256": "b8d7434d3ac088064174b2413dff92422fa2d7cce2fb0750bf67221a169d0c6a",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:fengshui-shuinie-ni:2",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p018",
+          "pdf_page": 18,
+          "printed_page": 165,
+          "chapter_path": "风水（卧蚕面肿）、骨痹水寒与“不得卧而喘”鉴别",
+          "quote": "寒水，跑到肾脏里面去。那阴液过多的时候，肾脏阳就会不够。",
+          "quote_sha256": "9680d71a30fa546cfa7f006030c1f81f0b0c3d01ac29ea06f031d92abc7e4919",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:fengshui-shuinie-ni:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p019",
+          "pdf_page": 19,
+          "printed_page": 166,
+          "chapter_path": "风水（卧蚕面肿）、骨痹水寒与“不得卧而喘”鉴别",
+          "quote": "那《下经》说，“胃不和则卧不安。”我们也是治胃。",
+          "quote_sha256": "64fd10375896fc21a120fbcb2a5983750fe985f2a5b1899296f7d7b8255cfe8e",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:fengshui-shuinie-ni:4",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p102",
+          "pdf_page": 102,
+          "printed_page": 249,
+          "chapter_path": "风水（卧蚕面肿）、骨痹水寒与“不得卧而喘”鉴别",
+          "quote": "肺为喘呼，肾为水肿，肺为逆不得卧。",
+          "quote_sha256": "632dfc39b4931321e467a878bbb87e86d9da7268055363c00cc77d0e6b4c954a",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·水热穴论》：“其本在肾，其末在肺，皆积水也……肺为喘呼，肾为水肿，肺为逆不得卧。”",
+          "《素问·逆调论》：“肾者水脏，主津液，主卧与喘也。”"
+        ],
+        "ni_teaching": [
+          "用水中潜水员出汗受寒例讲骨痹肾阳衰，并用卧蚕目胞水泡作“风水”最直观床旁查体标志。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）3篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》bing_yin_bing_ji专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：涉及“肺为逆不得卧”（端坐喘急）、肾水肿及严重水液潴留危象，如出现胸闷无法平卧务必立即急诊。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:hanre-nveji-wanglai",
+      "record_type": "theory",
+      "submodule": "bing_yin_bing_ji",
+      "canonical_name": "疟病阴阳交并、三疟辨别与“未发前衰而刺之”定时论治",
+      "doctrine_key": "卫气周期交合与寒热往来发作时间时机",
+      "chapter_ids": [
+        "nj:suwen:35",
+        "nj:suwen:36"
+      ],
+      "summary": "合论《疟论》与《刺疟》全貌：邪舍脊骨风府随卫气一日一会而作定时寒热——阳并于阴则外寒、阴并于阳则外热；详辨风症（常恶风自汗无间歇）vs疟症（周期作解）、寒疟、温疟（先热后寒）与瘅疟（肺素热、阴气先绝阳独发、但热不寒）；阐明五脏六经疟脉症针治（刺郄中、五胠俞、孙络瘀血）与“盛时必毁、必候未发如食顷先刺”时间治疗戒律。",
+      "differentiation_rules": [
+        {
+          "condition": "寒疟·温疟·瘅疟与风症区分",
+          "manifestations": "寒疟先寒后热；温疟先伤风后伤寒致先热后寒；瘅疟但热不寒、肌肉消铄且常欲冷饮；风症则常时恶风汗出而无定时休作。",
+          "traditional_judgment": "先明周期寒热交并属性：正发盛实高热寒栗时忌妄行重刺强缚，当俟将衰或下次未发前预先截断（或刺末梢孙络怒张瘀脉）。",
+          "classic_basis": "《素问·疟论》《刺疟》（下册p.166–173）"
+        },
+        {
+          "condition": "六经疟与五脏疟分经取穴",
+          "manifestations": "足太阳腰痛头重取委中放血；肾疟洒洒寒腰脊痛（寒气顶肺及胃致呕）取肾与膀胱；胃疟善饥不能食取阳明。",
+          "traditional_judgment": "分清邪滞之六经与脏腑，重点探查背俞五胠俞及孙络压痛瘀点放泄恶血。",
+          "classic_basis": "《素问·刺疟》（下册p.171–173）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "six_channels",
+          "target_id": "shaoyang",
+          "label": "少阳病 · 往来寒热（小柴胡汤）",
+          "rationale": "寒热往来休作有时之病理机理，直接与少阳半表半里枢机相应"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:小柴胡汤",
+          "label": "《伤寒论》小柴胡汤",
+          "rationale": "和解枢机以退往来寒热、调治类疟半表半里证"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:白虎汤",
+          "label": "《伤寒论》白虎汤 / 白虎加桂枝汤",
+          "rationale": "对应《金匮》温疟、瘅疟“但热不寒、大渴欲冷饮”阳明气分热盛之机"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:bl40:委中",
+          "label": "穴位：委中（郄中刺血）",
+          "rationale": "《刺疟》明载“足太阳之疟……刺郄中出血”"
+        }
+      ],
+      "historical_boundary_note": "古代“痎疟”兼及各类定期发作高热寒战疾（包含疟原虫所致之传染性疟疾），临床怀疑真性疟疾感染务必行血涂片排查并规范抗疟药物救治，不可单赖放血。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:hanre-nveji-wanglai:1",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p019",
+          "pdf_page": 19,
+          "printed_page": 166,
+          "chapter_path": "疟病阴阳交并、三疟辨别与“未发前衰而刺之”定时论治",
+          "quote": "“岐伯对曰：疟之始发也，先起于毫毛”",
+          "quote_sha256": "e5949434802fce0fb6f7fbd3a45834df88e3b140206b35aeb819ea7d6ac3d885",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:hanre-nveji-wanglai:2",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p022",
+          "pdf_page": 22,
+          "printed_page": 169,
+          "chapter_path": "疟病阴阳交并、三疟辨别与“未发前衰而刺之”定时论治",
+          "quote": "在病盛的时候我们就不能去动手治疗，要病衰的时候再治疗",
+          "quote_sha256": "01e0c0268cbcdc85c374c8eb6906cb84a998aa9a75132205741744f0e6c3ee45",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:hanre-nveji-wanglai:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p023",
+          "pdf_page": 23,
+          "printed_page": 170,
+          "chapter_path": "疟病阴阳交并、三疟辨别与“未发前衰而刺之”定时论治",
+          "quote": "在孙络在末梢的地方看到有血脉崩张起来的地方，通通去给他放血",
+          "quote_sha256": "b999eec9d736bb60e16c3b744e8b4da74bcc0b6bc26d41c66770a23b6132d0a3",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:hanre-nveji-wanglai:4",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p026",
+          "pdf_page": 26,
+          "printed_page": 173,
+          "chapter_path": "疟病阴阳交并、三疟辨别与“未发前衰而刺之”定时论治",
+          "quote": "急刺背用用五胠俞，背俞各一",
+          "quote_sha256": "58587b962b39ac107ee3e18ac363a479cd1ace907811ffd7605ea22e47a5e898",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·疟论》：“方其盛时必毁，因其衰也，事必大昌”；“内外皆热，喘而渴，故欲冷饮”。",
+          "《素问·刺疟》：“足太阳之疟……刺郄中出血”；“诸疟而脉不见，刺十指间出血”。"
+        ],
+        "ni_teaching": [
+          "提出治疗周期性发作者可按前一日发作钟点“提前一小时”约诊介入，抢在卫气与疟邪会合前拨转气机。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）2篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》bing_yin_bing_ji专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：涉及孙络、十指间与委中放血，以及高热喘渴（阴气先绝阳独发）与“五胠俞”危急刺法，高热感染应常规排查就医。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:ke-tong-bi-wei-bingji",
+      "record_type": "theory",
+      "submodule": "bing_yin_bing_ji",
+      "canonical_name": "欬、痛、痹、痿四宗杂病病机鉴别",
+      "doctrine_key": "多脏杂病病因分型与鉴别主线",
+      "chapter_ids": [
+        "nj:suwen:38",
+        "nj:suwen:39",
+        "nj:suwen:43",
+        "nj:suwen:44"
+      ],
+      "summary": "汇总《素问》下册四大杂病名篇：分别揭示咳嗽不止（五脏六腑皆令人咳）、寒邪客脉及九气致痛（辨喜按拒按及十四痛机）、风寒湿三气分痛着麻（行痹/痛痹/着痹）、肺热叶焦五痿（治痿独取阳明），形成从肺、寒痛、风湿痛痹至筋骨弛废的严密鉴别网。",
+      "differentiation_rules": [
+        {
+          "condition": "咳嗽溯源：肺寒 vs 传脏传腑",
+          "manifestations": "外感皮毛冷或胃寒饮冷先肺咳；久咳转肋痛（肝）、心咽梗痛（心）、右胁引肩背（脾）、腰背冷痛咳涎（肾）、吐蛔呕苦失禁（六腑）。",
+          "traditional_judgment": "初咳治肺宣散寒饮，久咳则按兼痛部位“治脏者治其俞，治腑者治其合，浮肿治经”。",
+          "classic_basis": "《素问·欬论》（下册p.177–178）"
+        },
+        {
+          "condition": "风寒湿痹 vs 肺热五痿鉴别",
+          "manifestations": "痹症主痛肿麻木（风胜游走、寒胜痛剧、湿胜沉重不仁）；痿症主筋骨肌肉弛缓萎废无力不痛（如胫纵、腰脊不举、肉不仁）。",
+          "traditional_judgment": "痹以祛风散寒利湿、调和营卫为主；痿以清肺润燥热、独取阳明兼调冲带五输荥俞为主，二者病因一寒湿闭阻、一热灼津枯，切忌混淆治法。",
+          "classic_basis": "《素问·痹论》《痿论》（下册p.195–202）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "jinkui_formulas",
+          "target_id": "jinkui:桂枝芍药知母汤",
+          "label": "《金匮》桂枝芍药知母汤",
+          "rationale": "治疗历节肢节肿痛、兼顾风寒湿与郁热的痹证名方"
+        },
+        {
+          "target_module": "jinkui_formulas",
+          "target_id": "jinkui:麦门冬汤",
+          "label": "《金匮》麦门冬汤",
+          "rationale": "养肺胃阴津以制火逆上气咳痿思路之经方参考"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:st36:足三里",
+          "label": "穴位：足三里（阳明合穴）",
+          "rationale": "呼应《痿论》“治痿独取阳明”调养后天胃气精微"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "cond:ch6:s272",
+          "label": "治症：肺症虚实与癫痫",
+          "rationale": "与《欬论》肺先受邪并辨五脏咳传移相互对照"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:独活",
+          "label": "本草：独活",
+          "rationale": "祛风寒湿、治足少阴太阳痹痛常用本草"
+        }
+      ],
+      "historical_boundary_note": "“五脏六腑皆咳”“痛在痹寒、痿在肺热”等系传统宏观杂病分类法；剧烈咳嗽咯血、急性胸腹痛或进展性肌无力瘫痪均属必须先行现代医学检查之表现。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:ke-tong-bi-wei-bingji:1",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p030",
+          "pdf_page": 30,
+          "printed_page": 177,
+          "chapter_path": "欬、痛、痹、痿四宗杂病病机鉴别",
+          "quote": "五脏六腑都会让人咳嗽，不单单是肺",
+          "quote_sha256": "ceea983e2af3b6267164a9173f145d6441d7ab48b552c0f52e9daa40c334c67a",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:ke-tong-bi-wei-bingji:2",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p034",
+          "pdf_page": 34,
+          "printed_page": 181,
+          "chapter_path": "欬、痛、痹、痿四宗杂病病机鉴别",
+          "quote": "络急引故痛，按之则血气散，故按之痛止",
+          "quote_sha256": "b95e0dc763e40a5a5d240403d9dfa8c28af4561154971ef0fd709f599a7996f4",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:ke-tong-bi-wei-bingji:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p048",
+          "pdf_page": 48,
+          "printed_page": 195,
+          "chapter_path": "欬、痛、痹、痿四宗杂病病机鉴别",
+          "quote": "“风寒湿三气杂至，而合为痹。”",
+          "quote_sha256": "4adf8987082886a40b173eb588dc3fb395914045806e632d8dbb88c026be1c01",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:ke-tong-bi-wei-bingji:4",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p054",
+          "pdf_page": 54,
+          "printed_page": 201,
+          "chapter_path": "欬、痛、痹、痿四宗杂病病机鉴别",
+          "quote": "如果是肾气太热，腰脊不举，骨枯而髓减，发为骨痿。",
+          "quote_sha256": "c0506fccc1bb44b1f92f737386a0308c3098c30e6973be6dc82ce1bbfa4be749",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·欬论》] 肾咳腰背相引痛、咳涎；久咳移六腑（下册p.177–178）",
+          "[《素问·举痛论》] “寒气客于肠胃之间，原膜之下……按之则血气散，故按之痛止”（下册p.181）",
+          "[《素问·痹论》] “风寒湿三气杂至，而合为痹”（下册p.195）",
+          "[《素问·痿论》] “肺焦太热”与“肾气热，则腰脊不举，骨枯而髓减，发为骨痿”（下册p.200–201）"
+        ],
+        "ni_teaching": [
+          "详析风寒湿三气主次决定用药比重（风药、寒药、湿药配伍），对比《金匮》风湿关节炎思路。",
+          "叮嘱治痿者不可见无力即一味猛用干热燥湿，须察“肺焦津竭”与“脾喜温润”两面。"
+        ],
+        "other_annotations": [
+          "把《举痛论》《痹论》《痿论》放在同一病机框架中对读，清楚厘清痛者多寒实、痿者多热枯之临床界限。"
+        ],
+        "collation_notes": [
+          "整合第38、39、43、44四篇临床病理专题，各处引用分别精确锚定下册页码。"
+        ],
+        "organizer_summary": [
+          "建立杂病“由症（咳/痛/痹/痿）追脏、寒热枯实互鉴”检索主枢。"
+        ]
+      },
+      "open_questions": [
+        "气痛九气（怒喜悲恐寒炅惊劳思）与各脏咳对应选穴表可逐项关联进针灸专题。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【痹痿疼痛急重排查边界】本条目涵盖剧痛、五脏痹与进行性肢体萎废病机，严禁凭条文自我判断延误器质性疾病诊疗。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:qibing-xueku-xiaoke",
+      "record_type": "theory",
+      "submodule": "bing_yin_bing_ji",
+      "canonical_name": "脾瘅消渴、胆瘅口苦、鼓胀血枯与伏粱杂病机理",
+      "doctrine_key": "甘肥化热消渴与肝胆内伤血气瘀结古方渊源",
+      "chapter_ids": [
+        "nj:suwen:40",
+        "nj:suwen:46",
+        "nj:suwen:47"
+      ],
+      "summary": "汇总《素问》杂病与罕见古方四大模型：①脾瘅/消渴（“数食甘美而多肥”，肥令人内热、甘令人中满，转为消渴，治之以兰除陈气）；②胆瘅（数谋虑不决致胆虚气溢口苦，治以胆募俞与阳陵泉）；③鼓胀与鸡矢醴（朝食不能暮食）；④血枯与四乌鲗骨一藘茹丸（醉入房或大失血致肝伤经闭）；兼明脐旁“伏粱”裹脓血不可治、石药发癫芳草发狂以及脑受大寒头痛连齿之寒痛厥逆。",
+      "differentiation_rules": [
+        {
+          "condition": "甘肥脾瘅转消渴 vs 口苦胆瘅",
+          "manifestations": "过食肥甘厚味、腹部中满、气溢消渴多饮（脾瘅）；或终日口苦、善太息、优柔谋虑不决（胆瘅）。",
+          "traditional_judgment": "脾瘅节制甘肥、用芬芳“兰草（佩兰）”醒脾化陈气；胆瘅调胆募（日月）、胆俞与胆合（阳陵泉）。",
+          "classic_basis": "《素问·奇病论》（下册p.216–218）"
+        },
+        {
+          "condition": "鼓胀、血枯与伏粱脓血禁忌",
+          "manifestations": "朝可食而暮不能食、腹胀满为鼓胀；青年失血耗竭致胸胁支满妨食、月经闭止为血枯；少腹有肿块根连上下且居肠胃外裹脓血为伏粱。",
+          "traditional_judgment": "鼓胀治以鸡矢醴醒脾利气；血枯用四乌鲗骨一藘茹（茜草）丸固涩通经配鲍鱼汁；肠外裹大脓血之伏粱慎勿妄按攻下致溃。",
+          "classic_basis": "《素问·腹中论》（下册p.184–187）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:兰草",
+          "label": "本草：兰草（除陈气醒脾瘅）",
+          "rationale": "《奇病论》明确点出“治之以兰，除陈气也”以化甘肥陈积浊气"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:乌贼鱼骨",
+          "label": "本草：乌贼鱼骨（四乌鲗骨丸君药）",
+          "rationale": "入《腹中论》血枯名方，通瘀敛血以复肝伤血枯经闭"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:茜根",
+          "label": "本草：茜根（即茜草/藘茹）",
+          "rationale": "与乌贼骨四比一相伍成《内经》极罕见经闭调经古丸方"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "cond:ch6:s283",
+          "label": "治症：朝食暮吐与腹膜炎",
+          "rationale": "“朝食不能暮食”鼓胀及腹内脓血危情呼应《针灸篇》胃脘幽门壅滞专题"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "cond:ch6:s284",
+          "label": "治症：消渴、痞块与肝结石",
+          "rationale": "脾瘅消渴与少腹痞块伏粱病机互参"
+        }
+      ],
+      "historical_boundary_note": "“肠外裹大脓血不可治”之伏粱、肝硬化腹水型鼓胀、严重糖尿病及大脱血闭经均涉及深部占位或器质衰竭，切勿生搬鸡矢醴或雀卵古方替代现代诊疗。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:qibing-xueku-xiaoke:1",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p038",
+          "pdf_page": 38,
+          "printed_page": 185,
+          "chapter_path": "脾瘅消渴、胆瘅口苦、鼓胀血枯与伏粱杂病机理",
+          "quote": "治之以鸡矢醴，一剂知，二剂已。",
+          "quote_sha256": "9ead682d03201b758b72ba4e61f223454f3e3eba7abfa8cd8ea37b1902831414",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:qibing-xueku-xiaoke:2",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p039",
+          "pdf_page": 39,
+          "printed_page": 186,
+          "chapter_path": "脾瘅消渴、胆瘅口苦、鼓胀血枯与伏粱杂病机理",
+          "quote": "吃这个乌贼骨跟茜草的",
+          "quote_sha256": "995c91a96fed8396ba113621a8cb2f293add75b6831ea6d873623d095f38906c",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:qibing-xueku-xiaoke:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p040",
+          "pdf_page": 40,
+          "printed_page": 187,
+          "chapter_path": "脾瘅消渴、胆瘅口苦、鼓胀血枯与伏粱杂病机理",
+          "quote": "石药能够发瘨，芳草发狂。热中消中者都是富贵人。",
+          "quote_sha256": "2f4fe635762f35302942bc11df1f5bc3c346ef70d9e5d03924375c5a6ff84a56",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:qibing-xueku-xiaoke:4",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p069",
+          "pdf_page": 69,
+          "printed_page": 216,
+          "chapter_path": "脾瘅消渴、胆瘅口苦、鼓胀血枯与伏粱杂病机理",
+          "quote": "头痛是不是寒痛，清是主寒",
+          "quote_sha256": "e0c3862157f95570b6fd654180b84160ca4988a328e2c6c9d10bc1e6e090aa09",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·腹中论》：“治之以鸡矢醴，一剂知，二剂已”；“以四乌鲗骨、一藘茹……丸以雀卵”。",
+          "《素问·奇病论》：“治之以兰，除陈气也”；胆瘅“治之以胆募、俞”；厥逆大寒犯脑髓痛连齿。"
+        ],
+        "ni_teaching": [
+          "指出鼻涕清白剧烈头痛乃脑受大寒（厥逆寒症），与浊涕发热鼻渊截然不同；同时解“为后饭”为“先药而后饭”。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）3篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》bing_yin_bing_ji专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：涵盖伏粱裹脓血、重度鼓胀腹水、消渴、大脑寒厥剧痛与怒伤呕血风险，重度腹胀发热及突发剧烈头痛须即刻就医。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:rebing-liujing-chuanbian",
+      "record_type": "theory",
+      "submodule": "bing_yin_bing_ji",
+      "canonical_name": "外感热病与六经传变法则（未满三日汗·满三日泄）",
+      "doctrine_key": "外感伤寒六经症状图谱与汗下界限",
+      "chapter_ids": [
+        "nj:suwen:21",
+        "nj:suwen:31"
+      ],
+      "summary": "以《热论》为宗，系统整理太阳、阳明、少阳、太阴、少阴、厥阴六经受病部位与经典证候（如太阳头项痛、阳明身热目痛鼻干、少阳胸胁痛耳聋），确立表未入里可汗、入里可泄之阶段治法，及阴阳“两感于寒”危重传变。",
+      "differentiation_rules": [
+        {
+          "condition": "外感三阳表经 vs 阳明腑实及三阴传变",
+          "manifestations": "头项强痛腰脊痛（太阳）；身热目疼鼻干不得卧（阳明经）；胸胁痛耳聋（少阳）；腹满嗌干（太阴）；口燥舌干而渴（少阴）；烦满囊缩（厥阴）。",
+          "traditional_judgment": "病未满三日且在三阳经表者可汗（阳明经热可用白虎汤类泄热透解，既入腑结实便秘则禁再发汗而当通泄）；三阴里证及两感于寒均属深重危阶，各通其脏脉调理。",
+          "classic_basis": "《素问·热论》（下册p.153–156）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "six_channels",
+          "target_id": "yangming",
+          "label": "阳明病（经热vs腑实）",
+          "rationale": "《热论》明分阳明身热鼻干与腑实可泄不可汗"
+        },
+        {
+          "target_module": "six_channels",
+          "target_id": "taiyin",
+          "label": "太阴病",
+          "rationale": "四日太阴脉布胃中络于嗌，故腹满而嗌干"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:白虎汤",
+          "label": "《伤寒论》白虎汤",
+          "rationale": "讲记p.155明言阳明经热（未入腑结）可用白虎汤彻热得汗而解"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:石膏",
+          "label": "本草：石膏",
+          "rationale": "清解阳明气分大热之君药"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:葛根",
+          "label": "本草：葛根",
+          "rationale": "升津解阳明项背及鼻目肌表热邪之常用本草"
+        }
+      ],
+      "historical_boundary_note": "“一日一经”属古典理想化六日周期病程推演，张仲景《伤寒论》早已说明传与不传必凭脉证而不拘日数；热病持续高热须配合现代传染病评估。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:rebing-liujing-chuanbian:1",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p007",
+          "pdf_page": 7,
+          "printed_page": 154,
+          "chapter_path": "外感热病与六经传变法则（未满三日汗·满三日泄）",
+          "quote": "“人之伤于寒也，则为病热，热虽甚不死；其两感于寒而病者，必不免于",
+          "quote_sha256": "62f8380ad7c95ad8222a87ce9f4048160606cc64f6165638c7e8c789f1bd0765",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:rebing-liujing-chuanbian:2",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p008",
+          "pdf_page": 8,
+          "printed_page": 155,
+          "chapter_path": "外感热病与六经传变法则（未满三日汗·满三日泄）",
+          "quote": "所以可汗的时候是三种，阳明的腑热不可汗。",
+          "quote_sha256": "4ea2b3fc83e73c36facecefce543e2a3e4ce308e21d5803064581bca1c2354c3",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:rebing-liujing-chuanbian:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p009",
+          "pdf_page": 9,
+          "printed_page": 156,
+          "chapter_path": "外感热病与六经传变法则（未满三日汗·满三日泄）",
+          "quote": "岐伯说，“治之各通其藏脉”",
+          "quote_sha256": "f9bf2430f1e3bdcf224169cd84e95aab0076fd0f797baa7136989348e2ae593e",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·热论》] “今夫热病者，皆伤寒之类也……人之伤于寒也，则为病热，热虽甚不死；其两感于寒而病者，必不免于死”（下册p.153–154）",
+          "[《素问·热论》] “治之各通其藏脉……其未满三日者，可汗而已；其满三日者，可泄而已”（下册p.156）"
+        ],
+        "ni_teaching": [
+          "辨明“阳明经热可透解、阳明腑热不可汗”：若误对大便燥结者发汗，津液益亡而躁狂上攻。",
+          "指出《伤寒论》将此处六经纲目进一步精细化成有证即见、不拘一二三日之完整辩证论治系统。"
+        ],
+        "other_annotations": [
+          "《伤寒论》第一条太阳病提纲与《热论》第一日“巨阳受之”文字高度呼应。"
+        ],
+        "collation_notes": [
+          "p.154讲记将“两感”录作“凉感”，已在校勘笔记纠正；按《伤寒》口径注清阳明经热用白虎汤。"
+        ],
+        "organizer_summary": [
+          "内经连接《伤寒论》六经辨证最关键的枢纽专题。"
+        ]
+      },
+      "open_questions": [
+        "《热论》两感病“水浆不入、不知人”后世救治转归案例可待第四阶段方证部分深化。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【高热传变与两感死候警示边界】涉及高热神昏谵语及阴阳两感危候，严禁死守日数推算延误现代救治。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:sishi-xieqi-yu-fufa",
+      "record_type": "theory",
+      "submodule": "bing_yin_bing_ji",
+      "canonical_name": "四时伤邪与伏气发病（冬伤于寒，春必温病）",
+      "doctrine_key": "跨季因果传变与外感寒热溯源",
+      "chapter_ids": [
+        "nj:suwen:03",
+        "nj:suwen:04",
+        "nj:suwen:05"
+      ],
+      "summary": "归纳《生气通天论》《金匮真言论》《阴阳应象大论》“冬伤于寒、春必温病，春伤于风、夏生飧泄，夏伤于暑、秋必痎疟，秋伤于湿、冬生咳嗽”以及春夏秋冬易发风病规律，强调发于表热之证每有前期寒湿病因潜伏，不可割裂因果。",
+      "differentiation_rules": [
+        {
+          "condition": "外感发热与四时伏邪因果追问",
+          "manifestations": "春季发温热、夏季完谷不化下利（飧泄）、秋季寒热往来痎疟、冬季咳嗽不止。",
+          "traditional_judgment": "溯其先受寒、风、暑、湿之因，并察当下阴阳寒热虚实（如真寒反呈发热假象时仍宜温阳散寒），不唯局部热名而滥施寒凉。",
+          "classic_basis": "《素问·生气通天论》《阴阳应象大论》（上册p.20–24、p.37）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "six_channels",
+          "target_id": "taiyang",
+          "label": "太阳病（寒伤肌表）",
+          "rationale": "外感由寒束表起病之首站"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:麻黄汤",
+          "label": "《伤寒论》麻黄汤",
+          "rationale": "冬寒束表无汗喘热之正治峻汗解表方"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:小青龙汤",
+          "label": "《伤寒论》小青龙汤",
+          "rationale": "外寒内饮冬咳喘之经方"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:麻黄",
+          "label": "本草：麻黄",
+          "rationale": "发越表寒、散肺气闭郁之要药"
+        }
+      ],
+      "historical_boundary_note": "“冬伤于寒，春必温病”乃古典顺时潜伏病机学说与伤寒温病学术争鸣重点，不代表现代流行病学病毒潜伏周期。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:sishi-xieqi-yu-fufa:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p030",
+          "pdf_page": 30,
+          "printed_page": 28,
+          "chapter_path": "四时伤邪与伏气发病（冬伤于寒，春必温病）",
+          "quote": "所以春气者病在头",
+          "quote_sha256": "a0e3fee1bc16f07c03fbadf9287f046a922ff176c7486fc8cff134d65d70586d",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:sishi-xieqi-yu-fufa:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p039",
+          "pdf_page": 39,
+          "printed_page": 37,
+          "chapter_path": "四时伤邪与伏气发病（冬伤于寒，春必温病）",
+          "quote": "所以重阴必阳，重阳必阴，故曰冬伤于寒，春必瘟病",
+          "quote_sha256": "916c584b7d269c8dd8c7dfac9b8c5d5d4bd712195a0a77065209716d4362231a",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:sishi-xieqi-yu-fufa:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p039",
+          "pdf_page": 39,
+          "printed_page": 37,
+          "chapter_path": "四时伤邪与伏气发病（冬伤于寒，春必温病）",
+          "quote": "春伤于风，夏生飧泄，所以一定有病因跟发病的。",
+          "quote_sha256": "8ef1f52c11e936951f68e77f350737248ac0c3bca825627525be96242e3d443c",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·金匮真言论》] “春气者病在头，夏气者病在藏，秋气者病在肩背，冬气者病在四支”（上册p.28）",
+          "[《素问·阴阳应象大论》] “冬伤于寒，春必瘟病[温病]；春伤于风，夏生飧泄；夏伤于暑，秋必咳虐[痎疟]；秋伤于湿，冬生咳嗽”（上册p.37）"
+        ],
+        "ni_teaching": [
+          "极力申述“有因必有果”，批评只读后句“春必温病”而不究其寒因，致使临床不分表寒郁热与里真寒假热、误用寒凉压遏阳气。"
+        ],
+        "other_annotations": [
+          "后世吴又可、叶天士等温病学家对“伏气”“新感”亦有不同阐发，需兼存两说不可混淆原文与讲者倾向。"
+        ],
+        "collation_notes": [
+          "p.39原印将“温病”误排为“瘟病”，“痎疟”音近误录为“咳虐”，已并加保留与按语。"
+        ],
+        "organizer_summary": [
+          "打通季节发病位置与前后季伏邪病因因果追踪法。"
+        ]
+      },
+      "open_questions": [
+        "《生气通天论》与《阴阳应象大论》两处所载“冬伤于寒”文字细微异同尚可详加并表。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:wufeng-qijue-zhuanbian",
+      "record_type": "theory",
+      "submodule": "bing_yin_bing_ji",
+      "canonical_name": "五脏受风（偏风·漏风·眼寒）与气厥寒热移转预测",
+      "doctrine_key": "百病之长善行数变与五脏六腑寒热相移谱系",
+      "chapter_ids": [
+        "nj:suwen:37",
+        "nj:suwen:42",
+        "nj:suwen:60"
+      ],
+      "summary": "结合《风论》“风者百病之长、至其变化乃为他病”与《气厥论》五脏六腑寒热互移规律：解析偏风、漏风（饮酒汗出多渴）、目风眼寒（清泪不止vs目赤热痛）、疠风及肺心肝脾肾五脏风；系统整理心肝脾肺肾、胞宫、膀胱与大小肠寒热相移所酿之肺消（饮一溲二）、涌水、虚肠澼、鼻渊、癃溺血与口糜，奠定“疾病并发与顺逆传变”预测学。",
+      "differentiation_rules": [
+        {
+          "condition": "外风异象：眼寒流清泪 vs 目热赤痛；漏风多汗",
+          "manifestations": "吹风即清泪不止、无红肿刺痛者为“眼寒”；饮酒后当风大汗恶风、口干善渴、不能劳事者为“漏风”。",
+          "traditional_judgment": "眼寒宜温散寒饮而非清凉泻火；漏风多汗当固表息风止汗；五脏风各有眉口目鼻肌特定色部可循。",
+          "classic_basis": "《素问·风论》（下册p.192–195）"
+        },
+        {
+          "condition": "五脏六腑寒热传移预测（气厥论）",
+          "manifestations": "心移寒于肺则饮一溲二（肺消死）；肾移热于脾则下痢伤胃（虚肠澼死）；胞宫移热于膀胱则小便闭与尿血；膀胱移热于小肠则肠隔便秘而上发口糜。",
+          "traditional_judgment": "脏腑并非孤立致病，气分寒热依生克表里通道相互移转：见尿血便当审胞宫小肠膀胱气化热结，见鼻渊浊涕需辨胆热上移脑髓。",
+          "classic_basis": "《素问·气厥论》（下册p.174–176）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:泽泻",
+          "label": "本草：泽泻（并治酒风漏风利水）",
+          "rationale": "配白术等宣湿固气调酒风与下焦水热积滞"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:小青龙汤",
+          "label": "《伤寒论》小青龙汤（外寒内饮清涕清泪）",
+          "rationale": "温散寒饮以止肺寒清涕、目寒流泪等水寒上泛之候"
+        },
+        {
+          "target_module": "jinkui_formulas",
+          "target_id": "jinkui:泽泻汤",
+          "label": "《金匮》泽泻汤 / 消渴小便症治",
+          "rationale": "呼应心肺寒热移转所致水气偏胜与消渴蓄水"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "cond:ch6:s269",
+          "label": "治症：面部中风与起因",
+          "rationale": "偏风及外邪袭面络经筋与《风论》风邪变病直接互证"
+        }
+      ],
+      "historical_boundary_note": "“肺消饮一溲二死不治”“虚肠澼死”“疠风坏鼻”“溺血”均为危重代谢病、重症肠炎痢疾、麻风或泌尿肿瘤/结石预警症状，须立即现代医学诊断治疗。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:wufeng-qijue-zhuanbian:1",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p028",
+          "pdf_page": 28,
+          "printed_page": 175,
+          "chapter_path": "五脏受风（偏风·漏风·眼寒）与气厥寒热移转预测",
+          "quote": "最凶的就是肾移热于脾，本来呢是脾是土是克水的",
+          "quote_sha256": "49435bdab0a7dc14702cb1e2a28cfa5ed88f3791db9c31271cf8cf140c52bbe6",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:wufeng-qijue-zhuanbian:2",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p029",
+          "pdf_page": 29,
+          "printed_page": 176,
+          "chapter_path": "五脏受风（偏风·漏风·眼寒）与气厥寒热移转预测",
+          "quote": "胞如果移热于膀胱，我们讲过这是小肠",
+          "quote_sha256": "e5d7612ab4221309445839a23b9a4cf8b0326584683a3000a0ea637d1e677ee7",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:wufeng-qijue-zhuanbian:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p046",
+          "pdf_page": 46,
+          "printed_page": 193,
+          "chapter_path": "五脏受风（偏风·漏风·眼寒）与气厥寒热移转预测",
+          "quote": "眼寒，眼睛寒，泪水会出来，眼睛热，就红肿赤痛",
+          "quote_sha256": "e29042d8f6e38fba74c1eda61326cc8059daca16ef6e6c1842a13de04ee28fc0",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:wufeng-qijue-zhuanbian:4",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p047",
+          "pdf_page": 47,
+          "printed_page": 194,
+          "chapter_path": "五脏受风（偏风·漏风·眼寒）与气厥寒热移转预测",
+          "quote": "“心风之状”，也是“多汗恶风”",
+          "quote_sha256": "dfd850a22265f50100dee92c497a611ae6182777f8e6e770ad8af718d1ef19c7",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·气厥论》：“心移寒于肺，肺消，饮一溲二，死不治”；“胞移热于膀胱，则癃溺血；膀胱移热于小肠，膈肠不便，上为口糜”；“胆移热于脑，则辛頞鼻渊”。",
+          "《素问·风论》：“风者百病之长也，至其变化，乃为他病也。”"
+        ],
+        "ni_teaching": [
+          "以火水气化解释小肠—胞室—膀胱联动：火足则水化畅通，热移或寒闭则现尿血口疮隔肠闭塞；盛赞《气厥论》为跨脏腑“疾病预测学”。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）3篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》bing_yin_bing_ji专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：含“肺消”“虚肠澼”死证描述、尿血、疠风与严重半身偏风，出现不明血尿、极端多饮多尿或顽固血痢请及时现代诊疗。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:fangshengshuai-mengzhen-congrong",
+      "record_type": "theory",
+      "submodule": "zhen_fa",
+      "canonical_name": "闭户塞牖得神、从容比类、梦诊少气与五过四失问诊伦理",
+      "doctrine_key": "身心社会史采集（脱营失精）及梦象盛衰诊断",
+      "chapter_ids": [
+        "nj:suwen:13",
+        "nj:suwen:76",
+        "nj:suwen:77",
+        "nj:suwen:78",
+        "nj:suwen:80"
+      ],
+      "summary": "集成黄帝教雷公师徒诊病纠偏七篇精髓与《移精变气》原则：要求诊病环境安静私密以让病家详吐实情（“得神”）；问诊必顾社会地位、贫富变动、暴喜暴苦导致之“脱营”“失精”（心理社会医学观）；临证必须镇定从容“比类推理”（严分脾虚四肢倦懒vs肺伤喘咳吐血）；并以《方盛衰论》五脏阴阳梦诊谱识别“何脏少气”及极虚昏迷风险。",
+      "differentiation_rules": [
+        {
+          "condition": "似是而非症状的比类鉴别（示从容论）",
+          "manifestations": "四肢沉重懈怠无力、纳差 vs 咳喘、咳血、鼻衄。均可见气短倦怠。",
+          "traditional_judgment": "脾主四肢肌肉，脾虚精微不布则肢体怠惰无力；肺主咳喘鼻衄血泄，切勿如雷公混脾虚为肺伤。且见“血无止法”需审本源。",
+          "classic_basis": "《素问·示从容论》（下册p.272–273）"
+        },
+        {
+          "condition": "脱营失精心理创伤与梦诊五脏少气",
+          "manifestations": "尝贵后贱忧郁抑郁（脱营）、尝富后贫内耗精气（失精）；或夜间频发大水惊恐、大火、刀兵、饮食、悬崖梦象（多梦至极则气虚昏迷）。",
+          "traditional_judgment": "切忌答非所问，必先治其心、采问“诊之三常”（贵贱苦乐饮食居处）；并参多梦所属阴盛阳盛或五脏少气补之、警惕三阳绝三阴微。",
+          "classic_basis": "《素问·疏五过论》《征四失论》《方盛衰论》（下册p.274–282）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "jinkui_formulas",
+          "target_id": "jinkui:百合地黄汤",
+          "label": "《金匮》百合病诸方 / 酸枣仁汤",
+          "rationale": "情志失意神志恍惚（类脱营失精阴虚心悸多梦）古今经典方证呼应"
+        },
+        {
+          "target_module": "jinkui_formulas",
+          "target_id": "jinkui:酸枣仁汤",
+          "label": "《金匮》酸枣仁汤（虚烦不得眠多梦）",
+          "rationale": "肝血心阴不足致多梦虚烦惊悸，契合《方盛衰论》虚梦调治思路"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:ht07:神门",
+          "label": "穴位：神门（宁神定志主穴）",
+          "rationale": "治多梦惊悸、精神内伤与脱营失神安神首选"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:sp03:太白",
+          "label": "穴位：太白（益脾气复四肢原穴）",
+          "rationale": "助辨四肢怠惰属脾虚、补脾土化精气之原穴"
+        }
+      ],
+      "historical_boundary_note": "《疏五过》之“脱营失精”极类现代重大创伤应激与抑郁状态，而极度多梦伴窒息感或“昏迷（三阳绝三阴微）”需排查阻塞性睡眠呼吸暂停及神经重症；遇呕血、咳血、鼻大出血务必急救。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:fangshengshuai-mengzhen-congrong:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p078",
+          "pdf_page": 78,
+          "printed_page": 76,
+          "chapter_path": "闭户塞牖得神、从容比类、梦诊少气与五过四失问诊伦理",
+          "quote": "要得神，得神的话，除了望神以外，得神的意思",
+          "quote_sha256": "0f7d41546e07e131452d1728066e3421f7afb11e6da2d8227cd19e3fe5c073f9",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:fangshengshuai-mengzhen-congrong:2",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p126",
+          "pdf_page": 126,
+          "printed_page": 273,
+          "chapter_path": "闭户塞牖得神、从容比类、梦诊少气与五过四失问诊伦理",
+          "quote": "四肢是不是脾主四肢？喘咳血泄，如果出血的时候来自肺的话",
+          "quote_sha256": "e657cd1e82f5ce64627b2fa04778dd9b1382e9456f79ae7c3e55a49b3cb64616",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:fangshengshuai-mengzhen-congrong:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p128",
+          "pdf_page": 128,
+          "printed_page": 275,
+          "chapter_path": "闭户塞牖得神、从容比类、梦诊少气与五过四失问诊伦理",
+          "quote": "这种精神内伤，身必败亡，寿命就不会很长。",
+          "quote_sha256": "f8d195820f303304e5dbed7ea941b4f8231b62d0f37a48c9c4ffe0f76f00f7ef",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:fangshengshuai-mengzhen-congrong:4",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p134",
+          "pdf_page": 134,
+          "printed_page": 281,
+          "chapter_path": "闭户塞牖得神、从容比类、梦诊少气与五过四失问诊伦理",
+          "quote": "而且严重气虚的会昏迷过去的。三阳绝，三阴微",
+          "quote_sha256": "d38b73f514956aa94081f89ea32a570fa7efd77bf3fe0819a2efeaa806a86ae6",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·疏五过论》：“尝贵后贱，虽不中邪，病从内生，名曰脱营；尝富后贫，名曰失精。”",
+          "《素问·方盛衰论》：“是以少气之厥，令人妄梦，其极至迷。三阳绝，三阴微，是为少气。”"
+        ],
+        "ni_teaching": [
+          "高度强调背熟医书不如明辨对错之智慧，诊病前必察吃喝拉撒睡、头凉脚热大象与患者境遇忧苦，方可“一击中病”。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）5篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》zhen_fa专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：涉及“喘咳血泄、不衄则呕”大出血与“三阳绝、三阴微”严重气虚昏迷征象，出现活动性出血或神志不清须立即急诊。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:pibu-luose-wuzangfengzhen",
+      "record_type": "theory",
+      "submodule": "zhen_fa",
+      "canonical_name": "面赤先兆、五脏风色部与皮部络脉望诊图谱",
+      "doctrine_key": "面诊脏热分区与体表络脉青黑黄赤寒热判定",
+      "chapter_ids": [
+        "nj:suwen:32",
+        "nj:suwen:42",
+        "nj:suwen:56",
+        "nj:suwen:57",
+        "nj:suwen:75_bis"
+      ],
+      "summary": "统合《刺热》《风论》《皮部》《经络论》之直观“望诊地图”：①热病先兆（左颊肝、右颊肺、颜额心、鼻脾、下颏肾之“病未发见赤色即刺”）；②五脏受风望部（肺风眉上白、心风口唇赤、肝风目下苍、脾风鼻微黄、肾风肌黑且目下如卧蚕）；③皮部络脉五色寒热法（“寒多凝泣则青黑，热多淖泽则黄赤”）；并严格界定第75篇末讲记所谓“病色vs灾色”的学术边界。",
+      "differentiation_rules": [
+        {
+          "condition": "面部五分区赤色与风肿望诊定位",
+          "manifestations": "发热初萌即见左颧赤（肝热）、额上赤（心热）、鼻赤（脾热）、右颧赤（肺热）、下颌颐赤（肾热）；唇口鲜红怒吓（心风），面庞然水肿（肾风）。",
+          "traditional_judgment": "依五脏面部色部在未发病全作时提前截断或表里同刺（治未病），区分真脏色（夭枯晦暗）与外邪络脉常色。",
+          "classic_basis": "《素问·刺热论》《风论》（下册p.157–158、p.193–194）"
+        },
+        {
+          "condition": "体表络脉青黑（寒瘀）vs 黄赤（热蒸）及病色/灾色分层",
+          "manifestations": "体表络脉呈青紫黑滞伴痛痹，或发黄赤灼热；另注意持续滞留面部之病理“病色”与讲记所谈流动闪烁色泽之别。",
+          "traditional_judgment": "络色青黑责寒凝血痹，黄赤责热气淖泽，五色俱见则寒热错杂；“灾色”说系讲者结合易象数之个人见解，非先秦医学临床规范。",
+          "classic_basis": "《素问·经络论》《皮部论》（下册p.239–241）与《第75篇》收尾补录"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "acupuncture",
+          "target_id": "tech:five_elements_disease_transmission",
+          "label": "针法：治未病与面色截断",
+          "rationale": "与《刺热》“病虽未发，见赤色者刺之”治未病原理完全契合"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:lv03:太冲",
+          "label": "穴位：太冲（肝热左颊先赤表里兼顾）",
+          "rationale": "佐证肝经郁热循经刺厥阴少阳降泄上炎之赤"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:麻黄杏仁甘草石膏汤",
+          "label": "《伤寒论》麻杏石甘汤",
+          "rationale": "右颊肺热喘咳、汗出而寒或邪热迫肺之辛凉宣泄范方"
+        }
+      ],
+      "historical_boundary_note": "急性发绀（嘴唇指甲青黑发紫）提示严重缺氧，深度黄赤染目（黄疸）提示胆道梗阻或溶血；第75篇“灾色”玄学观不具临床科学循证地位，绝不可用于延误正规体检。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:pibu-luose-wuzangfengzhen:1",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p047",
+          "pdf_page": 47,
+          "printed_page": 194,
+          "chapter_path": "面赤先兆、五脏风色部与皮部络脉望诊图谱",
+          "quote": "嘴巴颜色，嘴唇的颜色非常的光鲜，非常的红色，非常的亮。",
+          "quote_sha256": "4a5977e761b48275860860e2188fafda8e56d74acd1880b58d1ef4ea34091d37",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:pibu-luose-wuzangfengzhen:2",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p094",
+          "pdf_page": 94,
+          "printed_page": 241,
+          "chapter_path": "面赤先兆、五脏风色部与皮部络脉望诊图谱",
+          "quote": "皮着脉之部，邪客于皮，皮的时候当病邪在皮肤的时候",
+          "quote_sha256": "0403dd08eb4bfe63d20f316a766ebf8c6c22e588a692149b2d84455ed890231d",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:pibu-luose-wuzangfengzhen:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p147",
+          "pdf_page": 147,
+          "printed_page": 294,
+          "chapter_path": "面赤先兆、五脏风色部与皮部络脉望诊图谱",
+          "quote": "看到灾色跟病色是不一样的",
+          "quote_sha256": "5212accd5006a57ece3bc58577a1672ac9895e7105f7fdf509ee5b0eabd44d4b",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·刺热论》：“肝热病者左颊先赤……病虽未发，见赤色者刺之，名曰治未病。”",
+          "《素问·经络论》：“寒多则凝泣，凝泣则青黑；热多则淖泽，淖泽则黄赤。”"
+        ],
+        "ni_teaching": [
+          "把面部分区与皮表青黑黄赤简化为快速床旁直观定位法，同时在整理层严格区分古典医学望诊与讲记收官个人“灾色”易象观。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）5篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》zhen_fa专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:pingdan-zhenmai-yu-weiqi",
+      "record_type": "theory",
+      "submodule": "zhen_fa",
+      "canonical_name": "平旦诊脉与以胃气为本（平人五动与四时常脉）",
+      "doctrine_key": "正常脉象基准与诊脉核心标准",
+      "chapter_ids": [
+        "nj:suwen:17",
+        "nj:suwen:18",
+        "nj:suwen:19"
+      ],
+      "summary": "确立诊脉时间（平旦阴气未动）、呼吸平息定量法（一呼再动、一吸再动、闰以太息一呼一吸共五动），指出胃气乃脉象根基（“有胃气则生，无胃气则死”），并将春弦、夏钩、秋毛、冬石之四时常脉统归于柔滑和缓有胃气。",
+      "differentiation_rules": [
+        {
+          "condition": "平人常脉 vs 过与不及（太息五动基准）",
+          "manifestations": "医者自平呼吸调息，一息间患者脉动四至兼太息共五动；过多过少即示气机亢盛或不足。",
+          "traditional_judgment": "诊察须兼问饮食活动时差，不因午后走动一时加快而妄断死病；触感上始终重“柔和缓和”（胃气）而非单看搏动次快。",
+          "classic_basis": "《素问·脉要精微论》《平人气象论》《玉机真藏论》（上册p.86、p.102–108、p.109）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:lu09:太渊",
+          "label": "太渊（寸口脉会）",
+          "rationale": "百脉朝会寸口太渊诊察之处"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "meridian:du",
+          "label": "督脉（诸阳之会）",
+          "rationale": "p.102释脉气虚少致腰脊痛疲与督脉阳气密切关联"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:人参",
+          "label": "本草：人参",
+          "rationale": "补益脾胃中气、复脉安神生津之代表上品"
+        }
+      ],
+      "historical_boundary_note": "一息五动为古典相对心率参照法，与现代精确脉搏次数、心电节律测算属不同观测工具。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:pingdan-zhenmai-yu-weiqi:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p088",
+          "pdf_page": 88,
+          "printed_page": 86,
+          "chapter_path": "平旦诊脉与以胃气为本（平人五动与四时常脉）",
+          "quote": "齐伯说，常以平旦，阴气未动，阳气未散，饮食未进，经脉未盛，络脉",
+          "quote_sha256": "45869306b303d9c4cc36c4cbdd8e508a329472d5eabda6076f810f9096df4417",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:pingdan-zhenmai-yu-weiqi:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p104",
+          "pdf_page": 104,
+          "printed_page": 102,
+          "chapter_path": "平旦诊脉与以胃气为本（平人五动与四时常脉）",
+          "quote": "这所以一呼一吸，脉是五动。这个“闰以太息，命曰平人。平人者不病也。”",
+          "quote_sha256": "2ce2fb929e1a00ec5f37c0d7351776873a8b23a07e9052965a99c2f04a41be92",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:pingdan-zhenmai-yu-weiqi:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p110",
+          "pdf_page": 110,
+          "printed_page": 108,
+          "chapter_path": "平旦诊脉与以胃气为本（平人五动与四时常脉）",
+          "quote": "第八节 脉诊-以胃气为本",
+          "quote_sha256": "81805103ee45109ed3da00feb780958faf55582d695322ec5c1f93348e779f75",
+          "role": "collation_notes"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·脉要精微论》] “常以平旦，阴气未动，阳气未散，饮食未进，经脉未盛，络脉调匀，气血未乱”（上册p.86）",
+          "[《素问·平人气象论》] “一呼脉再动，一吸脉亦再动……闰以太息，命曰平人”“常以不病调病人”（上册p.102）"
+        ],
+        "ni_teaching": [
+          "提醒初学者先摸健康平人之脉找“轻虚有胃气”手感，不要一开始盲目追求奇病怪脉，并指出门诊午后诊脉需扣减饮食与奔波干扰。",
+          "从“阳在督脉”阐发脉气少、腰脊痛及四肢疲惫麻木时重壮督脉阳气思路。"
+        ],
+        "other_annotations": [
+          "衔接《五藏别论》“气口独为五脏主”，肺朝百脉、胃气通过手太阴经汇聚寸口。"
+        ],
+        "collation_notes": [
+          "汇聚第17、18、19三篇最核心正常脉象法则。"
+        ],
+        "organizer_summary": [
+          "建立全书诊脉起手第一基线：“何时切”“以何息数切”“切何神气”。"
+        ]
+      },
+      "open_questions": [
+        "寸关尺分部候心肺肝脾肾（《脉要精微论》上附上、下附上等左右部位分配）可进一步制表细化。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:sanbu-jiuhou-qizhen",
+      "record_type": "theory",
+      "submodule": "zhen_fa",
+      "canonical_name": "三部九候全身遍诊、独脉七诊与真脏脉症合参",
+      "doctrine_key": "头手足天地人九候切脉与胃气生死总断",
+      "chapter_ids": [
+        "nj:suwen:15",
+        "nj:suwen:20",
+        "nj:suwen:48",
+        "nj:suwen:80"
+      ],
+      "summary": "汇集《三部九候论》《玉版论要》《大奇论》与《方盛衰论》之完整诊断标尺：以头（两额、耳前、两颊）、手（太阴、少阴、阳明）、足（厥阴、太阴、少阴太溪/冲阳等）九候脉位互校全身气血；明确“独大、独小、独疾、独迟、独热、独寒、独陷下”七诊异常与“弹踝验应”；并统以“面脱脉短气绝”“大奇真脏脉（如泥丸、浮合）”“胃气存亡与脉症相合”定顺逆预后。",
+      "differentiation_rules": [
+        {
+          "condition": "三部九候“独异”与冲阳太溪危候",
+          "manifestations": "九候之中某一脉搏独自骤大、骤小、过快、过迟或陷下不鼓；重甚见一候微、两候并、三候俱失（冲阳胃脉、太溪肾脉、人迎、经渠俱微绝）及面无油光（面脱）。",
+          "traditional_judgment": "一候独异可定位所属脏腑失衡，弹内/外踝测下部经气；若重按方现且短、阴浮反常或冲阳太溪胃肾根本之脉俱微绝，皆属精气耗竭重危候。",
+          "classic_basis": "《素问·三部九候论》《玉版论要》（上册p.78–80、p.119–122）"
+        },
+        {
+          "condition": "大奇脉象与“胃气还在否”生死底线",
+          "manifestations": "浮合（一息十至以上）、如丸泥（胃精不足）、重实无痛而全身肿满（肝肺肾阴实）；与之相对，尚能喝水饮粥、舌转能言、脉缓有力者犹存生机。",
+          "traditional_judgment": "诊之十度必以“有胃气、能食饮、二便眠可、脉症相合”作最后稳妥判据，不单凭奇脉恐吓病家。",
+          "classic_basis": "《素问·大奇论》《方盛衰论》（下册p.219–224、p.282）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:st42:冲阳",
+          "label": "穴位：冲阳（胃气九候脉位）",
+          "rationale": "三部九候下部候胃气存亡关键动脉点"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:ki03:太溪",
+          "label": "穴位：太溪（肾气九候脉位）",
+          "rationale": "三部九候下部候肾脏根本生机脉位"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:st09:人迎",
+          "label": "穴位：人迎（上部颈动脉候气）",
+          "rationale": "同《病能论》《三部九候》与寸口手太阴互勘气血升降"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:四逆加人参汤",
+          "label": "《伤寒论》四逆加人参汤",
+          "rationale": "恶寒脉微（精气欲脱脉短）回阳并补阴液救逆例证"
+        }
+      ],
+      "historical_boundary_note": "三部九候、如泥丸等真脏脉及“面脱脉短”属于古代无创体征危险分级体系，出现脉微欲绝、低血压休克、昏迷必须第一时间依现代心肺复苏与急诊监护处置。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:sanbu-jiuhou-qizhen:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p080",
+          "pdf_page": 80,
+          "printed_page": 78,
+          "chapter_path": "三部九候全身遍诊、独脉七诊与真脏脉症合参",
+          "quote": "非常得危险，已经随时会这个死亡。所谓的面脱就是油光都没了",
+          "quote_sha256": "244df3aaf29873b78a5786610e63cf407aac63b711b22112954259f3c8bc2ebe",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:sanbu-jiuhou-qizhen:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p123",
+          "pdf_page": 123,
+          "printed_page": 121,
+          "chapter_path": "三部九候全身遍诊、独脉七诊与真脏脉症合参",
+          "quote": "冲阳脉没了，太溪脉没了，人迎脉没了，经渠脉没了",
+          "quote_sha256": "9ac76068e9c417028e1369aeabe80f349d4da963d89d54799ebb336fe19e0875",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:sanbu-jiuhou-qizhen:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p077",
+          "pdf_page": 77,
+          "printed_page": 224,
+          "chapter_path": "三部九候全身遍诊、独脉七诊与真脏脉症合参",
+          "quote": "脉之如泥丸，是胃精不足",
+          "quote_sha256": "67e90f2678e67bec648395290e8e01a47c2a8d293da331b5c023d412900ddde7",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:sanbu-jiuhou-qizhen:4",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p135",
+          "pdf_page": 135,
+          "printed_page": 282,
+          "chapter_path": "三部九候全身遍诊、独脉七诊与真脏脉症合参",
+          "quote": "所谓脉症合，我们只能说这个脉症合易治",
+          "quote_sha256": "7fb5a6204660d48c60d93fa7849f6f0753b58ebba08d141760ef0459712e2c5d",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·三部九候论》：“人有三部，部有三候，以决死生……独小者病，独大者病……冲阳、太溪……”",
+          "《素问·大奇论》：“脉至如丸泥，是胃精予不足也”；《玉版论要》：“色夭面脱……脉短气绝，死。”"
+        ],
+        "ni_teaching": [
+          "教导医师在危急脉症前须会看“还有没有最后一线胃气（如尚能饮水）”，并紧守三部九候与“脉症合”总门径。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）4篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》zhen_fa专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：系统囊括冲阳太溪绝、面脱脉短、真脏死脉（如泥丸、浮合）及偏枯危症辨识，真实危重征象应即刻送医。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:se-mai-he-can-yu-sizhen",
+      "record_type": "theory",
+      "submodule": "zhen_fa",
+      "canonical_name": "望色察目、色脉尺肤合参（能合色脉，可以万全）",
+      "doctrine_key": "四诊互参防误诊原则",
+      "chapter_ids": [
+        "nj:suwen:10",
+        "nj:suwen:11",
+        "nj:suwen:17"
+      ],
+      "summary": "阐述单纯倚赖切脉或单纯望色的局限，确立“能合色脉，可以万全”诊法原则：面色黄润有光泽（面黄目青不死）表明胃气尚固，眼周眼袋气色、眼目五脏分部及尺肤滑涩与脉象长短滑涩相互印证新病与久病、正气存亡。",
+      "differentiation_rules": [
+        {
+          "condition": "色与脉同向 vs 相悖（久病/新病分辨）",
+          "manifestations": "面色黄而有胃气润泽 vs 面现枯槁青黑无泽（灾色/死色）；色新而脉病（新病）、色久而脉未改（久病或胃气存）。",
+          "traditional_judgment": "务必“望闻问切”四诊参伍，尤其注意面色是否尚留微黄胃气明润光泽，及问清睡眠、二便、寒热口渴以印证指下脉象。",
+          "classic_basis": "《素问·五脏生成》《五藏别论》《脉要精微论》（上册p.63–70、p.87–101）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "acupuncture",
+          "target_id": "cond:ch6:s266",
+          "label": "治症：治眼证及睛中法",
+          "rationale": "眼部分属心肝脾肺肾五脏理论（五轮学说源头）与眼诊直接衔接"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:bl01:睛明",
+          "label": "穴位：睛明",
+          "rationale": "眼部要穴与目受血能视理论关涉"
+        },
+        {
+          "target_module": "six_channels",
+          "target_id": "yangming",
+          "label": "阳明病（脾胃面黄胃气）",
+          "rationale": "面黄润为胃气冲和反映"
+        }
+      ],
+      "historical_boundary_note": "“面黄目青皆不死”“五色眼诊”等均属传统中医“司外揣内”色诊经验观察法，讲记中提及红斑性狼疮辨色思路仅供参考研究。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:se-mai-he-can-yu-sizhen:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p072",
+          "pdf_page": 72,
+          "printed_page": 70,
+          "chapter_path": "望色察目、色脉尺肤合参（能合色脉，可以万全）",
+          "quote": "凡相五色之奇脉，面黄目青，目赤，面黄目白，面黄目黑者，皆不死也。",
+          "quote_sha256": "f2e1a99a3d21a8e878f62a27b90d48938679a6791396af1817d916a413e6dcde",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:se-mai-he-can-yu-sizhen:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p103",
+          "pdf_page": 103,
+          "printed_page": 101,
+          "chapter_path": "望色察目、色脉尺肤合参（能合色脉，可以万全）",
+          "quote": "第八节 望闻问切之道",
+          "quote_sha256": "6390b5a31b9a6646becbf391f20663de2ba9b01aff34949367b9fcbc60603508",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:concept:nj:se-mai-he-can-yu-sizhen:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p108",
+          "pdf_page": 108,
+          "printed_page": 106,
+          "chapter_path": "望色察目、色脉尺肤合参（能合色脉，可以万全）",
+          "quote": "第四节 面部望诊：眼袋",
+          "quote_sha256": "b9690ab16eb514a182def21dcbe48625d98631d78b66520fac64801b72249ac7",
+          "role": "collation_notes"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·五藏别论》] “凡相五色之奇脉，面黄目青，目赤，面黄目白，面黄目黑者，皆不死也。”（上册p.70）",
+          "[《素问·五脏生成》] 五脏五色生泽 vs 枯槁死色辨别（上册p.68）"
+        ],
+        "ni_teaching": [
+          "结合实诊指导观面色部位应落在下眼袋（五脏眼诊气色反映最敏之处）而非仅望眼球本身；并强调青绿暗黑干枯若无一点微黄生机方属灾色。",
+          "在p.101归结“望闻问切”不可偏废，防止只切脉不问诊而失全貌。"
+        ],
+        "other_annotations": [
+          "可与针灸经络气色诊（肺、肝、肾症望诊）及《伤寒论》“阳明病面色缘缘正赤”互补。"
+        ],
+        "collation_notes": [
+          "汇总第10、11、17、18篇面部及五脏五色望诊与色脉合参内容。"
+        ],
+        "organizer_summary": [
+          "建立以“面色胃气光泽+眼部细节+尺肤+寸口脉”四位一体参伍诊断法。"
+        ]
+      },
+      "open_questions": [
+        "《素问·脉要精微论》“明堂”（鼻部）与“五色决死生”全文定位图尚可深入补校。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【危重灾色与免疫病证边界】涉及红斑性狼疮及青灰枯槁危色之临床案例讲解，确诊自身免疫性疾病须遵循风湿免疫专科规范检查与随访。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:zhenzang-mai-yu-ni-sishi",
+      "record_type": "theory",
+      "submodule": "zhen_fa",
+      "canonical_name": "真脏脉象、逆四时与危重预后判读边界",
+      "doctrine_key": "无胃气危险脉象特征与局限性",
+      "chapter_ids": [
+        "nj:suwen:07",
+        "nj:suwen:18",
+        "nj:suwen:19"
+      ],
+      "summary": "归纳心死（前曲后居如操带钩）、肺、肝、脾、肾五脏失却冲和胃气后显现的硬急、躁乱、孤绝“真脏脉”，以及“脉逆四时”“三阳二阴俱搏”“虚里动甚”等古代用以推断重症转归之诊法标准。",
+      "differentiation_rules": [
+        {
+          "condition": "纯病脉（真脏脉） vs 尚有胃气病脉",
+          "manifestations": "指下脉体僵硬无柔和摆动感（如操带钩、如循刀刃、弹石、雀啄）、违背春弦夏钩秋毛冬石时令常势、且与面色消瘦神枯同见。",
+          "traditional_judgment": "若仍能食、面色未槁、脉中尚带三分柔和（有胃气）则犹可施救；若纯见硬绝无胃气、五实五虚俱见，属古代医经所记高危凶候。",
+          "classic_basis": "《素问·阴阳别论》《平人气象论》《玉机真藏论》（上册p.54、p.104–118）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:四逆汤",
+          "label": "《伤寒论》四逆汤",
+          "rationale": "微细欲绝急扶阳救逆代表经方"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:炙甘草汤",
+          "label": "《伤寒论》炙甘草汤（复脉汤）",
+          "rationale": "治疗心动悸脉结代、气血阴阳俱亏之代表复脉经方"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "cond:ch6:s295",
+          "label": "治症：回阳九针",
+          "rationale": "针灸危急厥脱回阳之高风险急救教学专题"
+        }
+      ],
+      "historical_boundary_note": "“真脏脉见则死”反映古代缺少心肺复苏、血管活性药及ICU支持时代的自然转归观察，绝不可当作现代不可逆死亡判据，遇见异常急危脉证应立即现代医疗抢救。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:zhenzang-mai-yu-ni-sishi:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p106",
+          "pdf_page": 106,
+          "printed_page": 104,
+          "chapter_path": "真脏脉象、逆四时与危重预后判读边界",
+          "quote": "第二节 虚里、脉横、脉宗气",
+          "quote_sha256": "a01acec4d02e6ade9cb0019f0dc601b57ec59c5a6e8c402577b89b731caa7a7d",
+          "role": "collation_notes"
+        },
+        {
+          "span_id": "sp:concept:nj:zhenzang-mai-yu-ni-sishi:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p111",
+          "pdf_page": 111,
+          "printed_page": 109,
+          "chapter_path": "真脏脉象、逆四时与危重预后判读边界",
+          "quote": "心死脉来，前曲后佝",
+          "quote_sha256": "342f0be429001f172e66cae44c00c151acd1d79c4773c76cfd3da2e52029f470",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:zhenzang-mai-yu-ni-sishi:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p120",
+          "pdf_page": 120,
+          "printed_page": 118,
+          "chapter_path": "真脏脉象、逆四时与危重预后判读边界",
+          "quote": "邪气胜，则精气衰。",
+          "quote_sha256": "ca581be8b28a6ddb360f5b3abeb8d96e5098bf9346805fb2c09f0b6d1eda75fe",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·玉机真藏论》] “心死脉来，前曲后佝[居]，如操带钩”“邪气胜，则精气衰”“形气相得，谓之可治”（上册p.109、p.118）"
+        ],
+        "ni_teaching": [
+          "反复提示区分真脏脉最朴素的标准即“硬不硬、有没有胃气柔感”；同时强调五虚“浆粥入胃、泄注止，则虚者活”，正气与胃气复振仍存生机。"
+        ],
+        "other_annotations": [
+          "可与《伤寒论》少阴四逆、炙甘草汤脉结代心动悸脉象调救思路相互映照。"
+        ],
+        "collation_notes": [
+          "严格将古籍生卒推算标记为高风险历史文献，禁止包装为现代临床预测工具。"
+        ],
+        "organizer_summary": [
+          "厘清病脉与真脏脉界限，确立危重诊法审慎研究底线。"
+        ]
+      },
+      "open_questions": [
+        "五脏全套死脉（弹石、解索、屋漏等后世补充脉形）与《玉机真藏论》原脉形术语尚可列表核对。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【高危脉候与生死断语严厉边界】本条目载有古典真脏脉、虚里动绝及逆四时危候条文，属历史诊法教学文献，临床重患出现休克、胸痛或脉律极度紊乱时须第一时间送往现代急诊抢救。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:biaoben-huanji-zhize",
+      "record_type": "theory",
+      "submodule": "bian_zheng",
+      "canonical_name": "标本先后与急缓治则（急则治标·缓则治本）",
+      "doctrine_key": "多症并发下的诊疗优先级决策",
+      "chapter_ids": [
+        "nj:suwen:65"
+      ],
+      "summary": "据《标本病论》确立临床治疗顺序纲领：明辨先后原发之“本”与后起继发之“标”，除先病治本通则外，特立“大小不利（二便闭）治其标、大小利治其本”“先热而后生中满者治其标”，教导医者在复杂并发证中抓住最紧迫关键枢机（如7日大便秘兼高烧先通便、24小时无尿先通利）。",
+      "differentiation_rules": [
+        {
+          "condition": "高热表证夹多日大便秘结（阳明燥闭为本）",
+          "manifestations": "病人发高烧同时已7天不大便，腹中燥结。",
+          "traditional_judgment": "此时不可徒用发汗退表热，先通其大便以泄阳明腑实，便通则躁热自退；若本日尚有大便微热在表，方循常法发表。",
+          "classic_basis": "《素问·标本病论》（下册p.268）"
+        },
+        {
+          "condition": "急性大小二便闭阻或大中满（大小不利治其标）",
+          "manifestations": "一天24小时无法排小便、腹部膨隆胀满，或吐血下血急症伴其他陈旧慢病。",
+          "traditional_judgment": "立即先处理二便不利、胀满与急症出血等危及枢机之急标（如取水分、水道、中极、阴陵泉等通利水道），待急危平复后再图根本慢病。",
+          "classic_basis": "《素问·标本病论》“大小不利治其标”（下册p.268–269）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:sp09:阴陵泉",
+          "label": "穴位：阴陵泉",
+          "rationale": "p.268讲记明确举例24小时无尿急通水道所取“阴陵泉三皇”之要穴"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "cond:ch6:s282",
+          "label": "治症：血症（内出血与外伤出血）",
+          "rationale": "呼应p.269所举吐血下血优先止血治标案例"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:四逆汤",
+          "label": "《伤寒论》急救里阳代表方",
+          "rationale": "呼应先救里急后治表症之经方标本缓急原则"
+        }
+      ],
+      "historical_boundary_note": "“大小不利治其标”“急则治其标”是临床处理并发症状次序的高明传统决策模型；现代遇急性尿潴留、消化道大出血需立即结合急诊导管与住院监护。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:biaoben-huanji-zhize:1",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p121",
+          "pdf_page": 121,
+          "printed_page": 268,
+          "chapter_path": "标本先后与急缓治则（急则治标·缓则治本）",
+          "quote": "万当，不知标本，是谓妄行。",
+          "quote_sha256": "ebd2d7986d6c71579ce60406bd676decabb8f6c20bc0a030e379a40cf0ebcf20",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:biaoben-huanji-zhize:2",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p121",
+          "pdf_page": 121,
+          "printed_page": 268,
+          "chapter_path": "标本先后与急缓治则（急则治标·缓则治本）",
+          "quote": "吓死了，7天不大便，这时候你还管他高不高烧？你大便一清烧就退了，所以大便是本",
+          "quote_sha256": "7d1194b304abcc2e2a5ceeac5d5c8030dad3c8785073a9f9d7b96dd75068a664",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:biaoben-huanji-zhize:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p121",
+          "pdf_page": 121,
+          "printed_page": 268,
+          "chapter_path": "标本先后与急缓治则（急则治标·缓则治本）",
+          "quote": "有个人跑来跟你讲，我一天24小时没小便了，你赶快先通拉尿再说",
+          "quote_sha256": "b6e426bb3ef9d46cc2ed0e00d88323fd7758f1519ca8287c6108f41f8b4a418b",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·标本病论》] “知标本者，万举万当；不知标本，是谓妄行”“小而大，言一而知百病之害”“先病而后逆者，治其本”（下册p.268）"
+        ],
+        "ni_teaching": [
+          "生动的教学案例界定急缓顺序：7日便秘夹高烧通便即退热；24小时无小便先行针灸利水（水分、水道、中极、阴陵泉、地机、三阴交）或方药开闸；吐血下血急先止血救脱。"
+        ],
+        "other_annotations": [
+          "与《伤寒论》“表证未解，若其人先脉沉微或里急下利清谷者，先救里后救表”完全同一法则。"
+        ],
+        "collation_notes": [
+          "将第65篇临床案例抽提为可直接执行的辨证决策树规则。"
+        ],
+        "organizer_summary": [
+          "彻底落实《内经》理论为“临床先后决策逻辑”而不止于名词概念辞典。"
+        ]
+      },
+      "open_questions": [
+        "原书“阴病治阳、阳病治阴”与“病发有余不足、逆取从取”四字标本互治逻辑可进一步图表化。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【急性尿闭与出血急症边界】24小时无尿或吐血下血属临床急症信号，必须第一时间赴医院急诊评估，不可仅依据古典示例延误救治。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:juci-miuci-houqi-cifa",
+      "record_type": "theory",
+      "submodule": "bian_zheng",
+      "canonical_name": "候气补泻、巨刺与缪刺、远取及五层刺要刺禁",
+      "doctrine_key": "迎随候气针下寒热、左病右刺分层与五脏禁刺",
+      "chapter_ids": [
+        "nj:suwen:16",
+        "nj:suwen:26",
+        "nj:suwen:27",
+        "nj:suwen:41",
+        "nj:suwen:50",
+        "nj:suwen:52",
+        "nj:suwen:54",
+        "nj:suwen:55",
+        "nj:suwen:62",
+        "nj:suwen:63",
+        "nj:suwen:64"
+      ],
+      "summary": "《素问》针灸临床法则与安全铁律总汇编：①候气与针下寒热：《离合真邪》《八正神明》《针解》静留候气“不知日暮”、泻吸转呼出针下寒、补呼静候闭孔针下热、顺逆四时月盈虚；②巨刺 vs 缪刺：《调经》《缪刺》《刺腰》分明大经病且脉有变用巨刺（左痛刺右经），痛在络脉九候无病用缪刺（刺左右井穴或血络）；③远取与分经刺症：“手不过肘、足不过膝”、筋会阳陵泉配第四椎夹脊（《长刺节》）、《刺腰》正经奇经腰痛分经刺血；④安全红线：《诊要经终》《刺要》《刺齐/刺禁》《四时刺逆从》严守皮肉脉筋骨髓五层深浅及避刺五脏死期。",
+      "differentiation_rules": [
+        {
+          "condition": "病在正经（巨刺） vs 病在孙络血络（缪刺）",
+          "manifestations": "单侧痛痹、臂不能屈伸、腰痛牵引，若对应寸口或九候脉象已见盛衰变化（经病）vs 寸口九候正常而局限于体表细痛、高坠留瘀（络病）。",
+          "traditional_judgment": "经病以“巨刺”（左痛深刺右正经，或痛不过肘膝远取三穴）；络病则施“缪刺”（取对侧肢端井穴如隐白、涌泉或浅表瘀滞青络点刺泄血）。",
+          "classic_basis": "《素问·调经论》《缪刺论》《通评虚实论》（上册p.148、下册p.258–264）"
+        },
+        {
+          "condition": "针刺候气深浅层次与五脏禁刺红线",
+          "manifestations": "浅病深刺伤筋骨内脏，深病浅刺生外壅；秋刺冬分邪气着脏；或胸背肋间、腰脊深部疼痛急求进针。",
+          "traditional_judgment": "谨守“刺皮无伤肉、刺肉无伤脉、刺脉无伤筋、刺筋无伤骨”；胸背丈量以膈与脾胃作标避刺五脏，牢记“刺中心一日死、中肝五日死、中肾六日死”最高安全戒律。",
+          "classic_basis": "《素问·诊要经终论》《刺要论》《刺齐论（并刺禁）》《四时刺逆从论》（上册p.83–86、下册p.232–233、p.267）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "acupuncture",
+          "target_id": "tech:yingsui_and_twirling",
+          "label": "针法：迎随补泻与捻转补泻",
+          "rationale": "与《离合真邪》《针解》呼吸吸转泻（针下寒）、呼静补闭门（针下热）直接互参"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "tech:symmetry_needling_method",
+          "label": "针法：对称治疗（左病右治）",
+          "rationale": "临床对称针法直接承接《调经论》《缪刺论》《刺腰痛》左盛右取原则"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:gb34:阳陵泉",
+          "label": "穴位：阳陵泉（筋会/刺腰周络）",
+          "rationale": "《长刺节》筋痹屈伸难取筋会阳陵泉，《刺腰》亦在阳陵泉周络点刺"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:sp01:隐白",
+          "label": "穴位：隐白（缪刺五络厥井穴）",
+          "rationale": "《缪刺论》五络尸厥昏倒应急缪刺足太阴井穴"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:gb39:悬钟",
+          "label": "穴位：悬钟/绝骨（髓空骨空）",
+          "rationale": "《骨空论》载辅骨上端骨空即绝骨穴"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "tech:cun_and_depth",
+          "label": "规范：同身寸丈量与进针深浅",
+          "rationale": "承续《刺要》《诊要经终》避五脏及皮肉脉筋骨深浅安全规范"
+        }
+      ],
+      "historical_boundary_note": "本条总括候气补泻、巨刺缪刺、刺络放血、偶刺短刺及避刺五脏致命警示，严格限定为中医专业针灸教学理论资料，绝非普通民众自学自刺教程；凡创伤高坠出血或脊髓神经症状须急诊。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:juci-miuci-houqi-cifa:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p085",
+          "pdf_page": 85,
+          "printed_page": 83,
+          "chapter_path": "候气补泻、巨刺与缪刺、远取及五层刺要刺禁",
+          "quote": "避刺五脏者，所谓重者就是膈与脾胃之处。",
+          "quote_sha256": "105d27d9541b0ed7202c2f4b2363d4ba03c6d10e6c7b0a4083fbdcd1489f6dde",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:juci-miuci-houqi-cifa:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p144",
+          "pdf_page": 144,
+          "printed_page": 142,
+          "chapter_path": "候气补泻、巨刺与缪刺、远取及五层刺要刺禁",
+          "quote": "这个吸则转针，以得气为故，这是泄的手法",
+          "quote_sha256": "bb8cc1476855de5df406c29310c800c2778a8174f27f7a76bada65ce4c74cee3",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:juci-miuci-houqi-cifa:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p150",
+          "pdf_page": 150,
+          "printed_page": 148,
+          "chapter_path": "候气补泻、巨刺与缪刺、远取及五层刺要刺禁",
+          "quote": "手不过肘，足不过膝",
+          "quote_sha256": "0be41e860b078933da62c0451a0d3188eebdc5e3c4ae358792fafb0a8025c766",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:juci-miuci-houqi-cifa:4",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p112",
+          "pdf_page": 112,
+          "printed_page": 259,
+          "chapter_path": "候气补泻、巨刺与缪刺、远取及五层刺要刺禁",
+          "quote": "身形有痛，九候莫病",
+          "quote_sha256": "3036714b54e776a7bffde5adfdc9651070b79640bc4d41bebf8d43ea1a6275e7",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·离合真邪论》：“静以久留，以气至为故，如待所贵，不知日暮。”",
+          "《素问·缪刺论》：“身形有痛，九候莫病，则缪刺之”；《刺要论》：“病有浮沉，刺有浅深，无过其道。”"
+        ],
+        "ni_teaching": [
+          "融会手不过肘足不过膝远道取穴、华佗夹脊（督脉外开五分第四椎下）、委中阳陵周围刺瘀血，以及对月相盈亏不死板的临床实效权衡。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）11篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》bian_zheng专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：系统包含刺络放血、偶刺短刺、避刺五脏致命深度警示与高坠尸厥井穴救急内容，仅限执业培训研读，非合格医师切勿施针。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:kaiguimen-shuiyurexue-cire",
+      "record_type": "theory",
+      "submodule": "bian_zheng",
+      "canonical_name": "开鬼门洁净府、水俞五十七与五十九刺及夺食治狂大法",
+      "doctrine_key": "水热排泄通路（发汗利尿）、肾街胃街与重镇泄狂",
+      "chapter_ids": [
+        "nj:suwen:14",
+        "nj:suwen:32",
+        "nj:suwen:46",
+        "nj:suwen:61"
+      ],
+      "summary": "归纳《素问》针对“水肿停饮、实热高烧与阳明躁狂”三大重症之核心治疗方略：①《汤液醪醴论》水肿治则“平治于权衡、去宛陈莝、开鬼门（发汗）、洁净府（利小便）、微动四极”；②《水热穴论》以腰脊（肾街）及足阳明下肢（胃街、伏兔、上下巨虚）共五十七水俞排积水；③《刺热》《水热》五十九刺气穴（头上五行、大杼、气街三里上下巨虚等）泄胸热高烧；④《病能论》阳明胃气实致怒狂用“夺其食即已”配“生铁落饮下气疾”。",
+      "differentiation_rules": [
+        {
+          "condition": "水肿蓄水：开鬼门、洁净府与肾街胃街",
+          "manifestations": "全身胕肿、胸腹满、喘咳卧不安或小便不利。",
+          "traditional_judgment": "分表里上下兼施——上表闭郁则微汗（开鬼门），下焦水停则通膀胱（洁净府），并佐针刺肾街、胃街（伏兔、足三里、上/下巨虚）与温化肾气。",
+          "classic_basis": "《素问·汤液醪醴论》《水热穴论》（上册p.76–77、下册p.247–250）"
+        },
+        {
+          "condition": "五脏实热高烧与阳明躁狂",
+          "manifestations": "脏热头痛颊赤高热或胸热肺炎发热；或阳明常动脉盛大、烦躁怒狂甚至高歌弃衣。",
+          "traditional_judgment": "热病查始发痛经刺表里经并取五十九热俞泻阳热（及大椎以年为壮灸/泻）；阳明怒狂则断谷食损其胃火，兼重镇铁落降冲逆。",
+          "classic_basis": "《素问·刺热论》《病能论》《骨空论》（下册p.157–160、p.213、p.247）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:st32:伏兔",
+          "label": "穴位：伏兔（胃街水俞要穴）",
+          "rationale": "《水热穴论》《调经论》同用伏兔与三里、上下巨虚泄胃热消渴及行下肢胃街水气"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:st37:上巨虚",
+          "label": "穴位：上巨虚（泻阳明胃热要穴）",
+          "rationale": "配下巨虚与足三里构成《刺热》《水热》五十九刺及八热俞主穴组"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:du14:大椎",
+          "label": "穴位：大椎（骨空寒热总督）",
+          "rationale": "《骨空论》灸项大椎治寒热与诸阳经汇通泻热要穴"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "tech:three_emperors_edema_method",
+          "label": "治法：三皇穴制水消水肿",
+          "rationale": "脾肾三经培土制水法与《内经》肾街胃街及水热穴治水相辅相成"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:麻黄汤",
+          "label": "《伤寒论》麻黄汤 / 大青龙汤",
+          "rationale": "汗法（开鬼门）宣发肌表邪闭之经方典范"
+        },
+        {
+          "target_module": "jinkui_formulas",
+          "target_id": "jinkui:越婢加半夏汤",
+          "label": "《金匮》越婢加半夏汤",
+          "rationale": "喘鸣目如脱状、水热并壅肺气时借发汗清热降逆"
+        }
+      ],
+      "historical_boundary_note": "高热不退（尤其疑肺炎或脑炎）、严重肺心水肿端坐不能卧及急性躁狂均具高临床风险，夺食与五十九刺、铁落重镇系传统历史学理，现代临床必须依赖规范抗感染、利尿或镇静救治。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:kaiguimen-shuiyurexue-cire:1",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p066",
+          "pdf_page": 66,
+          "printed_page": 213,
+          "chapter_path": "开鬼门洁净府、水俞五十七与五十九刺及夺食治狂大法",
+          "quote": "生鐡洛者，下气疾也，阳气往上冲的时候我们可以给他吃生铁烙",
+          "quote_sha256": "849357598e43b54bcf74309381934eeb336645ae1371a6c2a01e6409c4ccb474",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:kaiguimen-shuiyurexue-cire:2",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p104",
+          "pdf_page": 104,
+          "printed_page": 251,
+          "chapter_path": "开鬼门洁净府、水俞五十七与五十九刺及夺食治狂大法",
+          "quote": "伏兔、三里、上巨虚，下巨虚，这边四个，右边四个，左右呢，就是能够泄胃里面的热。",
+          "quote_sha256": "49ce4fa86810c2472d6824ac4debaf3a961f4f10ac16594d8789605aed834509",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·汤液醪醴论》：“开鬼门，洁净府”；《病能论》：“夺其食即已……服以生铁落为饮。”"
+        ],
+        "ni_teaching": [
+          "实用归纳：胃街八穴（伏兔、足三里、上巨虚、下巨虚左右共八穴）配合五脏经表里穴，即可简明驾驭《内经》繁多的水热气穴。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）4篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》bian_zheng专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：涉及高烧肺炎泄热、阳明怒狂断食及重水肿治疗原则，急危高热、神志狂乱或重症水肿应即刻就医。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:taiyin-yangming-biaoli",
+      "record_type": "theory",
+      "submodule": "bian_zheng",
+      "canonical_name": "太阴阳明表里同气与脾胃燥湿升降",
+      "doctrine_key": "阳道实阴道虚与中土四肢关系",
+      "chapter_ids": [
+        "nj:suwen:29"
+      ],
+      "summary": "厘清足太阴脾与足阳明胃虽互为表里而病机相反之奥秘：阳明为阳、主燥、主表、易实（阳道实，狂热登高便闭）；太阴为阴、主湿、主里、易虚（阴道虚，四肢不用腹满洞泄）；且胃受谷须靠脾布散津液乃得至四肢。",
+      "differentiation_rules": [
+        {
+          "condition": "阳明燥实热 vs 太阴寒湿虚衰",
+          "manifestations": "阳明病多身热口渴便秘实满；太阴病多四肢无力不用、腹满下利食不下，常因饮食生冷起居不节内伤而得。",
+          "traditional_judgment": "阳明实热宜清润或通泄（忌温燥助热）；太阴脾虚湿困宜温运健脾升清（忌过度寒凉苦泄伤阳），但治太阴脾虚仍须防过燥伤阳明胃阴，两相兼顾。",
+          "classic_basis": "《素问·太阴阳明论》（下册p.150–151）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "six_channels",
+          "target_id": "taiyin",
+          "label": "太阴病（中土虚寒湿）",
+          "rationale": "太阴为病腹满下利四肢不用，对应太阴经提纲"
+        },
+        {
+          "target_module": "six_channels",
+          "target_id": "yangming",
+          "label": "阳明病（胃家燥实）",
+          "rationale": "阳道实、胃家实，与太阴形成寒热虚实鲜明对比"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:sp06:三阴交",
+          "label": "穴位：三阴交",
+          "rationale": "健脾益阴统调足三阴要穴"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:st36:足三里",
+          "label": "穴位：足三里",
+          "rationale": "胃合穴调畅中焦气血输布四肢"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:白术",
+          "label": "本草：白术",
+          "rationale": "健脾燥湿运中助胃行津液代表药"
+        }
+      ],
+      "historical_boundary_note": "“脾喜燥恶湿、胃喜润恶燥”“阳道实阴道虚”乃中医脾胃系统辨证高度概括法，用以指导经方寒温润燥选药平衡。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:taiyin-yangming-biaoli:1",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p003",
+          "pdf_page": 3,
+          "printed_page": 150,
+          "chapter_path": "太阴阳明表里同气与脾胃燥湿升降",
+          "quote": "同样是表里，但是生病为什么不一样？",
+          "quote_sha256": "49610418670ff54dfaeee3114fea45e6a20ce542a8741320c24fd58c9b785f19",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:taiyin-yangming-biaoli:2",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p004",
+          "pdf_page": 4,
+          "printed_page": 151,
+          "chapter_path": "太阴阳明表里同气与脾胃燥湿升降",
+          "quote": "“四支皆禀气于胃，而不得至经”，如果是，这个“必因于脾，乃得禀也。”",
+          "quote_sha256": "7526bd15055dcc2e2272a52b4ed8f902eb20a3e5793988f4597e741dfcff084e",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·太阴阳明论》] “脾病而四支不用”“四支皆禀气于胃，而不得至经，必因于脾，乃得禀也”“今脾病，不能为胃行其津液，四支不得禀水谷之气”（下册p.150–151）"
+        ],
+        "ni_teaching": [
+          "明确点出张仲景分立太阴、阳明两经全从此处分殊得出：太阴归阴寒虚湿，阳明归阳热燥实，脏病腑病迥殊。",
+          "并联系《痿论》脾主湿戒过清湿而燥胃。"
+        ],
+        "other_annotations": [
+          "《伤寒论》太阴篇“太阴之为病，腹满而吐，食不下，自利益甚，时腹自痛”与阳明篇“阳明之为病，胃家实是也”正是本篇直接化出。"
+        ],
+        "collation_notes": [
+          "下册p.150首见分经总说，直接作为《伤寒》太阴、阳明辨证总理论基石。"
+        ],
+        "organizer_summary": [
+          "清晰划定脾（太阴）与胃（阳明）虽表里而虚实燥湿分治之边界。"
+        ]
+      },
+      "open_questions": [
+        "足太阴脉“起大指之端”与足阳明“循胫上膝”在针灸经络治四肢痿痹选穴上可再增互注。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:xushi-hanyin-yu-liujingjue",
+      "record_type": "theory",
+      "submodule": "bian_zheng",
+      "canonical_name": "通评虚实（重实·阴实）、寒热四病机与六经脉厥辨证",
+      "doctrine_key": "邪盛正夺总纲、劳倦内热寒厥热厥及六经脉解",
+      "chapter_ids": [
+        "nj:suwen:28",
+        "nj:suwen:30",
+        "nj:suwen:45",
+        "nj:suwen:48",
+        "nj:suwen:49",
+        "nj:suwen:62"
+      ],
+      "summary": "立定《素问》八纲病机最深厚基石：①《通评虚实论》“邪气盛则实，精气夺则虚”总纲及肝肺肾三阴“阴实”肿满死症；②《调经论》“阳虚则外寒、阴虚则内热（劳倦伤脾胃、上焦不行、下脘不通而胃热熏胸）、阳盛外热、阴盛内寒（寒积胸中温气去）”；③《厥论》《脉解》《阳明脉解》寒厥（阳衰于下）、热厥（阴衰于下）与太阳少阳阳明太阴少阴厥阴六经厥逆及特征证候（如少阳心胁痛不可反侧、阳明恶火欲独闭户登高歌）。",
+      "differentiation_rules": [
+        {
+          "condition": "阴虚内热 vs 阴实危候 vs 阴盛中寒",
+          "manifestations": "劳倦疲乏、谷气不盛、胸脘烦热（调经阴虚内热）；与之异者，肝肺肾阴脏反见脉大紧、身无痛而腹水全身肿满、不能平卧（阴实）；或寒积胸中而温阳骤脱（阴盛内寒）。",
+          "traditional_judgment": "阴虚内热重在补脾调胃通下脘（后世甘温除热之源）；阴实重在决水通府保尚余之胃气；阴盛胸寒亟宜辛热温通胸阳防厥脱。",
+          "classic_basis": "《素问·通评虚实论》《大奇论》《调经论》（上册p.143–149、下册p.219、p.256–258）"
+        },
+        {
+          "condition": "寒厥·热厥与六经厥状（厥论·脉解）",
+          "manifestations": "手足长期逆冷（寒厥）；手足心烧热甚或狂言不知人（热厥）；少阳厥则暴聋胁痛胻不可运，少阴厥则口干溺赤腹满心痛甚至呕吐津液。",
+          "traditional_judgment": "寒厥温补下焦肾阳而护上阳；热厥清泻胃肾郁热护真阴；六经厥证与《伤寒论》六经病变互校，尤重“少阳主全身屈伸开合枢机”。",
+          "classic_basis": "《素问·厥论》《脉解篇》（下册p.203–209、p.225–231）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "six_channels",
+          "target_id": "shaoyin",
+          "label": "少阴病 · 寒热生死厥逆转化",
+          "rationale": "与《脉解》《厥论》少阴呕咳上气喘、肾水泛溢及恶寒四肢厥冷一脉相通"
+        },
+        {
+          "target_module": "six_channels",
+          "target_id": "yangming",
+          "label": "阳明病 · 燥热发狂登高",
+          "rationale": "承《阳明脉解》《脉解》“恶火、闭户、弃衣而走、喘”至承气白虎急症"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:四逆汤",
+          "label": "《伤寒论》四逆汤 / 附子泻心",
+          "rationale": "救治阳衰寒厥、阴盛内寒胸阳欲亡核心温阳复脉方"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:大承气汤",
+          "label": "《伤寒论》大承气汤",
+          "rationale": "急下阳明狂乱弃衣、腹满不得卧与燥热伤阴热厥实证"
+        },
+        {
+          "target_module": "jinkui_formulas",
+          "target_id": "jinkui:八味肾气丸",
+          "label": "《金匮》八味肾气丸",
+          "rationale": "呼应《脉解》少阴“阴气在下、阳气浮上、不能久立”，补肾阳肾阴纳气潜阳"
+        }
+      ],
+      "historical_boundary_note": "本概念总括“阴实肿满”“六经厥逆呕吐”“胸寒温气竭”与“阳明狂乱”；任何休克手足厥冷、急性胸闷心痛、剧烈腹水或躁狂谵妄皆为现代医学危急征象，不可延迟急救。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:xushi-hanyin-yu-liujingjue:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p148",
+          "pdf_page": 148,
+          "printed_page": 146,
+          "chapter_path": "通评虚实（重实·阴实）、寒热四病机与六经脉厥辨证",
+          "quote": "脉实满，手脚冷，头热。",
+          "quote_sha256": "13fa1419cb87e2afaa9e71b613fa6213fe9d406ddb82dc9e474b49a9cfdd20e8",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:xushi-hanyin-yu-liujingjue:2",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p057",
+          "pdf_page": 57,
+          "printed_page": 204,
+          "chapter_path": "通评虚实（重实·阴实）、寒热四病机与六经脉厥辨证",
+          "quote": "是热厥，有的人是寒厥，这就是阴阳的定义。",
+          "quote_sha256": "b030f1cba83b7f6154c6aa63b9334c4ceddd793a3124fae69e7c1e94a5fdf756",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:xushi-hanyin-yu-liujingjue:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p073",
+          "pdf_page": 73,
+          "printed_page": 220,
+          "chapter_path": "通评虚实（重实·阴实）、寒热四病机与六经脉厥辨证",
+          "quote": "本身是阴脏又出现实",
+          "quote_sha256": "47168fbf863f656aa00c4817f0e5a7c8ba4cf02c325a12189158a7eb98a6c8ed",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:xushi-hanyin-yu-liujingjue:4",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p111",
+          "pdf_page": 111,
+          "printed_page": 258,
+          "chapter_path": "通评虚实（重实·阴实）、寒热四病机与六经脉厥辨证",
+          "quote": "厥气上逆，寒气积于胸中而不泻，不泻则温气去",
+          "quote_sha256": "e1a167e99482fac98f6a2d646b6ac24f631c6e8c6dbe3699c8494fd7103901a2",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·通评虚实论》：“邪气盛则实，精气夺则虚”；《调经论》：“阴虚生内热，有所劳倦，形气衰少……下脘不通，胃气热”；“厥气上逆，寒气积于胸中而不泻，不泻则温气去”。",
+          "《素问·厥论》：“阳气衰于下则为寒厥，阴气衰于下则为热厥。”"
+        ],
+        "ni_teaching": [
+          "借“肠澼下脓血 vs 下白沫”脉沉生浮死之辩与“阳虚外寒/阴虚内热/阴实”体系，立起严密临床寒热生死鉴別体系。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）6篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》bian_zheng专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险：含“阴实”危重肿满、寒热厥逆暴厥及大热狂躁征象，急性厥脱、呼吸困难或腹水重证须即刻送医急救。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:yin-yang-biao-li-han-re",
+      "record_type": "theory",
+      "submodule": "bian_zheng",
+      "canonical_name": "阴阳·表里·寒热·虚实辨别要领",
+      "doctrine_key": "八纲雏形临证分辨法",
+      "chapter_ids": [
+        "nj:suwen:05",
+        "nj:suwen:17",
+        "nj:suwen:39"
+      ],
+      "summary": "从《素问》核心辨证篇目提炼出传统阴阳、表里、寒热、虚实四大辨别框架：以喜按/拒按辨虚实寒热（按之痛止为虚为浅寒，按之痛甚拒按或24小时持续剧痛为实），以寸口脉滑涩、阳有余则阴不足与在皮在里决定汗法或攻下泄法。",
+      "differentiation_rules": [
+        {
+          "condition": "痛症虚实辨（按之痛止 vs 拒按持续剧痛）",
+          "manifestations": "隐隐作痛、有休止、喜热敷按摩按之减（虚或浅寒）；24小时持续剧痛、按之痛加甚至拒近手（实证或有形积阻）。",
+          "traditional_judgment": "虚痛/浅寒宜温散按而收之；实痛/积实宜散而泻之攻通。",
+          "classic_basis": "《素问·阴阳应象大论》《举痛论》（上册p.43；下册p.180–181）"
+        },
+        {
+          "condition": "表里病位与阳有余阴不足辨",
+          "manifestations": "邪在皮毛表分（恶寒无汗/有汗）；邪入里热（大渴燥热、脉滑大或涩而秘结）；阳有余无汗热盛则伤阴。",
+          "traditional_judgment": "在皮者汗而发之；既伤阴液则顾阴济水；脉滑有余与脉涩气血滞涩分补泻。",
+          "classic_basis": "《素问·脉要精微论》《阴阳应象大论》（上册p.41–43、p.99–101）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:理中丸",
+          "label": "《伤寒论》理中丸",
+          "rationale": "中焦虚寒喜温喜按腹痛下利之温补代表方"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:大承气汤",
+          "label": "《伤寒论》大承气汤",
+          "rationale": "阳明实热燥结腹满拒按当攻下之代表方"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "cond:ch6:s285",
+          "label": "治症：腹痛、瘀血与便秘",
+          "rationale": "针灸第六章辨寒痛瘀痛与便秘取穴之直接上游依据"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:干姜",
+          "label": "本草：干姜",
+          "rationale": "温中散寒止冷痛核心药物"
+        }
+      ],
+      "historical_boundary_note": "喜按拒按与八纲辨别属于中医传统临床宏观切诊经验，急性剧烈腹痛仍需排除阑尾炎穿孔、肠梗阻等现代外科急腹症。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:yin-yang-biao-li-han-re:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p045",
+          "pdf_page": 45,
+          "printed_page": 43,
+          "chapter_path": "阴阳·表里·寒热·虚实辨别要领",
+          "quote": "实者的痛呢是巨痛，而且是持续的痛",
+          "quote_sha256": "15465f3f1dbd7f78c0ae73672a30d76c13ee8ec89768f6fd97d7a580eb2dce96",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:yin-yang-biao-li-han-re:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p103",
+          "pdf_page": 103,
+          "printed_page": 101,
+          "chapter_path": "阴阳·表里·寒热·虚实辨别要领",
+          "quote": "阳有余，一定阴不足",
+          "quote_sha256": "97e3420e3e1478dbc9ea131134b8bcb4064c7a979ba972a0348a9850c04d8560",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:yin-yang-biao-li-han-re:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p034",
+          "pdf_page": 34,
+          "printed_page": 181,
+          "chapter_path": "阴阳·表里·寒热·虚实辨别要领",
+          "quote": "络急引故痛，按之则血气散，故按之痛止",
+          "quote_sha256": "b95e0dc763e40a5a5d240403d9dfa8c28af4561154971ef0fd709f599a7996f4",
+          "role": "source_quote"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·阴阳应象大论》] 审阴阳刚柔、在皮者汗而发之、阳病治阴（上册p.43）",
+          "[《素问·举痛论》] “血不得散，小络急引故痛，按之则血气散，故按之痛止”（下册p.181）"
+        ],
+        "ni_teaching": [
+          "给出极其直观的临床鉴别尺度：虚痛隐约且时停时作、得按则舒；实痛剧烈且持续终日、按之则拒（如内部生积占位）。",
+          "并提示触诊“热手”按虚寒腹痛有效，冰手反致痉挛更痛。"
+        ],
+        "other_annotations": [
+          "《伤寒论》辨阴证阳证、可汗不可汗、虚痞与结胸大陷胸痛按之石硬之辨皆脱胎于此。"
+        ],
+        "collation_notes": [
+          "汇总《素问》分散各篇中的阴阳表里寒热虚实分辨方法，形成结构化推理表。"
+        ],
+        "organizer_summary": [
+          "实现Stage 3规划要求：从理论概念直接映射到寒热虚实表里辨别规则与伤寒经方衔接。"
+        ]
+      },
+      "open_questions": [
+        "“阴胜则寒、阳胜则热；重寒则热、重热则寒”更多实操病例可待第四阶段方证继续关联。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "【持续剧痛与急腹症排查边界】“24小时持续剧痛不可按”在现代常见于急腹症或脏器穿孔、炎性急症，切勿仅靠按揉而延误现代外科与急诊排查。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:siqi-tiaoshen-yinxie",
+      "record_type": "theory",
+      "submodule": "yang_sheng",
+      "canonical_name": "四气调神、避虚邪贼风与饮食五味节制",
+      "doctrine_key": "顺时作息运动与治未病预防",
+      "chapter_ids": [
+        "nj:suwen:02",
+        "nj:suwen:03",
+        "nj:suwen:04"
+      ],
+      "summary": "汇总《四气调神大论》《生气通天论》《金匮真言论》起居饮食与四时调护纲领：顺春生、夏长、秋收、冬藏调节早晚作息及情志赏罚，主张“避虚邪贼风”及日中适度活动、慎夜间剧烈劳作耗阳，并用五味淡和养胃防五脏偏伤。",
+      "differentiation_rules": [
+        {
+          "condition": "逆四时作息与不当冬泳/夜间耗阳",
+          "manifestations": "春冬逆藏（如冬日寒冰游泳大开汗孔、深夜剧烈运动），或长期偏嗜酸苦甘辛咸某单一厚味，易内伤脏腑或引虚邪贼风入里。",
+          "traditional_judgment": "春夜卧早起广步、夏无厌于日、秋收敛神气、冬早卧晚起必待日光；“圣人不治已病治未病”，先在生活节律与饮食五味调和处截断病因。",
+          "classic_basis": "《素问·四气调神大论》《生气通天论》（上册p.17–24）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:ren12:中脘",
+          "label": "穴位：中脘（胃募/腑会）",
+          "rationale": "饮食有节、后天脾胃仓廪消化受纳调护要穴"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:du20:百会",
+          "label": "穴位：百会",
+          "rationale": "春季风病在头与调和诸阳清窍神志关联"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:甘草",
+          "label": "本草：甘草",
+          "rationale": "甘平和中、调协诸药五味之代表本草"
+        }
+      ],
+      "historical_boundary_note": "“避虚邪贼风”“必待日光而起”系农业与自然昼夜节律时代的预防养生指南，具体运动锻炼强度应兼顾个人心肺耐受状况。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:siqi-tiaoshen-yinxie:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p019",
+          "pdf_page": 19,
+          "printed_page": 17,
+          "chapter_path": "四气调神、避虚邪贼风与饮食五味节制",
+          "quote": "春三月，这叫做“发陈”，“天地俱生，万物以荣。”",
+          "quote_sha256": "2931ebc6fa5ec95b8cee7d9e99e0a0bf884e04cb966d57b8aeae1fb3b3cb33f9",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:siqi-tiaoshen-yinxie:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p022",
+          "pdf_page": 22,
+          "printed_page": 20,
+          "chapter_path": "四气调神、避虚邪贼风与饮食五味节制",
+          "quote": "“反顺为逆，是谓内格。故圣人不治已病，治",
+          "quote_sha256": "7488a8d38662cd8f476711f2f6d606db3ad12a872811ac58d67417308fafbf38",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:siqi-tiaoshen-yinxie:3",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p025",
+          "pdf_page": 25,
+          "printed_page": 23,
+          "chapter_path": "四气调神、避虚邪贼风与饮食五味节制",
+          "quote": "阳气者这一段呢提出来就是，运动呢早上做运动，晚上不要做运动",
+          "quote_sha256": "86b4bf9b012d976c607d298d66dda8cc0b559121a92320a2072ecf21ebc51f6a",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·四气调神大论》] “春三月，此谓发陈……夜卧早起，广步于庭”“收敛神气，使秋气平”“故圣人不治已病，治未病”（上册p.17–20）"
+        ],
+        "ni_teaching": [
+          "结合现代生活举例说明为何不倡寒冬冰泳与夜间暴汗运动：顺应阳气白天在外、夜间内藏收敛，方合冬藏固阳之理。",
+          "区隔日常淡味养五脏与生病方服厚重苦药的原则。"
+        ],
+        "other_annotations": [
+          "四气调神是《内经》“治未病”理论之直接源头。"
+        ],
+        "collation_notes": [
+          "整合上册第2、3、4篇中四时作息、运动时机与五味节制全貌。"
+        ],
+        "organizer_summary": [
+          "覆盖四时起居、情志调神、运动时机与五味食养完整子模块。"
+        ]
+      },
+      "open_questions": [
+        "“秋冬养阴”与“阳气若天与日”在北方寒冷地区温补膏方调养应用待与《伤寒》冬藏固肾方药对照。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:tianzhen-qiba-shenxing",
+      "record_type": "theory",
+      "submodule": "yang_sheng",
+      "canonical_name": "上古天真、男女七八生命节律与形神兼养",
+      "doctrine_key": "精神内守与先天肾精生命周期",
+      "chapter_ids": [
+        "nj:suwen:01"
+      ],
+      "summary": "据《上古天真论》阐发养生两大支柱：其一“恬淡虚无，真气从之，精神内守，病安从来”之修心持满之道（戒以酒为浆、醉以入房、务快其心）；其二女子七七、男子八八肾气天癸充盈衰竭节律，作为传统生理发育与抗衰调护之自然参照。",
+      "differentiation_rules": [
+        {
+          "condition": "精元耗散失守 vs 恬淡持满内守",
+          "manifestations": "妄念贪求、以酒为浆、醉入房室、劳作无度，致使精气耗竭“半百而衰”；反之清静寡欲、情志开朗则形与神俱。",
+          "traditional_judgment": "养生贵在“持满”与护养肾气天癸，非仅求外药，须节饮食起居与调畅情志并重。",
+          "classic_basis": "《素问·上古天真论》（上册p.9–14）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "acupuncture",
+          "target_id": "meridian:ren",
+          "label": "任脉（主胞胎与天癸）",
+          "rationale": "女子二七任脉通、七七任脉虚直接对应奇经任脉生理"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "cond:ch6:s288",
+          "label": "治症：月经寒实与助孕",
+          "rationale": "女子肾气任冲充盈月事以时下之临床直接应用"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:干地黄",
+          "label": "本草：干地黄",
+          "rationale": "填补先天肾精真阴常用本草"
+        }
+      ],
+      "historical_boundary_note": "“度百岁乃去”及女七男八系古典生命规律与理想养生范式描述，不可用于否定现代医学对不孕不育或早衰内分泌疾病的专科诊治。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:tianzhen-qiba-shenxing:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p013",
+          "pdf_page": 13,
+          "printed_page": 11,
+          "chapter_path": "上古天真、男女七八生命节律与形神兼养",
+          "quote": "它这个第五行讲的是，“恬淡虚无，真气从之，精神内守，病安从来。”主要的原则就是，我们风很大",
+          "quote_sha256": "ab79753b2260b2693d94a7faaf6e492df459bb545fe26d38200ff33e55758000",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:tianzhen-qiba-shenxing:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p015",
+          "pdf_page": 15,
+          "printed_page": 13,
+          "chapter_path": "上古天真、男女七八生命节律与形神兼养",
+          "quote": "到七岁的时候，女人的牙齿要开始换",
+          "quote_sha256": "3696d9cbd37cb80cf4d9ec6d3d9b276648770fd3005061dbf9038b3ecc06e750",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "[《素问·上古天真论》] “法于阴阳，和于术数”“恬淡虚无，真气从之，精神内守，病安从来”（上册p.9、p.11）",
+          "[《素问·上古天真论》] 女子七岁齿更发长至七七任脉虚太冲脉衰；男子八岁至八八肾气衰天癸竭（上册p.13–14）"
+        ],
+        "ni_teaching": [
+          "结合“心情愉悦则谐星多长寿”通俗阐释“精神内守”在于少欲望、莫计较，保持神明清静。",
+          "联系任脉与肾气解释男女生长发育齿发骨髓变化。"
+        ],
+        "other_annotations": [
+          "可与针灸经络篇“任脉、督脉”及“助孕绝孕调经”专题互通参证。"
+        ],
+        "collation_notes": [
+          "p.11–16逐段讲解饮食粗精、环境变化对寿命影响的当代课堂引申均置入ni_teaching层。"
+        ],
+        "organizer_summary": [
+          "构建“先天肾气节律 + 情志恬淡内守”养生基础理论。"
+        ]
+      },
+      "open_questions": [
+        "男八女七完整八阶段经文逐条细节待按章节全文精校录入。"
+      ],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:wugu-weiyang-yinshi-jiankang",
+      "record_type": "theory",
+      "submodule": "yang_sheng",
+      "canonical_name": "“五谷为养”、戒“高粱厚味”与吃喝拉撒睡足温自检标准",
+      "doctrine_key": "日常饮食结构与身体寒热顺逆健康恒常准则",
+      "chapter_ids": [
+        "nj:suwen:22",
+        "nj:suwen:28",
+        "nj:suwen:47",
+        "nj:suwen:50",
+        "nj:suwen:78",
+        "nj:suwen:81"
+      ],
+      "summary": "提炼贯串全书的“日常吃养与健康六大自检准绳”：①饮食金律《藏气法时论》“毒药攻邪，五谷为养，五果为助，五畜为益，五菜为充”；②警醒富贵“高粱之疾”（《通评虚实》《腹中》《奇病》均指过度醇酒甘肥乃消渴、中风偏枯、热中主因）；③将深奥脉证转为每日可核验之人体稳态基准——胃口、二便、睡眠、“头面清凉而脚底常热、足背带凉”（《刺要》《大奇》《征四失》《解经》），用以校验养身及药方方向。",
+      "differentiation_rules": [
+        {
+          "condition": "日常饮食养正与“高粱之疾”预防",
+          "manifestations": "五味杂食失度、偏嗜膏粱厚味肥甘少动者渐见中满内热、口甘多饮；久服攻邪辛热或保健石药反致燥狂伤阴。",
+          "traditional_judgment": "平时以谷麦五谷为主养、果畜菜辅佐调和；已病重实当借“毒药攻邪”，中病即止而还归五谷常养；尤戒无病妄进烈性补石。",
+          "classic_basis": "《素问·藏气法时论》《通评虚实论》《腹中论》（上册p.129–130、p.149、下册p.187）"
+        },
+        {
+          "condition": "健康常态与疗效即时评估准则（足底温·头面凉）",
+          "manifestations": "眠安、食纳正常、二便调顺、手足心（尤其足底心）温热，而头面与脚背反觉清凉；反之昨日脚热今日服药变冷、夜不眠或喘。",
+          "traditional_judgment": "足心温热而头凉胃口和，表明中焦阳气交通、阴升阳降态势良好；若调治后反致脚寒失眠，须即刻停药重审寒热真伪。",
+          "classic_basis": "《素问·刺要论》《大奇论》《征四失论》《解经微论》（下册p.221、p.232、p.276、p.283）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:署豫",
+          "label": "本草：薯蓣（补中五谷薯养上品）",
+          "rationale": "平补脾肺肾精气而不偏寒燥，契合“五谷补精益气”稳态之道"
+        },
+        {
+          "target_module": "herbs",
+          "target_id": "bencao:大枣",
+          "label": "本草：大枣（甘润益脾缓急）",
+          "rationale": "作为果助中之典型，入多首经方护胃气而防毒药伤中"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:桂枝汤",
+          "label": "《伤寒论》桂枝汤（啜热稀粥顾护胃气）",
+          "rationale": "药后“啜热稀粥一升余”正是“毒药攻邪、五谷为养”在经方中的最直接落实践行"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:ren12:中脘",
+          "label": "穴位：中脘（胃募定食欲升降中枢）",
+          "rationale": "常人胃气和降则眠安食欲匀、足底阳达"
+        }
+      ],
+      "historical_boundary_note": "“五谷为养、脚底温凉自检”适合作为传统日常保健及治疗反馈观察辅助指标，但不能替代现代血糖、血脂、血压、动脉硬化及甲状腺功能等客观生化监测。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:wugu-weiyang-yinshi-jiankang:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p133",
+          "pdf_page": 133,
+          "printed_page": 131,
+          "chapter_path": "“五谷为养”、戒“高粱厚味”与吃喝拉撒睡足温自检标准",
+          "quote": "我们五谷为养，所以我们五谷杂粮要之，善用毒药",
+          "quote_sha256": "c6b95091f2a6ca3f2247737018c274fca00456fd2f865280b2a28983b018e005",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:wugu-weiyang-yinshi-jiankang:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p151",
+          "pdf_page": 151,
+          "printed_page": 149,
+          "chapter_path": "“五谷为养”、戒“高粱厚味”与吃喝拉撒睡足温自检标准",
+          "quote": "都是肥的贵人有钱人，高粱之疾。",
+          "quote_sha256": "70062f0f60009835a7f99555490139d91661c5be2bd06289bc6337cc913feeec",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:wugu-weiyang-yinshi-jiankang:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p074",
+          "pdf_page": 74,
+          "printed_page": 221,
+          "chapter_path": "“五谷为养”、戒“高粱厚味”与吃喝拉撒睡足温自检标准",
+          "quote": "手脚温热，身体头面是冷的，常人的身体头面都是冷的",
+          "quote_sha256": "37caccf3302773f2093f27675cdb919e7fd4fbf86091080de058a95895f3bb33",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:wugu-weiyang-yinshi-jiankang:4",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p085",
+          "pdf_page": 85,
+          "printed_page": 232,
+          "chapter_path": "“五谷为养”、戒“高粱厚味”与吃喝拉撒睡足温自检标准",
+          "quote": "昨天是脚热的今天是脚冷你就错了",
+          "quote_sha256": "d0e69753a93e280f2bef0c47c2310c1c8ed6b906525764ddfe36e07a760a0548",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·藏气法时论》：“毒药攻邪，五谷为养，五果为助，五畜为益，五菜为充。”",
+          "《素问·通评虚实论》：“甘肥贵人，则高粱之疾也。”"
+        ],
+        "ni_teaching": [
+          "把《内经》从高深天地五行拉回“每天自己都能感受到的检验单”：吃喝拉撒睡与脚热头凉，有病调药、越调越合常态即对，反则立改。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）6篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》yang_sheng专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:wuyi-bidu-lianci-yufang",
+      "record_type": "theory",
+      "submodule": "yang_sheng",
+      "canonical_name": "五疫避毒“正气存内”、练气吞津养肾阳与实脾肺预防",
+      "doctrine_key": "《遗篇·刺法论》避疫守真与吐纳咽津摄生法",
+      "chapter_ids": [
+        "nj:suwen:72",
+        "nj:suwen:77",
+        "nj:suwen:81"
+      ],
+      "summary": "基于宋代补入《素问遗篇·刺法论》（第72篇）与正经扶正总旨之养生预防篇：①五疫皆相染易之际，“不相染者，正气存内，邪不可干，避其毒气”；②具体培正路径包括调畅脾胃（实脾）、充实肺卫（实肺）与清心节欲；③特载“肾久病练气法”——调息闭气守神待舌下自然生出清甜津液后分三口缓缓咽归丹田温养肾阳；兼及神魂魄意志十二脏腑守一安宁之道。",
+      "differentiation_rules": [
+        {
+          "condition": "天时反常（如厥阴不退位）与五疫传染护正",
+          "manifestations": "岁候错乱（应暖反寒、应寒反温）导致疫气流行相染；正气疲弱者易感，神志清宁、脾肺强固者不易染。",
+          "traditional_judgment": "一要“避其毒气”（保持距离清静），二要调补“实脾、实肺”防子母相传并清解郁滞岁气，以“正气存内、邪不可干”作最高防御总纲。",
+          "classic_basis": "《素问遗篇·刺法论》（下册p.284–288）"
+        },
+        {
+          "condition": "久病肾阳衰微与口腔“三口咽津”养真法",
+          "manifestations": "久病气虚惫倦、肾阳暗耗而无他急症者，调息后舌底常溢清津。",
+          "traditional_judgment": "此清津即重虚复生之水气精微，切忌吐弃，当闭口徐分三口咽下达意念至于丹田，并顺畅十二脏神意。",
+          "classic_basis": "《素问遗篇·刺法论第四节》（下册p.286–287）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:ren04:关元",
+          "label": "穴位：关元（下丹田培元归根）",
+          "rationale": "练气吞津归宿丹田、补肾阳充正气核心所在"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:sj04:阳池",
+          "label": "穴位：阳池（配心俞调心虚幻视）",
+          "rationale": "直接采自《刺法论》“手少阳阳池穴、再刺心俞”以救火运衰水凌心虚症"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:bl15:心俞",
+          "label": "穴位：心俞",
+          "rationale": "与阳池协同调畅心火守十二官之君主神明"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "acupoint:st36:足三里",
+          "label": "穴位：足三里（实脾培土防外邪）",
+          "rationale": "落实《遗篇》“实脾”固后天胃气抗疫第一大穴"
+        }
+      ],
+      "historical_boundary_note": "《刺法论》等《遗篇》公认为宋以后增补文献，非战国秦汉《素问》原貌；且“正气存内、咽津吐纳”仅能作为体质维护参考，面对烈性传染病暴发（“五疫相染”）必须绝对遵行现代疾控隔离、疫苗接种与针对性抗病原治疗。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:wuyi-bidu-lianci-yufang:1",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p137",
+          "pdf_page": 137,
+          "printed_page": 284,
+          "chapter_path": "五疫避毒“正气存内”、练气吞津养肾阳与实脾肺预防",
+          "quote": "我不予自评，古人的东西都好嘛，你看看也无所谓。",
+          "quote_sha256": "6ffdc955a8c99019ea1845e04fc4fd6d6ecb936dfae1aa10e843f1af106a9c59",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:wuyi-bidu-lianci-yufang:2",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p140",
+          "pdf_page": 140,
+          "printed_page": 287,
+          "chapter_path": "五疫避毒“正气存内”、练气吞津养肾阳与实脾肺预防",
+          "quote": "既然舌头下面不断冒津液，像泉水一样冒出来了",
+          "quote_sha256": "0e8f6a1a9a969a26d5b47daeda8f601843a3f0f681fe402c1067f3451d428517",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:wuyi-bidu-lianci-yufang:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p141",
+          "pdf_page": 141,
+          "printed_page": 288,
+          "chapter_path": "五疫避毒“正气存内”、练气吞津养肾阳与实脾肺预防",
+          "quote": "手少阳，阳池穴，再刺他的心俞穴。",
+          "quote_sha256": "32077352faa24de4c43e569dc58bd7de757c4e691bbccdb372cf6b3e957030f7",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问遗篇·刺法论》：“五疫之至，皆相染易……不相染者，正气存内，邪不可干，避其毒气。”",
+          "载传统吞津养肾术与“刺手少阳阳池、心俞”治火衰心神虚象。"
+        ],
+        "ni_teaching": [
+          "客观交代宋代补篇地位（不偏执亦不盲从），同时保留道医流传“舌下甘津分三口咽归丹田”以助虚劳静养，指出此即《内经》养气精髓的延续。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）3篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》yang_sheng专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "high_risk",
+      "safety_warning": "高风险与文献边界提示：涉及烈性传染“五疫”避毒及宋代增补《遗篇》源流，急性发热传染病或急症务必遵守现代公卫隔离与正规抗感染救治。",
+      "version": "1.0.0"
+    },
+    {
+      "id": "concept:nj:zhi-shen-daoyin-yanzhou",
+      "record_type": "theory",
+      "submodule": "yang_sheng",
+      "canonical_name": "“治神”五法、医患得神契合与传统导引按蹻",
+      "doctrine_key": "精神内守专一、毒药真伪及形体气血主动导引",
+      "chapter_ids": [
+        "nj:suwen:13",
+        "nj:suwen:14",
+        "nj:suwen:25",
+        "nj:suwen:53"
+      ],
+      "summary": "整合理念散见《移精变气》《汤液醪醴》《宝命全角》之形神兼治养生观：①“得神”两义——既指患者精神神气存亡与诊室私密安详（“闭户塞牖”使尽情言之），亦指医患互信配合（反之为“神不使”）；②《宝命全角论》治神五条（“一曰治神，二曰知养身，三曰知毒药为真，四曰制砭石小大，五曰知腑脏血气之诊”）并破鬼神迷信（“道无鬼神，独来独往”）；③《异法方宜》《奇病息积》借导引按蹻活动肢体疏通陈气郁结之养生实践。",
+      "differentiation_rules": [
+        {
+          "condition": "“得神”与“神不使”临床前提",
+          "manifestations": "患者狐疑抗拒、受多人围观杂扰而隐藏诱因，或精神溃散不与医疗呼应，致“神不使”。",
+          "traditional_judgment": "治病必先“移精变气、系之病者、得其真情”；若患者全不信从或如第75篇“再三拒言”，则医道难施（《蒙》卦匪我求童蒙之理）。",
+          "classic_basis": "《素问·移精变气论》《汤液醪醴论》《疏五过论》（上册p.74–76、下册p.275）"
+        },
+        {
+          "condition": "五实五虚生死转机与“导引”适用边界",
+          "manifestations": "脉盛皮热腹胀二便闭闷瞀（五实）vs 脉细皮寒气少下痢不食（五虚）；或中央安逸少动之萎厥、胁下息积妨食者。",
+          "traditional_judgment": "五虚之中“浆粥入胃、泄注止则虚者活”（胃气有转机）；静养安逸郁滞宜“导引按蹻（息积亦导引结合服药，忌妄灸刺）”，而破迷信“道无鬼神”。",
+          "classic_basis": "《素问·宝命全形论》《异法方宜论》《奇病论》（上册p.73、p.136–137、下册p.214）"
+        }
+      ],
+      "classic_links": [
+        {
+          "target_module": "acupuncture",
+          "target_id": "tech:daotan_daoyin_and_shijue",
+          "label": "针法：山陵沟谷导引针法",
+          "rationale": "传统导引思想从运动功法深入针灸“导引行气”"
+        },
+        {
+          "target_module": "acupuncture",
+          "target_id": "tech:needling_insertion_and_palpation",
+          "label": "规范：治神专注摸隙触诊",
+          "rationale": "“如待所贵”“必先治神”是所有入针前专一神气的统一要求"
+        },
+        {
+          "target_module": "formulas",
+          "target_id": "shanghan:四逆汤",
+          "label": "《伤寒论》四逆系救虚转机",
+          "rationale": "呼应“五虚下利不食”急温脾肾使其“浆粥入胃”回阳生机"
+        }
+      ],
+      "historical_boundary_note": "“得神”“道无鬼神”与“导引按蹻”彰显古医脱离巫祝、重医患沟通与主动运动之进步观念；但“息积”或“五实五虚”危机中仍须行现代脏器检查与紧急支持。",
+      "source_spans": [
+        {
+          "span_id": "sp:concept:nj:zhi-shen-daoyin-yanzhou:1",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p078",
+          "pdf_page": 78,
+          "printed_page": 76,
+          "chapter_path": "“治神”五法、医患得神契合与传统导引按蹻",
+          "quote": "要得神，得神的话，除了望神以外，得神的意思",
+          "quote_sha256": "0f7d41546e07e131452d1728066e3421f7afb11e6da2d8227cd19e3fe5c073f9",
+          "role": "ni_teaching"
+        },
+        {
+          "span_id": "sp:concept:nj:zhi-shen-daoyin-yanzhou:2",
+          "source_id": "ni-neijing-vol1-pdf",
+          "page_id": "ni-neijing-vol1-pdf:p139",
+          "pdf_page": 139,
+          "printed_page": 137,
+          "chapter_path": "“治神”五法、医患得神契合与传统导引按蹻",
+          "quote": "若夫法天则地，随应而动，这是道无鬼神，独来独往。",
+          "quote_sha256": "93a1f829ecaf7e5700dbe85986470038fadfce24303868dc5f089e06bd8fbec9",
+          "role": "source_quote"
+        },
+        {
+          "span_id": "sp:concept:nj:zhi-shen-daoyin-yanzhou:3",
+          "source_id": "ni-neijing-vol2-pdf",
+          "page_id": "ni-neijing-vol2-pdf:p067",
+          "pdf_page": 67,
+          "printed_page": 214,
+          "chapter_path": "“治神”五法、医患得神契合与传统导引按蹻",
+          "quote": "开始要做内功，练功夫做导引的法，把气导出来就好了",
+          "quote_sha256": "311ad9c5569b0017cda58d591892943b87eece9e51b4ffbb0263bb00817d42bd",
+          "role": "ni_teaching"
+        }
+      ],
+      "content_layers": {
+        "source_quote": [
+          "《素问·宝命全形论》：“一曰治神，二曰知养身，三曰知毒药为真……”；“道无鬼神，独来独往。”",
+          "《素问·汤液醪醴论》：“神不使……精神不进，志意不治，故病不可愈。”"
+        ],
+        "ni_teaching": [
+          "阐明真正的“道无鬼神”即是彻底把握规律而自信从容，并重申导引按蹻对于都市少动劳逸失衡人群之重要。"
+        ],
+        "other_annotations": [],
+        "collation_notes": [
+          "整合全书（含下册审校）4篇相关核心经文与讲记归纳；绝不混同原文与后世/讲者发挥。"
+        ],
+        "organizer_summary": [
+          "供《黄帝内经》yang_sheng专题检索及跨模块（针灸/本草/伤寒/金匮）双向呼应使用。"
+        ]
+      },
+      "open_questions": [],
+      "generation_status": "assisted",
+      "evidence_status": "verified",
+      "review_status": "approved",
+      "risk_level": "standard",
+      "safety_warning": "",
+      "version": "1.0.0"
+    }
+  ]
+}
