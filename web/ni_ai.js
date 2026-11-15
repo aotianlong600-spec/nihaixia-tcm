@@ -158,6 +158,7 @@
     offlineOnly: false,
     activeDim: "symptoms",
     evTab: "rx",
+    mobilePane: "consult",
     intakeCollapsed: false,
     historyCollapsed: false,
 
@@ -363,8 +364,35 @@
     }
   }
 
+  function setMobilePane(pane) {
+    const next = pane === "evidence" || pane === "history" ? pane : "consult";
+    niState.mobilePane = next;
+    $("#ai-workspace")?.setAttribute("data-mobile-pane", next);
+    document.querySelectorAll("#ai-mobile-pane-tabs .ai-mpane-tab").forEach((btn) => {
+      const on = btn.dataset.aiMpane === next;
+      btn.classList.toggle("active", on);
+      btn.setAttribute("aria-selected", String(on));
+    });
+  }
+
+  function updateMobilePaneBadges(packet = null) {
+    const pkt = packet || currentPacket();
+    const topFormula = pkt?.case_packet?.matched_formulas?.[0]?.name || "";
+    const rxBadge = $("#ai-mpane-rx-badge");
+    if (rxBadge) {
+      rxBadge.textContent = topFormula;
+      rxBadge.classList.toggle("hidden", !topFormula);
+    }
+    const patBadge = $("#ai-mpane-pat-badge");
+    if (patBadge) {
+      const cnt = (niState.sessions || []).length;
+      patBadge.textContent = String(cnt);
+    }
+  }
+
   // ── Patient & History Rendering ───────────────────────────────────────
   function renderPatientsAndSessions() {
+    updateMobilePaneBadges();
     const activePat = niState.patients.find((p) => p.id === niState.activePatientId) || null;
 
     const pill = $("#ai-active-patient-pill");
@@ -550,6 +578,7 @@
       .catch(() => {});
 
     applySessionToWorkspace(res.session);
+    if (window.innerWidth < 1180) setMobilePane("consult");
     $("#ai-query-input")?.focus();
     return res.session;
   }
@@ -740,6 +769,7 @@
 
   // ── Evidence Right Sidebar (Tabbed: 主力方 / 配穴·汉唐 / 原典 [ref]) ──
   function renderEvidenceSidebar(packet) {
+    updateMobilePaneBadges(packet);
     document.querySelectorAll("#ai-ev-tabs .ai-ev-tab").forEach((btn) => {
       const on = btn.dataset.aiEvTab === niState.evTab;
       btn.classList.toggle("active", on);
@@ -1024,6 +1054,7 @@
                     ? `<button type="button" class="ai-followup-btn is-packet" data-ai-select-packet="${escapeHtml(t.id)}">定位本轮实证包</button>`
                     : ""
                 }
+                <button type="button" class="ai-followup-btn ai-mobile-only-btn" data-ai-open-evidence="rx">查看处方笺与依据 →</button>
               </div>`
             : "";
 
@@ -1404,8 +1435,20 @@
   }
 
   function bindEvents() {
-    // History panel collapse toggle
+    // Mobile 3-pane switcher bar
+    $("#ai-mobile-pane-tabs")?.addEventListener("click", (e) => {
+      const tab = e.target.closest("[data-ai-mpane]");
+      if (!tab) return;
+      setMobilePane(tab.dataset.aiMpane);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // History panel collapse toggle (desktop collapses column; mobile switches pane)
     $("#ai-toggle-history-btn")?.addEventListener("click", () => {
+      if (window.innerWidth < 1180) {
+        setMobilePane(niState.mobilePane === "history" ? "consult" : "history");
+        return;
+      }
       niState.historyCollapsed = !niState.historyCollapsed;
       $("#ai-workspace")?.classList.toggle("is-hist-collapsed", niState.historyCollapsed);
     });
@@ -1448,6 +1491,7 @@
           niState.patients = res.patients || [];
           closePatientForm();
           await selectPatient(res.patient.id, res.initial_session?.id);
+          if (window.innerWidth < 1180) setMobilePane("consult");
           showNotice(`已添加问诊人「${res.patient.name}」并开启独立诊室`);
         }
       } catch (err) {
@@ -1525,6 +1569,9 @@
         const sid = row.dataset.sesSelect;
         if (sid !== niState.activeSessionId) {
           await selectSession(sid).catch((err) => showNotice(err.message));
+        }
+        if (window.innerWidth < 1180) {
+          setMobilePane("consult");
         }
       }
     });
@@ -1658,7 +1705,19 @@
       if (pktBtn) {
         niState.selectedPacketTurnId = pktBtn.dataset.aiSelectPacket;
         renderEvidenceSidebar(currentPacket());
-        showNotice("已切换到该轮辨证的实时实证包");
+        if (window.innerWidth < 1180) {
+          setMobilePane("evidence");
+        } else {
+          showNotice("已切换到该轮辨证的实时实证包");
+        }
+        return;
+      }
+      const evJumpBtn = e.target.closest("[data-ai-open-evidence]");
+      if (evJumpBtn) {
+        niState.evTab = evJumpBtn.dataset.aiOpenEvidence || "rx";
+        renderEvidenceSidebar(currentPacket());
+        setMobilePane("evidence");
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     });
 

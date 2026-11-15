@@ -2,10 +2,10 @@
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>倪氏经方 · AI 辩证论治与中医学习大脑</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/style.css?v=ni-ai-v2">
+    <link rel="stylesheet" href="/style.css?v=ni-ai-v3">
   </head>
   <body>
     <header class="app-header">
@@ -63,7 +63,19 @@
           </div>
         </div>
 
-        <div id="ai-workspace" class="ai-workspace">
+        <div id="ai-mobile-pane-tabs" class="ai-mobile-pane-tabs" role="tablist" aria-label="手机分栏切换">
+          <button type="button" class="ai-mpane-tab active" data-ai-mpane="consult" role="tab" aria-selected="true">问诊开方</button>
+          <button type="button" class="ai-mpane-tab" data-ai-mpane="evidence" role="tab" aria-selected="false">
+            <span>处方·依据</span>
+            <span id="ai-mpane-rx-badge" class="ai-mpane-badge hidden"></span>
+          </button>
+          <button type="button" class="ai-mpane-tab" data-ai-mpane="history" role="tab" aria-selected="false">
+            <span>问诊人·历史</span>
+            <span id="ai-mpane-pat-badge" class="ai-mpane-badge">1</span>
+          </button>
+        </div>
+
+        <div id="ai-workspace" class="ai-workspace" data-mobile-pane="consult">
           <!-- 左栏：问诊人档案 + 每人独立历史 & 新开 -->
           <aside id="ai-history-panel" class="list-panel ai-history-panel" aria-label="问诊人与独立历史记录">
             <div class="ai-pane-block">

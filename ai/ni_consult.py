@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 import re
-import sqlite3
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    import sqlite3
 
 from ai import grounded_study
 from ai.ni_persona import build_chat_messages, build_system_prompt
@@ -12,7 +14,6 @@ from app import (
     bencao_catalog,
     catalog,
     hantang_catalog,
-    library,
     library_catalog,
     neijing_catalog,
     syndrome_composer,
@@ -283,6 +284,8 @@ def _merge_citations(
 
     if sqlite_conn is not None and search_terms:
         try:
+            from app import library
+
             local_hits = library.retrieve_context(sqlite_conn, search_terms, max_items=3, max_chars=1800)
             for lh in local_hits:
                 pool.append(

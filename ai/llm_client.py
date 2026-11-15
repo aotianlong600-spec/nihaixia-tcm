@@ -48,6 +48,12 @@ def _friendly_http_error(status: int, body_text: str) -> str:
     except json.JSONDecodeError:
         detail = ""
     detail = (detail or body_text or "").strip().splitlines()[0][:240]
+    if "x-opencode-session" in detail.lower() or "x-opencode-session" in (body_text or "").lower():
+        return (
+            f"OpenCode Go 订阅网关拒绝了非编程代理请求 (HTTP {status})：{detail}。"
+            "（提示：OpenCode Go 仅限编程代理工具并强制校验 x-opencode-session 路由头；"
+            "中医问诊请改用 DeepSeek、OpenAI 兼容网关、Gemini、Claude、OpenCode Zen 通用按量接口，或直接关闭 Key 使用本地免 Key 推演）"
+        )
     if status == 401:
         return f"认证失败 (HTTP 401)：请检查 API Key 是否有效或有余额。{detail}".strip()
     if status == 403:

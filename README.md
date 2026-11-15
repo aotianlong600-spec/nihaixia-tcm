@@ -10,6 +10,7 @@
 |---|---|
 | **倪师 AI 开方工作台** | 默认首页三栏工作台：左侧「问诊人 & 独立历史」管理（支持增删改问诊人与多轮「新开」/删除历史）；中间分类四诊采集盘（常见症状/舌诊/脉诊/腹诊/眼·指诊/压痛点(倪师)/否定排除/病历补充）+ 倪师流式 SSE 辩证开方；右侧多页签实证处方侧栏（`主力方 · 合方` 含匹配度与味数/`配穴 · 汉唐`/`原典 [ref]`） |
 | **纯 Python 大模型直连** | 彻底移除脆弱 Node `ai-bridge`，采用后端 `httpx` 原生异步流式直连 DeepSeek / OpenAI 兼容网关 / Google Gemini / Anthropic Claude / 本地 Ollama；无 API Key 时自动启用本地中医大脑直出经方，保证随时可用 |
+| **GitHub Pages 纯静态网页版 & 手机端适配** | 自动构建无需服务器后端的 PWA/WebAssembly 静态版本（`.github/workflows/web-app.yml` + `scripts/build_pages.py`）：浏览器内运行 Pyodide 引擎 + PDF.js 按需渲染原书扫描页 + 浏览器本地独立保存问诊人与病历历史 + BYOK 直连大模型（免 Key 自动回退离线出方）；同时针对 `360–430px` 手机竖屏重构三栏切换与触控大芯片采集体验 |
 | **优化“倪师角色”** | 融合人纪课堂带教神韵与汉唐临床推演逻辑：先抓六经表里寒热、明快设喻定方，同时严守急症转诊红线、剧毒药不良反应警惕（绝不将麻木昏沉曲解为“瞑眩反应”）与零编造原典引用 |
 | **第 1–4 阶段四大典籍** | 针灸（十四经穴位/治症/法则）、神农本草（385 味对照）、黄帝内经《素问》（74 篇/专题）、伤寒/金匮经方（299+ 首含同名异方、六经辨证、古今煎服对照） |
 | **第 5 阶段综合与 17 册藏书阁** | 31 组跨书证候图谱、动态合方配穴引擎、汉唐百方（91 方）、17 册全文检索与影印页码对照 |
@@ -43,6 +44,16 @@
 3. 浏览器打开 <http://127.0.0.1:8767/>：
    - **免 Key 立即可用**：直接在左侧点选病案或输入症状，点「倪师辩证出方」即可由中医大脑直出主方、原方用量与煎服法；
    - **接入大模型（推荐）**：点击右上角「模型设置」，选择 **DeepSeek** / **OpenAI** / **Gemini** / **Anthropic Claude** / **本地 Ollama**，支持「获取模型列表」「测试连通」并将配置原子保存至本地 `data/ai_settings.json`；也可通过环境变量 `DEEPSEEK_API_KEY`、`OPENAI_API_KEY`、`GEMINI_API_KEY`、`ANTHROPIC_API_KEY`、`TCM_AI_API_KEY` 自动读取。
+
+## GitHub Pages 纯静态网页版（与 PWA 离线安装）
+
+- 推送到 `main` 分支后，[.github/workflows/web-app.yml](.github/workflows/web-app.yml) 会自动执行 4 大典籍校验与 `pytest -q`，调用 [scripts/build_pages.py](scripts/build_pages.py) 构建 `dist/` 并部署至 GitHub Pages（访问地址：`https://aotianlong600-spec.github.io/nihaixia-tcm/`，首次使用请在仓库 `Settings -> Pages` 中将 `Source` 设为 `GitHub Actions`）。
+- 网页版通过 Pyodide（浏览器端 Python）运行 5 阶段辨证知识库、`PDF.js` 按需渲染原书扫描页，并使用浏览器 `localStorage` 保存每位问诊人的独立病历历史与 BYOK 模型配置；若未填写 Key 或遭遇浏览器跨域拦截，系统自动无缝回退本地离线辨证出方。
+- 本地手动打包静态产物测试：
+  ```powershell
+  python scripts/build_pages.py
+  python -m http.server 8768 -d dist
+  ```
 
 ## 验证与校验
 

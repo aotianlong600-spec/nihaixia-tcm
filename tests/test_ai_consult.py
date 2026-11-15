@@ -475,3 +475,89 @@ def test_shaoyang_formula_priority_primary_citations_and_negations(client: TestC
     citations = body["citations"]
     assert citations
     assert citations[0]["tradition_layer"] in {"ni_lecture", "hantang_clinical"}
+
+
+def test_static_dispatch_pyodide_ai_and_pdf_routes():
+    import json
+    from app.static_dispatch import dispatch_request
+
+    presets_res = json.loads(dispatch_request("/api/ai/presets-and-styles", "POST", "{}"))
+    assert presets_res["status"] == 200
+    assert isinstance(presets_res["body"]["presets"], list) and presets_res["body"]["presets"]
+    assert isinstance(presets_res["body"]["styles"], list) and len(presets_res["body"]["styles"]) == 3
+    assert presets_res["body"]["defaults"]["provider"] == "deepseek"
+
+    pkt_res = json.loads(
+        dispatch_request(
+            "/api/ai/packet",
+            "POST",
+            json.dumps({"query": "往来寒热 口苦 咽干", "pulse": "弦"}, ensure_ascii=False),
+        )
+    )
+    assert pkt_res["status"] == 200
+    assert pkt_res["body"]["case_packet"]["matched_formulas"][0]["name"] == "小柴胡汤"
+
+    prep_res = json.loads(
+        dispatch_request(
+            "/api/ai/prepare-prompt",
+            "POST",
+            json.dumps({"query": "发热 恶风 自汗", "style": "master_balanced"}, ensure_ascii=False),
+        )
+    )
+    assert prep_res["status"] == 200
+    assert prep_res["body"]["system_prompt"]
+    assert prep_res["body"]["messages"]
+    assert prep_res["body"]["offline_reply"]
+
+    chat_res = json.loads(
+        dispatch_request(
+            "/api/ai/chat",
+            "POST",
+            json.dumps({"query": "发热 恶风 自汗", "offline": True}, ensure_ascii=False),
+        )
+    )
+    assert chat_res["status"] == 200
+    assert chat_res["body"]["mode"] == "offline"
+    assert "[ref:" in chat_res["body"]["reply"]
+
+    cite_res = json.loads(
+        dispatch_request(
+            "/api/ai/extract-refs",
+            "POST",
+            json.dumps({"text": chat_res["body"]["reply"], "citations": chat_res["body"]["packet"]["citations"]}, ensure_ascii=False),
+        )
+    )
+    assert cite_res["status"] == 200
+    assert cite_res["body"]["referenced_ids"]
+
+    pdf_res = json.loads(dispatch_request("/api/__pdf-source?url=/api/acupuncture/source-pages/12/image"))
+    assert pdf_res["status"] == 200
+    assert pdf_res["body"]["pdf_page"] == 12
+    assert pdf_res["body"]["relative_path"].endswith(".pdf")
+
+
+def test_mobile_responsive_hooks_and_pages_builder_helpers():
+    from pathlib import Path
+    from scripts import build_pages
+
+    root = Path(__file__).resolve().parents[1]
+    html = (root / "web" / "index.html").read_text(encoding="utf-8")
+    assert "viewport-fit=cover" in html
+    assert 'id="ai-mobile-pane-tabs"' in html
+    assert 'data-mobile-pane="consult"' in html
+
+    png_bytes = build_pages._render_fallback_png(64)
+    assert png_bytes.startswith(b"\x89PNG\r\n\x1a\n")
+    for rel, (_, digest) in build_pages.RUNTIME_ASSETS.items():
+        assert len(digest) == 64, f"{rel} digest must be 64-char sha256"
+    assert build_pages._should_bundle_data_file("brain_data/curated_batches/b1.json") is True
+    assert build_pages._should_bundle_data_file("brain_data/library/page_images/foo.png") is False
+    assert build_pages._should_bundle_data_file("brain_data/formulas_report.json") is False
+
+    opencode_msg = llm_client._friendly_http_error(
+        400,
+        '{"error":{"message":"Request is missing x-opencode-session and cannot be routed efficiently."}}',
+    )
+    assert "OpenCode Go" in opencode_msg
+    assert "x-opencode-session" in opencode_msg
+

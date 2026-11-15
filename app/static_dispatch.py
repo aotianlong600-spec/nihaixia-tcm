@@ -6,7 +6,7 @@ import re
 from typing import Any
 from urllib.parse import parse_qs, unquote, urlsplit
 
-from ai import grounded_study
+from ai import config_store, grounded_study, ni_consult, ni_persona
 from app import (
     acupuncture_catalog,
     acupuncture_diagnose,
@@ -448,7 +448,89 @@ def dispatch_api(url: str) -> tuple[int, Any]:
     return _not_found(f"未知接口路径: {path}")
 
 
+def dispatch_post_ai(path: str, payload: dict[str, Any]) -> tuple[int, Any]:
+    """Handle /api/ai/* compute endpoints in pure-Python Pyodide static runtime."""
+    api_idx = path.find("/api/")
+    if api_idx > 0:
+        path = path[api_idx:]
+
+    if path == "/api/ai/presets-and-styles":
+        return 200, {
+            "presets": list(config_store.PROVIDER_PRESETS.values()),
+            "styles": ni_persona.list_persona_styles(),
+            "defaults": config_store._default_config(),
+        }
+
+    if path == "/api/ai/packet":
+        pkt = ni_consult.build_clinical_context(
+            str(payload.get("query") or ""),
+            pulse=str(payload.get("pulse") or ""),
+            tongue=str(payload.get("tongue") or ""),
+            entity_focus=payload.get("entity_focus") if isinstance(payload.get("entity_focus"), dict) else None,
+            sqlite_conn=None,
+        )
+        return 200, pkt
+
+    if path == "/api/ai/prepare-prompt":
+        style = str(payload.get("style") or "master_balanced")
+        pkt, sys_prompt, messages = ni_consult.prepare_llm_request(
+            str(payload.get("query") or ""),
+            pulse=str(payload.get("pulse") or ""),
+            tongue=str(payload.get("tongue") or ""),
+            style=style,
+            history=payload.get("history") if isinstance(payload.get("history"), list) else None,
+            entity_focus=payload.get("entity_focus") if isinstance(payload.get("entity_focus"), dict) else None,
+            sqlite_conn=None,
+        )
+        return 200, {
+            "packet": pkt,
+            "system_prompt": sys_prompt,
+            "messages": messages,
+            "offline_reply": ni_consult.build_offline_ni_reply(pkt, style=style),
+        }
+
+    if path == "/api/ai/chat":
+        style = str(payload.get("style") or "master_balanced")
+        pkt = ni_consult.build_clinical_context(
+            str(payload.get("query") or ""),
+            pulse=str(payload.get("pulse") or ""),
+            tongue=str(payload.get("tongue") or ""),
+            entity_focus=payload.get("entity_focus") if isinstance(payload.get("entity_focus"), dict) else None,
+            sqlite_conn=None,
+        )
+        reply = ni_consult.build_offline_ni_reply(pkt, style=style)
+        return 200, {
+            "mode": "offline",
+            "reply": reply,
+            "cited": ni_consult.extract_cited_refs(reply, pkt.get("citations") or []),
+            "packet": pkt,
+        }
+
+    if path == "/api/ai/extract-refs":
+        return 200, ni_consult.extract_cited_refs(
+            str(payload.get("text") or ""),
+            payload.get("citations") if isinstance(payload.get("citations"), list) else [],
+        )
+
+    return _not_found(f"未知静态 POST 接口: {path}")
+
+
 def dispatch_json(url: str) -> str:
     """Serialize status + body as a single JSON envelope for Pyodide bridge."""
     status, body = dispatch_api(url)
+    return json.dumps({"status": status, "body": body}, ensure_ascii=False)
+
+
+def dispatch_request(url: str, method: str = "GET", body_json: str = "") -> str:
+    """Unified GET/POST dispatcher for static Pyodide web worker."""
+    m = (method or "GET").upper()
+    if m == "GET":
+        return dispatch_json(url)
+    try:
+        payload = json.loads(body_json) if body_json else {}
+        if not isinstance(payload, dict):
+            payload = {}
+    except Exception:
+        return json.dumps({"status": 400, "body": {"detail": "JSON 请求体无效"}}, ensure_ascii=False)
+    status, body = dispatch_post_ai(urlsplit(url).path, payload)
     return json.dumps({"status": status, "body": body}, ensure_ascii=False)
