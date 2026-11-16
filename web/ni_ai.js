@@ -1721,9 +1721,13 @@
     }
     niState.codexPollTimer = window.setTimeout(async () => {
       try {
+        const prevActive = niState.config?.active_profile_id;
         const res = await apiJson("/api/ai/codex/status");
         if (res.config) {
           niState.config = res.config;
+          if (res.config.active_profile_id && res.config.active_profile_id !== prevActive) {
+            populateModalFromConfig(res.config);
+          }
           updateStatusHeader();
         }
         renderCodexAuthPanel(res);
@@ -1733,8 +1737,9 @@
             const out = $("#ai-cfg-test-result");
             if (out) {
               out.className = "ai-cfg-result is-ok";
-              out.textContent = `Codex 已完成授权（${res.account_masked || "ChatGPT 订阅"}），可点击下方「保存配置」或「测试连通」。`;
+              out.textContent = `Codex 已完成授权（${res.account_masked || "ChatGPT 订阅"}），已自动启用 OpenAI Codex 配置并正在同步订阅模型。`;
             }
+            syncLiveCodexModels(res.config || niState.config, true);
           }
           stopCodexPolling();
           return;
@@ -1748,6 +1753,43 @@
         stopCodexPolling();
       }
     }, 1600);
+  }
+
+  let codexModelsFetchInFlight = false;
+  async function syncLiveCodexModels(cfg, force = false) {
+    if (!cfg || codexModelsFetchInFlight) return;
+    const isCodexActive = cfg.protocol === "codex_oauth" || cfg.provider === "codex";
+    const hasOauth = Boolean(cfg.has_oauth || cfg.codex_auth?.logged_in);
+    if (!hasOauth) return;
+    const targetProf =
+      (cfg.profiles || []).find((p) => p.protocol === "codex_oauth" || p.provider === "codex") || cfg;
+    const pid = targetProf.profile_id || cfg.active_profile_id || "default";
+    if (!force && getCachedModelsForProfile(pid, "codex").length > 0 && !isCodexActive) return;
+    codexModelsFetchInFlight = true;
+    try {
+      const res = await apiJson("/api/ai/models", {
+        method: "POST",
+        body: JSON.stringify({
+          provider: "codex",
+          protocol: "codex_oauth",
+          base_url: targetProf.base_url || "https://chatgpt.com/backend-api",
+          model: targetProf.model || "gpt-5.6-sol",
+          relay_url: targetProf.relay_url || "",
+        }),
+      });
+      const models = Array.isArray(res?.models) ? res.models : [];
+      if (models.length) {
+        saveCachedModelsForProfile(pid, "codex", models);
+        renderHomepageProfileAndModelSelects(niState.config);
+        if ($("#ai-cfg-provider")?.value === "codex") {
+          refreshSuggestedModelsList("codex", $("#ai-cfg-model")?.value || models[0]);
+        }
+      }
+    } catch {
+      // keep preset list cleanly if offline
+    } finally {
+      codexModelsFetchInFlight = false;
+    }
   }
 
   function renderCodexAuthPanel(codexAuth) {
@@ -1967,11 +2009,16 @@
     }
     modal.classList.remove("hidden");
     modal.setAttribute("aria-hidden", "false");
+    const prevActive = niState.config?.active_profile_id;
     apiJson("/api/ai/codex/status")
       .then((res) => {
         if (res.config) {
           niState.config = res.config;
+          if (res.config.active_profile_id && res.config.active_profile_id !== prevActive) {
+            populateModalFromConfig(res.config);
+          }
           updateStatusHeader();
+          syncLiveCodexModels(res.config, false);
         }
         renderCodexAuthPanel(res);
       })
@@ -2004,6 +2051,7 @@
       $("#ai-cfg-provider").innerHTML = cfg.presets.map((p) => `<option value="${escapeHtml(p.id)}">${escapeHtml(p.label)}</option>`).join("");
     }
     updateStatusHeader();
+    syncLiveCodexModels(cfg, false);
   }
 
   function bindEvents() {
@@ -2485,6 +2533,9 @@
         if ($("#ai-cfg-model")) $("#ai-cfg-model").value = preset.default_model || "";
         syncModalAuthVisibility();
         refreshSuggestedModelsList(pid, preset.default_model || "");
+        if (pid === "codex" && niState.config?.codex_auth?.logged_in) {
+          syncLiveCodexModels({ ...niState.config, provider: "codex", protocol: "codex_oauth", has_oauth: true }, true);
+        }
       } else {
         syncModalAuthVisibility();
         syncModalReasoningSelect();
@@ -2581,13 +2632,21 @@
         });
         if (res.config) {
           niState.config = res.config;
+          populateModalFromConfig(res.config);
           updateStatusHeader();
+        }
+        if (Array.isArray(res.models) && res.models.length && res.config) {
+          const codexProf = (res.config.profiles || []).find((p) => p.protocol === "codex_oauth") || res.config;
+          saveCachedModelsForProfile(codexProf.profile_id || "default", "codex", res.models);
+          renderHomepageProfileAndModelSelects(res.config);
+          refreshSuggestedModelsList("codex", $("#ai-cfg-model")?.value || res.models[0]);
         }
         if ($("#ai-cfg-codex-callback-input")) $("#ai-cfg-codex-callback-input").value = "";
         renderCodexAuthPanel(res);
+        syncLiveCodexModels(res.config || niState.config, true);
         if (out) {
           out.className = "ai-cfg-result is-ok";
-          out.textContent = `OpenAI Codex 登录成功：${res.account_masked || "ChatGPT 已连接"}`;
+          out.textContent = `OpenAI Codex 登录成功：${res.account_masked || "ChatGPT 已连接"}，已自动开启 OpenAI Codex 配置并同步可用模型。`;
         }
       } catch (err) {
         if (out) {

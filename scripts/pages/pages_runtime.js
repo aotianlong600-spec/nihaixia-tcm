@@ -1990,7 +1990,40 @@
 
     const meta = await getPresetsAndStyles();
 
+    const hasCodexProf = (meta, store) =>
+      (store.profiles || []).some((p) => p.protocol === "codex_oauth" || p.provider === "codex");
+
+    const ensureStaticCodexProfile = (relayHint = "") => {
+      const store = loadStore(meta);
+      if (hasCodexProf(meta, store)) return;
+      if ((store.profiles || []).length >= MAX_PROFILES) return;
+      const codexPreset = (meta.presets || []).find((p) => p.id === "codex") || {};
+      saveProfileStore(
+        {
+          save_as_new: true,
+          profile_name: "OpenAI Codex 订阅",
+          provider: "codex",
+          protocol: "codex_oauth",
+          base_url: codexPreset.base_url || "https://chatgpt.com/backend-api",
+          model: codexPreset.default_model || "gpt-5.6-sol",
+          relay_url: String(relayHint || "").trim(),
+        },
+        meta
+      );
+    };
+
     if (apiPath === "/api/ai/config" && method === "GET") {
+      if (readCodexCred()) {
+        const store = loadStore(meta);
+        if (
+          !hasCodexProf(meta, store) &&
+          store.profiles.length === 1 &&
+          store.profiles[0].profile_id === "default" &&
+          !store.profiles[0].api_key
+        ) {
+          ensureStaticCodexProfile("");
+        }
+      }
       return jsonResponse(toPublicConfig(meta));
     }
 
@@ -2021,8 +2054,12 @@
     if (apiPath === "/api/ai/codex/status" && method === "GET") {
       const active = activeProfileFromStore(loadStore(meta));
       await pollStaticCodexDeviceOnce(active?.relay_url || "");
+      const st = getStaticCodexStatus();
+      if (st.logged_in) {
+        ensureStaticCodexProfile(staticCodexLoginState.relay_url || active?.relay_url || "");
+      }
       return jsonResponse({
-        ...getStaticCodexStatus(),
+        ...st,
         config: toPublicConfig(meta),
       });
     }
@@ -2043,6 +2080,7 @@
         const active = activeProfileFromStore(loadStore(meta));
         const relayUrl = String(body?.relay_url || active?.relay_url || "").trim();
         const status = await submitStaticCodexCallback(body?.callback_url || "", relayUrl);
+        ensureStaticCodexProfile(relayUrl);
         return jsonResponse({ ...status, config: toPublicConfig(meta) });
       } catch (err) {
         return jsonResponse({ detail: String(err?.message || err) }, 400);

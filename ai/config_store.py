@@ -30,24 +30,21 @@ PROVIDER_PRESETS: dict[str, dict[str, Any]] = {
         "label": "OpenAI Codex（ChatGPT 订阅 OAuth 登录）",
         "protocol": "codex_oauth",
         "base_url": "https://chatgpt.com/backend-api",
-        "default_model": "gpt-5.3-codex",
+        "default_model": "gpt-5.6-sol",
         "suggested_models": [
-            "gpt-5.4",
-            "gpt-5.3-codex",
-            "gpt-5.3-codex-spark",
-            "gpt-5.2-codex",
-            "gpt-5.2",
-            "gpt-5.1-codex-max",
-            "gpt-5.1-codex",
-            "gpt-5.1-codex-mini",
-            "gpt-5.5",
             "gpt-5.6-sol",
             "gpt-6-sol",
+            "gpt-6.1-sol",
+            "gpt-6-astra",
+            "gpt-6.1-terra",
+            "gpt-6-luna",
+            "gpt-5.6-terra",
+            "gpt-5.6-luna",
         ],
         "requires_key": False,
         "requires_oauth": True,
         "env_vars": [],
-        "note": "使用 OpenAI 设备码 / 官方浏览器 OAuth 登录 ChatGPT 订阅账号（gpt-5.3-codex、gpt-5.4 等）；纯静态网页版无中继时受 CORS 限制，建议在本地服务版使用或填写 CORS 中继地址。",
+        "note": "使用 OpenAI 设备码 / 浏览器 OAuth 登录 ChatGPT 订阅账号（登录后自动同步当前订阅可用 Codex 模型）；纯静态网页无中继受 CORS 限制，推荐本地服务版。",
     },
     "openai": {
         "id": "openai",
@@ -174,7 +171,7 @@ REASONING_MODEL_RULES: list[dict[str, Any]] = [
         "id": "openai_gpt5_2plus",
         "protocols": ["openai_compat", "codex_oauth"],
         "model_regex": r"(?:^|/|\b)gpt-5\.[2-9]",
-        "exclude_regex": r"codex",
+        "exclude_regex": r"(?:codex|sol|luna|terra|astra)",
         "efforts": ["auto", "none", "low", "medium", "high", "xhigh"],
         "supports_reasoning": True,
         "protocol_mode": "openai_reasoning",
@@ -818,6 +815,79 @@ def _to_public_profile(
         "is_active": is_active,
         "updated_at": float(profile.get("updated_at") or 0.0),
     }
+
+
+def has_codex_profile(data_dir: Path) -> bool:
+    store = _load_store(data_dir)
+    return any(
+        p.get("protocol") == "codex_oauth" or p.get("provider") == "codex"
+        for p in store.get("profiles") or []
+    )
+
+
+def ensure_codex_profile_on_login(
+    data_dir: Path,
+    *,
+    models: list[str] | None = None,
+    activate: bool = True,
+) -> dict[str, Any]:
+    """Ensure a saved OpenAI Codex profile exists & is active after OAuth login completes."""
+    store = _load_store(data_dir)
+    clean_models = [str(m or "").strip() for m in (models or []) if str(m or "").strip()]
+    preferred_model = (
+        "gpt-5.6-sol"
+        if "gpt-5.6-sol" in clean_models
+        else (clean_models[0] if clean_models else PROVIDER_PRESETS["codex"]["default_model"])
+    )
+    existing = next(
+        (
+            p
+            for p in store.get("profiles") or []
+            if p.get("protocol") == "codex_oauth" or p.get("provider") == "codex"
+        ),
+        None,
+    )
+    if existing:
+        pid = existing["profile_id"]
+        cur_model = str(existing.get("model") or "").strip()
+        if clean_models and (not cur_model or (cur_model == "gpt-5.3-codex" and cur_model not in clean_models)):
+            return save_config(data_dir, {"profile_id": pid, "model": preferred_model})
+        if activate and store.get("active_profile_id") != pid:
+            return select_profile(data_dir, pid)
+        return get_public_config(data_dir)
+
+    if len(store.get("profiles") or []) >= MAX_PROFILES:
+        return get_public_config(data_dir)
+    return save_config(
+        data_dir,
+        {
+            "save_as_new": True,
+            "profile_name": "OpenAI Codex 订阅",
+            "provider": "codex",
+            "protocol": "codex_oauth",
+            "base_url": PROVIDER_PRESETS["codex"]["base_url"],
+            "model": preferred_model,
+        },
+    )
+
+
+def maybe_auto_adopt_codex_profile(
+    data_dir: Path,
+    *,
+    models: list[str] | None = None,
+) -> bool:
+    """Auto-adopt OpenAI Codex profile when OAuth exists and only the unconfigured default exists."""
+    cred, _ = _read_codex_oauth_summary(data_dir)
+    if not cred:
+        return False
+    store = _load_store(data_dir)
+    profiles = store.get("profiles") or []
+    if has_codex_profile(data_dir):
+        return False
+    if len(profiles) == 1 and profiles[0].get("profile_id") == "default" and not str(profiles[0].get("api_key") or "").strip():
+        ensure_codex_profile_on_login(data_dir, models=models, activate=True)
+        return True
+    return False
 
 
 def get_public_config(data_dir: Path) -> dict[str, Any]:

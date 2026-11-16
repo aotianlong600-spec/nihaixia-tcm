@@ -608,6 +608,19 @@ async def complete_chat(
     }
 
 
+def _codex_models_url(base_url: str) -> str:
+    clean = (base_url or "https://chatgpt.com/backend-api").strip().rstrip("/")
+    if clean.endswith("/codex/models"):
+        root = clean
+    elif clean.endswith("/codex"):
+        root = f"{clean}/models"
+    elif "/backend-api" in clean:
+        root = f"{clean}/codex/models"
+    else:
+        root = f"{clean}/backend-api/codex/models"
+    return f"{root}?client_version=1.0.0"
+
+
 async def list_models(cfg: dict[str, Any], *, client: httpx.AsyncClient | None = None) -> dict[str, Any]:
     """Discover available models from provider API, falling back to curated suggestions."""
     provider_id = cfg.get("provider", "custom")
@@ -615,14 +628,42 @@ async def list_models(cfg: dict[str, Any], *, client: httpx.AsyncClient | None =
     suggested = list(preset.get("suggested_models", []))
     protocol = cfg.get("protocol", "openai_compat")
     base_url = (cfg.get("base_url") or "").strip().rstrip("/")
-    if not base_url:
-        return {"models": suggested, "source": "preset"}
-    if protocol in {"anthropic", "codex_oauth"}:
+    if not base_url or protocol == "anthropic":
         return {"models": suggested, "source": "preset"}
 
     owns_client = client is None
     http = client or _build_client(min(20, int(cfg.get("timeout_sec", 20))))
     try:
+        if protocol == "codex_oauth":
+            if not cfg.get("api_key"):
+                return {"models": suggested, "source": "preset"}
+            headers = {
+                "Authorization": f"Bearer {cfg['api_key']}",
+                "OpenAI-Beta": "responses=experimental",
+                "originator": "codex_cli_rs",
+                "Accept": "application/json",
+            }
+            if cfg.get("codex_account_id"):
+                headers["ChatGPT-Account-Id"] = str(cfg["codex_account_id"])
+            try:
+                r = await http.get(_codex_models_url(base_url), headers=headers)
+                if r.status_code == 200:
+                    payload = r.json()
+                    raw_models = payload.get("models") if isinstance(payload, dict) else []
+                    live_slugs = [
+                        str(m.get("slug")).strip()
+                        for m in (raw_models or [])
+                        if isinstance(m, dict)
+                        and m.get("slug")
+                        and m.get("visibility", "list") != "hide"
+                        and m.get("supported_in_api", True)
+                    ]
+                    if live_slugs:
+                        dedup = list(dict.fromkeys(live_slugs))
+                        return {"models": dedup, "source": "live"}
+            except (httpx.HTTPError, ValueError):
+                pass
+            return {"models": suggested, "source": "preset"}
         if provider_id == "ollama":
             try:
                 r = await http.get(_ollama_tags_url(base_url))

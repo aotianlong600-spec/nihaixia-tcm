@@ -1105,14 +1105,56 @@ def test_llm_client_codex_oauth_responses_streaming_and_errors():
     )
     assert res_fb["text"] == "单次完结文本"
 
-    # Preset models lookup succeeds without upstream network call
-    models = asyncio.run(llm_client.list_models(cfg, client=_mock_async_client(handler)))
-    assert "gpt-5.3-codex" in models["models"]
+    # Live Codex models discovery filters hidden entries and falls back cleanly on error
+    def live_models_handler(req: httpx.Request) -> httpx.Response:
+        assert req.url.path == "/backend-api/codex/models"
+        assert req.url.params.get("client_version") == "1.0.0"
+        return httpx.Response(
+            200,
+            json={
+                "models": [
+                    {"slug": "gpt-6.1-sol", "visibility": "list", "supported_in_api": True},
+                    {"slug": "gpt-5.6-sol", "visibility": "list", "supported_in_api": True},
+                    {"slug": "gpt-reserve", "visibility": "hide", "supported_in_api": True},
+                    {"slug": "internal-only", "visibility": "list", "supported_in_api": False},
+                ]
+            },
+        )
+
+    live_models = asyncio.run(llm_client.list_models(cfg, client=_mock_async_client(live_models_handler)))
+    assert live_models["source"] == "live"
+    assert live_models["models"] == ["gpt-6.1-sol", "gpt-5.6-sol"]
+
+    # Preset fallback succeeds cleanly when /codex/models is unreachable or unauthenticated
+    models = asyncio.run(llm_client.list_models({**cfg, "api_key": ""}, client=_mock_async_client(handler)))
+    assert "gpt-5.6-sol" in models["models"]
     assert models["source"] == "preset"
 
     # Friendly 401 guidance
     err_401 = llm_client._friendly_http_error(401, '{"error":{"message":"invalid token"}}', protocol="codex_oauth")
     assert "Codex" in err_401
+
+
+def test_codex_auto_adopt_profile_on_login(data_dir: Path):
+    from ai import codex_oauth
+
+    # Existing unconfigured default DeepSeek profile + valid OAuth credential -> auto-adopts Codex profile
+    config_store.save_config(data_dir, {"provider": "deepseek", "model": "deepseek-chat"})
+    jwt_tok = _make_fake_jwt(
+        {"https://api.openai.com/auth": {"chatgpt_account_id": "acc_auto_1", "chatgpt_plan_type": "plus"}}
+    )
+    codex_oauth.write_credential(
+        data_dir,
+        {"type": "oauth", "access": jwt_tok, "refresh": "rt_auto", "expires": 9_999_999_999_999, "account_id": "acc_auto_1"},
+    )
+    adopted = config_store.maybe_auto_adopt_codex_profile(data_dir, models=["gpt-6-sol", "gpt-5.6-sol"])
+    assert adopted is True
+    pub = config_store.get_public_config(data_dir)
+    assert pub["provider"] == "codex"
+    assert pub["model"] == "gpt-5.6-sol"
+    assert pub["ready"] is True
+    assert len(pub["profiles"]) == 2
+
 
 
 

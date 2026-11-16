@@ -783,8 +783,43 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
             "styles": ni_persona.list_persona_styles(),
         }
 
+    async def _fetch_codex_live_models_safe() -> list[str] | None:
+        try:
+            rt = config_store.resolve_runtime_config(
+                data,
+                {
+                    "provider": "codex",
+                    "protocol": "codex_oauth",
+                    "base_url": config_store.PROVIDER_PRESETS["codex"]["base_url"],
+                },
+            )
+            if not rt.get("has_oauth"):
+                return None
+            rt = await codex_oauth.ensure_fresh_runtime_config(data, rt)
+            res = await llm_client.list_models(rt)
+            return list(res.get("models") or []) or None
+        except Exception:
+            return None
+
+    async def _sync_codex_profile_after_login(*, force: bool = False) -> bool:
+        if not codex_oauth.read_credential(data):
+            return False
+        if force:
+            if not config_store.has_codex_profile(data):
+                models = await _fetch_codex_live_models_safe()
+                config_store.ensure_codex_profile_on_login(data, models=models, activate=True)
+                return True
+            return False
+        if config_store.maybe_auto_adopt_codex_profile(data):
+            models = await _fetch_codex_live_models_safe()
+            if models:
+                config_store.ensure_codex_profile_on_login(data, models=models, activate=True)
+            return True
+        return False
+
     @app.get("/api/ai/config")
-    def api_ai_config():
+    async def api_ai_config():
+        await _sync_codex_profile_after_login(force=False)
         return _public_ai_payload()
 
     @app.post("/api/ai/config")
@@ -815,7 +850,10 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
         return _public_ai_payload()
 
     @app.get("/api/ai/codex/status")
-    def api_ai_codex_status():
+    async def api_ai_codex_status():
+        status = codex_oauth.get_public_status(data)
+        login_completed = status.get("logged_in") and (status.get("login") or {}).get("status") == "completed"
+        await _sync_codex_profile_after_login(force=bool(login_completed))
         return {
             **codex_oauth.get_public_status(data),
             "config": _public_ai_payload(),
@@ -841,8 +879,12 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
             status = await codex_oauth.submit_callback_url(data, payload.callback_url)
         except codex_oauth.CodexOAuthError as exc:
             raise HTTPException(status_code=400, detail=str(exc))
+        models = await _fetch_codex_live_models_safe()
+        if not config_store.has_codex_profile(data):
+            config_store.ensure_codex_profile_on_login(data, models=models, activate=True)
         return {
             **status,
+            "models": models or list(config_store.PROVIDER_PRESETS["codex"]["suggested_models"]),
             "config": _public_ai_payload(),
         }
 
@@ -869,6 +911,11 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
         _assert_ai_origin(request)
         override = payload.model_dump(exclude_none=True) if payload else None
         cfg = config_store.resolve_runtime_config(data, override)
+        if cfg.get("protocol") == "codex_oauth" and cfg.get("has_oauth"):
+            try:
+                cfg = await codex_oauth.ensure_fresh_runtime_config(data, cfg)
+            except codex_oauth.CodexOAuthError:
+                pass
         try:
             return await llm_client.list_models(cfg)
         except llm_client.LLMClientError as exc:
