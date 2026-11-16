@@ -7,6 +7,7 @@ import vm from "node:vm";
 const source = await readFile(new URL("../scripts/pages/pages_runtime.js", import.meta.url), "utf8");
 
 function runtime(fetchImpl = fetch) {
+  const session = new Map();
   const storage = new Map([
     ["ni_ai_static_codex_oauth_v1", JSON.stringify({
       access: "synthetic-access", refresh: "synthetic-refresh", expires: Date.now() + 3600000,
@@ -19,6 +20,7 @@ function runtime(fetchImpl = fetch) {
     navigator: {},
     Worker: class { addEventListener() {} },
     localStorage: { getItem: k => storage.get(k) ?? null, setItem: (k, v) => storage.set(k, v) },
+    sessionStorage: { getItem: k => session.get(k) ?? null, setItem: (k, v) => session.set(k, v), removeItem: k => session.delete(k) },
     URL, URLSearchParams, Headers, Request, Response, ReadableStream,
     TextEncoder, TextDecoder, AbortController, DOMException, performance,
     setTimeout: (fn, ms) => setTimeout(fn, Math.min(ms, 200)), clearTimeout,
@@ -26,7 +28,7 @@ function runtime(fetchImpl = fetch) {
   vm.runInNewContext(source.replace(/\}\)\(\);\s*$/, `
     globalThis.helpers = { relayAwareFetch, startStaticCodexLogin, runDirectTest, iterUpstreamEvents, friendlyHttpError };
   })();`), sandbox);
-  return sandbox.helpers;
+  return { ...sandbox.helpers, bridge: sandbox.window.tcmLocalCodexBridge };
 }
 
 async function upstream(t, handler) {
@@ -198,4 +200,36 @@ test("an unknown Codex 403 does not invent a cause", () => {
   const { friendlyHttpError } = runtime();
   const message = friendlyHttpError(403, '{"error":"provider_request_failed"}', "codex_oauth");
   assert.match(message, /尚无法判断具体原因/);
+});
+
+test("explicit local pairing routes Codex through loopback without leaking the pairing key", async () => {
+  const calls = [];
+  const { bridge, relayAwareFetch } = runtime(async (url, init) => {
+    calls.push({ url: String(url), init });
+    if (String(url).endsWith('/pair')) return new Response(JSON.stringify({ service: 'nihaixia-codex-browser-relay', key: 'p'.repeat(43), expires_in: 3600 }));
+    return new Response('ok');
+  });
+  assert.equal(bridge.status().connected, false);
+  await bridge.connect();
+  assert.equal(bridge.status().connected, true);
+  await (await relayAwareFetch('https://chatgpt.com/backend-api/codex/responses', { method: 'POST', body: '{}' })).text();
+  await (await relayAwareFetch('https://api.deepseek.com/v1/chat/completions')).text();
+  bridge.disconnect();
+  await (await relayAwareFetch('https://chatgpt.com/backend-api/codex/responses', { method: 'POST', body: '{}' })).text();
+  assert.equal(calls[1].url, 'http://127.0.0.1:8769/relay');
+  assert.equal(calls[1].init.headers['X-Tcm-Bridge-Key'], 'p'.repeat(43));
+  assert.equal(calls[2].init.headers?.['X-Tcm-Bridge-Key'], undefined);
+  assert.equal(calls[3].url, 'https://nihaixia-model-relay-long600.fairykiwi35.chatgpt.site/relay');
+  assert.equal(calls[3].init.headers['X-Tcm-Bridge-Key'], undefined);
+});
+
+test("pairing refuses an unknown loopback service", async () => {
+  const { bridge } = runtime(async () => new Response(JSON.stringify({ service: 'untrusted', key: 'p'.repeat(43), expires_in: 3600 })));
+  await assert.rejects(bridge.connect(), /本机中转/);
+  assert.equal(bridge.status().connected, false);
+});
+
+test("an expired local pairing asks to reconnect the bridge", () => {
+  const { friendlyHttpError } = runtime();
+  assert.match(friendlyHttpError(401, '{"error":"bridge_pairing_required"}', 'codex_oauth'), /重新连接本机中转/);
 });

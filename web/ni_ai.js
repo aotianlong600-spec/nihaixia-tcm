@@ -1870,6 +1870,15 @@
       urlVal.includes("bigmodel.cn");
     const needsRelayHint = isCodex || prov === "custom" || isCorsRestrictedHost;
     const relayVal = $("#ai-cfg-relay-url")?.value?.trim() || "";
+    const localBridge = window.tcmLocalCodexBridge;
+    $("#ai-cfg-local-bridge-row")?.classList.toggle("hidden", !(window.__TCM_STATIC_WEB__ && isCodex));
+    const bridgeConnected = Boolean(localBridge?.status().connected);
+    const bridgeButton = $("#ai-cfg-local-bridge-btn");
+    if (bridgeButton) bridgeButton.textContent = bridgeConnected ? "断开本机中转" : "连接本机中转";
+    const bridgeStatus = $("#ai-cfg-local-bridge-status");
+    if (bridgeStatus) bridgeStatus.textContent = bridgeConnected
+      ? "已连接本机：Codex 请求使用当前电脑的网络。请保持本机中转程序运行。"
+      : "先启动本机中转程序，再点击连接。浏览器若询问本地网络权限，请允许；仅当前电脑可用。";
     if (window.__TCM_STATIC_WEB__) {
       const browserBtn = $("#ai-cfg-codex-browser-btn");
       if (browserBtn) browserBtn.textContent = "浏览器登录（手动回调）";
@@ -2615,6 +2624,31 @@
           out.textContent = err.message;
         }
       } finally {
+        if (btn) btn.disabled = false;
+      }
+    });
+
+    $("#ai-cfg-local-bridge-btn")?.addEventListener("click", async () => {
+      const bridge = window.tcmLocalCodexBridge;
+      const btn = $("#ai-cfg-local-bridge-btn");
+      const out = $("#ai-cfg-test-result");
+      if (!bridge) return;
+      try {
+        if (btn) btn.disabled = true;
+        if (bridge.status().connected) {
+          bridge.disconnect();
+          showNotice("已断开本页的本机中转");
+        } else {
+          await bridge.connect();
+          showNotice("已连接本机中转，可继续 Codex 授权或测试连通");
+        }
+      } catch (err) {
+        if (out) {
+          out.className = "ai-cfg-result is-err";
+          out.textContent = err.message;
+        }
+      } finally {
+        syncModalAuthVisibility();
         if (btn) btn.disabled = false;
       }
     });

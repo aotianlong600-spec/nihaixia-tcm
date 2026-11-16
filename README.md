@@ -50,6 +50,7 @@
 - 推送到 `main` 分支后，[.github/workflows/web-app.yml](.github/workflows/web-app.yml) 会自动执行 4 大典籍校验与 `pytest -q`，调用 [scripts/build_pages.py](scripts/build_pages.py) 构建 `dist/` 并部署至 GitHub Pages（访问地址：`https://aotianlong600-spec.github.io/nihaixia-tcm/`，首次使用请在仓库 `Settings -> Pages` 中将 `Source` 设为 `GitHub Actions`）。
 - 网页版通过 Pyodide（浏览器端 Python）运行 5 阶段辨证知识库、`PDF.js` 按需渲染原书扫描页，并使用浏览器 `localStorage` 保存每位问诊人的独立病历历史与 BYOK 模型配置；若未填写 Key 或遭遇浏览器跨域拦截，系统自动无缝回退本地离线辨证出方。
 - 网页版 Codex 登录和调用默认通过项目现有的模型转发服务（`https://nihaixia-model-relay-long600.fairykiwi35.chatgpt.site/relay`），授权令牌经该服务转发至 OpenAI。模型设置中的自定义中转地址可覆盖默认值。模型连通请求设有 20 秒超时，普通对话使用配置的超时时间。
+- 云端转发出口被 Codex 拦截时，可在这台电脑运行 `启动网页版Codex中转.cmd`，再到公网网页“模型设置”点击“连接本机中转”。浏览器询问本地网络权限时需允许。此后 Codex 使用当前电脑的网络；电脑和中转程序需保持运行，手机不能借用自己的 `localhost` 连接这台电脑。配对仅保存在当前标签页会话中，最长 8 小时；中转仅监听 `127.0.0.1:8769`，使用网页提供的授权，在内存中转发至指定 OpenAI 接口。
 - 本地手动打包静态产物测试：
   ```powershell
   python scripts/build_pages.py

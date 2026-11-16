@@ -21,9 +21,12 @@
   const CODEX_SCOPE = "openid profile email offline_access";
   const CODEX_REFRESH_BUFFER_MS = 60000;
   const CODEX_RELAY_URL = "https://nihaixia-model-relay-long600.fairykiwi35.chatgpt.site/relay";
+  const LOCAL_BRIDGE_URL = "http://127.0.0.1:8769";
+  const LOCAL_BRIDGE_KEY = "ni_ai_local_codex_bridge_v1";
   const CODEX_RELAY_TARGETS = new Set([
     CODEX_TOKEN_URL, CODEX_DEVICE_CODE_URL, CODEX_DEVICE_POLL_URL,
     "https://chatgpt.com/backend-api/codex/responses",
+    "https://chatgpt.com/backend-api/codex/models?client_version=1.0.0",
   ]);
 
   const PLACEHOLDER_SVG =
@@ -660,8 +663,35 @@
     );
   }
 
+  function localBridgeSession() {
+    try {
+      const value = JSON.parse(sessionStorage.getItem(LOCAL_BRIDGE_KEY) || "null");
+      return value && /^[A-Za-z0-9_-]{40,128}$/.test(value.key) && value.expires > Date.now() ? value : null;
+    } catch { return null; }
+  }
+
+  window.tcmLocalCodexBridge = {
+    status: () => ({ connected: !!localBridgeSession() }),
+    disconnect: () => sessionStorage.removeItem(LOCAL_BRIDGE_KEY),
+    async connect() {
+      let response;
+      try {
+        response = await relayAwareFetch(`${LOCAL_BRIDGE_URL}/pair`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" }, "", 20000);
+      } catch {
+        throw new Error("本机中转尚未启动，或浏览器未允许连接本机。请先启动本机中转程序，并允许本地网络连接后重试。");
+      }
+      const value = await response.json();
+      if (!response.ok || value.service !== "nihaixia-codex-browser-relay" || !/^[A-Za-z0-9_-]{40,128}$/.test(value.key) || !(value.expires_in > 0 && value.expires_in <= 28800)) {
+        throw new Error("本机中转返回了无效的连接信息，请检查运行的程序。");
+      }
+      sessionStorage.setItem(LOCAL_BRIDGE_KEY, JSON.stringify({ key: value.key, expires: Date.now() + value.expires_in * 1000 }));
+      return this.status();
+    },
+  };
+
   async function relayAwareFetch(targetUrl, init = {}, relayUrl = "", timeoutMs = 20000) {
-    const cleanRelay = String(relayUrl || "").trim().replace(/\/+$/, "") ||
+    const localSession = CODEX_RELAY_TARGETS.has(String(targetUrl)) ? localBridgeSession() : null;
+    const cleanRelay = localSession ? `${LOCAL_BRIDGE_URL}/relay` : String(relayUrl || "").trim().replace(/\/+$/, "") ||
       (CODEX_RELAY_TARGETS.has(String(targetUrl)) ? CODEX_RELAY_URL : "");
     let ac = null;
     let timerId = null;
@@ -695,7 +725,7 @@
         }
         response = await raceAbortable(nativeFetch(cleanRelay, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", ...(localSession ? { "X-Tcm-Bridge-Key": localSession.key } : {}) },
           body: JSON.stringify({
             url: targetUrl,
             method: init.method || "GET",
@@ -1273,6 +1303,7 @@
         `（提示：请切换到支持视觉的模型如 gpt-4o / gpt-4.1 / gemini-2.5-flash / claude-sonnet-4 / qwen-vl，或改用手动点选四诊标签）`
       );
     }
+    if (status === 401 && relayCode === "bridge_pairing_required") return "本机连接已过期，请点击「连接本机中转」重新连接本机中转。";
     if (status === 401) {
       if (protocol === "codex_oauth") {
         return `Codex 登录凭证已失效或权限不足 (HTTP 401)：请重新登录 OpenAI Codex。${detail}`.trim();
@@ -1803,7 +1834,7 @@
       return { models: suggested, source: "preset" };
     }
     if (cfg.protocol === "codex_oauth") {
-      if (!cfg.relay_url) return { models: suggested, source: "preset" };
+      if (!cfg.relay_url && !localBridgeSession()) return { models: suggested, source: "preset" };
       try {
         const liveCfg = await ensureFreshStaticCodexConfig(cfg);
         const headers = { Authorization: `Bearer ${liveCfg.api_key}` };
