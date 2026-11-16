@@ -232,7 +232,14 @@ def build_dist(*, skip_pdfs: bool = False) -> Path:
     # 2. Knowledge & Python runtime bundle.zip
     bundle_path = DIST / "runtime" / "bundle.zip"
     build_bundle_zip(bundle_path)
-    bundle_ver = sha256(bundle_path.read_bytes()).hexdigest()[:14]
+    build_digest = sha256(bundle_path.read_bytes())
+    # Frontend-only fixes must also invalidate the service worker's cached shell.
+    shell_sources = [p for p in WEB_DIR.iterdir() if p.is_file()] + list(PAGES_SRC.glob("*.js"))
+    for source in sorted(shell_sources):
+        build_digest.update(source.relative_to(ROOT).as_posix().encode("utf-8"))
+        build_digest.update(b"\0")
+        build_digest.update(source.read_bytes())
+    bundle_ver = build_digest.hexdigest()[:14]
 
     # 3. Copy PDFs for lazy PDF.js page-scan rendering
     if not skip_pdfs:
