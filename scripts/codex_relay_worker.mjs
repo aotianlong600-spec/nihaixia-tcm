@@ -34,6 +34,8 @@ function isAllowedTarget(rawUrl) {
   if (u.hostname === "chatgpt.com") {
     return u.pathname.startsWith("/backend-api/codex/");
   }
+  // Optional: uncomment below if you also relay OpenCode Zen from GitHub Pages
+  // if (u.hostname === "opencode.ai" && u.pathname.startsWith("/zen/")) return true;
   return false;
 }
 

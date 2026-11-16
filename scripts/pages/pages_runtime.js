@@ -1446,6 +1446,32 @@
     return events;
   }
 
+  function friendlyNetworkError(cfg, rawMsg = "") {
+    const base = String(cfg?.base_url || "");
+    const raw = String(rawMsg || "").trim();
+    if (cfg?.protocol === "codex_oauth" && !cfg?.relay_url) {
+      return codexCorsGuidance("请求 Codex 订阅接口时");
+    }
+    if (location.protocol === "https:" && base.startsWith("http://")) {
+      return (
+        `无法从 HTTPS 静态网页直连纯 HTTP/本地地址（${base}）：浏览器已拦截混合内容(Mixed Content)请求。` +
+        `请启动本地 Python 服务版（http://127.0.0.1:8767/）使用本地模型，或填写 https:// 开头的接口地址。`
+      );
+    }
+    if (base.includes("opencode.ai") || cfg?.provider === "custom") {
+      return (
+        `无法从浏览器直连目标网关（${raw || "CORS 跨域或网络受限"}）：` +
+        `部分网关（如 OpenCode Zen 或第三方中转站）虽支持拉取模型列表，但未对 github.io 开放 POST 跨域预检。` +
+        `建议：(1) 改用允许网页直连的 DeepSeek 官方 / OpenAI 官方 / Google Gemini / Anthropic Claude；` +
+        `(2) 在电脑启动本地服务版（http://127.0.0.1:8767/）免跨域调用；或 (3) 填写自建 CORS 中继地址。`
+      );
+    }
+    if (cfg?.provider === "ollama") {
+      return `无法从浏览器直连本地 Ollama：需设置环境变量 OLLAMA_ORIGINS=* 并改用本地服务版（http://127.0.0.1:8767/）。`;
+    }
+    return `无法从浏览器直连模型接口（${raw || "网络或跨域受限"}）：请检查代理网络或 Base URL；若目标网关不支持浏览器 CORS，请改用本地服务版（http://127.0.0.1:8767/）。`;
+  }
+
   async function* iterUpstreamEvents(cfg, systemPrompt, messages, signal, meta = null) {
     const liveCfg = await ensureFreshStaticCodexConfig(cfg);
     const req = prepareUpstreamRequest(liveCfg, systemPrompt, messages, true, meta);
@@ -1463,10 +1489,7 @@
       );
     } catch (err) {
       if (err?.name === "AbortError") throw err;
-      if (liveCfg.protocol === "codex_oauth") {
-        throw new Error(codexCorsGuidance("请求 Codex 订阅接口时"));
-      }
-      throw new Error(`无法从浏览器直连模型接口：${err?.message || "CORS 或网络受限"}`);
+      throw new Error(friendlyNetworkError(liveCfg, err?.message));
     }
     if (!resp.ok) {
       const errText = await resp.text().catch(() => "");
@@ -1570,7 +1593,7 @@
         return { models: items.length ? Array.from(new Set(items)).sort() : suggested, source: items.length ? "live" : "preset" };
       }
       const headers = cfg.api_key ? { Authorization: `Bearer ${cfg.api_key}` } : {};
-      const r = await nativeFetch(openaiEndpoint(baseUrl, "/models"), { headers });
+      const r = await relayAwareFetch(openaiEndpoint(baseUrl, "/models"), { headers }, cfg.relay_url || "");
       if (!r.ok) throw new Error(friendlyHttpError(r.status, await r.text().catch(() => "")));
       const data = await r.json();
       const ids = (data.data || []).map((m) => String(m?.id || "")).filter(Boolean);
@@ -1632,12 +1655,8 @@
         },
         probeCfg.relay_url || ""
       );
-    } catch (_err) {
-      const hint =
-        probeCfg.provider === "ollama"
-          ? "Ollama 默认需设置 OLLAMA_ORIGINS=* 允许网页端直连，或使用本地 Python 服务版"
-          : "浏览器端直连受网络或目标网关 CORS 策略限制，您仍可直接切回零 Key 离线推演";
-      throw new Error(`无法从浏览器直连模型接口：${hint}。`);
+    } catch (err) {
+      throw new Error(friendlyNetworkError(probeCfg, err?.message));
     }
     if (!resp.ok) {
       throw new Error(friendlyHttpError(resp.status, await resp.text().catch(() => ""), probeCfg.protocol));
@@ -2123,9 +2142,9 @@
           },
           visionCfg.relay_url || ""
         );
-      } catch (_err) {
+      } catch (err) {
         return jsonResponse(
-          { detail: "浏览器端直连识图接口受跨域(CORS)或网络限制，请改用本地 Python 服务版或手动点选四诊标签。" },
+          { detail: friendlyNetworkError(visionCfg, err?.message) },
           400
         );
       }

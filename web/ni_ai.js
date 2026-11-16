@@ -1786,7 +1786,8 @@
           `<code class="ai-codex-user-code">${escapeHtml(login.user_code || "")}</code>` +
           `<button type="button" class="ai-mini-btn" data-copy-codex-code="${escapeHtml(login.user_code || "")}">复制</button>` +
           `</div>` +
-          `<div class="ai-codex-link-row">请打开 <a href="${escapeHtml(verifyUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(verifyUrl)}</a> 并输入设备码，授权完成后此处将自动识别…</div>`;
+          `<div class="ai-codex-link-row">请打开 <a href="${escapeHtml(verifyUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(verifyUrl)}</a> 并输入设备码，授权完成后此处将自动识别…</div>` +
+          `<small class="ai-form-note">若打开链接显示乱码，多为本地代理/安全软件对 OpenAI 页面的 br/zstd 压缩或域名分流异常；请确保 <code>auth.openai.com</code> 与 <code>auth-cdn.oaistatic.com</code> 走同一节点、用无痕窗口打开，或改用「浏览器 OAuth 登录」。</small>`;
       } else if (isPending && login.method === "browser") {
         pendingEl.classList.remove("hidden");
         pendingEl.innerHTML =
@@ -1815,16 +1816,17 @@
     const prov = $("#ai-cfg-provider")?.value || "deepseek";
     const proto = $("#ai-cfg-protocol")?.value || "openai_compat";
     const isCodex = proto === "codex_oauth" || prov === "codex";
+    const needsRelayHint = isCodex || prov === "custom";
     const relayVal = $("#ai-cfg-relay-url")?.value?.trim() || "";
     $("#ai-cfg-key-row")?.classList.toggle("hidden", isCodex);
     $("#ai-cfg-codex-box")?.classList.toggle("hidden", !isCodex);
-    $("#ai-cfg-relay-row")?.classList.toggle("hidden", !(isCodex && (window.__TCM_STATIC_WEB__ || relayVal)));
+    $("#ai-cfg-relay-row")?.classList.toggle("hidden", !(needsRelayHint && (window.__TCM_STATIC_WEB__ || relayVal)));
 
     const envNote = $("#ai-cfg-codex-env-note");
     if (envNote) {
       envNote.textContent = window.__TCM_STATIC_WEB__
-        ? "提示：GitHub Pages 纯静态网页直连 auth.openai.com / chatgpt.com 会受浏览器 CORS 限制，建议在本地服务版（127.0.0.1:8767）一键登录使用，或填写下方自建 CORS 中继地址。"
-        : "本地 Python 服务版已直连 auth.openai.com 与 localhost:1455 回调监听，支持设备码或浏览器一键登录，凭证仅加密/限权存本地 data/codex_oauth.json。";
+        ? "注意：在 GitHub Pages 纯静态网页下，auth.openai.com 虽可打开登录页并下发设备码，但实际提问接口 chatgpt.com/backend-api 不允许浏览器跨站直连（会导致回答退回本地离线并报 Failed to fetch）。要正常用 Codex 对话，请在本地运行服务版（127.0.0.1:8767）或在下方填入自建 CORS 中继地址。"
+        : "本地 Python 服务版已直连 auth.openai.com 与 localhost:1455 回调监听，支持设备码或浏览器一键登录，凭证仅限权存本地 data/codex_oauth.json，对话由后端转发，无任何浏览器跨域限制。";
     }
   }
 
