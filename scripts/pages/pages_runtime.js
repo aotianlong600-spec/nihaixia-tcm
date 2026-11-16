@@ -1665,9 +1665,9 @@
       }
     };
     if (ctype.includes("application/json") && !ctype.includes("text/event-stream")) {
-      const full = await resp.json();
-      if (full && typeof full === "object") full.__full = true;
-      for (const ev of filterEmit(parseUpstreamEvents(liveCfg.protocol, full))) yield ev;
+      const parsed = parseResponsePayloadEvents(liveCfg.protocol, ctype, await resp.text());
+      if (!parsed.parsedAny) throw new Error("模型接口返回了非 JSON/SSE 响应，请核对接口地址");
+      for (const ev of filterEmit(parsed.events)) yield ev;
       return;
     }
     const reader = resp.body.getReader();

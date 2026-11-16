@@ -118,6 +118,16 @@ test("normal JSON completions still pass the connection test", async t => {
   assert.equal(result.reply_preview, "已连通");
 });
 
+test("a buffered Codex stream works when a relay labels it as JSON", async t => {
+  const url = await upstream(t, (_req, res) => {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end('data: {"type":"response.completed","response":{"status":"completed","output":[{"content":[{"type":"output_text","text":"已连通"}]}]}}\n\n');
+  });
+  const { runDirectTest } = runtime((_url, init) => fetch(url, init));
+  const result = await runDirectTest({ ...cfg, protocol: "codex_oauth", base_url: url });
+  assert.equal(result.reply_preview, "已连通");
+});
+
 test("manual cancellation still aborts a body read", async t => {
   const url = await upstream(t, (_req, res) => { res.writeHead(200); res.flushHeaders(); });
   const controller = new AbortController();
