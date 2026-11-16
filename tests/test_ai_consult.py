@@ -1224,14 +1224,20 @@ def test_cors_direct_presets_and_prefixed_deepseek_slugs() -> None:
 
 
 def test_pages_runtime_has_static_meta_placeholder_and_direct_helpers() -> None:
-    src = (Path(__file__).resolve().parents[1] / "scripts" / "pages" / "pages_runtime.js").read_text(
-        encoding="utf-8"
-    )
+    root = Path(__file__).resolve().parents[1]
+    src = (root / "scripts" / "pages" / "pages_runtime.js").read_text(encoding="utf-8")
     for token in (
         "null /* __STATIC_AI_META__ */",
         "function cleanApiKey",
         "function openaiModelsUrl",
         "function codexModelsUrl",
         "function parseResponsePayloadEvents",
+        "function waitForWorkerReady",
+        "function buildFallbackStaticPrompt",
+        "readyReject(",
     ):
         assert token in src
+
+    ni_js = (root / "web" / "ni_ai.js").read_text(encoding="utf-8")
+    assert "#ai-cfg-model-pills [data-ai-pick-model]" in ni_js
+    assert "aiPickModel" in ni_js

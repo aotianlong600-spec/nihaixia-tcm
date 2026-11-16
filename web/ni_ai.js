@@ -1532,7 +1532,12 @@
 
     // Ensure patient & active session exist in SQLite before first turn
     if (!niState.activePatientId || !niState.activeSessionId) {
-      await createNewSession({ clearPinned: false, intakeOverride: niState.intake });
+      try {
+        await createNewSession({ clearPinned: false, intakeOverride: niState.intake });
+      } catch (err) {
+        showNotice(err?.message || "创建问诊会话失败");
+        return;
+      }
     }
 
     const pulse = niState.intake.pulses.join(" ");
@@ -1857,8 +1862,13 @@
   function syncModalAuthVisibility() {
     const prov = $("#ai-cfg-provider")?.value || "deepseek";
     const proto = $("#ai-cfg-protocol")?.value || "openai_compat";
+    const urlVal = String($("#ai-cfg-url")?.value || "").trim().toLowerCase();
     const isCodex = proto === "codex_oauth" || prov === "codex";
-    const needsRelayHint = isCodex || prov === "custom";
+    const isCorsRestrictedHost =
+      urlVal.includes("opencode.ai") ||
+      urlVal.includes("moonshot.cn") ||
+      urlVal.includes("bigmodel.cn");
+    const needsRelayHint = isCodex || prov === "custom" || isCorsRestrictedHost;
     const relayVal = $("#ai-cfg-relay-url")?.value?.trim() || "";
     $("#ai-cfg-key-row")?.classList.toggle("hidden", isCodex);
     $("#ai-cfg-codex-box")?.classList.toggle("hidden", !isCodex);
@@ -1869,6 +1879,20 @@
       envNote.textContent = window.__TCM_STATIC_WEB__
         ? "注意：在 GitHub Pages 纯静态网页下，auth.openai.com 虽可打开登录页并下发设备码，但实际提问接口 chatgpt.com/backend-api 不允许浏览器跨站直连（会导致回答退回本地离线并报 Failed to fetch）。要正常用 Codex 对话，请在本地运行服务版（127.0.0.1:8767）或在下方填入自建 CORS 中继地址。"
         : "本地 Python 服务版已直连 auth.openai.com 与 localhost:1455 回调监听，支持设备码或浏览器一键登录，凭证仅限权存本地 data/codex_oauth.json，对话由后端转发，无任何浏览器跨域限制。";
+    }
+
+    const provNote = $("#ai-cfg-provider-note");
+    if (provNote) {
+      if (window.__TCM_STATIC_WEB__ && urlVal.includes("opencode.ai") && !relayVal) {
+        provNote.textContent =
+          "⚠️ OpenCode 提示：opencode.ai 仅允许拉取模型列表，服务端未对 github.io 开放对话 POST 跨域权限（测试连通/发送对话会被浏览器拦截）。请改用本地版 (127.0.0.1:8767)、下方填入 CORS 中继地址，或切换为 DeepSeek / 硅基流动 / 阿里云百炼 / OpenRouter。";
+      } else if (window.__TCM_STATIC_WEB__ && (urlVal.includes("moonshot.cn") || urlVal.includes("bigmodel.cn")) && !relayVal) {
+        provNote.textContent =
+          "⚠️ 跨域提示：该网关当前未对 github.io 开放浏览器 POST 跨域，测试或对话时会被浏览器拦截；建议改用本地版 (127.0.0.1:8767) 或切换 DeepSeek / 硅基流动 / 阿里云百炼 / OpenRouter。";
+      } else {
+        const preset = (niState.config?.presets || []).find((p) => p.id === prov);
+        provNote.textContent = preset?.note || "";
+      }
     }
   }
 
@@ -1961,7 +1985,10 @@
         .join("");
     }
     if ($("#ai-cfg-provider-note")) {
-      $("#ai-cfg-provider-note").textContent = preset?.note || "";
+      const presetUrl = String($("#ai-cfg-url")?.value || "").trim().toLowerCase();
+      if (!(window.__TCM_STATIC_WEB__ && (presetUrl.includes("opencode.ai") || presetUrl.includes("moonshot.cn") || presetUrl.includes("bigmodel.cn")) && !$("#ai-cfg-relay-url")?.value?.trim())) {
+        $("#ai-cfg-provider-note").textContent = preset?.note || "";
+      }
     }
     syncModalReasoningSelect();
   }
@@ -2546,6 +2573,9 @@
       syncModalAuthVisibility();
       syncModalReasoningSelect();
     });
+    $("#ai-cfg-url")?.addEventListener("input", () => syncModalAuthVisibility());
+    $("#ai-cfg-url")?.addEventListener("change", () => syncModalAuthVisibility());
+    $("#ai-cfg-relay-url")?.addEventListener("input", () => syncModalAuthVisibility());
     $("#ai-cfg-model")?.addEventListener("input", () => syncModalReasoningSelect());
     $("#ai-cfg-model")?.addEventListener("change", () => syncModalReasoningSelect());
 
@@ -2748,7 +2778,7 @@
         });
         if (out) {
           out.className = "ai-cfg-result is-ok";
-          out.textContent = `连接成功 · ${res.model} · 延迟 ${res.latency_ms} ms · 返回：“${res.reply_preview}”（请点击右下角「保存并应用」使配置生效）`;
+          out.textContent = `连接成功 · ${res.model} · 延迟 ${res.latency_ms} ms · 返回：“${res.reply_preview}”（请点击右下角「保存配置」使配置生效）`;
         }
       } catch (err) {
         if (out) {
@@ -2773,9 +2803,9 @@
         niState.reasoningEffort = saved.reasoning_effort || "auto";
         if ($("#ai-style-select")) $("#ai-style-select").value = niState.style;
         const pillModels = Array.from(
-          document.querySelectorAll("#ai-cfg-model-pills .ai-model-pill[data-model]")
+          document.querySelectorAll("#ai-cfg-model-pills [data-ai-pick-model]")
         )
-          .map((btn) => String(btn.dataset.model || "").trim())
+          .map((btn) => String(btn.dataset.aiPickModel || "").trim())
           .filter(Boolean);
         if (pillModels.length) {
           saveCachedModelsForProfile(

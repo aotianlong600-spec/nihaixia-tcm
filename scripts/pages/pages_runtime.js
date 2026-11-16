@@ -164,9 +164,13 @@
   let workerReady = false;
   let workerFailed = null;
   let readyResolve;
-  const readyPromise = new Promise((r) => {
-    readyResolve = r;
+  let readyReject;
+  const readyPromise = new Promise((res, rej) => {
+    readyResolve = res;
+    readyReject = rej;
   });
+  // Prevent unhandled rejection warning if worker fails before anyone awaits readyPromise
+  readyPromise.catch(() => {});
 
   const worker = new Worker("./pages_worker.js?v=__BUILD_ID__", { type: "module" });
   worker.addEventListener("message", (event) => {
@@ -178,13 +182,14 @@
     }
     if (msg.type === "ready") {
       workerReady = true;
-      readyResolve();
+      readyResolve(true);
       return;
     }
     if (msg.type === "init_error") {
       workerFailed = msg.error || "引擎初始化失败";
       const note = document.getElementById("dataset-note");
       if (note) note.textContent = `离线引擎初始化失败：${workerFailed}`;
+      readyReject(new Error(workerFailed));
       for (const [, p] of pending) {
         p.reject(new Error(workerFailed));
       }
@@ -205,13 +210,54 @@
 
   worker.addEventListener("error", (err) => {
     workerFailed = err?.message || "Web Worker 加载失败";
+    readyReject(new Error(workerFailed));
     for (const [, p] of pending) p.reject(new Error(workerFailed));
     pending.clear();
   });
 
-  async function callWorker(apiUrl, method = "GET", bodyPayload = null) {
+  function raceAbortable(promise, signal = null) {
+    if (!signal) return promise;
+    if (signal.aborted) {
+      return Promise.reject(new DOMException("Aborted", "AbortError"));
+    }
+    return new Promise((resolve, reject) => {
+      const onAbort = () => reject(new DOMException("Aborted", "AbortError"));
+      signal.addEventListener("abort", onAbort, { once: true });
+      promise.then(
+        (v) => {
+          signal.removeEventListener("abort", onAbort);
+          resolve(v);
+        },
+        (e) => {
+          signal.removeEventListener("abort", onAbort);
+          reject(e);
+        }
+      );
+    });
+  }
+
+  async function waitForWorkerReady(maxWaitMs = 0, signal = null) {
+    if (workerReady) return "ready";
+    if (workerFailed) return "failed";
+    if (maxWaitMs > 0) {
+      let timerId = null;
+      const timeoutP = new Promise((r) => {
+        timerId = setTimeout(() => r("timeout"), maxWaitMs);
+      });
+      const readyP = readyPromise.then(() => "ready", () => "failed");
+      try {
+        return await raceAbortable(Promise.race([readyP, timeoutP]), signal);
+      } finally {
+        if (timerId !== null) clearTimeout(timerId);
+      }
+    }
+    await raceAbortable(readyPromise, signal);
+    return workerReady ? "ready" : "failed";
+  }
+
+  async function callWorker(apiUrl, method = "GET", bodyPayload = null, signal = null) {
     if (workerFailed) throw new Error(workerFailed);
-    if (!workerReady) await readyPromise;
+    if (!workerReady) await raceAbortable(readyPromise, signal);
     const id = ++reqSeq;
     const bodyStr =
       bodyPayload == null
@@ -219,10 +265,11 @@
         : typeof bodyPayload === "string"
         ? bodyPayload
         : JSON.stringify(bodyPayload);
-    return await new Promise((resolve, reject) => {
+    const rpcPromise = new Promise((resolve, reject) => {
       pending.set(id, { resolve, reject });
       worker.postMessage({ type: "api", id, url: apiUrl, method, body: bodyStr });
     });
+    return await raceAbortable(rpcPromise, signal);
   }
 
   let presetsPromise = null;
@@ -608,35 +655,53 @@
     );
   }
 
-  async function relayAwareFetch(targetUrl, init = {}, relayUrl = "") {
+  async function relayAwareFetch(targetUrl, init = {}, relayUrl = "", timeoutMs = 0) {
     const cleanRelay = String(relayUrl || "").trim().replace(/\/+$/, "");
-    if (!cleanRelay) {
-      return await nativeFetch(targetUrl, init);
+    let ac = null;
+    let timerId = null;
+    let effectiveSignal = init.signal;
+    const onParentAbort = () => ac && ac.abort();
+    if (timeoutMs > 0) {
+      ac = new AbortController();
+      if (init.signal) {
+        if (init.signal.aborted) ac.abort();
+        else init.signal.addEventListener("abort", onParentAbort, { once: true });
+      }
+      timerId = setTimeout(() => ac.abort(new DOMException(`请求超时（>${Math.round(timeoutMs / 1000)}秒）`, "TimeoutError")), timeoutMs);
+      effectiveSignal = ac.signal;
     }
-    const headersObj = {};
-    if (init.headers instanceof Headers) {
-      init.headers.forEach((v, k) => {
-        headersObj[k] = v;
+    try {
+      if (!cleanRelay) {
+        return await nativeFetch(targetUrl, { ...init, signal: effectiveSignal });
+      }
+      const headersObj = {};
+      if (init.headers instanceof Headers) {
+        init.headers.forEach((v, k) => {
+          headersObj[k] = v;
+        });
+      } else if (init.headers && typeof init.headers === "object") {
+        Object.assign(headersObj, init.headers);
+      }
+      let bodyPayload = init.body;
+      if (typeof bodyPayload === "string" && headersObj["Content-Type"]?.includes("application/json")) {
+        const parsed = safeParseJson(bodyPayload, null);
+        if (parsed && typeof parsed === "object") bodyPayload = parsed;
+      }
+      return await nativeFetch(cleanRelay, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: targetUrl,
+          method: init.method || "GET",
+          headers: headersObj,
+          body: bodyPayload,
+        }),
+        signal: effectiveSignal,
       });
-    } else if (init.headers && typeof init.headers === "object") {
-      Object.assign(headersObj, init.headers);
+    } finally {
+      if (timerId !== null) clearTimeout(timerId);
+      if (init.signal && ac) init.signal.removeEventListener("abort", onParentAbort);
     }
-    let bodyPayload = init.body;
-    if (typeof bodyPayload === "string" && headersObj["Content-Type"]?.includes("application/json")) {
-      const parsed = safeParseJson(bodyPayload, null);
-      if (parsed && typeof parsed === "object") bodyPayload = parsed;
-    }
-    return await nativeFetch(cleanRelay, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        url: targetUrl,
-        method: init.method || "GET",
-        headers: headersObj,
-        body: bodyPayload,
-      }),
-      signal: init.signal,
-    });
   }
 
   function b64UrlEncode(bytes) {
@@ -1502,10 +1567,12 @@
     }
     if (base.includes("opencode.ai") || cfg?.provider === "custom") {
       return (
-        `无法从浏览器直连目标网关（${raw || "CORS 跨域或网络受限"}）：` +
-        `部分网关（如 OpenCode Zen 或第三方中转站）虽支持拉取模型列表，但未对 github.io 开放 POST 跨域预检。` +
-        `建议：(1) 改用网页版可直连的 DeepSeek 官方 / 硅基流动 / 阿里云百炼 / OpenRouter / OpenAI 官方 / Gemini / Claude；` +
-        `(2) 在电脑启动本地服务版（http://127.0.0.1:8767/）免跨域调用；或 (3) 填写自建 CORS 中继地址。`
+        `无法从浏览器直连目标网关（${raw || "CORS 跨域或请求超时"}）：` +
+        (base.includes("opencode.ai")
+          ? `OpenCode (${base}) 仅对 /models 开放 GET 跨域，服务端未对 github.io 开放对话 POST 跨域头（Access-Control-Allow-Origin），因此网页端发送对话或测试连通会被浏览器直接拦截（非 Key 错误）。`
+          : `部分第三方中转站虽支持拉取模型列表，但未对 github.io 开放 POST 跨域预检。`) +
+        `建议：(1) 网页版可直接选用标注「网页版可直连」的 DeepSeek 官方 / 硅基流动 / 阿里云百炼 / OpenRouter / OpenAI 官方 / Gemini / Claude；` +
+        `(2) 启动本地 Python 服务版（http://127.0.0.1:8767/）可免跨域直接调用 OpenCode；或 (3) 填写支持目标站点的 CORS 中继地址（见 scripts/codex_relay_worker.mjs）。`
       );
     }
     if (cfg?.provider === "ollama") {
@@ -1705,7 +1772,7 @@
         return { models: items.length ? Array.from(new Set(items)).sort() : suggested, source: items.length ? "live" : "preset" };
       }
       const headers = cfg.api_key ? { Authorization: `Bearer ${cfg.api_key}` } : {};
-      const r = await relayAwareFetch(openaiModelsUrl(baseUrl), { headers }, cfg.relay_url || "");
+      const r = await relayAwareFetch(openaiModelsUrl(baseUrl), { headers }, cfg.relay_url || "", 15000);
       if (!r.ok) throw new Error(friendlyHttpError(r.status, await r.text().catch(() => "")));
       const data = await r.json();
       const rawList = Array.isArray(data?.data) ? data.data : Array.isArray(data?.models) ? data.models : Array.isArray(data) ? data : [];
@@ -1768,9 +1835,13 @@
           headers: req.headers,
           body: JSON.stringify(req.body),
         },
-        probeCfg.relay_url || ""
+        probeCfg.relay_url || "",
+        20000
       );
     } catch (err) {
+      if (err?.name === "TimeoutError" || String(err?.message || "").includes("超时")) {
+        throw new Error(`测试连接超时（>20秒）：请检查网络、代理或 Base URL (${probeCfg.base_url}) 是否可达`);
+      }
       throw new Error(friendlyNetworkError(probeCfg, err?.message));
     }
     if (!resp.ok) {
@@ -2325,16 +2396,59 @@
       return jsonResponse({ ...parsed.body, provider: cfg.provider, model: cfg.model }, parsed.status || 200);
     }
 
+  function buildFallbackStaticPrompt(body, styleId) {
+    const query = String(body?.query || "").trim();
+    const pulse = String(body?.pulse || "").trim();
+    const tongue = String(body?.tongue || "").trim();
+    const history = Array.isArray(body?.history) ? body.history : [];
+    const images = Array.isArray(body?.images) ? body.images : [];
+    const styleNote =
+      styleId === "colloquial_lecture"
+        ? "请以倪海厦课堂口述风格通俗阐明寒热虚实与阴阳表里，并用清晰结构列出辨证思路、参考处方与煎服禁忌。"
+        : styleId === "academic_strict"
+        ? "请紧扣《伤寒杂病论》《黄帝内经》《神农本草经》严谨辨证，明确证型、病机、治则与方药加减说明。"
+        : "请兼顾中医经方理论与通俗讲解，清楚给出病机辨证、参考方药思路、煎服与禁忌提醒。";
+    const systemPrompt =
+      `你是传承倪海厦师门经方思维的中医临床学习助手。${styleNote}\n` +
+      `注意：当前静态网页全库本地实证检索包尚在后台下载/载入中，请基于经典经方与四诊规律给出清晰分析，同时提醒用户线下确诊以执业医师当面诊察为准。`;
+    const userContent = [
+      query ? `主诉与症状：${query}` : "",
+      pulse ? `脉象：${pulse}` : "",
+      tongue ? `舌象：${tongue}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+    const messages = [];
+    for (const h of history) {
+      if (h && typeof h.content === "string" && h.content.trim()) {
+        messages.push({ role: h.role === "assistant" ? "assistant" : "user", content: h.content });
+      }
+    }
+    messages.push({
+      role: "user",
+      content: userContent || query || "请依据所附信息进行经方辨证分析。",
+      ...(images.length ? { images } : {}),
+    });
+    const packet = {
+      query,
+      pulse,
+      tongue,
+      citations: [],
+      formulas: [],
+      notes: ["经典实证全库包仍在后台载入中，本次直连云端模型先行回复"],
+    };
+    const offlineReply =
+      workerFailed
+        ? `当前浏览器离线经典知识引擎加载异常（${workerFailed}），请刷新重试或改用本地服务版（http://127.0.0.1:8767/）。`
+        : "浏览器仍在下载/载入 15MB 离线经典知识库，请稍候完成后重试离线直出，或点击右上角「模型设置」填写 DeepSeek / 硅基流动 / 阿里云百炼 / OpenRouter 等网页版可直连 API Key。";
+    return { packet, system_prompt: systemPrompt, messages, offline_reply: offlineReply };
+  }
+
     if (apiPath === "/api/ai/chat/stream" && method === "POST") {
       const cfgOverride = body?.config_override ? { ...body.config_override } : {};
       if (body?.reasoning_effort) cfgOverride.reasoning_effort = body.reasoning_effort;
       const cfg = toRuntimeConfig(meta, Object.keys(cfgOverride).length ? cfgOverride : null);
       const style = String(body?.style || cfg.persona_style || "master_balanced");
-      const prepRes = await callWorker("/api/ai/prepare-prompt", "POST", { ...body, style });
-      if ((prepRes.status || 200) >= 400) {
-        return jsonResponse(prepRes.body, prepRes.status);
-      }
-      const { packet, system_prompt, messages, offline_reply } = prepRes.body;
       const useOffline = Boolean(body?.offline || !cfg.ready);
       const mode = useOffline ? "offline" : "live";
 
@@ -2348,6 +2462,41 @@
       const stream = new ReadableStream({
         async start(controller) {
           try {
+            let prep;
+            const readyStatus = await waitForWorkerReady(useOffline ? 800 : 2000, signal);
+            if (readyStatus === "ready") {
+              const prepRes = await callWorker("/api/ai/prepare-prompt", "POST", { ...body, style }, signal);
+              if ((prepRes.status || 200) >= 400) {
+                throw new Error(prepRes.body?.detail || "提示词装配失败");
+              }
+              prep = prepRes.body;
+            } else if (!useOffline) {
+              // Live online model configured: never stall waiting for 15.9MB bundle.zip
+              prep = buildFallbackStaticPrompt(body, style);
+            } else {
+              // Offline-only mode while first-time Pyodide/bundle.zip is still downloading: emit instant feedback first
+              sendFrame(controller, "context", {
+                mode: "offline",
+                provider: cfg.provider,
+                model: cfg.model,
+                style,
+                packet: { query: String(body?.query || ""), citations: [], formulas: [] },
+              });
+              sendFrame(controller, "delta", {
+                text: "⏳ 浏览器首次访问正在下载并解压经典知识库（约 15 MB，完成后自动本地缓存），请稍候几秒，就绪后自动输出实证辩证…\n\n",
+              });
+              const finalStatus = await waitForWorkerReady(0, signal);
+              if (finalStatus !== "ready") {
+                throw new Error(workerFailed || "离线经典知识库初始化失败，请刷新重试");
+              }
+              const prepRes = await callWorker("/api/ai/prepare-prompt", "POST", { ...body, style }, signal);
+              if ((prepRes.status || 200) >= 400) {
+                throw new Error(prepRes.body?.detail || "提示词装配失败");
+              }
+              prep = prepRes.body;
+            }
+
+            const { packet, system_prompt, messages, offline_reply } = prep;
             sendFrame(controller, "context", {
               mode,
               provider: cfg.provider,
@@ -2360,10 +2509,12 @@
               for (let idx = 0; idx < offline_reply.length; idx += 80) {
                 sendFrame(controller, "delta", { text: offline_reply.slice(idx, idx + 80) });
               }
-              const citeRes = await callWorker("/api/ai/extract-refs", "POST", {
-                text: offline_reply,
-                citations: packet.citations || [],
-              });
+              const citeRes = workerReady
+                ? await callWorker("/api/ai/extract-refs", "POST", {
+                    text: offline_reply,
+                    citations: packet.citations || [],
+                  }, signal)
+                : { body: [] };
               sendFrame(controller, "done", {
                 mode: "offline",
                 provider: cfg.provider,
@@ -2400,10 +2551,12 @@
               }
               const detail = String(err?.message || "浏览器直连模型受限或网络异常");
               sendFrame(controller, "error", { detail, fallback_text: offline_reply });
-              const citeRes = await callWorker("/api/ai/extract-refs", "POST", {
-                text: offline_reply,
-                citations: packet.citations || [],
-              });
+              const citeRes = workerReady
+                ? await callWorker("/api/ai/extract-refs", "POST", {
+                    text: offline_reply,
+                    citations: packet.citations || [],
+                  }, signal).catch(() => ({ body: [] }))
+                : { body: [] };
               sendFrame(controller, "done", {
                 mode: "offline_fallback",
                 error: detail,
@@ -2417,10 +2570,12 @@
             }
 
             const fullText = textParts.join("");
-            const citeRes = await callWorker("/api/ai/extract-refs", "POST", {
-              text: fullText,
-              citations: packet.citations || [],
-            });
+            const citeRes = workerReady
+              ? await callWorker("/api/ai/extract-refs", "POST", {
+                  text: fullText,
+                  citations: packet.citations || [],
+                }, signal).catch(() => ({ body: [] }))
+              : { body: [] };
             sendFrame(controller, "done", {
               mode: "live",
               provider: cfg.provider,
@@ -2433,7 +2588,18 @@
             });
             controller.close();
           } catch (fatalErr) {
-            controller.error(fatalErr);
+            if (fatalErr?.name === "AbortError") {
+              controller.close();
+              return;
+            }
+            const errMsg = String(fatalErr?.message || fatalErr || "静态推理引擎异常");
+            try {
+              sendFrame(controller, "error", { detail: errMsg });
+              sendFrame(controller, "done", { mode: "error", error: errMsg, text: "" });
+              controller.close();
+            } catch (_e) {
+              controller.error(fatalErr);
+            }
           }
         },
       });
