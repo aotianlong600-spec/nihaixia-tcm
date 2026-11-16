@@ -1246,8 +1246,10 @@
 
   function friendlyHttpError(status, bodyText, protocol = "") {
     let detail = "";
+    let relayCode = "";
     try {
       const parsed = JSON.parse(bodyText);
+      relayCode = typeof parsed?.error === "string" ? parsed.error : "";
       const err = parsed?.error && typeof parsed.error === "object" ? parsed.error : null;
       detail = String(err?.message || err?.detail || parsed?.message || parsed?.detail || "");
     } catch (_err) {
@@ -1276,6 +1278,18 @@
         return `Codex 登录凭证已失效或权限不足 (HTTP 401)：请重新登录 OpenAI Codex。${detail}`.trim();
       }
       return `认证失败 (HTTP 401)：请检查 API Key 是否有效或有余额。${detail}`.trim();
+    }
+    if (status === 403 && protocol === "codex_oauth") {
+      if (["provider_access_blocked", "provider_challenge"].includes(relayCode)) {
+        return "Codex 转发服务器访问被上游拦截 (HTTP 403)。设备码授权与模型调用走不同接口；当前请使用本机版，或更换能访问 Codex 的可信转发服务。";
+      }
+      if (relayCode === "provider_region_blocked") {
+        return "Codex 转发服务器所在地受到上游区域限制 (HTTP 403)，请使用可访问该服务的转发出口或本机版。";
+      }
+      if (["model_not_found", "unsupported_model"].includes(relayCode)) {
+        return "所选 Codex 模型不可访问 (HTTP 403)，请核对模型 ID 和账号可用模型。";
+      }
+      return `Codex 拒绝了模型请求 (HTTP 403)，尚无法判断具体原因；请核对模型访问权限及中转服务状态。${detail}`;
     }
     if (status === 403) return `权限或区域受限 (HTTP 403)：${detail}`.trim();
     if (status === 404) return `接口或模型不存在 (HTTP 404)：请检查 Base URL 与模型名称。${detail}`.trim();

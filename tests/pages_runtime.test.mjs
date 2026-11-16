@@ -184,3 +184,18 @@ test("custom relays are preserved and other providers stay direct", async () => 
   await (await relayAwareFetch("https://api.deepseek.com/v1/chat/completions")).text();
   assert.deepEqual(calls, ["https://relay.example", "https://api.deepseek.com/v1/chat/completions"]);
 });
+
+test("Codex HTML blocks identify the relay instead of blaming the user's region", () => {
+  const { friendlyHttpError } = runtime();
+  for (const error of ["provider_access_blocked", "provider_challenge"]) {
+    const message = friendlyHttpError(403, JSON.stringify({ error, upstream_format: "html" }), "codex_oauth");
+    assert.match(message, /转发服务器.*拦截/);
+    assert.equal(message.includes("权限或区域受限"), false);
+  }
+});
+
+test("an unknown Codex 403 does not invent a cause", () => {
+  const { friendlyHttpError } = runtime();
+  const message = friendlyHttpError(403, '{"error":"provider_request_failed"}', "codex_oauth");
+  assert.match(message, /尚无法判断具体原因/);
+});

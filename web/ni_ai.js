@@ -1870,6 +1870,12 @@
       urlVal.includes("bigmodel.cn");
     const needsRelayHint = isCodex || prov === "custom" || isCorsRestrictedHost;
     const relayVal = $("#ai-cfg-relay-url")?.value?.trim() || "";
+    if (window.__TCM_STATIC_WEB__) {
+      const browserBtn = $("#ai-cfg-codex-browser-btn");
+      if (browserBtn) browserBtn.textContent = "浏览器登录（手动回调）";
+      const callbackLabel = $('label[for="ai-cfg-codex-callback-input"]');
+      if (callbackLabel) callbackLabel.textContent = "授权后若显示 localhost:1455 无法访问，请复制该页完整地址粘贴到这里，再点「提交回调链接」。保持本页打开，不要刷新。";
+    }
     $("#ai-cfg-key-row")?.classList.toggle("hidden", isCodex);
     $("#ai-cfg-codex-box")?.classList.toggle("hidden", !isCodex);
     $("#ai-cfg-relay-row")?.classList.toggle("hidden", !(needsRelayHint && (window.__TCM_STATIC_WEB__ || relayVal)));
@@ -1877,7 +1883,7 @@
     const envNote = $("#ai-cfg-codex-env-note");
     if (envNote) {
       envNote.textContent = window.__TCM_STATIC_WEB__
-        ? "网页版已接入本项目的 Codex 转发服务，完成 OpenAI 设备码或浏览器授权后即可测试连接。授权令牌会经该服务转发至 OpenAI；如需使用其他可信服务，可填写下方的中转地址。"
+        ? "设备码和浏览器授权任选一种；网页版的浏览器授权需要手动粘贴回调链接。授权令牌与模型请求经本项目的转发服务发送至 OpenAI。转发出口被上游拦截时，可使用本机版或填写其他可信中转地址。"
         : "本地 Python 服务版已直连 auth.openai.com 与 localhost:1455 回调监听，支持设备码或浏览器一键登录，凭证仅限权存本地 data/codex_oauth.json，对话由后端转发，无任何浏览器跨域限制。";
     }
 
