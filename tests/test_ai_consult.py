@@ -558,7 +558,8 @@ def test_mobile_responsive_hooks_and_pages_builder_helpers():
         400,
         '{"error":{"message":"Request is missing x-opencode-session and cannot be routed efficiently."}}',
     )
-    assert "OpenCode Go" in opencode_msg
+    assert "当前客户端请求" in opencode_msg
+    assert "免费模型" in opencode_msg
     assert "x-opencode-session" in opencode_msg
 
 
@@ -1241,3 +1242,34 @@ def test_pages_runtime_has_static_meta_placeholder_and_direct_helpers() -> None:
     ni_js = (root / "web" / "ni_ai.js").read_text(encoding="utf-8")
     assert "#ai-cfg-model-pills [data-ai-pick-model]" in ni_js
     assert "aiPickModel" in ni_js
+
+
+@pytest.mark.parametrize("terminal", ["[DONE]", '{"type":"response.completed"}', '{"type":"message_stop"}'])
+def test_llm_stream_finishes_at_protocol_end_without_http_close(terminal: str):
+    class KeepOpenStream(httpx.AsyncByteStream):
+        async def __aiter__(self):
+            yield b'data: {"choices":[{"delta":{"content":"connected"}}]}\n\n'
+            yield f"data: {terminal}\n\n".encode()
+            await asyncio.Event().wait()
+
+    async def run():
+        async with _mock_async_client(lambda req: httpx.Response(
+            200, headers={"content-type": "text/event-stream"}, stream=KeepOpenStream()
+        )) as cli:
+            return await asyncio.wait_for(llm_client.complete_chat(
+                {"protocol": "openai_compat", "base_url": "https://opencode.ai/zen/v1",
+                 "model": "synthetic-model", "api_key": "synthetic-key"},
+                "test", [{"role": "user", "content": "test"}], client=cli,
+            ), timeout=0.3)
+
+    assert asyncio.run(run())["text"] == "connected"
+
+
+def test_opencode_credit_error_distinguishes_payg_from_go_subscription():
+    message = llm_client._friendly_http_error(
+        402,
+        json.dumps({"error": {"message": "Insufficient balance. This request is pay-as-you-go, billed to OpenCode Models credits. OpenCode Go covers only requests to the OpenCode Go provider."}}),
+    )
+    assert "按量余额不足" in message
+    assert "Go 订阅" in message
+    assert "HTTP 402" in message

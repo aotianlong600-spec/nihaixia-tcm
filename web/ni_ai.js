@@ -1877,7 +1877,7 @@
     const envNote = $("#ai-cfg-codex-env-note");
     if (envNote) {
       envNote.textContent = window.__TCM_STATIC_WEB__
-        ? "注意：在 GitHub Pages 纯静态网页下，auth.openai.com 虽可打开登录页并下发设备码，但实际提问接口 chatgpt.com/backend-api 不允许浏览器跨站直连（会导致回答退回本地离线并报 Failed to fetch）。要正常用 Codex 对话，请在本地运行服务版（127.0.0.1:8767）或在下方填入自建 CORS 中继地址。"
+        ? "网页版已接入本项目的 Codex 转发服务，完成 OpenAI 设备码或浏览器授权后即可测试连接。授权令牌会经该服务转发至 OpenAI；如需使用其他可信服务，可填写下方的中转地址。"
         : "本地 Python 服务版已直连 auth.openai.com 与 localhost:1455 回调监听，支持设备码或浏览器一键登录，凭证仅限权存本地 data/codex_oauth.json，对话由后端转发，无任何浏览器跨域限制。";
     }
 

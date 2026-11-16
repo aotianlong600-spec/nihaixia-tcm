@@ -90,11 +90,16 @@ def _friendly_http_error(status: int, body_text: str, protocol: str = "") -> str
     detail = (detail or body_text or "").strip().splitlines()[0][:240]
     if "x-opencode-session" in detail.lower() or "x-opencode-session" in (body_text or "").lower():
         return (
-            f"OpenCode Go 订阅网关拒绝了非编程代理请求 (HTTP {status})：{detail}。"
-            "（提示：OpenCode Go 仅限编程代理工具并强制校验 x-opencode-session 路由头；"
-            "中医问诊请改用 DeepSeek、OpenAI 兼容网关、Gemini、Claude、OpenCode Zen 通用按量接口，或直接关闭 Key 使用本地免 Key 推演）"
+            f"OpenCode 网关拒绝了当前客户端请求 (HTTP {status})：{detail}。"
+            "请核对模型是否为仅限 OpenCode 客户端的免费模型，以及 Key 对应的模型权限；"
+            "仅凭 x-opencode-session 缺失不能判定为 Go 订阅或 API Key 无效。"
         )
     lower_all = f"{detail} {body_text or ''}".lower()
+    if status == 402 and "opencode models credits" in lower_all and "pay-as-you-go" in lower_all:
+        return (
+            "OpenCode 按量余额不足 (HTTP 402)：当前请求按 Zen / Models 余额计费，Go 订阅不抵扣此请求。"
+            "请在 OpenCode 控制台核对按量余额，以及当前服务地址是否与购买的套餐一致。"
+        )
     if any(k in lower_all for k in ("image_url", "does not support image", "unknown variant", "multimodal", "vision")):
         return (
             f"当前所选模型或网关不支持图片识别 (HTTP {status})：{detail}。"
@@ -145,12 +150,18 @@ async def _iter_sse_json(response: httpx.Response) -> AsyncIterator[dict[str, An
         if not line:
             if data_lines:
                 payload_str = "\n".join(data_lines).strip()
+                if payload_str == "[DONE]":
+                    return
                 if payload_str and payload_str != "[DONE]":
                     try:
                         parsed = json.loads(payload_str)
                         if isinstance(parsed, dict) and event_name and "__event__" not in parsed:
                             parsed["__event__"] = event_name
                         yield parsed if isinstance(parsed, dict) else {"value": parsed}
+                        if isinstance(parsed, dict) and (parsed.get("type") or event_name) in {
+                            "response.completed", "response.done", "message_stop"
+                        }:
+                            return
                     except json.JSONDecodeError:
                         pass
                 data_lines.clear()

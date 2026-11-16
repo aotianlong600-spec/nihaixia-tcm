@@ -49,6 +49,7 @@
 
 - 推送到 `main` 分支后，[.github/workflows/web-app.yml](.github/workflows/web-app.yml) 会自动执行 4 大典籍校验与 `pytest -q`，调用 [scripts/build_pages.py](scripts/build_pages.py) 构建 `dist/` 并部署至 GitHub Pages（访问地址：`https://aotianlong600-spec.github.io/nihaixia-tcm/`，首次使用请在仓库 `Settings -> Pages` 中将 `Source` 设为 `GitHub Actions`）。
 - 网页版通过 Pyodide（浏览器端 Python）运行 5 阶段辨证知识库、`PDF.js` 按需渲染原书扫描页，并使用浏览器 `localStorage` 保存每位问诊人的独立病历历史与 BYOK 模型配置；若未填写 Key 或遭遇浏览器跨域拦截，系统自动无缝回退本地离线辨证出方。
+- 网页版 Codex 登录和调用默认通过项目现有的模型转发服务（`https://nihaixia-model-relay-long600.fairykiwi35.chatgpt.site/relay`），授权令牌经该服务转发至 OpenAI。模型设置中的自定义中转地址可覆盖默认值。连接测试最长等待约 20 秒，普通对话使用配置的超时时间。
 - 本地手动打包静态产物测试：
   ```powershell
   python scripts/build_pages.py
@@ -56,6 +57,8 @@
   ```
 
 ## 验证与校验
+
+开发测试需要 Python 3.11+ 和 Node.js 20+；Node 用于运行静态网页版的网络回归测试，本地服务运行仍只需 Python。
 
 ```powershell
 python -m pip install -r requirements-dev.txt

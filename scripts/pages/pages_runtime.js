@@ -20,6 +20,11 @@
   const CODEX_BROWSER_REDIRECT = "http://localhost:1455/auth/callback";
   const CODEX_SCOPE = "openid profile email offline_access";
   const CODEX_REFRESH_BUFFER_MS = 60000;
+  const CODEX_RELAY_URL = "https://nihaixia-model-relay-long600.fairykiwi35.chatgpt.site/relay";
+  const CODEX_RELAY_TARGETS = new Set([
+    CODEX_TOKEN_URL, CODEX_DEVICE_CODE_URL, CODEX_DEVICE_POLL_URL,
+    "https://chatgpt.com/backend-api/codex/responses",
+  ]);
 
   const PLACEHOLDER_SVG =
     "data:image/svg+xml;utf8," +
@@ -218,10 +223,11 @@
   function raceAbortable(promise, signal = null) {
     if (!signal) return promise;
     if (signal.aborted) {
-      return Promise.reject(new DOMException("Aborted", "AbortError"));
+      Promise.resolve(promise).catch(() => {});
+      return Promise.reject(signal.reason || new DOMException("Aborted", "AbortError"));
     }
     return new Promise((resolve, reject) => {
-      const onAbort = () => reject(new DOMException("Aborted", "AbortError"));
+      const onAbort = () => reject(signal.reason || new DOMException("Aborted", "AbortError"));
       signal.addEventListener("abort", onAbort, { once: true });
       promise.then(
         (v) => {
@@ -649,58 +655,89 @@
 
   function codexCorsGuidance(stageLabel) {
     return (
-      `纯静态网页版受浏览器跨域(CORS)限制，${stageLabel}无法直接访问 OpenAI 官方接口。` +
-      `请二选一：(1) 启动本地 Python 服务版（http://127.0.0.1:8767/）点击一键登录与直连；` +
-      `或 (2) 在设置弹窗底部「可选：Codex CORS 中继地址」填入自建 Cloudflare Worker（见仓库 scripts/codex_relay_worker.mjs）。`
+      `${stageLabel}未能连接 Codex 转发服务，请检查网络或稍后重试。` +
+      `网页版默认使用本项目的转发服务，也可在模型设置填写其他可信的中转地址，或使用本地服务版（http://127.0.0.1:8767/）。`
     );
   }
 
-  async function relayAwareFetch(targetUrl, init = {}, relayUrl = "", timeoutMs = 0) {
-    const cleanRelay = String(relayUrl || "").trim().replace(/\/+$/, "");
+  async function relayAwareFetch(targetUrl, init = {}, relayUrl = "", timeoutMs = 20000) {
+    const cleanRelay = String(relayUrl || "").trim().replace(/\/+$/, "") ||
+      (CODEX_RELAY_TARGETS.has(String(targetUrl)) ? CODEX_RELAY_URL : "");
     let ac = null;
     let timerId = null;
     let effectiveSignal = init.signal;
-    const onParentAbort = () => ac && ac.abort();
+    const onParentAbort = () => ac && ac.abort(init.signal.reason);
     if (timeoutMs > 0) {
       ac = new AbortController();
       if (init.signal) {
-        if (init.signal.aborted) ac.abort();
+        if (init.signal.aborted) onParentAbort();
         else init.signal.addEventListener("abort", onParentAbort, { once: true });
       }
       timerId = setTimeout(() => ac.abort(new DOMException(`请求超时（>${Math.round(timeoutMs / 1000)}秒）`, "TimeoutError")), timeoutMs);
       effectiveSignal = ac.signal;
     }
-    try {
-      if (!cleanRelay) {
-        return await nativeFetch(targetUrl, { ...init, signal: effectiveSignal });
-      }
-      const headersObj = {};
-      if (init.headers instanceof Headers) {
-        init.headers.forEach((v, k) => {
-          headersObj[k] = v;
-        });
-      } else if (init.headers && typeof init.headers === "object") {
-        Object.assign(headersObj, init.headers);
-      }
-      let bodyPayload = init.body;
-      if (typeof bodyPayload === "string" && headersObj["Content-Type"]?.includes("application/json")) {
-        const parsed = safeParseJson(bodyPayload, null);
-        if (parsed && typeof parsed === "object") bodyPayload = parsed;
-      }
-      return await nativeFetch(cleanRelay, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          url: targetUrl,
-          method: init.method || "GET",
-          headers: headersObj,
-          body: bodyPayload,
-        }),
-        signal: effectiveSignal,
-      });
-    } finally {
+    const cleanup = () => {
       if (timerId !== null) clearTimeout(timerId);
       if (init.signal && ac) init.signal.removeEventListener("abort", onParentAbort);
+    };
+    try {
+      let response;
+      if (!cleanRelay) {
+        response = await raceAbortable(nativeFetch(targetUrl, { ...init, signal: effectiveSignal }), effectiveSignal);
+      } else {
+        const headersObj = {};
+        if (init.headers instanceof Headers) {
+          init.headers.forEach((v, k) => {
+            headersObj[k] = v;
+          });
+        } else if (init.headers && typeof init.headers === "object") {
+          Object.assign(headersObj, init.headers);
+        }
+        response = await raceAbortable(nativeFetch(cleanRelay, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            url: targetUrl,
+            method: init.method || "GET",
+            headers: headersObj,
+            body: init.body ?? null,
+          }),
+          signal: effectiveSignal,
+        }), effectiveSignal);
+      }
+      if (!response.body) {
+        cleanup();
+        return response;
+      }
+      // Keep the deadline and parent cancellation active until the body is consumed.
+      const reader = response.body.getReader();
+      const body = new ReadableStream({
+        async pull(controller) {
+          try {
+            const { done, value } = await raceAbortable(reader.read(), effectiveSignal);
+            if (done) {
+              cleanup();
+              reader.releaseLock();
+              controller.close();
+            } else {
+              controller.enqueue(value);
+            }
+          } catch (error) {
+            cleanup();
+            void reader.cancel(error).catch(() => {}).finally(() => reader.releaseLock());
+            controller.error(error);
+          }
+        },
+        cancel(reason) {
+          cleanup();
+          if (ac) ac.abort(reason);
+          return reader.cancel(reason).finally(() => reader.releaseLock());
+        },
+      });
+      return new Response(body, { status: response.status, statusText: response.statusText, headers: response.headers });
+    } catch (error) {
+      cleanup();
+      throw error;
     }
   }
 
@@ -742,9 +779,10 @@
         relayUrl
       );
     } catch (_err) {
+      if (_err?.name === "TimeoutError") throw _err;
       throw new Error(codexCorsGuidance("换取 Codex Token 时"));
     }
-    const text = await resp.text().catch(() => "");
+    const text = await resp.text();
     if (!resp.ok) {
       throw new Error(`换取 Codex Token 失败 (HTTP ${resp.status})：${text.slice(0, 180)}`);
     }
@@ -771,11 +809,11 @@
           staticCodexLoginState.relay_url
         );
       } catch (_err) {
-        const msg = codexCorsGuidance("申请设备码时");
+        const msg = _err?.name === "TimeoutError" ? _err.message : codexCorsGuidance("申请设备码时");
         resetStaticCodexLoginState("error", msg);
         throw new Error(msg);
       }
-      const text = await resp.text().catch(() => "");
+      const text = await resp.text();
       if (!resp.ok) {
         const msg = `申请 Codex 设备码失败 (HTTP ${resp.status})：${text.slice(0, 180)}`;
         resetStaticCodexLoginState("error", msg);
@@ -958,9 +996,10 @@
         cfg.relay_url || ""
       );
     } catch (_err) {
+      if (_err?.name === "TimeoutError") throw _err;
       throw new Error(codexCorsGuidance("刷新 Codex Token 时"));
     }
-    const text = await resp.text().catch(() => "");
+    const text = await resp.text();
     if (!resp.ok) {
       throw new Error(`Codex Token 已过期且刷新失败 (HTTP ${resp.status})，请重新登录 OpenAI Codex`);
     }
@@ -1217,11 +1256,15 @@
     detail = (detail || bodyText || "").trim().split(/\r?\n/)[0].slice(0, 240);
     if (detail.toLowerCase().includes("x-opencode-session") || String(bodyText || "").toLowerCase().includes("x-opencode-session")) {
       return (
-        `OpenCode Go 订阅网关拒绝了非编程代理请求 (HTTP ${status})：${detail}。` +
-        `（提示：OpenCode Go 仅限编程代理工具使用；请改用 DeepSeek、OpenAI 兼容网关、Gemini、Claude、OpenCode Zen 通用按量接口，或关闭 Key 使用本地免 Key 推演）`
+        `OpenCode 网关拒绝了当前客户端请求 (HTTP ${status})：${detail}。` +
+        `请核对模型是否为仅限 OpenCode 客户端的免费模型，以及 Key 对应的模型权限；` +
+        `仅凭 x-opencode-session 缺失不能判定为 Go 订阅或 API Key 无效。`
       );
     }
     const lowerAll = `${detail} ${bodyText || ""}`.toLowerCase();
+    if (status === 402 && lowerAll.includes("opencode models credits") && lowerAll.includes("pay-as-you-go")) {
+      return "OpenCode 按量余额不足 (HTTP 402)：当前请求按 Zen / Models 余额计费，Go 订阅不抵扣此请求。请在 OpenCode 控制台核对按量余额，以及当前服务地址是否与购买的套餐一致。";
+    }
     if (["image_url", "does not support image", "unknown variant", "multimodal", "vision"].some((k) => lowerAll.includes(k))) {
       return (
         `当前所选模型或网关不支持图片识别 (HTTP ${status})：${detail}。` +
@@ -1555,6 +1598,7 @@
 
   function friendlyNetworkError(cfg, rawMsg = "") {
     const base = String(cfg?.base_url || "");
+    if (String(rawMsg).includes("请求超时")) return String(rawMsg);
     const raw = String(rawMsg || "").trim();
     if (cfg?.protocol === "codex_oauth" && !cfg?.relay_url) {
       return codexCorsGuidance("请求 Codex 订阅接口时");
@@ -1594,7 +1638,8 @@
           body: JSON.stringify(req.body),
           signal,
         },
-        liveCfg.relay_url || ""
+        liveCfg.relay_url || "",
+        Number(liveCfg.timeout_sec || 120) * 1000
       );
     } catch (err) {
       if (err?.name === "AbortError") throw err;
@@ -1630,6 +1675,7 @@
     let buf = "";
     let eventName = "";
     let dataLines = [];
+    let completed = false;
 
     const flushEvent = () => {
       if (!dataLines.length) {
@@ -1640,36 +1686,48 @@
       const evName = eventName;
       dataLines = [];
       eventName = "";
-      if (!payloadStr || payloadStr === "[DONE]") return [];
+      if (payloadStr === "[DONE]") {
+        completed = true;
+        return [];
+      }
+      if (!payloadStr) return [];
       const parsed = safeParseJson(payloadStr, null);
       if (!parsed || typeof parsed !== "object") return [];
+      const type = parsed.type || evName;
+      if (["response.completed", "response.done", "message_stop"].includes(type)) completed = true;
       return parseUpstreamEvents(liveCfg.protocol, parsed, evName);
     };
 
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      buf += decoder.decode(value, { stream: true });
-      let nlIdx;
-      while ((nlIdx = buf.indexOf("\n")) >= 0) {
-        const line = buf.slice(0, nlIdx).replace(/\r$/, "");
-        buf = buf.slice(nlIdx + 1);
-        if (!line) {
-          for (const ev of filterEmit(flushEvent())) yield ev;
-          continue;
-        }
-        if (line.startsWith("event:")) {
-          eventName = line.slice(6).trim();
-        } else if (line.startsWith("data:")) {
-          dataLines.push(line.slice(5).replace(/^ /, ""));
+    try {
+      while (!completed) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buf += decoder.decode(value, { stream: true });
+        let nlIdx;
+        while ((nlIdx = buf.indexOf("\n")) >= 0) {
+          const line = buf.slice(0, nlIdx).replace(/\r$/, "");
+          buf = buf.slice(nlIdx + 1);
+          if (!line) {
+            for (const ev of filterEmit(flushEvent())) yield ev;
+            if (completed) break;
+            continue;
+          }
+          if (line.startsWith("event:")) {
+            eventName = line.slice(6).trim();
+          } else if (line.startsWith("data:")) {
+            dataLines.push(line.slice(5).replace(/^ /, ""));
+          }
         }
       }
+      if (!completed && buf.trim()) {
+        const line = buf.replace(/\r$/, "");
+        if (line.startsWith("data:")) dataLines.push(line.slice(5).replace(/^ /, ""));
+      }
+      for (const ev of filterEmit(flushEvent())) yield ev;
+    } finally {
+      await reader.cancel().catch(() => {});
+      reader.releaseLock();
     }
-    if (buf.trim()) {
-      const line = buf.replace(/\r$/, "");
-      if (line.startsWith("data:")) dataLines.push(line.slice(5).replace(/^ /, ""));
-    }
-    for (const ev of filterEmit(flushEvent())) yield ev;
   }
 
   function parseResponsePayloadEvents(protocol, ctype, rawText) {
@@ -1797,10 +1855,10 @@
 
     const liveCfg = await ensureFreshStaticCodexConfig(cfg);
     const started = performance.now();
-    const probeCfg = { ...liveCfg, max_tokens: 256, temperature: 0.0, reasoning_effort: "auto" };
-
-    if (probeCfg.protocol === "codex_oauth") {
-      const deltas = [];
+    const probeCfg = { ...liveCfg, max_tokens: 256, temperature: 0.0, reasoning_effort: "auto", timeout_sec: 20 };
+    const deltas = [];
+    const reasoning = [];
+    try {
       for await (const ev of iterUpstreamEvents(
         probeCfg,
         "你是连通性测试助手。请只回复“已连通”三个字。",
@@ -1809,64 +1867,16 @@
         meta
       )) {
         if (ev.type === "delta" && ev.text) deltas.push(ev.text);
+        if (ev.type === "reasoning" && ev.text) reasoning.push(ev.text);
       }
-      return {
-        ok: true,
-        provider: probeCfg.provider,
-        model: probeCfg.model,
-        latency_ms: Math.round(performance.now() - started),
-        reply_preview: deltas.join("").trim().slice(0, 80),
-      };
-    }
-
-    const req = prepareUpstreamRequest(
-      probeCfg,
-      "你是连通性测试助手。请只回复“已连通”三个字。",
-      [{ role: "user", content: "测试连通" }],
-      false,
-      meta
-    );
-    let resp;
-    try {
-      resp = await relayAwareFetch(
-        req.url,
-        {
-          method: "POST",
-          headers: req.headers,
-          body: JSON.stringify(req.body),
-        },
-        probeCfg.relay_url || "",
-        20000
-      );
     } catch (err) {
       if (err?.name === "TimeoutError" || String(err?.message || "").includes("超时")) {
         throw new Error(`测试连接超时（>20秒）：请检查网络、代理或 Base URL (${probeCfg.base_url}) 是否可达`);
       }
-      throw new Error(friendlyNetworkError(probeCfg, err?.message));
+      throw err;
     }
-    if (!resp.ok) {
-      throw new Error(friendlyHttpError(resp.status, await resp.text().catch(() => ""), probeCfg.protocol));
-    }
-    const rawText = await resp.text();
-    const { parsedAny, events } = parseResponsePayloadEvents(
-      probeCfg.protocol,
-      resp.headers.get("content-type") || "",
-      rawText
-    );
-    if (!parsedAny) {
-      throw new Error("模型接口返回了非 JSON/SSE 响应，请检查 Base URL 是否为 API 端点（如 /v1）");
-    }
-    const deltaPreview = events
-      .filter((e) => e.type === "delta")
-      .map((e) => e.text)
-      .join("")
-      .trim();
-    const reasonPreview = events
-      .filter((e) => e.type === "reasoning")
-      .map((e) => e.text)
-      .join("")
-      .trim();
-    const preview = (deltaPreview || reasonPreview || "已连通").slice(0, 80);
+    const preview = (deltas.join("").trim() || reasoning.join("").trim()).slice(0, 80);
+    if (!preview) throw new Error("模型接口未返回有效内容，请核对模型 ID 与接口协议");
     return {
       ok: true,
       provider: probeCfg.provider,
@@ -2375,7 +2385,8 @@
             body: JSON.stringify(req.body),
             signal,
           },
-          visionCfg.relay_url || ""
+          visionCfg.relay_url || "",
+          Number(visionCfg.timeout_sec || 120) * 1000
         );
       } catch (err) {
         return jsonResponse(

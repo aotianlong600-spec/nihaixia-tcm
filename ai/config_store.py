@@ -44,7 +44,7 @@ PROVIDER_PRESETS: dict[str, dict[str, Any]] = {
         "requires_key": False,
         "requires_oauth": True,
         "env_vars": [],
-        "note": "[需本地版或 CORS 中继] 使用 OpenAI 设备码 / 浏览器 OAuth 登录 ChatGPT 订阅账号（登录后自动同步当前订阅可用 Codex 模型）；纯静态网页无中继受 CORS 限制，推荐本地服务版。",
+        "note": "使用 OpenAI 设备码 / 浏览器 OAuth 登录 ChatGPT 订阅账号。网页版默认通过本项目的转发服务连接；本地版直接连接官方接口。登录后可选择订阅模型并测试连通。",
     },
     "openai": {
         "id": "openai",
