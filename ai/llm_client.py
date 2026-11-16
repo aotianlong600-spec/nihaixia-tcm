@@ -25,10 +25,30 @@ class LLMClientError(RuntimeError):
 
 
 def _openai_endpoint(base_url: str, suffix: str) -> str:
-    clean = base_url.rstrip("/")
+    clean = (base_url or "").strip().rstrip("/")
     if clean.endswith(suffix):
         return clean
     return f"{clean}{suffix}"
+
+
+def _openai_models_url(base_url: str) -> str:
+    """Resolve OpenAI-compatible /models URL even if user pasted /chat/completions."""
+    clean = (base_url or "").strip().rstrip("/")
+    for tail in ("/chat/completions", "/responses", "/messages"):
+        if clean.endswith(tail):
+            clean = clean[: -len(tail)]
+            break
+    if clean.endswith("/models"):
+        return clean
+    return f"{clean}/models"
+
+
+def _gemini_base_url(base_url: str) -> str:
+    """Normalize Gemini base URL even if user pasted trailing /models."""
+    clean = (base_url or "").strip().rstrip("/")
+    if clean.endswith("/models"):
+        clean = clean[: -len("/models")]
+    return clean
 
 
 def _codex_endpoint(base_url: str) -> str:
@@ -359,7 +379,7 @@ def _parse_anthropic_chunk(chunk: dict[str, Any]) -> list[dict[str, Any]]:
 def _prepare_gemini(cfg: dict[str, Any], system_prompt: str, messages: list[dict[str, Any]], stream: bool) -> dict[str, Any]:
     profile, effort, raw_max = _resolve_effort_and_budget(cfg, "gemini")
     action = "streamGenerateContent?alt=sse" if stream else "generateContent"
-    url = f"{cfg['base_url'].rstrip('/')}/models/{cfg['model']}:{action}"
+    url = f"{_gemini_base_url(cfg['base_url'])}/models/{cfg['model']}:{action}"
     headers = {
         "Content-Type": "application/json",
         "x-goog-api-key": cfg.get("api_key", ""),
@@ -676,7 +696,7 @@ async def list_models(cfg: dict[str, Any], *, client: httpx.AsyncClient | None =
         if protocol == "gemini":
             if not cfg.get("api_key"):
                 return {"models": suggested, "source": "preset"}
-            r = await http.get(f"{base_url}/models", headers={"x-goog-api-key": cfg["api_key"]})
+            r = await http.get(f"{_gemini_base_url(base_url)}/models", headers={"x-goog-api-key": cfg["api_key"]})
             if r.status_code >= 400:
                 raise LLMClientError(_friendly_http_error(r.status_code, r.text))
             items = [
@@ -690,10 +710,22 @@ async def list_models(cfg: dict[str, Any], *, client: httpx.AsyncClient | None =
         headers = {}
         if cfg.get("api_key"):
             headers["Authorization"] = f"Bearer {cfg['api_key']}"
-        r = await http.get(_openai_endpoint(base_url, "/models"), headers=headers)
+        r = await http.get(_openai_models_url(base_url), headers=headers)
         if r.status_code >= 400:
             raise LLMClientError(_friendly_http_error(r.status_code, r.text))
-        ids = [str(m.get("id")) for m in (r.json().get("data") or []) if m.get("id")]
+        body = r.json()
+        raw_items = (
+            (body.get("data") or body.get("models") or [])
+            if isinstance(body, dict)
+            else (body if isinstance(body, list) else [])
+        )
+        ids = [
+            str(m.get("id") or m.get("name") or "")
+            if isinstance(m, dict)
+            else str(m or "")
+            for m in raw_items
+        ]
+        ids = [mid.strip() for mid in ids if mid.strip()]
         return {"models": sorted(set(ids)) or suggested, "source": "live"}
     except httpx.HTTPError as exc:
         raise LLMClientError(f"获取模型列表失败：{type(exc).__name__}") from exc

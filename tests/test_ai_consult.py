@@ -1158,3 +1158,80 @@ def test_codex_auto_adopt_profile_on_login(data_dir: Path):
 
 
 
+
+
+def test_normalize_config_strips_accidental_bearer_prefix(data_dir: Path) -> None:
+    saved = config_store.save_config(
+        data_dir,
+        {
+            "provider": "deepseek",
+            "api_key": "  Bearer sk-test-bearer-12345  ",
+            "model": "deepseek-chat",
+        },
+    )
+    assert saved["has_api_key"] is True
+    assert saved["api_key_masked"] == "sk-t...2345"
+    active = config_store.resolve_runtime_config(data_dir)
+    assert active["api_key"] == "sk-test-bearer-12345"
+    override_cfg = config_store.resolve_runtime_config(
+        data_dir, {"provider": "deepseek", "api_key": "bearer sk-override-9999"}
+    )
+    assert override_cfg["api_key"] == "sk-override-9999"
+
+
+def test_openai_and_gemini_models_url_strip_endpoint_suffixes() -> None:
+    assert (
+        llm_client._openai_models_url("https://opencode.ai/zen/v1/chat/completions")
+        == "https://opencode.ai/zen/v1/models"
+    )
+    assert (
+        llm_client._openai_models_url("https://api.openai.com/v1/responses/")
+        == "https://api.openai.com/v1/models"
+    )
+    assert (
+        llm_client._openai_models_url("https://example.com/v1/messages")
+        == "https://example.com/v1/models"
+    )
+    assert (
+        llm_client._openai_models_url("https://example.com/v1/models")
+        == "https://example.com/v1/models"
+    )
+    assert (
+        llm_client._gemini_base_url("https://generativelanguage.googleapis.com/v1beta/models/")
+        == "https://generativelanguage.googleapis.com/v1beta"
+    )
+
+
+def test_cors_direct_presets_and_prefixed_deepseek_slugs() -> None:
+    for pid in ("siliconflow", "dashscope", "openrouter"):
+        preset = config_store.PROVIDER_PRESETS[pid]
+        assert preset["protocol"] == "openai_compat"
+        assert preset["base_url"].startswith("https://")
+        assert preset["requires_key"] is True
+
+    sf_profile = config_store.resolve_reasoning_profile(
+        "siliconflow", "openai_compat", "deepseek-ai/DeepSeek-V3"
+    )
+    or_profile = config_store.resolve_reasoning_profile(
+        "openrouter", "openai_compat", "deepseek/deepseek-chat"
+    )
+    official_profile = config_store.resolve_reasoning_profile(
+        "deepseek", "openai_compat", "deepseek-chat"
+    )
+    assert sf_profile["protocol_mode"] == "openai_reasoning"
+    assert or_profile["protocol_mode"] == "openai_reasoning"
+    assert official_profile["protocol_mode"] == "deepseek"
+
+
+def test_pages_runtime_has_static_meta_placeholder_and_direct_helpers() -> None:
+    src = (Path(__file__).resolve().parents[1] / "scripts" / "pages" / "pages_runtime.js").read_text(
+        encoding="utf-8"
+    )
+    for token in (
+        "null /* __STATIC_AI_META__ */",
+        "function cleanApiKey",
+        "function openaiModelsUrl",
+        "function codexModelsUrl",
+        "function parseResponsePayloadEvents",
+    ):
+        assert token in src

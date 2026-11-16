@@ -2748,7 +2748,7 @@
         });
         if (out) {
           out.className = "ai-cfg-result is-ok";
-          out.textContent = `连接成功 · ${res.model} · 延迟 ${res.latency_ms} ms · 返回：“${res.reply_preview}”`;
+          out.textContent = `连接成功 · ${res.model} · 延迟 ${res.latency_ms} ms · 返回：“${res.reply_preview}”（请点击右下角「保存并应用」使配置生效）`;
         }
       } catch (err) {
         if (out) {
@@ -2772,6 +2772,18 @@
         niState.style = saved.persona_style || niState.style;
         niState.reasoningEffort = saved.reasoning_effort || "auto";
         if ($("#ai-style-select")) $("#ai-style-select").value = niState.style;
+        const pillModels = Array.from(
+          document.querySelectorAll("#ai-cfg-model-pills .ai-model-pill[data-model]")
+        )
+          .map((btn) => String(btn.dataset.model || "").trim())
+          .filter(Boolean);
+        if (pillModels.length) {
+          saveCachedModelsForProfile(
+            saved.active_profile_id || saved.profile_id || "default",
+            saved.provider,
+            pillModels
+          );
+        }
         updateStatusHeader();
         closeConfigModal();
         showNotice(saveAsNew ? `已另存为新配置：${saved.profile_name || saved.model}` : `已保存配置：${saved.profile_name || saved.model}`);

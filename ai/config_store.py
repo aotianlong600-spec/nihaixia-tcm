@@ -23,7 +23,7 @@ PROVIDER_PRESETS: dict[str, dict[str, Any]] = {
         "requires_key": True,
         "requires_oauth": False,
         "env_vars": ["DEEPSEEK_API_KEY", "TCM_AI_API_KEY"],
-        "note": "支持 deepseek-chat 与 deepseek-reasoner（思考过程自动折叠展示）。",
+        "note": "[网页版可直连] 支持 deepseek-chat 与 deepseek-reasoner（思考过程自动折叠展示）。",
     },
     "codex": {
         "id": "codex",
@@ -44,7 +44,7 @@ PROVIDER_PRESETS: dict[str, dict[str, Any]] = {
         "requires_key": False,
         "requires_oauth": True,
         "env_vars": [],
-        "note": "使用 OpenAI 设备码 / 浏览器 OAuth 登录 ChatGPT 订阅账号（登录后自动同步当前订阅可用 Codex 模型）；纯静态网页无中继受 CORS 限制，推荐本地服务版。",
+        "note": "[需本地版或 CORS 中继] 使用 OpenAI 设备码 / 浏览器 OAuth 登录 ChatGPT 订阅账号（登录后自动同步当前订阅可用 Codex 模型）；纯静态网页无中继受 CORS 限制，推荐本地服务版。",
     },
     "openai": {
         "id": "openai",
@@ -56,7 +56,7 @@ PROVIDER_PRESETS: dict[str, dict[str, Any]] = {
         "requires_key": True,
         "requires_oauth": False,
         "env_vars": ["OPENAI_API_KEY", "TCM_AI_API_KEY"],
-        "note": "标准 OpenAI Chat Completions 流式接口。",
+        "note": "[网页版可直连] 标准 OpenAI Chat Completions 流式接口。",
     },
     "gemini": {
         "id": "gemini",
@@ -68,7 +68,7 @@ PROVIDER_PRESETS: dict[str, dict[str, Any]] = {
         "requires_key": True,
         "requires_oauth": False,
         "env_vars": ["GEMINI_API_KEY", "GOOGLE_API_KEY", "TCM_AI_API_KEY"],
-        "note": "原生 Gemini streamGenerateContent SSE 接口。",
+        "note": "[网页版可直连] 原生 Gemini streamGenerateContent SSE 接口。",
     },
     "anthropic": {
         "id": "anthropic",
@@ -80,7 +80,54 @@ PROVIDER_PRESETS: dict[str, dict[str, Any]] = {
         "requires_key": True,
         "requires_oauth": False,
         "env_vars": ["ANTHROPIC_API_KEY", "TCM_AI_API_KEY"],
-        "note": "原生 Claude Messages 流式接口。",
+        "note": "[网页版可直连] 原生 Claude Messages 流式接口（已启用浏览器直连请求头）。",
+    },
+    "siliconflow": {
+        "id": "siliconflow",
+        "label": "硅基流动 SiliconFlow（网页版可直连）",
+        "protocol": "openai_compat",
+        "base_url": "https://api.siliconflow.cn/v1",
+        "default_model": "deepseek-ai/DeepSeek-V3",
+        "suggested_models": [
+            "deepseek-ai/DeepSeek-V3",
+            "deepseek-ai/DeepSeek-R1",
+            "Qwen/Qwen2.5-72B-Instruct",
+            "Qwen/Qwen3-235B-A22B",
+        ],
+        "requires_key": True,
+        "requires_oauth": False,
+        "env_vars": ["SILICONFLOW_API_KEY", "TCM_AI_API_KEY"],
+        "note": "[网页版可直连] 已开放浏览器 CORS，国内网络直连聚合 DeepSeek-V3 / R1 / Qwen，填写 Key 即可在线使用。",
+    },
+    "dashscope": {
+        "id": "dashscope",
+        "label": "阿里云百炼 / 通义千问（网页版可直连）",
+        "protocol": "openai_compat",
+        "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        "default_model": "qwen-plus",
+        "suggested_models": ["qwen-plus", "qwen-max", "qwen-turbo", "qwen3-235b-a22b", "deepseek-v3", "deepseek-r1"],
+        "requires_key": True,
+        "requires_oauth": False,
+        "env_vars": ["DASHSCOPE_API_KEY", "TCM_AI_API_KEY"],
+        "note": "[网页版可直连] 阿里云百炼 OpenAI 兼容接口（CORS 已放行），支持通义千问与满血 DeepSeek。",
+    },
+    "openrouter": {
+        "id": "openrouter",
+        "label": "OpenRouter 聚合（网页版可直连）",
+        "protocol": "openai_compat",
+        "base_url": "https://openrouter.ai/api/v1",
+        "default_model": "deepseek/deepseek-chat",
+        "suggested_models": [
+            "deepseek/deepseek-chat",
+            "deepseek/deepseek-r1",
+            "openai/gpt-4.1-mini",
+            "anthropic/claude-sonnet-4",
+            "google/gemini-2.5-flash",
+        ],
+        "requires_key": True,
+        "requires_oauth": False,
+        "env_vars": ["OPENROUTER_API_KEY", "TCM_AI_API_KEY"],
+        "note": "[网页版可直连] 多模型聚合网关（CORS 已放行），一个 Key 可调用 DeepSeek / Claude / Gemini / GPT。",
     },
     "ollama": {
         "id": "ollama",
@@ -92,7 +139,7 @@ PROVIDER_PRESETS: dict[str, dict[str, Any]] = {
         "requires_key": False,
         "requires_oauth": False,
         "env_vars": [],
-        "note": "完全离线本地推理；启动 Ollama 后点击“获取模型”即可选中。",
+        "note": "[需本地版 / OLLAMA_ORIGINS=*] 完全离线本地推理；启动 Ollama 后点击“获取模型”即可选中。",
     },
     "custom": {
         "id": "custom",
@@ -104,7 +151,7 @@ PROVIDER_PRESETS: dict[str, dict[str, Any]] = {
         "requires_key": True,
         "requires_oauth": False,
         "env_vars": ["TCM_AI_API_KEY", "OPENAI_API_KEY"],
-        "note": "适配 SiliconFlow、OpenRouter、Qwen、Moonshot、vLLM 或任意 /v1 网关。",
+        "note": "[提示] 适配自定义 /v1 网关；OpenCode Zen、Kimi、智谱等仅放行 /models 或未开放 POST 跨域的中转站在 GitHub Pages 网页版会报 Failed to fetch，需使用本地版或填写 CORS 中继。",
     },
 }
 
@@ -200,6 +247,7 @@ REASONING_MODEL_RULES: list[dict[str, Any]] = [
         "protocols": ["openai_compat"],
         "providers": ["deepseek"],
         "model_regex": r"deepseek",
+        "exclude_regex": r"/",
         "match_either_provider_or_model": True,
         "efforts": ["auto", "none", "low", "medium", "high", "xhigh"],
         "supports_reasoning": True,
@@ -269,6 +317,14 @@ REASONING_MODEL_RULES: list[dict[str, Any]] = [
         "hint": "通用 OpenAI 兼容网关：选「自动」按模型默认；选具体档位将透传 reasoning_effort。",
     },
 ]
+
+
+def _clean_api_key(value: Any) -> str:
+    """Normalize API key input by trimming whitespace and accidental 'Bearer ' prefix."""
+    key = str(value or "").strip()
+    if key.lower().startswith("bearer "):
+        key = key[7:].strip()
+    return key
 
 
 def mask_api_key(secret: str) -> str:
@@ -602,12 +658,13 @@ def normalize_config(payload: dict[str, Any], existing: dict[str, Any] | None = 
 
     clear_key = bool(payload.get("clear_api_key"))
     incoming_key = payload.get("api_key")
+    cleaned_incoming = _clean_api_key(incoming_key) if isinstance(incoming_key, str) else ""
     if clear_key:
         api_key = ""
-    elif isinstance(incoming_key, str) and incoming_key.strip():
-        api_key = incoming_key.strip()
+    elif cleaned_incoming:
+        api_key = cleaned_incoming
     elif same_provider:
-        api_key = str(base.get("api_key") or "").strip()
+        api_key = _clean_api_key(base.get("api_key"))
     else:
         api_key = ""
 

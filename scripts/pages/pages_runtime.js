@@ -7,6 +7,7 @@
   const PATIENTS_STORAGE_KEY = "ni_ai_static_patients_v1";
   const SESSIONS_STORAGE_KEY = "ni_ai_static_sessions_v1";
   const SEEDED_STORAGE_KEY = "ni_ai_static_seeded_v1";
+  const EMBEDDED_AI_META = null /* __STATIC_AI_META__ */;
 
   const MAX_PROFILES = 24;
   const CODEX_CLIENT_ID = "app_EMoamEEZ73f0CkXaXp7hrann";
@@ -226,6 +227,9 @@
 
   let presetsPromise = null;
   async function getPresetsAndStyles() {
+    if (EMBEDDED_AI_META && typeof EMBEDDED_AI_META === "object") {
+      return EMBEDDED_AI_META;
+    }
     if (!presetsPromise) {
       presetsPromise = callWorker("/api/ai/presets-and-styles", "POST", {})
         .then((res) => res.body)
@@ -345,6 +349,14 @@
     return found ? { ...found } : { ...store.profiles[0] };
   }
 
+  function cleanApiKey(value) {
+    let key = String(value || "").trim();
+    if (key.toLowerCase().startsWith("bearer ")) {
+      key = key.slice(7).trim();
+    }
+    return key;
+  }
+
   function normalizeClientConfig(payload, existing, meta) {
     const presetsList = Array.isArray(meta.presets) ? meta.presets : [];
     const presetMap = new Map(presetsList.map((p) => [p.id, p]));
@@ -392,12 +404,13 @@
     ).trim();
 
     let apiKey = "";
+    const cleanedIncoming = typeof payload?.api_key === "string" ? cleanApiKey(payload.api_key) : "";
     if (payload?.clear_api_key) {
       apiKey = "";
-    } else if (typeof payload?.api_key === "string" && payload.api_key.trim()) {
-      apiKey = payload.api_key.trim();
+    } else if (cleanedIncoming) {
+      apiKey = cleanedIncoming;
     } else if (sameProvider) {
-      apiKey = String(existing.api_key || "").trim();
+      apiKey = cleanApiKey(existing.api_key);
     }
 
     let style = String(payload?.persona_style || existing.persona_style || "master_balanced").trim();
@@ -1074,8 +1087,26 @@
 
   // ── Direct Browser LLM Client (BYOK CORS + Zero-Key Fallback) ───────────
   function openaiEndpoint(baseUrl, suffix) {
-    const clean = String(baseUrl || "").replace(/\/+$/, "");
+    const clean = String(baseUrl || "").trim().replace(/\/+$/, "");
     return clean.endsWith(suffix) ? clean : `${clean}${suffix}`;
+  }
+
+  function openaiModelsUrl(baseUrl) {
+    let clean = String(baseUrl || "").trim().replace(/\/+$/, "");
+    for (const tail of ["/chat/completions", "/responses", "/messages"]) {
+      if (clean.endsWith(tail)) {
+        clean = clean.slice(0, -tail.length);
+        break;
+      }
+    }
+    return clean.endsWith("/models") ? clean : `${clean}/models`;
+  }
+
+  function geminiBaseUrl(baseUrl) {
+    return String(baseUrl || "")
+      .trim()
+      .replace(/\/+$/, "")
+      .replace(/\/models$/, "");
   }
 
   function codexEndpoint(baseUrl) {
@@ -1084,6 +1115,17 @@
     if (clean.endsWith("/codex")) return `${clean}/responses`;
     if (clean.includes("/backend-api")) return `${clean}/codex/responses`;
     return `${clean}/backend-api/codex/responses`;
+  }
+
+  function codexModelsUrl(baseUrl) {
+    const clean = String(baseUrl || "https://chatgpt.com/backend-api").trim().replace(/\/+$/, "");
+    let url;
+    if (clean.endsWith("/codex/models")) url = clean;
+    else if (clean.endsWith("/codex/responses")) url = `${clean.slice(0, -"/responses".length)}/models`;
+    else if (clean.endsWith("/codex")) url = `${clean}/models`;
+    else if (clean.includes("/backend-api")) url = `${clean}/codex/models`;
+    else url = `${clean}/backend-api/codex/models`;
+    return `${url}?client_version=1.0.0`;
   }
 
   function anthropicMessagesUrl(baseUrl) {
@@ -1241,7 +1283,7 @@
         }
       }
       return {
-        url: `${String(cfg.base_url).replace(/\/+$/, "")}/models/${encodeURIComponent(cfg.model)}:${action}`,
+        url: `${geminiBaseUrl(cfg.base_url)}/models/${encodeURIComponent(cfg.model)}:${action}`,
         headers: {
           "Content-Type": "application/json",
           "x-goog-api-key": cfg.api_key || "",
@@ -1462,7 +1504,7 @@
       return (
         `无法从浏览器直连目标网关（${raw || "CORS 跨域或网络受限"}）：` +
         `部分网关（如 OpenCode Zen 或第三方中转站）虽支持拉取模型列表，但未对 github.io 开放 POST 跨域预检。` +
-        `建议：(1) 改用允许网页直连的 DeepSeek 官方 / OpenAI 官方 / Google Gemini / Anthropic Claude；` +
+        `建议：(1) 改用网页版可直连的 DeepSeek 官方 / 硅基流动 / 阿里云百炼 / OpenRouter / OpenAI 官方 / Gemini / Claude；` +
         `(2) 在电脑启动本地服务版（http://127.0.0.1:8767/）免跨域调用；或 (3) 填写自建 CORS 中继地址。`
       );
     }
@@ -1563,12 +1605,82 @@
     for (const ev of filterEmit(flushEvent())) yield ev;
   }
 
+  function parseResponsePayloadEvents(protocol, ctype, rawText) {
+    const trimmed = String(rawText || "").trim();
+    if (!trimmed) return { parsedAny: false, events: [] };
+    const looksLikeSse =
+      String(ctype || "").toLowerCase().includes("text/event-stream") ||
+      trimmed.startsWith("data:") ||
+      trimmed.startsWith("event:");
+    if (!looksLikeSse) {
+      const full = safeParseJson(trimmed, null);
+      if (full && typeof full === "object") {
+        full.__full = true;
+        return { parsedAny: true, events: parseUpstreamEvents(protocol, full) };
+      }
+      return { parsedAny: false, events: [] };
+    }
+    const events = [];
+    let parsedAny = false;
+    let eventName = "";
+    let dataLines = [];
+    const flush = () => {
+      if (!dataLines.length) {
+        eventName = "";
+        return;
+      }
+      const payloadStr = dataLines.join("\n").trim();
+      const evName = eventName;
+      dataLines = [];
+      eventName = "";
+      if (!payloadStr || payloadStr === "[DONE]") return;
+      const parsed = safeParseJson(payloadStr, null);
+      if (parsed && typeof parsed === "object") {
+        parsedAny = true;
+        events.push(...parseUpstreamEvents(protocol, parsed, evName));
+      }
+    };
+    for (const rawLine of trimmed.split(/\r?\n/)) {
+      const line = rawLine.replace(/\r$/, "");
+      if (!line.trim()) {
+        flush();
+        continue;
+      }
+      if (line.startsWith("event:")) {
+        eventName = line.slice(6).trim();
+      } else if (line.startsWith("data:")) {
+        dataLines.push(line.slice(5).replace(/^ /, ""));
+      }
+    }
+    flush();
+    return { parsedAny, events };
+  }
+
   async function runDirectModels(cfg, meta) {
     const preset = (meta.presets || []).find((p) => p.id === cfg.provider) || {};
     const suggested = Array.isArray(preset.suggested_models) ? [...preset.suggested_models] : [];
     const baseUrl = String(cfg.base_url || "").trim().replace(/\/+$/, "");
-    if (!baseUrl || cfg.protocol === "anthropic" || cfg.protocol === "codex_oauth") {
+    if (!baseUrl || cfg.protocol === "anthropic") {
       return { models: suggested, source: "preset" };
+    }
+    if (cfg.protocol === "codex_oauth") {
+      if (!cfg.relay_url) return { models: suggested, source: "preset" };
+      try {
+        const liveCfg = await ensureFreshStaticCodexConfig(cfg);
+        const headers = { Authorization: `Bearer ${liveCfg.api_key}` };
+        if (liveCfg.codex_account_id) headers["ChatGPT-Account-Id"] = String(liveCfg.codex_account_id);
+        const r = await relayAwareFetch(codexModelsUrl(liveCfg.base_url), { headers }, liveCfg.relay_url);
+        if (!r.ok) throw new Error(friendlyHttpError(r.status, await r.text().catch(() => ""), "codex_oauth"));
+        const data = await r.json();
+        const rawList = Array.isArray(data?.models) ? data.models : Array.isArray(data?.data) ? data.data : [];
+        const slugs = rawList
+          .map((m) => String(m?.slug || m?.id || "").trim())
+          .filter(Boolean);
+        return { models: slugs.length ? Array.from(new Set(slugs)) : suggested, source: slugs.length ? "live" : "preset" };
+      } catch (err) {
+        if (suggested.length) return { models: suggested, source: "preset", note: String(err?.message || err) };
+        throw err;
+      }
     }
     try {
       if (cfg.provider === "ollama") {
@@ -1581,7 +1693,7 @@
       }
       if (cfg.protocol === "gemini") {
         if (!cfg.api_key) return { models: suggested, source: "preset" };
-        const r = await nativeFetch(`${baseUrl}/models`, {
+        const r = await nativeFetch(`${geminiBaseUrl(baseUrl)}/models`, {
           headers: { "x-goog-api-key": cfg.api_key },
         });
         if (!r.ok) throw new Error(friendlyHttpError(r.status, await r.text().catch(() => "")));
@@ -1593,10 +1705,13 @@
         return { models: items.length ? Array.from(new Set(items)).sort() : suggested, source: items.length ? "live" : "preset" };
       }
       const headers = cfg.api_key ? { Authorization: `Bearer ${cfg.api_key}` } : {};
-      const r = await relayAwareFetch(openaiEndpoint(baseUrl, "/models"), { headers }, cfg.relay_url || "");
+      const r = await relayAwareFetch(openaiModelsUrl(baseUrl), { headers }, cfg.relay_url || "");
       if (!r.ok) throw new Error(friendlyHttpError(r.status, await r.text().catch(() => "")));
       const data = await r.json();
-      const ids = (data.data || []).map((m) => String(m?.id || "")).filter(Boolean);
+      const rawList = Array.isArray(data?.data) ? data.data : Array.isArray(data?.models) ? data.models : Array.isArray(data) ? data : [];
+      const ids = rawList
+        .map((m) => (m && typeof m === "object" ? String(m.id || m.name || "") : String(m || "")).trim())
+        .filter(Boolean);
       return { models: ids.length ? Array.from(new Set(ids)).sort() : suggested, source: ids.length ? "live" : "preset" };
     } catch (err) {
       if (suggested.length) {
@@ -1661,15 +1776,26 @@
     if (!resp.ok) {
       throw new Error(friendlyHttpError(resp.status, await resp.text().catch(() => ""), probeCfg.protocol));
     }
-    const full = await resp.json();
-    full.__full = true;
-    const events = parseUpstreamEvents(probeCfg.protocol, full);
-    const preview = events
+    const rawText = await resp.text();
+    const { parsedAny, events } = parseResponsePayloadEvents(
+      probeCfg.protocol,
+      resp.headers.get("content-type") || "",
+      rawText
+    );
+    if (!parsedAny) {
+      throw new Error("模型接口返回了非 JSON/SSE 响应，请检查 Base URL 是否为 API 端点（如 /v1）");
+    }
+    const deltaPreview = events
       .filter((e) => e.type === "delta")
       .map((e) => e.text)
       .join("")
-      .trim()
-      .slice(0, 80);
+      .trim();
+    const reasonPreview = events
+      .filter((e) => e.type === "reasoning")
+      .map((e) => e.text)
+      .join("")
+      .trim();
+    const preview = (deltaPreview || reasonPreview || "已连通").slice(0, 80);
     return {
       ok: true,
       provider: probeCfg.provider,

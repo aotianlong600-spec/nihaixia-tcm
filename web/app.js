@@ -1164,6 +1164,21 @@ window.addEventListener("hashchange", () => {
 });
 
 async function boot() {
+  const hash = location.hash.match(/^#\/(ai|acupuncture|herbs|neijing|formulas|six|dossier)(?:\/|$)/);
+  const isStage5Hash =
+    location.hash.startsWith("#/library") || location.hash.startsWith("#/stage5");
+  if (hash?.[1] === "acupuncture") setView("acupuncture", true);
+  else if (hash?.[1] === "herbs") setView("herbs", true);
+  else if (hash?.[1] === "neijing") setView("neijing", true);
+  else if (hash?.[1] === "six") setView("six", true);
+  else if (hash?.[1] === "formulas" || hash?.[1] === "dossier") setView("formulas", true);
+  else if (!isStage5Hash) setView("ai", true);
+
+  let aiBootPromise = null;
+  if (!isStage5Hash && state.view === "ai") {
+    aiBootPromise = Promise.resolve(window.niAI?.activate());
+  }
+
   try {
     const overview = await request("/api/overview");
     const shanghan = overview.by_book?.["伤寒论"] || 0;
@@ -1176,19 +1191,13 @@ async function boot() {
     const bcNote = bc ? ` · 本草 ${bc.edition_total || 385}味(${bc.main_classic_total || 357}正经+${bc.chapter3_supplement_count || 28}增补)/${bc.comparisons_count || 38}对照` : ` · ${overview.herbs} 味药`;
     const njNote = nj ? ` · 内经 ${nj.approved_chapters || 0}/${nj.total_chapters || 74}篇/${nj.total_concepts || 0}专题` : "";
     $("#dataset-note").textContent = `v0.1.0 构建版（持续优化中） · ${overview.formulas} 条方 · 伤寒 ${shanghan} / 金匮 ${jinkui} · 逐方校 ${reviewed}/${overview.formulas}${acupNote}${bcNote}${njNote}`;
-    const hash = location.hash.match(/^#\/(ai|acupuncture|herbs|neijing|formulas|six|dossier)(?:\/|$)/);
-    if (hash?.[1] === "acupuncture") setView("acupuncture", true);
-    else if (hash?.[1] === "herbs") setView("herbs", true);
-    else if (hash?.[1] === "neijing") setView("neijing", true);
-    else if (hash?.[1] === "six") setView("six", true);
-    else if (hash?.[1] === "formulas" || hash?.[1] === "dossier") setView("formulas", true);
-    else if (location.hash.startsWith("#/library") || location.hash.startsWith("#/stage5")) {
+    if (isStage5Hash) {
       await window.libraryStage5?.handleHash(location.hash);
       return;
-    } else setView("ai", true);
+    }
 
-    if (state.view === "ai") {
-      await window.niAI?.activate();
+    if (aiBootPromise) {
+      await aiBootPromise;
     }
     if (state.view === "acupuncture") {
       if (location.hash.startsWith("#/acupuncture/")) {

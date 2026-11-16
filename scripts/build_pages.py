@@ -248,12 +248,36 @@ def build_dist(*, skip_pdfs: bool = False) -> Path:
             continue
         shutil.copy2(p, DIST / p.name)
 
-    # 5. Copy worker & runtime bridge with pinned build id
+    # 5. Copy worker & runtime bridge with pinned build id & embedded static AI metadata
+    import json as _json
+    import sys as _sys
+
+    repo_root = Path(__file__).resolve().parent.parent
+    if str(repo_root) not in _sys.path:
+        _sys.path.insert(0, str(repo_root))
+    from ai import config_store as _cfg_store, ni_persona as _persona
+
+    static_ai_meta = {
+        "presets": list(_cfg_store.PROVIDER_PRESETS.values()),
+        "styles": _persona.list_persona_styles(),
+        "defaults": _cfg_store._default_config(),
+        "reasoning_tiers": _cfg_store.REASONING_TIER_LIST,
+        "reasoning_rules": _cfg_store.REASONING_MODEL_RULES,
+    }
+    meta_json = _json.dumps(static_ai_meta, ensure_ascii=True)
+
     worker_src = (PAGES_SRC / "pages_worker.js").read_text(encoding="utf-8")
     (DIST / "pages_worker.js").write_text(worker_src.replace("__BUILD_ID__", bundle_ver), encoding="utf-8")
 
     rt_src = (PAGES_SRC / "pages_runtime.js").read_text(encoding="utf-8")
-    (DIST / "pages_runtime.js").write_text(rt_src.replace("__BUILD_ID__", bundle_ver), encoding="utf-8")
+    if "null /* __STATIC_AI_META__ */" not in rt_src:
+        raise RuntimeError("Missing EMBEDDED_AI_META placeholder in pages_runtime.js")
+    rt_built = (
+        rt_src
+        .replace("__BUILD_ID__", bundle_ver)
+        .replace("null /* __STATIC_AI_META__ */", meta_json)
+    )
+    (DIST / "pages_runtime.js").write_text(rt_built, encoding="utf-8")
 
     # 6. Icons & Web App Manifest
     create_pwa_icons(DIST / "icons")
