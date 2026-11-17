@@ -183,9 +183,9 @@ test("the project relay receives the configured model deadline while custom enve
     return new Response("ok");
   });
   const target = "https://chatgpt.com/backend-api/codex/responses";
-  await (await relayAwareFetch(target, { method: "POST", body: "{}" }, "", 300000)).text();
-  await (await relayAwareFetch(target, { method: "POST", body: "{}" }, "https://relay.example", 300000)).text();
-  assert.equal(bodies[0].timeout_ms, 300000);
+  await (await relayAwareFetch(target, { method: "POST", body: "{}" }, "", 600000)).text();
+  await (await relayAwareFetch(target, { method: "POST", body: "{}" }, "https://relay.example", 600000)).text();
+  assert.equal(bodies[0].timeout_ms, 600000);
   assert.equal(Object.hasOwn(bodies[1], "timeout_ms"), false);
 });
 

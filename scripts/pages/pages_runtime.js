@@ -494,7 +494,7 @@
       reasoning_effort: effort,
       temperature: clampNum(payload?.temperature, existing.temperature ?? 0.45, 0.0, 1.5, false),
       max_tokens: normalizeMaxTokens(payload?.max_tokens, existing.max_tokens ?? 0),
-      timeout_sec: clampNum(payload?.timeout_sec, existing.timeout_sec ?? 120, 10, 300, true),
+      timeout_sec: clampNum(payload?.timeout_sec, existing.timeout_sec ?? 120, 10, 600, true),
     };
   }
 
@@ -732,7 +732,7 @@
             headers: headersObj,
             body: init.body ?? null,
             ...(cleanRelay === CODEX_RELAY_URL && Number.isFinite(timeoutMs) && timeoutMs > 0
-              ? { timeout_ms: Math.min(300000, Math.max(1000, Math.ceil(timeoutMs))) } : {}),
+              ? { timeout_ms: Math.min(600000, Math.max(1000, Math.ceil(timeoutMs))) } : {}),
           }),
           signal: effectiveSignal,
         }), effectiveSignal);

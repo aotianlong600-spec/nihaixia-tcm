@@ -71,6 +71,14 @@ def test_config_store_env_fallback_and_url_validation(data_dir: Path, monkeypatc
 
 
 # ── llm_client tests with MockTransport ──────────────────────────────────
+def test_config_store_preserves_long_generation_timeout(data_dir: Path):
+    saved = config_store.save_config(data_dir, {"provider": "codex", "timeout_sec": 600})
+    assert saved["timeout_sec"] == 600
+    assert config_store.resolve_runtime_config(data_dir)["timeout_sec"] == 600
+    limited = config_store.save_config(data_dir, {"timeout_sec": 9999})
+    assert limited["timeout_sec"] == 600
+
+
 def _mock_async_client(handler) -> httpx.AsyncClient:
     return httpx.AsyncClient(transport=httpx.MockTransport(handler))
 

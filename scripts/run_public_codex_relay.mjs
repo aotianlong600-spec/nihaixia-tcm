@@ -56,7 +56,7 @@ function readBody(incoming, limit, signal) {
 
 export function createRelayServer({
   handler = worker.fetch.bind(worker), bodyLimit = 2 * 1024 * 1024, maxConcurrent = 16,
-  requestTimeoutMs = 15000, headersTimeoutMs = requestTimeoutMs, responseTimeoutMs = 310000,
+  requestTimeoutMs = 15000, headersTimeoutMs = requestTimeoutMs, responseTimeoutMs = 610000,
 } = {}) {
   let active = 0;
   return createServer({

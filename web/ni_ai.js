@@ -1892,7 +1892,7 @@
     const envNote = $("#ai-cfg-codex-env-note");
     if (envNote) {
       envNote.textContent = window.__TCM_STATIC_WEB__
-        ? "网页版推荐设备码登录，每位用户使用自己的 ChatGPT 账号。授权令牌与模型请求经项目云端服务发送至 OpenAI，无需运行本机中转。浏览器授权需要手动粘贴回调链接。"
+        ? "网页版推荐设备码登录，每位用户使用自己的 ChatGPT 账号。授权令牌与模型请求经项目云端服务发送至 OpenAI，无需运行本机中转。极限推理可能等待数分钟，完整问诊可把超时设为 600 秒。浏览器授权需要手动粘贴回调链接。"
         : "本地 Python 服务版已直连 auth.openai.com 与 localhost:1455 回调监听，支持设备码或浏览器一键登录，凭证仅限权存本地 data/codex_oauth.json，对话由后端转发，无任何浏览器跨域限制。";
     }
 

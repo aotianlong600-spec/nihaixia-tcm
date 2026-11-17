@@ -123,13 +123,13 @@ export default {
     if (!allowedOrigin(origin)) return json({ error: 'origin_not_allowed' }, 403, APP_ORIGIN)
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) })
     if (request.method !== 'POST') return json({ error: 'method_not_allowed' }, 405, origin)
-    let payload, target, headers, timeoutMs = 300000
+    let payload, target, headers, timeoutMs = 600000
     try {
       if (!request.headers.get('Content-Type')?.startsWith('application/json')) throw new TypeError()
       payload = JSON.parse(new TextDecoder().decode(await readLimited(request.body, 2 * 1024 * 1024)))
       if (!payload || typeof payload.url !== 'string') throw new TypeError()
       if (Object.hasOwn(payload, 'timeout_ms')) {
-        if (!Number.isInteger(payload.timeout_ms) || payload.timeout_ms < 1000 || payload.timeout_ms > 300000) throw new TypeError()
+        if (!Number.isInteger(payload.timeout_ms) || payload.timeout_ms < 1000 || payload.timeout_ms > 600000) throw new TypeError()
         timeoutMs = payload.timeout_ms
       }
       target = new URL(payload.url)

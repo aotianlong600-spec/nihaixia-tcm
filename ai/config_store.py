@@ -691,7 +691,7 @@ def normalize_config(payload: dict[str, Any], existing: dict[str, Any] | None = 
         "reasoning_effort": effort,
         "temperature": round(_clamp_float(payload.get("temperature"), base["temperature"], 0.0, 1.5), 2),
         "max_tokens": _normalize_max_tokens(payload.get("max_tokens"), int(base.get("max_tokens", 0))),
-        "timeout_sec": _clamp_int(payload.get("timeout_sec"), base["timeout_sec"], 10, 300),
+        "timeout_sec": _clamp_int(payload.get("timeout_sec"), base["timeout_sec"], 10, 600),
     }
 
 

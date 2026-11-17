@@ -249,8 +249,10 @@ test('client cancellation is distinguished from the worker deadline', async t =>
 
 for (const sample of [
   { label: '20 second browser deadline', envelope: { timeout_ms: 20000 }, expected: 22000 },
-  { label: 'maximum 300 second browser deadline', envelope: { timeout_ms: 300000 }, expected: 302000 },
-  { label: 'old client without a deadline', envelope: {}, expected: 302000 },
+  { label: '300 second browser deadline', envelope: { timeout_ms: 300000 }, expected: 302000 },
+  { label: 'deadline above the former 300 second limit', envelope: { timeout_ms: 300001 }, expected: 302001 },
+  { label: 'maximum 600 second browser deadline', envelope: { timeout_ms: 600000 }, expected: 602000 },
+  { label: 'old client without a deadline', envelope: {}, expected: 602000 },
   { label: 'minimum supported browser deadline', envelope: { timeout_ms: 1000 }, expected: 3000 },
 ]) {
   test(`upstream timeout allows cancellation grace for ${sample.label}`, async t => {
@@ -266,7 +268,7 @@ for (const sample of [
   })
 }
 
-for (const timeout of [-1, 0, 999, 1000.5, 300001, '20000', null, true, {}, []]) {
+for (const timeout of [-1, 0, 999, 1000.5, 600001, '20000', null, true, {}, []]) {
   test(`an invalid timeout_ms ${JSON.stringify(timeout)} is rejected before upstream fetch`, async t => {
     const upstream = t.mock.method(globalThis, 'fetch', async () => new Response('must not run'))
     const response = await worker.fetch(request(undefined, origin, { timeout_ms: timeout }))
