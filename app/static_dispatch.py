@@ -325,7 +325,8 @@ def dispatch_api(url: str) -> tuple[int, Any]:
             recovered_only=_qs_bool(qs, "recovered_only"),
             meridian=_qs_str(qs, "meridian"),
             page=_qs_int(qs, "page", 1, 1, 99999),
-            page_size=_qs_int(qs, "page_size", 24, 1, 80),
+            page_size=_qs_int(qs, "page_size", 24, 1, 400),
+            include_detail=_qs_bool(qs, "include_detail"),
         )
     if path == "/api/bencao/comparisons":
         return 200, bencao_catalog.list_comparisons(q=_qs_str(qs, "q"), category=_qs_str(qs, "category"))

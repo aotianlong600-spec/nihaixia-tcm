@@ -1733,6 +1733,227 @@ summary { color: var(--green-dark); cursor: pointer; font-size: 12px; font-weigh
   color: #5b21b6;
 }
 
+/* Compact PDF-like book layout & continuous herb stream for Bencao */
+.bc-stream-wrap,
+.bc-single-sheet {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 16px 22px;
+}
+
+.bc-stream-banner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px 12px;
+  background: #f6f1e4;
+  border: 1px solid #dfd3bd;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #4a3f30;
+}
+
+.bc-continuous-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bc-book-sheet {
+  background: #fffdf8;
+  border: 1px solid var(--line, #e2d9c8);
+  border-radius: 10px;
+  padding: 14px 18px;
+  scroll-margin-top: 12px;
+}
+
+.bc-book-sheet.is-focused {
+  border-color: var(--green, #245b48);
+  box-shadow: 0 0 0 2px rgba(36, 91, 72, 0.12);
+}
+
+.bc-book-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ece3d2;
+}
+
+.bc-book-title-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+}
+
+.bc-book-title {
+  margin: 0;
+  font-family: Georgia, "Songti SC", serif;
+  font-size: 19px;
+  line-height: 1.3;
+  color: #1b2a22;
+}
+
+.bc-book-meta {
+  font-size: 12px;
+  color: var(--muted, #6f6659);
+}
+
+.bc-book-alias {
+  font-size: 12.5px;
+  color: #245b48;
+}
+
+.bc-book-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  font-size: 12px;
+}
+
+.bc-book-body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 9px;
+}
+
+.bc-book-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px;
+  align-items: baseline;
+  font-size: 14px;
+  line-height: 1.72;
+  color: #2b251d;
+}
+
+.bc-book-label {
+  color: var(--green, #19533c);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.bc-book-row.is-ni .bc-book-label {
+  color: #8f4e00;
+}
+
+.bc-book-row.is-ni {
+  background: #fdf9ef;
+  border-left: 3px solid #d4a147;
+  padding: 5px 9px;
+  border-radius: 4px;
+}
+
+.bc-book-row.is-ni-summary {
+  background: #f8fbf9;
+  border-left: 3px solid #65a387;
+  padding: 5px 9px;
+  border-radius: 4px;
+}
+
+.bc-book-row.is-contra .bc-book-label,
+.bc-warn-inline {
+  color: #9e1c1c;
+}
+
+.bc-book-row.is-ch3 .bc-book-label {
+  color: #5b21b6;
+}
+
+.bc-book-val {
+  min-width: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.bc-book-subline {
+  margin-top: 3px;
+}
+
+.bc-muted-line {
+  color: var(--muted, #6f6659);
+  font-size: 13px;
+}
+
+.bc-inline-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.bc-inline-formula-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 6px;
+  margin-top: 2px;
+}
+
+.bc-inline-formula {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 2px 8px;
+  border: 1px solid #d9cfbc;
+  border-radius: 6px;
+  background: #fbf8f0;
+  color: #2d261d;
+  font-size: 12.5px;
+  line-height: 1.45;
+  cursor: pointer;
+  text-align: left;
+}
+
+.bc-inline-formula:hover {
+  border-color: var(--green, #245b48);
+  background: #eef6f1;
+}
+
+.bc-inline-formula strong {
+  color: var(--green, #19533c);
+}
+
+.bc-inline-formula span {
+  font-size: 11.5px;
+  color: #5c5347;
+}
+
+.bc-stream-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 0 10px;
+  font-size: 13px;
+  color: var(--muted, #6f6659);
+}
+
+@media (max-width: 640px) {
+  .bc-stream-wrap,
+  .bc-single-sheet {
+    padding: 10px 12px;
+  }
+
+  .bc-book-sheet {
+    padding: 12px;
+  }
+
+  .bc-book-row {
+    grid-template-columns: 1fr;
+    gap: 1px;
+  }
+}
+
 /* Keep top header brand & module tabs single-line across desktop/tablet viewports */
 .brand-mark {
   flex: 0 0 auto;

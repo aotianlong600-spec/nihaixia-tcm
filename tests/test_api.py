@@ -204,3 +204,36 @@ def test_security_headers(client):
     headers = client.get("/api/status").headers
     assert headers["X-Content-Type-Options"] == "nosniff"
     assert headers["Cache-Control"] == "no-store"
+
+
+def test_bencao_entries_include_detail_batch_and_frontend_stream(client):
+    res = client.get("/api/bencao/entries", params={"include_detail": "true", "page_size": 50})
+    assert res.status_code == 200
+    payload = res.json()
+    assert payload["total"] == 385
+    assert len(payload["items"]) == 50
+    first = payload["items"][0]
+    for field in (
+        "classic_original",
+        "properties",
+        "historical_commentaries",
+        "ni_haixia_annotations",
+        "processing_and_compatibility",
+        "formula_usages",
+    ):
+        assert field in first
+
+    from app.static_dispatch import dispatch_request
+
+    static_env = json.loads(
+        dispatch_request("/api/bencao/entries?include_detail=true&page_size=50", "GET", "")
+    )
+    assert static_env["status"] == 200
+    assert len(static_env["body"]["items"]) == 50
+    assert "classic_original" in static_env["body"]["items"][0]
+
+    html_src = (Path(__file__).resolve().parents[1] / "web" / "index.html").read_text(encoding="utf-8")
+    bencao_js = (Path(__file__).resolve().parents[1] / "web" / "bencao.js").read_text(encoding="utf-8")
+    assert 'id="bc-continuous-mode"' in html_src
+    assert "renderHerbBookEntryHtml" in bencao_js
+    assert "renderContinuousCatalogStream" in bencao_js

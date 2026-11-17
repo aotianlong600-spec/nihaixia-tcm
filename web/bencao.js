@@ -32,6 +32,9 @@
     selectedEntry: null,
     formulaBookFilter: "", // "" | "伤寒论" | "金匮要略"
     pagePreviewOpen: {}, // pdf_page -> boolean
+    continuousMode: true,
+    streamLoading: false,
+    streamLoadingAll: false,
   };
 
   const REV_LABEL = {
@@ -112,6 +115,8 @@
 
     if (catFilters) catFilters.classList.toggle("hidden", !isCatalog);
     if (toggleRow) toggleRow.classList.toggle("hidden", !isCatalog);
+    const contCheckbox = qEl("#bc-continuous-mode");
+    if (contCheckbox) contCheckbox.checked = Boolean(bcState.continuousMode);
     if (compFilterBox) compFilterBox.classList.toggle("hidden", !isComp);
     if (diagBtn) diagBtn.classList.toggle("hidden", !(isDiagnose || isCatalog));
     if (chipStrip) chipStrip.classList.toggle("hidden", !(isDiagnose || isCatalog));
@@ -379,18 +384,14 @@
     </div>`;
   }
 
-  function renderEntryDetail(entry, diagCtx = null) {
-    const detailEl = qEl("#bc-detail");
-    if (!detailEl || !entry) return;
-    bcState.selectedEntry = entry;
-
+  function renderHerbBookEntryHtml(entry, { diagCtx = null, isStreamItem = false } = {}) {
     const props = entry.properties || {};
     const classic = entry.classic_original || {};
     const apps = entry.applications || {};
     const ni = entry.ni_haixia_annotations || {};
     const proc = entry.processing_and_compatibility || {};
-    const isCh3 = classic.in_shennong_classic === false || entry.kind === "ch3";
-    const risk = props.risk_level || "standard";
+    const isCh3 = classic.in_shennong_classic === false || entry.in_shennong_classic === false || entry.kind === "ch3";
+    const risk = props.risk_level || entry.risk_level || "standard";
 
     let safetyBanner = "";
     const toxNote =
@@ -401,20 +402,18 @@
           : "虽注无毒，仍具偏性或古今品种分歧";
     if (risk === "emergency") {
       safetyBanner = `<div class="bc-banner bc-banner-emergency">
-        <strong>高风险 · 毒剧 / 峻攻 / 妊娠 / 重金属警示（${esc(toxNote)}）</strong>
-        <p>${esc((props.risk_reasons || []).join("；") || "本书标注本品具强攻泻或峻毒偏性，仅作古典医药文献研读，须严遵先起黍粟、病去即止与正确炮制方法，绝不可未经专业辨证擅自单服。")}</p>
+        <strong>高风险警示（${esc(toxNote)}）：</strong><span>${esc((props.risk_reasons || []).join("；") || "本书标注本品具强攻泻或峻毒偏性，仅作古典医药文献研读，须严遵先起黍粟、病去即止与正确炮制方法。")}</span>
       </div>`;
     } else if (risk === "high_risk") {
       safetyBanner = `<div class="bc-banner bc-banner-risk">
-        <strong>临床偏性与古今名实慎用提示（${esc(toxNote)}）</strong>
-        <p>${esc((props.risk_reasons || []).join("；") || "含小毒、妊娠禁忌或古今品种分歧，使用前须核下方《禁忌》与《基原争议》。")}</p>
+        <strong>慎用提示（${esc(toxNote)}）：</strong><span>${esc((props.risk_reasons || []).join("；") || "含小毒、妊娠禁忌或古今品种分歧，使用前须核下方《禁忌》与《基原争议》。")}</span>
       </div>`;
     }
 
     const diagBanner = diagCtx
       ? `<div class="bc-diag-banner">
           <div class="bc-diag-banner-head">
-            <strong>本次“症状找药”推演命中依据</strong>
+            <strong>本次“症状找药”命中依据</strong>
             <span>综合匹配分：${esc(diagCtx.score)}</span>
           </div>
           ${diagCtx.matched_terms?.length ? `<div class="tag-row">${diagCtx.matched_terms.map((t) => `<span class="symptom-chip">命中：${esc(t)}</span>`).join("")}</div>` : ""}
@@ -424,76 +423,128 @@
         </div>`
       : "";
 
-    // Layer 1: Classic Original
-    const classicHtml = isCh3
-      ? `<div class="bc-ch3-notice">
-          <strong>【本经未载 · 第三章仲景经方增补条目】</strong>
-          <p>${esc(classic.text)}</p>
-          ${classic.edition_note ? `<small>${esc(classic.edition_note)}</small>` : ""}
-        </div>`
-      : `<div class="dossier-quote source-quote">${esc(classic.text || "原文未录")}</div>
-        ${classic.appended_notes?.length ? `<div class="review-note">${classic.appended_notes.map(esc).join("<br>")}</div>` : ""}
-        ${classic.edition_note ? `<div class="source-note">校勘说明：${esc(classic.edition_note)}</div>` : ""}`;
+    const rows = [];
+    const addRow = (label, valHtml, extraClass = "") => {
+      if (!valHtml) return;
+      rows.push(`<div class="bc-book-row${extraClass ? ` ${extraClass}` : ""}">
+        <strong class="bc-book-label">${esc(label)}</strong>
+        <div class="bc-book-val">${valHtml}</div>
+      </div>`);
+    };
 
-    // Layer 2: Properties
-    const natureTags = [...(props.four_natures || []), ...(props.five_flavors || [])];
-    const propGridHtml = `<div class="bc-prop-grid">
-      <div class="bc-prop-card"><span>气味毒性原文</span><strong>${esc(props.qi_wei_raw || "见《本经》经文")}</strong></div>
-      <div class="bc-prop-card"><span>四气 · 五味</span><strong>${natureTags.length ? esc(natureTags.join(" · ")) : "见经文"}${props.toxicity && props.toxicity !== "未明言" ? `（${esc(props.toxicity)}）` : ""}</strong></div>
-      <div class="bc-prop-card"><span>归经线索</span><strong>${(props.meridians || []).length ? esc(props.meridians.join("、")) : "原文未单独标归经"}</strong></div>
-      <div class="bc-prop-card"><span>产地生境</span><strong>${esc(props.origin || "《本经》/《别录》未单列")}</strong></div>
-    </div>
-    ${apps.main_summary ? `<div class="bc-subblock"><h5>【主治纲领】</h5><p class="section-copy">${esc(apps.main_summary)}</p></div>` : ""}
-    ${apps.symptom_keywords?.length ? `<div class="tag-row bc-sym-tags">${apps.symptom_keywords.map((s) => `<button type="button" class="symptom-chip bc-sym-jump" data-bc-diag-chip="${esc(s)}" title="以此症状重新找药">${esc(s)}</button>`).join("")}</div>` : ""}`;
-
-    // Layer 3: Ni Haixia Annotations
-    const niBlocks = [];
-    if (ni.why_it_works) niBlocks.push(`<div class="bc-ni-box"><h5>为什么用 · 药理与气味象义</h5><p>${esc(ni.why_it_works)}</p></div>`);
-    if (ni.when_to_use) niBlocks.push(`<div class="bc-ni-box"><h5>何时选用 · 临床抓手</h5><p>${esc(ni.when_to_use)}</p></div>`);
-    if (ni.differentiation_notes) niBlocks.push(`<div class="bc-ni-box bc-ni-warn"><h5>临证辨异与误用警戒</h5><p>${esc(ni.differentiation_notes)}</p></div>`);
-    if (ni.clinical_experience?.length) {
-      niBlocks.push(`<div class="bc-ni-box"><h5>临床用方经验</h5><ul>${ni.clinical_experience.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>`);
+    // 1. 本经原文 / 第三章仲景增补
+    const classicParts = [];
+    if (classic.text) classicParts.push(`<span>${esc(classic.text)}</span>`);
+    if (classic.appended_notes?.length) {
+      classicParts.push(`<div class="bc-book-subline">${classic.appended_notes.map(esc).join("<br>")}</div>`);
     }
+    if (classic.edition_note) {
+      classicParts.push(`<div class="bc-book-subline bc-muted-line">校勘：${esc(classic.edition_note)}</div>`);
+    }
+    addRow(
+      isCh3 ? "【第三章仲景增补】" : "【本经原文】",
+      classicParts.join("") || (isCh3 ? "" : `<span class="bc-muted-line">原文未录</span>`),
+      isCh3 ? "is-ch3" : "is-classic"
+    );
+
+    // 2. 产地
+    if (props.origin) {
+      addRow("【产地】", esc(props.origin));
+    }
+
+    // 3. 性味 · 四气五味 · 归经
+    const natureTags = [...(props.four_natures || []), ...(props.five_flavors || [])];
+    const propBits = [];
+    if (props.qi_wei_raw) propBits.push(esc(props.qi_wei_raw));
+    if (natureTags.length) {
+      const tagStr = `四气五味：${natureTags.join(" · ")}${props.toxicity && props.toxicity !== "未明言" ? `（${props.toxicity}）` : ""}`;
+      if (!props.qi_wei_raw || !props.qi_wei_raw.includes(natureTags[0])) propBits.push(esc(tagStr));
+    }
+    if (props.meridians?.length) propBits.push(`归经：${esc(props.meridians.join("、"))}`);
+    if (propBits.length) {
+      addRow("【性味归经】", propBits.join("　|　"));
+    }
+
+    // 4. 主治
+    if (apps.main_summary || apps.symptom_keywords?.length) {
+      const kwHtml = apps.symptom_keywords?.length
+        ? `<div class="bc-inline-tags">${apps.symptom_keywords
+            .map((s) => `<button type="button" class="symptom-chip bc-sym-jump" data-bc-diag-chip="${esc(s)}" title="以此症状重新找药">${esc(s)}</button>`)
+            .join("")}</div>`
+        : "";
+      addRow("【主治】", `${apps.main_summary ? `<span>${esc(apps.main_summary)}</span>` : ""}${kwHtml}`);
+    }
+
+    // 5. 历代注家（别录 / 甄权 / 大明 / 容川 / 药征 / 灵胎等，按原书顺序逐条罗列）
+    for (const c of entry.historical_commentaries || []) {
+      const rawTag = String(c.tag || c.scholar || "按注").trim();
+      const label = rawTag.startsWith("【") ? rawTag : `【${rawTag}】`;
+      if (c.text) addRow(label, esc(c.text));
+    }
+
+    // 6. 倪海厦原文按语与临证提要
     if (ni.explicit_ni_notes?.length) {
-      niBlocks.push(`<div class="bc-ni-box bc-ni-verbatim"><h5>原书【倪注】按语全文</h5>${ni.explicit_ni_notes.map((n) => `<blockquote class="dossier-quote">${esc(n)}</blockquote>`).join("")}</div>`);
+      addRow("【倪注】", ni.explicit_ni_notes.map(esc).join("\n\n"), "is-ni");
     }
     if (ni.chapter3_pithy_summary) {
-      niBlocks.push(`<div class="bc-ni-box bc-ni-verbatim"><h5>第三章倪氏总提要</h5><p>${esc(ni.chapter3_pithy_summary)}</p></div>`);
+      addRow("【倪氏总提要】", esc(ni.chapter3_pithy_summary), "is-ni");
     } else if (ni.chapter3_editor_intro && isCh3) {
-      niBlocks.push(`<div class="bc-ni-box"><h5>第三章按语说明</h5><p>${esc(ni.chapter3_editor_intro)}</p></div>`);
+      addRow("【第三章按语】", esc(ni.chapter3_editor_intro), "is-ni");
     }
     if (ni.unlabeled_clinical_excerpts?.length) {
-      niBlocks.push(`<div class="bc-ni-box"><h5>讲记口述阐述节录</h5>${ni.unlabeled_clinical_excerpts.map((u) => `<p>${esc(u)}</p>`).join("")}</div>`);
+      addRow("【原书按语阐述】", ni.unlabeled_clinical_excerpts.map(esc).join("\n\n"), "is-ni");
     }
-    const niHtml = niBlocks.length
-      ? niBlocks.join("")
-      : `<div class="missing-composition">原书此条仅录经文（及旧注片断），未附【倪注】口述按语；系统严守存真规范，不代为增补。</div>`;
+    const niSynthesis = [];
+    if (ni.why_it_works) niSynthesis.push(`<div><strong>为什么用：</strong>${esc(ni.why_it_works)}</div>`);
+    if (ni.when_to_use) niSynthesis.push(`<div><strong>何时选用：</strong>${esc(ni.when_to_use)}</div>`);
+    if (ni.clinical_experience?.length) {
+      niSynthesis.push(`<div><strong>用方经验：</strong>${ni.clinical_experience.map(esc).join("；")}</div>`);
+    }
+    if (ni.differentiation_notes) {
+      niSynthesis.push(`<div class="bc-warn-inline"><strong>辨异警戒：</strong>${esc(ni.differentiation_notes)}</div>`);
+    }
+    if (niSynthesis.length) {
+      addRow("【倪氏临证提要】", niSynthesis.join(""), "is-ni-summary");
+    }
 
-    // Layer 4: Processing & Compatibility
-    const procDiffText = proc.processing_differences || "";
-    const procHtml = `<div class="bc-proc-grid">
-      <div><h5>【原书用量】</h5><p>${esc(proc.dosage || "原文未单列【用量】")}</p></div>
-      <div><h5>【炮制方法】</h5><p>${esc(proc.processing || "原文未单列【炮制】")}</p></div>
-      ${procDiffText ? `<div class="bc-proc-full"><h5>【生熟炮制关键差异】</h5><p>${esc(procDiffText)}</p></div>` : ""}
-      ${proc.seven_relations?.length ? `<div class="bc-proc-full"><h5>【七情配伍：畏恶反杀使忌】</h5><div class="tag-row">${proc.seven_relations.map((r) => `<span class="tag">${esc(r)}</span>`).join("")}</div></div>` : ""}
-      ${proc.contraindications ? `<div class="bc-proc-full bc-contra-box"><h5>【禁忌与慎用】</h5><p>${esc(proc.contraindications)}</p></div>` : ""}
-      ${proc.appendices?.length ? `<div class="bc-proc-full"><h5>【同条附品 / 炮制品分支】</h5>${proc.appendices.map((ap) => `<div class="bc-sub-appendix"><strong>${esc(ap.title || "附品")}：</strong><span>${esc(ap.text || "")}</span></div>`).join("")}</div>` : ""}
-    </div>`;
+    // 7. 用量
+    if (proc.dosage) {
+      addRow("【用量】", esc(proc.dosage));
+    }
 
-    // Layer 5: Historical Commentaries
-    const commList = entry.historical_commentaries || [];
-    const commHtml = commList.length
-      ? `<div class="bc-comm-list">${commList
-          .map(
-            (c) => `<article class="bc-comm-card">
-              <div class="bc-comm-head"><strong>${esc(c.tag || c.scholar)}</strong><span>${esc(c.scholar || "")}</span></div>
-              <p>${esc(c.text)}</p>
-            </article>`
-          )
-          .join("")}</div>`
-      : `<div class="section-copy">本条原书未单列别录、甄权、容川、灵胎等后世注家分段。</div>`;
+    // 8. 炮制及生熟差异
+    if (proc.processing || proc.processing_differences) {
+      const procParts = [];
+      if (proc.processing) procParts.push(`<span>${esc(proc.processing)}</span>`);
+      if (proc.processing_differences) {
+        procParts.push(`<div class="bc-book-subline"><strong>生熟炮制之异：</strong>${esc(proc.processing_differences)}</div>`);
+      }
+      addRow("【炮制】", procParts.join(""));
+    }
 
-    // Layer 6: Controversies & Open Questions & Organizer Notes
+    // 9. 禁忌与七情配伍
+    if (proc.contraindications || proc.seven_relations?.length) {
+      const relStr = proc.seven_relations?.length
+        ? `<div class="bc-inline-tags">${proc.seven_relations.map((r) => `<span class="tag">${esc(r)}</span>`).join("")}</div>`
+        : "";
+      addRow(
+        "【禁忌与配伍】",
+        `${proc.contraindications ? `<span class="bc-warn-inline">${esc(proc.contraindications)}</span>` : ""}${relStr}`,
+        proc.contraindications ? "is-contra" : ""
+      );
+    }
+
+    // 10. 附品 / 同条分支
+    if (proc.appendices?.length) {
+      addRow(
+        "【同条附品】",
+        proc.appendices
+          .map((ap) => `<div><strong>${esc(ap.title || "附品")}：</strong>${esc(ap.text || "")}</div>`)
+          .join("")
+      );
+    }
+
+    // 11. 基原争议 · 待考 · 校按
     const contList = entry.identity_controversies || [];
     const openList = entry.open_questions || [];
     const orgList = entry.organizer_notes || [];
@@ -503,197 +554,167 @@
           ? `<button type="button" class="text-button" data-bc-entry="${encodeURIComponent("bencao:白芷")}">对照查看《本经·中品第173条》白芷 ↗</button>`
           : `<button type="button" class="text-button" data-bc-entry="${encodeURIComponent("bencao:ch3-白芷")}">对照查看《第三章第15条》增补白芷 ↗</button>`
         : "";
-    const controversyHtml =
-      contList.length || openList.length || orgList.length || dualLink
-        ? `${dualLink ? `<div class="tag-row">${dualLink}</div>` : ""}
-           ${contList
-             .map(
-               (c) => `<div class="bc-controversy-box">
-                 <strong>【基原 / 别名 / 用药争议（绝不强并）】${esc(c.topic)}</strong>
-                 <p>${esc(c.summary)}</p>
-                 ${c.policy ? `<small>处理原则：${esc(c.policy)}</small>` : ""}
-               </div>`
-             )
-             .join("")}
-           ${openList
-             .map(
-               (oq) => `<div class="bc-open-q-box">
-                 <strong>【尚待考证 · 保留原貌不推演】</strong>
-                 <p>${esc(oq)}</p>
-               </div>`
-             )
-             .join("")}
-           ${orgList.length ? `<div class="review-note"><strong>【整理者校按】</strong>${orgList.map(esc).join("；")}</div>` : ""}`
-        : `<div class="section-copy">本条基原清楚，暂无古今同名争议或待考悬案。</div>`;
+    if (contList.length || openList.length || orgList.length || dualLink) {
+      const contParts = [];
+      if (dualLink) contParts.push(`<div>${dualLink}</div>`);
+      contList.forEach((c) => {
+        contParts.push(`<div><strong>${esc(c.topic)}：</strong>${esc(c.summary)}${c.policy ? `（原则：${esc(c.policy)}）` : ""}</div>`);
+      });
+      openList.forEach((oq) => {
+        contParts.push(`<div class="bc-muted-line"><strong>尚待考证：</strong>${esc(oq)}</div>`);
+      });
+      if (orgList.length) {
+        contParts.push(`<div class="bc-muted-line"><strong>校按：</strong>${orgList.map(esc).join("；")}</div>`);
+      }
+      addRow("【争议与校按】", contParts.join(""), "is-controversy");
+    }
 
-    // Layer 7: Comparisons
-    const compsDetailed = entry.comparisons_detailed || [];
-    const compHtml = compsDetailed.length
-      ? compsDetailed.map(renderComparisonCardHtml).join("")
-      : `<div class="section-copy">本品暂无单独成组的鉴别对照表；可切换至顶部“本草鉴别对照 (38)”查阅全部鉴别专题。</div>`;
-
-    // Layer 8: Formula Usages (Bidirectional Links with Exact Dose & Processing!)
+    // 12. 仲景经方反向关联（直接罗列全部入方与剂量）
     const allUsages = entry.formula_usages || [];
-    const shanghanCount = allUsages.filter((u) => u.book === "伤寒论").length;
-    const jinkuiCount = allUsages.filter((u) => u.book === "金匮要略").length;
-    const activeBook = bcState.formulaBookFilter;
-    const shownUsages = activeBook ? allUsages.filter((u) => u.book === activeBook) : allUsages;
-    const formulaHtml = allUsages.length
-      ? `${allUsages.length > 6 ? `<div class="bc-formula-filter-row">
-            <button type="button" class="s4-chip${!activeBook ? " bc-chip-active" : ""}" data-bc-fbook="">全部 (${allUsages.length})</button>
-            ${shanghanCount ? `<button type="button" class="s4-chip${activeBook === "伤寒论" ? " bc-chip-active" : ""}" data-bc-fbook="伤寒论">伤寒论 (${shanghanCount})</button>` : ""}
-            ${jinkuiCount ? `<button type="button" class="s4-chip${activeBook === "金匮要略" ? " bc-chip-active" : ""}" data-bc-fbook="金匮要略">金匮要略 (${jinkuiCount})</button>` : ""}
-          </div>` : ""}
-          <div class="bc-formula-grid">${shownUsages
-            .map(
-              (u) => `<button type="button" class="bc-formula-card" data-formula-id="${encodeURIComponent(u.formula_id)}">
-                <div class="bc-formula-head">
-                  <strong>${esc(u.formula_name)}</strong>
-                  <span>${esc(u.book)}${u.six_meridian ? ` · ${esc(u.six_meridian)}` : u.chapter ? ` · ${esc(u.chapter)}` : ""} ↗</span>
-                </div>
-                <div class="bc-formula-dose">
-                  <span>原方用名：<strong>${esc(u.ingredient_raw_name)}</strong></span>
-                  <span>剂量：<strong>${esc(u.dose || "见原方")}</strong></span>
-                  ${u.processing ? `<span>炮制/制法：<strong>${esc(u.processing)}</strong></span>` : ""}
-                </div>
-                ${u.mapping_note ? `<div class="bc-formula-note">别名对照：${esc(u.mapping_note)}</div>` : ""}
-                ${u.controversy ? `<div class="bc-formula-warn">争议提示：${esc(u.controversy)}</div>` : ""}
-              </button>`
-            )
-            .join("")}</div>`
-      : `<div class="section-copy">《伤寒论》《金匮要略》现行 299 首经方正方中未直接检出以此药为固定主药的条文。</div>`;
-
-    // Layer 9: Neijing & Acupuncture Cross-Links
-    const njRels = entry.neijing_relations || [];
-    const njHtml = njRels.length
-      ? `<div class="nj-link-grid">${njRels
-          .map((rel) => {
-            const attr =
-              rel.target_kind === "chapter"
-                ? `data-nj-jump-chapter="${encodeURIComponent(rel.target_nav_id)}"`
-                : `data-nj-jump-concept="${encodeURIComponent(rel.target_nav_id)}"`;
-            return `<button type="button" class="nj-rel-btn" ${attr}>
-              <div class="nj-link-head">
-                <strong>${esc(rel.canonical_name)}</strong>
-                <em>${esc(rel.submodule_label || rel.chapter_title || "内经")} · ↗</em>
-              </div>
-              <p>${esc(rel.rationale || rel.label || "查看《黄帝内经·素问》原文与倪注")}</p>
-            </button>`;
-          })
-          .join("")}</div>`
-      : `<div class="section-copy">暂无直接锚定的《黄帝内经》专题链接；可结合下方五味五色阴阳升降总义理解其气味机理。</div>`;
-
-    // Layer 10: Source spans + PNG Page Viewer
-    const spans = entry.source_spans || [];
-    const uniquePages = [...new Set(entry.pdf_pages || [entry.page_start])];
-    const spansHtml = `<div class="bc-source-list">
-      ${spans
+    if (allUsages.length) {
+      const shanghanCount = allUsages.filter((u) => u.book === "伤寒论").length;
+      const jinkuiCount = allUsages.filter((u) => u.book === "金匮要略").length;
+      const activeBook = isStreamItem ? "" : bcState.formulaBookFilter;
+      const shownUsages = activeBook ? allUsages.filter((u) => u.book === activeBook) : allUsages;
+      const filterRow =
+        !isStreamItem && allUsages.length > 6
+          ? `<div class="bc-formula-filter-row">
+              <button type="button" class="s4-chip${!activeBook ? " bc-chip-active" : ""}" data-bc-fbook="">全部 (${allUsages.length})</button>
+              ${shanghanCount ? `<button type="button" class="s4-chip${activeBook === "伤寒论" ? " bc-chip-active" : ""}" data-bc-fbook="伤寒论">伤寒论 (${shanghanCount})</button>` : ""}
+              ${jinkuiCount ? `<button type="button" class="s4-chip${activeBook === "金匮要略" ? " bc-chip-active" : ""}" data-bc-fbook="金匮要略">金匮要略 (${jinkuiCount})</button>` : ""}
+            </div>`
+          : "";
+      const formulaChips = `<div class="bc-inline-formula-list">${shownUsages
         .map(
-          (sp) => `<div class="source-box">
-            <div class="source-locator">
-              <span>底本溯源：倪注《神农本草经》 · PDF 第 ${sp.pdf_page} 页${sp.printed_page ? `（书页 ${esc(sp.printed_page)}）` : ""} · SHA256:${esc((sp.text_sha256 || "").slice(0, 12))}</span>
-              <button type="button" class="text-button ctx-ref-btn" data-ctx-loc="1" data-ctx-book="ni-bencao-pdf" data-ctx-page="${sp.pdf_page}" data-ctx-q="${esc((sp.quote || entry.name).slice(0, 20))}">上下文滑动对照（消除跨页截断）↗</button>
-            </div>
-            <p>逐字锚定引文：“${esc(sp.quote)}”</p>
-          </div>`
+          (u) => `<button type="button" class="bc-inline-formula" data-formula-id="${encodeURIComponent(u.formula_id)}" title="${esc(u.book)}${u.mapping_note ? ` · ${u.mapping_note}` : ""}${u.controversy ? ` · ${u.controversy}` : ""}">
+            <strong>${esc(u.formula_name)}</strong>
+            <span>(${esc(u.ingredient_raw_name)} ${esc(u.dose || "见原方")}${u.processing ? `·${esc(u.processing)}` : ""})</span>
+          </button>`
         )
-        .join("")}
-      <div class="bc-page-preview-bar">
-        ${uniquePages
-          .map((pNo) => {
-            const open = Boolean(bcState.pagePreviewOpen[pNo]);
-            return `<div class="bc-page-toggle-wrap">
-              <button type="button" class="text-button" data-bc-toggle-img="${pNo}">${open ? `收起 PDF 第 ${pNo} 页原页图` : `展开查看 PDF 第 ${pNo} 页原书扫描图`}</button>
-              <button type="button" class="text-button ctx-ref-btn" data-ctx-loc="1" data-ctx-book="ni-bencao-pdf" data-ctx-page="${pNo}" data-ctx-q="${esc(entry.name)}">上下文连续滑读（PDF p.${pNo} 起）↗</button>
-              <button type="button" class="text-button" data-bc-open-page="${pNo}">转至原页逐字校对视图 ↗</button>
-              ${open ? `<div class="bc-page-img-frame"><img ${window.tcmImgAttrs ? window.tcmImgAttrs(`/api/bencao/source-pages/${pNo}/image`) : `src="/api/bencao/source-pages/${pNo}/image"`} alt="《倪注神农本草经》PDF 第 ${pNo} 页" loading="lazy"></div>` : ""}
-            </div>`;
-          })
-          .join("")}
-      </div>
-    </div>`;
+        .join("")}</div>`;
+      addRow(`【入经方 (${allUsages.length}方)】`, `${filterRow}${formulaChips}`);
+    }
 
-    detailEl.innerHTML = `<div class="detail-inner">
-      <div class="detail-kicker">倪海厦注《神农本草经》 · ${esc(entry.grade)} · 第 ${esc(entry.seq_raw)} 条 · PDF P.${esc(entry.page_start)}${entry.page_end && entry.page_end !== entry.page_start ? `–${esc(entry.page_end)}` : ""}${entry.toc_printed_page ? `（书页 ${esc(entry.toc_printed_page)}）` : ""} <button type="button" class="text-button ctx-ref-btn" data-ctx-loc="1" data-ctx-book="ni-bencao-pdf" data-ctx-page="${esc(entry.page_start || 1)}" data-ctx-q="${esc(entry.name)}">滑动对照本经上下页 ↗</button></div>
-      <div class="dossier-title-row">
-        <div>
-          <h2 class="detail-title">${esc(entry.name)}</h2>
-          <p class="detail-subtitle">${entry.aliases?.length ? `原书异名 / 别称：${esc(entry.aliases.join(" · "))}` : isCh3 ? "第三章张仲景经方实用增补药味" : "《神农本草经》正经药味"}</p>
+    // 13. 鉴别对照 & 黄帝内经渊源
+    const compsDetailed = entry.comparisons_detailed || [];
+    const njRels = entry.neijing_relations || [];
+    if (compsDetailed.length || njRels.length) {
+      const linkBits = [];
+      for (const cmp of compsDetailed) {
+        linkBits.push(
+          `<button type="button" class="tag bc-peer-btn" data-bc-comp="${encodeURIComponent(cmp.id)}">鉴别：${esc(cmp.title)} ↗</button>`
+        );
+      }
+      for (const rel of njRels) {
+        const attr =
+          rel.target_kind === "chapter"
+            ? `data-nj-jump-chapter="${encodeURIComponent(rel.target_nav_id)}"`
+            : `data-nj-jump-concept="${encodeURIComponent(rel.target_nav_id)}"`;
+        linkBits.push(`<button type="button" class="tag" ${attr}>内经：${esc(rel.canonical_name)} ↗</button>`);
+      }
+      addRow("【鉴别与内经】", `<div class="bc-inline-tags">${linkBits.join("")}</div>`);
+    }
+
+    // 14. 原书逐页锚点与可选展开扫描图
+    const uniquePages = [...new Set(entry.pdf_pages || (entry.page_start ? [entry.page_start] : []))].filter(Boolean);
+    const spans = entry.source_spans || [];
+    const openImagesHtml = uniquePages
+      .filter((pNo) => bcState.pagePreviewOpen[pNo])
+      .map(
+        (pNo) => `<div class="bc-page-img-frame"><img ${window.tcmImgAttrs ? window.tcmImgAttrs(`/api/bencao/source-pages/${pNo}/image`) : `src="/api/bencao/source-pages/${pNo}/image"`} alt="《倪注神农本草经》PDF 第 ${pNo} 页" loading="lazy"></div>`
+      )
+      .join("");
+    if (spans.length || openImagesHtml) {
+      const spanSummary = spans
+        .slice(0, 2)
+        .map(
+          (sp) =>
+            `<button type="button" class="text-button" data-bc-open-page="${sp.pdf_page}">PDF P.${sp.pdf_page}${sp.printed_page ? `（书页 ${esc(sp.printed_page)}）` : ""} 逐字页 ↗</button>`
+        )
+        .join(" ");
+      addRow("【底本溯源】", `${spanSummary}${openImagesHtml}`);
+    }
+
+    const pageImgsBtns = uniquePages
+      .map(
+        (pNo) =>
+          `<button type="button" class="text-button" data-bc-toggle-img="${pNo}">${bcState.pagePreviewOpen[pNo] ? `收起 P.${pNo} 扫描图` : `P.${pNo} 扫描图`}</button>`
+      )
+      .join("");
+
+    const modeJumpBtn = isStreamItem
+      ? `<button type="button" class="text-button" data-bc-focus-single="${encodeURIComponent(entry.id)}">仅看此味</button>`
+      : bcState.dim === "catalog" && bcState.continuousMode
+      ? `<button type="button" class="text-button" data-bc-back-stream="${encodeURIComponent(entry.id)}">返回连续全页顺读 ↗</button>`
+      : "";
+
+    const isFocused = bcState.selectedKind === "entry" && bcState.selectedId === entry.id;
+    return `<article class="bc-book-sheet${isFocused && isStreamItem ? " is-focused" : ""}" data-bc-herb-id="${esc(entry.id)}">
+      <header class="bc-book-head">
+        <div class="bc-book-title-wrap">
+          <h3 class="bc-book-title">${esc(entry.seq_raw ? `${entry.seq_raw}、` : "")}${esc(entry.name)}</h3>
+          <span class="bc-book-meta">${esc(entry.grade)}${entry.page_start ? ` · PDF P.${esc(entry.page_start)}${entry.page_end && entry.page_end !== entry.page_start ? `–${esc(entry.page_end)}` : ""}` : ""}${entry.toc_printed_page ? `（书页 ${esc(entry.toc_printed_page)}）` : ""}</span>
+          ${entry.aliases?.length ? `<span class="bc-book-alias">异名：${esc(entry.aliases.join("、"))}</span>` : ""}
         </div>
-        <div class="tag-row">
+        <div class="bc-book-actions">
           ${reviewBadgeHtml(entry.review_status)}
-          ${riskBadgeHtml(risk)}
+          ${risk !== "standard" ? riskBadgeHtml(risk) : ""}
           ${isCh3 ? `<span class="bc-pill bc-pill-ch3">本经未载·第三章增补</span>` : ""}
-          ${entry.newly_recovered_in_stage2 && !isCh3 ? `<span class="bc-pill bc-pill-recovered">Stage 2 遗漏复原</span>` : ""}
+          ${entry.newly_recovered_in_stage2 && !isCh3 ? `<span class="bc-pill bc-pill-recovered">Stage 2 复原</span>` : ""}
+          <button type="button" class="text-button" data-ask-ni-kind="herb" data-ask-ni-id="${encodeURIComponent(entry.id)}" data-ask-ni-name="${encodeURIComponent(entry.name)}">请倪师精讲 ↗</button>
+          <button type="button" class="text-button ctx-ref-btn" data-ctx-loc="1" data-ctx-book="ni-bencao-pdf" data-ctx-page="${esc(entry.page_start || 1)}" data-ctx-q="${esc(entry.name)}">原书上下文 ↗</button>
+          ${pageImgsBtns}
+          ${modeJumpBtn}
         </div>
-      </div>
-
+      </header>
       ${safetyBanner}
       ${diagBanner}
+      <div class="bc-book-body">${rows.join("")}</div>
+    </article>`;
+  }
 
-      <div class="section-nav-pills">
-        <button type="button" data-scroll-section="bc-sec-classic">① 本经原文</button>
-        <button type="button" data-scroll-section="bc-sec-props">② 性味归经</button>
-        <button type="button" data-scroll-section="bc-sec-ni">③ 倪注临证</button>
-        <button type="button" data-scroll-section="bc-sec-proc">④ 炮制禁忌</button>
-        <button type="button" data-scroll-section="bc-sec-comm">⑤ 历代注家 (${commList.length})</button>
-        <button type="button" data-scroll-section="bc-sec-cont">⑥ 争议待考</button>
-        <button type="button" data-scroll-section="bc-sec-comp">⑦ 鉴别对照 (${compsDetailed.length})</button>
-        <button type="button" data-scroll-section="bc-sec-formula">⑧ 经方关联 (${allUsages.length})</button>
-        <button type="button" data-scroll-section="bc-sec-neijing">⑨ 内经渊源</button>
-        <button type="button" data-scroll-section="bc-sec-source">⑩ 原页图鉴</button>
-      </div>
-
-      <section id="bc-sec-classic" class="section-block">
-        <div class="section-title">1.《神农本草经》原文与版本位次（严格区分正经与增补）</div>
-        ${classicHtml}
-      </section>
-
-      <section id="bc-sec-props" class="section-block">
-        <div class="section-title">2. 药物性味 · 四气五味 · 归经 · 主治纲领</div>
-        ${propGridHtml}
-      </section>
-
-      <section id="bc-sec-ni" class="section-block">
-        <div class="section-title">3. 倪海厦注解与临床使用法度</div>
-        ${niHtml}
-      </section>
-
-      <section id="bc-sec-proc" class="section-block">
-        <div class="section-title">4. 炮制 · 生熟异同 · 七情配伍 · 禁忌边界</div>
-        ${procHtml}
-      </section>
-
-      <section id="bc-sec-comm" class="section-block">
-        <div class="section-title">5. 历代注家分段（《别录》/ 甄权 / 大明 / 唐容川 / 徐灵胎 / 《药征》等）</div>
-        ${commHtml}
-      </section>
-
-      <section id="bc-sec-cont" class="section-block">
-        <div class="section-title">6. 古今基原争议（绝不强并） · 尚待考证 · 校按</div>
-        ${controversyHtml}
-      </section>
-
-      <section id="bc-sec-comp" class="section-block">
-        <div class="section-title">7. 相似药与生熟炮制鉴别对照</div>
-        ${compHtml}
-      </section>
-
-      <section id="bc-sec-formula" class="section-block">
-        <div class="section-title">8. 《伤寒论》《金匮要略》经方反向关联（含剂量与炮制 · 共 ${allUsages.length} 方次）</div>
-        ${formulaHtml}
-      </section>
-
-      <section id="bc-sec-neijing" class="section-block">
-        <div class="section-title">9. 《黄帝内经》理论渊源（${njRels.length}）</div>
-        ${njHtml}
-      </section>
-
-      <section id="bc-sec-source" class="section-block">
-        <div class="section-title">10. 逐页数字化文本溯源与原书 PDF 图像</div>
-        ${spansHtml}
-      </section>
+  function buildStreamFooterHtml() {
+    const remaining = Math.max(0, bcState.entryTotal - bcState.entries.length);
+    if (!bcState.entries.length) return "";
+    if (remaining <= 0) {
+      return `<div class="bc-stream-footer"><span>—— 当前目录已全部连续罗列完毕（共 ${bcState.entryTotal} 味） ——</span></div>`;
+    }
+    return `<div class="bc-stream-footer">
+      <button type="button" class="primary-btn" data-bc-stream-more="1">${bcState.streamLoading ? "正在展开后续药物..." : `继续向下展开下 ${Math.min(40, remaining)} 味（已罗列 ${bcState.entries.length} / ${bcState.entryTotal} 味）`}</button>
+      <button type="button" class="dossier-button" data-bc-stream-all="1"${bcState.streamLoadingAll ? " disabled" : ""}>${bcState.streamLoadingAll ? `正在批量展开 (${bcState.entries.length}/${bcState.entryTotal})...` : `一次罗列当前全部 (${bcState.entryTotal} 味)`}</button>
     </div>`;
+  }
+
+  function renderContinuousCatalogStream() {
+    const detailEl = qEl("#bc-detail");
+    if (!detailEl) return;
+    if (!bcState.entries.length) {
+      detailEl.innerHTML = `<div class="empty-state"><span class="empty-mark">药</span><h2>未检索到符合条件的药物条目</h2><p>请调整上方筛选条件或点“重置”。</p></div>`;
+      return;
+    }
+    const itemsHtml = bcState.entries
+      .map((entry) => renderHerbBookEntryHtml(entry, { isStreamItem: true }))
+      .join("");
+    const expandAllHeader =
+      bcState.entries.length < bcState.entryTotal
+        ? `<button type="button" class="text-button" data-bc-stream-all="1"${bcState.streamLoadingAll ? " disabled" : ""}>${bcState.streamLoadingAll ? `展开中 (${bcState.entries.length}/${bcState.entryTotal})...` : `一次展开全部 ${bcState.entryTotal} 味 ↓`}</button>`
+        : "";
+    detailEl.innerHTML = `<div class="detail-inner bc-stream-wrap">
+      <div class="bc-stream-banner">
+        <span><strong>连续像书一样顺读：</strong>当前已顺排罗列 <strong>${bcState.entries.length}</strong> / ${bcState.entryTotal} 味（每味直接按原书顺序列出经文、产地、性味主治、历代注家、倪注、炮制禁忌与入方 · 点击左侧药名可速跳定位）</span>
+        ${expandAllHeader}
+      </div>
+      <div class="bc-continuous-stream">${itemsHtml}</div>
+      ${buildStreamFooterHtml()}
+    </div>`;
+  }
+
+  function renderEntryDetail(entry, diagCtx = null) {
+    const detailEl = qEl("#bc-detail");
+    if (!detailEl || !entry) return;
+    bcState.selectedEntry = entry;
+    detailEl.innerHTML = `<div class="detail-inner bc-single-sheet">${renderHerbBookEntryHtml(entry, { diagCtx, isStreamItem: false })}</div>`;
+    detailEl.scrollTop = 0;
   }
 
   function renderChapterDetail(ch) {
@@ -806,31 +827,94 @@
     </div>`;
   }
 
-  async function loadCatalog(reset = false, autoSelect = true) {
-    if (reset) {
-      bcState.entryPage = 1;
-      bcState.entries = [];
+  async function loadCatalog(reset = false, autoSelect = true, { batchSize = null } = {}) {
+    if (bcState.streamLoading) return;
+    bcState.streamLoading = true;
+    try {
+      if (reset) {
+        bcState.entryPage = 1;
+        bcState.entries = [];
+      }
+      const wantStream = Boolean(bcState.continuousMode);
+      const effectiveSize = batchSize || (wantStream ? 40 : 30);
+      const params = new URLSearchParams({
+        q: bcState.query,
+        grade: bcState.grade,
+        nature: bcState.nature,
+        flavor: bcState.flavor,
+        risk_level: bcState.riskLevel,
+        has_formulas: bcState.hasFormulas ? "true" : "false",
+        recovered_only: bcState.recoveredOnly ? "true" : "false",
+        page: String(bcState.entryPage),
+        page_size: String(effectiveSize),
+        include_detail: wantStream ? "true" : "false",
+      });
+      const data = await req(`/api/bencao/entries?${params}`);
+      bcState.entryTotal = data.total;
+      const newItems = data.items || [];
+      bcState.entries.push(...newItems);
+      renderCatalogList();
+
+      if (wantStream && bcState.dim === "catalog" && autoSelect !== "list_only") {
+        if (reset) {
+          bcState.selectedKind = bcState.entries.length ? "entry" : "";
+          bcState.selectedId = bcState.entries[0]?.id || "";
+          bcState.selectedEntry = bcState.entries[0] || null;
+          renderCatalogList();
+          renderContinuousCatalogStream();
+          const dEl = qEl("#bc-detail");
+          if (dEl) dEl.scrollTop = 0;
+        } else {
+          const detailEl = qEl("#bc-detail");
+          const streamEl = detailEl?.querySelector(".bc-continuous-stream");
+          const prevScroll = detailEl ? detailEl.scrollTop : 0;
+          if (streamEl && newItems.length) {
+            streamEl.insertAdjacentHTML(
+              "beforeend",
+              newItems.map((e) => renderHerbBookEntryHtml(e, { isStreamItem: true })).join("")
+            );
+            const footerEl = detailEl.querySelector(".bc-stream-footer");
+            if (footerEl) footerEl.outerHTML = buildStreamFooterHtml();
+            const bannerCount = detailEl.querySelector(".bc-stream-banner strong:nth-of-type(2)");
+            if (bannerCount) bannerCount.textContent = String(bcState.entries.length);
+            if (detailEl) detailEl.scrollTop = prevScroll;
+          } else {
+            renderContinuousCatalogStream();
+            if (detailEl) detailEl.scrollTop = prevScroll;
+          }
+        }
+        return;
+      }
+
+      if (!autoSelect) return;
+      if (bcState.entries.length && (reset || !bcState.selectedEntry) && bcState.selectedKind !== "entry") {
+        await openEntry(bcState.entries[0].id, { skipHash: true });
+      } else if (reset && bcState.entries.length && !bcState.entries.some((e) => e.id === bcState.selectedId)) {
+        await openEntry(bcState.entries[0].id, { skipHash: true });
+      }
+    } finally {
+      bcState.streamLoading = false;
     }
-    const params = new URLSearchParams({
-      q: bcState.query,
-      grade: bcState.grade,
-      nature: bcState.nature,
-      flavor: bcState.flavor,
-      risk_level: bcState.riskLevel,
-      has_formulas: bcState.hasFormulas ? "true" : "false",
-      recovered_only: bcState.recoveredOnly ? "true" : "false",
-      page: String(bcState.entryPage),
-      page_size: "30",
-    });
-    const data = await req(`/api/bencao/entries?${params}`);
-    bcState.entryTotal = data.total;
-    bcState.entries.push(...(data.items || []));
-    renderCatalogList();
-    if (!autoSelect) return;
-    if (bcState.entries.length && (reset || !bcState.selectedEntry) && bcState.selectedKind !== "entry") {
-      await openEntry(bcState.entries[0].id, { skipHash: true });
-    } else if (reset && bcState.entries.length && !bcState.entries.some((e) => e.id === bcState.selectedId)) {
-      await openEntry(bcState.entries[0].id, { skipHash: true });
+  }
+
+  async function loadAllRemainingCatalog() {
+    if (bcState.streamLoadingAll) return;
+    bcState.streamLoadingAll = true;
+    const footerEl = qEl("#bc-detail .bc-stream-footer");
+    if (footerEl) footerEl.outerHTML = buildStreamFooterHtml();
+    try {
+      while (bcState.dim === "catalog" && bcState.continuousMode && bcState.entries.length < bcState.entryTotal) {
+        bcState.entryPage += 1;
+        await loadCatalog(false, true, { batchSize: 120 });
+      }
+    } finally {
+      bcState.streamLoadingAll = false;
+      if (bcState.dim === "catalog" && bcState.continuousMode) {
+        const dEl = qEl("#bc-detail");
+        const prev = dEl ? dEl.scrollTop : 0;
+        renderContinuousCatalogStream();
+        if (dEl) dEl.scrollTop = prev;
+      }
     }
   }
 
@@ -1034,11 +1118,58 @@
           bcState.dim = "catalog";
           updateToolbarVisibility();
           if (!bcState.entries.length) {
-            loadCatalog(true).then(() => openEntry(eid)).catch(showError);
+            loadCatalog(true, false).then(() => openEntry(eid)).catch(showError);
+            return;
+          }
+        }
+        if (bcState.dim === "catalog" && bcState.continuousMode) {
+          const sheets = Array.from(document.querySelectorAll("#bc-detail .bc-book-sheet[data-bc-herb-id]"));
+          const hitEl = sheets.find((el) => el.dataset.bcHerbId === eid);
+          if (hitEl) {
+            bcState.selectedKind = "entry";
+            bcState.selectedId = eid;
+            renderCatalogList();
+            sheets.forEach((el) => el.classList.toggle("is-focused", el === hitEl));
+            hitEl.scrollIntoView({ behavior: "smooth", block: "start" });
             return;
           }
         }
         openEntry(eid).catch(showError);
+        return;
+      }
+
+      const focusSingleBtn = event.target.closest("[data-bc-focus-single]");
+      if (focusSingleBtn) {
+        openEntry(decodeURIComponent(focusSingleBtn.dataset.bcFocusSingle)).catch(showError);
+        return;
+      }
+
+      const backStreamBtn = event.target.closest("[data-bc-back-stream]");
+      if (backStreamBtn) {
+        const eid = decodeURIComponent(backStreamBtn.dataset.bcBackStream);
+        bcState.continuousMode = true;
+        updateToolbarVisibility();
+        if (bcState.entries.some((e) => e.id === eid) && bcState.entries[0]?.classic_original) {
+          renderContinuousCatalogStream();
+          const sheets = Array.from(document.querySelectorAll("#bc-detail .bc-book-sheet[data-bc-herb-id]"));
+          const hitEl = sheets.find((el) => el.dataset.bcHerbId === eid);
+          if (hitEl) hitEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          loadCatalog(true).catch(showError);
+        }
+        return;
+      }
+
+      if (event.target.closest("[data-bc-stream-more]")) {
+        if (!bcState.streamLoading && bcState.entries.length < bcState.entryTotal) {
+          bcState.entryPage += 1;
+          loadCatalog(false).catch(showError);
+        }
+        return;
+      }
+
+      if (event.target.closest("[data-bc-stream-all]")) {
+        loadAllRemainingCatalog().catch(showError);
         return;
       }
 
@@ -1078,7 +1209,12 @@
       if (toggleImgBtn) {
         const pNo = Number(toggleImgBtn.dataset.bcToggleImg);
         bcState.pagePreviewOpen[pNo] = !bcState.pagePreviewOpen[pNo];
-        if (bcState.selectedEntry) {
+        if (bcState.dim === "catalog" && bcState.continuousMode && !qEl("#bc-detail .bc-single-sheet")) {
+          const detailEl = qEl("#bc-detail");
+          const prevTop = detailEl ? detailEl.scrollTop : 0;
+          renderContinuousCatalogStream();
+          if (detailEl) detailEl.scrollTop = prevTop;
+        } else if (bcState.selectedEntry) {
           renderEntryDetail(bcState.selectedEntry);
         }
         return;
@@ -1166,6 +1302,32 @@
       if (qEl("#bc-only-recovered")) qEl("#bc-only-recovered").checked = false;
       if (qEl("#bc-comp-category")) qEl("#bc-comp-category").value = "";
       onQueryChange();
+    });
+
+    qEl("#bc-continuous-mode")?.addEventListener("change", (ev) => {
+      bcState.continuousMode = Boolean(ev.target.checked);
+      if (bcState.dim === "catalog") {
+        loadCatalog(true).catch(showError);
+      }
+    });
+
+    qEl("#bc-detail")?.addEventListener("scroll", () => {
+      const detailEl = qEl("#bc-detail");
+      if (
+        !detailEl ||
+        bcState.dim !== "catalog" ||
+        !bcState.continuousMode ||
+        bcState.streamLoading ||
+        bcState.streamLoadingAll ||
+        bcState.entries.length >= bcState.entryTotal ||
+        !detailEl.querySelector(".bc-continuous-stream")
+      ) {
+        return;
+      }
+      if (detailEl.scrollHeight - detailEl.scrollTop - detailEl.clientHeight < 360) {
+        bcState.entryPage += 1;
+        loadCatalog(false).catch(showError);
+      }
     });
 
     qEl("#bc-more")?.addEventListener("click", () => {

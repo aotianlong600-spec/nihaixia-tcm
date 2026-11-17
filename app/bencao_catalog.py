@@ -229,6 +229,7 @@ def list_entries(
     meridian: str = "",
     page: int = 1,
     page_size: int = 24,
+    include_detail: bool = False,
 ) -> dict:
     entries = _entries()
     q_clean = (q or "").strip()
@@ -277,7 +278,14 @@ def list_entries(
 
     total = len(filtered)
     start = (page - 1) * page_size
-    page_items = [_entry_summary_card(pair[1]) for pair in filtered[start : start + page_size]]
+    sliced = filtered[start : start + page_size]
+    if include_detail:
+        page_items = [
+            {**_enrich_entry_detail(pair[1]), **_entry_summary_card(pair[1])}
+            for pair in sliced
+        ]
+    else:
+        page_items = [_entry_summary_card(pair[1]) for pair in sliced]
 
     grade_counts: dict[str, int] = {}
     risk_counts: dict[str, int] = {}

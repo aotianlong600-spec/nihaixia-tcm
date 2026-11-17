@@ -508,7 +508,8 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
         recovered_only: bool = False,
         meridian: str = "",
         page: int = Query(default=1, ge=1),
-        page_size: int = Query(default=24, ge=1, le=80),
+        page_size: int = Query(default=24, ge=1, le=400),
+        include_detail: bool = False,
     ):
         return bencao_catalog.list_entries(
             q=q,
@@ -523,6 +524,7 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
             meridian=meridian,
             page=page,
             page_size=page_size,
+            include_detail=include_detail,
         )
 
     @app.get("/api/bencao/comparisons")
