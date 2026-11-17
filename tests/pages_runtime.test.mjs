@@ -169,7 +169,7 @@ test("Codex uses the project's existing relay and preserves the wire body", asyn
     method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer synthetic-token" }, body: payload,
   });
   assert.equal((await result.json()).ok, true);
-  assert.equal(sent.url, "https://nihaixia-model-relay-long600.fairykiwi35.chatgpt.site/relay");
+  assert.equal(sent.url, "https://vpn.liul.top/relay");
   assert.deepEqual(JSON.parse(sent.init.body), {
     url: "https://chatgpt.com/backend-api/codex/responses", method: "POST",
     headers: { "Content-Type": "application/json", Authorization: "Bearer synthetic-token" }, body: payload,
@@ -219,7 +219,7 @@ test("explicit local pairing routes Codex through loopback without leaking the p
   assert.equal(calls[1].url, 'http://127.0.0.1:8769/relay');
   assert.equal(calls[1].init.headers['X-Tcm-Bridge-Key'], 'p'.repeat(43));
   assert.equal(calls[2].init.headers?.['X-Tcm-Bridge-Key'], undefined);
-  assert.equal(calls[3].url, 'https://nihaixia-model-relay-long600.fairykiwi35.chatgpt.site/relay');
+  assert.equal(calls[3].url, 'https://vpn.liul.top/relay');
   assert.equal(calls[3].init.headers['X-Tcm-Bridge-Key'], undefined);
 });
 

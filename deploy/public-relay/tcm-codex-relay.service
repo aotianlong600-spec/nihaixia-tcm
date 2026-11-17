@@ -1,0 +1,30 @@
+[Unit]
+Description=Nihaixia public model relay
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+WorkingDirectory=/opt/tcm-codex-relay
+ExecStart=/usr/bin/node /opt/tcm-codex-relay/scripts/run_public_codex_relay.mjs
+Environment=PORT=18769
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+MemoryMax=512M
+CPUQuota=60%
+TasksMax=48
+LimitNOFILE=1024
+
+[Install]
+WantedBy=multi-user.target

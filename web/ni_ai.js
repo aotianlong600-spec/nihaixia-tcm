@@ -1878,7 +1878,7 @@
     const bridgeStatus = $("#ai-cfg-local-bridge-status");
     if (bridgeStatus) bridgeStatus.textContent = bridgeConnected
       ? "已连接本机：Codex 请求使用当前电脑的网络。请保持本机中转程序运行。"
-      : "先启动本机中转程序，再点击连接。浏览器若询问本地网络权限，请允许；仅当前电脑可用。";
+      : "网页版默认使用云端服务，无需启动本机程序。本机中转为可选连接，仅当前电脑可用。";
     if (window.__TCM_STATIC_WEB__) {
       const browserBtn = $("#ai-cfg-codex-browser-btn");
       if (browserBtn) browserBtn.textContent = "浏览器登录（手动回调）";
@@ -1892,7 +1892,7 @@
     const envNote = $("#ai-cfg-codex-env-note");
     if (envNote) {
       envNote.textContent = window.__TCM_STATIC_WEB__
-        ? "设备码和浏览器授权任选一种；网页版的浏览器授权需要手动粘贴回调链接。授权令牌与模型请求经本项目的转发服务发送至 OpenAI。转发出口被上游拦截时，可使用本机版或填写其他可信中转地址。"
+        ? "网页版推荐设备码登录，每位用户使用自己的 ChatGPT 账号。授权令牌与模型请求经项目云端服务发送至 OpenAI，无需运行本机中转。浏览器授权需要手动粘贴回调链接。"
         : "本地 Python 服务版已直连 auth.openai.com 与 localhost:1455 回调监听，支持设备码或浏览器一键登录，凭证仅限权存本地 data/codex_oauth.json，对话由后端转发，无任何浏览器跨域限制。";
     }
 

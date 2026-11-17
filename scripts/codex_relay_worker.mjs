@@ -1,124 +1,166 @@
-/**
- * Optional Cloudflare Worker / Deno CORS Relay for pure-static GitHub Pages users
- * who want to use OpenAI Codex (ChatGPT OAuth) directly from https://*.github.io.
- *
- * Security: Strictly allow-lists only official OpenAI Auth and ChatGPT Codex hosts
- * so this relay cannot be abused as an open SSRF proxy.
- *
- * Deploy free on Cloudflare Workers (or `npx wrangler deploy`):
- *   Expected POST JSON body: { url, method, headers, body }
- */
+const APP_ORIGIN = 'https://aotianlong600-spec.github.io'
+const TARGETS = new Map([
+  ['auth.openai.com', new Set(['/api/accounts/deviceauth/usercode', '/api/accounts/deviceauth/token', '/oauth/token'])],
+  ['chatgpt.com', new Set(['/backend-api/codex/responses'])],
+  ['api.openai.com', new Set(['/v1/chat/completions', '/v1/responses'])],
+  ['api.deepseek.com', new Set(['/chat/completions', '/v1/chat/completions'])],
+  ['api.sensenova.cn', new Set(['/v1/chat/completions', '/v1/llm/chat-completions'])],
+  ['api.siliconflow.cn', new Set(['/v1/chat/completions'])],
+  ['openrouter.ai', new Set(['/api/v1/chat/completions'])],
+  ['open.bigmodel.cn', new Set(['/api/paas/v4/chat/completions'])],
+  ['dashscope.aliyuncs.com', new Set(['/compatible-mode/v1/chat/completions'])],
+])
+const HEADER_NAMES = new Set(['authorization', 'content-type', 'accept', 'chatgpt-account-id', 'openai-beta', 'originator', 'user-agent'])
 
-const ALLOWED_ORIGINS = new Set([
-  "https://aotianlong600-spec.github.io",
-  "http://127.0.0.1:8767",
-  "http://127.0.0.1:8768",
-  "http://localhost:8767",
-  "http://localhost:8768",
-]);
-
-function isAllowedTarget(rawUrl) {
-  let u;
+function allowedOrigin(origin) {
+  if (origin === APP_ORIGIN) return true
   try {
-    u = new URL(String(rawUrl || ""));
-  } catch {
-    return false;
-  }
-  if (u.protocol !== "https:") return false;
-  if (u.hostname === "auth.openai.com") {
-    return (
-      u.pathname === "/oauth/token" ||
-      u.pathname.startsWith("/api/accounts/deviceauth/")
-    );
-  }
-  if (u.hostname === "chatgpt.com") {
-    return u.pathname.startsWith("/backend-api/codex/");
-  }
-  if (u.hostname === "opencode.ai" && u.pathname.startsWith("/zen/")) {
-    return true;
-  }
-  return false;
+    const url = new URL(origin)
+    return url.protocol === 'http:' && ['localhost', '127.0.0.1'].includes(url.hostname)
+  } catch { return false }
 }
 
-function corsHeaders(request) {
-  const origin = request.headers.get("Origin") || "";
-  const allowOrigin = ALLOWED_ORIGINS.has(origin) ? origin : "*";
+function cors(origin) {
   return {
-    "Access-Control-Allow-Origin": allowOrigin,
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    "Access-Control-Max-Age": "86400",
-    Vary: "Origin",
-  };
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Expose-Headers': 'Content-Type, Retry-After',
+    'Cache-Control': 'no-store',
+    Vary: 'Origin',
+  }
+}
+
+function json(body, status, origin) {
+  return new Response(JSON.stringify(body), { status, headers: { ...cors(origin), 'Content-Type': 'application/json' } })
+}
+
+async function readLimited(stream, maximum, stopAtCodexEnd = false) {
+  if (!stream) return new Uint8Array()
+  const reader = stream.getReader()
+  const chunks = []
+  let length = 0
+  const decoder = stopAtCodexEnd ? new TextDecoder() : null
+  let pendingLine = '', dataLines = []
+  const terminalEvent = line => {
+    if (line.startsWith('data:')) dataLines.push(line.slice(5).trimStart())
+    if (line || !dataLines.length) return false
+    const data = dataLines.join('\n').trim()
+    dataLines = []
+    if (data === '[DONE]') return true
+    try {
+      return ['response.completed', 'response.done', 'response.failed', 'response.incomplete'].includes(JSON.parse(data)?.type)
+    } catch { return false }
+  }
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      length += value.byteLength
+      if (length > maximum) {
+        await reader.cancel()
+        throw new RangeError('Body exceeds supported size')
+      }
+      chunks.push(value)
+      if (decoder) {
+        pendingLine += decoder.decode(value, { stream: true })
+        let index, complete = false
+        while ((index = pendingLine.indexOf('\n')) !== -1) {
+          complete = terminalEvent(pendingLine.slice(0, index).replace(/\r$/, ''))
+          pendingLine = pendingLine.slice(index + 1)
+          if (complete) break
+        }
+        if (complete) {
+          await reader.cancel()
+          break
+        }
+      }
+    }
+  } finally { reader.releaseLock() }
+  const bytes = new Uint8Array(length)
+  let offset = 0
+  for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.byteLength }
+  return bytes
+}
+
+function providerFailure(upstream, bytes, target) {
+  const text = new TextDecoder().decode(bytes)
+  let value
+  try { value = JSON.parse(text) } catch {}
+  const contentType = upstream.headers.get('Content-Type') || ''
+  const format = value && typeof value === 'object' ? 'json'
+    : /text\/html/i.test(contentType) || /^\s*<!?(?:doctype|html)/i.test(text) ? 'html' : 'text'
+  let code = 'provider_request_failed'
+  const rawCode = typeof value?.error === 'string' ? value.error : value?.error?.code || value?.error?.type
+  if (target.hostname === 'auth.openai.com' && typeof rawCode === 'string' && /^[a-z0-9_]{1,80}$/.test(rawCode)) code = rawCode
+  else if (rawCode === 'unsupported_country_region_territory') code = 'provider_region_blocked'
+  else if (['model_not_found', 'unsupported_model', 'invalid_token', 'token_expired', 'account_deactivated', 'usage_limit_reached', 'insufficient_quota'].includes(rawCode)) code = rawCode
+  else if (upstream.status === 403 && upstream.headers.get('cf-mitigated') === 'challenge') code = 'provider_challenge'
+  else if (upstream.status === 403 && format === 'html') code = 'provider_access_blocked'
+  const failure = { error: code, upstream_format: format }
+  const edgeCode = text.match(/\berror(?:\s+code)?\s*:\s*(\d{4})\b/i)?.[1]
+  if (edgeCode && upstream.status === 403 && format !== 'json' && ['provider_request_failed', 'provider_access_blocked'].includes(code)) {
+    failure.error = 'provider_access_blocked'
+    failure.upstream_edge_code = Number(edgeCode)
+  }
+  return failure
 }
 
 export default {
   async fetch(request) {
-    const cors = corsHeaders(request);
-    if (request.method === "OPTIONS") {
-      return new Response(null, { status: 204, headers: cors });
+    const origin = request.headers.get('Origin') || ''
+    const path = new URL(request.url).pathname
+    if (path === '/health' && request.method === 'GET') {
+      return json({ status: 'ok', providers: [...TARGETS.keys()] }, 200, allowedOrigin(origin) ? origin : APP_ORIGIN)
     }
-    const url = new URL(request.url);
-    if (request.method === "GET" && (url.pathname === "/" || url.pathname === "/health")) {
-      return new Response(JSON.stringify({ ok: true, service: "nihaixia-codex-cors-relay" }), {
-        status: 200,
-        headers: { ...cors, "Content-Type": "application/json; charset=utf-8" },
-      });
-    }
-    if (request.method !== "POST") {
-      return new Response(JSON.stringify({ error: "Method not allowed" }), {
-        status: 405,
-        headers: { ...cors, "Content-Type": "application/json; charset=utf-8" },
-      });
-    }
-
-    let payload;
+    if (path !== '/relay') return json({ error: 'not_found' }, 404, APP_ORIGIN)
+    if (!allowedOrigin(origin)) return json({ error: 'origin_not_allowed' }, 403, APP_ORIGIN)
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) })
+    if (request.method !== 'POST') return json({ error: 'method_not_allowed' }, 405, origin)
+    let payload, target, headers
     try {
-      payload = await request.json();
+      if (!request.headers.get('Content-Type')?.startsWith('application/json')) throw new TypeError()
+      payload = JSON.parse(new TextDecoder().decode(await readLimited(request.body, 2 * 1024 * 1024)))
+      if (!payload || typeof payload.url !== 'string') throw new TypeError()
+      target = new URL(payload.url)
+      if (target.protocol !== 'https:' || target.username || target.password || target.port || target.hash) throw new TypeError()
+      const models = target.hostname === 'chatgpt.com' && target.pathname === '/backend-api/codex/models'
+      if (models) {
+        if (payload.method !== 'GET' || target.search !== '?client_version=1.0.0' || payload.body != null) throw new TypeError()
+      } else if (payload.method !== 'POST' || typeof payload.body !== 'string' || target.search || !TARGETS.get(target.hostname)?.has(target.pathname)) throw new TypeError()
+      if (!payload.headers || typeof payload.headers !== 'object' || Array.isArray(payload.headers)) throw new TypeError()
+      headers = new Headers()
+      for (const [name, value] of Object.entries(payload.headers)) {
+        if (!HEADER_NAMES.has(name.toLowerCase()) || typeof value !== 'string' || value.length > 8000 || /[\r\n]/.test(value)) throw new TypeError()
+        headers.set(name, value)
+      }
+      if (target.hostname !== 'auth.openai.com' && !/^Bearer \S+$/.test(headers.get('Authorization') || '')) throw new TypeError()
+      if (payload.method === 'POST' && !['application/json', 'application/x-www-form-urlencoded'].includes(headers.get('Content-Type'))) throw new TypeError()
+    } catch (error) {
+      return json({ error: error instanceof RangeError ? 'request_too_large' : 'invalid_request' }, error instanceof RangeError ? 413 : 400, origin)
+    }
+    const controller = new AbortController()
+    const abort = () => controller.abort()
+    request.signal.addEventListener('abort', abort, { once: true })
+    if (request.signal.aborted) abort()
+    const timer = setTimeout(() => controller.abort(), 95000)
+    try {
+      const upstream = await fetch(target.href, { method: payload.method, headers, body: payload.method === 'POST' ? payload.body : undefined, redirect: 'manual', signal: controller.signal })
+      if (upstream.status >= 300 && upstream.status < 400) return json({ error: 'provider_redirect_rejected' }, 502, origin)
+      const bytes = await readLimited(upstream.body, 4 * 1024 * 1024,
+        upstream.ok && target.hostname === 'chatgpt.com' && target.pathname === '/backend-api/codex/responses')
+      if (!upstream.ok) {
+        return json(providerFailure(upstream, bytes, target), upstream.status, origin)
+      }
+      const prefix = new TextDecoder().decode(bytes.subarray(0, 256))
+      const type = upstream.headers.get('Content-Type') || (/^\s*(?:data:|event:|:)/.test(prefix) ? 'text/event-stream' : 'application/json')
+      if (!/^(application\/json|text\/event-stream)(?:;|$)/i.test(type)) return json({ error: 'provider_content_type_invalid' }, 502, origin)
+      return new Response(bytes, { status: upstream.status, headers: { ...cors(origin), 'Content-Type': type } })
     } catch {
-      return new Response(JSON.stringify({ error: "Invalid JSON body" }), {
-        status: 400,
-        headers: { ...cors, "Content-Type": "application/json; charset=utf-8" },
-      });
+      return json({ error: 'provider_connection_failed' }, 502, origin)
+    } finally {
+      clearTimeout(timer)
+      request.signal.removeEventListener('abort', abort)
     }
-
-    const targetUrl = String(payload?.url || "");
-    if (!isAllowedTarget(targetUrl)) {
-      return new Response(JSON.stringify({ error: "Target URL is not in allow-list" }), {
-        status: 403,
-        headers: { ...cors, "Content-Type": "application/json; charset=utf-8" },
-      });
-    }
-
-    const method = String(payload?.method || "POST").toUpperCase();
-    const forwardHeaders = new Headers();
-    const rawHeaders = payload?.headers && typeof payload.headers === "object" ? payload.headers : {};
-    for (const [k, v] of Object.entries(rawHeaders)) {
-      const lower = k.toLowerCase();
-      if (["host", "origin", "referer", "content-length"].includes(lower)) continue;
-      if (v != null) forwardHeaders.set(k, String(v));
-    }
-
-    const body =
-      method === "GET" || method === "HEAD" || payload?.body == null
-        ? undefined
-        : typeof payload.body === "string"
-        ? payload.body
-        : JSON.stringify(payload.body);
-
-    const upstream = await fetch(targetUrl, {
-      method,
-      headers: forwardHeaders,
-      body,
-    });
-
-    const outHeaders = new Headers(cors);
-    const contentType = upstream.headers.get("Content-Type");
-    if (contentType) outHeaders.set("Content-Type", contentType);
-    outHeaders.set("Cache-Control", "no-store");
-    return new Response(upstream.body, {
-      status: upstream.status,
-      headers: outHeaders,
-    });
   },
-};
+}

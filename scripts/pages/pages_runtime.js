@@ -20,7 +20,7 @@
   const CODEX_BROWSER_REDIRECT = "http://localhost:1455/auth/callback";
   const CODEX_SCOPE = "openid profile email offline_access";
   const CODEX_REFRESH_BUFFER_MS = 60000;
-  const CODEX_RELAY_URL = "https://nihaixia-model-relay-long600.fairykiwi35.chatgpt.site/relay";
+  const CODEX_RELAY_URL = "https://vpn.liul.top/relay";
   const LOCAL_BRIDGE_URL = "http://127.0.0.1:8769";
   const LOCAL_BRIDGE_KEY = "ni_ai_local_codex_bridge_v1";
   const CODEX_RELAY_TARGETS = new Set([
