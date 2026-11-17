@@ -731,6 +731,8 @@
             method: init.method || "GET",
             headers: headersObj,
             body: init.body ?? null,
+            ...(cleanRelay === CODEX_RELAY_URL && Number.isFinite(timeoutMs) && timeoutMs > 0
+              ? { timeout_ms: Math.min(300000, Math.max(1000, Math.ceil(timeoutMs))) } : {}),
           }),
           signal: effectiveSignal,
         }), effectiveSignal);

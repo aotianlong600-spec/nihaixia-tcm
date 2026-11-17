@@ -11,6 +11,7 @@ const TARGETS = new Map([
   ['dashscope.aliyuncs.com', new Set(['/compatible-mode/v1/chat/completions'])],
 ])
 const HEADER_NAMES = new Set(['authorization', 'content-type', 'accept', 'chatgpt-account-id', 'openai-beta', 'originator', 'user-agent'])
+const MAX_RESPONSE = 4 * 1024 * 1024
 
 function allowedOrigin(origin) {
   if (origin === APP_ORIGIN) return true
@@ -35,7 +36,7 @@ function json(body, status, origin) {
   return new Response(JSON.stringify(body), { status, headers: { ...cors(origin), 'Content-Type': 'application/json' } })
 }
 
-async function readLimited(stream, maximum, stopAtCodexEnd = false) {
+async function readLimited(stream, maximum, stopAtCodexEnd = false, diagnostic = null) {
   if (!stream) return new Uint8Array()
   const reader = stream.getReader()
   const chunks = []
@@ -57,6 +58,7 @@ async function readLimited(stream, maximum, stopAtCodexEnd = false) {
       const { done, value } = await reader.read()
       if (done) break
       length += value.byteLength
+      if (diagnostic) diagnostic.response_bytes = length
       if (length > maximum) {
         await reader.cancel()
         throw new RangeError('Body exceeds supported size')
@@ -71,6 +73,10 @@ async function readLimited(stream, maximum, stopAtCodexEnd = false) {
           if (complete) break
         }
         if (complete) {
+          if (diagnostic) {
+            diagnostic.terminal_seen = true
+            diagnostic.stage = 'terminal_cancel'
+          }
           await reader.cancel()
           break
         }
@@ -117,11 +123,15 @@ export default {
     if (!allowedOrigin(origin)) return json({ error: 'origin_not_allowed' }, 403, APP_ORIGIN)
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) })
     if (request.method !== 'POST') return json({ error: 'method_not_allowed' }, 405, origin)
-    let payload, target, headers
+    let payload, target, headers, timeoutMs = 300000
     try {
       if (!request.headers.get('Content-Type')?.startsWith('application/json')) throw new TypeError()
       payload = JSON.parse(new TextDecoder().decode(await readLimited(request.body, 2 * 1024 * 1024)))
       if (!payload || typeof payload.url !== 'string') throw new TypeError()
+      if (Object.hasOwn(payload, 'timeout_ms')) {
+        if (!Number.isInteger(payload.timeout_ms) || payload.timeout_ms < 1000 || payload.timeout_ms > 300000) throw new TypeError()
+        timeoutMs = payload.timeout_ms
+      }
       target = new URL(payload.url)
       if (target.protocol !== 'https:' || target.username || target.password || target.port || target.hash) throw new TypeError()
       const models = target.hostname === 'chatgpt.com' && target.pathname === '/backend-api/codex/models'
@@ -139,16 +149,21 @@ export default {
     } catch (error) {
       return json({ error: error instanceof RangeError ? 'request_too_large' : 'invalid_request' }, error instanceof RangeError ? 413 : 400, origin)
     }
+    const started = Date.now()
+    const diagnostic = { stage: 'connect', response_bytes: 0, terminal_seen: false }
+    let abortReason = ''
     const controller = new AbortController()
-    const abort = () => controller.abort()
+    const abort = () => { abortReason ||= 'client_aborted'; controller.abort() }
     request.signal.addEventListener('abort', abort, { once: true })
     if (request.signal.aborted) abort()
-    const timer = setTimeout(() => controller.abort(), 95000)
+    const timer = setTimeout(() => { abortReason ||= 'deadline_exceeded'; controller.abort() }, timeoutMs + 2000)
     try {
       const upstream = await fetch(target.href, { method: payload.method, headers, body: payload.method === 'POST' ? payload.body : undefined, redirect: 'manual', signal: controller.signal })
       if (upstream.status >= 300 && upstream.status < 400) return json({ error: 'provider_redirect_rejected' }, 502, origin)
-      const bytes = await readLimited(upstream.body, 4 * 1024 * 1024,
-        upstream.ok && target.hostname === 'chatgpt.com' && target.pathname === '/backend-api/codex/responses')
+      diagnostic.stage = 'read'
+      const bytes = await readLimited(upstream.body, MAX_RESPONSE,
+        upstream.ok && target.hostname === 'chatgpt.com' && target.pathname === '/backend-api/codex/responses', diagnostic)
+      diagnostic.stage = 'respond'
       if (!upstream.ok) {
         return json(providerFailure(upstream, bytes, target), upstream.status, origin)
       }
@@ -157,7 +172,10 @@ export default {
       if (!/^(application\/json|text\/event-stream)(?:;|$)/i.test(type)) return json({ error: 'provider_content_type_invalid' }, 502, origin)
       return new Response(bytes, { status: upstream.status, headers: { ...cors(origin), 'Content-Type': type } })
     } catch {
-      return json({ error: 'provider_connection_failed' }, 502, origin)
+      const reason = abortReason || (diagnostic.response_bytes > MAX_RESPONSE ? 'response_too_large'
+        : diagnostic.stage === 'terminal_cancel' ? 'terminal_cancel_failed'
+        : diagnostic.stage === 'connect' ? 'upstream_connection_failed' : 'upstream_read_failed')
+      return json({ error: 'provider_connection_failed', reason, ...diagnostic, elapsed_ms: Math.max(0, Date.now() - started) }, 502, origin)
     } finally {
       clearTimeout(timer)
       request.signal.removeEventListener('abort', abort)

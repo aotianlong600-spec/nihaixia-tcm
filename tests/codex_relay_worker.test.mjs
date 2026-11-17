@@ -6,12 +6,12 @@ const source = await readFile(new URL('../scripts/codex_relay_worker.mjs', impor
 const { default: worker } = await import('data:text/javascript;base64,' + Buffer.from(source).toString('base64'))
 const origin = 'https://aotianlong600-spec.github.io'
 
-function request(target = 'https://chatgpt.com/backend-api/codex/responses', requestOrigin = origin) {
+function request(target = 'https://chatgpt.com/backend-api/codex/responses', requestOrigin = origin, envelope = {}) {
   return new Request('https://relay.example/relay', {
     method: 'POST', headers: { Origin: requestOrigin, 'Content-Type': 'application/json' },
     body: JSON.stringify({ url: target, method: 'POST', headers: {
       Authorization: 'Bearer synthetic-token', 'Content-Type': 'application/json',
-    }, body: '{"model":"synthetic-model"}' }),
+    }, body: '{"model":"synthetic-model"}', ...envelope }),
   })
 }
 
@@ -138,4 +138,148 @@ test('a completed Codex stream returns even when the upstream connection stays o
     if (!cancelled) controller.close()
     await pending
   }
+})
+
+function diagnosticClock(t) {
+  let now = 1000
+  t.mock.method(Date, 'now', () => now)
+  return milliseconds => { now += milliseconds }
+}
+
+test('connection exceptions expose only fixed diagnostic fields', async t => {
+  const advance = diagnosticClock(t)
+  t.mock.method(globalThis, 'fetch', async () => {
+    advance(73)
+    throw new Error('synthetic-secret-token', { cause: { code: 'synthetic-private-account' } })
+  })
+  const response = await worker.fetch(request())
+  assert.equal(response.status, 502)
+  assert.equal(response.headers.get('Access-Control-Allow-Origin'), origin)
+  assert.deepEqual(await response.json(), {
+    error: 'provider_connection_failed', reason: 'upstream_connection_failed',
+    stage: 'connect', elapsed_ms: 73, response_bytes: 0, terminal_seen: false,
+  })
+})
+
+test('upstream read exceptions preserve byte counts without exposing received content', async t => {
+  const advance = diagnosticClock(t)
+  const chunk = new TextEncoder().encode('data: {"type":"response.output_text.delta","delta":"synthetic-private-text"}\n\n')
+  let first = true
+  t.mock.method(globalThis, 'fetch', async () => new Response(new ReadableStream({
+    pull(controller) {
+      if (first) { first = false; controller.enqueue(chunk) }
+      else { advance(51); controller.error(new Error('synthetic-private-stack')) }
+    },
+  })))
+  const response = await worker.fetch(request())
+  assert.equal(response.status, 502)
+  assert.deepEqual(await response.json(), {
+    error: 'provider_connection_failed', reason: 'upstream_read_failed',
+    stage: 'read', elapsed_ms: 51, response_bytes: chunk.byteLength, terminal_seen: false,
+  })
+})
+
+test('oversized responses retain the legacy error and identify the response limit', async t => {
+  diagnosticClock(t)
+  const size = 4 * 1024 * 1024 + 1
+  t.mock.method(globalThis, 'fetch', async () => new Response(new Uint8Array(size)))
+  const response = await worker.fetch(request())
+  assert.equal(response.status, 502)
+  assert.deepEqual(await response.json(), {
+    error: 'provider_connection_failed', reason: 'response_too_large',
+    stage: 'read', elapsed_ms: 0, response_bytes: size, terminal_seen: false,
+  })
+})
+
+test('a terminal cancellation failure is distinguished from a generation failure', async t => {
+  const advance = diagnosticClock(t)
+  const terminal = new TextEncoder().encode('data: {"type":"response.completed"}\n\n')
+  t.mock.method(globalThis, 'fetch', async () => new Response(new ReadableStream({
+    start(controller) { controller.enqueue(terminal) },
+    cancel() { advance(17); throw new Error('synthetic-secret-cancellation') },
+  })))
+  const response = await worker.fetch(request())
+  assert.equal(response.status, 502)
+  assert.deepEqual(await response.json(), {
+    error: 'provider_connection_failed', reason: 'terminal_cancel_failed',
+    stage: 'terminal_cancel', elapsed_ms: 17, response_bytes: terminal.byteLength, terminal_seen: true,
+  })
+})
+
+test('the negotiated deadline is identified after upstream progress', async t => {
+  const advance = diagnosticClock(t)
+  let deadline
+  t.mock.method(globalThis, 'setTimeout', (callback, milliseconds) => {
+    assert.equal(milliseconds, 22000)
+    deadline = callback
+    return 0
+  })
+  const chunk = new TextEncoder().encode('data: {"type":"response.created"}\n\n')
+  let first = true
+  t.mock.method(globalThis, 'fetch', async (_url, { signal }) => new Response(new ReadableStream({
+    start(controller) { signal.addEventListener('abort', () => controller.error(signal.reason), { once: true }) },
+    pull(controller) {
+      if (first) { first = false; controller.enqueue(chunk) }
+      else { advance(22000); deadline() }
+    },
+  })))
+  const response = await worker.fetch(request(undefined, origin, { timeout_ms: 20000 }))
+  assert.equal(response.status, 502)
+  assert.deepEqual(await response.json(), {
+    error: 'provider_connection_failed', reason: 'deadline_exceeded',
+    stage: 'read', elapsed_ms: 22000, response_bytes: chunk.byteLength, terminal_seen: false,
+  })
+})
+
+test('client cancellation is distinguished from the worker deadline', async t => {
+  const advance = diagnosticClock(t)
+  const controller = new AbortController()
+  t.mock.method(globalThis, 'fetch', async (_url, { signal }) => new Promise((_, reject) => {
+    signal.addEventListener('abort', () => reject(signal.reason), { once: true })
+    advance(29)
+    controller.abort(new Error('synthetic-private-cancellation-reason'))
+  }))
+  const response = await worker.fetch(new Request(request(), { signal: controller.signal }))
+  assert.equal(response.status, 502)
+  assert.deepEqual(await response.json(), {
+    error: 'provider_connection_failed', reason: 'client_aborted',
+    stage: 'connect', elapsed_ms: 29, response_bytes: 0, terminal_seen: false,
+  })
+})
+
+for (const sample of [
+  { label: '20 second browser deadline', envelope: { timeout_ms: 20000 }, expected: 22000 },
+  { label: 'maximum 300 second browser deadline', envelope: { timeout_ms: 300000 }, expected: 302000 },
+  { label: 'old client without a deadline', envelope: {}, expected: 302000 },
+  { label: 'minimum supported browser deadline', envelope: { timeout_ms: 1000 }, expected: 3000 },
+]) {
+  test(`upstream timeout allows cancellation grace for ${sample.label}`, async t => {
+    const scheduled = []
+    t.mock.method(globalThis, 'setTimeout', (_callback, milliseconds) => {
+      scheduled.push(milliseconds)
+      return 0
+    })
+    t.mock.method(globalThis, 'fetch', async () => new Response(new TextEncoder().encode('data: {"type":"response.completed"}\n\n')))
+    const response = await worker.fetch(request(undefined, origin, sample.envelope))
+    assert.equal(response.status, 200)
+    assert.deepEqual(scheduled, [sample.expected])
+  })
+}
+
+for (const timeout of [-1, 0, 999, 1000.5, 300001, '20000', null, true, {}, []]) {
+  test(`an invalid timeout_ms ${JSON.stringify(timeout)} is rejected before upstream fetch`, async t => {
+    const upstream = t.mock.method(globalThis, 'fetch', async () => new Response('must not run'))
+    const response = await worker.fetch(request(undefined, origin, { timeout_ms: timeout }))
+    assert.equal(response.status, 400)
+    assert.deepEqual(await response.json(), { error: 'invalid_request' })
+    assert.equal(upstream.mock.callCount(), 0)
+  })
+}
+
+test('a nonfinite timeout serialized as JSON null is rejected', async t => {
+  const upstream = t.mock.method(globalThis, 'fetch', async () => new Response('must not run'))
+  const response = await worker.fetch(request(undefined, origin, { timeout_ms: NaN }))
+  assert.equal(response.status, 400)
+  assert.deepEqual(await response.json(), { error: 'invalid_request' })
+  assert.equal(upstream.mock.callCount(), 0)
 })

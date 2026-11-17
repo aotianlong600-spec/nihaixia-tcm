@@ -172,8 +172,21 @@ test("Codex uses the project's existing relay and preserves the wire body", asyn
   assert.equal(sent.url, "https://vpn.liul.top/relay");
   assert.deepEqual(JSON.parse(sent.init.body), {
     url: "https://chatgpt.com/backend-api/codex/responses", method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: "Bearer synthetic-token" }, body: payload,
+    headers: { "Content-Type": "application/json", Authorization: "Bearer synthetic-token" }, body: payload, timeout_ms: 20000,
   });
+});
+
+test("the project relay receives the configured model deadline while custom envelopes stay compatible", async () => {
+  const bodies = [];
+  const { relayAwareFetch } = runtime(async (_url, init) => {
+    bodies.push(JSON.parse(init.body));
+    return new Response("ok");
+  });
+  const target = "https://chatgpt.com/backend-api/codex/responses";
+  await (await relayAwareFetch(target, { method: "POST", body: "{}" }, "", 300000)).text();
+  await (await relayAwareFetch(target, { method: "POST", body: "{}" }, "https://relay.example", 300000)).text();
+  assert.equal(bodies[0].timeout_ms, 300000);
+  assert.equal(Object.hasOwn(bodies[1], "timeout_ms"), false);
 });
 
 test("custom relays are preserved and other providers stay direct", async () => {
