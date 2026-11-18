@@ -1073,6 +1073,8 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
                         yield _sse_frame("delta", {"text": ev["text"]})
                     elif ev["type"] == "usage":
                         usage = ev["usage"]
+                if not "".join(text_parts).strip():
+                    raise llm_client.LLMClientError("模型未返回有效正文，请重试。")
             except (llm_client.LLMClientError, codex_oauth.CodexOAuthError) as exc:
                 fallback = ni_consult.build_offline_ni_reply(packet, style=style)
                 yield _sse_frame("error", {"detail": str(exc), "fallback_text": fallback})
@@ -1082,7 +1084,7 @@ def create_app(data_dir: str | Path | None = None) -> FastAPI:
                         "mode": "offline_fallback",
                         "error": str(exc),
                         "text": fallback,
-                        "reasoning": "".join(reasoning_parts),
+                        "reasoning": "",
                         "usage": usage,
                         "cited": ni_consult.extract_cited_refs(fallback, packet["citations"]),
                     },

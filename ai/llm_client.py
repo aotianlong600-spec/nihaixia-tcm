@@ -133,7 +133,9 @@ def _build_client(timeout_sec: int) -> httpx.AsyncClient:
     return httpx.AsyncClient(timeout=timeout, trust_env=True, follow_redirects=True)
 
 
-async def _iter_sse_json(response: httpx.Response) -> AsyncIterator[dict[str, Any]]:
+async def _iter_sse_json(
+    response: httpx.Response, *, require_codex_completion: bool = False
+) -> AsyncIterator[dict[str, Any]]:
     content_type = (response.headers.get("content-type") or "").lower()
     if "application/json" in content_type and "text/event-stream" not in content_type:
         body = (await response.aread()).decode("utf-8", errors="replace")
@@ -145,6 +147,9 @@ async def _iter_sse_json(response: httpx.Response) -> AsyncIterator[dict[str, An
 
     event_name = ""
     data_lines: list[str] = []
+    terminal = {"response.completed", "response.done"}
+    if not require_codex_completion:
+        terminal.add("message_stop")
     async for raw_line in response.aiter_lines():
         line = raw_line.rstrip("\r")
         if not line:
@@ -158,9 +163,7 @@ async def _iter_sse_json(response: httpx.Response) -> AsyncIterator[dict[str, An
                         if isinstance(parsed, dict) and event_name and "__event__" not in parsed:
                             parsed["__event__"] = event_name
                         yield parsed if isinstance(parsed, dict) else {"value": parsed}
-                        if isinstance(parsed, dict) and (parsed.get("type") or event_name) in {
-                            "response.completed", "response.done", "message_stop"
-                        }:
+                        if isinstance(parsed, dict) and (parsed.get("type") or event_name) in terminal:
                             return
                     except json.JSONDecodeError:
                         pass
@@ -173,15 +176,21 @@ async def _iter_sse_json(response: httpx.Response) -> AsyncIterator[dict[str, An
             data_lines.append(line[5:].lstrip())
     if data_lines:
         payload_str = "\n".join(data_lines).strip()
-        if payload_str and payload_str != "[DONE]":
+        if payload_str == "[DONE]":
+            return
+        if payload_str:
             try:
                 parsed = json.loads(payload_str)
                 if isinstance(parsed, dict):
                     if event_name and "__event__" not in parsed:
                         parsed["__event__"] = event_name
                     yield parsed
+                    if (parsed.get("type") or event_name) in terminal:
+                        return
             except json.JSONDecodeError:
                 pass
+    if require_codex_completion:
+        raise LLMClientError("Codex 连接已结束，但未收到完成事件。请稍候重试。")
 
 
 _OPENAI_FIXED_TEMP_PROFILES = {
@@ -513,6 +522,8 @@ def _parse_codex_oauth_chunk(chunk: dict[str, Any]) -> list[dict[str, Any]]:
     events: list[dict[str, Any]] = []
     if "__full_json__" in chunk:
         full = chunk["__full_json__"]
+        if not isinstance(full, dict) or full.get("error") or full.get("status") not in (None, "completed"):
+            raise LLMClientError("Codex 输出未完成。")
         text = _extract_codex_output_text(full)
         if text:
             events.append({"type": "delta", "text": text})
@@ -544,6 +555,8 @@ def _parse_codex_oauth_chunk(chunk: dict[str, Any]) -> list[dict[str, Any]]:
 
     if ev_type in {"response.completed", "response.done"}:
         resp_obj = chunk.get("response") if isinstance(chunk.get("response"), dict) else chunk
+        if resp_obj.get("status") not in (None, "completed"):
+            raise LLMClientError("Codex 输出未完成。")
         fallback_text = _extract_codex_output_text(resp_obj)
         if fallback_text:
             events.append({"type": "__fallback_delta__", "text": fallback_text})
@@ -592,7 +605,7 @@ async def stream_chat(
                     err_body = await _read_error_text(resp)
                     raise LLMClientError(_friendly_http_error(resp.status_code, err_body, protocol=protocol))
                 saw_delta = False
-                async for chunk in _iter_sse_json(resp):
+                async for chunk in _iter_sse_json(resp, require_codex_completion=protocol == "codex_oauth"):
                     for ev in parse_fn(chunk):
                         if ev.get("type") == "__fallback_delta__":
                             if not saw_delta and ev.get("text"):
@@ -602,6 +615,8 @@ async def stream_chat(
                         if ev.get("type") == "delta" and ev.get("text"):
                             saw_delta = True
                         yield ev
+                if protocol == "codex_oauth" and not saw_delta:
+                    raise LLMClientError("Codex 未返回有效正文，请重试。")
         except httpx.TimeoutException as exc:
             raise LLMClientError(f"请求模型超时（>{cfg.get('timeout_sec', 120)}s），请检查网络或调大超时。") from exc
         except httpx.ConnectError as exc:

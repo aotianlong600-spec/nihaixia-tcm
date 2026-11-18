@@ -1242,7 +1242,6 @@ def test_pages_runtime_has_static_meta_placeholder_and_direct_helpers() -> None:
         "function codexModelsUrl",
         "function parseResponsePayloadEvents",
         "function waitForWorkerReady",
-        "function buildFallbackStaticPrompt",
         "readyReject(",
     ):
         assert token in src
@@ -1271,6 +1270,22 @@ def test_llm_stream_finishes_at_protocol_end_without_http_close(terminal: str):
             ), timeout=0.3)
 
     assert asyncio.run(run())["text"] == "connected"
+
+
+def test_codex_rejects_unfinished_stream_even_with_text():
+    async def run():
+        async with _mock_async_client(lambda req: httpx.Response(
+            200, headers={"content-type": "text/event-stream"},
+            content=b'data: {"type":"response.output_text.delta","delta":"partial"}\n\n',
+        )) as cli:
+            return await llm_client.complete_chat(
+                {"protocol": "codex_oauth", "base_url": "https://chatgpt.com/backend-api",
+                 "model": "synthetic-model", "api_key": "synthetic-key"},
+                "test", [{"role": "user", "content": "test"}], client=cli,
+            )
+
+    with pytest.raises(llm_client.LLMClientError, match="未收到.*完成"):
+        asyncio.run(run())
 
 
 def test_opencode_credit_error_distinguishes_payg_from_go_subscription():

@@ -1276,16 +1276,39 @@
     return `${u.protocol}//${u.host}/api/tags`;
   }
 
+  function relayConnectionMessage(reason) {
+    switch (reason) {
+      case "deadline_exceeded":
+        return "Codex 回复超时。可降低推理强度或延长模型设置里的等待时间。";
+      case "response_too_large":
+        return "Codex 回复超过转发大小限制。请缩短问题或减少历史内容后重试。";
+      case "upstream_connection_failed":
+        return "转发服务暂时无法连接 Codex，请稍候重试。";
+      case "upstream_incomplete":
+        return "Codex 连接已结束，但未收到完成事件。请稍候重试。";
+      default:
+        return "Codex 回复传输中断，请稍候重试。";
+    }
+  }
+
   function friendlyHttpError(status, bodyText, protocol = "") {
     let detail = "";
     let relayCode = "";
+    let relayReason = "";
     try {
       const parsed = JSON.parse(bodyText);
       relayCode = typeof parsed?.error === "string" ? parsed.error : "";
+      relayReason = parsed?.reason;
       const err = parsed?.error && typeof parsed.error === "object" ? parsed.error : null;
       detail = String(err?.message || err?.detail || parsed?.message || parsed?.detail || "");
     } catch (_err) {
       detail = "";
+    }
+    if (relayCode === "relay_busy") return "模型转发服务繁忙，请稍候重试。";
+    if (relayCode === "request_too_large") return "请求超过转发大小限制。请减少图片或缩短问题后重试。";
+    if (relayCode === "relay_timeout") return relayConnectionMessage("deadline_exceeded");
+    if (relayCode === "provider_connection_failed" && protocol === "codex_oauth") {
+      return relayConnectionMessage(relayReason);
     }
     detail = (detail || bodyText || "").trim().split(/\r?\n/)[0].slice(0, 240);
     if (detail.toLowerCase().includes("x-opencode-session") || String(bodyText || "").toLowerCase().includes("x-opencode-session")) {
@@ -1543,15 +1566,17 @@
         }
         return texts.join("");
       };
-      if (chunk.__full) {
+      if (chunk.__full && !chunk.error) {
+        if (chunk.status && chunk.status !== "completed") throw new Error("Codex 输出未完成。");
         const text = extractText(chunk);
         if (text) events.push({ type: "delta", text });
         if (chunk.usage) events.push({ type: "usage", usage: chunk.usage });
         return events;
       }
       const evType = String(chunk.type || eventName || "").trim();
-      if (evType === "error" || evType === "response.failed" || (chunk.error && !evType)) {
+      if (evType === "error" || evType === "response.failed" || chunk.error) {
         const err = chunk.error || chunk?.response?.error || chunk;
+        if (err?.code === "provider_connection_failed") throw new Error(relayConnectionMessage(err.reason));
         const msg = err?.message || JSON.stringify(err);
         throw new Error(`Codex 流中断：${msg}`);
       }
@@ -1574,6 +1599,7 @@
       }
       if (evType === "response.completed" || evType === "response.done") {
         const respObj = chunk.response && typeof chunk.response === "object" ? chunk.response : chunk;
+        if (respObj.status && respObj.status !== "completed") throw new Error("Codex 输出未完成。");
         const fb = extractText(respObj);
         if (fb) events.push({ type: "__fallback_delta__", text: fb });
         const usage = respObj?.usage || chunk.usage;
@@ -1689,7 +1715,7 @@
         Number(liveCfg.timeout_sec || 120) * 1000
       );
     } catch (err) {
-      if (err?.name === "AbortError") throw err;
+      if (err?.name === "AbortError" || err?.name === "TimeoutError") throw err;
       throw new Error(friendlyNetworkError(liveCfg, err?.message));
     }
     if (!resp.ok) {
@@ -1712,7 +1738,7 @@
       }
     };
     if (ctype.includes("application/json") && !ctype.includes("text/event-stream")) {
-      const parsed = parseResponsePayloadEvents(liveCfg.protocol, ctype, await resp.text());
+      const parsed = parseResponsePayloadEvents(liveCfg.protocol, ctype, await resp.text(), true);
       if (!parsed.parsedAny) throw new Error("模型接口返回了非 JSON/SSE 响应，请核对接口地址");
       for (const ev of filterEmit(parsed.events)) yield ev;
       return;
@@ -1741,7 +1767,8 @@
       const parsed = safeParseJson(payloadStr, null);
       if (!parsed || typeof parsed !== "object") return [];
       const type = parsed.type || evName;
-      if (["response.completed", "response.done", "message_stop"].includes(type)) completed = true;
+      if (["response.completed", "response.done"].includes(type) ||
+          (liveCfg.protocol !== "codex_oauth" && type === "message_stop")) completed = true;
       return parseUpstreamEvents(liveCfg.protocol, parsed, evName);
     };
 
@@ -1771,13 +1798,16 @@
         if (line.startsWith("data:")) dataLines.push(line.slice(5).replace(/^ /, ""));
       }
       for (const ev of filterEmit(flushEvent())) yield ev;
+      if (liveCfg.protocol === "codex_oauth" && !completed) {
+        throw new Error(relayConnectionMessage("upstream_incomplete"));
+      }
     } finally {
       await reader.cancel().catch(() => {});
       reader.releaseLock();
     }
   }
 
-  function parseResponsePayloadEvents(protocol, ctype, rawText) {
+  function parseResponsePayloadEvents(protocol, ctype, rawText, requireTerminal = false) {
     const trimmed = String(rawText || "").trim();
     if (!trimmed) return { parsedAny: false, events: [] };
     const looksLikeSse =
@@ -1794,6 +1824,7 @@
     }
     const events = [];
     let parsedAny = false;
+    let completed = false;
     let eventName = "";
     let dataLines = [];
     const flush = () => {
@@ -1805,17 +1836,23 @@
       const evName = eventName;
       dataLines = [];
       eventName = "";
-      if (!payloadStr || payloadStr === "[DONE]") return;
+      if (payloadStr === "[DONE]") {
+        completed = true;
+        return;
+      }
+      if (!payloadStr) return;
       const parsed = safeParseJson(payloadStr, null);
       if (parsed && typeof parsed === "object") {
         parsedAny = true;
         events.push(...parseUpstreamEvents(protocol, parsed, evName));
+        if (["response.completed", "response.done"].includes(parsed.type || evName)) completed = true;
       }
     };
     for (const rawLine of trimmed.split(/\r?\n/)) {
       const line = rawLine.replace(/\r$/, "");
       if (!line.trim()) {
         flush();
+        if (completed) break;
         continue;
       }
       if (line.startsWith("event:")) {
@@ -1825,6 +1862,9 @@
       }
     }
     flush();
+    if (requireTerminal && protocol === "codex_oauth" && !completed) {
+      throw new Error(relayConnectionMessage("upstream_incomplete"));
+    }
     return { parsedAny, events };
   }
 
@@ -1904,7 +1944,6 @@
     const started = performance.now();
     const probeCfg = { ...liveCfg, max_tokens: 256, temperature: 0.0, reasoning_effort: "auto", timeout_sec: 20 };
     const deltas = [];
-    const reasoning = [];
     try {
       for await (const ev of iterUpstreamEvents(
         probeCfg,
@@ -1914,15 +1953,14 @@
         meta
       )) {
         if (ev.type === "delta" && ev.text) deltas.push(ev.text);
-        if (ev.type === "reasoning" && ev.text) reasoning.push(ev.text);
       }
     } catch (err) {
-      if (err?.name === "TimeoutError" || String(err?.message || "").includes("超时")) {
+      if (err?.name === "TimeoutError") {
         throw new Error(`测试连接超时（>20秒）：请检查网络、代理或 Base URL (${probeCfg.base_url}) 是否可达`);
       }
       throw err;
     }
-    const preview = (deltas.join("").trim() || reasoning.join("").trim()).slice(0, 80);
+    const preview = deltas.join("").trim().slice(0, 80);
     if (!preview) throw new Error("模型接口未返回有效内容，请核对模型 ID 与接口协议");
     return {
       ok: true,
@@ -1967,23 +2005,27 @@
         created_at: now,
         updated_at: now,
       });
-      localStorage.setItem(SEEDED_STORAGE_KEY, "1");
       saveHistoryStore(patients, sessions);
+      localStorage.setItem(SEEDED_STORAGE_KEY, "1");
     }
     return { patients, sessions };
   }
 
   function saveHistoryStore(patients, sessions) {
+    const previousPatients = localStorage.getItem(PATIENTS_STORAGE_KEY);
+    const nextPatients = JSON.stringify(patients);
+    const nextSessions = JSON.stringify(sessions);
+    if (previousPatients !== nextPatients) localStorage.setItem(PATIENTS_STORAGE_KEY, nextPatients);
     try {
-      localStorage.setItem(PATIENTS_STORAGE_KEY, JSON.stringify(patients));
-      localStorage.setItem(SESSIONS_STORAGE_KEY, JSON.stringify(sessions));
-    } catch (_err) {
-      // Compact older session packets if browser localStorage quota is tight
-      const trimmed = sessions.map((s, idx) =>
-        idx < sessions.length - 6 ? { ...s, latest_packet: null } : s
-      );
-      localStorage.setItem(PATIENTS_STORAGE_KEY, JSON.stringify(patients));
-      localStorage.setItem(SESSIONS_STORAGE_KEY, JSON.stringify(trimmed));
+      if (localStorage.getItem(SESSIONS_STORAGE_KEY) !== nextSessions) {
+        localStorage.setItem(SESSIONS_STORAGE_KEY, nextSessions);
+      }
+    } catch (err) {
+      if (previousPatients !== nextPatients) {
+        if (previousPatients === null) localStorage.removeItem(PATIENTS_STORAGE_KEY);
+        else localStorage.setItem(PATIENTS_STORAGE_KEY, previousPatients);
+      }
+      throw err;
     }
   }
 
@@ -2238,8 +2280,13 @@
     const apiPath = u.pathname;
 
     if (apiPath.startsWith("/api/ai/patients") || apiPath.startsWith("/api/ai/sessions")) {
-      const res = await handleHistoryApi(apiPath, method, body);
-      if (res) return res;
+      try {
+        const res = await handleHistoryApi(apiPath, method, body);
+        if (res) return res;
+      } catch (err) {
+        if (err?.name !== "QuotaExceededError") throw err;
+        return jsonResponse({ detail: "浏览器存储空间不足。释放空间后可重试保存。" }, 507);
+      }
     }
 
     const meta = await getPresetsAndStyles();
@@ -2454,54 +2501,6 @@
       return jsonResponse({ ...parsed.body, provider: cfg.provider, model: cfg.model }, parsed.status || 200);
     }
 
-  function buildFallbackStaticPrompt(body, styleId) {
-    const query = String(body?.query || "").trim();
-    const pulse = String(body?.pulse || "").trim();
-    const tongue = String(body?.tongue || "").trim();
-    const history = Array.isArray(body?.history) ? body.history : [];
-    const images = Array.isArray(body?.images) ? body.images : [];
-    const styleNote =
-      styleId === "colloquial_lecture"
-        ? "请以倪海厦课堂口述风格通俗阐明寒热虚实与阴阳表里，并用清晰结构列出辨证思路、参考处方与煎服禁忌。"
-        : styleId === "academic_strict"
-        ? "请紧扣《伤寒杂病论》《黄帝内经》《神农本草经》严谨辨证，明确证型、病机、治则与方药加减说明。"
-        : "请兼顾中医经方理论与通俗讲解，清楚给出病机辨证、参考方药思路、煎服与禁忌提醒。";
-    const systemPrompt =
-      `你是传承倪海厦师门经方思维的中医临床学习助手。${styleNote}\n` +
-      `注意：当前静态网页全库本地实证检索包尚在后台下载/载入中，请基于经典经方与四诊规律给出清晰分析，同时提醒用户线下确诊以执业医师当面诊察为准。`;
-    const userContent = [
-      query ? `主诉与症状：${query}` : "",
-      pulse ? `脉象：${pulse}` : "",
-      tongue ? `舌象：${tongue}` : "",
-    ]
-      .filter(Boolean)
-      .join("\n");
-    const messages = [];
-    for (const h of history) {
-      if (h && typeof h.content === "string" && h.content.trim()) {
-        messages.push({ role: h.role === "assistant" ? "assistant" : "user", content: h.content });
-      }
-    }
-    messages.push({
-      role: "user",
-      content: userContent || query || "请依据所附信息进行经方辨证分析。",
-      ...(images.length ? { images } : {}),
-    });
-    const packet = {
-      query,
-      pulse,
-      tongue,
-      citations: [],
-      formulas: [],
-      notes: ["经典实证全库包仍在后台载入中，本次直连云端模型先行回复"],
-    };
-    const offlineReply =
-      workerFailed
-        ? `当前浏览器离线经典知识引擎加载异常（${workerFailed}），请刷新重试或改用本地服务版（http://127.0.0.1:8767/）。`
-        : "浏览器仍在下载/载入 15MB 离线经典知识库，请稍候完成后重试离线直出，或点击右上角「模型设置」填写 DeepSeek / 硅基流动 / 阿里云百炼 / OpenRouter 等网页版可直连 API Key。";
-    return { packet, system_prompt: systemPrompt, messages, offline_reply: offlineReply };
-  }
-
     if (apiPath === "/api/ai/chat/stream" && method === "POST") {
       const cfgOverride = body?.config_override ? { ...body.config_override } : {};
       if (body?.reasoning_effort) cfgOverride.reasoning_effort = body.reasoning_effort;
@@ -2520,41 +2519,24 @@
       const stream = new ReadableStream({
         async start(controller) {
           try {
-            let prep;
-            const readyStatus = await waitForWorkerReady(useOffline ? 800 : 2000, signal);
-            if (readyStatus === "ready") {
-              const prepRes = await callWorker("/api/ai/prepare-prompt", "POST", { ...body, style }, signal);
-              if ((prepRes.status || 200) >= 400) {
-                throw new Error(prepRes.body?.detail || "提示词装配失败");
-              }
-              prep = prepRes.body;
-            } else if (!useOffline) {
-              // Live online model configured: never stall waiting for 15.9MB bundle.zip
-              prep = buildFallbackStaticPrompt(body, style);
-            } else {
-              // Offline-only mode while first-time Pyodide/bundle.zip is still downloading: emit instant feedback first
-              sendFrame(controller, "context", {
-                mode: "offline",
-                provider: cfg.provider,
-                model: cfg.model,
-                style,
-                packet: { query: String(body?.query || ""), citations: [], formulas: [] },
-              });
-              sendFrame(controller, "delta", {
-                text: "⏳ 浏览器首次访问正在下载并解压经典知识库（约 15 MB，完成后自动本地缓存），请稍候几秒，就绪后自动输出实证辩证…\n\n",
-              });
-              const finalStatus = await waitForWorkerReady(0, signal);
-              if (finalStatus !== "ready") {
-                throw new Error(workerFailed || "离线经典知识库初始化失败，请刷新重试");
-              }
-              const prepRes = await callWorker("/api/ai/prepare-prompt", "POST", { ...body, style }, signal);
-              if ((prepRes.status || 200) >= 400) {
-                throw new Error(prepRes.body?.detail || "提示词装配失败");
-              }
-              prep = prepRes.body;
+            if (!workerReady) {
+              sendFrame(controller, "status", { message: "正在载入经典知识库并准备安全检查…" });
             }
-
-            const { packet, system_prompt, messages, offline_reply } = prep;
+            const readyStatus = await waitForWorkerReady(60000, signal);
+            if (readyStatus === "timeout") {
+              throw new Error("经典知识库加载超时，请检查网络后重试。");
+            }
+            if (readyStatus !== "ready") {
+              throw new Error("经典知识库初始化失败，请刷新网页后重试。");
+            }
+            const prepRes = await callWorker("/api/ai/prepare-prompt", "POST", { ...body, style }, signal);
+            if ((prepRes.status || 200) >= 400) {
+              throw new Error(prepRes.body?.detail || "问诊资料准备失败，请重试。");
+            }
+            const { packet, system_prompt, messages, offline_reply } = prepRes.body;
+            if (!packet?.safety_boundary || typeof packet.safety_boundary !== "object") {
+              throw new Error("问诊安全检查暂不可用，请刷新网页后重试。");
+            }
             sendFrame(controller, "context", {
               mode,
               provider: cfg.provider,
@@ -2602,6 +2584,7 @@
                   usage = ev.usage || {};
                 }
               }
+              if (!textParts.join("").trim()) throw new Error("模型未返回有效正文，请重试。");
             } catch (err) {
               if (err?.name === "AbortError") {
                 controller.close();
@@ -2619,7 +2602,7 @@
                 mode: "offline_fallback",
                 error: detail,
                 text: offline_reply,
-                reasoning: reasoningParts.join(""),
+                reasoning: "",
                 usage,
                 cited: citeRes.body || [],
               });

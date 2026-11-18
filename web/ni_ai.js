@@ -182,6 +182,8 @@
     codexPollTimer: null,
     codexPollingPending: false,
     abortController: null,
+    workspaceBusy: false,
+    unsavedConsultation: null,
   };
 
   const MAX_PENDING_IMAGES = 3;
@@ -634,10 +636,23 @@
     if ($("#ai-pat-id")) $("#ai-pat-id").value = "";
   }
 
+  function rememberWorkspaceSelection(key, id) {
+    try {
+      if (id) localStorage.setItem(key, id);
+      else localStorage.removeItem(key);
+    } catch {
+      // Restoring the last selection is optional if browser storage is full or unavailable.
+    }
+  }
+
   function applySessionToWorkspace(ses) {
+    const pending = niState.unsavedConsultation;
+    if (ses && ses.id === pending?.sessionId) {
+      const { intake, pinned_entity, turns, latest_packet } = JSON.parse(pending.body);
+      ses = { ...ses, intake, pinned_entity, turns, latest_packet };
+    }
     niState.activeSessionId = ses?.id || null;
-    if (ses?.id) localStorage.setItem(STORAGE_SESSION_KEY, ses.id);
-    else localStorage.removeItem(STORAGE_SESSION_KEY);
+    rememberWorkspaceSelection(STORAGE_SESSION_KEY, niState.activeSessionId);
 
     niState.intake = cloneIntake(ses?.intake);
     niState.pendingImages = [];
@@ -657,32 +672,22 @@
     renderSelectedBoard();
     renderPinnedEntity();
     renderVisionStrip();
+    renderSafetyBanner(niState.latestPacket);
     renderConversation();
   }
 
   async function selectPatient(patientId, preferredSessionId = null) {
-    niState.activePatientId = patientId;
-    if (patientId) localStorage.setItem(STORAGE_PATIENT_KEY, patientId);
-    else localStorage.removeItem(STORAGE_PATIENT_KEY);
-
-    if (!patientId) {
-      niState.sessions = [];
-      applySessionToWorkspace(null);
-      return;
-    }
-
-    const res = await apiJson(`/api/ai/patients/${encodeURIComponent(patientId)}/sessions`);
-    niState.sessions = res.sessions || [];
+    const res = patientId ? await apiJson(`/api/ai/patients/${encodeURIComponent(patientId)}/sessions`) : {};
+    const sessions = res.sessions || [];
     const targetId =
-      (preferredSessionId && niState.sessions.some((s) => s.id === preferredSessionId) ? preferredSessionId : null) ||
-      (niState.sessions[0]?.id || null);
+      (preferredSessionId && sessions.some((s) => s.id === preferredSessionId) ? preferredSessionId : null) ||
+      (sessions[0]?.id || null);
+    const detail = targetId ? await apiJson(`/api/ai/sessions/${encodeURIComponent(targetId)}`) : {};
 
-    if (targetId) {
-      const detail = await apiJson(`/api/ai/sessions/${encodeURIComponent(targetId)}`);
-      applySessionToWorkspace(detail.session);
-    } else {
-      applySessionToWorkspace(null);
-    }
+    niState.activePatientId = patientId;
+    niState.sessions = sessions;
+    rememberWorkspaceSelection(STORAGE_PATIENT_KEY, patientId);
+    applySessionToWorkspace(detail.session);
   }
 
   async function selectSession(sessionId) {
@@ -690,12 +695,26 @@
     applySessionToWorkspace(detail.session);
   }
 
-  async function createNewSession({ clearPinned = true, intakeOverride = null } = {}) {
-    if (niState.abortController) {
-      showNotice("当前推演进行中，请先停止再新开问诊");
+  async function withWorkspaceLock(action, { requiresSavedConsultation = false } = {}) {
+    if (niState.workspaceBusy || (niState.unsavedConsultation && requiresSavedConsultation)) {
+      showNotice(niState.workspaceBusy ? "请等当前问诊操作完成" : "本轮问诊尚未保存，请先重试保存");
       return null;
     }
+    niState.workspaceBusy = true;
+    updateStreamingControls();
+    try {
+      return await action();
+    } finally {
+      niState.workspaceBusy = false;
+      updateStreamingControls();
+    }
+  }
 
+  function createNewSession(options) {
+    return withWorkspaceLock(() => openNewSession(options));
+  }
+
+  async function openNewSession({ clearPinned = true, intakeOverride = null } = {}) {
     // Ensure at least one patient exists cleanly
     if (!niState.activePatientId) {
       const created = await apiJson("/api/ai/patients", {
@@ -704,7 +723,7 @@
       });
       niState.patients = created.patients || [];
       niState.activePatientId = created.patient.id;
-      localStorage.setItem(STORAGE_PATIENT_KEY, niState.activePatientId);
+      rememberWorkspaceSelection(STORAGE_PATIENT_KEY, niState.activePatientId);
       if (created.initial_session && !intakeOverride) {
         const res = await apiJson(`/api/ai/patients/${encodeURIComponent(niState.activePatientId)}/sessions`);
         niState.sessions = res.sessions || [];
@@ -738,40 +757,33 @@
     return res.session;
   }
 
-  async function persistCurrentSession({ updatePinned = true, updatePacket = false } = {}) {
-    if (!niState.activeSessionId) return;
+  function warnUnsavedBeforeUnload(event) {
+    event.preventDefault();
+    event.returnValue = true;
+  }
+
+  async function persistConsultation() {
+    const pending = niState.unsavedConsultation;
+    if (!pending) return;
     try {
-      const res = await apiJson(`/api/ai/sessions/${encodeURIComponent(niState.activeSessionId)}/save`, {
+      const res = await apiJson(`/api/ai/sessions/${encodeURIComponent(pending.sessionId)}/save`, {
         method: "POST",
-        body: JSON.stringify({
-          intake: niState.intake,
-          pinned_entity: niState.pinnedEntity,
-          turns: niState.turns.map((t) => ({
-            id: t.id,
-            role: t.role,
-            query: t.query,
-            pulse: t.pulse,
-            tongue: t.tongue,
-            pinnedEntity: t.pinnedEntity,
-            text: t.text,
-            reasoning: t.reasoning,
-            mode: t.mode,
-            provider: t.provider,
-            model: t.model,
-            cited: t.cited,
-            imagesMeta: Array.isArray(t.imagesMeta) ? t.imagesMeta : undefined,
-            error: t.error,
-          })),
-          latest_packet: currentPacket(),
-          update_pinned: updatePinned,
-          update_packet: updatePacket,
-        }),
+        body: pending.body,
       });
-      niState.sessions = res.sessions || niState.sessions;
-      renderPatientsAndSessions();
-    } catch {
-      // Non-blocking persistence failure never interrupts consultation
+      if (res.session?.id !== pending.sessionId) {
+        throw new Error("未收到问诊历史的保存确认");
+      }
+      niState.unsavedConsultation = null;
+      window.removeEventListener("beforeunload", warnUnsavedBeforeUnload);
+      if (niState.activePatientId === pending.patientId) {
+        niState.sessions = res.sessions || niState.sessions;
+      }
+    } catch (err) {
+      pending.error = err.message || "无法写入问诊历史";
+      showNotice("本轮问诊尚未保存，可点击重试保存");
     }
+    renderPatientsAndSessions();
+    renderConversation();
   }
 
   // ── Structured Four-Diagnosis Intake & Collected Board ────────────────
@@ -934,7 +946,6 @@
 
     const host = $("#ai-evidence-body");
     if (!host) return;
-    renderSafetyBanner(packet);
 
     if (!packet) {
       host.innerHTML = `
@@ -1150,6 +1161,12 @@
   function renderConversation() {
     const host = $("#ai-chat-thread");
     if (!host) return;
+    const pending = niState.unsavedConsultation;
+    const unsavedHtml = pending?.error ? `
+      <div class="ai-turn-warn">
+        <span role="alert">${pending.sessionId === niState.activeSessionId ? "本轮问诊" : "另一会话有问诊记录"}尚未保存（${escapeHtml(pending.error)}）</span>
+        <button type="button" class="quiet-button" data-ai-retry-save>重试保存</button>
+      </div>` : "";
 
     if (!niState.turns.length) {
       const activePat = niState.patients.find((p) => p.id === niState.activePatientId);
@@ -1162,7 +1179,7 @@
           <div class="ai-welcome-tips">
             <span>每位问诊人拥有独立历史档；左侧点「+ 新开」开启新病案，点「×」删除单条或整人档案；免 Key 亦可离线直出经方。</span>
           </div>
-        </div>`;
+        </div>${unsavedHtml}`;
       renderEvidenceSidebar(currentPacket());
       return;
     }
@@ -1184,24 +1201,22 @@
             </article>`;
         }
 
-        const modeText =
-          t.mode === "offline" || t.mode === "offline_fallback"
-            ? "离线中医大脑实证直出"
-            : `倪师角色 · ${t.provider || "LLM"}${t.model ? ` (${t.model})` : ""}`;
+        const modeText = {
+          offline: "离线中医大脑实证直出",
+          offline_fallback: "在线模型异常，已提供离线参考",
+          cancelled: "已取消",
+          interrupted: "回复未完成",
+        }[t.mode] || `倪师角色 · ${t.provider || "LLM"}${t.model ? ` (${t.model})` : ""}`;
         const reasoningHtml = t.reasoning
           ? `<details class="ai-reasoning" ${t.streaming && !t.text ? "open" : ""}>
               <summary>推演思考过程（${t.streaming && !t.text ? "思考中..." : "点击展开/收起"}）</summary>
               <div class="ai-reasoning-body">${escapeHtml(t.reasoning)}</div>
             </details>`
           : "";
-        const bodyHtml = t.text
-          ? renderMarkdownSafe(t.text)
-          : t.streaming
-          ? '<div class="ai-typing">正在查阅经方与十七册藏书实证并生成处方...</div>'
-          : "";
-        const errHtml = t.error ? `<div class="ai-turn-warn">大模型调用提示：${escapeHtml(t.error)}（已自动切换离线实证直出保障不断流）</div>` : "";
+        const bodyHtml = t.text ? renderMarkdownSafe(t.text) : "";
+        const errHtml = t.error ? `<div class="ai-turn-warn">${escapeHtml(t.error)}</div>` : "";
         const followupsHtml =
-          !t.streaming && t.text
+          !t.streaming && t.text && t.mode !== "interrupted" && t.mode !== "cancelled"
             ? `<div class="ai-followup-row">
                 <button type="button" class="ai-followup-btn" data-ai-followup="请具体说明这付方的加减化裁和喝完后怎么判断药效好转（问睡眠胃口手脚温凉大便）？">问加减与服后反应</button>
                 <button type="button" class="ai-followup-btn" data-ai-followup="如果病人平时在吃降压药、降糖药或阿司匹林等西药，这首方要注意什么禁忌？">问西药史与禁忌</button>
@@ -1227,7 +1242,7 @@
             ${followupsHtml}
           </article>`;
       })
-      .join("");
+      .join("") + unsavedHtml;
 
     const scroller = $("#ai-chat-scroll");
     if (scroller) scroller.scrollTop = scroller.scrollHeight;
@@ -1259,27 +1274,47 @@
     for (const t of niState.turns) {
       if (t.role === "user") {
         slice.push({ role: "user", content: t.query });
-      } else if (t.role === "assistant" && !t.streaming && t.text) {
+      } else if (t.role === "assistant" && !t.streaming && t.text && t.mode !== "interrupted" && t.mode !== "cancelled") {
         slice.push({ role: "assistant", content: t.text });
       }
     }
     return slice.slice(-10);
   }
 
-  function updateStreamingControls(isStreaming) {
+  function updateStreamingControls() {
     const sendBtn = $("#ai-submit-btn");
     const stopBtn = $("#ai-stop-btn");
-    if (sendBtn) {
-      sendBtn.disabled = isStreaming;
-      sendBtn.textContent = isStreaming ? "正在辩证开方..." : "倪师辩证出方";
-    }
+    const controller = niState.abortController;
+    if (sendBtn) sendBtn.disabled = niState.workspaceBusy || Boolean(niState.unsavedConsultation);
     if (stopBtn) {
-      stopBtn.classList.toggle("hidden", !isStreaming);
+      stopBtn.classList.toggle("hidden", !controller);
+      stopBtn.disabled = Boolean(controller?.signal.aborted);
     }
   }
 
+  function setConsultPhase(message) {
+    const phase = $("#ai-consult-phase");
+    if (phase && phase.textContent !== message) phase.textContent = message;
+  }
+
+  function startWaitTimer() {
+    const elapsed = $("#ai-consult-elapsed");
+    if (!elapsed) return () => {};
+    const started = Date.now();
+    const tick = () => {
+      const seconds = Math.floor((Date.now() - started) / 1000);
+      elapsed.textContent = ` · 已等待 ${seconds} 秒`;
+    };
+    tick();
+    const timer = window.setInterval(tick, 1000);
+    return () => {
+      window.clearInterval(timer);
+      elapsed.textContent = "";
+    };
+  }
+
   function parseSseFrames(chunkText, stateObj, onEvent) {
-    stateObj.buf += chunkText.replace(/\r\n/g, "\n");
+    stateObj.buf = (stateObj.buf + chunkText).replace(/\r\n/g, "\n");
     const parts = stateObj.buf.split("\n\n");
     stateObj.buf = parts.pop() || "";
     for (const block of parts) {
@@ -1294,11 +1329,13 @@
         }
       }
       if (!dataLines.length) continue;
+      let data;
       try {
-        onEvent(evName, JSON.parse(dataLines.join("\n")));
+        data = JSON.parse(dataLines.join("\n"));
       } catch {
-        // Ignore partial chunk gracefully
+        continue;
       }
+      if (data && typeof data === "object") onEvent(evName, data);
     }
   }
 
@@ -1505,12 +1542,11 @@
     }
   }
 
-  async function submitConsultation(customQuery = null) {
-    if (niState.abortController) {
-      showNotice("当前推演正在进行中，可点击停止后再发下一问");
-      return;
-    }
+  function submitConsultation(customQuery = null) {
+    return withWorkspaceLock(() => streamConsultation(customQuery), { requiresSavedConsultation: true });
+  }
 
+  async function streamConsultation(customQuery) {
     const inputEl = $("#ai-query-input");
     const typedText = String(customQuery !== null ? customQuery : inputEl?.value || "").trim();
     if (customQuery === null) {
@@ -1530,20 +1566,29 @@
       return;
     }
 
-    // Ensure patient & active session exist in SQLite before first turn
+    const intake = cloneIntake(niState.intake);
+    const pulse = intake.pulses.join(" ");
+    const tongue = intake.tongues.join(" ");
+    const pinned = niState.pinnedEntity ? { ...niState.pinnedEntity } : null;
+    const history = buildHistoryPayload();
+    const style = niState.style;
+    const reasoningEffort = niState.reasoningEffort;
+    const offline = niState.offlineOnly;
+    const clearWaitTimer = startWaitTimer();
+    setConsultPhase("正在准备问诊…");
+
     if (!niState.activePatientId || !niState.activeSessionId) {
       try {
-        await createNewSession({ clearPinned: false, intakeOverride: niState.intake });
+        await openNewSession({ clearPinned: false, intakeOverride: intake });
       } catch (err) {
+        clearWaitTimer();
+        setConsultPhase("");
         showNotice(err?.message || "创建问诊会话失败");
         return;
       }
     }
-
-    const pulse = niState.intake.pulses.join(" ");
-    const tongue = niState.intake.tongues.join(" ");
-    const pinned = niState.pinnedEntity ? { ...niState.pinnedEntity } : null;
-    const history = buildHistoryPayload();
+    const sessionId = niState.activeSessionId;
+    const patientId = niState.activePatientId;
 
     const userTurn = {
       id: `u-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
@@ -1560,7 +1605,7 @@
       text: "",
       reasoning: "",
       packet: null,
-      mode: niState.offlineOnly || !niState.config?.ready ? "offline" : "live",
+      mode: offline || !niState.config?.ready ? "offline" : "live",
       provider: niState.config?.provider || "",
       model: niState.config?.model || "",
       cited: null,
@@ -1570,6 +1615,7 @@
 
     niState.turns.push(userTurn, asstTurn);
     niState.selectedPacketTurnId = asstTurn.id;
+    window.addEventListener("beforeunload", warnUnsavedBeforeUnload);
     if (customQuery === null && inputEl) {
       inputEl.value = "";
     }
@@ -1582,8 +1628,10 @@
     renderConversation();
     const ac = new AbortController();
     niState.abortController = ac;
-    updateStreamingControls(true);
+    updateStreamingControls();
+    setConsultPhase("正在等待首段回复…");
 
+    let reader;
     try {
       const res = await fetch("/api/ai/chat/stream", {
         method: "POST",
@@ -1593,9 +1641,9 @@
           query,
           pulse,
           tongue,
-          style: niState.style,
-          reasoning_effort: niState.reasoningEffort,
-          offline: niState.offlineOnly,
+          style,
+          reasoning_effort: reasoningEffort,
+          offline,
           history,
           images: attachedImgs.map((x) => ({ name: x.name, data_url: x.data_url })),
           entity_focus: pinned
@@ -1616,9 +1664,10 @@
         throw new Error("浏览器未返回可读流响应");
       }
 
-      const reader = res.body.getReader();
+      reader = res.body.getReader();
       const decoder = new TextDecoder("utf-8");
       const sseBuf = { buf: "" };
+      let completed = false;
       let renderScheduled = false;
       const scheduleRender = () => {
         if (renderScheduled) return;
@@ -1630,37 +1679,52 @@
       };
 
       const handleEvent = (evName, data) => {
-        if (evName === "context") {
+        if (completed || ac.signal.aborted) return;
+        if (evName === "status") {
+          if (!asstTurn.text && typeof data.message === "string") setConsultPhase(data.message);
+        } else if (evName === "context") {
           asstTurn.mode = data.mode || asstTurn.mode;
           asstTurn.provider = data.provider || asstTurn.provider;
           asstTurn.model = data.model || asstTurn.model;
           asstTurn.packet = data.packet || null;
           niState.latestPacket = asstTurn.packet;
+          renderSafetyBanner(niState.latestPacket);
+          if (!asstTurn.text) setConsultPhase("正在等待首段回复…");
           renderConversation();
         } else if (evName === "reasoning") {
+          if (asstTurn.error) return;
           asstTurn.reasoning += data.text || "";
           scheduleRender();
         } else if (evName === "delta") {
+          if (asstTurn.error) return;
+          if (data.text && !asstTurn.text) {
+            clearWaitTimer();
+            setConsultPhase("正在接收回复…");
+          }
           asstTurn.text += data.text || "";
           scheduleRender();
         } else if (evName === "error") {
           asstTurn.error = data.detail || "上游模型调用异常";
-          if (!asstTurn.text && data.fallback_text) {
-            asstTurn.text = data.fallback_text;
-          }
+          asstTurn.text = "";
+          asstTurn.reasoning = "";
           renderConversation();
         } else if (evName === "done") {
-          asstTurn.streaming = false;
+          const fallback = data.mode === "offline_fallback";
+          const text = typeof data.text === "string" ? data.text : asstTurn.text;
+          const error = data.error || asstTurn.error;
+          if (!text.trim() || data.mode === "error" || (error && !fallback)) {
+            throw new Error(error || "模型未返回完整回复");
+          }
+          completed = true;
           asstTurn.mode = data.mode || asstTurn.mode;
-          asstTurn.text = data.text || asstTurn.text;
-          asstTurn.reasoning = data.reasoning || asstTurn.reasoning;
+          asstTurn.text = text;
+          asstTurn.reasoning = fallback ? "" : data.reasoning || asstTurn.reasoning;
           asstTurn.cited = data.cited || null;
-          if (data.error) asstTurn.error = data.error;
-          renderConversation();
+          asstTurn.error = error;
         }
       };
 
-      while (true) {
+      while (!completed && !ac.signal.aborted) {
         const { done, value } = await reader.read();
         if (done) {
           const tail = decoder.decode();
@@ -1670,22 +1734,59 @@
         }
         parseSseFrames(decoder.decode(value, { stream: true }), sseBuf, handleEvent);
       }
-
-      asstTurn.streaming = false;
-      renderConversation();
-      await persistCurrentSession({ updatePinned: true, updatePacket: true });
+      if (ac.signal.aborted) throw ac.signal.reason;
+      if (!completed) throw new Error(asstTurn.error || "回复中断，模型未返回完成确认");
     } catch (err) {
-      asstTurn.streaming = false;
-      if (err.name === "AbortError") {
-        asstTurn.error = asstTurn.text ? "已手动停止后续输出" : "已取消本次请求";
+      if (ac.signal.aborted) {
+        asstTurn.mode = "cancelled";
+        asstTurn.error = "已取消本次请求";
       } else {
-        asstTurn.error = err.message || "流式连接中断";
+        asstTurn.mode = "interrupted";
+        asstTurn.error = err?.message || "流式连接中断";
       }
-      renderConversation();
-      await persistCurrentSession({ updatePinned: true, updatePacket: true });
+      asstTurn.text = "";
+      asstTurn.reasoning = "";
     } finally {
+      if (reader) void reader.cancel().catch(() => {});
       niState.abortController = null;
-      updateStreamingControls(false);
+      updateStreamingControls();
+      clearWaitTimer();
+    }
+
+    asstTurn.streaming = false;
+    setConsultPhase("正在保存问诊历史…");
+    niState.unsavedConsultation = {
+      sessionId,
+      patientId,
+      body: JSON.stringify({
+        intake,
+        pinned_entity: pinned,
+        turns: niState.turns.map((t) => ({
+          id: t.id,
+          role: t.role,
+          query: t.query,
+          pulse: t.pulse,
+          tongue: t.tongue,
+          pinnedEntity: t.pinnedEntity,
+          text: t.text,
+          reasoning: t.reasoning,
+          mode: t.mode,
+          provider: t.provider,
+          model: t.model,
+          cited: t.cited,
+          imagesMeta: Array.isArray(t.imagesMeta) ? t.imagesMeta : undefined,
+          error: t.error,
+        })),
+        latest_packet: niState.latestPacket,
+        update_pinned: true,
+        update_packet: true,
+      }),
+    };
+    try {
+      renderConversation();
+      await persistConsultation();
+    } finally {
+      setConsultPhase("");
     }
   }
 
@@ -2122,7 +2223,7 @@
     $("#ai-add-patient-btn")?.addEventListener("click", () => openPatientForm(null));
     $("#ai-pat-cancel-btn")?.addEventListener("click", closePatientForm);
 
-    $("#ai-pat-save-btn")?.addEventListener("click", async () => {
+    $("#ai-pat-save-btn")?.addEventListener("click", () => withWorkspaceLock(async () => {
       const patId = $("#ai-pat-id")?.value?.trim() || "";
       const payload = {
         name: $("#ai-pat-name")?.value?.trim() || "",
@@ -2159,9 +2260,9 @@
       } catch (err) {
         showNotice(err.message);
       }
-    });
+    }));
 
-    $("#ai-patient-list")?.addEventListener("click", async (e) => {
+    $("#ai-patient-list")?.addEventListener("click", (e) => withWorkspaceLock(async () => {
       const editBtn = e.target.closest("[data-pat-edit]");
       if (editBtn) {
         e.stopPropagation();
@@ -2173,6 +2274,10 @@
       if (delBtn) {
         e.stopPropagation();
         const pid = delBtn.dataset.patDel;
+        if (pid === niState.unsavedConsultation?.patientId) {
+          showNotice("该问诊人有尚未保存的记录，请先重试保存");
+          return;
+        }
         const pat = niState.patients.find((p) => p.id === pid);
         if (!window.confirm(`确定删除问诊人「${pat?.name || ""}」及其全部问诊历史吗？`)) return;
         try {
@@ -2197,13 +2302,17 @@
           await selectPatient(pid).catch((err) => showNotice(err.message));
         }
       }
-    });
+    }));
 
-    $("#ai-session-list")?.addEventListener("click", async (e) => {
+    $("#ai-session-list")?.addEventListener("click", (e) => withWorkspaceLock(async () => {
       const delBtn = e.target.closest("[data-ses-del]");
       if (delBtn) {
         e.stopPropagation();
         const sid = delBtn.dataset.sesDel;
+        if (sid === niState.unsavedConsultation?.sessionId) {
+          showNotice("本条问诊尚未保存，请先重试保存");
+          return;
+        }
         try {
           const res = await apiJson(`/api/ai/sessions/${encodeURIComponent(sid)}/delete`, { method: "POST" });
           niState.sessions = res.sessions || [];
@@ -2236,7 +2345,7 @@
           setMobilePane("consult");
         }
       }
-    });
+    }));
 
     // Structured intake dimension tabs & toggles
     $("#ai-dim-tabs")?.addEventListener("click", (e) => {
@@ -2365,7 +2474,8 @@
 
     $("#ai-submit-btn")?.addEventListener("click", () => submitConsultation());
     $("#ai-stop-btn")?.addEventListener("click", () => {
-      if (niState.abortController) niState.abortController.abort();
+      niState.abortController?.abort();
+      updateStreamingControls();
     });
 
     $("#ai-profile-select")?.addEventListener("change", async (e) => {
@@ -2440,6 +2550,9 @@
     });
 
     $("#ai-chat-thread")?.addEventListener("click", (e) => {
+      if (e.target.closest("[data-ai-retry-save]")) {
+        return withWorkspaceLock(persistConsultation);
+      }
       const refBtn = e.target.closest("[data-ai-ref]");
       if (refBtn) {
         e.preventDefault();
@@ -2880,12 +2993,16 @@
         book_id: decodeURIComponent(askBtn.dataset.askNiBookId || ""),
         page_no: Number(askBtn.dataset.askNiPage || 0),
         prompt: decodeURIComponent(askBtn.dataset.askNiPrompt || ""),
-      });
+      }).catch((err) => showNotice(err.message || "创建问诊会话失败"));
     });
   }
 
   async function activate() {
     if (niState.booted) return;
+    return withWorkspaceLock(initializeWorkspace);
+  }
+
+  async function initializeWorkspace() {
     niState.booted = true;
     bindEvents();
     renderDimSelector();
@@ -2924,11 +3041,13 @@
       book_id: opts.book_id || "",
       page_no: opts.page_no || 0,
     };
-    await createNewSession({ clearPinned: false });
-    niState.pinnedEntity = pinned;
-    renderPinnedEntity();
     const prompt = opts.prompt || `请倪师结合原典与临床经验，详细讲解「${pinned.name}」的病机、原方用量、煎服法、随症加减与使用禁忌。`;
-    await submitConsultation(prompt);
+    await withWorkspaceLock(async () => {
+      await openNewSession({ clearPinned: false });
+      niState.pinnedEntity = pinned;
+      renderPinnedEntity();
+      await streamConsultation(prompt);
+    }, { requiresSavedConsultation: true });
   }
 
   window.niAI = {

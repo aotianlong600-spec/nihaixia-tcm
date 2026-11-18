@@ -6,7 +6,9 @@ import vm from "node:vm";
 
 const source = await readFile(new URL("../scripts/pages/pages_runtime.js", import.meta.url), "utf8");
 
-function runtime(fetchImpl = fetch) {
+function runtime(fetchImpl = fetch, { meta = null, workerReply = null, guardWrite = null } = {}) {
+  const workerListeners = new Map();
+  let emitWorkerMessage;
   const session = new Map();
   const storage = new Map([
     ["ni_ai_static_codex_oauth_v1", JSON.stringify({
@@ -18,17 +20,29 @@ function runtime(fetchImpl = fetch) {
     location: new URL("https://aotianlong600-spec.github.io/nihaixia-tcm/"),
     document: { addEventListener() {}, getElementById() { return null; } },
     navigator: {},
-    Worker: class { addEventListener() {} },
-    localStorage: { getItem: k => storage.get(k) ?? null, setItem: (k, v) => storage.set(k, v) },
+    Worker: class {
+      constructor() { emitWorkerMessage = data => workerListeners.get("message")({ data }); }
+      addEventListener(type, handler) { workerListeners.set(type, handler); }
+      postMessage(request) {
+        queueMicrotask(() => emitWorkerMessage({
+          type: "response", id: request.id, raw: JSON.stringify(workerReply(request)),
+        }));
+      }
+    },
+    localStorage: {
+      getItem: k => storage.get(k) ?? null,
+      setItem(k, v) { guardWrite?.(k, v); storage.set(k, v); },
+      removeItem: k => storage.delete(k),
+    },
     sessionStorage: { getItem: k => session.get(k) ?? null, setItem: (k, v) => session.set(k, v), removeItem: k => session.delete(k) },
     URL, URLSearchParams, Headers, Request, Response, ReadableStream,
     TextEncoder, TextDecoder, AbortController, DOMException, performance,
     setTimeout: (fn, ms) => setTimeout(fn, Math.min(ms, 200)), clearTimeout,
   };
-  vm.runInNewContext(source.replace(/\}\)\(\);\s*$/, `
-    globalThis.helpers = { relayAwareFetch, startStaticCodexLogin, runDirectTest, iterUpstreamEvents, friendlyHttpError };
+  vm.runInNewContext(source.replace("null /* __STATIC_AI_META__ */", JSON.stringify(meta)).replace(/\}\)\(\);\s*$/, `
+    globalThis.helpers = { relayAwareFetch, startStaticCodexLogin, runDirectTest, iterUpstreamEvents, friendlyHttpError, saveHistoryStore };
   })();`), sandbox);
-  return { ...sandbox.helpers, bridge: sandbox.window.tcmLocalCodexBridge };
+  return { ...sandbox.helpers, bridge: sandbox.window.tcmLocalCodexBridge, browserFetch: sandbox.window.fetch, emitWorkerMessage, storage };
 }
 
 async function upstream(t, handler) {
@@ -128,6 +142,108 @@ test("a buffered Codex stream works when a relay labels it as JSON", async t => 
   const { runDirectTest } = runtime((_url, init) => fetch(url, init));
   const result = await runDirectTest({ ...cfg, protocol: "codex_oauth", base_url: url });
   assert.equal(result.reply_preview, "已连通");
+});
+
+for (const contentType of ["text/event-stream", "application/json"]) {
+  test(`Codex rejects partial text when the upstream closes without completion (${contentType})`, async () => {
+    const { runDirectTest } = runtime(async () => new Response(
+      'data: {"type":"response.output_text.delta","delta":"partial"}\n\n',
+      { headers: { "Content-Type": contentType } },
+    ));
+    await assert.rejects(runDirectTest({ ...cfg, protocol: "codex_oauth", base_url: "https://chatgpt.com/backend-api" }), /未收到.*完成/);
+  });
+}
+
+test("relay busy and relay timeout receive distinct, actionable messages", () => {
+  const { friendlyHttpError } = runtime();
+  assert.match(friendlyHttpError(429, '{"error":"relay_busy"}', "codex_oauth"), /转发服务.*繁忙/);
+  assert.match(friendlyHttpError(502, '{"error":"provider_connection_failed","reason":"deadline_exceeded"}', "codex_oauth"), /回复超时/);
+});
+
+test("a relay error after the first Codex delta is not a successful reply", async () => {
+  const { runDirectTest } = runtime(async () => new Response(
+    'data: {"type":"response.output_text.delta","delta":"partial"}\n\n' +
+    'event: error\ndata: {"type":"error","error":{"code":"provider_connection_failed","reason":"deadline_exceeded"}}\n\n',
+    { headers: { "Content-Type": "text/event-stream" } },
+  ));
+  await assert.rejects(runDirectTest({ ...cfg, protocol: "codex_oauth", base_url: "https://chatgpt.com/backend-api" }), /回复超时/);
+});
+
+test("a cold consultation waits for checked context and stops if the knowledge worker fails", async () => {
+  let networkCalls = 0;
+  const { browserFetch, emitWorkerMessage } = runtime(async () => {
+    networkCalls++;
+    throw new Error("consultation reached model before checks");
+  }, { meta: { presets: [{ id: "codex", protocol: "codex_oauth", base_url: "https://chatgpt.com/backend-api", default_model: "synthetic" }] } });
+  const response = await browserFetch("/api/ai/chat/stream", {
+    method: "POST",
+    body: JSON.stringify({ query: "synthetic", config_override: { provider: "codex" } }),
+  });
+  const read = response.body.getReader();
+  const start = await bounded(read.read());
+  assert.match(new TextDecoder().decode(start.value), /event: status/);
+  assert.equal(networkCalls, 0);
+  emitWorkerMessage({ type: "init_error", error: "synthetic initialization failure" });
+  let rest = "";
+  for (;;) {
+    const { value, done } = await bounded(read.read());
+    if (done) break;
+    rest += new TextDecoder().decode(value);
+  }
+  assert.match(rest, /"mode":"error"/);
+  assert.equal(networkCalls, 0);
+});
+
+test("a cold consultation checks local context before generating and preserves the check in its stream", async () => {
+  let prepared = false;
+  let modelCalls = 0;
+  const { browserFetch, emitWorkerMessage } = runtime(async () => {
+    assert.equal(prepared, true);
+    modelCalls++;
+    return new Response('data: {"type":"response.output_text.delta","delta":"synthetic"}\n\n' +
+      'data: {"type":"response.completed","response":{"status":"completed"}}\n\n',
+      { headers: { "Content-Type": "text/event-stream" } });
+  }, {
+    meta: { presets: [{ id: "codex", protocol: "codex_oauth", base_url: "https://chatgpt.com/backend-api", default_model: "synthetic" }] },
+    workerReply({ url }) {
+      if (url === "/api/ai/prepare-prompt") {
+        prepared = true;
+        return { status: 200, body: {
+          packet: { safety_boundary: { triggered: false }, citations: [] },
+          system_prompt: "synthetic system prompt", messages: [{ role: "user", content: "synthetic" }], offline_reply: "synthetic fallback",
+        } };
+      }
+      return { status: 200, body: {} };
+    },
+  });
+  const response = await browserFetch("/api/ai/chat/stream", {
+    method: "POST",
+    body: JSON.stringify({ query: "synthetic", config_override: { provider: "codex" } }),
+  });
+  assert.equal(modelCalls, 0);
+  emitWorkerMessage({ type: "ready" });
+  const stream = await bounded(response.text());
+  assert.ok(stream.indexOf("event: context") < stream.indexOf("event: delta"));
+  assert.match(stream, /"safety_boundary":\{"triggered":false\}/);
+  assert.match(stream, /event: done/);
+  assert.equal(modelCalls, 1);
+});
+
+test("quota failure keeps old evidence packets and rolls back an incomplete history write", () => {
+  let full = false;
+  const patientKey = "ni_ai_static_patients_v1";
+  const sessionKey = "ni_ai_static_sessions_v1";
+  const { saveHistoryStore, storage } = runtime(fetch, { guardWrite(key, value) {
+    if (full && key === sessionKey && value.includes("NEW")) {
+      throw new DOMException("Browser storage full", "QuotaExceededError");
+    }
+  } });
+  const sessions = Array.from({ length: 7 }, (_, i) => ({ id: i, latest_packet: { summary: "preserve" } }));
+  saveHistoryStore([{ id: "P" }], sessions);
+  full = true;
+  assert.throws(() => saveHistoryStore([{ id: "P", name: "renamed" }], [...sessions, { id: "NEW" }]), /Browser storage full/);
+  assert.deepEqual(JSON.parse(storage.get(patientKey)), [{ id: "P" }]);
+  assert.deepEqual(JSON.parse(storage.get(sessionKey)), sessions);
 });
 
 test("manual cancellation still aborts a body read", async t => {

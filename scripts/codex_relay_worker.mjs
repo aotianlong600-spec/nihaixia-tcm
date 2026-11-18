@@ -12,6 +12,18 @@ const TARGETS = new Map([
 ])
 const HEADER_NAMES = new Set(['authorization', 'content-type', 'accept', 'chatgpt-account-id', 'openai-beta', 'originator', 'user-agent'])
 const MAX_RESPONSE = 4 * 1024 * 1024
+const FAILURE_COUNTS = Object.fromEntries([
+  'deadline_exceeded', 'response_too_large', 'upstream_connection_failed', 'upstream_read_failed',
+  'upstream_incomplete', 'terminal_cancel_failed', 'client_aborted',
+].map(reason => [reason, 0]))
+const ENCODER = new TextEncoder()
+const STREAM_METRICS = { streams_started: 0, first_frame_count: 0, first_frame_total_ms: 0, first_frame_max_ms: 0 }
+
+export function getRelayMetrics() { return { ...FAILURE_COUNTS, ...STREAM_METRICS } }
+
+function recordFailure(reason) {
+  if (Object.hasOwn(FAILURE_COUNTS, reason)) FAILURE_COUNTS[reason]++
+}
 
 function allowedOrigin(origin) {
   if (origin === APP_ORIGIN) return true
@@ -36,23 +48,11 @@ function json(body, status, origin) {
   return new Response(JSON.stringify(body), { status, headers: { ...cors(origin), 'Content-Type': 'application/json' } })
 }
 
-async function readLimited(stream, maximum, stopAtCodexEnd = false, diagnostic = null) {
+async function readLimited(stream, maximum, diagnostic = null) {
   if (!stream) return new Uint8Array()
   const reader = stream.getReader()
   const chunks = []
   let length = 0
-  const decoder = stopAtCodexEnd ? new TextDecoder() : null
-  let pendingLine = '', dataLines = []
-  const terminalEvent = line => {
-    if (line.startsWith('data:')) dataLines.push(line.slice(5).trimStart())
-    if (line || !dataLines.length) return false
-    const data = dataLines.join('\n').trim()
-    dataLines = []
-    if (data === '[DONE]') return true
-    try {
-      return ['response.completed', 'response.done', 'response.failed', 'response.incomplete'].includes(JSON.parse(data)?.type)
-    } catch { return false }
-  }
   try {
     while (true) {
       const { done, value } = await reader.read()
@@ -64,29 +64,151 @@ async function readLimited(stream, maximum, stopAtCodexEnd = false, diagnostic =
         throw new RangeError('Body exceeds supported size')
       }
       chunks.push(value)
-      if (decoder) {
-        pendingLine += decoder.decode(value, { stream: true })
-        let index, complete = false
-        while ((index = pendingLine.indexOf('\n')) !== -1) {
-          complete = terminalEvent(pendingLine.slice(0, index).replace(/\r$/, ''))
-          pendingLine = pendingLine.slice(index + 1)
-          if (complete) break
-        }
-        if (complete) {
-          if (diagnostic) {
-            diagnostic.terminal_seen = true
-            diagnostic.stage = 'terminal_cancel'
-          }
-          await reader.cancel()
-          break
-        }
-      }
     }
   } finally { reader.releaseLock() }
   const bytes = new Uint8Array(length)
   let offset = 0
   for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.byteLength }
   return bytes
+}
+
+function terminalFrame(frame) {
+  let event = ''
+  const data = []
+  for (const line of frame.split(/\r?\n/)) {
+    if (line.startsWith('event:')) event = line.slice(6).trim()
+    if (line.startsWith('data:')) data.push(line.slice(5).trimStart())
+  }
+  const text = data.join('\n').trim()
+  if (text === '[DONE]') return true
+  try {
+    return ['response.completed', 'response.done', 'response.failed', 'response.incomplete'].includes(JSON.parse(text)?.type || event)
+  } catch { return false }
+}
+
+function streamError(reason) {
+  return ENCODER.encode(`event: error\ndata: ${JSON.stringify({ type: 'error', error: { code: 'provider_connection_failed', reason } })}\n\n`)
+}
+
+// Reserve space for the fixed error event even when a stream reaches the byte cap.
+const ERROR_RESERVE = Math.max(...Object.keys(FAILURE_COUNTS).map(reason => streamError(reason).byteLength))
+
+function codexStream(upstream, controller, diagnostic, abortReason, cleanup, started) {
+  const reader = upstream.body?.getReader()
+  const decoder = new TextDecoder()
+  let pending = '', sent = 0, finished = false, output, firstFrame = true
+  STREAM_METRICS.streams_started++
+  const stop = (terminal = false) => {
+    controller.signal.removeEventListener('abort', onAbort)
+    cleanup()
+    if (reader) {
+      void reader.cancel().catch(() => { if (terminal) recordFailure('terminal_cancel_failed') })
+    }
+    controller.abort()
+  }
+  const fail = reason => {
+    if (finished) return
+    finished = true
+    recordFailure(reason)
+    output.enqueue(streamError(reason))
+    output.close()
+    stop()
+  }
+  const onAbort = () => fail(abortReason() || 'client_aborted')
+  return new ReadableStream({
+    start(value) {
+      output = value
+      controller.signal.addEventListener('abort', onAbort, { once: true })
+      if (controller.signal.aborted) onAbort()
+    },
+    async pull(value) {
+      try {
+        while (!finished) {
+          const boundary = /\r?\n\r?\n/.exec(pending)
+          if (boundary) {
+            const end = boundary.index + boundary[0].length
+            const frame = pending.slice(0, end)
+            pending = pending.slice(end)
+            const bytes = ENCODER.encode(frame)
+            const terminal = terminalFrame(frame)
+            if (sent + bytes.byteLength > MAX_RESPONSE - (terminal ? 0 : ERROR_RESERVE)) {
+              fail('response_too_large')
+              return
+            }
+            sent += bytes.byteLength
+            if (firstFrame) {
+              firstFrame = false
+              const elapsed = Math.max(0, Date.now() - started)
+              STREAM_METRICS.first_frame_count++
+              STREAM_METRICS.first_frame_total_ms += elapsed
+              STREAM_METRICS.first_frame_max_ms = Math.max(STREAM_METRICS.first_frame_max_ms, elapsed)
+            }
+            value.enqueue(bytes)
+            if (terminal) {
+              diagnostic.terminal_seen = true
+              finished = true
+              value.close()
+              stop(true)
+            }
+            return
+          }
+          const next = reader ? await reader.read() : { done: true }
+          if (finished) return
+          if (next.done) {
+            fail('upstream_incomplete')
+            return
+          }
+          diagnostic.response_bytes += next.value.byteLength
+          if (diagnostic.response_bytes > MAX_RESPONSE) {
+            fail('response_too_large')
+            return
+          }
+          pending += decoder.decode(next.value, { stream: true })
+        }
+      } catch {
+        if (!finished) fail(abortReason() || 'upstream_read_failed')
+      }
+    },
+    cancel() {
+      if (finished) return
+      finished = true
+      recordFailure('client_aborted')
+      stop()
+    },
+  })
+}
+
+async function detectCodexType(upstream, signal) {
+  if (!upstream.body) return upstream
+  const [probe, body] = upstream.body.tee()
+  const reader = probe.getReader()
+  const decoder = new TextDecoder()
+  let prefix = '', size = 0
+  const abort = () => { void reader.cancel().catch(() => {}) }
+  signal.addEventListener('abort', abort, { once: true })
+  try {
+    if (signal.aborted) throw signal.reason
+    while (size < 256) {
+      const next = await reader.read()
+      if (signal.aborted) throw signal.reason
+      if (next.done) break
+      prefix += decoder.decode(next.value.subarray(0, 256 - size), { stream: true })
+      size += next.value.byteLength
+      const trimmed = prefix.trimStart()
+      if (/^(?:data:|event:|:)/.test(trimmed)) break
+      if (trimmed && !['data:', 'event:', ':'].some(value => value.startsWith(trimmed))) break
+    }
+    const headers = new Headers(upstream.headers)
+    headers.set('Content-Type', /^\s*(?:data:|event:|:)/.test(prefix) ? 'text/event-stream' : 'application/json')
+    return new Response(body, { status: upstream.status, headers })
+  } catch (error) {
+    void body.cancel().catch(() => {})
+    throw error
+  } finally {
+    signal.removeEventListener('abort', abort)
+    void reader.cancel().catch(() => {})
+    reader.releaseLock()
+  }
 }
 
 function providerFailure(upstream, bytes, target) {
@@ -112,6 +234,35 @@ function providerFailure(upstream, bytes, target) {
   return failure
 }
 
+function validateEnvelope(payload) {
+  if (!payload || typeof payload.url !== 'string') throw new TypeError()
+  let timeoutMs = 600000
+  if (Object.hasOwn(payload, 'timeout_ms')) {
+    if (!Number.isInteger(payload.timeout_ms) || payload.timeout_ms < 1000 || payload.timeout_ms > 600000) throw new TypeError()
+    timeoutMs = payload.timeout_ms
+  }
+  const target = new URL(payload.url)
+  if (target.protocol !== 'https:' || target.username || target.password || target.port || target.hash) throw new TypeError()
+  const models = target.hostname === 'chatgpt.com' && target.pathname === '/backend-api/codex/models'
+  if (models) {
+    if (payload.method !== 'GET' || target.search !== '?client_version=1.0.0' || payload.body != null) throw new TypeError()
+  } else if (payload.method !== 'POST' || typeof payload.body !== 'string' || target.search || !TARGETS.get(target.hostname)?.has(target.pathname)) throw new TypeError()
+  if (!payload.headers || typeof payload.headers !== 'object' || Array.isArray(payload.headers)) throw new TypeError()
+  const headers = new Headers()
+  for (const [name, value] of Object.entries(payload.headers)) {
+    if (!HEADER_NAMES.has(name.toLowerCase()) || typeof value !== 'string' || value.length > 8000 || /[\r\n]/.test(value)) throw new TypeError()
+    headers.set(name, value)
+  }
+  if (target.hostname !== 'auth.openai.com' && !/^Bearer \S+$/.test(headers.get('Authorization') || '')) throw new TypeError()
+  if (payload.method === 'POST' && !['application/json', 'application/x-www-form-urlencoded'].includes(headers.get('Content-Type'))) throw new TypeError()
+  const control = models || target.hostname === 'auth.openai.com'
+  return { target, headers, timeoutMs: control ? Math.min(timeoutMs, 30000) : timeoutMs, control }
+}
+
+export function isControlEnvelope(payload) {
+  try { return validateEnvelope(payload).control } catch { return false }
+}
+
 export default {
   async fetch(request) {
     const origin = request.headers.get('Origin') || ''
@@ -123,29 +274,11 @@ export default {
     if (!allowedOrigin(origin)) return json({ error: 'origin_not_allowed' }, 403, APP_ORIGIN)
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) })
     if (request.method !== 'POST') return json({ error: 'method_not_allowed' }, 405, origin)
-    let payload, target, headers, timeoutMs = 600000
+    let payload, target, headers, timeoutMs
     try {
       if (!request.headers.get('Content-Type')?.startsWith('application/json')) throw new TypeError()
       payload = JSON.parse(new TextDecoder().decode(await readLimited(request.body, 2 * 1024 * 1024)))
-      if (!payload || typeof payload.url !== 'string') throw new TypeError()
-      if (Object.hasOwn(payload, 'timeout_ms')) {
-        if (!Number.isInteger(payload.timeout_ms) || payload.timeout_ms < 1000 || payload.timeout_ms > 600000) throw new TypeError()
-        timeoutMs = payload.timeout_ms
-      }
-      target = new URL(payload.url)
-      if (target.protocol !== 'https:' || target.username || target.password || target.port || target.hash) throw new TypeError()
-      const models = target.hostname === 'chatgpt.com' && target.pathname === '/backend-api/codex/models'
-      if (models) {
-        if (payload.method !== 'GET' || target.search !== '?client_version=1.0.0' || payload.body != null) throw new TypeError()
-      } else if (payload.method !== 'POST' || typeof payload.body !== 'string' || target.search || !TARGETS.get(target.hostname)?.has(target.pathname)) throw new TypeError()
-      if (!payload.headers || typeof payload.headers !== 'object' || Array.isArray(payload.headers)) throw new TypeError()
-      headers = new Headers()
-      for (const [name, value] of Object.entries(payload.headers)) {
-        if (!HEADER_NAMES.has(name.toLowerCase()) || typeof value !== 'string' || value.length > 8000 || /[\r\n]/.test(value)) throw new TypeError()
-        headers.set(name, value)
-      }
-      if (target.hostname !== 'auth.openai.com' && !/^Bearer \S+$/.test(headers.get('Authorization') || '')) throw new TypeError()
-      if (payload.method === 'POST' && !['application/json', 'application/x-www-form-urlencoded'].includes(headers.get('Content-Type'))) throw new TypeError()
+      ;({ target, headers, timeoutMs } = validateEnvelope(payload))
     } catch (error) {
       return json({ error: error instanceof RangeError ? 'request_too_large' : 'invalid_request' }, error instanceof RangeError ? 413 : 400, origin)
     }
@@ -157,12 +290,27 @@ export default {
     request.signal.addEventListener('abort', abort, { once: true })
     if (request.signal.aborted) abort()
     const timer = setTimeout(() => { abortReason ||= 'deadline_exceeded'; controller.abort() }, timeoutMs + 2000)
+    let streaming = false
+    const cleanup = () => {
+      clearTimeout(timer)
+      request.signal.removeEventListener('abort', abort)
+    }
     try {
-      const upstream = await fetch(target.href, { method: payload.method, headers, body: payload.method === 'POST' ? payload.body : undefined, redirect: 'manual', signal: controller.signal })
-      if (upstream.status >= 300 && upstream.status < 400) return json({ error: 'provider_redirect_rejected' }, 502, origin)
+      let upstream = await fetch(target.href, { method: payload.method, headers, body: payload.method === 'POST' ? payload.body : undefined, redirect: 'manual', signal: controller.signal })
+      if (upstream.status >= 300 && upstream.status < 400) {
+        void upstream.body?.cancel().catch(() => {})
+        return json({ error: 'provider_redirect_rejected' }, 502, origin)
+      }
       diagnostic.stage = 'read'
-      const bytes = await readLimited(upstream.body, MAX_RESPONSE,
-        upstream.ok && target.hostname === 'chatgpt.com' && target.pathname === '/backend-api/codex/responses', diagnostic)
+      const codex = upstream.ok && target.hostname === 'chatgpt.com' && target.pathname === '/backend-api/codex/responses'
+      if (codex && !upstream.headers.get('Content-Type')) upstream = await detectCodexType(upstream, controller.signal)
+      const contentType = upstream.headers.get('Content-Type') || ''
+      if (codex && /^text\/event-stream(?:;|$)/i.test(contentType)) {
+        const body = codexStream(upstream, controller, diagnostic, () => abortReason, cleanup, started)
+        streaming = true
+        return new Response(body, { status: upstream.status, headers: { ...cors(origin), 'Content-Type': 'text/event-stream', 'X-Accel-Buffering': 'no' } })
+      }
+      const bytes = await readLimited(upstream.body, MAX_RESPONSE, diagnostic)
       diagnostic.stage = 'respond'
       if (!upstream.ok) {
         return json(providerFailure(upstream, bytes, target), upstream.status, origin)
@@ -175,10 +323,10 @@ export default {
       const reason = abortReason || (diagnostic.response_bytes > MAX_RESPONSE ? 'response_too_large'
         : diagnostic.stage === 'terminal_cancel' ? 'terminal_cancel_failed'
         : diagnostic.stage === 'connect' ? 'upstream_connection_failed' : 'upstream_read_failed')
+      recordFailure(reason)
       return json({ error: 'provider_connection_failed', reason, ...diagnostic, elapsed_ms: Math.max(0, Date.now() - started) }, 502, origin)
     } finally {
-      clearTimeout(timer)
-      request.signal.removeEventListener('abort', abort)
+      if (!streaming) cleanup()
     }
   },
 }
