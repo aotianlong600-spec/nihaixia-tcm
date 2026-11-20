@@ -1301,9 +1301,13 @@ def test_opencode_credit_error_distinguishes_payg_from_go_subscription():
 def test_ai_consult_everyday_complaints_always_yield_grounded_rx():
     for query in ("感冒", "胃酸过多", "高血压", "鼻炎", "肾结石", "月经不调", "青春痘", "打嗝", "腹胀", "脚抽筋", "腰痛"):
         packet = ni_consult.build_clinical_context(query)
-        matched = packet["case_packet"]["matched_formulas"]
+        case = packet["case_packet"]
+        matched = case["matched_formulas"]
         assert matched, f"Empty matched_formulas in ni_consult for {query}"
         assert matched[0]["ingredients"] or matched[0]["composition_raw"], f"Empty Rx herbs for {query}"
+        assert all(item and item != "None" for item in case.get("missing_inquiry", []))
+        assert all(isinstance(d, str) and not d.startswith("{") for d in case.get("differential_points", []))
         reply = ni_consult.build_offline_ni_reply(packet, style="master_balanced")
         assert matched[0]["name"] in reply
         assert "暂未锁定单一主方" not in reply
+        assert "- None" not in reply

@@ -178,3 +178,18 @@ class ClinicalOptimizationV3Test(unittest.TestCase):
         self.assertTrue({"小柴胡汤", "桂枝汤", "麻黄汤", "葛根汤"} & {c["name"] for c in fever["candidate_formulas"][:4]})
         self.assertEqual(compose_differentiation(q="发烧 无汗 恶寒")["candidate_formulas"][0]["name"], "麻黄汤")
         self.assertEqual(compose_differentiation(q="发烧 有汗 恶风")["candidate_formulas"][0]["name"], "桂枝汤")
+
+        # Single-symptom lead calibration, Hantang false-positive fixes, and Mahuang processing text
+        self.assertEqual(compose_differentiation(q="往来寒热")["candidate_formulas"][0]["name"], "小柴胡汤")
+        self.assertEqual(compose_differentiation(q="湿疹")["candidate_formulas"][0]["name"], "麻黄连轺赤小豆汤")
+        self.assertNotEqual(compose_differentiation(q="呕吐")["candidate_formulas"][0]["name"], "大建中汤")
+        self.assertEqual(compose_differentiation(q="心悸")["candidate_formulas"][0]["name"], "炙甘草汤")
+        self.assertEqual(compose_differentiation(q="肝硬化")["candidate_formulas"][0]["name"], "鳖甲煎丸")
+
+        self.assertNotIn("HT-87", {h["ht_number"] for h in compose_differentiation(q="恶寒")["hantang_context"]["hantang_formulas"]})
+        self.assertNotIn("HT-26", {h["ht_number"] for h in compose_differentiation(q="腹痛")["hantang_context"]["hantang_formulas"]})
+        self.assertNotIn("HT-10", {h["ht_number"] for h in compose_differentiation(q="脂肪肝")["hantang_context"]["hantang_formulas"]})
+
+        mht_rx = compose_differentiation(q="发烧 无汗 恶寒")["compound_regimens"][0]["formulas_detail"][0]
+        xingren = next(i for i in mht_rx["ingredients"] if i["name"] == "杏仁")
+        self.assertEqual(xingren["processing"], "去皮尖")

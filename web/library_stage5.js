@@ -1697,6 +1697,10 @@
     searchStrip?.classList.remove("hidden");
 
     if (mode === "compose") {
+      const host = $("#s5-workspace-body");
+      if (host && !host.innerHTML.trim()) {
+        host.innerHTML = `<div class="empty-mini" style="padding:20px;text-align:center;">正在载入中医经典知识库与常见病症目录，请稍候…</div>`;
+      }
       const base = await api("/api/stage5/compose");
       if (Array.isArray(base.symptom_catalog) && base.symptom_catalog.length) {
         st.s5Catalog = base.symptom_catalog;
@@ -3613,11 +3617,17 @@
         const tongueStr = (d.recognized_tongues || []).join(" ");
         const rawQ = (st.s5Query || (d.recognized_symptoms || []).join(" ")).trim();
         const fullPrompt = [rawQ, pulseStr, tongueStr].filter(Boolean).join(" ").trim();
-        if (window.niAI) {
+        if (window.niAI?.startConsultation) {
+          clearExtraViews();
+          location.hash = "#/ai";
+          window.scrollTo({ top: 0, behavior: "instant" });
+          await window.niAI.startConsultation(fullPrompt);
+        } else if (window.niAI) {
           await window.niAI.activate();
           if (typeof window.__tcmSetView === "function") window.__tcmSetView("ai");
           clearExtraViews();
           location.hash = "#/ai";
+          window.scrollTo({ top: 0, behavior: "instant" });
           await window.niAI.createNewSession({ clearPinned: true });
           const aiInp = $("#ai-query-input");
           if (aiInp) aiInp.value = fullPrompt;

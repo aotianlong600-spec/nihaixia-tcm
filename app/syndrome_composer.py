@@ -1483,7 +1483,12 @@ def _build_formula_rx_detail(
             continue
         name = ing.get("name", "")
         dose = ing.get("dose", "")
-        processing = ing.get("processing", "")
+        raw_proc = (ing.get("processing") or "").strip()
+        processing = re.sub(
+            r"^(?:[一二三四五六七八九十百千半]+[第个枚两升分斤钱合]+)[。，、\s]*",
+            "",
+            raw_proc,
+        ).strip("。，、 ")
         risk_lv = ing.get("herb_risk_level") or ("high_risk" if any(k in name for k in _POTENT_HERB_NAMES) else "standard")
         ingredients.append(
             {

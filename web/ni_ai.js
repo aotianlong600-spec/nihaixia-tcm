@@ -753,7 +753,7 @@
 
     applySessionToWorkspace(res.session);
     if (window.innerWidth < 1180) setMobilePane("consult");
-    $("#ai-query-input")?.focus();
+    $("#ai-query-input")?.focus({ preventScroll: true });
     return res.session;
   }
 
@@ -3050,9 +3050,29 @@
     }, { requiresSavedConsultation: true });
   }
 
+  async function startConsultation(prompt = "") {
+    await activate();
+    if (typeof window.__tcmSetView === "function") {
+      window.__tcmSetView("ai");
+    } else {
+      document.querySelector('.module-tab[data-view="ai"]')?.click();
+    }
+    const clean = String(prompt || "").trim();
+    return withWorkspaceLock(async () => {
+      await openNewSession({ clearPinned: true });
+      const aiInp = $("#ai-query-input");
+      if (aiInp) aiInp.value = clean;
+      window.scrollTo({ top: 0, behavior: "instant" });
+      if (clean) {
+        await streamConsultation(clean);
+      }
+    }, { requiresSavedConsultation: true });
+  }
+
   window.niAI = {
     activate,
     askEntity,
+    startConsultation,
     openConfigModal,
     submitConsultation,
     createNewSession,

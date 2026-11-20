@@ -410,14 +410,28 @@ def _normalize_case_packet(composed: dict[str, Any]) -> dict[str, Any]:
         why = cr.get("why", "")
         diff_notes.append(f"{q_txt}：{why}".strip("："))
     for dn in (composed.get("differential_notes") or [])[:3]:
-        txt = dn if isinstance(dn, str) else str(dn.get("note") or dn.get("summary") or dn)
+        if isinstance(dn, str):
+            txt = dn
+        elif isinstance(dn, dict):
+            title = str(dn.get("title") or "").strip()
+            body = str(dn.get("explanation") or dn.get("note") or dn.get("summary") or "").strip()
+            txt = f"{title}：{body[:120]}" if title and body else (title or body)
+        else:
+            txt = str(dn)
         if txt and txt not in diff_notes:
             diff_notes.append(txt)
 
-    inquiries = [
-        fq.get("question") if isinstance(fq, dict) else str(fq)
-        for fq in (composed.get("followup_questions") or [])[:5]
-    ]
+    inquiries: list[str] = []
+    for fq in (composed.get("followup_questions") or [])[:5]:
+        if isinstance(fq, dict):
+            lbl = str(fq.get("question") or fq.get("label") or "").strip()
+            why = str(fq.get("why") or "").strip()
+            if lbl:
+                inquiries.append(f"{lbl}（{why}）" if why else lbl)
+        elif fq:
+            txt = str(fq).strip()
+            if txt:
+                inquiries.append(txt)
 
     ai_pkt = composed.get("ai_ready_case_packet") or {}
     primary_six = matched_formulas[0].get("six_meridian", "") if matched_formulas else ""
