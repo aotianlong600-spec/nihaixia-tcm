@@ -6201,4 +6201,310 @@ body.ctx-drawer-open {
   font-size: 13px;
 }
 
+/* ── Stage 5: 常见病症快速选症目录 & 直接出方处方笺 ────────────────────── */
+.s5-catalog-section {
+  background: #fdfbf5;
+  border: 1.5px solid #cfd8cf;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.s5-catalog-drawer {
+  margin-top: 8px;
+  border-top: 1px dashed #d8ccb4;
+  padding-top: 8px;
+}
+
+.s5-catalog-drawer summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #164836;
+  font-size: 13px;
+}
+
+.s5-catalog-drawer-body {
+  margin-top: 10px;
+}
+
+.s5-catalog-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 9px;
+}
+
+.s5-catalog-search {
+  flex: 1 1 280px;
+  min-width: 200px;
+  padding: 7px 11px;
+  border: 1px solid #cbbda2;
+  border-radius: 8px;
+  font-size: 13.5px;
+  background: #fff;
+}
+
+.s5-catalog-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.s5-catalog-tab {
+  background: #f5f1e6;
+  border: 1px solid #d8ccb4;
+  border-radius: 999px;
+  padding: 4px 11px;
+  font-size: 12.5px;
+  color: #4a3f32;
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+
+.s5-catalog-tab:hover {
+  border-color: #245b48;
+  color: #164836;
+}
+
+.s5-catalog-tab.active {
+  background: #164836;
+  border-color: #164836;
+  color: #f9f5ec;
+  font-weight: 600;
+}
+
+.s5-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 7px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.s5-catalog-tile {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: #fffdf9;
+  border: 1px solid #dfd4bf;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: border-color 0.14s ease, background 0.14s ease, transform 0.1s ease;
+}
+
+.s5-catalog-tile:hover {
+  border-color: #245b48;
+  background: #eef7f2;
+  transform: translateY(-1px);
+}
+
+.s5-catalog-tile-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.s5-catalog-tile-top strong {
+  color: #174636;
+  font-size: 13.5px;
+}
+
+.s5-catalog-cat-tag {
+  font-size: 10.5px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #efeadd;
+  color: #675b4b;
+  white-space: nowrap;
+}
+
+.s5-catalog-tile small {
+  color: #615749;
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
+.s5-active-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+.s5-active-lbl {
+  font-size: 12px;
+  color: #5b5042;
+  font-weight: 600;
+}
+
+.s5-active-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #e5f3ec;
+  border: 1px solid #96c3ad;
+  color: #154735;
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.s5-active-chip.is-pulse {
+  background: #edf2fd;
+  border-color: #9cb4e2;
+  color: #203b72;
+}
+
+.s5-active-chip:hover {
+  background: #fdeceb;
+  border-color: #d9958f;
+  color: #841e11;
+}
+
+.s5-rx-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 10px 0 8px;
+}
+
+.s5-rx-card {
+  background: #fffef9;
+  border: 1.5px solid #9cc1ae;
+  border-radius: 10px;
+  padding: 11px 13px;
+  box-shadow: 0 2px 6px rgba(22, 72, 54, 0.05);
+}
+
+.s5-rx-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.s5-rx-card-head > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.s5-rx-card-head strong {
+  color: #164836;
+  font-size: 15px;
+}
+
+.s5-rx-risk-badge {
+  font-size: 11.5px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #fff2ef;
+  border: 1px solid #e6a299;
+  color: #8b2012;
+  font-weight: 600;
+}
+
+.s5-rx-herbs-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.s5-rx-herb-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  background: #f5f9f6;
+  border: 1px solid #c6dcd0;
+  border-radius: 7px;
+  padding: 4px 9px;
+  font-size: 13px;
+  color: #1f2e28;
+}
+
+.s5-rx-herb-chip b {
+  color: #154634;
+}
+
+.s5-rx-herb-chip em {
+  font-style: normal;
+  font-size: 12px;
+  color: #5b4d3c;
+  font-weight: 600;
+}
+
+.s5-rx-herb-chip small {
+  font-size: 11px;
+  color: #776b5a;
+}
+
+.s5-rx-herb-chip.is-risk {
+  background: #fff6f3;
+  border-color: #e8b0a7;
+}
+
+.s5-rx-herb-chip.is-risk b {
+  color: #8f2213;
+}
+
+.s5-rx-raw,
+.s5-rx-meta {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #3e352b;
+  margin-top: 4px;
+}
+
+.s5-rx-mods {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed #e2d9c6;
+  font-size: 12px;
+  color: #4f463a;
+  line-height: 1.5;
+}
+
+.s5-rx-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.s5-alt-herbs-preview {
+  font-size: 12.5px;
+  color: #214f3d;
+  background: #f4faf6;
+  border-radius: 6px;
+  padding: 4px 8px;
+  margin: 4px 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 760px) {
+  .s5-catalog-grid {
+    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+    max-height: 300px;
+  }
+  .s5-rx-card {
+    padding: 9px 10px;
+  }
+}
+
+
 

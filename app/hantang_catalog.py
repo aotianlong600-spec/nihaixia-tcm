@@ -42,6 +42,45 @@ _REDLINE_TRIGGERS: dict[str, tuple[str, ...]] = {
 }
 
 
+_PATHO_GENERIC_TOKENS: frozenset[str] = frozenset({
+    "感冒", "发烧", "发热", "发冷", "怕冷", "咳嗽", "拉肚子", "腹泻", "便溏",
+    "头痛", "头晕", "呕吐", "疲劳", "熬夜", "吹冷气", "冷饮", "西药", "抗生素",
+})
+
+_HT_QUERY_ALIASES: dict[str, tuple[str, ...]] = {
+    "高血糖": ("糖尿病", "消渴"),
+    "血糖高": ("糖尿病", "消渴"),
+    "前列腺增生": ("前列腺肥大", "摄护腺肥大", "夜尿频"),
+    "前列腺炎": ("前列腺肥大", "尿道炎"),
+    "尿道结石": ("膀胱结石", "肾结石", "尿路结石", "砂淋"),
+    "输尿管结石": ("肾结石", "膀胱结石", "砂淋"),
+    "痔疮": ("内痔", "外痔", "近血", "便后滴血"),
+    "鼻塞": ("鼻炎", "鼻渊", "流清涕"),
+    "黄涕": ("鼻炎", "鼻渊"),
+    "心脏瓣膜病": ("瓣膜不全", "心脏肥大"),
+    "心律不齐": ("心颤", "心悸"),
+    "动脉硬化": ("冠心病", "高血压", "高甘油三酯"),
+    "高血脂": ("高甘油三酯",),
+    "脂肪肝": ("高甘油三酯", "乙肝", "护肝"),
+    "肝炎": ("乙肝", "护肝"),
+    "肝硬化": ("肝硬化", "阴黄"),
+    "胃胀": ("胃溃疡", "胃酸过多"),
+    "反酸": ("胃酸过多", "胃溃疡"),
+    "烧心": ("胃酸过多",),
+    "消化不良": ("胃溃疡", "胃下垂"),
+    "月经不调": ("痛经", "经少", "经前乳胀"),
+    "闭经": ("经少", "痛经", "宫寒"),
+    "乳腺增生": ("乳房硬块", "经前乳胀"),
+    "粉刺": ("青春痘", "痤疮"),
+    "痘痘": ("青春痘", "痤疮"),
+    "口疮": ("口腔溃疡",),
+    "掉头发": ("脱发",),
+    "腰椎间盘突出": ("坐骨神经痛",),
+    "腰痛": ("坐骨神经痛", "髋关节痛"),
+    "多动症": ("小儿多动症",),
+}
+
+
 def _norm(value: str) -> str:
     return re.sub(r"[\s·・，,。；;：:（）()“”\"'、\-_]+", "", value or "").lower()
 
@@ -264,6 +303,16 @@ def match_clinical_context(
     for s in symptoms or []:
         if s and s not in tokens:
             tokens.append(s)
+    alias_tokens: list[str] = []
+    for tok in list(tokens):
+        tn = _norm(tok)
+        for k, vals in _HT_QUERY_ALIASES.items():
+            kn = _norm(k)
+            if kn and (kn == tn or kn in hay_norm):
+                for v in vals:
+                    if v not in alias_tokens and v not in tokens:
+                        alias_tokens.append(v)
+    search_tokens = tokens + alias_tokens
 
     scored_ht: list[tuple[int, dict[str, Any], list[str]]] = []
     for item in cat.get("formulas", []):
@@ -284,21 +333,42 @@ def match_clinical_context(
         matched_tags: list[str] = []
         for tg in item.get("clinical_tags", []):
             tn = _norm(tg)
-            if len(tn) >= 2 and tn in hay_norm:
+            if len(tn) < 2:
+                continue
+            direct_hit = tn in hay_norm
+            alias_hit = any(
+                len(_norm(tok)) >= 2
+                and (
+                    tn == _norm(tok)
+                    or (tok not in _PATHO_GENERIC_TOKENS and (_norm(tok) in tn or tn in _norm(tok)))
+                )
+                for tok in search_tokens
+            )
+            if direct_hit or alias_hit:
                 matched_tags.append(tg)
         if matched_tags:
             sc += 6 * min(len(matched_tags), 4)
             reasons.append("标签命中：" + "、".join(matched_tags[:4]))
 
-        ind_norm = _norm(item.get("ni_original", {}).get("indications", "") + " " + item.get("ni_original", {}).get("pathogenesis", ""))
-        hit_sym_tokens = [
-            tok for tok in tokens
-            if len(_norm(tok)) >= 2 and _norm(tok) in ind_norm
+        ind_norm = _norm(item.get("ni_original", {}).get("indications", ""))
+        patho_norm = _norm(item.get("ni_original", {}).get("pathogenesis", ""))
+        hit_ind_tokens = [
+            tok for tok in search_tokens
+            if tok not in _PATHO_GENERIC_TOKENS and len(_norm(tok)) >= 2 and _norm(tok) in ind_norm
         ]
-        if hit_sym_tokens:
-            sc += 3 * min(len(hit_sym_tokens), 3)
+        if hit_ind_tokens:
+            sc += 4 * min(len(hit_ind_tokens), 3)
             if not matched_tags:
-                reasons.append("主治病机相合：" + "、".join(hit_sym_tokens[:3]))
+                reasons.append("主治病机相合：" + "、".join(hit_ind_tokens[:3]))
+
+        # Only allow non-generic pathogenesis matches when indications/tags/Western-history already support this formula
+        if sc >= 4:
+            hit_patho_tokens = [
+                tok for tok in tokens
+                if tok not in _PATHO_GENERIC_TOKENS and len(_norm(tok)) >= 2 and _norm(tok) in patho_norm and tok not in hit_ind_tokens
+            ]
+            if hit_patho_tokens:
+                sc += 2 * min(len(hit_patho_tokens), 2)
 
         if sc > 0:
             scored_ht.append((sc, item, reasons))

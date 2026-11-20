@@ -24,6 +24,9 @@
     s5Pulses: [],
     s5Syndromes: [],
     s5Data: null,
+    s5Catalog: [],
+    s5CatFilter: "全部",
+    s5CatSearch: "",
     htSubTab: "formulas", // "formulas" | "spine_palp" | "western" | "redlines" | "cases"
     htCategory: "all",
     htSafety: "all",
@@ -1695,6 +1698,9 @@
 
     if (mode === "compose") {
       const base = await api("/api/stage5/compose");
+      if (Array.isArray(base.symptom_catalog) && base.symptom_catalog.length) {
+        st.s5Catalog = base.symptom_catalog;
+      }
       renderComposeChips(base.preset_cases || []);
       const inp = $("#s5-query-input");
       if (inp && document.activeElement !== inp && inp.value !== st.s5Query) {
@@ -1738,21 +1744,250 @@
     }
   }
 
+  const CANON_REMOVAL_TERMS = {
+    外感表证: ["感冒", "外感", "风寒感冒", "风热感冒", "伤风"],
+    周身酸痛: ["全身痛", "浑身痛", "浑身酸痛", "周身疼痛", "身体疼痛", "身痛"],
+    身冷: ["恶寒", "怕冷", "畏寒", "身冷", "背恶寒"],
+    发热: ["发烧", "发热", "高热", "壮热"],
+    鼻症: ["鼻炎", "过敏性鼻炎", "鼻塞", "流涕", "流清涕", "黄涕", "打喷嚏"],
+    黄涕鼻热: ["黄涕", "黄脓涕"],
+    咳喘痰多: ["咳嗽", "咳喘", "哮喘", "白痰", "黄痰"],
+    痰多: ["多痰", "痰多", "咳痰"],
+    声音沙哑: ["声音沙哑", "声音嘶哑", "声哑", "失音"],
+    反酸胃痛: ["胃酸过多", "胃酸", "反酸", "吐酸", "烧心"],
+    腹胀纳差: ["腹胀", "胃胀气", "胀气", "消化不良", "肠胃虚弱", "食少", "厌食", "小儿厌食"],
+    心下痞: ["胃痛", "心下痞", "胃胀", "痞满"],
+    呃逆胃虚: ["打嗝", "呃逆", "嗳气", "噫气"],
+    便溏: ["腹泻", "拉肚子", "泄泻", "便溏"],
+    淋痛尿血: ["肾结石", "尿道结石", "膀胱结石", "血尿", "小便痛", "尿痛", "小便刺痛"],
+    前列腺尿频: ["前列腺增生", "前列腺肥大", "尿频", "尿急", "尿失禁", "漏尿"],
+    阳痿早泄: ["阳痿", "早泄", "遗精"],
+    月经不调: ["月经不调", "闭经", "经期紊乱"],
+    症瘕肌瘤: ["子宫肌瘤", "卵巢囊肿", "乳腺增生"],
+    更年期证: ["更年期", "潮热汗出"],
+    痤疮痘疹: ["青春痘", "痤疮", "粉刺", "长痘"],
+    腰背痛: ["腰痛", "腰酸", "腰椎间盘突出", "坐骨神经痛"],
+    肩颈强痛: ["肩周炎", "落枕", "脖子痛", "颈椎病"],
+    脚挛急: ["脚抽筋", "脚挛急", "腿抽筋", "小腿抽筋", "抽筋"],
+    眩晕血压: ["高血压", "血压高", "动脉硬化"],
+    低血压贫血: ["低血压", "血压低", "贫血"],
+    心律不齐: ["心律不齐", "早搏", "房颤"],
+    胸痹: ["冠心病", "心绞痛", "心脏瓣膜病", "胸痛", "胸闷", "胸痹"],
+    消渴高糖: ["高血糖", "糖尿病", "消渴"],
+    胁痛肝郁: ["肝炎", "肝硬化", "脂肪肝", "易怒", "胁痛"],
+    口腔溃疡: ["口腔溃疡", "口疮"],
+    口臭胃热: ["口臭", "牙龈肿痛"],
+    失血: ["出血", "流鼻血", "鼻出血", "吐血", "便血"],
+    痔疮便血: ["痔疮", "内痔", "外痔"],
+    脱发早白: ["脱发", "掉头发"],
+    心烦失眠: ["失眠", "心烦", "多梦"],
+  };
+
+  function filterSymptomCatalog() {
+    const items = Array.isArray(st.s5Catalog) ? st.s5Catalog : [];
+    const cat = st.s5CatFilter || "全部";
+    const kw = (st.s5CatSearch || "").trim().toLowerCase();
+    return items.filter((it) => {
+      if (cat !== "全部" && it.category !== cat) return false;
+      if (!kw) return true;
+      const hay = `${it.name || ""} ${it.aliases || ""} ${it.hint || ""} ${it.category || ""}`.toLowerCase();
+      return hay.includes(kw);
+    });
+  }
+
+  function renderSymptomCatalogGridHtml() {
+    const list = filterSymptomCatalog();
+    if (!list.length) {
+      return `<div class="empty-mini">未在常见病症目录中筛到「${esc(st.s5CatSearch)}」，您可以直接在上方输入框输入该症状点「辨证出方」，或清除筛选词。</div>`;
+    }
+    return list
+      .map(
+        (it) => `<button class="s5-catalog-tile" type="button" data-entry-query="${esc(it.name)}" title="点选「${esc(it.name)}」直接出方">
+                   <div class="s5-catalog-tile-top">
+                     <strong>${esc(it.name)}</strong>
+                     <span class="s5-catalog-cat-tag">${esc(it.category || "")}</span>
+                   </div>
+                   <small>${esc(it.hint || "")}</small>
+                 </button>`
+      )
+      .join("");
+  }
+
+  function renderSymptomCatalogSection(opts = {}) {
+    const items = Array.isArray(st.s5Catalog) ? st.s5Catalog : [];
+    if (!items.length) return "";
+    const categories = ["全部"];
+    items.forEach((it) => {
+      if (it.category && !categories.includes(it.category)) categories.push(it.category);
+    });
+    const filteredCount = filterSymptomCatalog().length;
+    const inner = `
+      <div class="s5-catalog-toolbar">
+        <input id="s5-sym-cat-search" class="s5-catalog-search" type="search" value="${esc(st.s5CatSearch)}" placeholder="筛选病症目录（如：感冒、胃酸、鼻炎、高血压、痛经、肾结石、青春痘…）" />
+        <span id="s5-catalog-count" class="muted-line">共 ${filteredCount} / ${items.length} 项常见病症（点选即直接出方）</span>
+      </div>
+      <div class="s5-catalog-tabs" role="tablist" aria-label="病症分类">
+        ${categories
+          .map(
+            (c) => `<button class="s5-catalog-tab ${st.s5CatFilter === c ? "active" : ""}" type="button" data-s5-cat-tab="${esc(c)}">${esc(c)}</button>`
+          )
+          .join("")}
+      </div>
+      <div id="s5-catalog-grid" class="s5-catalog-grid">
+        ${renderSymptomCatalogGridHtml()}
+      </div>
+    `;
+    if (opts.collapsed) {
+      return `<details class="s5-catalog-drawer">
+                <summary>切换 / 浏览常见病症快速出方目录（${items.length} 项分类病症 · 点击直出参考经方）</summary>
+                <div class="s5-catalog-drawer-body">${inner}</div>
+              </details>`;
+    }
+    return `
+      <section class="s5-catalog-section">
+        <div class="s5-section-title-row">
+          <h3>常见病症快速选症出方目录（九大专科 · 点击任意症状直接出方）</h3>
+          <span class="muted-line">选定主症后再按下方「学习问诊」点选兼症，即可即时收敛并调整原典剂量处方</span>
+        </div>
+        ${inner}
+      </section>
+    `;
+  }
+
+  function updateS5CatalogDomOnly() {
+    const grid = $("#s5-catalog-grid");
+    if (grid) grid.innerHTML = renderSymptomCatalogGridHtml();
+    const cnt = $("#s5-catalog-count");
+    if (cnt) {
+      const total = Array.isArray(st.s5Catalog) ? st.s5Catalog.length : 0;
+      cnt.textContent = `共 ${filterSymptomCatalog().length} / ${total} 项常见病症（点选即直接出方）`;
+    }
+    document.querySelectorAll("[data-s5-cat-tab]").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.s5CatTab === st.s5CatFilter);
+    });
+  }
+
+  function removeSymptomFromQuery(curTxt, canonSym, d) {
+    let next = String(curTxt || "").trim();
+    const candidates = Array.from(new Set([canonSym, ...(CANON_REMOVAL_TERMS[canonSym] || [])])).sort(
+      (a, b) => b.length - a.length
+    );
+    candidates.forEach((tok) => {
+      if (tok && next.includes(tok)) {
+        next = next.replaceAll(tok, " ");
+      }
+    });
+    next = next.replace(/^[，,\s、；;]+|[，,\s、；;]+$/g, "").replace(/[，,\s、；;]{2,}/g, " ").trim();
+    if (next === String(curTxt || "").trim() && (d?.recognized_symptoms || []).length <= 1) {
+      return "";
+    }
+    return next;
+  }
+
+  function renderInlineRxSheet(topCompound, _d) {
+    const details = Array.isArray(topCompound?.formulas_detail) ? topCompound.formulas_detail : [];
+    const actionsHtml = details.length
+      ? `<div class="s5-rx-actions">
+           <button class="secondary-btn small-btn" type="button" data-copy-rx="1">📋 复制参考处方与原典剂量</button>
+           <button class="primary-btn small-btn" type="button" data-send-to-ai="1">🩺 转入「倪师AI开方」深度问诊加减 →</button>
+           <span id="s5-rx-copy-status" class="muted-line">仅供中医经典学术研习参考，抓药使用请务必经执业医师面诊核定</span>
+         </div>`
+      : `<div class="s5-rx-actions">
+           <button class="primary-btn small-btn" type="button" data-send-to-ai="1">🩺 转入「倪师AI开方」继续辨证定方 →</button>
+         </div>`;
+    if (!details.length) return actionsHtml;
+
+    return `
+      <div class="s5-rx-sheet">
+        ${details
+          .map(
+            (fd) => `<article class="s5-rx-card">
+                       <div class="s5-rx-card-head">
+                         <div>
+                           <strong>【参考经方处方笺】${esc(fd.name)}</strong>
+                           <span class="sha-pill">${esc(fd.book || "经方")}${fd.six_meridian ? " · " + esc(fd.six_meridian) : ""}</span>
+                           ${
+                             (fd.high_risk_herbs || []).length
+                               ? `<span class="s5-rx-risk-badge">⚠️ 含峻烈/炮制注意药：${esc(fd.high_risk_herbs.join("、"))}</span>`
+                               : ""
+                           }
+                         </div>
+                         <button class="secondary-btn small-btn" type="button" data-jump-module="formulas" data-jump-id="${esc(fd.formula_id)}">原方详解 →</button>
+                       </div>
+                       ${
+                         (fd.ingredients || []).length
+                           ? `<div class="s5-rx-herbs-grid">
+                                ${fd.ingredients
+                                  .map((ing) => {
+                                    const isRisk = ing.risk_level === "emergency" || ing.risk_level === "high_risk";
+                                    return `<span class="s5-rx-herb-chip ${isRisk ? "is-risk" : ""}">
+                                              <b>${esc(ing.name)}</b>
+                                              ${ing.dose ? `<em>${esc(ing.dose)}</em>` : ""}
+                                              ${ing.processing ? `<small>${esc(ing.processing)}</small>` : ""}
+                                            </span>`;
+                                  })
+                                  .join("")}
+                              </div>`
+                           : fd.composition_raw
+                             ? `<div class="s5-rx-raw"><strong>原方组成：</strong>${esc(fd.composition_raw)}</div>`
+                             : ""
+                       }
+                       ${fd.decoction ? `<div class="s5-rx-meta"><strong>【煎煮与服法】</strong>${esc(fd.decoction)}</div>` : ""}
+                       ${
+                         (fd.modifications || []).length
+                           ? `<div class="s5-rx-mods">
+                                <strong>【常用随证加减参考】</strong>
+                                ${fd.modifications
+                                  .slice(0, 3)
+                                  .map(
+                                    (m) => `<span>· 若「${esc(m.condition)}」→ ${esc(m.changes_summary)}${m.target_formula_name ? `（${esc(m.target_formula_name)}）` : ""}</span>`
+                                  )
+                                  .join("")}
+                              </div>`
+                           : ""
+                       }
+                     </article>`
+          )
+          .join("")}
+        ${actionsHtml}
+      </div>
+    `;
+  }
+
   function renderComposeControls(d, opts = {}) {
     const isEmpty = Boolean(opts.isEmpty);
-    const recognizedSyms = new Set(d.recognized_symptoms || []);
-    const recognizedPulses = new Set(d.recognized_pulses || st.s5Pulses || []);
+    const recognizedSymsList = d.recognized_symptoms || [];
+    const recognizedPulsesList = d.recognized_pulses || st.s5Pulses || [];
+    const recognizedSyms = new Set(recognizedSymsList);
+    const recognizedPulses = new Set(recognizedPulsesList);
     const recognizedTongues = new Set(d.recognized_tongues || []);
     const curTxt = st.s5Query || "";
     const tongueText = (d.recognized_tongues || []).join("、") || "未指定";
     const negText = (d.recognized_negations || []).length
       ? `<span>已自动排空否定项：<b>${esc((d.recognized_negations || []).join("、"))}</b></span>`
       : "";
+    const activeChipsHtml =
+      !isEmpty && (recognizedSymsList.length || recognizedPulsesList.length)
+        ? `<div class="s5-active-chips">
+             <span class="s5-active-lbl">已选症脉：</span>
+             ${recognizedSymsList
+               .map(
+                 (s) =>
+                   `<button class="s5-active-chip" type="button" data-remove-symptom="${esc(s)}" title="点击移出「${esc(s)}」">${esc(s)} <b>×</b></button>`
+               )
+               .join("")}
+             ${recognizedPulsesList
+               .map(
+                 (p) =>
+                   `<button class="s5-active-chip is-pulse" type="button" data-toggle-pulse="${esc(p)}" title="点击取消「脉${esc(p)}」">脉${esc(p)} <b>×</b></button>`
+               )
+               .join("")}
+           </div>`
+        : "";
     const statusHtml = isEmpty
-      ? `<span>已辨识规范症状：<strong>暂未选择</strong>（点选下方症状/舌象/十问即自动填入）</span><span>已选脉象权重：<strong>暂未选择</strong></span>`
-      : `<span>已辨识症状轴：<b>${esc((d.recognized_symptoms || []).join("、") || "暂未提取")}</b></span>
+      ? `<span>已辨识规范症状：<strong>暂未选择</strong>（点选下方病症目录/十问即直接出方）</span><span>已选脉象权重：<strong>暂未选择</strong></span>`
+      : `${activeChipsHtml || `<span>已辨识症状轴：<b>${esc(recognizedSymsList.join("、") || "已按全文线索匹配")}</b></span>`}
          ${negText}
-         <span>当前脉象：<b>${esc((d.recognized_pulses || []).map((x) => "脉" + x).join(" ") || "未指定（纯依症状）")}</b></span>
          <span>当前舌象：<b>${esc(tongueText)}</b></span>`;
 
     // Group inquiry pills by clinical axis (寒热手足 / 二便口渴 / 眠胃时辰 / 腹诊压痛)
@@ -1846,8 +2081,9 @@
         }
         <div class="s5-recognized-strip">
           ${statusHtml}
-          ${!isEmpty ? `<button id="s5-clear-selected-btn" class="s5-clear-mini-btn" type="button">清空已选</button>` : ""}
+          ${!isEmpty ? `<button id="s5-clear-selected-btn" class="s5-clear-mini-btn" type="button">清空重选</button>` : ""}
         </div>
+        ${!isEmpty ? renderSymptomCatalogSection({ collapsed: true }) : ""}
       </section>
     `;
   }
@@ -1855,16 +2091,20 @@
   function renderComposeEmpty(base) {
     const host = $("#s5-workspace-body");
     if (!host) return;
+    if (Array.isArray(base?.symptom_catalog) && base.symptom_catalog.length) {
+      st.s5Catalog = base.symptom_catalog;
+    }
     const cards = base.clinical_entry_cards || [];
     host.innerHTML = `
+      ${renderSymptomCatalogSection({ collapsed: false })}
       ${renderComposeControls(base, { isEmpty: true })}
       <section class="s5-empty-guide">
-        <h3>中医大脑 · 临床辨证与合方配穴工作台（全库 299 经方 · 34 针灸治症 · 108 随证加减已就绪）</h3>
-        <p>输入框与脉象按钮初始保持空白。您可自由键入主诉，点选下方「症状/脉象」，或从「临床主症入口」一键切入并配合学习问诊追问： </p>
+        <h3>中医大脑 · 临床辨证与合方配穴工作台（全库 299 经方 · 91 汉唐方 · 34 针灸治症 · 108 随证加减）</h3>
+        <p>在上方输入框直接键入症状或点选上面「常见病症目录」中的任意病症，即刻直接给出<strong>经方参考处方、原典药物组成与剂量、煎服法、随证加减及同步针灸配穴</strong>：</p>
         <ol class="s5-empty-steps">
-          <li><strong>症状/脉象点选与自由输入</strong>：输入或点选即实时关联《伤寒》《金匮》299 经方线索与《针灸》385 穴治症，不预设固定结果。</li>
-          <li><strong>动态学习问诊与随证加减</strong>：进入推演后可继续点击「待核症状」「临床追问」收敛或改写合方（如由四逆冷脉转为但头汗出往来寒热）。</li>
-          <li><strong>对比临床示范案</strong>：点击上方「对比示范组」胶囊可即刻比较同一水饮/厥阴基底下不同变证的合方切换。</li>
+          <li><strong>输入或点选症状直接出方</strong>：覆盖感冒、发烧、鼻炎、胃酸过多、腹胀、腹泻、高血压、痛经、月经不调、肾结石等常见病症，全自动关联《伤寒》《金匮》《汉唐》与《针灸》处方。</li>
+          <li><strong>动态学习问诊收敛处方</strong>：出方后可继续点选「学习问诊 · 鉴别关键症」（如无汗/有汗、口苦、脚冷、脉沉等）即时调整主方与合方。</li>
+          <li><strong>安全边界与实证对比</strong>：自动校验寒热舌脉、十八反十九畏与临床红线；支持一键转入「倪师AI开方」深度辨证。</li>
         </ol>
       </section>
       ${
@@ -2050,6 +2290,7 @@
                <ul class="s5-axis-list">
                  ${(topCompound.axis_roles || []).map((r) => `<li>${esc(r)}</li>`).join("")}
                </ul>
+               ${renderInlineRxSheet(topCompound, d)}
                ${
                  (topCompound.herb_conflict_alerts || []).length
                    ? `<div class="s5-pitfall-box"><strong>配伍警戒与反畏提醒：</strong>${esc(topCompound.herb_conflict_alerts.join("；"))}</div>`
@@ -2065,19 +2306,27 @@
                  altRegimens.length
                    ? `<div class="s5-alt-regimen-row">
                         ${altRegimens
-                          .map(
-                            (alt) => `<div class="s5-alt-regimen-card">
-                                        <div class="s5-alt-regimen-head">
-                                          <strong>${esc(alt.title)}</strong>
-                                          <span class="lib-chip-cloud">${(alt.formula_ids || [])
-                                            .map(
-                                              (fid, idx) => `<button class="entity-jump-chip badge-formula" type="button" data-jump-module="formulas" data-jump-id="${esc(fid)}">${esc((alt.formula_names || [])[idx] || fid)}</button>`
-                                            )
-                                            .join("")}</span>
-                                        </div>
-                                        <p class="muted-line">${esc((alt.axis_roles || []).join("；"))} · ${esc(alt.overlap_note || "")}</p>
-                                      </div>`
-                          )
+                          .map((alt) => {
+                            const herbPreview = (alt.formulas_detail || [])
+                              .map((fd) => {
+                                const names = (fd.ingredients || []).map((ing) => `${ing.name}${ing.dose || ""}`).join("、");
+                                return names ? `${fd.name}（${names}）` : fd.composition_raw || fd.name;
+                              })
+                              .filter(Boolean)
+                              .join(" ＋ ");
+                            return `<div class="s5-alt-regimen-card">
+                                       <div class="s5-alt-regimen-head">
+                                         <strong>${esc(alt.title)}</strong>
+                                         <span class="lib-chip-cloud">${(alt.formula_ids || [])
+                                           .map(
+                                             (fid, idx) => `<button class="entity-jump-chip badge-formula" type="button" data-jump-module="formulas" data-jump-id="${esc(fid)}">${esc((alt.formula_names || [])[idx] || fid)}</button>`
+                                           )
+                                           .join("")}</span>
+                                       </div>
+                                       ${herbPreview ? `<div class="s5-alt-herbs-preview"><strong>参考组成：</strong>${esc(herbPreview)}</div>` : ""}
+                                       <p class="muted-line">${esc((alt.axis_roles || []).join("；"))} · ${esc(alt.overlap_note || "")}</p>
+                                     </div>`;
+                          })
                           .join("")}
                       </div>`
                    : ""
@@ -2242,10 +2491,10 @@
                           </div>`
                        : ""
                    }
-                   ${renderStage5HantangSection(d.hantang_context)}
                  </section>`
               : ""
           }
+          ${renderStage5HantangSection(d.hantang_context)}
         </div>
       </div>
 
@@ -3307,7 +3556,73 @@
       const entryBtn = e.target.closest("[data-entry-query]");
       if (entryBtn) {
         const q = entryBtn.dataset.entryQuery || "";
+        const drawer = entryBtn.closest(".s5-catalog-drawer");
+        if (drawer) drawer.open = false;
         await runStage5Compose(q, st.s5Pulses);
+        return;
+      }
+      const catTab = e.target.closest("[data-s5-cat-tab]");
+      if (catTab) {
+        st.s5CatFilter = catTab.dataset.s5CatTab || "全部";
+        updateS5CatalogDomOnly();
+        return;
+      }
+      const rmSymBtn = e.target.closest("[data-remove-symptom]");
+      if (rmSymBtn) {
+        const sym = rmSymBtn.dataset.removeSymptom || "";
+        const cur = ($("#s5-query-input")?.value || st.s5Query || "").trim();
+        const nextQ = removeSymptomFromQuery(cur, sym, st.s5Data);
+        await runStage5Compose(nextQ, st.s5Pulses);
+        return;
+      }
+      const copyRxBtn = e.target.closest("[data-copy-rx]");
+      if (copyRxBtn && st.s5Data) {
+        const d = st.s5Data;
+        const reg = (d.compound_regimens || [])[0];
+        const rxLines = [
+          `【辨证主诉】${st.s5Query || (d.recognized_symptoms || []).join("、")}`,
+          ...(reg?.formulas_detail || []).map((fd) => {
+            const herbs = (fd.ingredients || []).map((i) => `${i.name}${i.dose ? "(" + i.dose + (i.processing ? "·" + i.processing : "") + ")" : ""}`).join(" ");
+            return `【参考经方】${fd.name}（${fd.book || ""} · ${fd.six_meridian || ""}）\n  组成与原量：${herbs || fd.composition_raw}\n  煎服法：${fd.decoction || "见原典"}`;
+          }),
+          `【针灸配穴】${(d.acupoint_protocol?.primary || []).map((p) => `${p.name}(${p.role})`).join("、") || "无"}`,
+          "※ 以上仅供中医经典研习参考，抓药临床使用前务必经执业医师四诊合参并核对剂量。",
+        ].join("\n");
+        const stEl = $("#s5-rx-copy-status");
+        try {
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(rxLines);
+          } else {
+            const ta = document.createElement("textarea");
+            ta.value = rxLines;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            ta.remove();
+          }
+          if (stEl) stEl.textContent = "✓ 已复制处方与原典剂量文本";
+        } catch (_err) {
+          if (stEl) stEl.textContent = "剪贴板受限，请直接查看上方处方药味";
+        }
+        return;
+      }
+      const sendAiBtn = e.target.closest("[data-send-to-ai]");
+      if (sendAiBtn && st.s5Data) {
+        const d = st.s5Data;
+        const pulseStr = (d.recognized_pulses || st.s5Pulses || []).map((p) => "脉" + p).join(" ");
+        const tongueStr = (d.recognized_tongues || []).join(" ");
+        const rawQ = (st.s5Query || (d.recognized_symptoms || []).join(" ")).trim();
+        const fullPrompt = [rawQ, pulseStr, tongueStr].filter(Boolean).join(" ").trim();
+        if (window.niAI) {
+          await window.niAI.activate();
+          if (typeof window.__tcmSetView === "function") window.__tcmSetView("ai");
+          clearExtraViews();
+          location.hash = "#/ai";
+          await window.niAI.createNewSession({ clearPinned: true });
+          const aiInp = $("#ai-query-input");
+          if (aiInp) aiInp.value = fullPrompt;
+          await window.niAI.submitConsultation(fullPrompt);
+        }
         return;
       }
       const fqBtn = e.target.closest("[data-followup-token], [data-followup-pulse]");
@@ -3448,6 +3763,11 @@
         ctxSt.indexFilter = e.target.value;
         ctxSt.indexSearchHits = null;
         updateCtxIndexDomOnly();
+        return;
+      }
+      if (e.target?.id === "s5-sym-cat-search") {
+        st.s5CatSearch = e.target.value;
+        updateS5CatalogDomOnly();
       }
     });
 

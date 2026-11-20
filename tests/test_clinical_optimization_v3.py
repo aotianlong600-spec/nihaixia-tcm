@@ -116,5 +116,65 @@ class ClinicalOptimizationV3Test(unittest.TestCase):
         self.assertIn("negated_terms", api_res["ai_ready_case_packet"])
 
         js = (ROOT / "web" / "library_stage5.js").read_text(encoding="utf-8")
-        for tok in ("recognized_negations", "data-copy-ai", "单方专治统摄", "s5-alt-regimen-card"):
+        for tok in (
+            "recognized_negations",
+            "data-copy-ai",
+            "单方专治统摄",
+            "s5-alt-regimen-card",
+            "s5-rx-sheet",
+            "s5-catalog-grid",
+            "data-send-to-ai",
+            "data-copy-rx",
+        ):
             self.assertIn(tok, js)
+
+    def test_everyday_86_symptoms_zero_gap_rx_and_progression(self) -> None:
+        empty = compose_differentiation()
+        cat = empty.get("symptom_catalog") or []
+        self.assertGreaterEqual(len(cat), 60)
+        self.assertGreaterEqual(len({item["category"] for item in cat}), 9)
+
+        symptoms_86 = [
+            "感冒", "全身痛", "呼吸困难", "多痰", "黄涕", "声音沙哑", "鼻塞", "鼻炎", "肺炎",
+            "胃酸过多", "痔疮", "肠胃虚弱", "消化不良", "肝硬化", "脂肪肝", "易怒", "高血糖", "小儿厌食", "口臭", "口腔溃疡",
+            "高血压", "低血压", "心脏瓣膜病", "动脉硬化", "心律不齐", "冠心病",
+            "阳痿", "早泄", "肾结石", "尿道结石", "前列腺增生", "尿失禁", "血尿", "小便痛",
+            "月经不调", "闭经", "子宫肌瘤", "乳腺增生", "青春痘", "痤疮", "肩周炎", "落枕", "脱发",
+            "腹胀", "打嗝", "出血", "贫血", "脚抽筋", "肝炎", "尿频", "更年期", "腰痛",
+            "发烧", "恶寒", "咳嗽", "头痛", "偏头痛", "头晕", "眩晕", "咽喉痛", "耳鸣", "流鼻血",
+            "胃痛", "呕吐", "腹泻", "便秘", "腹痛", "黄疸", "胆结石", "糖尿病", "胸痛", "心悸",
+            "中风", "吐血", "便血", "失眠", "小便不利", "夜尿多", "膀胱结石", "水肿", "痛经", "白带",
+            "崩漏", "湿疹", "皮肤干燥", "关节痛",
+        ]
+        for sym in symptoms_86:
+            res = compose_differentiation(q=sym)
+            regs = res.get("compound_regimens") or []
+            self.assertTrue(regs, f"Missing regimen for symptom: {sym}")
+            details = regs[0].get("formulas_detail") or []
+            self.assertTrue(details, f"Missing inline formulas_detail Rx for symptom: {sym}")
+            self.assertTrue(
+                details[0].get("ingredients") or details[0].get("composition_raw"),
+                f"Missing herbs/composition for symptom: {sym}",
+            )
+
+        # 感冒 must not falsely match HT-8 (子宫症痼)
+        cold = compose_differentiation(q="感冒")
+        cold_ht = {h["ht_number"] for h in cold["hantang_context"]["hantang_formulas"]}
+        self.assertNotIn("HT-8", cold_ht)
+        self.assertIn("桂枝汤", {c["name"] for c in cold["candidate_formulas"][:3]})
+
+        # Bare 腹泻 should not jump to collapse formulas or HT-90 thyroid goiter
+        diarrhea = compose_differentiation(q="腹泻")
+        self.assertIn(diarrhea["candidate_formulas"][0]["name"], {"理中丸", "五苓散", "半夏泻心汤", "葛根黄芩黄连汤"})
+        self.assertNotEqual(diarrhea["candidate_formulas"][0]["name"], "通脉四逆汤")
+        self.assertNotIn("HT-90", {h["ht_number"] for h in diarrhea["hantang_context"]["hantang_formulas"]})
+
+        # Severe collapse 下利清谷 四肢厥冷 still prioritizes rescue formulas
+        collapse = compose_differentiation(q="下利清谷 四肢厥冷", pulse="微细")
+        self.assertIn(collapse["candidate_formulas"][0]["name"], {"四逆汤", "通脉四逆汤", "白通汤"})
+
+        # Progressive inquiry on 发烧: bare -> exterior/shaoyang; + 无汗 恶寒 -> 麻黄汤; + 有汗 恶风 -> 桂枝汤
+        fever = compose_differentiation(q="发烧")
+        self.assertTrue({"小柴胡汤", "桂枝汤", "麻黄汤", "葛根汤"} & {c["name"] for c in fever["candidate_formulas"][:4]})
+        self.assertEqual(compose_differentiation(q="发烧 无汗 恶寒")["candidate_formulas"][0]["name"], "麻黄汤")
+        self.assertEqual(compose_differentiation(q="发烧 有汗 恶风")["candidate_formulas"][0]["name"], "桂枝汤")

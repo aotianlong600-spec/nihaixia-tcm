@@ -355,6 +355,33 @@ def _enrich_formula_item(cand: dict[str, Any]) -> dict[str, Any]:
 
 def _normalize_case_packet(composed: dict[str, Any]) -> dict[str, Any]:
     cands = [c for c in (composed.get("candidate_formulas") or []) if not c.get("suppressed")]
+    if not cands:
+        for clue in (composed.get("matched_jingfang_clues") or [])[:4]:
+            if clue.get("formula_id"):
+                cands.append(
+                    {
+                        "formula_id": clue["formula_id"],
+                        "name": clue.get("name", ""),
+                        "six_meridian": clue.get("six_meridian", ""),
+                        "pathogenesis": clue.get("why_summary", ""),
+                        "matched_symptoms": clue.get("supporting_symptoms") or clue.get("matched_terms") or [],
+                        "matched_pulses": [],
+                        "score": max(30, int(clue.get("score") or 30)),
+                    }
+                )
+    if not cands:
+        for reg in (composed.get("compound_regimens") or [])[:1]:
+            for idx, fid in enumerate(reg.get("formula_ids") or []):
+                fnames = reg.get("formula_names") or []
+                cands.append(
+                    {
+                        "formula_id": fid,
+                        "name": fnames[idx] if idx < len(fnames) else "",
+                        "matched_symptoms": reg.get("covered_symptoms") or [],
+                        "matched_pulses": [],
+                        "score": 40,
+                    }
+                )
     top_score = max([int(c.get("score") or 0) for c in cands] or [1])
     matched_formulas: list[dict[str, Any]] = []
     for c in cands[:5]:
@@ -583,6 +610,14 @@ def build_offline_ni_reply(packet: dict[str, Any], style: str = "master_balanced
     if acups:
         pts = "；".join(f"**{p['name']}**（{p.get('role', '')}：{p.get('reason', '')}）" for p in acups[:4])
         parts.append(f"**针灸配穴处方**：{pts}")
+
+    ht_items = (packet.get("hantang_clues") or {}).get("hantang_formulas") or []
+    if ht_items:
+        ht_lines = "；".join(
+            f"**{h['ht_number']} {h['name']}**（{h.get('indications', '')[:48]}）"
+            for h in ht_items[:2]
+        )
+        parts.append(f"**汉唐经验方互参**：{ht_lines}")
 
     layers = packet.get("layers") or {}
     if layers.get("ni_layer"):

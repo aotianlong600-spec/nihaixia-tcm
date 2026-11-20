@@ -10,7 +10,12 @@ import re
 from typing import Any
 
 from ai.grounded_study import _detect_safety_boundary
-from app import acupuncture_diagnose, formula_diagnose, hantang_catalog
+from app import acupuncture_diagnose, catalog, formula_diagnose, hantang_catalog
+from app.symptom_catalog_data import (
+    ATOM_WEIGHT_AUGMENTS,
+    EVERYDAY_SYMPTOM_RULES,
+    SYMPTOM_CATALOG,
+)
 from app.syndrome_rules import (
     EXTRA_DIFFERENTIAL_NOTES,
     EXTRA_INQUIRY_PILLS,
@@ -164,7 +169,7 @@ SYMPTOM_CANONICAL_RULES: list[tuple[str, tuple[str, ...]]] = [
     ("腹痛", ("腹痛", "肚子痛", "小腹痛", "少腹痛", "腹中㽲痛", "绕脐痛", "少腹急结", "肚子疼")),
     ("习惯性便秘", ("习惯性便秘", "长期便秘", "便秘", "排便困难", "几天不大便")),
     ("大便干", ("大便干", "大便硬", "大便干结", "大便难", "燥屎", "羊屎", "不大便", "拉不出来", "不放屁")),
-    ("下利清谷", ("下利清谷", "腹泻", "泄泻", "拉肚子", "稀水便", "五更泻", "水泻", "拉稀", "拉水", "完谷不化")),
+    ("下利清谷", ("下利清谷", "自利清谷", "稀水便", "五更泻", "水泻", "拉稀水", "水样便", "完谷不化")),
     ("高热", ("高热", "壮热", "高烧", "大热", "蒸发发热")),
     ("发热", ("发热", "发烧", "身热", "壮热", "潮热", "高热")),
     ("有汗", ("有汗", "自汗", "汗出", "恶风", "盗汗", "大汗", "漏不止")),
@@ -175,11 +180,11 @@ SYMPTOM_CANONICAL_RULES: list[tuple[str, tuple[str, ...]]] = [
     ("喜冷饮", ("喜冷饮", "喜冰水", "喜饮冷水", "饮冷")),
     ("口渴", ("口渴", "大渴", "烦渴", "欲饮水", "渴而不呕", "消渴", "引饮")),
     ("呕吐", ("呕吐", "干呕", "恶心", "喜呕", "反胃", "吐涎沫", "朝食暮吐")),
-    ("呃逆胃虚", ("呃逆", "哕", "打嗝不止", "噫气")),
+    ("呃逆胃虚", ("呃逆", "哕", "打嗝不止", "噫气", "打嗝", "嗝逆", "嗳气", "打饱嗝")),
     ("心悸", ("心悸", "心动悸", "心跳快", "心跳不齐", "脐下悸", "心慌", "惊悸")),
     ("气上冲胸", ("气上冲", "气上冲胸", "奔豚", "脐下悸")),
     ("心痛彻背", ("心痛彻背", "背痛彻心", "胸背彻痛", "不得卧")),
-    ("胸痹", ("胸痹", "胸痛", "胸闷", "心痛彻背", "背痛彻心", "短气", "胸中气塞")),
+    ("胸痹", ("胸痹", "胸痛", "胸闷", "心痛彻背", "背痛彻心", "短气", "胸中气塞", "冠心病", "心绞痛", "心脏瓣膜病", "心脏肥大", "心肌缺血", "胸闷憋痛")),
     ("心下硬痛", ("心下硬痛", "按之石硬", "结胸", "正在心下", "按之则痛")),
     ("心下痞", ("心下痞", "胃胀", "心下闷", "痞满", "胃痛", "心下痞满")),
     ("如狂发狂", ("如狂", "发狂", "狂躁", "登高而歌", "弃衣而走", "狂言")),
@@ -192,14 +197,14 @@ SYMPTOM_CANONICAL_RULES: list[tuple[str, tuple[str, ...]]] = [
     ("头痛", ("头痛", "偏头痛", "巅顶痛", "前额痛", "头疼", "眉棱骨痛")),
     ("先便后血", ("先便后血", "远血", "黑便")),
     ("先血后便", ("先血后便", "近血", "鲜血")),
-    ("失血", ("吐血", "鼻衄", "便血", "先便后血", "先血后便", "崩漏", "下血", "咳血")),
+    ("失血", ("吐血", "鼻衄", "流鼻血", "鼻出血", "牙龈出血", "便血", "先便后血", "先血后便", "崩漏", "下血", "咳血", "出血", "流血")),
     ("脚肿如脱", ("脚肿如脱", "关节变形", "不可屈伸", "历节剧痛")),
     ("关节痹痛", ("风湿", "历节", "关节痛", "膝痛", "腿肿", "脚肿如脱", "骨节痛", "四肢沉重")),
     ("夜尿多", ("夜尿多", "夜尿频数", "夜尿", "小便频数", "小便反多")),
     ("口不渴", ("口不渴", "不欲饮", "不渴")),
     ("耳鸣", ("耳鸣", "耳聋", "暴聋")),
     ("黄疸", ("黄疸", "发黄", "身目黄", "胆结石", "胆囊痛", "胆石点")),
-    ("鼻症", ("鼻炎", "过敏性鼻炎", "鼻息肉", "鼻塞", "流涕", "鼻窦炎", "打喷嚏")),
+    ("鼻症", ("鼻炎", "过敏性鼻炎", "鼻息肉", "鼻塞", "流涕", "流鼻涕", "流清涕", "清涕", "黄涕", "浓涕", "鼻窦炎", "打喷嚏", "喷嚏", "鼻痒")),
     ("面瘫", ("面瘫", "面部中风", "口眼歪斜", "嘴角歪")),
     ("水肿", ("水肿", "浮肿", "腹水", "肺积水", "胸腔积液", "皮水", "风水", "全身肿")),
     ("咽喉肿痛", ("喉咙痛", "咽痛", "扁桃腺", "咽喉痛", "梅核气", "咽喉不利")),
@@ -1442,8 +1447,78 @@ for _atom in PATTERN_ATOMS:
 INQUIRY_PILLS.extend(EXTRA_INQUIRY_PILLS)
 PRESET_CASES.extend(EXTRA_PRESET_CASES)
 SYMPTOM_CANONICAL_RULES.extend(EXTRA_SYMPTOM_CANONICAL_RULES)
+SYMPTOM_CANONICAL_RULES.extend(EVERYDAY_SYMPTOM_RULES)
 PATTERN_ATOMS.extend(EXTRA_PATTERN_ATOMS)
 CLINICAL_DIFFERENTIAL_NOTES.extend(EXTRA_DIFFERENTIAL_NOTES)
+
+for _atom in PATTERN_ATOMS:
+    _aug = ATOM_WEIGHT_AUGMENTS.get(_atom["atom_id"])
+    if _aug:
+        _atom.setdefault("symptom_weights", {}).update(_aug)
+
+_POTENT_HERB_NAMES: frozenset[str] = frozenset(
+    {"附子", "生附子", "炮附子", "乌头", "川乌", "草乌", "麻黄", "细辛", "大戟", "甘遂", "芫花", "巴豆", "水蛭", "虻虫", "雄黄"}
+)
+
+
+def _build_formula_rx_detail(
+    fid: str,
+    fmap: dict[str, Any],
+    cbmap: dict[str, Any],
+    mods_by_fid: dict[str, list[dict[str, Any]]],
+) -> dict[str, Any]:
+    """Assemble full prescription herbs, classic doses, processing, decoction & modifications."""
+    if not fid:
+        return {}
+    detail = catalog.get_formula(fid) or fmap.get(fid)
+    if not detail:
+        return {}
+    cb = cbmap.get(fid, {})
+    ev = detail.get("evidence") or {}
+    raw_ings = detail.get("ingredients") or []
+    ingredients: list[dict[str, Any]] = []
+    high_risk_herbs: list[str] = []
+    for ing in raw_ings:
+        if not isinstance(ing, dict):
+            continue
+        name = ing.get("name", "")
+        dose = ing.get("dose", "")
+        processing = ing.get("processing", "")
+        risk_lv = ing.get("herb_risk_level") or ("high_risk" if any(k in name for k in _POTENT_HERB_NAMES) else "standard")
+        ingredients.append(
+            {
+                "name": name,
+                "dose": dose,
+                "processing": processing,
+                "risk_level": risk_lv,
+            }
+        )
+        if risk_lv in {"emergency", "high_risk"}:
+            lbl = f"{name}{'（' + processing + '）' if processing else ''}"
+            if lbl not in high_risk_herbs:
+                high_risk_herbs.append(lbl)
+
+    mods = [
+        {
+            "condition": m.get("condition", ""),
+            "changes_summary": (m.get("changes") or {}).get("summary") or m.get("rationale", ""),
+            "target_formula_id": m.get("target_formula_id", ""),
+            "target_formula_name": m.get("target_formula_name", ""),
+        }
+        for m in mods_by_fid.get(fid, [])[:4]
+    ]
+    return {
+        "formula_id": fid,
+        "name": detail.get("name", fid),
+        "book": detail.get("book", ""),
+        "six_meridian": detail.get("six_meridian") or detail.get("chapter") or cb.get("six_channel") or "",
+        "composition_raw": detail.get("composition_raw", ""),
+        "ingredients": ingredients,
+        "high_risk_herbs": high_risk_herbs,
+        "decoction": ev.get("usage_plain") or cb.get("usage_plain") or detail.get("decoction") or detail.get("decoction_method") or "",
+        "indication": (cb.get("why") or ev.get("why") or detail.get("indication") or "")[:240],
+        "modifications": mods,
+    }
 
 
 @lru_cache(maxsize=1)
@@ -1715,13 +1790,35 @@ def _build_followup_questions(
         probes.append({"label": label, "token": token, "pulse_id": pulse_id, "why": why, "kind": kind})
 
     # Structured differential probes based on present symptoms
-    if sym_set & {"发热", "恶寒", "身冷"}:
+    if sym_set & {"发热", "恶寒", "身冷", "外感表证", "周身酸痛"}:
         if "无汗" not in sym_set:
-            add_probe("是否无汗", token="无汗", why="太阳伤寒表实（麻黄/葛根）vs 中风自汗（桂枝）")
-        if "有汗" not in sym_set and "但头汗出" not in sym_set:
+            add_probe("是否无汗恶寒", token="无汗 恶寒", why="太阳伤寒表实（麻黄/葛根）vs 中风自汗（桂枝）")
+        if "有汗" not in sym_set:
+            add_probe("是否有汗恶风", token="有汗 恶风", why="太阳中风表虚营卫不和（桂枝汤主之）")
+        if "但头汗出" not in sym_set:
             add_probe("是否但头汗出", token="但头汗出", why="少阳三焦水热互结（柴胡桂枝干姜汤专症）")
+        if "项背强" not in sym_set:
+            add_probe("是否项背强痛", token="项背强", why="区分纯表实麻黄汤 vs 太阳阳明输津受阻葛根汤")
         if "往来寒热" not in sym_set:
-            add_probe("是否往来寒热", token="往来寒热", why="区分邪仍在太阳 vs 己入少阳半表半里")
+            add_probe("是否往来寒热口苦", token="往来寒热 口苦", why="区分邪仍在太阳 vs 已入少阳半表半里（小柴胡汤）")
+
+    if sym_set & {"便溏", "下利清谷"}:
+        add_probe("是否怕冷手脚凉", token="身冷 脚冷", why="太阴少阴虚寒下利（理中/四逆）vs 湿热泄泻")
+        add_probe("是否小便少口渴", token="口渴 小便不利", why="膀胱蓄水泄泻（五苓散“利小便以实大便”）")
+        add_probe("是否发热肛门灼热", token="发热 小便深黄", why="太阳阳明协热下利（葛根黄芩黄连汤）")
+        add_probe("是否胃胀恶心", token="心下痞 呕吐", why="寒热错杂肠鸣痞利（半夏泻心汤）")
+
+    if sym_set & {"反酸胃痛", "腹胀纳差", "心下痞", "呃逆胃虚"}:
+        add_probe("是否心下痞满呕吐", token="心下痞 呕吐", why="区分中焦升降痞满呕逆（半夏泻心/旋覆代赭）")
+        add_probe("是否手脚冰凉喜温按", token="脚冷 腹痛喜按", why="中虚脾寒胃痛（小建中汤/理中丸）")
+        add_probe("是否打嗝嗳气不止", token="打嗝", why="胃虚痰阻气逆（旋覆代赭石汤/橘皮竹茹汤）")
+        add_probe("是否口苦大便干", token="口苦 大便干", why="少阳阳明胆胃郁热反酸（大柴胡汤）")
+
+    if sym_set & {"咳喘痰多", "痰多", "呼吸困难", "肺炎肺热", "声音沙哑"}:
+        add_probe("是否怕冷白泡沫痰", token="身冷 无汗", why="外寒内饮哮喘（小青龙汤/射干麻黄汤）")
+        add_probe("是否黄痰口渴发热", token="发热 口渴", why="邪热壅肺咳喘痰黄（麻杏石甘汤）")
+        add_probe("是否干咳咽燥少痰", token="咽干", why="胃肺阴津不足虚火上逆（麦门冬汤）")
+        add_probe("是否喉中水鸡哮鸣", token="水鸡声", why="寒饮伏肺气道哮鸣（射干麻黄汤专症）")
 
     if sym_set & {"身冷", "脚冷", "习惯性便秘", "大便干", "腹痛", "痛经"}:
         add_probe("是否脉沉", pulse_id="沉", why="判断病在表或在里阴虚寒水停", kind="pulse")
@@ -1730,20 +1827,41 @@ def _build_followup_questions(
         add_probe("是否但头汗出", token="但头汗出", why="若寒热兼但头汗出则转合柴胡桂枝干姜汤")
         add_probe("是否脉洪大", pulse_id="洪大", why="若便干兼洪大数实则属阳明热实而非寒秘", kind="pulse")
 
-    if sym_set & {"头痛", "偏头痛", "前额痛", "眩晕"}:
+    if sym_set & {"头痛", "偏头痛", "前额痛", "眩晕", "眩晕血压"}:
         add_probe("是否项背强痛", token="项背强", why="辨太阳/督脉葛根汤及后溪申脉证")
         add_probe("是否干呕吐涎", token="呕吐", why="辨厥阴吴茱萸汤巅顶痛 vs 少阳呕")
         add_probe("是否口渴小便少", token="口渴 小便不利", why="辨蓄水证头晕口渴（五苓散）")
+        add_probe("是否心烦失眠大便干", token="心烦 便秘", why="辨肝阳/胃热上冲头痛眩晕（大柴胡/三黄泻心/柴胡加龙牡）")
 
-    if sym_set & {"胸痹", "胸痛", "心悸", "咳喘痰多", "心下痞"}:
+    if sym_set & {"胸痹", "胸痛", "心悸", "心律不齐", "低血压贫血"}:
         add_probe("是否心痛彻背", token="心痛彻背", why="辨胸阳痹阻痰饮偏重（栝蒌薤白半夏/乌头赤石脂）")
-        add_probe("是否口苦咽干", token="口苦 咽干", why="辨少阳柴胡或半夏泻心寒热错杂")
+        add_probe("是否脚冷浮肿", token="脚冷 水肿", why="辨心肾阳虚水气上凌（真武汤/肾气丸）")
+        add_probe("是否脉结代", pulse_id="结代", why="心动悸脉结代优先复脉建中（炙甘草汤）", kind="pulse")
         add_probe("是否脉弦", pulse_id="弦", why="阳微阴弦或少阳水饮之核心脉象", kind="pulse")
 
-    if "鼻症" in sym_set:
+    if sym_set & {"淋痛尿血", "前列腺尿频", "阳痿早泄"}:
+        add_probe("是否小便刺痛尿血", token="小便刺痛 尿血", why="下焦热淋血淋石淋（猪苓汤/赤豆当归散）")
+        add_probe("是否腰酸脚冷夜尿多", token="脚冷 夜尿多", why="下焦肾气不足开阖失司（肾气丸/桂枝龙骨牡蛎）")
+        add_probe("是否口渴小便不利", token="口渴 小便不利", why="蓄水或阴虚水热分流（五苓散/猪苓汤/栝蒌瞿麦丸）")
+
+    if sym_set & {"月经不调", "症瘕肌瘤", "更年期证", "痛经"}:
+        add_probe("是否痛经手脚凉", token="痛经 脚冷", why="冲任虚寒胞宫滞痛（温经汤/当归芍药散）")
+        add_probe("是否少腹硬满瘀块", token="少腹急结 舌紫暗瘀", why="胞宫瘀血蓄积癥瘕（桂枝茯苓丸/抵当汤）")
+        add_probe("是否潮热盗汗心烦", token="骨蒸盗汗 心烦", why="妇人更年期阴血亏虚潮热（甘麦大枣/温经/酸枣仁）")
+
+    if sym_set & {"腰背痛", "肩颈强痛"}:
+        add_probe("是否项背强无汗", token="项背强 无汗", why="太阳风寒束表颈肩背强痛（葛根汤）")
+        add_probe("是否腰膝冷痛夜尿多", token="脚冷 夜尿多", why="肾阳虚腰痛（肾气丸/真武汤）")
+        add_probe("是否关节游走酸痛", token="关节痹痛", why="风寒湿痹历节（桂枝附子/桂枝芍药知母/乌头汤）")
+
+    if sym_set & {"消渴高糖"}:
+        add_probe("是否大渴喜冷饮多汗", token="大渴 喜冷饮 有汗", why="上消肺胃燥热伤津（白虎加人参汤）")
+        add_probe("是否夜尿频多脚冷", token="夜尿多 脚冷", why="下消肾阳气化不足饮一溲一（肾气丸）")
+
+    if "鼻症" in sym_set or "黄涕鼻热" in sym_set:
         add_probe("是否恶寒无汗", token="恶寒 无汗", why="鼻症兼恶寒无汗常由肺表受寒闭郁（可参葛根汤/麻黄/小青龙）")
         add_probe("是否稀清涕喷嚏", token="咳喘痰多", why="肺寒水饮停蓄致鼻流清涕、喷嚏不止（小青龙汤证）")
-        add_probe("是否口渴黄涕", token="口渴", why="辨肺寒水饮 vs 鼻窦郁热")
+        add_probe("是否口渴黄涕", token="口渴 黄涕", why="辨肺寒水饮 vs 肺胃鼻窦郁热（麻杏石甘/大柴胡）")
 
     # Add top unselected symptom cues from top 299-formula matches & acupuncture patterns
     for clue in top_clues[:3]:
@@ -2030,6 +2148,7 @@ def compose_differentiation(q: str = "", pulse: str = "") -> dict[str, Any]:
             "inquiry_pills": INQUIRY_PILLS,
             "quick_symptom_pills": QUICK_SYMPTOM_PILLS,
             "clinical_entry_cards": CLINICAL_ENTRY_CARDS,
+            "symptom_catalog": SYMPTOM_CATALOG,
             "preset_cases": PRESET_CASES,
             "recognized_symptoms": [],
             "recognized_negations": [],
@@ -2110,7 +2229,7 @@ def compose_differentiation(q: str = "", pulse: str = "") -> dict[str, Any]:
                 "matched_tongues": matched_tongues,
                 "conflict_reasons": conflict_reasons,
                 "formula_summary": fobj.get("indication", ""),
-                "decoction": fobj.get("decoction_method", ""),
+                "decoction": fobj.get("decoction") or fobj.get("decoction_method") or "",
                 "herbs": _herb_names_of(fobj),
             }
         )
@@ -2283,12 +2402,16 @@ def compose_differentiation(q: str = "", pulse: str = "") -> dict[str, Any]:
             }
         )
 
-    # Fallback hero recommendation if no compound atom matched directly (e.g. disease search like 胆结石/鼻炎/消渴)
+    # Fallback hero recommendation if no compound atom matched directly
+    cbmap = _curated_batches_map()
+    _, mods_by_fid = _modifications_index()
     if not compound_regimens and jingfang_clues:
         jc1 = jingfang_clues[0]
         jc2 = jingfang_clues[1] if len(jingfang_clues) > 1 else None
         compound_regimens.append(
             {
+                "regimen_kind": "primary",
+                "is_compound": False,
                 "title": f"全库经方线索：{jc1['name']}" + (f" / 互参 {jc2['name']}" if jc2 else ""),
                 "formula_ids": [x["formula_id"] for x in ([jc1, jc2] if jc2 else [jc1])],
                 "formula_names": [x["name"] for x in ([jc1, jc2] if jc2 else [jc1])],
@@ -2302,7 +2425,8 @@ def compose_differentiation(q: str = "", pulse: str = "") -> dict[str, Any]:
                 "covered_symptoms": jc1["matched_terms"],
                 "uncovered_symptoms": [],
                 "overlap_herbs": [],
-                "overlap_note": "由全库 299 首经方与 258 套课程症候资料自动关联命中；请点击右侧「支持/待核症状」与加减条文进一步收敛。",
+                "herb_conflict_alerts": [],
+                "overlap_note": "由全库 299 首经方与 258 套课程症候资料自动关联命中；请点击下方「学习问诊」补充寒热二便或脉象进一步收敛。",
             }
         )
     elif not compound_regimens and not jingfang_clues and matched_condition_patterns:
@@ -2310,6 +2434,8 @@ def compose_differentiation(q: str = "", pulse: str = "") -> dict[str, Any]:
         pts0 = [p["name"] for p in cp0.get("points", [])[:6]]
         compound_regimens.append(
             {
+                "regimen_kind": "primary",
+                "is_compound": False,
                 "title": f"《针灸》专症主治：{cp0['condition_name']}",
                 "formula_ids": [],
                 "formula_names": [],
@@ -2320,9 +2446,18 @@ def compose_differentiation(q: str = "", pulse: str = "") -> dict[str, Any]:
                 "covered_symptoms": [s for s in cp0.get("symptoms", [])[:4]],
                 "uncovered_symptoms": [],
                 "overlap_herbs": [],
-                "overlap_note": "当前输入侧重局部或专科病症，《针灸》原书已有明确专症分型与选穴；如欲同步匹配经方内服，请点击下方「临床症状追问」补充全身寒热、出汗、二便或脉象线索。",
+                "herb_conflict_alerts": [],
+                "overlap_note": "当前输入侧重局部或专科病症，《针灸》原书已有明确专症分型与选穴；如欲同步匹配经方内服，请点击上方「学习问诊」补充全身寒热、出汗、二便或脉象线索。",
             }
         )
+
+    # Enrich all compound_regimens with complete herbs/doses/decoction/modifications
+    for reg in compound_regimens:
+        details = [
+            _build_formula_rx_detail(fid, fmap, cbmap, mods_by_fid)
+            for fid in (reg.get("formula_ids") or [])
+        ]
+        reg["formulas_detail"] = [d for d in details if d]
 
     # Merge formula_acupuncture_links & matched_condition_patterns acupoints when needed so every disease gets points!
     fa_by_fid = _fa_links_by_formula()
@@ -2446,9 +2581,56 @@ def compose_differentiation(q: str = "", pulse: str = "") -> dict[str, Any]:
     regimen_fids = set(compound_regimens[0]["formula_ids"]) if compound_regimens and compound_regimens[0].get("formula_ids") else set()
     guide_atoms = [a for a in active if a["formula_id"] in regimen_fids] if regimen_fids else active[:2]
     decoction_and_safety = _build_decoction_and_recovery_guide(guide_atoms or active[:2], symptoms, pulses, primary_pts + adjunct_pts)
+    if "呼吸困难" in symptoms or "胸痹" in symptoms:
+        decoction_and_safety.insert(
+            0,
+            "【急性心肺急症鉴别】如突见剧烈胸痛彻背、紫绀窒息或血压急剧飙升伴剧烈头痛呕吐，请立即先行急诊排查心梗、肺栓塞或高血压危象，勿单依赖文献延误救治。",
+        )
     for line in reversed([*compound_conflict_alerts, *ctx.get("extra_safety_lines", [])]):
         if line not in decoction_and_safety:
             decoction_and_safety.insert(0, line)
+
+    # Also promote linked classical formulas from matched Hantang entries if no regimen existed yet
+    if not compound_regimens and hantang_ctx.get("hantang_formulas"):
+        ht0 = hantang_ctx["hantang_formulas"][0]
+        linked_fids = [
+            c.get("id")
+            for c in (ht0.get("linked_classical_formulas") or [])
+            if c.get("id") and c.get("id") in fmap
+        ]
+        if linked_fids:
+            compound_regimens.append(
+                {
+                    "regimen_kind": "primary",
+                    "is_compound": False,
+                    "title": f"汉唐关联经方：{ht0['ht_number']} {ht0['name']}",
+                    "formula_ids": linked_fids[:2],
+                    "formula_names": [fmap[fid]["name"] for fid in linked_fids[:2]],
+                    "axis_roles": [f"【汉唐线索】{ht0['ht_number']} {ht0['name']}：{ht0.get('indications', '')}"],
+                    "covered_symptoms": symptoms[:4],
+                    "uncovered_symptoms": [],
+                    "overlap_herbs": [],
+                    "herb_conflict_alerts": [],
+                    "overlap_note": "由汉唐经方目录关联映射至《伤寒》《金匮》对应母方；请结合寒热脉象进一步核对。",
+                    "formulas_detail": [
+                        d for d in (_build_formula_rx_detail(fid, fmap, cbmap, mods_by_fid) for fid in linked_fids[:2]) if d
+                    ],
+                }
+            )
+
+    # Attach compact Rx ingredients & decoction to candidate_formulas as well
+    candidate_out: list[dict[str, Any]] = []
+    for cand in active[:6]:
+        rx_d = _build_formula_rx_detail(cand["formula_id"], fmap, cbmap, mods_by_fid)
+        candidate_out.append(
+            {
+                **cand,
+                "composition_raw": rx_d.get("composition_raw", ""),
+                "ingredients": rx_d.get("ingredients", []),
+                "high_risk_herbs": rx_d.get("high_risk_herbs", []),
+                "decoction": rx_d.get("decoction") or cand.get("decoction", ""),
+            }
+        )
 
     lib_query = " ".join((symptoms[:4] or _extract_query_terms(positive_q, [])[:3])) or positive_q or cleaned_q
     lib_res = search_library_pages(lib_query, limit=6)
@@ -2514,7 +2696,7 @@ def compose_differentiation(q: str = "", pulse: str = "") -> dict[str, Any]:
         "recognized_tongues": tongues,
         "followup_questions": followup_questions,
         "compound_regimens": compound_regimens,
-        "candidate_formulas": active[:6],
+        "candidate_formulas": candidate_out,
         "matched_jingfang_clues": jingfang_clues,
         "matched_condition_patterns": matched_condition_patterns,
         "acupoint_protocol": {
